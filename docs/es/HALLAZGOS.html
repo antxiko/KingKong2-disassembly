@@ -1,0 +1,117 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hallazgos — King Kong 2: Yomigaeru Densetsu (Konami, 1986)</title>
+<style>
+:root{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;--linea:#23262e;
+  --rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+@media (prefers-color-scheme:light){:root{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;
+  --panel:#f7f6f2;--linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}}
+:root[data-theme="dark"]{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;
+  --linea:#23262e;--rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+:root[data-theme="light"]{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;--panel:#f7f6f2;
+  --linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--tinta);padding:0 1.25rem 6rem;
+  font:15px/1.7 ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.w{max-width:1120px;margin:0 auto}
+.n{max-width:68ch}
+h1,h2,h3,h4{font-weight:400;text-wrap:balance}
+a{color:var(--cyan)}
+img{image-rendering:pixelated;max-width:100%;height:auto;display:block}
+header.top{display:flex;flex-direction:column;align-items:center;gap:1.5rem;
+  padding:4rem 0 2rem;text-align:center}
+header.top img{width:min(100%,642px)}
+.claim{max-width:60ch;color:var(--suave);font-size:1.05rem}
+.claim b{color:var(--tinta);font-weight:400}
+.ficha{display:flex;flex-wrap:wrap;justify-content:center;gap:0 1.5rem;width:100%;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--suave);
+  border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);padding:.85rem 0}
+.ficha b{color:var(--rojo);font-weight:400}
+nav{display:flex;flex-wrap:wrap;gap:1.25rem;justify-content:center;padding:1.25rem 0;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+nav a{color:var(--suave);text-decoration:none;border-bottom:1px solid transparent}
+nav a:hover,nav a:focus{color:var(--tinta);border-bottom-color:var(--rojo)}
+nav.docs{border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);
+  margin-bottom:1rem}
+section{margin-top:4.5rem;scroll-margin-top:1rem}
+section>h2{font-size:1rem;letter-spacing:.1em;text-transform:uppercase;
+  border-left:3px solid var(--rojo);padding-left:.9rem;margin:0 0 1.5rem}
+.cifras{display:grid;gap:1px;background:var(--linea);border:1px solid var(--linea);
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.cifra{background:var(--panel);padding:1.1rem}
+.cifra b{display:block;font-size:1.7rem;color:var(--oro);font-weight:400;
+  font-variant-numeric:tabular-nums;line-height:1.2}
+.cifra span{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--suave)}
+.hall{border-top:1px solid var(--linea);padding-top:1.75rem;margin-top:2.5rem}
+.hall:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.hall h3{margin:0 0 .75rem;font-size:1.15rem;color:var(--rojo)}
+.hall h4{color:var(--oro);margin:1.5rem 0 .5rem;font-size:.95rem}
+.hall p{margin:0 0 1rem}
+pre.asm{background:var(--panel);border-left:2px solid var(--verde);margin:1.25rem 0;
+  padding:1rem 1.1rem;overflow-x:auto;font-size:13px;line-height:1.6;color:var(--tinta)}
+.par{display:grid;gap:1.25rem;grid-template-columns:1fr}
+@media(min-width:820px){.par{grid-template-columns:1fr 1fr}}
+.par figure{margin:0}
+table{border-collapse:collapse;width:100%;margin:1.25rem 0;font-size:13px;display:block;
+  overflow-x:auto}
+th,td{text-align:left;padding:.5rem .75rem;border-bottom:1px solid var(--linea)}
+th{color:var(--suave);font-weight:400;font-size:11px;letter-spacing:.07em;text-transform:uppercase}
+td.num{font-variant-numeric:tabular-nums;color:var(--oro)}
+.nivel{margin-top:2rem}
+.nivel h3{margin:0 0 .9rem;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase}
+.nivel em{color:var(--cyan);font-style:normal}
+.sep{color:var(--suave);margin:0 .6rem}
+.rejilla{display:grid;gap:.9rem;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.rejilla figure{margin:0;background:var(--panel);box-shadow:0 0 0 1px var(--linea)}
+.rejilla figcaption{display:flex;justify-content:space-between;padding:.45rem .65rem;
+  font-size:11px;color:var(--suave);border-top:1px solid var(--linea)}
+.dir{font-variant-numeric:tabular-nums;color:var(--verde)}
+footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--linea);
+  color:var(--suave);font-size:12px}
+
+/* Aviso de trabajo en curso: tiene que verse antes que las cifras, porque un
+   100% mal leido hace mas dano que no ponerlo. */
+.aviso{background:#3a2a10;border-left:3px solid var(--oro);margin:1.5rem auto;
+  padding:1rem 1.2rem;max-width:900px;border-radius:4px}
+.aviso p{margin:0;color:var(--tinta);font-size:15px;line-height:1.65}
+.galeria{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;margin:1.5rem 0}
+.galeria figure{margin:0}
+.galeria img{width:100%;height:auto;image-rendering:pixelated;
+  border:1px solid var(--linea);border-radius:3px}
+.galeria figcaption{color:var(--suave);font-size:13px;margin-top:.5rem}
+audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
+</style>
+<div class="w"><nav class="top"><a href="index.html">Portada</a><a href="EMPEZAR.html">Empezar</a><a href="EL-JUEGO.html">El juego</a><a href="EL-CARTUCHO.html">El cartucho</a><a href="EL-CODIGO.html">El código</a><a href="HALLAZGOS.html" style=color:var(--tinta)>Hallazgos</a><a href="EN-EL-EMULADOR.html">En el emulador</a><a href="PREGUNTAS-ABIERTAS.html">Preguntas abiertas</a><a href="../FINDINGS.html" style="margin-left:auto;color:var(--oro)">English</a></nav>
+<h1 id="hallazgos">Hallazgos</h1>
+<p>Lo que ha salido al desmontar el cartucho. Cada uno dice de dónde sale y cómo está comprobado: <b>visto en openMSX</b>, <b>cotejado</b> (dibujado desde la ROM y comparado con un volcado) o <b>sale del código</b> (leído en el listado, sin jugarlo).</p>
+<h2 id="tres-finales-y-el-mejor-no-es-el-que-parece">Tres finales, y el mejor no es el que parece</h2>
+<p>La partida cuenta los días (0xC127, uno cada 2048 cuadros: unos 34 segundos) y las veces que se ha continuado tras el GAME OVER (0xC16E, p01:66DD). Al encontrar a LADY KONG, p06:A837 elige el final:</p>
+<table><tr><th>condición</th><th>final</th></tr><tr><td>366 días o más</td><td>llegas tarde: «AMY no pudo hacer nada: KING KONG acaba de morir»</td></tr><tr><td>si no, 51 continuaciones o más</td><td>AMY lo opera y KING KONG revive</td></tr><tr><td>menos de 51</td><td>lo mismo, y además un bebé KONG</td></tr></table>
+<p>Los textos son de la ROM (p06:AD44-AF40). <em>Sale del código.</em></p>
+<h2 id="el-truco-del-nivel">El truco del nivel</h2>
+<p>Con <b>TAB y una tecla F</b> apretadas cuando empieza la partida (al pulsar ESPACIO en la demostración), p01:67F3 deja en 0xC11E el nivel con el que se empieza: F1 10, F2 20, F3 30, F4 40 y F5 50; p00:5388 lo copia a LEVEL.</p>
+<p><em>Visto en openMSX</em> (<code>tools/omsx_truco.tcl</code>): sin el truco, LEVEL 00; TAB+F1, 10; TAB+F4, 40, en la RAM y en el panel.</p>
+<h2 id="cada-enemigo-con-su-arma">Cada enemigo con su arma</h2>
+<p>p09:BB14 decide si el arma de SHOT1 le hace algo al enemigo, y p09:BAE8 mira aparte la espada de luz, el hacha y el arpón:</p>
+<ul><li>el <b>hacha</b> solo le hace daño a <b>GRIZZLY</b>, y GRIZZLY solo cae con ella;</li><li>el <b>arpón</b>, solo a <b>B F MAN</b> y <b>D F MAN</b>;</li><li><b>WHITEFIRE</b> y <b>WHITEOGRE</b>, solo con la <b>espada de luz</b>;</li><li><b>CLUBMAN</b>, con el ROD; <b>BIGSPIDER</b>, con el cuchillo; <b>REDSPIDER</b>, con el garrote o la garra; SLIPSLIME, GARGOYLE, MUDMASK, BOGGEDMAN, BLOWMIRE, MIREWORM y MIREFROG, solo con la garra;</li><li><b>TWINMIRES</b>, con cualquiera, pero solo si se lleva el amuleto おまもり (p09:BBAB);</li><li>a <b>THE NASTY</b>, <b>BADPRIEST</b>, <b>BIGFLOWER</b>, <b>MUDARMOR</b>, FIRETOTEM, GRASSOGRE y la ficha 0x3D el cuerpo a cuerpo no les hace nada;</li><li>THICKSKIN, MR. RUINS, CAVERNMAN y BUCKLER, según el lado por el que se les pegue.</li></ul>
+<p>Al leer p09:BAFC parecía que la espada de luz no le hacía daño a nadie: el <code>scf</code> de p09:BAFF deja siempre la señal de «sí». <em>Sale del código.</em></p>
+<h2 id="el-hacha-no-se-vende-la-suelta-bowler">El hacha no se vende: la suelta BOWLER</h2>
+<p>Ninguna tienda vende el hacha (p12:B548). BOWLER la suelta cada 16 muertes si no se lleva (p03:BBA9), salvo en la pantalla 0x22, donde cada 5 deja a alguien que habla. Cada enemigo tiene su botín (p03:BA66 y p03:BA06) y su cuenta (0xDFC0-0xDFDB, que p06:BF86 pone al empezar):</p>
+<ul><li>BATT, carne cada 6 muertes; RATT, やくそう cada 3 en la pantalla 9; DUNGROLL, 99 piedras cada 5; CAVEMAN, 10 bolas de fuego cada 10;</li><li>FIRETOTEM, el garrote cada 12 si no se lleva; GRASSOGRE, el ROD cada 16; THICKSKIN, かいてん cada 5; CAVERNBIG, 99 きいろいいし;</li><li>REDSPIDER, ぱぴるす; BIGSPIDER, la llave de madera; RED F MAN, la garra; REVOLVER, あぐのす; THE NASTY, el arpón; BIGGUARD y SAVAGE, la llave de hierro;</li><li>tras los jefes, el suceso 5, que quita el decorado de ese tipo;</li><li>en la pantalla 0x6E, al acabar la cuenta de WATCHMAN aparece un pasadizo.</li></ul>
+<p><em>Sale del código.</em></p>
+<h2 id="the-not-se-mueve-al-reves-que-tu">THE NOT se mueve al revés que tú</h2>
+<p>Alineado en una casilla, THE NOT lee las teclas del jugador (0xC107) y elige la dirección contraria con la tabla de p02:9201: arriba por abajo, izquierda por derecha. Una vez de cada cuatro va al azar; cuando le dan, ya siempre al azar (0xDFB5). BOWLER, en su paso 1, va <b>con</b> las teclas (p02:8986), y los gusanos (PIGWORM, BUCKLER, GRASSOGRE) se van hacia el lado contrario de donde mira Mitchel si se pulsa alguna tecla (p03:B190). <em>Sale del código.</em></p>
+<h2 id="cinco-jefes-que-no-son-sprites">Cinco jefes que no son sprites</h2>
+<p>BIGFLOWER, TWINMIRES, THE NASTY, BADPRIEST y REVOLVER no son sprites. Al entrar en su pantalla, p00:4BD0 sube su figura tal cual a la página 1 (p14: [espejo][filas][bytes][VRAM] y los bytes), y la segunda vez en espejo si lleva la bandera. Cada vez que se mueven o abren la boca, sus rutinas la copian a la página 0 con LMMM y TIMP. Antes, p00:446E guarda 64 × 64 puntos del fondo en (0x90, 0x60) de la página 1 para devolverlo después.</p>
+<p><em>Cotejado</em>: <code>tools/jefes.py</code> rehace lo que sube p00:4BD0 en las siete pantallas (0x29, 0x31, 0x34, 0x53, 0x57, 0x5C y 0x5D) y da <b>0 bytes distintos</b> contra los volcados.</p>
+<h2 id="lo-que-esconde-la-isla">Lo que esconde la isla</h2>
+<ul><li><b>15 pasadizos</b>: p06:BD9D salta de pantalla cuando Mitchel pisa una casilla 0xC0-0xC3 (lista de p06:BE16). Varios están tapados por rocas que solo quita el conjuro てむさ.</li><li><b>37 cosas de decorado</b> en 30 pantallas se pueden quitar, cada una por su suceso (p09:B3FD; p15:BD3A las deshace a puntos con la orden PSET del VDP).</li><li>Al quitar la de la pantalla 0x0B <b>aparece la espada de luz</b> (p15:BD80).</li><li>En la pantalla 0x0D, con la <b>llave de madera</b>, se pasa a la 0x70 (p01:7F87).</li><li>En la pantalla 0x88, mientras no se lleve ささやき, se pinta una figura (p06:BBEF, p06:BC05).</li></ul>
+<p>Todo marcado en el mapa, desde las tablas.</p>
+<h2 id="el-durian-y-la-que-sigue-a-mitchel">El durián y la que sigue a Mitchel</h2>
+<p>Usar el durián en la pantalla y el sitio justos (p01:7D33) pone el estado 6 de la partida: el durián en el suelo, fuera las armas, 30 cuadros, una música, y a la pantalla 0x5F. Desde ahí, una figura de ocho sprites (0xC600) sigue a Mitchel por donde ha pasado, con 22 pasos de retraso (p02:829A). Si cambias de pantalla se queda esperando hasta que vuelves. Mientras la llevas, la radio da otra conversación (la 0x38 en vez de la 0x37): «Buen trabajo, MITCHEL. Vamos para allá». <em>Sale del código.</em></p>
+<h2 id="lo-que-se-empuja">Lo que se empuja</h2>
+<p>Hay una cosa que se empuja (0xC800) y que viaja de pantalla en pantalla: empieza en la 8, en (0x50, 0x50), y al empujarla fuera del borde pasa a la pantalla de al lado (p12:BE68). Solo por el exterior; en las pantallas 0-2 y en la 4 vuelve a su sitio. <em>Sale del código.</em></p>
+<h2 id="tres-enemigos-que-no-hacen-nada">Tres enemigos que no hacen nada</h2>
+<p>MUDMASK, BOGGEDMAN y BLOWPIPER tienen nombre, pero la rutina de cada cuadro (p01:690D) y la de crearse (p00:5BA6) son un <code>ret</code>. <em>Sale del código.</em></p>
+<footer><p><em>King Kong 2: Yomigaeru Densetsu</em> (<em>King Kong 2: La leyenda renace</em>) lo public&oacute; Konami para MSX2 en 1986, con licencia de Shochiku-Fuji y De Laurentiis Entertainment Group; su n&uacute;mero de cat&aacute;logo es RC-745 y son 128 KB. Todos los derechos sobre el juego siguen siendo de sus titulares. Este trabajo es de preservaci&oacute;n, estudio y documentaci&oacute;n, y la imagen del cartucho no se distribuye.</p></footer></div>

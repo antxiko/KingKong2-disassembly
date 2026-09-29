@@ -1,0 +1,105 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>El código — King Kong 2: Yomigaeru Densetsu (Konami, 1986)</title>
+<style>
+:root{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;--linea:#23262e;
+  --rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+@media (prefers-color-scheme:light){:root{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;
+  --panel:#f7f6f2;--linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}}
+:root[data-theme="dark"]{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;
+  --linea:#23262e;--rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+:root[data-theme="light"]{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;--panel:#f7f6f2;
+  --linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--tinta);padding:0 1.25rem 6rem;
+  font:15px/1.7 ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.w{max-width:1120px;margin:0 auto}
+.n{max-width:68ch}
+h1,h2,h3,h4{font-weight:400;text-wrap:balance}
+a{color:var(--cyan)}
+img{image-rendering:pixelated;max-width:100%;height:auto;display:block}
+header.top{display:flex;flex-direction:column;align-items:center;gap:1.5rem;
+  padding:4rem 0 2rem;text-align:center}
+header.top img{width:min(100%,642px)}
+.claim{max-width:60ch;color:var(--suave);font-size:1.05rem}
+.claim b{color:var(--tinta);font-weight:400}
+.ficha{display:flex;flex-wrap:wrap;justify-content:center;gap:0 1.5rem;width:100%;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--suave);
+  border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);padding:.85rem 0}
+.ficha b{color:var(--rojo);font-weight:400}
+nav{display:flex;flex-wrap:wrap;gap:1.25rem;justify-content:center;padding:1.25rem 0;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+nav a{color:var(--suave);text-decoration:none;border-bottom:1px solid transparent}
+nav a:hover,nav a:focus{color:var(--tinta);border-bottom-color:var(--rojo)}
+nav.docs{border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);
+  margin-bottom:1rem}
+section{margin-top:4.5rem;scroll-margin-top:1rem}
+section>h2{font-size:1rem;letter-spacing:.1em;text-transform:uppercase;
+  border-left:3px solid var(--rojo);padding-left:.9rem;margin:0 0 1.5rem}
+.cifras{display:grid;gap:1px;background:var(--linea);border:1px solid var(--linea);
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.cifra{background:var(--panel);padding:1.1rem}
+.cifra b{display:block;font-size:1.7rem;color:var(--oro);font-weight:400;
+  font-variant-numeric:tabular-nums;line-height:1.2}
+.cifra span{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--suave)}
+.hall{border-top:1px solid var(--linea);padding-top:1.75rem;margin-top:2.5rem}
+.hall:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.hall h3{margin:0 0 .75rem;font-size:1.15rem;color:var(--rojo)}
+.hall h4{color:var(--oro);margin:1.5rem 0 .5rem;font-size:.95rem}
+.hall p{margin:0 0 1rem}
+pre.asm{background:var(--panel);border-left:2px solid var(--verde);margin:1.25rem 0;
+  padding:1rem 1.1rem;overflow-x:auto;font-size:13px;line-height:1.6;color:var(--tinta)}
+.par{display:grid;gap:1.25rem;grid-template-columns:1fr}
+@media(min-width:820px){.par{grid-template-columns:1fr 1fr}}
+.par figure{margin:0}
+table{border-collapse:collapse;width:100%;margin:1.25rem 0;font-size:13px;display:block;
+  overflow-x:auto}
+th,td{text-align:left;padding:.5rem .75rem;border-bottom:1px solid var(--linea)}
+th{color:var(--suave);font-weight:400;font-size:11px;letter-spacing:.07em;text-transform:uppercase}
+td.num{font-variant-numeric:tabular-nums;color:var(--oro)}
+.nivel{margin-top:2rem}
+.nivel h3{margin:0 0 .9rem;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase}
+.nivel em{color:var(--cyan);font-style:normal}
+.sep{color:var(--suave);margin:0 .6rem}
+.rejilla{display:grid;gap:.9rem;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.rejilla figure{margin:0;background:var(--panel);box-shadow:0 0 0 1px var(--linea)}
+.rejilla figcaption{display:flex;justify-content:space-between;padding:.45rem .65rem;
+  font-size:11px;color:var(--suave);border-top:1px solid var(--linea)}
+.dir{font-variant-numeric:tabular-nums;color:var(--verde)}
+footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--linea);
+  color:var(--suave);font-size:12px}
+
+/* Aviso de trabajo en curso: tiene que verse antes que las cifras, porque un
+   100% mal leido hace mas dano que no ponerlo. */
+.aviso{background:#3a2a10;border-left:3px solid var(--oro);margin:1.5rem auto;
+  padding:1rem 1.2rem;max-width:900px;border-radius:4px}
+.aviso p{margin:0;color:var(--tinta);font-size:15px;line-height:1.65}
+.galeria{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;margin:1.5rem 0}
+.galeria figure{margin:0}
+.galeria img{width:100%;height:auto;image-rendering:pixelated;
+  border:1px solid var(--linea);border-radius:3px}
+.galeria figcaption{color:var(--suave);font-size:13px;margin-top:.5rem}
+audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
+</style>
+<div class="w"><nav class="top"><a href="index.html">Portada</a><a href="EMPEZAR.html">Empezar</a><a href="EL-JUEGO.html">El juego</a><a href="EL-CARTUCHO.html">El cartucho</a><a href="EL-CODIGO.html" style=color:var(--tinta)>El código</a><a href="HALLAZGOS.html">Hallazgos</a><a href="EN-EL-EMULADOR.html">En el emulador</a><a href="PREGUNTAS-ABIERTAS.html">Preguntas abiertas</a><a href="../THE-CODE.html" style="margin-left:auto;color:var(--oro)">English</a></nav>
+<h1 id="el-codigo">El código</h1>
+<h2 id="todo-corre-en-la-interrupcion">Todo corre en la interrupción</h2>
+<p>El cartucho engancha H.TIMI a <b>p00:4229</b>, que corre una vez por cuadro: primero el sonido, con los bancos 4 y 5 puestos (p04:6228), y luego el juego (p01:65C2): sube el contador de cuadros (0xC103) y reparte por el estado.</p>
+<h2 id="el-despachador">El despachador</h2>
+<p>p00:425F es el despachador de Konami: la tabla de destinos va <b>pegada detrás del <code>call</code></b>. Saca de la pila la dirección de vuelta, que es la base de la tabla, y salta al destino número A. p00:4260 hace lo mismo con la tabla en HL. El listado marca cada una de esas tablas como datos y nombra sus destinos.</p>
+<h2 id="los-estados-del-juego">Los estados del juego</h2>
+<p>0xC100 es el estado y 0xC101 su paso (tabla de p01:65D6): el logotipo de Konami que se destapa, la demostración, el título, la partida, el GAME OVER con su CONTINUE (F5), la pausa y el final (p06:A6CF). La partida en sí (p00:5C05) reparte otra vez por 0xC201: jugando, cambiando de pantalla, en una conversación, el durián&amp;hellip;</p>
+<h2 id="una-pantalla">Una pantalla</h2>
+<p>Al entrar en una pantalla (0xC125), p00:4A7B elige su <b>juego de dibujos</b> (un nibble por pantalla en p07:6009, o por plano en p07:6000) y sube a la hoja de la página 1 lo que dice su lista. El mapa son <b>5 × 5 bloques</b> de 4 × 4 dibujos (p10:6000, o p04:7E76 en los planos alternos); p00:4EE7 copia los 20 × 20 dibujos a la página 0 con HMMM desde (8, 8). Luego la paleta, los sprites de la pantalla (p00:4CB3), los enemigos (la lista de p13:6000) y lo que se pinta encima: la estatua, los jefes, el decorado que se puede quitar.</p>
+<p>Doce pantallas están <b>partidas</b>: p06:BEC5 enseña un plano u otro según el lado en que esté Mitchel (0xC131).</p>
+<h2 id="mitchel">Mitchel</h2>
+<p>Su estado es 0xC300 (tabla de p01:6D3C): 0 quieto, 1-4 andando arriba, abajo, a la izquierda y a la derecha, 5 el golpe, 6 dando vueltas, 7 lanzando. Anda de casilla en casilla de 8 puntos (p01:6F17); en el agua del juego de dibujos 4, sin los zuecos, a medio paso (p01:6F00). Es dos sprites de 16 × 16 superpuestos; su pose sale cada cuadro de un RLE de p13:7D9B.</p>
+<h2 id="los-enemigos">Los enemigos</h2>
+<p>Trece fichas de 0x80 bytes en 0xD000. El tipo va en ix+0: p01:6885 dice qué rutina corre cada cuadro y p00:5B1E qué hace al crearse. Casi todos van por pasos (ix+1) con el despachador. Del ix+0x12 en adelante cada tipo usa la ficha a su manera; <code>tools/anota.py</code> sabe qué es cada campo en el código de cada enemigo y lo comenta.</p>
+<p>Lo que se tira (piedras, bolas, el boomerang) son otras fichas, las figuras 0x81-0x91 (p01:7077). Al morir, p03:B9E6 decide qué suelta cada tipo, con una cuenta propia en 0xDFC0-0xDFDB.</p>
+<h2 id="el-sonido">El sonido</h2>
+<p>p04:6032 recibe el sonido: menos de 0x80, un efecto, que va por el canal C del PSG y se lo quita a la música mientras suena; de 0x80 a 0x8D, una de las 14 piezas, con una pista por canal (p04:66D8). 0xFD pausa (y toca una musiquilla), 0xFE devuelve la música y 0xFF la funde. Las pistas son bytes de nota, silencio, tempo, octava, volumen, envolvente, saltos, llamadas y repeticiones (p04:638A).</p>
+<h2 id="como-esta-hecho-el-listado">Cómo está hecho el listado</h2>
+<p><code>tools/bancos.py</code> traza el cartucho entero siguiendo los cambios de banco, el despachador y los puentes. <code>tools/mkasm.py</code> escribe cada banco con su <code>org</code>, sus etiquetas y sus comentarios, sacados de <code>src/pNN.notes</code>. El 100 % de los 131.072 bytes está asignado a código (37.983) o a datos (93.089), y el 40,1 % de las 18.093 instrucciones lleva comentario, sin ninguna rutina por debajo del 10 %.</p>
+<footer><p><em>King Kong 2: Yomigaeru Densetsu</em> (<em>King Kong 2: La leyenda renace</em>) lo public&oacute; Konami para MSX2 en 1986, con licencia de Shochiku-Fuji y De Laurentiis Entertainment Group; su n&uacute;mero de cat&aacute;logo es RC-745 y son 128 KB. Todos los derechos sobre el juego siguen siendo de sus titulares. Este trabajo es de preservaci&oacute;n, estudio y documentaci&oacute;n, y la imagen del cartucho no se distribuye.</p></footer></div>

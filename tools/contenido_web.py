@@ -103,7 +103,7 @@ HALLAZGOS = {
          "LEVEL 10; TAB+F4, 40; sin el truco, 00.</p>"),
         ("Cada enemigo con su arma",
          "<p>No todas las armas valen contra todos (<code>p09:BB14</code>). El "
-         "<b>hacha</b>, la de m&aacute;s fuerza, solo le hace da&ntilde;o a "
+         "<b>hacha</b>, con 25 de fuerza, solo le hace da&ntilde;o a "
          "<b>GRIZZLY</b>; el <b>arp&oacute;n</b>, solo a B F MAN y D F MAN. "
          "WHITEFIRE y WHITEOGRE solo caen con la <b>espada de luz</b>; CLUBMAN, "
          "con el ROD; BIGSPIDER, con el cuchillo; REDSPIDER, con el garrote o "
@@ -172,7 +172,7 @@ HALLAZGOS = {
          "10; TAB+F4, 40; without the trick, 00.</p>"),
         ("Every enemy has its weapon",
          "<p>Not every weapon works against everyone (<code>p09:BB14</code>). "
-         "The <b>axe</b>, the strongest, only hurts <b>GRIZZLY</b>; the "
+         "The <b>axe</b>, with a strength of 25, only hurts <b>GRIZZLY</b>; the "
          "<b>harpoon</b>, only B F MAN and D F MAN. WHITEFIRE and WHITEOGRE "
          "only fall to the <b>sword of light</b>; CLUBMAN, to the ROD; "
          "BIGSPIDER, to the knife; REDSPIDER, to the club or the claw; "

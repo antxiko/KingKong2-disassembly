@@ -1,0 +1,124 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The game — King Kong 2: Yomigaeru Densetsu (Konami, 1986)</title>
+<style>
+:root{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;--linea:#23262e;
+  --rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+@media (prefers-color-scheme:light){:root{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;
+  --panel:#f7f6f2;--linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}}
+:root[data-theme="dark"]{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;
+  --linea:#23262e;--rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+:root[data-theme="light"]{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;--panel:#f7f6f2;
+  --linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--tinta);padding:0 1.25rem 6rem;
+  font:15px/1.7 ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.w{max-width:1120px;margin:0 auto}
+.n{max-width:68ch}
+h1,h2,h3,h4{font-weight:400;text-wrap:balance}
+a{color:var(--cyan)}
+img{image-rendering:pixelated;max-width:100%;height:auto;display:block}
+header.top{display:flex;flex-direction:column;align-items:center;gap:1.5rem;
+  padding:4rem 0 2rem;text-align:center}
+header.top img{width:min(100%,642px)}
+.claim{max-width:60ch;color:var(--suave);font-size:1.05rem}
+.claim b{color:var(--tinta);font-weight:400}
+.ficha{display:flex;flex-wrap:wrap;justify-content:center;gap:0 1.5rem;width:100%;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--suave);
+  border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);padding:.85rem 0}
+.ficha b{color:var(--rojo);font-weight:400}
+nav{display:flex;flex-wrap:wrap;gap:1.25rem;justify-content:center;padding:1.25rem 0;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+nav a{color:var(--suave);text-decoration:none;border-bottom:1px solid transparent}
+nav a:hover,nav a:focus{color:var(--tinta);border-bottom-color:var(--rojo)}
+nav.docs{border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);
+  margin-bottom:1rem}
+section{margin-top:4.5rem;scroll-margin-top:1rem}
+section>h2{font-size:1rem;letter-spacing:.1em;text-transform:uppercase;
+  border-left:3px solid var(--rojo);padding-left:.9rem;margin:0 0 1.5rem}
+.cifras{display:grid;gap:1px;background:var(--linea);border:1px solid var(--linea);
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.cifra{background:var(--panel);padding:1.1rem}
+.cifra b{display:block;font-size:1.7rem;color:var(--oro);font-weight:400;
+  font-variant-numeric:tabular-nums;line-height:1.2}
+.cifra span{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--suave)}
+.hall{border-top:1px solid var(--linea);padding-top:1.75rem;margin-top:2.5rem}
+.hall:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.hall h3{margin:0 0 .75rem;font-size:1.15rem;color:var(--rojo)}
+.hall h4{color:var(--oro);margin:1.5rem 0 .5rem;font-size:.95rem}
+.hall p{margin:0 0 1rem}
+pre.asm{background:var(--panel);border-left:2px solid var(--verde);margin:1.25rem 0;
+  padding:1rem 1.1rem;overflow-x:auto;font-size:13px;line-height:1.6;color:var(--tinta)}
+.par{display:grid;gap:1.25rem;grid-template-columns:1fr}
+@media(min-width:820px){.par{grid-template-columns:1fr 1fr}}
+.par figure{margin:0}
+table{border-collapse:collapse;width:100%;margin:1.25rem 0;font-size:13px;display:block;
+  overflow-x:auto}
+th,td{text-align:left;padding:.5rem .75rem;border-bottom:1px solid var(--linea)}
+th{color:var(--suave);font-weight:400;font-size:11px;letter-spacing:.07em;text-transform:uppercase}
+td.num{font-variant-numeric:tabular-nums;color:var(--oro)}
+.nivel{margin-top:2rem}
+.nivel h3{margin:0 0 .9rem;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase}
+.nivel em{color:var(--cyan);font-style:normal}
+.sep{color:var(--suave);margin:0 .6rem}
+.rejilla{display:grid;gap:.9rem;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.rejilla figure{margin:0;background:var(--panel);box-shadow:0 0 0 1px var(--linea)}
+.rejilla figcaption{display:flex;justify-content:space-between;padding:.45rem .65rem;
+  font-size:11px;color:var(--suave);border-top:1px solid var(--linea)}
+.dir{font-variant-numeric:tabular-nums;color:var(--verde)}
+footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--linea);
+  color:var(--suave);font-size:12px}
+
+/* Aviso de trabajo en curso: tiene que verse antes que las cifras, porque un
+   100% mal leido hace mas dano que no ponerlo. */
+.aviso{background:#3a2a10;border-left:3px solid var(--oro);margin:1.5rem auto;
+  padding:1rem 1.2rem;max-width:900px;border-radius:4px}
+.aviso p{margin:0;color:var(--tinta);font-size:15px;line-height:1.65}
+.galeria{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;margin:1.5rem 0}
+.galeria figure{margin:0}
+.galeria img{width:100%;height:auto;image-rendering:pixelated;
+  border:1px solid var(--linea);border-radius:3px}
+.galeria figcaption{color:var(--suave);font-size:13px;margin-top:.5rem}
+audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
+</style>
+<div class="w"><nav class="top"><a href="index.html">Home</a><a href="GETTING-STARTED.html">Start</a><a href="THE-GAME.html" style=color:var(--tinta)>The game</a><a href="THE-CARTRIDGE.html">The cartridge</a><a href="THE-CODE.html">The code</a><a href="FINDINGS.html">Findings</a><a href="IN-THE-EMULATOR.html">In the emulator</a><a href="OPEN-QUESTIONS.html">Open questions</a><a href="es/EL-JUEGO.html" style="margin-left:auto;color:var(--oro)">Castellano</a></nav>
+<h1 id="the-game">The game</h1>
+<p>Mitchel looks for <b>LADY KONG</b> across an island: KING KONG is dying and only she can save him. Over the radio the army hurries him («Still not found LADY KONG? If you do not hurry, KING KONG will die»), and around the island there are people who talk, shops, inside areas and 55 kinds of named enemies, plus five bosses that are not sprites.</p>
+<p>Every picture on this page is <b>drawn from the bytes of the ROM</b> with the tools in <code>tools/</code>, which follow the cartridge&#x27;s own steps. Under each one it says which table it comes from and how it was checked against openMSX (MSX2, <code>C-BIOS_MSX2_JP</code>).</p>
+<h2 id="the-title-screen">The title screen</h2>
+<p><img src="imagenes/titulo.png" alt="The title screen"></p>
+<p>The キングコング2 甦る伝説 logo is made of 1-bit letters (p06:A2A1, A3C1 and A561) that p00:4867 uploads to page 1 in two colours; the palette brightens in three phases (p06:B9C8). Before it, the Konami logo is uncovered. Both checked against openMSX: <b>0 dots different</b> and the same 16 colours.</p>
+<p><img src="imagenes/konami.png" alt="The Konami logo"></p>
+<h2 id="the-island">The island</h2>
+<p><img src="imagenes/mapa_marcado.png" alt="The island and its areas, with what each screen hides"></p>
+<p>There are <b>140 screens</b> seen whole, with no scrolling: 97 on the island and the rest in eleven inside areas. Each screen says which are its four neighbours (p09:B1C5); putting them together gives the map, and the order of the exits is checked in openMSX by walking Mitchel out through the edges. 0xF0-0xFB are special exits (p01:611F) that lead to another screen and to a given spot.</p>
+<p>On top, taken from the tables:</p>
+<ul><li><b>in yellow</b>, the 15 passages (p06:BE16: tiles 0xC0-0xC3) and the special exits, with the screen they lead to;</li><li><b>in red</b>, the 37 pieces of scenery that can be removed (p09:B3FD), with the number of the event that removes them: 4 is the てむさ spell, which removes rocks; several passages are underneath;</li><li><b>in green</b>, the items that appear on their own on entering (p06:BB57) and the sword of light of screen 0x0B;</li><li><b>in blue</b>, the conversation that starts on stopping on the screen (p12:A5FE), and in dark blue the one of whoever appears after killing an enemy (p01:7EF5).</li></ul>
+<h2 id="the-panel">The panel</h2>
+<p>On the right: MITCHEL, <b>DAYS</b> (a day every 2048 frames), <b>LIFE</b> (you start with 30; the maximum is 30 + 16 × LEVEL), <b>EXP</b> (up to 9999), <b>LEVEL</b> (one more every 100 EXP, up to 99), <b>MP</b>, <b>GOLD</b> (you start with 200), and what you carry in <b>SHOT1</b> (the weapon) and <b>SHOT2</b> (the item). All in BCD.</p>
+<h2 id="mitchel">Mitchel</h2>
+<p><img src="imagenes/mitchel.png" alt="Mitchel in his 17 poses"></p>
+<p>Seventeen poses (0xC310) in two sets: out of the water and in it, with the legs hidden (0xC160). Each pose is an RLE (p13:7D9B and p13:7DBD) giving two 16 × 16 patterns: one in colour 1 and another with the CC bit set, which adds its colour to the one below.</p>
+<h2 id="the-enemies">The enemies</h2>
+<p><img src="imagenes/enemigos.png" alt="The 55 enemies with their names"></p>
+<p>Each screen brings its list (p13:6000: [type][x][y]); bit 7 of the type says it only appears on the alternate plane. The name shown on the panel when you hit it is the one at p15:BA76. The frames of each enemy are the ones recorded in openMSX screen by screen; their patterns and colours come from the ROM.</p>
+<p>A dead enemy does not come back while Mitchel stays within the 3 × 3 screens around (0xDF00, p00:590B), and a dead boss never comes back (0xDE00).</p>
+<h2 id="the-bosses-that-are-not-sprites">The bosses that are not sprites</h2>
+<p><img src="imagenes/jefes.png" alt="The five bosses painted by the VDP"></p>
+<p>BIGFLOWER, TWINMIRES, THE NASTY, BADPRIEST and REVOLVER are drawings that p00:4BD0 uploads raw to page 1 on entering their screen (the figures in p14; some twice, the second one mirrored). The VDP copies them to page 0 with LMMM every time they change: the mouth of THE NASTY and BADPRIEST, shut and open. Checked against openMSX: <b>0 bytes different</b> in their seven screens.</p>
+<h2 id="items-and-weapons">Items and weapons</h2>
+<p><img src="imagenes/objetos.png" alt="The items of the game with their names"></p>
+<p>38 16 × 16 drawings (p07:630A) that p00:4AED uploads to page 1. The names are the ones at p15:A069, in the game&#x27;s font. From 0x01 to 0x0B (and 0x1F) they go to <b>SHOT1</b>, the weapons; the rest, to <b>SHOT2</b> (p01:7A35).</p>
+<p>A hit does <b>(LEVEL + 10) × the weapon&#x27;s strength</b> (p09:B7EF):</p>
+<table><tr><th>weapon</th><th>strength</th></tr><tr><td>the fist</td><td>10</td></tr><tr><td>ないふ (knife)</td><td>15</td></tr><tr><td>ROD</td><td>12</td></tr><tr><td>こんぼう (club)</td><td>18</td></tr><tr><td>ひかりのけん (sword of light)</td><td>20</td></tr><tr><td>おの (axe)</td><td>25</td></tr><tr><td>けん</td><td>30</td></tr><tr><td>つめ (claw)</td><td>20</td></tr><tr><td>いし (stone)</td><td>15</td></tr><tr><td>ほのおのたま (fireball)</td><td>20</td></tr><tr><td>ぶーめらん (boomerang)</td><td>18</td></tr><tr><td>もり (harpoon)</td><td>20</td></tr></table>
+<p>But not every weapon works against everyone (p09:BB14): the axe only against GRIZZLY, the harpoon only against B F MAN and D F MAN, the sword of light is the only one that hurts WHITEFIRE and WHITEOGRE, and THE NASTY, BADPRIEST and BIGFLOWER take nothing from close combat. This comes from the code; we have not played it.</p>
+<p>The spells (SHOT2) spend MP: てむさ removes rocks (event 4), ねむり freezes the enemies and まかぷら kills THE NASTY and BADPRIEST.</p>
+<h2 id="the-people-who-talk">The people who talk</h2>
+<p>There are <b>56 conversations</b> (p12:A66E), with actions between lines (p12:B500-B8FC): giving or taking items and money, asking with 1, 2 and 3, selling. They are transcribed from Japanese with <code>tools/dialogos.py</code>. A few things that come out of them and of the code:</p>
+<ul><li>the axe <b>is not sold in any shop</b> (p12:B548); BOWLER drops it;</li><li>refusing the letter sets MP to 0 (p12:B57D);</li><li>without the book, the monkeys only say «きい きい»;</li><li>if you already have the item they were going to give you, the conversation does not start (p01:7F23).</li></ul>
+<h2 id="the-three-endings">The three endings</h2>
+<p>On finding LADY KONG, p06:A837 chooses one:</p>
+<ul><li>with <b>366 days or more</b>, KING KONG dies before you get there;</li><li>otherwise, with <b>51 continues or more</b>, AMY operates and KING KONG comes back to life;</li><li>with <b>fewer</b>, a <b>baby KONG</b> appears as well.</li></ul>
+<p>The texts are the ROM&#x27;s (p06:AD44-AF40); the conditions come from the code and have not been played.</p>
+<footer><p><em>King Kong 2: Yomigaeru Densetsu</em> (<em>King Kong 2: The Legend Revived</em>) was published by Konami for the MSX2 in 1986, under licence from Shochiku-Fuji and De Laurentiis Entertainment Group; its catalogue number is RC-745 and it is 128 KB. All rights in the game remain with their holders. This is preservation, study and documentation work, and the cartridge image is not distributed.</p></footer></div>
