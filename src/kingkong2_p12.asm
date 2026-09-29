@@ -2843,69 +2843,69 @@ L_B9C6:
 	jp (hl)			;b9cf   ; ...y alli
 L_B9D0:
 	ld hl,0c201h		;b9d0   ; apunta a el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
-	ld a,(hl)			;b9d3
+	ld a,(hl)			;b9d3   ; LA VENTANA: se abre con el bit 1 de 0xC112 si no esta abierta
 	and a			;b9d4
 	ret nz			;b9d5
 	ld a,(0c112h)		;b9d6   ; lee las teclas del teclado (bits 3-5: 1, 2 y 3; bit 2: F5)
 	and 002h		;b9d9
 	ret z			;b9db
 	ld a,(hl)			;b9dc
-	ld (hl),002h		;b9dd
+	ld (hl),002h		;b9dd   ; 0xC172 guarda lo de antes; 0xC280 = 0: a preparar
 	ld (0c172h),a		;b9df
 	xor a			;b9e2
 	ld (0c280h),a		;b9e3
 	ret			;b9e6
-L_B9E7:
-	ld hl,0c280h		;b9e7
+la_ventana:
+	ld hl,0c280h		;b9e7   ; la primera vez, se prepara...
 	ld a,(hl)			;b9ea
 	and a			;b9eb
 	jp nz,L_BAD8		;b9ec
 	inc (hl)			;b9ef
 	call 0406eh		;b9f0   ; p00:puente_apaga_la_pantalla
 	ld hl,0e000h		;b9f3   ; apunta a el mapa de casillas de la pantalla en RAM (32 por fila)
-	ld de,0ca00h		;b9f6
+	ld de,0ca00h		;b9f6   ; ...guardando 0x300 bytes de 0xC800 en 0xCA00...
 	ld bc,00300h		;b9f9
 	ldir		;b9fc
 	call 04200h		;b9fe   ; p00:puente_pon_la_paleta_de_la_pantalla
 	call 041e2h		;ba01   ; p00:puente_guarda_el_fondo_del_jefe
-	call cuentas_de_las_listas		;ba04
-	call junta_las_listas		;ba07
-	ld a,(0c307h)		;ba0a
+	call cuentas_de_las_listas		;ba04   ; ...las cuentas y las listas juntas...
+	call junta_las_listas		;ba07   ; junta_las_listas: los huecos de las listas se cierran: SHOT1 (12)...
+	ld a,(0c307h)		;ba0a   ; ...SPEED = 0xC307 - 4...
 	sub 004h		;ba0d
 	ld (0c2f0h),a		;ba0f
-	ld hl,00000h		;ba12
+	ld hl,00000h		;ba12   ; ...el cursor a cero...
 	ld (0c291h),hl		;ba15
 	ld (0c281h),hl		;ba18
 	ld a,001h		;ba1b
 	ld (0c290h),a		;ba1d
 	ld a,(0c140h)		;ba20   ; lee SHOT1, el arma que se lleva (0 el puno)
-	ld c,004h		;ba23
+	ld c,004h		;ba23   ; ...lo que se lleva en SHOT1 (4 casillas de la lista)...
 	ld hl,0c2a0h		;ba25
 	ld de,0c294h		;ba28
-	call pon_si_no_es_cero		;ba2b
+	call pon_si_no_es_cero		;ba2b   ; pon_si_no_es_cero: sin objeto, la casilla vacia
 	ld a,(0c141h)		;ba2e   ; lee SHOT2, el objeto que se lleva
-	ld c,007h		;ba31
+	ld c,007h		;ba31   ; ...y en SHOT2 (7)
 	ld hl,0c2c0h		;ba33
 	ld de,0c298h		;ba36
-	call pon_si_no_es_cero		;ba39
+	call pon_si_no_es_cero		;ba39   ; pon_si_no_es_cero: sin objeto, la casilla vacia
 	ld a,(0c142h)		;ba3c   ; lee los zuecos puestos
 	and a			;ba3f
 	jr z,L_BA43		;ba40
 	inc a			;ba42
 L_BA43:
-	ld (0c29ch),a		;ba43
+	ld (0c29ch),a		;ba43   ; si hay zuecos, se ven los zuecos
 	ld hl,068e8h		;ba46
 	ld (0c29dh),hl		;ba49
 	ld hl,068e8h		;ba4c
 	ld (0c29dh),hl		;ba4f
 	call 04074h		;ba52   ; p00:puente_oculta_los_sprites
-	ld hl,00000h		;ba55
+	ld hl,00000h		;ba55   ; la pagina de arriba borrada
 	ld b,l			;ba58
 	ld c,l			;ba59
 	xor a			;ba5a
 	ld d,a			;ba5b
 	call 0407ah		;ba5c   ; p00:puente_hmmv
-	ld a,00eh		;ba5f
+	ld a,00eh		;ba5f   ; los colores de los sprites del cursor
 	ld hl,0f400h		;ba61
 	ld bc,00010h		;ba64
 	call 04080h		;ba67   ; p00:puente_rellena_la_vram
@@ -2919,8 +2919,8 @@ L_BA43:
 	call 04056h		;ba7e   ; p00:puente_rotulo
 	ld hl,0baaeh		;ba81   ; rotulo_shot1: [x][y] "SHOT 1" 0xFF (p12:BA81 y p12:BC14)
 	call 04056h		;ba84   ; p00:puente_rotulo
-	call iconos_de_shot1		;ba87
-	call iconos_de_shot2		;ba8a
+	call iconos_de_shot1		;ba87   ; los iconos de las dos listas y los zuecos
+	call iconos_de_shot2		;ba8a   ; iconos_de_shot2: los de SHOT2: de la columna 4 a la 10
 	call pinta_los_zuecos		;ba8d
 	jp 04086h		;ba90   ; p00:puente_enciende_la_pantalla
 
@@ -2946,15 +2946,15 @@ DATA_rotulo_shot1:
 cuentas_de_las_listas:
 	ld de,0c2a0h		;bab7
 	ld b,00ch		;baba
-	call cuenta_de_cada_objeto		;babc
+	call cuenta_de_cada_objeto		;babc   ; cuenta_de_cada_objeto: cada objeto de la lista...
 	ld b,015h		;babf
 	ld de,0c2c0h		;bac1
 cuenta_de_cada_objeto:
-	ld a,(de)			;bac4
+	ld a,(de)			;bac4   ; cada objeto de la lista...
 	inc de			;bac5
 	and a			;bac6
 	jr z,L_BAD5		;bac7
-	ld hl,0c33fh		;bac9
+	ld hl,0c33fh		;bac9   ; ...con su cuenta al lado (0xC33F + objeto)
 	call 0408ch		;bacc   ; p00:puente_hl_mas_a
 	ld a,(hl)			;bacf
 	ld (de),a			;bad0
@@ -2963,24 +2963,24 @@ L_BAD1:
 	djnz cuenta_de_cada_objeto		;bad2
 	ret			;bad4
 L_BAD5:
-	ld (de),a			;bad5
+	ld (de),a			;bad5   ; sin objeto, 0
 	jr L_BAD1		;bad6
 L_BAD8:
-	call cursor_de_la_ventana		;bad8
+	call cursor_de_la_ventana		;bad8   ; CON LA VENTANA ABIERTA: el cursor...
 	ld a,(0c112h)		;badb   ; lee las teclas del teclado (bits 3-5: 1, 2 y 3; bit 2: F5)
-	and 002h		;bade
+	and 002h		;bade   ; ...el bit 1 la cierra...
 	jp nz,L_BBB3		;bae0
 	ld a,(0c106h)		;bae3   ; lee las teclas nuevas del cuadro (bit 4 SHOT1, bit 5 SHOT2)
-	bit 4,a		;bae6
+	bit 4,a		;bae6   ; ...el boton elige; si no, se mueve
 	jr nz,L_BAF3		;bae8
-	call cursor_horizontal		;baea
-	call cursor_vertical		;baed
+	call cursor_horizontal		;baea   ; cursor_horizontal: izquierda y derecha: el cursor entre 0 y 11
+	call cursor_vertical		;baed   ; cursor_vertical: arriba y abajo: entre 0 y 2
 	jp L_BBE4		;baf0
 L_BAF3:
-	ld a,(0c291h)		;baf3
+	ld a,(0c291h)		;baf3   ; en la fila de abajo (columna 11): SPEED y los zuecos
 	cp 00bh		;baf6
 	jr z,L_BB40		;baf8
-	call elige_en_la_ventana		;bafa
+	call elige_en_la_ventana		;bafa   ; el objeto de la casilla del cursor...
 	ld a,(hl)			;bafd
 	and a			;bafe
 	jr z,L_BB0E		;baff
@@ -2990,11 +2990,11 @@ L_BAF3:
 	ld a,(hl)			;bb04
 	sub 008h		;bb05
 	ld d,a			;bb07
-	call sitio_del_cursor		;bb08
+	call sitio_del_cursor		;bb08   ; ...si ya estaba cogido, se suelta
 	rst 20h			;bb0b
 	jr z,L_BB38		;bb0c
 L_BB0E:
-	call elige_en_la_ventana		;bb0e
+	call elige_en_la_ventana		;bb0e   ; si no, se coge: SHOT1 o SHOT2 segun la columna...
 	ld a,(de)			;bb11
 	and a			;bb12
 	ret z			;bb13
@@ -3002,7 +3002,7 @@ L_BB0E:
 	ld c,a			;bb15
 	ld (hl),001h		;bb16
 	ex de,hl			;bb18
-	call sitio_del_cursor		;bb19
+	call sitio_del_cursor		;bb19   ; sitio_del_cursor: el sitio del cursor (columna, fila)
 	ex de,hl			;bb1c
 	inc hl			;bb1d
 	ld (hl),e			;bb1e
@@ -3010,11 +3010,11 @@ L_BB0E:
 	ld a,d			;bb20
 	add a,008h		;bb21
 	ld (hl),a			;bb23
-	ld a,025h		;bb24
+	ld a,025h		;bb24   ; ...con el sonido 0x25
 	call 040e6h		;bb26   ; p00:puente_sonido_si_juega
 L_BB29:
 	ld hl,0c140h		;bb29   ; apunta a SHOT1, el arma que se lleva (0 el puno)
-	ld a,(0c291h)		;bb2c
+	ld a,(0c291h)		;bb2c   ; columnas 0-3: SHOT1; las demas, SHOT2
 	cp 004h		;bb2f
 	jr c,L_BB36		;bb31
 	ld hl,0c141h		;bb33   ; apunta a SHOT2, el objeto que se lleva
@@ -3022,12 +3022,12 @@ L_BB36:
 	ld (hl),c			;bb36
 	ret			;bb37
 L_BB38:
-	call elige_en_la_ventana		;bb38
+	call elige_en_la_ventana		;bb38   ; soltar: 0
 	ld c,000h		;bb3b
 	ld (hl),c			;bb3d
 	jr L_BB29		;bb3e
 L_BB40:
-	ld a,(0c292h)		;bb40
+	ld a,(0c292h)		;bb40   ; fila 0: los zuecos...
 	and a			;bb43
 	jr z,L_BB5E		;bb44
 	dec a			;bb46
@@ -3035,7 +3035,7 @@ L_BB40:
 	ld a,(0c35dh)		;bb48   ; lee cuantos objetos 0x1E se llevan (BCD; 0xFF sin cuenta)
 	and a			;bb4b
 	ret z			;bb4c
-	ld hl,0c29ch		;bb4d
+	ld hl,0c29ch		;bb4d   ; ...se ponen y se quitan (0xC29C)
 	ld a,(hl)			;bb50
 	xor 001h		;bb51
 	ld (hl),a			;bb53
@@ -3044,40 +3044,45 @@ L_BB40:
 	ret z			;bb58
 	ld a,025h		;bb59
 	jp 040e6h		;bb5b   ; p00:puente_sonido_si_juega
+
+; ----------------------------------------------------------------------
+; SPEED: de 0 a la decena de LEVEL (con LEVEL 10 se puede poner 1, con 20 hasta
+; 2...). Mitchel da SPEED + 4 + 1 pasos por cuadro (0xC307, p01:6F17).
+; ----------------------------------------------------------------------
 L_BB5E:
 	ld a,(0c12eh)		;bb5e   ; lee LEVEL, el nivel de Mitchel (BCD)
-	rra			;bb61
+	rra			;bb61   ; la decena de LEVEL...
 	rra			;bb62
 	rra			;bb63
 	rra			;bb64
 	and 00fh		;bb65
-	inc a			;bb67
+	inc a			;bb67   ; ...+ 1: cuantas velocidades hay
 	ld c,a			;bb68
 	ld hl,0c2f0h		;bb69
-	ld a,(hl)			;bb6c
+	ld a,(hl)			;bb6c   ; la siguiente, dando la vuelta
 	inc a			;bb6d
 	cp c			;bb6e
 	jr c,L_BB72		;bb6f
 	xor a			;bb71
 L_BB72:
 	ld (hl),a			;bb72
-	add a,004h		;bb73
+	add a,004h		;bb73   ; los pasos por cuadro de Mitchel
 	ld (0c307h),a		;bb75
 pinta_la_casilla_c2f0:
-	ld hl,0c2f0h		;bb78
+	ld hl,0c2f0h		;bb78   ; y la cifra en la ventana
 	ld b,001h		;bb7b
 	ld de,048f0h		;bb7d
 	jp 04092h		;bb80   ; p00:puente_escribe_numero_bcd
 elige_en_la_ventana:
-	ld a,(0c291h)		;bb83
+	ld a,(0c291h)		;bb83   ; la columna del cursor: 0-3 son SHOT1...
 	cp 004h		;bb86
 	jr c,L_BBA1		;bb88
-	ld hl,0c298h		;bb8a
+	ld hl,0c298h		;bb8a   ; ...4-10 SHOT2: 7 por fila...
 	ld de,0c2c0h		;bb8d
 	sub 004h		;bb90
 	add a,a			;bb92
 	ld c,a			;bb93
-	ld a,(0c292h)		;bb94
+	ld a,(0c292h)		;bb94   ; ...por la fila (0xC292)
 	add a,a			;bb97
 	ld b,a			;bb98
 	add a,a			;bb99
@@ -3087,7 +3092,7 @@ elige_en_la_ventana:
 	add a,c			;bb9d
 	jp 04098h		;bb9e   ; p00:puente_de_mas_a
 L_BBA1:
-	ld hl,0c294h		;bba1
+	ld hl,0c294h		;bba1   ; SHOT1: 4 por fila
 	ld de,0c2a0h		;bba4
 	add a,a			;bba7
 	ld c,a			;bba8
@@ -3098,7 +3103,7 @@ L_BBA1:
 	add a,c			;bbaf
 	jp 04098h		;bbb0   ; p00:puente_de_mas_a
 L_BBB3:
-	xor a			;bbb3
+	xor a			;bbb3   ; LA VENTANA SE CIERRA: el decorado de antes...
 	ld (0c500h),a		;bbb4   ; guarda el decorado que se quita (3 fichas de 32 bytes)
 	ld (0c520h),a		;bbb7
 	ld (0c540h),a		;bbba
@@ -3112,25 +3117,25 @@ L_BBB3:
 	call 040bch		;bbd2   ; p00:puente_monta_la_pantalla
 	call 041e8h		;bbd5   ; p00:puente_repone_el_fondo_del_jefe
 	call 040dah		;bbd8   ; p00:puente_decorado_de_la_pantalla
-	ld a,(0c172h)		;bbdb
+	ld a,(0c172h)		;bbdb   ; ...y lo que habia en 0xC172
 	ld (0c201h),a		;bbde   ; guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
 	jp 04086h		;bbe1   ; p00:puente_enciende_la_pantalla
 L_BBE4:
-	ld a,(0c291h)		;bbe4
+	ld a,(0c291h)		;bbe4   ; la ventana se corre: a la izquierda (0) con el cursor en SHOT1...
 	cp 004h		;bbe7
 	ld a,000h		;bbe9
 	jr c,L_BBEF		;bbeb
-	ld a,048h		;bbed
+	ld a,048h		;bbed   ; ...o 0x48 puntos con el cursor en SHOT2
 L_BBEF:
 	ld (0c282h),a		;bbef
 	ld hl,0c281h		;bbf2
-	cp (hl)			;bbf5
+	cp (hl)			;bbf5   ; ya esta: nada
 	ret z			;bbf6
 	jr nc,L_BC04		;bbf7
-	dec (hl)			;bbf9
+	dec (hl)			;bbf9   ; un punto cada cuadro hacia su sitio...
 	push hl			;bbfa
 	ld a,(hl)			;bbfb
-	cp 020h		;bbfc
+	cp 020h		;bbfc   ; ...repintando la lista que vuelve a verse
 	call z,ventana_shot1		;bbfe
 	pop hl			;bc01
 	jr L_BC0D		;bc02
@@ -3139,33 +3144,33 @@ L_BC04:
 	push hl			;bc05
 	ld a,(hl)			;bc06
 	cp 020h		;bc07
-	call z,borra_la_parte_de_arriba		;bc09
+	call z,borra_la_parte_de_arriba		;bc09   ; borra_la_parte_de_arriba: 256x32 puntos a cero arriba
 	pop hl			;bc0c
 L_BC0D:
-	ld a,(hl)			;bc0d
+	ld a,(hl)			;bc0d   ; el scroll horizontal (R#23... C = 0x17)
 	ld b,a			;bc0e
 	ld c,017h		;bc0f
 	jp 00047h		;bc11   ; BIOS WRTVDP - Writes data in the VDP-register
 ventana_shot1:
 	ld hl,0baaeh		;bc14   ; rotulo_shot1: [x][y] "SHOT 1" 0xFF (p12:BA81 y p12:BC14)
 	call 04056h		;bc17   ; p00:puente_rotulo
-	ld hl,0c2a0h		;bc1a
+	ld hl,0c2a0h		;bc1a   ; las tres filas de SHOT1 (0xC2A0, 0xC2A8, 0xC2B0)
 	ld bc,00000h		;bc1d
-	call pinta_los_iconos_de_la_lista		;bc20
+	call pinta_los_iconos_de_la_lista		;bc20   ; pinta_los_iconos_de_la_lista: sin objeto, nada
 	ld bc,00100h		;bc23
 	ld hl,0c2a8h		;bc26
-	call pinta_los_iconos_de_la_lista		;bc29
+	call pinta_los_iconos_de_la_lista		;bc29   ; pinta_los_iconos_de_la_lista: sin objeto, nada
 	ld bc,00200h		;bc2c
 	ld hl,0c2b0h		;bc2f
-	jp pinta_los_iconos_de_la_lista		;bc32
+	jp pinta_los_iconos_de_la_lista		;bc32   ; pinta_los_iconos_de_la_lista: sin objeto, nada
 borra_la_parte_de_arriba:
-	ld hl,00000h		;bc35
+	ld hl,00000h		;bc35   ; 256x32 puntos a cero arriba
 	ld bc,00020h		;bc38
 	xor a			;bc3b
 	ld d,a			;bc3c
 	jp 0407ah		;bc3d   ; p00:puente_hmmv
 cursor_horizontal:
-	ld hl,0c291h		;bc40
+	ld hl,0c291h		;bc40   ; izquierda y derecha: el cursor entre 0 y 11
 	ld a,(0c106h)		;bc43   ; lee las teclas nuevas del cuadro (bit 4 SHOT1, bit 5 SHOT2)
 	rra			;bc46
 	jr c,L_BC52		;bc47
@@ -3183,7 +3188,7 @@ L_BC52:
 	inc (hl)			;bc54
 	ret			;bc55
 cursor_vertical:
-	ld hl,0c292h		;bc56
+	ld hl,0c292h		;bc56   ; arriba y abajo: entre 0 y 2
 	ld a,(0c106h)		;bc59   ; lee las teclas nuevas del cuadro (bit 4 SHOT1, bit 5 SHOT2)
 	bit 2,a		;bc5c
 	jr nz,L_BC6A		;bc5e
@@ -3201,28 +3206,28 @@ L_BC6A:
 	inc (hl)			;bc6c
 	ret			;bc6d
 junta_las_listas:
-	ld hl,0c2a0h		;bc6e
+	ld hl,0c2a0h		;bc6e   ; los huecos de las listas se cierran: SHOT1 (12)...
 	ld b,00bh		;bc71
-	call junta_una_lista		;bc73
-	ld hl,0c2c0h		;bc76
+	call junta_una_lista		;bc73   ; junta_una_lista: cada casilla [objeto][cuenta]...
+	ld hl,0c2c0h		;bc76   ; ...y SHOT2 (21)
 	ld b,014h		;bc79
 junta_una_lista:
-	ld e,l			;bc7b
+	ld e,l			;bc7b   ; cada casilla [objeto][cuenta]...
 	ld d,h			;bc7c
 	inc de			;bc7d
 	inc de			;bc7e
 	ld c,b			;bc7f
-	ld a,(hl)			;bc80
+	ld a,(hl)			;bc80   ; ...vacia...
 	and a			;bc81
 	jr z,L_BC8B		;bc82
-	inc hl			;bc84
+	inc hl			;bc84   ; ...o con cuenta 0: se vacia...
 	ld a,(hl)			;bc85
 	and a			;bc86
 	jr nz,L_BC9D		;bc87
 	dec hl			;bc89
 	ld (hl),a			;bc8a
 L_BC8B:
-	ld a,(de)			;bc8b
+	ld a,(de)			;bc8b   ; ...y se trae la siguiente que tenga algo
 	and a			;bc8c
 	jr nz,L_BC95		;bc8d
 	inc de			;bc8f
@@ -3244,26 +3249,26 @@ L_BC9D:
 	djnz junta_una_lista		;bc9e
 	ret			;bca0
 iconos_de_shot1:
-	ld hl,0c2a0h		;bca1
+	ld hl,0c2a0h		;bca1   ; los de SHOT1: 4 columnas
 	ld a,004h		;bca4
 	ld c,000h		;bca6
 	jr L_BCB3		;bca8
 iconos_de_shot2:
-	ld hl,0c2c0h		;bcaa
+	ld hl,0c2c0h		;bcaa   ; los de SHOT2: de la columna 4 a la 10
 	ld a,00bh		;bcad
 	ld c,004h		;bcaf
 	jr L_BCB3		;bcb1
 L_BCB3:
-	ld (0e800h),a		;bcb3
+	ld (0e800h),a		;bcb3   ; hasta la columna A, desde la C...
 	ld a,c			;bcb6
 	ld (0e801h),a		;bcb7
-	ld b,000h		;bcba
+	ld b,000h		;bcba   ; ...en las tres filas
 L_BCBC:
 	ld a,(0e801h)		;bcbc
 	ld c,a			;bcbf
 L_BCC0:
 	push bc			;bcc0
-	call pinta_los_iconos_de_la_lista		;bcc1
+	call pinta_los_iconos_de_la_lista		;bcc1   ; pinta_los_iconos_de_la_lista: sin objeto, nada
 	pop bc			;bcc4
 	inc c			;bcc5
 	ld a,(0e800h)		;bcc6
@@ -3275,28 +3280,28 @@ L_BCC0:
 	jr nz,L_BCBC		;bcd0
 	ret			;bcd2
 pinta_los_iconos_de_la_lista:
-	ld a,(hl)			;bcd3
+	ld a,(hl)			;bcd3   ; sin objeto, nada
 	and a			;bcd4
 	ret z			;bcd5
-	ld (0e808h),hl		;bcd6
+	ld (0e808h),hl		;bcd6   ; la casilla, su sitio y el objeto
 	ld (0e80ah),bc		;bcd9
 	ld (0e80ch),a		;bcdd
-	ld l,c			;bce0
+	ld l,c			;bce0   ; el sitio del icono (p00:40C2)
 	ld h,b			;bce1
 	call 040c2h		;bce2   ; p00:puente_sitio_de_la_casilla
 	ld a,h			;bce5
 	add a,008h		;bce6
 	ld h,a			;bce8
 	ex de,hl			;bce9
-	ld a,(0e80ch)		;bcea
+	ld a,(0e80ch)		;bcea   ; el icono
 	call 040c8h		;bced   ; p00:puente_pinta_icono
 	call 040ceh		;bcf0   ; p00:puente_escribe_nombre_de_la_casilla
 	ld hl,(0e808h)		;bcf3
 	inc hl			;bcf6
-	ld a,(hl)			;bcf7
+	ld a,(hl)			;bcf7   ; sin cuenta (0xFF), sin cifra
 	cp 0ffh		;bcf8
 	jr z,L_BD14		;bcfa
-	ld hl,(0e80ah)		;bcfc
+	ld hl,(0e80ah)		;bcfc   ; la cuenta, a la derecha del icono (p00:4092)
 	call 040c2h		;bcff   ; p00:puente_sitio_de_la_casilla
 	ld a,h			;bd02
 	add a,038h		;bd03
@@ -3312,19 +3317,19 @@ pinta_los_iconos_de_la_lista:
 L_BD14:
 	ld hl,(0e808h)		;bd14
 	ld bc,(0e80ah)		;bd17
-	inc hl			;bd1b
+	inc hl			;bd1b   ; la casilla siguiente
 	inc hl			;bd1c
 	ret			;bd1d
 sitio_del_cursor:
-	ld hl,(0c291h)		;bd1e
+	ld hl,(0c291h)		;bd1e   ; el sitio del cursor (columna, fila)
 	jp 040c2h		;bd21   ; p00:puente_sitio_de_la_casilla
 pon_si_no_es_cero:
-	and a			;bd24
+	and a			;bd24   ; sin objeto, la casilla vacia
 	jr nz,L_BD29		;bd25
 	ld (de),a			;bd27
 	ret			;bd28
 L_BD29:
-	ld (0e800h),de		;bd29
+	ld (0e800h),de		;bd29   ; busca el objeto en la lista...
 	ld e,a			;bd2d
 	ld b,000h		;bd2e
 	ld d,000h		;bd30
@@ -3338,14 +3343,14 @@ L_BD32:
 	ld a,b			;bd39
 	cp c			;bd3a
 	jr nz,L_BD32		;bd3b
-	ld b,000h		;bd3d
+	ld b,000h		;bd3d   ; ...fila a fila...
 	inc d			;bd3f
 	ld a,d			;bd40
 	cp 003h		;bd41
 	jr nz,L_BD32		;bd43
 	ret			;bd45
 L_BD46:
-	ld a,c			;bd46
+	ld a,c			;bd46   ; ...en SHOT2, 4 columnas mas alla...
 	cp 004h		;bd47
 	jr z,L_BD4F		;bd49
 	ld a,b			;bd4b
@@ -3359,7 +3364,7 @@ L_BD4F:
 	add a,008h		;bd55
 	ld h,a			;bd57
 	ex de,hl			;bd58
-	ld hl,(0e800h)		;bd59
+	ld hl,(0e800h)		;bd59   ; ...y apunta [1][columna][fila]: el cursor de lo que se lleva
 	ld (hl),001h		;bd5c
 	inc l			;bd5e
 	ld (hl),e			;bd5f
@@ -3367,11 +3372,11 @@ L_BD4F:
 	ld (hl),d			;bd61
 	ret			;bd62
 pinta_los_zuecos:
-	call pinta_la_casilla_c2f0		;bd63
+	call pinta_la_casilla_c2f0		;bd63   ; pinta_la_casilla_c2f0: y la cifra en la ventana
 	ld a,(0c35dh)		;bd66   ; lee cuantos objetos 0x1E se llevan (BCD; 0xFF sin cuenta)
-	and a			;bd69
+	and a			;bd69   ; con zuecos (0xC35D)...
 	ret z			;bd6a
-	ld a,01eh		;bd6b
+	ld a,01eh		;bd6b   ; ...su icono y su nombre
 	ld de,068e8h		;bd6d
 	call 040c8h		;bd70   ; p00:puente_pinta_icono
 	ld hl,0bd84h		;bd73   ; rotulo_mizugeta: [x][y] "みずげた" 0xFF: lo que p12:BD73 escribe si se tienen los zuecos (0xC35D)
@@ -3394,28 +3399,28 @@ DATA_rotulo_mizugeta:
 
 
 cursor_de_la_ventana:
-	ld hl,0f600h		;bd8d
+	ld hl,0f600h		;bd8d   ; los sprites del cursor, en 0xF600
 	call 040d4h		;bd90   ; p00:puente_vram_para_escribir
-	call sitio_del_cursor		;bd93
+	call sitio_del_cursor		;bd93   ; sitio_del_cursor: el sitio del cursor (columna, fila)
 	ld a,(00007h)		;bd96
 	ld c,a			;bd99
-	out (c),l		;bd9a
-	out (c),h		;bd9c
+	out (c),l		;bd9a   ; el cursor: y...
+	out (c),h		;bd9c   ; ...x
 	xor a			;bd9e
 	out (c),a		;bd9f
 	out (c),a		;bda1
-	ld hl,0c294h		;bda3
+	ld hl,0c294h		;bda3   ; y los marcos de lo que se lleva en SHOT1, SHOT2 y los zuecos
 	ld b,003h		;bda6
 L_BDA8:
 	ld a,(hl)			;bda8
 	inc l			;bda9
 	ld d,(hl)			;bdaa
-	and a			;bdab
+	and a			;bdab   ; sin nada, fuera de la vista
 	jr z,L_BDBA		;bdac
 	ld a,b			;bdae
 	cp 003h		;bdaf
 	jr nz,L_BDC0		;bdb1
-	ld a,(0c281h)		;bdb3
+	ld a,(0c281h)		;bdb3   ; SHOT1 fuera de la vista con la ventana corrida
 	cp 020h		;bdb6
 	jr c,L_BDC0		;bdb8
 L_BDBA:

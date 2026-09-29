@@ -1550,6 +1550,7 @@ C 0x5D7F banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la res
 C 0x5D82 p15:quita_el_decorado_del_suceso: El suceso de 0xC560 (lo dejan los objetos y los conjuros al usarse: el
 C 0x5D85 bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 C 0x5D8E bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
+C 0x5D94 p12:la_ventana: la primera vez, se prepara...
 C 0x5D97 bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 C 0x5D9D guarda la copia del banco de 0xA000
 C 0x5DA0 el mapper: el banco de A en 0xA000

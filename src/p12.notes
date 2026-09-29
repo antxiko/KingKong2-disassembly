@@ -240,6 +240,89 @@ C 0xB9C0 ...bit 4: la 2...
 C 0xB9C3 ...bit 5: la 3; sin ninguna, se vuelve al de antes
 C 0xB9C6 la palabra E...
 C 0xB9CF ...y alli
+C 0xB9D3 LA VENTANA: se abre con el bit 1 de 0xC112 si no esta abierta
+C 0xB9DD 0xC172 guarda lo de antes; 0xC280 = 0: a preparar
+L 0xB9E7 la_ventana
+C 0xB9E7 la primera vez, se prepara...
+C 0xB9F6 ...guardando 0x300 bytes de 0xC800 en 0xCA00...
+C 0xBA04 ...las cuentas y las listas juntas...
+C 0xBA0A ...SPEED = 0xC307 - 4...
+C 0xBA12 ...el cursor a cero...
+C 0xBA23 ...lo que se lleva en SHOT1 (4 casillas de la lista)...
+C 0xBA31 ...y en SHOT2 (7)
+C 0xBA43 si hay zuecos, se ven los zuecos
+C 0xBA55 la pagina de arriba borrada
+C 0xBA5F los colores de los sprites del cursor
+C 0xBA87 los iconos de las dos listas y los zuecos
+C 0xBAC4 cada objeto de la lista...
+C 0xBAC9 ...con su cuenta al lado (0xC33F + objeto)
+C 0xBAD5 sin objeto, 0
+C 0xBAD8 CON LA VENTANA ABIERTA: el cursor...
+C 0xBADE ...el bit 1 la cierra...
+C 0xBAE6 ...el boton elige; si no, se mueve
+C 0xBAF3 en la fila de abajo (columna 11): SPEED y los zuecos
+C 0xBAFA el objeto de la casilla del cursor...
+C 0xBB08 ...si ya estaba cogido, se suelta
+C 0xBB0E si no, se coge: SHOT1 o SHOT2 segun la columna...
+C 0xBB24 ...con el sonido 0x25
+C 0xBB2C columnas 0-3: SHOT1; las demas, SHOT2
+C 0xBB38 soltar: 0
+C 0xBB40 fila 0: los zuecos...
+C 0xBB4D ...se ponen y se quitan (0xC29C)
+B 0xBB5E SPEED: de 0 a la decena de LEVEL (con LEVEL 10 se puede poner 1, con 20 hasta
+B 0xBB5E 2...). Mitchel da SPEED + 4 + 1 pasos por cuadro (0xC307, p01:6F17).
+C 0xBB61 la decena de LEVEL...
+C 0xBB67 ...+ 1: cuantas velocidades hay
+C 0xBB6C la siguiente, dando la vuelta
+C 0xBB73 los pasos por cuadro de Mitchel
+C 0xBB78 y la cifra en la ventana
+C 0xBB83 la columna del cursor: 0-3 son SHOT1...
+C 0xBB8A ...4-10 SHOT2: 7 por fila...
+C 0xBB94 ...por la fila (0xC292)
+C 0xBBA1 SHOT1: 4 por fila
+C 0xBBB3 LA VENTANA SE CIERRA: el decorado de antes...
+C 0xBBDB ...y lo que habia en 0xC172
+C 0xBBE4 la ventana se corre: a la izquierda (0) con el cursor en SHOT1...
+C 0xBBED ...o 0x48 puntos con el cursor en SHOT2
+C 0xBBF5 ya esta: nada
+C 0xBBF9 un punto cada cuadro hacia su sitio...
+C 0xBBFC ...repintando la lista que vuelve a verse
+C 0xBC0D el scroll horizontal (R#23... C = 0x17)
+C 0xBC1A las tres filas de SHOT1 (0xC2A0, 0xC2A8, 0xC2B0)
+C 0xBC35 256x32 puntos a cero arriba
+C 0xBC40 izquierda y derecha: el cursor entre 0 y 11
+C 0xBC56 arriba y abajo: entre 0 y 2
+C 0xBC6E los huecos de las listas se cierran: SHOT1 (12)...
+C 0xBC76 ...y SHOT2 (21)
+C 0xBC7B cada casilla [objeto][cuenta]...
+C 0xBC80 ...vacia...
+C 0xBC84 ...o con cuenta 0: se vacia...
+C 0xBC8B ...y se trae la siguiente que tenga algo
+C 0xBCA1 los de SHOT1: 4 columnas
+C 0xBCAA los de SHOT2: de la columna 4 a la 10
+C 0xBCB3 hasta la columna A, desde la C...
+C 0xBCBA ...en las tres filas
+C 0xBCD3 sin objeto, nada
+C 0xBCD6 la casilla, su sitio y el objeto
+C 0xBCE0 el sitio del icono (p00:40C2)
+C 0xBCEA el icono
+C 0xBCF7 sin cuenta (0xFF), sin cifra
+C 0xBCFC la cuenta, a la derecha del icono (p00:4092)
+C 0xBD1B la casilla siguiente
+C 0xBD1E el sitio del cursor (columna, fila)
+C 0xBD24 sin objeto, la casilla vacia
+C 0xBD29 busca el objeto en la lista...
+C 0xBD3D ...fila a fila...
+C 0xBD46 ...en SHOT2, 4 columnas mas alla...
+C 0xBD59 ...y apunta [1][columna][fila]: el cursor de lo que se lleva
+C 0xBD69 con zuecos (0xC35D)...
+C 0xBD6B ...su icono y su nombre
+C 0xBD8D los sprites del cursor, en 0xF600
+C 0xBD9A el cursor: y...
+C 0xBD9C ...x
+C 0xBDA3 y los marcos de lo que se lleva en SHOT1, SHOT2 y los zuecos
+C 0xBDAB sin nada, fuera de la vista
+C 0xBDB3 SHOT1 fuera de la vista con la ventana corrida
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA000 0xA09E dibujos_9F9E_cola  8 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 56); los sube p00:48A6 por la lista 0x55BD (sigue del banco anterior, 0x9F9E); lo leen p00:48A6 (158 bytes)
@@ -826,8 +909,11 @@ C 0xB9F0 p00:puente_apaga_la_pantalla
 C 0xB9F3 apunta a el mapa de casillas de la pantalla en RAM (32 por fila)
 C 0xB9FE p00:puente_pon_la_paleta_de_la_pantalla
 C 0xBA01 p00:puente_guarda_el_fondo_del_jefe
+C 0xBA07 junta_las_listas: los huecos de las listas se cierran: SHOT1 (12)...
 C 0xBA20 lee SHOT1, el arma que se lleva (0 el puno)
+C 0xBA2B pon_si_no_es_cero: sin objeto, la casilla vacia
 C 0xBA2E lee SHOT2, el objeto que se lleva
+C 0xBA39 pon_si_no_es_cero: sin objeto, la casilla vacia
 C 0xBA3C lee los zuecos puestos
 C 0xBA52 p00:puente_oculta_los_sprites
 C 0xBA5C p00:puente_hmmv
@@ -839,10 +925,15 @@ C 0xBA7B rotulos_de_la_ventana: [x][y] "SHOT 2", "MITCHEL" y "SPEED" (0xFE entre
 C 0xBA7E p00:puente_rotulo
 C 0xBA81 rotulo_shot1: [x][y] "SHOT 1" 0xFF (p12:BA81 y p12:BC14)
 C 0xBA84 p00:puente_rotulo
+C 0xBA8A iconos_de_shot2: los de SHOT2: de la columna 4 a la 10
 C 0xBA90 p00:puente_enciende_la_pantalla
+C 0xBABC cuenta_de_cada_objeto: cada objeto de la lista...
 C 0xBACC p00:puente_hl_mas_a
 C 0xBADB lee las teclas del teclado (bits 3-5: 1, 2 y 3; bit 2: F5)
 C 0xBAE3 lee las teclas nuevas del cuadro (bit 4 SHOT1, bit 5 SHOT2)
+C 0xBAEA cursor_horizontal: izquierda y derecha: el cursor entre 0 y 11
+C 0xBAED cursor_vertical: arriba y abajo: entre 0 y 2
+C 0xBB19 sitio_del_cursor: el sitio del cursor (columna, fila)
 C 0xBB26 p00:puente_sonido_si_juega
 C 0xBB29 apunta a SHOT1, el arma que se lleva (0 el puno)
 C 0xBB33 apunta a SHOT2, el objeto que se lleva
@@ -866,11 +957,17 @@ C 0xBBD5 p00:puente_repone_el_fondo_del_jefe
 C 0xBBD8 p00:puente_decorado_de_la_pantalla
 C 0xBBDE guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
 C 0xBBE1 p00:puente_enciende_la_pantalla
+C 0xBC09 borra_la_parte_de_arriba: 256x32 puntos a cero arriba
 C 0xBC14 rotulo_shot1: [x][y] "SHOT 1" 0xFF (p12:BA81 y p12:BC14)
 C 0xBC17 p00:puente_rotulo
+C 0xBC20 pinta_los_iconos_de_la_lista: sin objeto, nada
+C 0xBC29 pinta_los_iconos_de_la_lista: sin objeto, nada
+C 0xBC32 pinta_los_iconos_de_la_lista: sin objeto, nada
 C 0xBC3D p00:puente_hmmv
 C 0xBC43 lee las teclas nuevas del cuadro (bit 4 SHOT1, bit 5 SHOT2)
 C 0xBC59 lee las teclas nuevas del cuadro (bit 4 SHOT1, bit 5 SHOT2)
+C 0xBC73 junta_una_lista: cada casilla [objeto][cuenta]...
+C 0xBCC1 pinta_los_iconos_de_la_lista: sin objeto, nada
 C 0xBCE2 p00:puente_sitio_de_la_casilla
 C 0xBCED p00:puente_pinta_icono
 C 0xBCF0 p00:puente_escribe_nombre_de_la_casilla
@@ -878,6 +975,7 @@ C 0xBCFF p00:puente_sitio_de_la_casilla
 C 0xBD11 p00:puente_escribe_numero_bcd
 C 0xBD21 p00:puente_sitio_de_la_casilla
 C 0xBD51 p00:puente_sitio_de_la_casilla
+C 0xBD63 pinta_la_casilla_c2f0: y la cifra en la ventana
 C 0xBD66 lee cuantos objetos 0x1E se llevan (BCD; 0xFF sin cuenta)
 C 0xBD70 p00:puente_pinta_icono
 C 0xBD73 rotulo_mizugeta: [x][y] "みずげた" 0xFF: lo que p12:BD73 escribe si se tienen los zuecos (0xC35D)
@@ -885,6 +983,7 @@ C 0xBD76 p00:puente_rotulo
 C 0xBD7C apunta a cuantos objetos 0x1E se llevan (BCD; 0xFF sin cuenta)
 C 0xBD81 p00:puente_escribe_numero_bcd
 C 0xBD90 p00:puente_vram_para_escribir
+C 0xBD93 sitio_del_cursor: el sitio del cursor (columna, fila)
 C 0xBDE2 lee el plano de la pantalla (0, el exterior)
 C 0xBDEB apunta a la PANTALLA
 C 0xBDFD lee la PANTALLA

@@ -4659,7 +4659,7 @@ L_5D88:
 	jp bancos_1_2_3		;5d8e   ; bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 L_5D91:
 	call banco_12_en_a000		;5d91   ; p12:B9E7 con el banco 12
-	call 0b9e7h		;5d94
+	call 0b9e7h		;5d94   ; p12:la_ventana: la primera vez, se prepara...
 	jp bancos_1_2_3		;5d97   ; bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 banco_12_en_a000:
 	ld a,00ch		;5d9a
