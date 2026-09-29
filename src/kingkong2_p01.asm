@@ -4601,9 +4601,9 @@ usa_el_0x17:
 	cp 019h		;7d42
 	ret nc			;7d44
 	ld a,(0c306h)		;7d45   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
-	and a			;7d48
+	and a			;7d48   ; sin nada en marcha...
 	ret nz			;7d49
-	ld a,006h		;7d4a
+	ld a,006h		;7d4a   ; ...el estado 6 de la partida, paso 0
 	ld (0c201h),a		;7d4c   ; guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
 	xor a			;7d4f
 	ld (0c681h),a		;7d50
@@ -4611,57 +4611,57 @@ usa_el_0x17:
 usa_el_0x19:
 	ld a,(0c125h)		;7d54   ; solo en la pantalla 0x51, y reparado (0xC14E)
 	cp 051h		;7d57   ; la pantalla 0x51?
-	ret nz			;7d59
+	ret nz			;7d59   ; la radio (0x19), en la pantalla 0x51 y reparada...
 	ld a,(0c14eh)		;7d5a   ; lee la radio reparada
 	and a			;7d5d
 	ret z			;7d5e
 	ld a,(0c600h)		;7d5f   ; lee la figura que sigue a Mitchel
 	and a			;7d62
-	ld a,037h		;7d63
+	ld a,037h		;7d63   ; ...la conversacion 0x37 (o 0x38)...
 	jr z,L_7D68		;7d65
 	inc a			;7d67
 L_7D68:
 	ld (0c14ah),a		;7d68   ; la conversacion 0x37, o la 0x38 si 0xC600 no es 0
-	ld a,001h		;7d6b
+	ld a,001h		;7d6b   ; ...con 0xC149 = 1
 	ld (0c149h),a		;7d6d
 	jp L_7EAB		;7d70
 usa_el_0x16:
 	ld a,(0c125h)		;7d73   ; solo en la pantalla 0x5E
 	cp 05eh		;7d76   ; la pantalla 0x5E?
-	ret nz			;7d78
+	ret nz			;7d78   ; las lagrimas (0x16) en la pantalla 0x5E, una vez...
 	ld hl,0c810h		;7d79
 	ld a,(hl)			;7d7c
 	and a			;7d7d
 	ret nz			;7d7e
-	ld (hl),001h		;7d7f
+	ld (hl),001h		;7d7f   ; ...lo de 0xC810 en (0x48, 0x48)...
 	inc l			;7d81
 	ld (hl),048h		;7d82
 	inc l			;7d84
 	ld (hl),048h		;7d85
 	call 04fabh		;7d87   ; p00:suceso_de_la_pantalla_5E
-	ld a,023h		;7d8a
+	ld a,023h		;7d8a   ; ...con el sonido 0x23
 	jp 05488h		;7d8c   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 usa_el_0x22:
 	ld a,(0c140h)		;7d8f   ; lee SHOT1, el arma que se lleva (0 el puno)
 	cp 00bh		;7d92   ; el objeto 0x0B, もり?
-	jr z,L_7DA4		;7d94
+	jr z,L_7DA4		;7d94   ; かいてん (0x22): con el arpon (0x0B) o un arma del 0 al 7...
 	cp 008h		;7d96   ; el objeto 0x08, いし?
 	ret nc			;7d98
 	ld hl,0c12fh		;7d99   ; apunta a MP, la magia (BCD, hasta 99)
-	ld a,(hl)			;7d9c
+	ld a,(hl)			;7d9c   ; ...gasta 1 de MP...
 	sub 001h		;7d9d
 	daa			;7d9f
 	jp c,no_hay_mp		;7da0   ; no_hay_mp: sin MP bastante: el aviso, 0x3C cuadros
 	ld (hl),a			;7da3
 L_7DA4:
 	call usa_shot1		;7da4   ; usa_shot1: con 0xC132 solo el 0x19 (y el puno)
-	ld a,008h		;7da7
+	ld a,008h		;7da7   ; ...y Mitchel pasa al estado 8, dando vueltas con el golpe
 	ld (0c300h),a		;7da9   ; guarda el estado de Mitchel
 	xor a			;7dac
 	ld (0c316h),a		;7dad
 	jp escribe_mp		;7db0
 usa_el_0x24:
-	call gasta_uno_de_shot2		;7db3   ; solo en las pantallas 0x0B, 0x0D, 0x2D, 0x2E, 0x6F, 0x77 y 0x7B
+	call gasta_uno_de_shot2		;7db3   ; la llave de hierro (0x24): se gasta...
 	ld a,(0c125h)		;7db6   ; lee la PANTALLA
 	cp 00dh		;7db9   ; la pantalla 0x0D?
 	jr z,L_7DD4		;7dbb
@@ -4678,11 +4678,11 @@ usa_el_0x24:
 	cp 07bh		;7dd1   ; la pantalla 0x7B?
 	ret nz			;7dd3
 L_7DD4:
-	jp L_7D00		;7dd4
+	jp L_7D00		;7dd4   ; ...y en esas pantallas abre (el suceso 5)
 paleta_de_las_pantallas_oscuras:
 	ld a,(0c141h)		;7dd7   ; lee SHOT2, el objeto que se lleva
 	cp 01ah		;7dda   ; el objeto 0x1A, ひとみ?
-	ret z			;7ddc
+	ret z			;7ddc   ; con el 0x1A (ひとみ) en SHOT2, nada
 	ld a,(0c125h)		;7ddd   ; lee la PANTALLA
 	cp 052h		;7de0   ; la pantalla 0x52?
 	jr z,L_7DFB		;7de2
@@ -4699,7 +4699,7 @@ paleta_de_las_pantallas_oscuras:
 	cp 06bh		;7df8   ; la pantalla 0x6B?
 	ret nz			;7dfa
 L_7DFB:
-	ld hl,07e01h		;7dfb   ; paleta_7E01: [color][RB][G] ... 0xFF (p00:46CF): los colores que p01:7DFB cambia en las pantallas 0x52, 0x53, 0x63-0x66 y 0x6B
+	ld hl,07e01h		;7dfb   ; en las pantallas oscuras, los colores de p01:7E01
 	jp 046cfh		;7dfe   ; p00:pon_paleta: lista [color][RB][G] ... 0xFF
 
 ; ----------------------------------------------------------------------
@@ -4717,31 +4717,31 @@ DATA_paleta_7E01:
 
 busca_quien_habla:
 	ld a,(0c300h)		;7e1d   ; lee el estado de Mitchel
-	cp 005h		;7e20
+	cp 005h		;7e20   ; ALGUIEN CON QUIEN HABLAR: solo con Mitchel en los estados 0-4
 	ret nc			;7e22
 	ld a,(0c125h)		;7e23   ; lee la PANTALLA
 	cp 060h		;7e26   ; la pantalla 0x60?
-	jp z,conversacion_de_la_mesa		;7e28
-	sub 063h		;7e2b
+	jp z,conversacion_de_la_mesa		;7e28   ; la pantalla 0x60: la mesa
+	sub 063h		;7e2b   ; en las 0x63-0x66, cada 4 cuadros...
 	cp 004h		;7e2d
 	jr nc,L_7E43		;7e2f
 	ld a,(0c209h)		;7e31
 	and 003h		;7e34
 	jr nz,L_7E43		;7e36
-	ld hl,0c328h		;7e38
+	ld hl,0c328h		;7e38   ; ...a las 256 veces...
 	inc (hl)			;7e3b
 	jr nz,L_7E43		;7e3c
-	ld a,030h		;7e3e
+	ld a,030h		;7e3e   ; ...la conversacion 0x30: "どうくつの そとに でたいか?"
 	jp L_7E9B		;7e40
 L_7E43:
 	ld a,(0c306h)		;7e43   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
-	and a			;7e46
+	and a			;7e46   ; quieto y en una casilla justa...
 	ret nz			;7e47
 	ld a,(0c303h)		;7e48   ; lee la Y de Mitchel
 	and 007h		;7e4b
 	ret nz			;7e4d
 	ld a,(0c305h)		;7e4e   ; lee la X de Mitchel
-	cp 0a0h		;7e51
+	cp 0a0h		;7e51   ; ...dentro del decorado...
 	ret nc			;7e53
 	and 007h		;7e54
 	ret nz			;7e56
@@ -4750,7 +4750,7 @@ L_7E43:
 	cp 072h		;7e5d   ; la pantalla 0x72?
 	ret nc			;7e5f
 	call 04255h		;7e60   ; p00:hl_mas_a
-	ld a,(hl)			;7e63
+	ld a,(hl)			;7e63   ; ...en una pantalla con conversacion...
 	and a			;7e64
 	ret z			;7e65
 	ld (0c14ah),a		;7e66   ; guarda la CONVERSACION
@@ -4760,7 +4760,7 @@ L_7E43:
 	jr nz,L_7E75		;7e71
 	sub 008h		;7e73
 L_7E75:
-	ld l,a			;7e75
+	ld l,a			;7e75   ; ...y delante de alguien (la casilla de su lado)
 	sub 008h		;7e76
 	cp 0a0h		;7e78
 	ret nc			;7e7a
@@ -4770,7 +4770,7 @@ L_7E75:
 	cp 0a0h		;7e81
 	ret nc			;7e83
 	call 0431fh		;7e84   ; p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
-	ld a,(hl)			;7e87
+	ld a,(hl)			;7e87   ; la casilla de al lado tiene que estar libre (0) en el mapa
 	and a			;7e88
 	jr z,L_7E8F		;7e89
 	inc hl			;7e8b
@@ -4778,40 +4778,40 @@ L_7E75:
 	and a			;7e8d
 	ret nz			;7e8e
 L_7E8F:
-	call conversacion_por_el_sitio		;7e8f   ; conversacion_por_el_sitio: en las pantallas 0x0D, 0x14, 0x23, 0x27, 0x2D, 0x2E y 0x3E la conversacion depende de donde este Mitchel
+	call conversacion_por_el_sitio		;7e8f   ; en unas pantallas, depende de donde este Mitchel
 	ld a,c			;7e92
 	and a			;7e93
 	ret z			;7e94
-	ld a,001h		;7e95
+	ld a,001h		;7e95   ; Mitchel quieto (0xC310 = 1)
 	ld (0c310h),a		;7e97   ; guarda la POSE de Mitchel
 	ld a,c			;7e9a
 L_7E9B:
 	ld (0c14ah),a		;7e9b   ; guarda la CONVERSACION
 	and a			;7e9e
 	ret z			;7e9f
-	call ya_se_dio		;7ea0
+	call ya_se_dio		;7ea0   ; si ya se dio lo que ofrece, no se habla
 	ret c			;7ea3
-	xor a			;7ea4
+	xor a			;7ea4   ; 0xC149 = 0: conversacion normal
 	ld (0c149h),a		;7ea5
 	call 04ff0h		;7ea8   ; p00:sube_la_pose_de_mitchel
 L_7EAB:
-	xor a			;7eab
+	xor a			;7eab   ; paso 0...
 	ld (0c14bh),a		;7eac   ; guarda el paso de la conversacion
-	ld a,003h		;7eaf
+	ld a,003h		;7eaf   ; ...la partida pasa a la conversacion (estado 3)...
 	ld (0c201h),a		;7eb1   ; guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
-	ld hl,04201h		;7eb4
+	ld hl,04201h		;7eb4   ; ...con los colores de siempre
 	ld (0c309h),hl		;7eb7   ; guarda el color del primer sprite de Mitchel
 	ret			;7eba
 conversacion_de_la_mesa:
-	ld hl,0c15eh		;7ebb
+	ld hl,0c15eh		;7ebb   ; una vez (0xC15E)...
 	ld a,(hl)			;7ebe
 	and a			;7ebf
 	ret nz			;7ec0
 	ld a,(0c303h)		;7ec1   ; lee la Y de Mitchel
-	cp 090h		;7ec4
+	cp 090h		;7ec4   ; ...con Mitchel por encima de 0x90...
 	ret nc			;7ec6
 	ld a,(0c600h)		;7ec7   ; lee la figura que sigue a Mitchel
-	and a			;7eca
+	and a			;7eca   ; ...y sin la figura que sigue
 	ret nz			;7ecb
 	inc (hl)			;7ecc
 	ld a,02ch		;7ecd   ; la 0x2C, en la pantalla 0x60
@@ -4821,19 +4821,19 @@ conversacion_de_la_mesa:
 	jr L_7EAB		;7ed7
 conversacion_de_la_pantalla:
 	ld a,(0c125h)		;7ed9   ; lee la PANTALLA
-	ld b,a			;7edc
+	ld b,a			;7edc   ; la pantalla, en la lista de parejas
 	ld hl,07ef5h		;7edd   ; parejas [pantalla][conversacion] de p01:7EF5 (0 acaba)
 L_7EE0:
 	ld a,(hl)			;7ee0
 	and a			;7ee1
-	ret z			;7ee2
+	ret z			;7ee2   ; 0 acaba: nada
 	inc hl			;7ee3
 	cp b			;7ee4
 	jr z,L_7EEA		;7ee5
 	inc hl			;7ee7
 	jr L_7EE0		;7ee8
 L_7EEA:
-	ld a,(hl)			;7eea
+	ld a,(hl)			;7eea   ; la conversacion de esa pantalla
 	ld (0c14ah),a		;7eeb   ; guarda la CONVERSACION
 	ld a,001h		;7eee
 	ld (0c149h),a		;7ef0
@@ -4863,16 +4863,16 @@ DATA_conversaciones_de_los_que_aparecen:
 
 ya_se_dio:
 	ld a,(0c14ah)		;7f08   ; lee la CONVERSACION
-	ld c,a			;7f0b
+	ld c,a			;7f0b   ; la conversacion
 	ld hl,07f23h		;7f0c   ; ya_se_dio: [conversacion][direccion de RAM] ... 0: si el byte de RAM no es 0 (ya se tiene el objeto), p01:7F08 no deja empezar esa conversacion
 L_7F0F:
-	ld a,(hl)			;7f0f
+	ld a,(hl)			;7f0f   ; [conversacion]; 0 acaba: se puede
 	inc hl			;7f10
 	and a			;7f11
 	ret z			;7f12
 	cp c			;7f13
 	jr z,$+7		;7f14
-	inc hl			;7f16
+	inc hl			;7f16   ; la siguiente pareja
 	inc hl			;7f17
 	jr L_7F0F		;7f18
 
@@ -4888,10 +4888,10 @@ DATA_ret_suelto:
 
 
 L_7F1B:
-	ld e,(hl)			;7f1b
+	ld e,(hl)			;7f1b   ; su direccion de RAM...
 	inc hl			;7f1c
 	ld d,(hl)			;7f1d
-	ld a,(de)			;7f1e
+	ld a,(de)			;7f1e   ; ...si no es cero, ya se dio: acarreo
 	and a			;7f1f
 	ret z			;7f20
 	scf			;7f21

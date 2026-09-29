@@ -91,7 +91,6 @@ L 0x7D73 usa_el_0x16
 C 0x7D73 solo en la pantalla 0x5E
 L 0x7D8F usa_el_0x22
 L 0x7DB3 usa_el_0x24
-C 0x7DB3 solo en las pantallas 0x0B, 0x0D, 0x2D, 0x2E, 0x6F, 0x77 y 0x7B
 L 0x7E1D busca_quien_habla
 C 0x7E5A p12:A5FE + pantalla: la conversacion (0 = nadie)
 L 0x7ED9 conversacion_de_la_pantalla
@@ -920,6 +919,49 @@ C 0x7D17 la 0x13 (ささやき) en la 0x34, con 0xC58E: suceso 3
 C 0x7D21 el suceso a 0xC560: p15 quita el decorado de ese tipo
 C 0x7D2E la 0x11 (ちからのたま) en la 0x38: suceso 5
 C 0x7D33 el durian (0x17) en (0x68, 0x58-0x70): el estado 6 de la partida
+C 0x7D48 sin nada en marcha...
+C 0x7D4A ...el estado 6 de la partida, paso 0
+C 0x7D59 la radio (0x19), en la pantalla 0x51 y reparada...
+C 0x7D63 ...la conversacion 0x37 (o 0x38)...
+C 0x7D6B ...con 0xC149 = 1
+C 0x7D78 las lagrimas (0x16) en la pantalla 0x5E, una vez...
+C 0x7D7F ...lo de 0xC810 en (0x48, 0x48)...
+C 0x7D8A ...con el sonido 0x23
+C 0x7D94 かいてん (0x22): con el arpon (0x0B) o un arma del 0 al 7...
+C 0x7D9C ...gasta 1 de MP...
+C 0x7DA7 ...y Mitchel pasa al estado 8, dando vueltas con el golpe
+C 0x7DB3 la llave de hierro (0x24): se gasta...
+C 0x7DD4 ...y en esas pantallas abre (el suceso 5)
+C 0x7DDC con el 0x1A (ひとみ) en SHOT2, nada
+C 0x7DFB en las pantallas oscuras, los colores de p01:7E01
+C 0x7E20 ALGUIEN CON QUIEN HABLAR: solo con Mitchel en los estados 0-4
+C 0x7E28 la pantalla 0x60: la mesa
+C 0x7E2B en las 0x63-0x66, cada 4 cuadros...
+C 0x7E38 ...a las 256 veces...
+C 0x7E3E ...la conversacion 0x30: "どうくつの そとに でたいか?"
+C 0x7E46 quieto y en una casilla justa...
+C 0x7E51 ...dentro del decorado...
+C 0x7E63 ...en una pantalla con conversacion...
+C 0x7E75 ...y delante de alguien (la casilla de su lado)
+C 0x7E87 la casilla de al lado tiene que estar libre (0) en el mapa
+C 0x7E8F en unas pantallas, depende de donde este Mitchel
+C 0x7E95 Mitchel quieto (0xC310 = 1)
+C 0x7EA0 si ya se dio lo que ofrece, no se habla
+C 0x7EA4 0xC149 = 0: conversacion normal
+C 0x7EAB paso 0...
+C 0x7EAF ...la partida pasa a la conversacion (estado 3)...
+C 0x7EB4 ...con los colores de siempre
+C 0x7EBB una vez (0xC15E)...
+C 0x7EC4 ...con Mitchel por encima de 0x90...
+C 0x7ECA ...y sin la figura que sigue
+C 0x7EDC la pantalla, en la lista de parejas
+C 0x7EE2 0 acaba: nada
+C 0x7EEA la conversacion de esa pantalla
+C 0x7F0B la conversacion
+C 0x7F0F [conversacion]; 0 acaba: se puede
+C 0x7F16 la siguiente pareja
+C 0x7F1B su direccion de RAM...
+C 0x7F1E ...si no es cero, ya se dio: acarreo
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x611F 0x6143 salidas_especiales  12 salidas especiales (0xF0-0xFB): pantalla de llegada y punto (x, y) donde aparece Mitchel; p01:60FA con 0x611F + 3*(n-0xF0); lo leen p01:6109 (36 bytes)
@@ -1479,7 +1521,6 @@ C 0x7DEC la pantalla 0x64?
 C 0x7DF0 la pantalla 0x65?
 C 0x7DF4 la pantalla 0x66?
 C 0x7DF8 la pantalla 0x6B?
-C 0x7DFB paleta_7E01: [color][RB][G] ... 0xFF (p00:46CF): los colores que p01:7DFB cambia en las pantallas 0x52, 0x53, 0x63-0x66 y 0x6B
 C 0x7DFE p00:pon_paleta: lista [color][RB][G] ... 0xFF
 C 0x7E1D lee el estado de Mitchel
 C 0x7E23 lee la PANTALLA
@@ -1496,7 +1537,6 @@ C 0x7E6C la pantalla 0x4A?
 C 0x7E6E lee la Y de Mitchel
 C 0x7E7B lee la X de Mitchel
 C 0x7E84 p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
-C 0x7E8F conversacion_por_el_sitio: en las pantallas 0x0D, 0x14, 0x23, 0x27, 0x2D, 0x2E y 0x3E la conversacion depende de donde este Mitchel
 C 0x7E97 guarda la POSE de Mitchel
 C 0x7E9B guarda la CONVERSACION
 C 0x7EA8 p00:sube_la_pose_de_mitchel
