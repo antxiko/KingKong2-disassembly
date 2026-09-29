@@ -16,6 +16,9 @@
   usar     SHOT1 (0xC140) reparte con la tabla de p01:747F (objetos 0-0x0B;
            el 0x1F aparte, p01:7474) y SHOT2 (0xC141) con la de p01:7C05
            (0x0C-0x24).
+  nombre   p00:441F (bancos 13-14-15): la palabra p15:A069 + 2*n apunta al
+           nombre del objeto n (1-0x24), en la fuente del juego y hasta 0xFF;
+           detras p00:42F0 escribe "を とりました。" (p15:A062).
 
 Uso: objetos.py <dir_salida>     escribe objetos.png
 """
@@ -59,6 +62,25 @@ def vram_iconos():
     return m
 
 
+NOMBRES = 0xA069                      # p15, + 2*n
+
+
+def nombre(n):
+    """Los bytes del nombre del objeto n (1-0x24), sin el 0xFF."""
+    a = P.palabra(NOMBRES + 2 * n, (13, 14, 15))
+    fuera = []
+    while P.lee(a, (13, 14, 15)) != 0xFF:
+        fuera.append(P.lee(a, (13, 14, 15)))
+        a += 1
+    return fuera
+
+
+def nombre_en_texto(n):
+    import dialogos as D
+    a = P.palabra(NOMBRES + 2 * n, (13, 14, 15))
+    return D.texto(a, (13, 14, 15))[0]
+
+
 def clase(n):
     """(lista, con_cuenta) del objeto n por p01:7A35."""
     c = P.lee(CLASE + n, (1, 2, 3))
@@ -66,26 +88,31 @@ def clase(n):
 
 
 def lamina(ruta, escala=3):
-    """Los 38 dibujos en filas de 13, cada uno con su numero en hexadecimal
-    escrito con la fuente del juego."""
+    """Los 38 dibujos en filas de 6: cada uno con su numero y, debajo, su
+    nombre tal como lo escribe el juego (p15:A069), con su fuente."""
     import figuras as F
     import mapa as M
     _, pal = P.pinta(0)
     rgb = [tuple(v * 255 // 7 for v in c) for c in pal]
-    cols, cw, ch = 13, 24, 30
+    cols, cw, ch = 6, 96, 32
     W, H = cols * cw + 4, ((N + cols - 1) // cols) * ch + 4
     img = [[(72, 72, 88)] * W for _ in range(H)]
+
+    def escribe(texto, x, y, color):
+        for j, c in enumerate(texto):
+            for f, bits in enumerate(F.letra(c)):
+                for i in range(8):
+                    if bits & (0x80 >> i) and x + j * 8 + i < W:
+                        img[y + f][x + j * 8 + i] = color
     for k, ic in enumerate(iconos()):
         cx, cy = 4 + (k % cols) * cw, 4 + (k // cols) * ch
-        for j, c in enumerate("%02X" % (k + 1)):
-            for f, bits in enumerate(F.letra(ord(c))):
-                for i in range(8):
-                    if bits & (0x80 >> i):
-                        img[cy + f][cx + j * 8 + i] = (230, 230, 230)
         for y in range(16):
             for x in range(16):
                 if ic[y][x]:
-                    img[cy + 10 + y][cx + x] = rgb[ic[y][x]]
+                    img[cy + y][cx + x] = rgb[ic[y][x]]
+        escribe([ord(c) for c in "%02X" % (k + 1)], cx + 20, cy, (150, 150, 170))
+        if k + 1 <= 0x24:
+            escribe(nombre(k + 1), cx, cy + 18, (230, 230, 230))
     M.escribe_png(ruta, img, escala)
 
 
@@ -97,7 +124,8 @@ def main(argv):
     for n in range(1, N + 1):
         if n <= 0x24:
             lista, cuenta = clase(n)
-            print("  0x%02X  %s%s" % (n, lista, "  con cuenta" if cuenta else ""))
+            print("  0x%02X  %-8s %s%s" % (n, nombre_en_texto(n), lista,
+                                            "  con cuenta" if cuenta else ""))
 
 
 if __name__ == "__main__":

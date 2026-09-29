@@ -424,6 +424,53 @@ def sonido(t, bl):
                  "otro 0xFF detras del que acaba la pista: no se llega", "p04:65A4")
 
 
+def tablas_de_p15(t, bl):
+    """Con los bancos 13-14-15 (p00:42EA): nombres de los objetos, el rotulo
+    del panel y las tablas de cada tipo de enemigo (1-68)."""
+    import dialogos as D
+    import objetos as O
+    bl.anota(B131415, 0xA047, 0xA062, "rotulo_del_panel",
+             "numeros de dibujo, 0xFE otra fila, 0xFF acaba: el rotulo del panel que "
+             "p00:4A6F pinta con p00:492B en (0xA8, 0)", "p00:4A6F", ancho=9)
+    bl.anota(B131415, 0xA062, 0xA06B, "has_cogido",
+             "\"を とりました。\" (lo que p00:42F0 escribe detras del nombre del objeto)",
+             "p00:42F6", ancho=9)
+    bl.anota(B131415, O.NOMBRES + 2, O.NOMBRES + 2 * 0x25, "nombres_de_objetos",
+             "36 punteros: el nombre de cada objeto (1-0x24); p00:441F con 0xA069 + 2*n "
+             "(la palabra 0 son los dos ultimos bytes de p15:A062)", "p00:4426", ancho=2)
+    for n in range(1, 0x25):
+        a = P.palabra(O.NOMBRES + 2 * n, B131415)
+        _, fin = D.texto(a, B131415)
+        bl.anota(B131415, a, fin + 1, "nombre_de_objeto_%02X" % n,
+                 "el nombre del objeto 0x%02X, hasta 0xFF" % n, "p00:4919", ancho=8)
+    bl.anota(B131415, 0xA16D, 0xA16D + 69, "sprites_de_cada_enemigo",
+             "69 bytes (el 0, 0xFF, no se usa): cuantos sprites lleva cada tipo de "
+             "enemigo (1-68); p00:5A94 lo pone en ix+0x20", "p00:5A94", ancho=16)
+    bl.anota(B131415, 0xA1B2, 0xA1B2 + 2 * 68, "colores_de_cada_enemigo",
+             "68 punteros, uno por tipo: la lista de colores de sus sprites; p00:5BA7 "
+             "con 0xA1B0 + 2*tipo", "p00:5BAF", ancho=2)
+    listas = sorted(set(P.palabra(0xA1B2 + 2 * i, B131415) for i in range(68)))
+    for i, a in enumerate(listas):
+        fin = listas[i + 1] if i + 1 < len(listas) else 0xA265
+        bl.anota(B131415, a, fin, "colores_%04X" % a,
+                 "un color por sprite, que p00:5BBC copia a ix+0x25, +5, +10...",
+                 "p00:5BBC", ancho=8)
+    bl.anota(B131415, 0xA265, 0xA265 + 69, "byte_0d_de_cada_enemigo",
+             "69 bytes (el 0 no se usa): lo que p00:5B10 pone en ix+0x0D al crear un "
+             "enemigo de ese tipo", "p00:5B10", ancho=16)
+    bl.anota(B131415, 0xA2AA, 0xA2AA + 24, "grupos_de_sprites",
+             "12 punteros por ix+0 - 0xF0: grupos de sprites [dy][dx][patron][color] "
+             "que p00:5E93 suma a la posicion", "p00:5E87", ancho=2)
+    g = sorted(set(P.palabra(0xA2AA + 2 * i, B131415) for i in range(12)))
+    for i, a in enumerate(g):
+        fin = g[i + 1] if i + 1 < len(g) else 0xA3CA
+        bl.anota(B131415, a, fin, "grupo_%04X" % a,
+                 "%d sprites [dy][dx][patron][color]" % ((fin - a) // 4), "p00:5E96", ancho=4)
+    bl.anota(B131415, 0xA3CA, 0xA3CA + 68, "tipo_al_aparecer",
+             "68 bytes, uno por tipo: el que p00:5DCA pone en ix+0 al aparecer el enemigo",
+             "p00:5DC9", ancho=16)
+
+
 def nombres_de_enemigos(t, bl):
     """p01:61D2: con el banco 15 en 0xA000, el nombre del tipo de enemigo t
     es la cadena (0xFF acaba) a la que apunta 0xBA76 + 2*t (t = 1..68; el 0
@@ -610,7 +657,7 @@ def conversaciones(t, bl):
 
 
 RECORRIDOS = [enemigos_de_cada_pantalla, nombres_de_enemigos, mitchel, cabecera, tablas_del_despachador, pantallas, vecinas, juegos_de_dibujos,
-              bloques_de_cada_juego, paletas, figuras_fijas, portadas, objetos, conversaciones, sprites_de_enemigos, el_final, sprites_de_mitchel, figuras_a_pelo, sonido]
+              bloques_de_cada_juego, paletas, figuras_fijas, portadas, objetos, conversaciones, sprites_de_enemigos, el_final, sprites_de_mitchel, figuras_a_pelo, sonido, tablas_de_p15]
 
 
 # ------------------------------------------------------------------ escritura

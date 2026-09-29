@@ -1,6 +1,122 @@
 # Notas del banco 15: comentarios (C), etiquetas (L) y datos (D) anclados a direccion.
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0xA047 0xA062 rotulo_del_panel  numeros de dibujo, 0xFE otra fila, 0xFF acaba: el rotulo del panel que p00:4A6F pinta con p00:492B en (0xA8, 0); lo leen p00:4A6F (27 bytes)
+F 0xA047 9
+D 0xA062 0xA06B has_cogido  "を とりました。" (lo que p00:42F0 escribe detras del nombre del objeto); lo leen p00:42F6 (9 bytes)
+F 0xA062 9
+D 0xA06B 0xA0B3 nombres_de_objetos  36 punteros: el nombre de cada objeto (1-0x24); p00:441F con 0xA069 + 2*n (la palabra 0 son los dos ultimos bytes de p15:A062); lo leen p00:4426 (72 bytes)
+F 0xA06B 2
+D 0xA0B3 0xA0B7 nombre_de_objeto_01  el nombre del objeto 0x01, hasta 0xFF; lo leen p00:4919 (4 bytes)
+F 0xA0B3 8
+D 0xA0B7 0xA0BB nombre_de_objeto_02  el nombre del objeto 0x02, hasta 0xFF; lo leen p00:4919 (4 bytes)
+F 0xA0B7 8
+D 0xA0BB 0xA0C1 nombre_de_objeto_03  el nombre del objeto 0x03, hasta 0xFF; lo leen p00:4919 (6 bytes)
+F 0xA0BB 8
+D 0xA0C1 0xA0C8 nombre_de_objeto_04  el nombre del objeto 0x04, hasta 0xFF; lo leen p00:4919 (7 bytes)
+F 0xA0C1 8
+D 0xA0C8 0xA0CB nombre_de_objeto_05  el nombre del objeto 0x05, hasta 0xFF; lo leen p00:4919 (3 bytes)
+F 0xA0C8 8
+D 0xA0CB 0xA0CE nombre_de_objeto_06  el nombre del objeto 0x06, hasta 0xFF; lo leen p00:4919 (3 bytes)
+F 0xA0CB 8
+D 0xA0CE 0xA0D1 nombre_de_objeto_07  el nombre del objeto 0x07, hasta 0xFF; lo leen p00:4919 (3 bytes)
+F 0xA0CE 8
+D 0xA0D1 0xA0D4 nombre_de_objeto_08  el nombre del objeto 0x08, hasta 0xFF; lo leen p00:4919 (3 bytes)
+F 0xA0D1 8
+D 0xA0D4 0xA0DB nombre_de_objeto_09  el nombre del objeto 0x09, hasta 0xFF; lo leen p00:4919 (7 bytes)
+F 0xA0D4 8
+D 0xA0DB 0xA0E2 nombre_de_objeto_0A  el nombre del objeto 0x0A, hasta 0xFF; lo leen p00:4919 (7 bytes)
+F 0xA0DB 8
+D 0xA0E2 0xA0E5 nombre_de_objeto_0B  el nombre del objeto 0x0B, hasta 0xFF; lo leen p00:4919 (3 bytes)
+F 0xA0E2 8
+D 0xA0E5 0xA0E9 nombre_de_objeto_0C  el nombre del objeto 0x0C, hasta 0xFF; lo leen p00:4919 (4 bytes)
+F 0xA0E5 8
+D 0xA0E9 0xA0ED nombre_de_objeto_0D  el nombre del objeto 0x0D, hasta 0xFF; lo leen p00:4919 (4 bytes)
+F 0xA0E9 8
+D 0xA0ED 0xA0F3 nombre_de_objeto_0E  el nombre del objeto 0x0E, hasta 0xFF; lo leen p00:4919 (6 bytes)
+F 0xA0ED 8
+D 0xA0F3 0xA0FA nombre_de_objeto_0F  el nombre del objeto 0x0F, hasta 0xFF; lo leen p00:4919 (7 bytes)
+F 0xA0F3 8
+D 0xA0FA 0xA0FF nombre_de_objeto_10  el nombre del objeto 0x10, hasta 0xFF; lo leen p00:4919 (5 bytes)
+F 0xA0FA 8
+D 0xA0FF 0xA106 nombre_de_objeto_11  el nombre del objeto 0x11, hasta 0xFF; lo leen p00:4919 (7 bytes)
+F 0xA0FF 8
+D 0xA106 0xA10A nombre_de_objeto_12  el nombre del objeto 0x12, hasta 0xFF; lo leen p00:4919 (4 bytes)
+F 0xA106 8
+D 0xA10A 0xA10F nombre_de_objeto_13  el nombre del objeto 0x13, hasta 0xFF; lo leen p00:4919 (5 bytes)
+F 0xA10A 8
+D 0xA10F 0xA115 nombre_de_objeto_14  el nombre del objeto 0x14, hasta 0xFF; lo leen p00:4919 (6 bytes)
+F 0xA10F 8
+D 0xA115 0xA118 nombre_de_objeto_15  el nombre del objeto 0x15, hasta 0xFF; lo leen p00:4919 (3 bytes)
+F 0xA115 8
+D 0xA118 0xA11D nombre_de_objeto_16  el nombre del objeto 0x16, hasta 0xFF; lo leen p00:4919 (5 bytes)
+F 0xA118 8
+D 0xA11D 0xA123 nombre_de_objeto_17  el nombre del objeto 0x17, hasta 0xFF; lo leen p00:4919 (6 bytes)
+F 0xA11D 8
+D 0xA123 0xA128 nombre_de_objeto_18  el nombre del objeto 0x18, hasta 0xFF; lo leen p00:4919 (5 bytes)
+F 0xA123 8
+D 0xA128 0xA12D nombre_de_objeto_19  el nombre del objeto 0x19, hasta 0xFF; lo leen p00:4919 (5 bytes)
+F 0xA128 8
+D 0xA12D 0xA131 nombre_de_objeto_1A  el nombre del objeto 0x1A, hasta 0xFF; lo leen p00:4919 (4 bytes)
+F 0xA12D 8
+D 0xA131 0xA136 nombre_de_objeto_1B  el nombre del objeto 0x1B, hasta 0xFF; lo leen p00:4919 (5 bytes)
+F 0xA131 8
+D 0xA136 0xA13D nombre_de_objeto_1C  el nombre del objeto 0x1C, hasta 0xFF; lo leen p00:4919 (7 bytes)
+F 0xA136 8
+D 0xA13D 0xA144 nombre_de_objeto_1D  el nombre del objeto 0x1D, hasta 0xFF; lo leen p00:4919 (7 bytes)
+F 0xA13D 8
+D 0xA144 0xA14B nombre_de_objeto_1E  el nombre del objeto 0x1E, hasta 0xFF; lo leen p00:4919 (7 bytes)
+F 0xA144 8
+D 0xA14B 0xA152 nombre_de_objeto_1F  el nombre del objeto 0x1F, hasta 0xFF; lo leen p00:4919 (7 bytes)
+F 0xA14B 8
+D 0xA152 0xA159 nombre_de_objeto_20  el nombre del objeto 0x20, hasta 0xFF; lo leen p00:4919 (7 bytes)
+F 0xA152 8
+D 0xA159 0xA15C nombre_de_objeto_21  el nombre del objeto 0x21, hasta 0xFF; lo leen p00:4919 (3 bytes)
+F 0xA159 8
+D 0xA15C 0xA161 nombre_de_objeto_22  el nombre del objeto 0x22, hasta 0xFF; lo leen p00:4919 (5 bytes)
+F 0xA15C 8
+D 0xA161 0xA167 nombre_de_objeto_23  el nombre del objeto 0x23, hasta 0xFF; lo leen p00:4919 (6 bytes)
+F 0xA161 8
+D 0xA167 0xA1B2 nombre_de_objeto_24  el nombre del objeto 0x24, hasta 0xFF; se solapan 2 bloques (0xA167-0xA16E, 0xA16D-0xA1B2); lo leen p00:4919, p00:5A94 (75 bytes)
+F 0xA167 8
+D 0xA1B2 0xA23A colores_de_cada_enemigo  68 punteros, uno por tipo: la lista de colores de sus sprites; p00:5BA7 con 0xA1B0 + 2*tipo; lo leen p00:5BAF (136 bytes)
+F 0xA1B2 2
+D 0xA23A 0xA23E colores_A23A  un color por sprite, que p00:5BBC copia a ix+0x25, +5, +10...; lo leen p00:5BBC (4 bytes)
+F 0xA23A 8
+D 0xA23E 0xA242 colores_A23E  un color por sprite, que p00:5BBC copia a ix+0x25, +5, +10...; lo leen p00:5BBC (4 bytes)
+F 0xA23E 8
+D 0xA242 0xA252 colores_A242  un color por sprite, que p00:5BBC copia a ix+0x25, +5, +10...; lo leen p00:5BBC (16 bytes)
+F 0xA242 8
+D 0xA252 0xA258 colores_A252  un color por sprite, que p00:5BBC copia a ix+0x25, +5, +10...; lo leen p00:5BBC (6 bytes)
+F 0xA252 8
+D 0xA258 0xA25A colores_A258  un color por sprite, que p00:5BBC copia a ix+0x25, +5, +10...; lo leen p00:5BBC (2 bytes)
+F 0xA258 8
+D 0xA25A 0xA265 colores_A25A  un color por sprite, que p00:5BBC copia a ix+0x25, +5, +10...; lo leen p00:5BBC (11 bytes)
+F 0xA25A 8
+D 0xA265 0xA2AA byte_0d_de_cada_enemigo  69 bytes (el 0 no se usa): lo que p00:5B10 pone en ix+0x0D al crear un enemigo de ese tipo; lo leen p00:5B10 (69 bytes)
+F 0xA265 16
+D 0xA2AA 0xA2C2 grupos_de_sprites  12 punteros por ix+0 - 0xF0: grupos de sprites [dy][dx][patron][color] que p00:5E93 suma a la posicion; lo leen p00:5E87 (24 bytes)
+F 0xA2AA 2
+D 0xA2C2 0xA2CA grupo_A2C2  2 sprites [dy][dx][patron][color]; lo leen p00:5E96 (8 bytes)
+F 0xA2C2 4
+D 0xA2CA 0xA2D2 grupo_A2CA  2 sprites [dy][dx][patron][color]; lo leen p00:5E96 (8 bytes)
+F 0xA2CA 4
+D 0xA2D2 0xA2DA grupo_A2D2  2 sprites [dy][dx][patron][color]; lo leen p00:5E96 (8 bytes)
+F 0xA2D2 4
+D 0xA2DA 0xA2FA grupo_A2DA  8 sprites [dy][dx][patron][color]; lo leen p00:5E96 (32 bytes)
+F 0xA2DA 4
+D 0xA2FA 0xA31A grupo_A2FA  8 sprites [dy][dx][patron][color]; lo leen p00:5E96 (32 bytes)
+F 0xA2FA 4
+D 0xA31A 0xA33A grupo_A31A  8 sprites [dy][dx][patron][color]; lo leen p00:5E96 (32 bytes)
+F 0xA31A 4
+D 0xA33A 0xA36A grupo_A33A  12 sprites [dy][dx][patron][color]; lo leen p00:5E96 (48 bytes)
+F 0xA33A 4
+D 0xA36A 0xA39A grupo_A36A  12 sprites [dy][dx][patron][color]; lo leen p00:5E96 (48 bytes)
+F 0xA36A 4
+D 0xA39A 0xA3CA grupo_A39A  12 sprites [dy][dx][patron][color]; lo leen p00:5E96 (48 bytes)
+F 0xA39A 4
+D 0xA3CA 0xA40E tipo_al_aparecer  68 bytes, uno por tipo: el que p00:5DCA pone en ix+0 al aparecer el enemigo; lo leen p00:5DC9 (68 bytes)
+F 0xA3CA 16
 D 0xA40E 0xA5E4 sprites_A40E  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 10; lo leen p00:45EF (470 bytes)
 F 0xA40E 16
 D 0xA5E4 0xA6E3 sprites_A5E4  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 22; lo leen p00:45EF (255 bytes)
