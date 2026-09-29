@@ -147,8 +147,10 @@ L_60CC:
 	ret			;60f5
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x60f6..0x60fa  (4 bytes)
-DATA_60F6:
+; DATOS lado_de_la_salida: 4 bytes: lo que p01:60E5 pone en 0xC130 segun la
+;   salida especial por la que se entra (C, 0-3)
+;   0x60f6..0x60fa  (4 bytes)
+DATA_lado_de_la_salida:
 	defb 000h,002h,003h,001h	; 60f6
 
 ; ======================================================================
@@ -247,8 +249,10 @@ L_616B:
 	jp 042bch		;6184
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x6187..0x6192  (11 bytes)
-DATA_6187:
+; DATOS banco_15_en_a000: codigo que no llama nadie: di / pone el banco 15 en
+;   0xA000 y en 0xF0F3 / ei / ret
+;   0x6187..0x6192  (11 bytes)
+DATA_banco_15_en_a000:
 	defb 0f3h,03eh,00fh,032h,000h,0a0h,032h,0f3h,0f0h,0fbh,0c9h	; 6187  .>.2..2....
 
 ; ======================================================================
@@ -405,8 +409,10 @@ L_6271:
 	jp 042bch		;628c
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x628f..0x6298  (9 bytes)
-DATA_628F:
+; DATOS life_y_str: "LIFE" y "STR" (0xFF acaba cada uno): lo que p01:61F5 y
+;   p01:6203 escriben junto al enemigo en el panel
+;   0x628f..0x6298  (9 bytes)
+DATA_life_y_str:
 	defb 04ch,049h,046h,045h,0ffh,053h,054h,052h,0ffh	; 628f  LIFE.STR.
 
 ; ======================================================================
@@ -435,8 +441,10 @@ L_6298:
 	ret			;62bf
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x62c0..0x62c3  (3 bytes)
-DATA_62C0:
+; DATOS valores_de_c120: 3 bytes que p01:62AF copia a 0xC120-0xC122 al empezar
+;   la partida
+;   0x62c0..0x62c3  (3 bytes)
+DATA_valores_de_c120:
 	defb 003h,001h,001h	; 62c0
 
 ; ======================================================================
@@ -474,13 +482,21 @@ L_62F5:
 	jp 0479bh		;62ff
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x6302..0x6344  (66 bytes)
-DATA_6302:
+; DATOS rotulos_del_panel_1: [x][y] letras, 0xFE [x][y] sigue en otro sitio,
+;   0xFF acaba: MITCHEL, SHOT1 y SHOT2; p01:62DE
+;   0x6302..0x631c  (26 bytes)
+DATA_rotulos_del_panel_1:
 	defb 0b8h,020h,04dh,049h,054h,043h,048h,045h,04ch,0feh,0b0h,058h,053h,048h,04fh,054h	; 6302  . MITCHEL..XSHOT
-	defb 031h,0feh,0b0h,068h,053h,048h,04fh,054h,032h,0ffh,0b0h,028h,044h,041h,059h,053h	; 6312  1..hSHOT2..(DAYS
-	defb 0feh,0b0h,048h,04dh,050h,0feh,0b0h,050h,047h,04fh,04ch,044h,0feh,0b0h,030h,04ch	; 6322  ..HMP..PGOLD..0L
-	defb 049h,046h,045h,0feh,0b0h,038h,045h,058h,050h,0feh,0b0h,040h,04ch,045h,056h,045h	; 6332  IFE..8EXP..@LEVE
-	defb 04ch,0ffh	; 6342
+	defb 031h,0feh,0b0h,068h,053h,048h,04fh,054h,032h,0ffh	; 6312  1..hSHOT2.
+
+; ----------------------------------------------------------------------
+; DATOS rotulos_del_panel_2: lo mismo: DAYS, MP, GOLD, LIFE, EXP y LEVEL;
+;   p01:62C3
+;   0x631c..0x6344  (40 bytes)
+DATA_rotulos_del_panel_2:
+	defb 0b0h,028h,044h,041h,059h,053h,0feh,0b0h,048h,04dh,050h,0feh,0b0h,050h,047h,04fh	; 631c  .(DAYS..HMP..PGO
+	defb 04ch,044h,0feh,0b0h,030h,04ch,049h,046h,045h,0feh,0b0h,038h,045h,058h,050h,0feh	; 632c  LD..0LIFE..8EXP.
+	defb 0b0h,040h,04ch,045h,056h,045h,04ch,0ffh	; 633c  .@LEVEL.
 
 ; ======================================================================
 ; CODIGO 0x6344..0x64c8  (388 bytes)
@@ -708,8 +724,10 @@ L_64B5:
 	jp 04620h		;64c5
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x64c8..0x64d0  (8 bytes)
-DATA_64C8:
+; DATOS registros_del_vdp: 4 parejas [registro][valor] que p01:64B5 escribe
+;   con WRTVDP: R1 0x62, R5 0xEF, R6 0x1F, R11 0x01
+;   0x64c8..0x64d0  (8 bytes)
+DATA_registros_del_vdp:
 	defb 001h,062h,005h,0efh,006h,01fh,00bh,001h	; 64c8  .b......
 
 ; ======================================================================
@@ -907,7 +925,7 @@ DATA_tabla_65D6:
 	defb 052h,067h	; 65e8
 
 ; ======================================================================
-; CODIGO 0x65ea..0x676e  (388 bytes)
+; CODIGO 0x65ea..0x67ca  (480 bytes)
 ; ======================================================================
 
 
@@ -1120,21 +1138,37 @@ L_6752:
 	call 05488h		;6766
 	ld a,005h		;6769
 	jp L_663A		;676b
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x676e..0x67af  (65 bytes)
-DATA_676E:
-	defb 0cdh,03bh,065h,021h,01ch,0c1h,0cdh,0f9h,064h,0cdh,000h,065h,021h,011h,0c1h,0cdh	; 676e  .;e!....d..e!...
-	defb 0f9h,064h,0b7h,0c8h,021h,004h,0c1h,036h,000h,021h,000h,0c1h,046h,010h,010h,0e6h	; 677e  .d..!..6.!..F...
-	defb 030h,0c8h,0cdh,0f3h,067h,03eh,040h,032h,002h,0c1h,036h,003h,023h,070h,0c9h,036h	; 678e  0...g>@2..6.#p.6
-	defb 001h,03eh,000h,0cdh,090h,054h,03eh,006h,0cdh,09ch,05dh,0cdh,079h,0bah,0c3h,0bch	; 679e  .>...T>...].y...
-	defb 042h	; 67ae
-
-; ======================================================================
-; CODIGO 0x67af..0x67ca  (27 bytes)
-; ======================================================================
-
-
+L_676E:
+	call L_653B		;676e
+	ld hl,0c11ch		;6771
+	call L_64F9		;6774
+	call L_6500		;6777
+	ld hl,0c111h		;677a
+	call L_64F9		;677d
+	or a			;6780
+	ret z			;6781
+	ld hl,0c104h		;6782
+	ld (hl),000h		;6785
+	ld hl,0c100h		;6787
+	ld b,(hl)			;678a
+	djnz L_679D		;678b
+	and 030h		;678d
+	ret z			;678f
+	call L_67F3		;6790
+	ld a,040h		;6793
+	ld (0c102h),a		;6795
+	ld (hl),003h		;6798
+	inc hl			;679a
+	ld (hl),b			;679b
+	ret			;679c
+L_679D:
+	ld (hl),001h		;679d
+	ld a,000h		;679f
+	call 05490h		;67a1
+	ld a,006h		;67a4
+	call 05d9ch		;67a6
+	call 0ba79h		;67a9
+	jp 042bch		;67ac
 L_67AF:
 	ld hl,05054h		;67af
 	ld bc,03010h		;67b2
@@ -1150,12 +1184,14 @@ L_67AF:
 	jp 0490fh		;67c7
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x67ca..0x67d2  (8 bytes)
-DATA_67CA:
+; DATOS pausa: [x][y] "PAUSE" 0xFF: lo que escribe p01:67C4 al parar la
+;   partida
+;   0x67ca..0x67d2  (8 bytes)
+DATA_pausa:
 	defb 054h,058h,050h,041h,055h,053h,045h,0ffh	; 67ca  TXPAUSE.
 
 ; ======================================================================
-; CODIGO 0x67d2..0x67f3  (33 bytes)
+; CODIGO 0x67d2..0x6885  (179 bytes)
 ; ======================================================================
 
 
@@ -1178,19 +1214,36 @@ L_67E8:
 	pop hl			;67f0
 	pop de			;67f1
 	ret			;67f2
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x67f3..0x6821  (46 bytes)
-DATA_67F3:
-	defb 03ah,01fh,0c1h,0a7h,028h,021h,03ah,01ch,0c1h,01fh,00eh,010h,038h,01bh,01fh,00eh	; 67f3  :...(!:.....8...
-	defb 020h,038h,016h,01fh,00eh,050h,038h,011h,01fh,01fh,01fh,01fh,00eh,030h,038h,009h	; 6803   8...P8......08.
-	defb 01fh,030h,004h,00eh,040h,018h,002h,00eh,000h,079h,032h,01eh,0c1h,0c9h	; 6813  .0..@....y2...
-
-; ======================================================================
-; CODIGO 0x6821..0x6885  (100 bytes)
-; ======================================================================
-
-
+L_67F3:
+	ld a,(0c11fh)		;67f3
+	and a			;67f6
+	jr z,L_681A		;67f7
+	ld a,(0c11ch)		;67f9
+	rra			;67fc
+	ld c,010h		;67fd
+	jr c,L_681C		;67ff
+	rra			;6801
+	ld c,020h		;6802
+	jr c,L_681C		;6804
+	rra			;6806
+	ld c,050h		;6807
+	jr c,L_681C		;6809
+	rra			;680b
+	rra			;680c
+	rra			;680d
+	rra			;680e
+	ld c,030h		;680f
+	jr c,L_681C		;6811
+	rra			;6813
+	jr nc,L_681A		;6814
+	ld c,040h		;6816
+	jr L_681C		;6818
+L_681A:
+	ld c,000h		;681a
+L_681C:
+	ld a,c			;681c
+	ld (0c11eh),a		;681d
+	ret			;6820
 L_6821:
 	ld a,(0c125h)		;6821
 	cp 08ah		;6824
@@ -1439,8 +1492,10 @@ L_697F:
 	ret			;69cb
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x69cc..0x69d4  (8 bytes)
-DATA_69CC:
+; DATOS demostraciones: 2 entradas de 4 bytes (0xC10C alterna):
+;   [pantalla][0xC103][palabra que lee p01:69B7]; p01:6995
+;   0x69cc..0x69d4  (8 bytes)
+DATA_demostraciones:
 	defb 010h,05ah,031h,0bch,054h,000h,0b7h,0bch	; 69cc  .Z1.T...
 
 ; ======================================================================
@@ -1520,8 +1575,10 @@ L_6A3E:
 	jp 05a69h		;6a4a
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x6a4d..0x6a52  (5 bytes)
-DATA_6A4D:
+; DATOS posiciones_6A4D: 5 bytes que p01:6A3F lee de dos en dos segun B (se
+;   solapan): [x][y] para p00:5A69
+;   0x6a4d..0x6a52  (5 bytes)
+DATA_posiciones_6A4D:
 	defb 010h,058h,0a0h,058h,010h	; 6a4d
 
 ; ======================================================================
@@ -1602,8 +1659,10 @@ L_6AC9:
 	ret			;6acd
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x6ace..0x6ad3  (5 bytes)
-DATA_6ACE:
+; DATOS posiciones_6ACE: 5 bytes, uno por E (0-4): la x que p01:6AB4 da a
+;   p00:5A69 en dos alturas (0x18 y 0x98)
+;   0x6ace..0x6ad3  (5 bytes)
+DATA_posiciones_6ACE:
 	defb 074h,014h,05ch,02ch,044h	; 6ace
 
 ; ======================================================================
@@ -1666,8 +1725,10 @@ L_6AFF:
 	jr $-80		;6b19
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x6b1b..0x6b30  (21 bytes)
-DATA_6B1B:
+; DATOS grupos_6B1B: grupos [cuantos] y ternas [x][y][y2] que p01:6AFA pinta
+;   con p00:5A69 (C = 0x40)
+;   0x6b1b..0x6b30  (21 bytes)
+DATA_grupos_6B1B:
 	defb 001h,09ch,018h,098h,000h,000h,000h,002h,054h,028h,088h,084h,028h,088h,002h,03ch	; 6b1b  ........T(..(..<
 	defb 018h,098h,06ch,018h,098h	; 6b2b
 
@@ -1821,9 +1882,18 @@ L_6C21:
 	ret			;6c2c
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x6c2d..0x6c35  (8 bytes)
-DATA_6C2D:
-	defb 003h,002h,000h,001h,001h,004h,007h,00ah	; 6c2d  ........
+; DATOS direccion_6C2D: 4 bytes: la nueva direccion segun la de ahora
+;   (p01:6C19)
+;   0x6c2d..0x6c31  (4 bytes)
+DATA_direccion_6C2D:
+	defb 003h,002h,000h,001h	; 6c2d
+
+; ----------------------------------------------------------------------
+; DATOS pose_por_direccion: 4 bytes: la pose (0xC310) de cada direccion
+;   (p01:6C22)
+;   0x6c31..0x6c35  (4 bytes)
+DATA_pose_por_direccion:
+	defb 001h,004h,007h,00ah	; 6c31
 
 ; ======================================================================
 ; CODIGO 0x6c35..0x6d1e  (233 bytes)
@@ -1963,8 +2033,9 @@ L_6D18:
 	ret			;6d1d
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x6d1e..0x6d26  (8 bytes)
-DATA_6D1E:
+; DATOS pasos_6D1E: 4 parejas [dx][dy] segun 0xC164 (p01:6CAF)
+;   0x6d1e..0x6d26  (8 bytes)
+DATA_pasos_6D1E:
 	defb 0fch,000h,004h,000h,000h,0fch,000h,004h	; 6d1e  ........
 
 ; ======================================================================
@@ -2056,8 +2127,10 @@ L_6D8B:
 	ret			;6d98
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x6d99..0x6d9d  (4 bytes)
-DATA_6D99:
+; DATOS pose_de_cada_direccion: 4 bytes: la pose (0xC310) segun la direccion
+;   0xC306 (p01:6D8E)
+;   0x6d99..0x6d9d  (4 bytes)
+DATA_pose_de_cada_direccion:
 	defb 001h,004h,006h,009h	; 6d99
 
 ; ======================================================================
@@ -2171,8 +2244,10 @@ L_6E58:
 	ret			;6e71
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x6e72..0x6e76  (4 bytes)
-DATA_6E72:
+; DATOS paso_de_la_pose: 4 bytes que p01:6E61 suma a 3*direccion para la pose
+;   (0xC310)
+;   0x6e72..0x6e76  (4 bytes)
+DATA_paso_de_la_pose:
 	defb 000h,001h,002h,001h	; 6e72
 
 ; ======================================================================
@@ -2456,8 +2531,9 @@ L_7011:
 	ret			;7025
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7026..0x702e  (8 bytes)
-DATA_7026:
+; DATOS pasos_7026: 4 parejas [dx][dy] segun C (p01:6FD4)
+;   0x7026..0x702e  (8 bytes)
+DATA_pasos_7026:
 	defb 0f1h,0f8h,00fh,0f8h,0f8h,0f1h,0f8h,00fh	; 7026  ........
 
 ; ======================================================================
@@ -2786,12 +2862,19 @@ L_721B:
 	ret			;721d
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x721e..0x729e  (128 bytes)
-DATA_721E:
+; DATOS razon_para_apuntar: 8 filas de 8: la razon entre las dos distancias en
+;   32avos (la diagonal es 0x20); p01:71ED, y p00:5235 desde 0x7230 o 0x7250
+;   0x721e..0x725e  (64 bytes)
+DATA_razon_para_apuntar:
 	defb 020h,008h,004h,003h,002h,002h,001h,001h,038h,020h,015h,00fh,00ch,009h,008h,007h	; 721e   .......8 ......
 	defb 03bh,02bh,020h,019h,014h,010h,00eh,00ch,03dh,031h,027h,020h,01ah,016h,013h,011h	; 722e  ;+ .....=1' ....
 	defb 03dh,034h,02ch,025h,020h,01ch,018h,015h,03eh,036h,02fh,029h,024h,020h,01ch,019h	; 723e  =4,% ...>6/)$ ..
 	defb 03eh,038h,032h,02ch,028h,023h,020h,01dh,03eh,039h,034h,02fh,02ah,026h,023h,020h	; 724e  >82,(# .>94/*&#
+
+; ----------------------------------------------------------------------
+; DATOS cuarto_de_seno: 64 bytes: un cuarto de seno de 0 a 0xFF; p01:718E
+;   0x725e..0x729e  (64 bytes)
+DATA_cuarto_de_seno:
 	defb 000h,006h,00ch,012h,019h,01fh,026h,02ch,032h,038h,03eh,044h,04ah,050h,056h,05ch	; 725e  ......&,28>DJPV\
 	defb 062h,068h,06dh,073h,079h,07eh,084h,089h,08eh,093h,099h,09eh,0a2h,0a7h,0ach,0b1h	; 726e  bhmsy~..........
 	defb 0b5h,0b9h,0beh,0c2h,0c6h,0cah,0ceh,0d1h,0d5h,0d8h,0dch,0dfh,0e2h,0e5h,0e7h,0eah	; 727e  ................
@@ -2991,8 +3074,10 @@ L_73CC:
 	ret			;73cf
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x73d0..0x73dd  (13 bytes)
-DATA_73D0:
+; DATOS byte_por_juego_de_dibujos: un byte por juego de dibujos (0xC148, 13):
+;   lo que p01:7332 pone en 0xE802
+;   0x73d0..0x73dd  (13 bytes)
+DATA_byte_por_juego_de_dibujos:
 	defb 05fh,05fh,05fh,05fh,05fh,08fh,08fh,05fh,08fh,05fh,05fh,05fh,05fh	; 73d0  _____.._.____
 
 ; ======================================================================
@@ -3323,10 +3408,18 @@ L_755F:
 	jp L_755C		;75d3
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x75d6..0x75ee  (24 bytes)
-DATA_75D6:
-	defb 0f8h,000h,008h,000h,000h,0f8h,000h,008h,008h,001h,00ch,042h,008h,001h,00ch,048h	; 75d6  ...........B...H
-	defb 008h,001h,00ch,042h,008h,001h,00ch,049h	; 75e6  ...B...I
+; DATOS salida_de_lo_lanzado: 4 parejas [dx][dy] segun la direccion 0xC306:
+;   desde donde sale lo que lanza Mitchel (p01:75B9)
+;   0x75d6..0x75de  (8 bytes)
+DATA_salida_de_lo_lanzado:
+	defb 0f8h,000h,008h,000h,000h,0f8h,000h,008h	; 75d6  ........
+
+; ----------------------------------------------------------------------
+; DATOS fichas_de_lo_lanzado: 4 entradas de 4 bytes que p01:759E copia a la
+;   ficha de lo lanzado segun 0xC380 (1-4)
+;   0x75de..0x75ee  (16 bytes)
+DATA_fichas_de_lo_lanzado:
+	defb 008h,001h,00ch,042h,008h,001h,00ch,048h,008h,001h,00ch,042h,008h,001h,00ch,049h	; 75de  ...B...H...B...I
 
 ; ======================================================================
 ; CODIGO 0x75ee..0x7613  (37 bytes)
@@ -3452,8 +3545,10 @@ L_76C6:
 	ret			;76cb
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x76cc..0x76d0  (4 bytes)
-DATA_76CC:
+; DATOS cuadro_del_boomerang: 4 bytes: el cuadro (ix+0x0B) segun el paso
+;   (p01:76A6)
+;   0x76cc..0x76d0  (4 bytes)
+DATA_cuadro_del_boomerang:
 	defb 008h,010h,018h,020h	; 76cc
 
 ; ======================================================================
@@ -3553,8 +3648,10 @@ L_7766:
 	ret			;7772
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7773..0x7777  (4 bytes)
-DATA_7773:
+; DATOS direccion_contraria: 4 bytes: la direccion contraria a cada una
+;   (p01:776A)
+;   0x7773..0x7777  (4 bytes)
+DATA_direccion_contraria:
 	defb 003h,002h,000h,001h	; 7773
 
 ; ======================================================================
@@ -3613,10 +3710,18 @@ L_77AE:
 	ret			;77d4
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x77d5..0x77f5  (32 bytes)
-DATA_77D5:
+; DATOS golpes_77D5: 12 palabras segun 0xC301: lo que p01:7786 pone en 0xC38C
+;   y 0xC38E
+;   0x77d5..0x77ed  (24 bytes)
+DATA_golpes_77D5:
 	defb 002h,04ch,001h,042h,001h,042h,002h,04ch,001h,042h,002h,04ch,001h,042h,001h,042h	; 77d5  .L.B.B.L.B.L.B.B
-	defb 001h,048h,001h,042h,001h,048h,001h,00eh,0f0h,000h,010h,000h,000h,0f0h,000h,010h	; 77e5  .H.B.H..........
+	defb 001h,048h,001h,042h,001h,048h,001h,00eh	; 77e5  .H.B.H..
+
+; ----------------------------------------------------------------------
+; DATOS pasos_77ED: 4 parejas [dx][dy] segun la direccion (p01:77BF)
+;   0x77ed..0x77f5  (8 bytes)
+DATA_pasos_77ED:
+	defb 0f0h,000h,010h,000h,000h,0f0h,000h,010h	; 77ed  ........
 
 ; ======================================================================
 ; CODIGO 0x77f5..0x78a5  (176 bytes)
@@ -3808,8 +3913,10 @@ L_78DA:
 	jp 04eb5h		;78e7
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x78ea..0x78ee  (4 bytes)
-DATA_78EA:
+; DATOS dibujos_del_suceso_2A: 2x2 numeros de dibujo que p01:78E7 pinta en
+;   (0x50, 0x30) (el suceso 0x2A)
+;   0x78ea..0x78ee  (4 bytes)
+DATA_dibujos_del_suceso_2A:
 	defb 0c0h,0c1h,0c2h,0c3h	; 78ea
 
 ; ======================================================================
@@ -4100,8 +4207,9 @@ L_7AB4:
 	jp L_7746		;7ab8
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7abb..0x7ac3  (8 bytes)
-DATA_7ABB:
+; DATOS pasos_7ABB: 4 parejas [dx][dy] como las de p01:77ED; no las lee nadie
+;   0x7abb..0x7ac3  (8 bytes)
+DATA_pasos_7ABB:
 	defb 0f0h,000h,010h,000h,000h,0f0h,000h,010h	; 7abb  ........
 
 ; ======================================================================
@@ -4357,10 +4465,17 @@ no_hay_mp:
 	jp 0490fh		;7ca1
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7ca4..0x7cb5  (17 bytes)
-DATA_7CA4:
-	defb 018h,0b8h,04dh,050h,060h,03ch,06ah,082h,079h,068h,088h,03eh,0ffh,03eh,009h,018h	; 7ca4  ..MP`<j.yh.>.>..
-	defb 06ch	; 7cb4
+; DATOS no_hay_mp: [x][y] "MPが たりません。" 0xFF: el aviso de p01:7C9E
+;   0x7ca4..0x7cb1  (13 bytes)
+DATA_no_hay_mp:
+	defb 018h,0b8h,04dh,050h,060h,03ch,06ah,082h,079h,068h,088h,03eh,0ffh	; 7ca4  ..MP`<j.yh.>.
+
+; ----------------------------------------------------------------------
+; DATOS codigo_7CB1: codigo que no llama nadie: ld a,9 / jr 0x7D21 (como
+;   p01:7D0A sin mirar la pantalla)
+;   0x7cb1..0x7cb5  (4 bytes)
+DATA_codigo_7CB1:
+	defb 03eh,009h,018h,06ch	; 7cb1
 
 ; ======================================================================
 ; CODIGO 0x7cb5..0x7e01  (332 bytes)
@@ -4564,8 +4679,10 @@ L_7DFB:
 	jp 046cfh		;7dfe
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7e01..0x7e1d  (28 bytes)
-DATA_7E01:
+; DATOS paleta_7E01: [color][RB][G] ... 0xFF (p00:46CF): los colores que
+;   p01:7DFB cambia en las pantallas 0x52, 0x53, 0x63-0x66 y 0x6B
+;   0x7e01..0x7e1d  (28 bytes)
+DATA_paleta_7E01:
 	defb 004h,000h,000h,005h,000h,000h,006h,000h,000h,007h,000h,000h,00ah,000h,000h,00bh	; 7e01  ................
 	defb 000h,000h,00ch,000h,000h,00dh,000h,000h,00fh,000h,000h,0ffh	; 7e11  ............
 
@@ -4736,8 +4853,9 @@ L_7F0F:
 	jr L_7F0F		;7f18
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7f1a..0x7f1b  (1 bytes)
-DATA_7F1A:
+; DATOS ret_suelto: un ret al que no se llega (p01:7F14 salta por encima)
+;   0x7f1a..0x7f1b  (1 bytes)
+DATA_ret_suelto:
 	defb 0c9h	; 7f1a
 
 ; ======================================================================
@@ -4756,8 +4874,10 @@ L_7F1B:
 	ret			;7f22
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7f23..0x7f4e  (43 bytes)
-DATA_7F23:
+; DATOS ya_se_dio: [conversacion][direccion de RAM] ... 0: si el byte de RAM
+;   no es 0 (ya se tiene el objeto), p01:7F08 no deja empezar esa conversacion
+;   0x7f23..0x7f4e  (43 bytes)
+DATA_ya_se_dio:
 	defb 007h,05fh,0c3h,00bh,04bh,0c3h,012h,056h,0c3h,017h,06ah,0c1h,013h,056h,0c3h,014h	; 7f23  ._..K..V..j..V..
 	defb 056h,0c3h,015h,060h,0c3h,01bh,069h,0c1h,01dh,04dh,0c3h,020h,051h,0c3h,026h,059h	; 7f33  V..`..i..M. Q.&Y
 	defb 0c3h,028h,058h,0c3h,02fh,06fh,0c1h,031h,04dh,0c3h,000h	; 7f43  .(X./o.1M..

@@ -103,6 +103,40 @@ C 0x7ECD la 0x2C, en la pantalla 0x60
 L 0x66DD continuar
 C 0x66E8 F5 (bit 2 de 0xC112): CONTINUE
 C 0x66FF una vez mas (lo mira p06:A85C para el final)
+D 0x60F6 0x60FA lado_de_la_salida  4 bytes: lo que p01:60E5 pone en 0xC130 segun la salida especial por la que se entra (C, 0-3)
+D 0x6187 0x6192 banco_15_en_a000  codigo que no llama nadie: di / pone el banco 15 en 0xA000 y en 0xF0F3 / ei / ret
+D 0x628F 0x6298 life_y_str  "LIFE" y "STR" (0xFF acaba cada uno): lo que p01:61F5 y p01:6203 escriben junto al enemigo en el panel
+D 0x62C0 0x62C3 valores_de_c120  3 bytes que p01:62AF copia a 0xC120-0xC122 al empezar la partida
+D 0x6302 0x631C rotulos_del_panel_1  [x][y] letras, 0xFE [x][y] sigue en otro sitio, 0xFF acaba: MITCHEL, SHOT1 y SHOT2; p01:62DE
+D 0x631C 0x6344 rotulos_del_panel_2  lo mismo: DAYS, MP, GOLD, LIFE, EXP y LEVEL; p01:62C3
+D 0x64C8 0x64D0 registros_del_vdp  4 parejas [registro][valor] que p01:64B5 escribe con WRTVDP: R1 0x62, R5 0xEF, R6 0x1F, R11 0x01
+D 0x67CA 0x67D2 pausa  [x][y] "PAUSE" 0xFF: lo que escribe p01:67C4 al parar la partida
+D 0x69CC 0x69D4 demostraciones  2 entradas de 4 bytes (0xC10C alterna): [pantalla][0xC103][palabra que lee p01:69B7]; p01:6995
+D 0x6A4D 0x6A52 posiciones_6A4D  5 bytes que p01:6A3F lee de dos en dos segun B (se solapan): [x][y] para p00:5A69
+D 0x6ACE 0x6AD3 posiciones_6ACE  5 bytes, uno por E (0-4): la x que p01:6AB4 da a p00:5A69 en dos alturas (0x18 y 0x98)
+D 0x6B1B 0x6B30 grupos_6B1B  grupos [cuantos] y ternas [x][y][y2] que p01:6AFA pinta con p00:5A69 (C = 0x40)
+D 0x6C2D 0x6C31 direccion_6C2D  4 bytes: la nueva direccion segun la de ahora (p01:6C19)
+D 0x6C31 0x6C35 pose_por_direccion  4 bytes: la pose (0xC310) de cada direccion (p01:6C22)
+D 0x6D1E 0x6D26 pasos_6D1E  4 parejas [dx][dy] segun 0xC164 (p01:6CAF)
+D 0x6D99 0x6D9D pose_de_cada_direccion  4 bytes: la pose (0xC310) segun la direccion 0xC306 (p01:6D8E)
+D 0x6E72 0x6E76 paso_de_la_pose  4 bytes que p01:6E61 suma a 3*direccion para la pose (0xC310)
+D 0x7026 0x702E pasos_7026  4 parejas [dx][dy] segun C (p01:6FD4)
+D 0x721E 0x725E razon_para_apuntar  8 filas de 8: la razon entre las dos distancias en 32avos (la diagonal es 0x20); p01:71ED, y p00:5235 desde 0x7230 o 0x7250
+D 0x725E 0x729E cuarto_de_seno  64 bytes: un cuarto de seno de 0 a 0xFF; p01:718E
+D 0x73D0 0x73DD byte_por_juego_de_dibujos  un byte por juego de dibujos (0xC148, 13): lo que p01:7332 pone en 0xE802
+D 0x75D6 0x75DE salida_de_lo_lanzado  4 parejas [dx][dy] segun la direccion 0xC306: desde donde sale lo que lanza Mitchel (p01:75B9)
+D 0x75DE 0x75EE fichas_de_lo_lanzado  4 entradas de 4 bytes que p01:759E copia a la ficha de lo lanzado segun 0xC380 (1-4)
+D 0x76CC 0x76D0 cuadro_del_boomerang  4 bytes: el cuadro (ix+0x0B) segun el paso (p01:76A6)
+D 0x7773 0x7777 direccion_contraria  4 bytes: la direccion contraria a cada una (p01:776A)
+D 0x77D5 0x77ED golpes_77D5  12 palabras segun 0xC301: lo que p01:7786 pone en 0xC38C y 0xC38E
+D 0x77ED 0x77F5 pasos_77ED  4 parejas [dx][dy] segun la direccion (p01:77BF)
+D 0x78EA 0x78EE dibujos_del_suceso_2A  2x2 numeros de dibujo que p01:78E7 pinta en (0x50, 0x30) (el suceso 0x2A)
+D 0x7ABB 0x7AC3 pasos_7ABB  4 parejas [dx][dy] como las de p01:77ED; no las lee nadie
+D 0x7CA4 0x7CB1 no_hay_mp  [x][y] "MPが たりません。" 0xFF: el aviso de p01:7C9E
+D 0x7CB1 0x7CB5 codigo_7CB1  codigo que no llama nadie: ld a,9 / jr 0x7D21 (como p01:7D0A sin mirar la pantalla)
+D 0x7E01 0x7E1D paleta_7E01  [color][RB][G] ... 0xFF (p00:46CF): los colores que p01:7DFB cambia en las pantallas 0x52, 0x53, 0x63-0x66 y 0x6B
+D 0x7F1A 0x7F1B ret_suelto  un ret al que no se llega (p01:7F14 salta por encima)
+D 0x7F23 0x7F4E ya_se_dio  [conversacion][direccion de RAM] ... 0: si el byte de RAM no es 0 (ya se tiene el objeto), p01:7F08 no deja empezar esa conversacion
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x611F 0x6143 salidas_especiales  12 salidas especiales (0xF0-0xFB): pantalla de llegada y punto (x, y) donde aparece Mitchel; p01:60FA con 0x611F + 3*(n-0xF0); lo leen p01:6109 (36 bytes)

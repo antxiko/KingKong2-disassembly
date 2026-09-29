@@ -12,18 +12,18 @@
 #
 # Este fichero lo regenera `make semillas` (tools/bancos.py escribe).
 0x4050   # p12:B6F4 call
-0x4056   # p12:BA7E call
+0x4056   # p06:BAD8 call
 0x4062   # p12:B919 jp
 0x4068   # p12:B777 call
-0x406E   # p12:B9F0 call
+0x406E   # p06:BA96 call
 0x4074   # p12:BA52 call
 0x407A   # p06:ABBD call
 0x4080   # p12:BA67 call
-0x4086   # p12:BA90 jp
+0x4086   # p06:BADB jp
 0x408C   # p06:A8B1 call
 0x4092   # p12:BD81 jp
 0x4098   # p15:BF02 call
-0x409E   # p06:AB86 call
+0x409E   # p06:B970 call
 0x40A4   # p12:BBC3 call
 0x40B0   # p12:BBC6 call
 0x40B6   # p12:BBCC call
@@ -36,8 +36,8 @@
 0x40E0   # p12:BE3D call
 0x40E6   # p06:A870 call
 0x40EC   # p12:BF24 call
-0x40F2   # p06:AAA5 call
-0x40F8   # p06:A82A call
+0x40F2   # p06:B98D call
+0x40F8   # p06:BA83 call
 0x40FE   # p06:AAFA call
 0x4104   # p06:A6A9 jp
 0x410A   # p06:A66A call
@@ -69,7 +69,7 @@
 0x41AC   # p06:B979 call
 0x41B2   # p06:B99C call
 0x41B8   # p06:A842 call
-0x41C4   # p06:BC02 jp
+0x41C4   # p06:BAA2 call
 0x41CA   # p15:BE15 call
 0x41D6   # p06:A6EA call
 0x41DC   # p09:BA0F jp cc
@@ -87,23 +87,21 @@
 0x425F   # p01:78A2 call
 0x4260   # p02:8672 jp
 0x4269   # cabecera AB: INIT
+0x42BC   # p01:67AC jp
 0x42FF   # p01:61E0 call
-0x4311   # p02:8BE3 jp
-0x4318   # p02:8BDF call
+0x4308   # p02:876C call
+0x4311   # p02:8730 call
+0x4318   # p02:8736 call
 0x4333   # p02:8536 call
 0x43B6   # p02:853F jp
 0x4450   # p01:62C9 call
 0x454C   # p02:824B call
-0x4867   # p01:6019 call
 0x490B   # p01:62C6 call
-0x490F   # p01:62E1 call
 0x4913   # p01:66F1 call
-0x4952   # p01:639F call
 0x4D03   # p00:4CE1 entrada 0 de la tabla de 0x4CE4 (call 0x425F en 0x4CE1)
 0x4D1F   # p00:4CE1 entrada 1 de la tabla de 0x4CE4 (call 0x425F en 0x4CE1)
 0x4D2A   # p00:4CE1 entrada 2 de la tabla de 0x4CE4 (call 0x425F en 0x4CE1)
 0x4D35   # p00:4CE1 entrada 3 de la tabla de 0x4CE4 (call 0x425F en 0x4CE1)
-0x4EB5   # p01:78E7 jp
 0x5046   # p01:755C jp
 0x507A   # p01:77F9 jp cc
 0x50EA   # p01:7C90 call
@@ -112,7 +110,7 @@
 0x538D   # p01:6729 call
 0x539E   # p00:5C36 entrada 1 de la tabla de 0x5C39 (call 0x425F en 0x5C36)
 0x5488   # p01:6766 call
-0x5490   # p01:66D8 call
+0x5490   # p01:67A1 call
 0x54BD   # p01:66F4 call
 0x54E3   # p01:6492 call
 0x5A2A   # p01:682B call cc
@@ -124,7 +122,7 @@
 0x5D72   # p00:5C36 entrada 5 de la tabla de 0x5C39 (call 0x425F en 0x5C36)
 0x5D88   # p00:5C36 entrada 3 de la tabla de 0x5C39 (call 0x425F en 0x5C36)
 0x5D91   # p00:5C36 entrada 2 de la tabla de 0x5C39 (call 0x425F en 0x5C36)
-0x5D9C   # p01:69DA call
+0x5D9C   # p01:67A6 call
 0x5DA8   # p01:7AA1 call
 0x5E4F   # p01:686F jp cc
 0x5F3F   # p01:6614 call

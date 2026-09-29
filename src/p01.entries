@@ -36,6 +36,7 @@
 0x66DD   # p01:65D3 entrada 7 de la tabla de 0x65D6 (call 0x425F en 0x65D3)
 0x6746   # p01:65D3 entrada 8 de la tabla de 0x65D6 (call 0x425F en 0x65D3)
 0x6752   # p01:65D3 entrada 9 de la tabla de 0x65D6 (call 0x425F en 0x65D3)
+0x676E   # a mano: p01:65CF: ld hl,0x676E / push hl (vuelta de lo que reparte p01:65D3)
 0x6821   # p00:5CB3 call
 0x6853   # p00:5D29 call
 0x690D   # p01:6882 entrada 13 de la tabla de 0x6885 (call 0x425F en 0x6882)

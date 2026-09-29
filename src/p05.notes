@@ -63,8 +63,208 @@ D 0x97C3 0x9A63 dibujos_97C3  21 dibujos de 8x8 a 4 bits para la hoja de la pagi
 F 0x97C3 4
 D 0x9A63 0x9B23 dibujos_9A63  6 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 37); los sube p00:48A6 por la lista 0x5530; lo leen p00:48A6 (192 bytes)
 F 0x9A63 4
-D 0x9B23 0x9D43 dibujos_9B23  17 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 123); los sube p00:48A6 por la lista 0x5530; lo leen p00:48A6 (544 bytes)
+D 0x9B23 0x9D93 dibujos_9B23  17 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 123); los sube p00:48A6 por la lista 0x5530; se solapan 2 bloques (0x9B23-0x9D43, 0x9CC3-0x9D93); lo leen p00:48A6, p00:510E (624 bytes)
 F 0x9B23 4
+D 0x9D93 0x9D96 cuadro_9D93  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9D93 3
+D 0x9D96 0x9D99 cuadro_9D96  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9D96 3
+D 0x9D99 0x9D9C cuadro_9D99  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9D99 3
+D 0x9D9C 0x9D9F cuadro_9D9C  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9D9C 3
+D 0x9D9F 0x9DA2 cuadro_9D9F  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9D9F 3
+D 0x9DA2 0x9DA5 cuadro_9DA2  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9DA2 3
+D 0x9DA5 0x9DA8 cuadro_9DA5  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9DA5 3
+D 0x9DA8 0x9DAB cuadro_9DA8  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9DA8 3
+D 0x9DAB 0x9DAE cuadro_9DAB  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9DAB 3
+D 0x9DAE 0x9DB1 cuadro_9DAE  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9DAE 3
+D 0x9DB1 0x9DB4 cuadro_9DB1  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9DB1 3
+D 0x9DB4 0x9DB7 cuadro_9DB4  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9DB4 3
+D 0x9DB7 0x9DBA cuadro_9DB7  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9DB7 3
+D 0x9DBA 0x9DBD cuadro_9DBA  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9DBA 3
+D 0x9DBD 0x9DC0 cuadro_9DBD  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9DBD 3
+D 0x9DC0 0x9DC3 cuadro_9DC0  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9DC0 3
+D 0x9DC3 0x9DC6 cuadro_9DC3  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9DC3 3
+D 0x9DC6 0x9DC9 cuadro_9DC6  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9DC6 3
+D 0x9DC9 0x9DCC cuadro_9DC9  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9DC9 3
+D 0x9DCC 0x9DCF cuadro_9DCC  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9DCC 3
+D 0x9DCF 0x9DD2 cuadro_9DCF  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9DCF 3
+D 0x9DD2 0x9DD5 cuadro_9DD2  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9DD2 3
+D 0x9DD5 0x9DD8 cuadro_9DD5  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9DD5 3
+D 0x9DD8 0x9DDB cuadro_9DD8  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9DD8 3
+D 0x9DDB 0x9DE0 cuadro_9DDB  cuadro de enemigo: plantilla 2 y 4 patrones; lo leen p00:5123 (5 bytes)
+F 0x9DDB 3
+D 0x9DE0 0x9DE5 cuadro_9DE0  cuadro de enemigo: plantilla 2 y 4 patrones; lo leen p00:5123 (5 bytes)
+F 0x9DE0 3
+D 0x9DE5 0x9DEA cuadro_9DE5  cuadro de enemigo: plantilla 2 y 4 patrones; lo leen p00:5123 (5 bytes)
+F 0x9DE5 3
+D 0x9DEA 0x9DEF cuadro_9DEA  cuadro de enemigo: plantilla 2 y 4 patrones; lo leen p00:5123 (5 bytes)
+F 0x9DEA 3
+D 0x9DEF 0x9DF4 cuadro_9DEF  cuadro de enemigo: plantilla 2 y 4 patrones; lo leen p00:5123 (5 bytes)
+F 0x9DEF 3
+D 0x9DF4 0x9DF9 cuadro_9DF4  cuadro de enemigo: plantilla 2 y 4 patrones; lo leen p00:5123 (5 bytes)
+F 0x9DF4 3
+D 0x9DF9 0x9DFE cuadro_9DF9  cuadro de enemigo: plantilla 2 y 4 patrones; lo leen p00:5123 (5 bytes)
+F 0x9DF9 3
+D 0x9DFE 0x9E03 cuadro_9DFE  cuadro de enemigo: plantilla 2 y 4 patrones; lo leen p00:5123 (5 bytes)
+F 0x9DFE 3
+D 0x9E03 0x9E08 cuadro_9E03  cuadro de enemigo: plantilla 1 y 4 patrones; lo leen p00:5123 (5 bytes)
+F 0x9E03 3
+D 0x9E08 0x9E0D cuadro_9E08  cuadro de enemigo: plantilla 1 y 4 patrones; lo leen p00:5123 (5 bytes)
+F 0x9E08 3
+D 0x9E0D 0x9E12 cuadro_9E0D  cuadro de enemigo: plantilla 1 y 4 patrones; lo leen p00:5123 (5 bytes)
+F 0x9E0D 3
+D 0x9E12 0x9E1B cuadro_9E12  cuadro de enemigo: plantilla 3 y 8 patrones; lo leen p00:5123 (9 bytes)
+F 0x9E12 3
+D 0x9E1B 0x9E24 cuadro_9E1B  cuadro de enemigo: plantilla 3 y 8 patrones; lo leen p00:5123 (9 bytes)
+F 0x9E1B 3
+D 0x9E24 0x9E2D cuadro_9E24  cuadro de enemigo: plantilla 3 y 8 patrones; lo leen p00:5123 (9 bytes)
+F 0x9E24 3
+D 0x9E2D 0x9E30 cuadro_9E2D  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9E2D 3
+D 0x9E30 0x9E33 cuadro_9E30  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9E30 3
+D 0x9E33 0x9E36 cuadro_9E33  cuadro de enemigo: plantilla 4 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9E33 3
+D 0x9E36 0x9E39 cuadro_9E36  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9E36 3
+D 0x9E39 0x9E3C cuadro_9E39  cuadro de enemigo: plantilla 4 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9E39 3
+D 0x9E3C 0x9E3F cuadro_9E3C  cuadro de enemigo: plantilla 4 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9E3C 3
+D 0x9E3F 0x9E42 cuadro_9E3F  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9E3F 3
+D 0x9E42 0x9E45 cuadro_9E42  cuadro de enemigo: plantilla 4 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9E42 3
+D 0x9E45 0x9E48 cuadro_9E45  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9E45 3
+D 0x9E48 0x9E4B cuadro_9E48  cuadro de enemigo: plantilla 4 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9E48 3
+D 0x9E4B 0x9E4E cuadro_9E4B  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9E4B 3
+D 0x9E4E 0x9E51 cuadro_9E4E  cuadro de enemigo: plantilla 4 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9E4E 3
+D 0x9E51 0x9E54 cuadro_9E51  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9E51 3
+D 0x9E54 0x9E57 cuadro_9E54  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9E54 3
+D 0x9E57 0x9E5A cuadro_9E57  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9E57 3
+D 0x9E5A 0x9E5D cuadro_9E5A  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9E5A 3
+D 0x9E5D 0x9E60 cuadro_9E5D  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9E5D 3
+D 0x9E60 0x9E63 cuadro_9E60  cuadro de enemigo: plantilla 4 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9E60 3
+D 0x9E63 0x9E66 cuadro_9E63  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9E63 3
+D 0x9E66 0x9E69 cuadro_9E66  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9E66 3
+D 0x9E69 0x9E6C cuadro_9E69  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9E69 3
+D 0x9E6C 0x9E6F cuadro_9E6C  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9E6C 3
+D 0x9E6F 0x9E72 cuadro_9E6F  cuadro de enemigo: plantilla 4 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9E6F 3
+D 0x9E72 0x9E75 cuadro_9E72  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9E72 3
+D 0x9E75 0x9E78 cuadro_9E75  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9E75 3
+D 0x9E78 0x9E81 cuadro_9E78  cuadro de enemigo: plantilla 3 y 8 patrones; lo leen p00:5123 (9 bytes)
+F 0x9E78 3
+D 0x9E81 0x9E99 cuadro_9E81  cuadro de enemigo: 8 sprites [dy][dx][patron]; lo leen p00:5123 (24 bytes)
+F 0x9E81 3
+D 0x9E99 0x9E9E cuadro_9E99  cuadro de enemigo: plantilla 1 y 4 patrones; lo leen p00:5123 (5 bytes)
+F 0x9E99 3
+D 0x9E9E 0x9EA3 cuadro_9E9E  cuadro de enemigo: plantilla 1 y 4 patrones; lo leen p00:5123 (5 bytes)
+F 0x9E9E 3
+D 0x9EA3 0x9EAC cuadro_9EA3  cuadro de enemigo: plantilla 3 y 8 patrones; lo leen p00:5123 (9 bytes)
+F 0x9EA3 3
+D 0x9EAC 0x9EB5 cuadro_9EAC  cuadro de enemigo: plantilla 3 y 8 patrones; lo leen p00:5123 (9 bytes)
+F 0x9EAC 3
+D 0x9EB5 0x9EBE cuadro_9EB5  cuadro de enemigo: plantilla 3 y 8 patrones; lo leen p00:5123 (9 bytes)
+F 0x9EB5 3
+D 0x9EBE 0x9EC7 cuadro_9EBE  cuadro de enemigo: plantilla 3 y 8 patrones; lo leen p00:5123 (9 bytes)
+F 0x9EBE 3
+D 0x9EC7 0x9ED0 cuadro_9EC7  cuadro de enemigo: plantilla 5 y 8 patrones; lo leen p00:5123 (9 bytes)
+F 0x9EC7 3
+D 0x9ED0 0x9ED9 cuadro_9ED0  cuadro de enemigo: plantilla 5 y 8 patrones; lo leen p00:5123 (9 bytes)
+F 0x9ED0 3
+D 0x9ED9 0x9EDC cuadro_9ED9  cuadro de enemigo: plantilla 4 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9ED9 3
+D 0x9EDC 0x9EDF cuadro_9EDC  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9EDC 3
+D 0x9EDF 0x9EE2 cuadro_9EDF  cuadro de enemigo: plantilla 4 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9EDF 3
+D 0x9EE2 0x9EE5 cuadro_9EE2  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9EE2 3
+D 0x9EE5 0x9EEB cuadro_9EE5  cuadro de enemigo: 2 sprites [dy][dx][patron]; lo leen p00:5123 (6 bytes)
+F 0x9EE5 3
+D 0x9EEB 0x9EEE cuadro_9EEB  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9EEB 3
+D 0x9EEE 0x9EF4 cuadro_9EEE  cuadro de enemigo: 2 sprites [dy][dx][patron]; lo leen p00:5123 (6 bytes)
+F 0x9EEE 3
+D 0x9EF4 0x9EF7 cuadro_9EF4  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9EF4 3
+D 0x9EF7 0x9EFA cuadro_9EF7  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9EF7 3
+D 0x9EFA 0x9EFD cuadro_9EFA  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9EFA 3
+D 0x9EFD 0x9F00 cuadro_9EFD  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9EFD 3
+D 0x9F00 0x9F03 cuadro_9F00  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9F00 3
+D 0x9F03 0x9F06 cuadro_9F03  cuadro de enemigo: plantilla 4 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9F03 3
+D 0x9F06 0x9F09 cuadro_9F06  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9F06 3
+D 0x9F09 0x9F0C cuadro_9F09  cuadro de enemigo: plantilla 4 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9F09 3
+D 0x9F0C 0x9F0F cuadro_9F0C  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9F0C 3
+D 0x9F0F 0x9F12 cuadro_9F0F  cuadro de enemigo: plantilla 4 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9F0F 3
+D 0x9F12 0x9F15 cuadro_9F12  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9F12 3
+D 0x9F15 0x9F18 cuadro_9F15  cuadro de enemigo: plantilla 4 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9F15 3
+D 0x9F18 0x9F1B cuadro_9F18  cuadro de enemigo: plantilla 0 y 2 patrones; lo leen p00:5123 (3 bytes)
+F 0x9F18 3
+D 0x9F1B 0x9F21 cuadro_9F1B  cuadro de enemigo: 2 sprites [dy][dx][patron]; lo leen p00:5123 (6 bytes)
+F 0x9F1B 3
+D 0x9F21 0x9F27 cuadro_9F21  cuadro de enemigo: 2 sprites [dy][dx][patron]; lo leen p00:5123 (6 bytes)
+F 0x9F21 3
+D 0x9F27 0x9F30 cuadro_9F27  cuadro de enemigo: plantilla 3 y 8 patrones; lo leen p00:5123 (9 bytes)
+F 0x9F27 3
+D 0x9F30 0x9F48 cuadro_9F30  cuadro de enemigo: 8 sprites [dy][dx][patron]; lo leen p00:5123 (24 bytes)
+F 0x9F30 3
+D 0x9F48 0x9F51 cuadro_9F48  cuadro de enemigo: plantilla 3 y 8 patrones; lo leen p00:5123 (9 bytes)
+F 0x9F48 3
+D 0x9F51 0x9F75 cuadro_9F51  cuadro de enemigo: 12 sprites [dy][dx][patron]; lo leen p00:5123 (36 bytes)
+F 0x9F51 3
+D 0x9F75 0x9F99 cuadro_9F75  cuadro de enemigo: 12 sprites [dy][dx][patron]; lo leen p00:5123 (36 bytes)
+F 0x9F75 3
 D 0x9F99 0xA000 fuente  96 letras de 1 bit (desde el '0', 0x30): la fuente; p01:6010 la sube dos veces (color 14 y color 3); lo leen p00:48ED (103 bytes)
 F 0x9F99 8
 # --- fin de los bloques de bloques.py ---

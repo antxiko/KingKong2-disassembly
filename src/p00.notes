@@ -16,6 +16,19 @@ C 0x4AF3 38 dibujos
 L 0x48D0 sube_dibujos_de_16
 C 0x48D4 el siguiente, 16 puntos (8 bytes) a la derecha
 C 0x48D7 al llegar a 0x80 (256 puntos), 16 lineas mas abajo
+D 0x4014 0x4050 gm_resto  0xFF en las banderas (el Game Master no toma ningun campo) y 59 bytes que no lee nada de este cartucho: direcciones de su RAM (0xC100, 0xC104, 0xC120-0xC121, 0xC116, las del sonido 0xC01A-0xC096) y 0x66D8, la tabla de piezas de p04
+D 0x405C 0x4062 puente_405C  un puente que no usa nadie: call 0x4919 / jp 0x4215
+D 0x40AA 0x40B0 puente_40AA  un puente que no usa nadie: call 0x6433 / jp 0x4215
+D 0x4194 0x419A puente_4194  un puente que no usa nadie: call 0x4EB2 / jp 0x4215
+D 0x41BE 0x41C4 puente_41BE  un puente que no usa nadie: call 0x52FF / jp 0x4215
+D 0x41D0 0x41D6 puente_41D0  un puente que no usa nadie: call 0x4667 / jp 0x4215
+D 0x435D 0x4365 desplazamientos_435D  8 bytes (0, -8, -12 ... -32): lo que p00:4399 resta segun C - 1 y B - 1
+D 0x4365 0x437F bufferes_4365  13 palabras, de 0x42 en 0x42 desde 0xD680: la zona de RAM de cada ficha segun ix+0x0F (p00:433A y p00:437F)
+D 0x445C 0x446E figura_445C  9 columnas x 2 filas de numeros de dibujo (0xD0-0xE1) que p00:4450 pinta en (8, 0xB0)
+D 0x459F 0x45AD codigo_459F  codigo que no llama nadie: escribe A en la VRAM de HL (p00:45AD y el puerto de 0x0007)
+D 0x4FC4 0x4FD0 figura_4FC4  4 columnas x 3 filas de numeros de dibujo (0xE2-0xEA) que p00:4FBB pinta donde dice su ficha
+D 0x56F3 0x5704 lista_de_sprites_7  lista de patrones de sprite 7 de p00:5630: no la pide ninguna pantalla (p09:B0B7 no da el 7)
+D 0x580C 0x5811 lista_de_sprites_20  lista de patrones de sprite 20 de p00:5630: tampoco la pide ninguna pantalla
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x4000 0x4010 cabecera_ab  la cabecera del cartucho: 'AB', INIT (0x4269) y STATEMENT, DEVICE y TEXT a cero; lo leen la BIOS (16 bytes)
@@ -36,6 +49,20 @@ D 0x50CA 0x50DA figura_que_sigue  8 parejas [dy][dx]: donde va cada uno de los 8
 F 0x50CA 2
 D 0x50DA 0x50EA cuadros_de_la_que_sigue  8 punteros: los patrones de la figura que sigue a Mitchel segun 0xC606 (direccion*2 + paso, p02:82E6); p00:50B8; lo leen p00:50C4 (16 bytes)
 F 0x50DA 2
+D 0x519A 0x519E plantilla_0  plantilla 0x80: 2 parejas [dy][dx], una por sprite; lo leen p00:517E (4 bytes)
+F 0x519A 2
+D 0x519E 0x51A6 plantilla_1  plantilla 0x81: 4 parejas [dy][dx], una por sprite; lo leen p00:517E (8 bytes)
+F 0x519E 2
+D 0x51A6 0x51AE plantilla_2  plantilla 0x82: 4 parejas [dy][dx], una por sprite; lo leen p00:517E (8 bytes)
+F 0x51A6 2
+D 0x51AE 0x51BE plantilla_3  plantilla 0x83: 8 parejas [dy][dx], una por sprite; lo leen p00:517E (16 bytes)
+F 0x51AE 2
+D 0x51BE 0x51C2 plantilla_4  plantilla 0x84: 2 parejas [dy][dx], una por sprite; lo leen p00:517E (4 bytes)
+F 0x51BE 2
+D 0x51C2 0x51DA plantilla_5  plantilla 0x85: 12 parejas [dy][dx], una por sprite; lo leen p00:517E (24 bytes)
+F 0x51C2 2
+D 0x51DA 0x51EA plantilla_6  plantilla 0x86: 8 parejas [dy][dx], una por sprite; lo leen p00:517E (16 bytes)
+F 0x51DA 2
 D 0x54EC 0x5506 lista_de_cada_juego  13 punteros, uno por juego de dibujos, a su lista de subida; lo leen p00:4AB5 (26 bytes)
 F 0x54EC 2
 D 0x5506 0x5530 lista_hoja_5506  lista del juego 0: [destino][cuantos][fuente], 0xFE pasa a los bancos 10-11-12, 0xFF acaba (p00:4AB9); lo leen p00:4AB9 (42 bytes)

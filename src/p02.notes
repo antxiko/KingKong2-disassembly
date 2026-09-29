@@ -9,6 +9,29 @@ L 0x80B0 busca_la_linea
 C 0x80B3 p12:A66E + 2*conversacion: su lista de lineas...
 C 0x80BC ...y la palabra de la linea 0xC14D; 0 = se acabo
 C 0x80CB el primer byte es la accion; luego el texto
+D 0x8675 0x8681 tablas_8675  dos tablas de tres palabras (0x8675 y 0x867B, segun ix+0x19) que p02:866F reparte por ix+1 con p00:4260
+D 0x8876 0x887E cuadro_siguiente_8876  8 bytes: el cuadro siguiente (ix+0x0B) segun el de ahora menos 2 (p02:8824)
+D 0x8A22 0x8A2D codigo_8A22  codigo que no llama nadie: call 0x8CB4 y 8 ceros, de DE en DE, desde HL
+D 0x8BBA 0x8BC6 ternas_8BBA  4 ternas que p02:8B8F pone en ix+0x18, ix+0x19 e ix+0x14 (3*A)
+D 0x8C00 0x8C08 codigo_8C00  codigo al que no se llega (p02:8BFE salta por encima): cp 0x34 / ld c,0x80 / jr +2 / ld c,0xA0
+D 0x8D60 0x8D68 cuadro_siguiente_8D60  8 bytes: el cuadro (ix+0x0B) segun el de ahora menos 3 y el paso (p02:8CD5)
+D 0x8D68 0x8D6C cuadro_8D68  4 bytes: el cuadro (ix+0x0B) segun B (p02:8D57)
+D 0x9148 0x914C byte_1b_9148  4 bytes: lo que p02:90A3 pone en ix+0x1B segun ix+0x19
+D 0x9201 0x9211 azar_9201  16 bytes, uno por 0xC107 & 15 (0xFF = nada): lo que p02:91B4 pasa a p01:7303
+D 0x93E7 0x93F4 cuadros_93E7  13 bytes: el cuadro (ix+0x0B) que p02:9334 elige (y desde 0x93EF, p02:92DF, p02:9A91 y p03:A527)
+D 0x950D 0x9511 cuadros_950D  4 bytes: el cuadro (ix+0x0B) segun A (p02:94F9)
+D 0x9511 0x9519 pasos_9511  4 parejas [dx][dy] segun B (p02:94C8)
+D 0x9610 0x9614 cuadros_9610  4 bytes: el cuadro (ix+0x0B) segun A (p02:9605)
+D 0x97F6 0x97FE velocidades_97F6  4 parejas que p02:97CC pone en ix+8 e ix+0x0A segun A
+D 0x97FE 0x9804 cuadros_97FE  3 parejas: el cuadro (ix+0x0B) segun ix+0x16 (p02:9633)
+D 0x9804 0x980C parejas_9804  4 parejas [C][A] segun ix+0x16 que p02:97E0 pasa a p01:7303
+D 0x9AAE 0x9AFE tablas_9AAE  tablas pegadas del mismo enemigo: 0x9AAE (p02:9833), parejas [ix+8][ix+0x0A] desde 0x9AB9 y 0x9ABE (p02:98B4), 0x9AC3 (p02:98C1) y 0x9ACE (p02:98E3)
+D 0x9E22 0x9E27 esperas_9E22  5 bytes: la espera (ix+0x19) segun ix+0x1C en la pantalla 0x53 (p02:9DF9)
+D 0x9E27 0x9E30 esperas_9E27  9 bytes: lo mismo en las demas pantallas (p02:9E03)
+D 0x9E62 0x9E69 byte_18_9E62  7 bytes: lo que p02:9E54 pone en ix+0x18 segun ix+0x15 + B
+D 0x9EF5 0x9EF7 codigo_9EF5  un jr hacia atras al que no se llega
+D 0x9EFE 0x9F46 circulo_9EFE  36 parejas [dx][dy]: un circulo de radio 16, que p02:9DD5 divide por 2 (paso ix+0x13)
+D 0x9FFF 0xA000 call_partido  el primer byte (0xCD) de call 0x729E: p02:9FFC sigue de largo y el resto de la instruccion esta en p03:A000
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x8000 0x8008 tabla_7FFC_cola  6 destinos del despachador de 0x425F (call en p01:7FF9): 0x8008, 0x8017, 0x8025, 0x8039, 0x8065, 0x8039 (sigue del banco anterior, 0x7FFC); lo leen p01:7FF9 (8 bytes)

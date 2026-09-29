@@ -126,3 +126,15 @@ p04 0x632F 4 5 3  # a mano: p04:60A6: ld hl,0x632F / ld (0xC014),hl
 p04 0x6587 4 5 3  # a mano: p04:60FE: ld hl,0x6587 / ld (0xC016),hl
 p04 0x631A 4 5 3  # a mano: p04:61A8: ld hl,0x631A / ld (0xC018),hl
 p04 0x62BA 4 5 3  # a mano: p04:62B0: ld de,0x62BA / ld (hl),e / ld (hl),d en 0xC010+2*canal (el canal que acaba se queda en un ret)
+#
+# p01:65CF: `ld hl,0x676E / push hl` antes de `call 0x425F` (p01:65D3): los
+# estados 0-2 de 0xC100 vuelven por ahi con su `ret`.
+p01 0x676E 1 2 3  # a mano: p01:65CF: ld hl,0x676E / push hl (vuelta de lo que reparte p01:65D3)
+#
+# p02:866F: `ld a,(ix+1) / jp 0x4260` con HL = 0x8675 o 0x867B (segun ix+0x19):
+# dos tablas de tres palabras, la segunda acaba donde empieza el primer destino.
+p02 0x8681 1 2 3  # a mano: tabla de p02:8675, entrada 0 (p02:866F, por ix+1)
+p02 0x86AF 1 2 3  # a mano: tabla de p02:8675, entrada 1 (p02:866F, por ix+1)
+p02 0x870C 1 2 3  # a mano: tabla de p02:8675 y p02:867B, entrada 2 (p02:866F, por ix+1)
+p02 0x8716 1 2 3  # a mano: tabla de p02:867B, entrada 0 (p02:866F, por ix+1)
+p02 0x8744 1 2 3  # a mano: tabla de p02:867B, entrada 1 (p02:866F, por ix+1)

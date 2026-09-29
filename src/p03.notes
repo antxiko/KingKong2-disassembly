@@ -9,6 +9,37 @@ B 0xB9E6 p01:65C2 sube cada cuadro) sueltan la mitad de las veces.
 C 0xB9E9 p03:BA66: tipo -> rutina
 C 0xB9F3 B = la pantalla
 C 0xB9F8 p03:BA06: las 47 rutinas
+D 0xA000 0xA002 call_partido  el resto (0x729E) de call 0x729E que empieza en p02:9FFF: el codigo sigue de largo de p02:9FFC a p03:A002
+D 0xA362 0xA36A cuadros_A362  8 bytes: el cuadro (ix+0x0B) segun ix+0x13 (p03:A34F) o ix+0x1A (desde 0xA366, p03:A309)
+D 0xA6A0 0xA6D0 tablas_A6A0  tres tablas de 16 bytes: 0xA6A0 (tipo 0x37) y 0xA6B8 (los demas) segun ix+0x18 (p03:A4C2), y parejas desde 0xA6C8 segun ix+0x19 (p03:A553)
+D 0xA7FA 0xA82A tablas_A7FA  32 bytes desde 0xA7FA (DE) y 0xA81A (HL) que p03:A7A9 recorre con 0xDFA1; 0xA822, 8 bytes que p03:A7EE pone en ix+0x1A; p01:63EE entra por 0xA808
+D 0xAAD4 0xAAF8 tablas_AAD4  4 bytes segun ix+1 - 2 (p03:AAC1) y 32 codigos segun ix+0x1A & 31 (1, 2 u otro; p03:AA97) desde 0xAAD8
+D 0xAB88 0xABC4 recorridos_AB88  pasos que elige p03:AB41 segun el tipo: 0xAB88 (tipos 6 y otros), 0xABA4 (7 y 0x3E), 0xAB94 (8) y 0xABAC
+D 0xABD0 0xABF8 tablas_ABD0  32 bytes desde 0xABD0 (DE) y 8 desde 0xABF0 (HL) que p03:ABC4 pasa a p03:A7B2 con 0xDFA2
+D 0xACEA 0xACF2 dibujos_ACEA  4 palabras segun A & C que p03:ACDE pasa a p00:5A69
+D 0xADC1 0xADC9 byte_12_ADC1  8 bytes: lo que p03:ADAE pone en ix+0x12 segun (HL) & 7
+D 0xAE92 0xAE96 cuadros_AE92  dos parejas de cuadros (ix+0x0B) segun el bit 0 de ix+0x15 (p03:AE82)
+D 0xAF0F 0xAF27 parejas_AF0F  12 parejas que p03:AEE7 pone en ix+0x12 e ix+0x19 segun C
+D 0xAFFC 0xB00B alturas_AFFC  15 bytes: lo que p03:AFE2 suma a la palabra ix+0x16 segun ix+0x14
+D 0xB040 0xB04F cuadros_B040  15 bytes: el cuadro (ix+0x0B) segun ix+0x14 (p03:B032)
+D 0xB08D 0xB0A7 codigo_B08D  codigo que no llama nadie: sube 0xDFA3 y pone en ix+0x1A un byte de su tabla de 8 (0xB09F)
+D 0xB11D 0xB125 byte_15_B11D  8 bytes: lo que p03:B10C pone en ix+0x15 segun (HL) & 7
+D 0xB1FB 0xB22F tablas_B1FB  0xB1FB, 0xB1FF y 0xB203 segun la direccion de Mitchel (p03:B19A, B1CA, B1DB) y 32 codigos desde 0xB20F segun ix+0x15 & 31 (p03:B178)
+D 0xB23E 0xB247 cuadros_B23E  9 bytes: el cuadro (ix+0x0B) segun ix+0x12 - 1 (p03:B233)
+D 0xB2E9 0xB2F1 cuadros_B2E9  8 cuadros que p03:B34B elige segun el bit 3 de ix+0x0C y C (entrada p03:B2E3)
+D 0xB35F 0xB367 cuadros_B35F  lo mismo para p03:B348
+D 0xB659 0xB65E sumas_B659  5 bytes que p03:B639 suma a C segun ix+0x16 - 1
+D 0xB737 0xB778 pasos_B737  65 bytes que recorren p03:B664, p03:B6A7 y p03:B6F9 segun ix+0x12
+D 0xB8B2 0xB8B6 cuadros_B8B2  4 bytes: el cuadro (ix+0x0B) segun el paso (p03:B890)
+D 0xBD82 0xBD8C fichas_BD82  5 punteros segun C a fichas de 9 bytes (p03:BD50)
+D 0xBD8C 0xBDB9 fichas_BD8C  las 5 fichas de 9 bytes de p03:BD82
+D 0xBDB9 0xBDC1 velocidades_BDB9  4 palabras segun ix+0x12 que p03:BD72 pone en ix+7 o ix+9
+D 0xBEDA 0xBEE0 cuadros_BEDA  6 bytes: el cuadro (ix+0x0B) segun ix+0x14 (p03:BECF)
+D 0xBF32 0xBF72 velocidades  16 entradas de 4 bytes que p03:BF19 pone en ix+8, ix+7, ix+0x0A e ix+9 (dos velocidades de 16 bits) segun A; se entra por 0xBF32, 0xBF42, 0xBF52 y 0xBF62
+D 0xBF96 0xBFB2 parejas_de_cuadros  parejas de cuadros que p03:BF72 alterna (ix+0x18) segun ix+0x19; se entra por 0xBF96, 0xBF9E, 0xBFA6 y 0xBFA8 (p02)
+D 0xBFDF 0xBFEC game_over  [x][y] "GAME  OVER" y 0xFE, que sigue con p03:BFEC: p01:673D escribe las dos lineas
+D 0xBFEC 0xBFF9 continue_f5  [x][y] "CONTINUE F5" 0xFF: p01:66EE
+D 0xBFF9 0xC000 relleno_p03  0xFF hasta el final del banco
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA3EE 0xA3FA tabla_A3EE  6 destinos del despachador de 0x425F (call en p03:A3EB): 0xA3FA, 0xA442, 0xA48F, 0xA4F4, 0xA505, 0xA511; lo leen p03:A3EB (12 bytes)

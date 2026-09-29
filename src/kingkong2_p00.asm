@@ -24,8 +24,12 @@ DATA_cabecera_de_konami:
 	defb 043h,044h,007h,045h	; 4010
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x4014..0x4050  (60 bytes)
-DATA_4014:
+; DATOS gm_resto: 0xFF en las banderas (el Game Master no toma ningun campo) y
+;   59 bytes que no lee nada de este cartucho: direcciones de su RAM (0xC100,
+;   0xC104, 0xC120-0xC121, 0xC116, las del sonido 0xC01A-0xC096) y 0x66D8, la
+;   tabla de piezas de p04
+;   0x4014..0x4050  (60 bytes)
+DATA_gm_resto:
 	defb 0ffh,000h,0c1h,004h,021h,0c1h,005h,020h,0c1h,016h,0c1h,016h,0c1h,000h,000h,000h	; 4014  ....!.. ........
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,094h,0c0h,08fh,0c0h	; 4024  ................
 	defb 08fh,0c0h,08fh,0c0h,01ah,0c0h,01bh,0c0h,02eh,0c0h,02fh,0c0h,042h,0c0h,043h,0c0h	; 4034  ........../.B.C.
@@ -44,8 +48,9 @@ L_4056:
 	jp L_4215		;4059
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x405c..0x4062  (6 bytes)
-DATA_405C:
+; DATOS puente_405C: un puente que no usa nadie: call 0x4919 / jp 0x4215
+;   0x405c..0x4062  (6 bytes)
+DATA_puente_405C:
 	defb 0cdh,019h,049h,0c3h,015h,042h	; 405c
 
 ; ======================================================================
@@ -91,8 +96,9 @@ L_40A4:
 	jp L_4215		;40a7
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x40aa..0x40b0  (6 bytes)
-DATA_40AA:
+; DATOS puente_40AA: un puente que no usa nadie: call 0x6433 / jp 0x4215
+;   0x40aa..0x40b0  (6 bytes)
+DATA_puente_40AA:
 	defb 0cdh,033h,064h,0c3h,015h,042h	; 40aa
 
 ; ======================================================================
@@ -216,8 +222,9 @@ L_418E:
 	jp L_4215		;4191
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x4194..0x419a  (6 bytes)
-DATA_4194:
+; DATOS puente_4194: un puente que no usa nadie: call 0x4EB2 / jp 0x4215
+;   0x4194..0x419a  (6 bytes)
+DATA_puente_4194:
 	defb 0cdh,0b2h,04eh,0c3h,015h,042h	; 4194
 
 ; ======================================================================
@@ -245,8 +252,9 @@ L_41B8:
 	jp L_4215		;41bb
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x41be..0x41c4  (6 bytes)
-DATA_41BE:
+; DATOS puente_41BE: un puente que no usa nadie: call 0x52FF / jp 0x4215
+;   0x41be..0x41c4  (6 bytes)
+DATA_puente_41BE:
 	defb 0cdh,0ffh,052h,0c3h,015h,042h	; 41be
 
 ; ======================================================================
@@ -262,8 +270,9 @@ L_41CA:
 	jp L_4215		;41cd
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x41d0..0x41d6  (6 bytes)
-DATA_41D0:
+; DATOS puente_41D0: un puente que no usa nadie: call 0x4667 / jp 0x4215
+;   0x41d0..0x41d6  (6 bytes)
+DATA_puente_41D0:
 	defb 0cdh,067h,046h,0c3h,015h,042h	; 41d0
 
 ; ======================================================================
@@ -526,11 +535,19 @@ L_434C:
 	ret			;435c
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x435d..0x437f  (34 bytes)
-DATA_435D:
-	defb 000h,0f8h,0f4h,0f0h,0ech,0e8h,0e4h,0e0h,080h,0d6h,0c2h,0d6h,004h,0d7h,046h,0d7h	; 435d  ..............F.
-	defb 088h,0d7h,0cah,0d7h,00ch,0d8h,04eh,0d8h,090h,0d8h,0d2h,0d8h,014h,0d9h,056h,0d9h	; 436d  ......N.......V.
-	defb 098h,0d9h	; 437d
+; DATOS desplazamientos_435D: 8 bytes (0, -8, -12 ... -32): lo que p00:4399
+;   resta segun C - 1 y B - 1
+;   0x435d..0x4365  (8 bytes)
+DATA_desplazamientos_435D:
+	defb 000h,0f8h,0f4h,0f0h,0ech,0e8h,0e4h,0e0h	; 435d  ........
+
+; ----------------------------------------------------------------------
+; DATOS bufferes_4365: 13 palabras, de 0x42 en 0x42 desde 0xD680: la zona de
+;   RAM de cada ficha segun ix+0x0F (p00:433A y p00:437F)
+;   0x4365..0x437f  (26 bytes)
+DATA_bufferes_4365:
+	defb 080h,0d6h,0c2h,0d6h,004h,0d7h,046h,0d7h,088h,0d7h,0cah,0d7h,00ch,0d8h,04eh,0d8h	; 4365  ......F.......N.
+	defb 090h,0d8h,0d2h,0d8h,014h,0d9h,056h,0d9h,098h,0d9h	; 4375  ......V...
 
 ; ======================================================================
 ; CODIGO 0x437f..0x445c  (221 bytes)
@@ -694,8 +711,10 @@ L_4450:
 	jp L_4EB2		;4459
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x445c..0x446e  (18 bytes)
-DATA_445C:
+; DATOS figura_445C: 9 columnas x 2 filas de numeros de dibujo (0xD0-0xE1) que
+;   p00:4450 pinta en (8, 0xB0)
+;   0x445c..0x446e  (18 bytes)
+DATA_figura_445C:
 	defb 0d0h,0d1h,0d2h,0d3h,0d4h,0d5h,0d6h,0d7h,0d8h,0d9h,0dah,0dbh,0dch,0ddh,0deh,0dfh	; 445c  ................
 	defb 0e0h,0e1h	; 446c
 
@@ -879,8 +898,10 @@ L_4596:
 	ret			;459e
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x459f..0x45ad  (14 bytes)
-DATA_459F:
+; DATOS codigo_459F: codigo que no llama nadie: escribe A en la VRAM de HL
+;   (p00:45AD y el puerto de 0x0007)
+;   0x459f..0x45ad  (14 bytes)
+DATA_codigo_459F:
 	defb 0c5h,0f5h,0cdh,0adh,045h,03ah,007h,000h,04fh,0f1h,0edh,079h,0c1h,0c9h	; 459f  ....E:..O..y..
 
 ; ======================================================================
@@ -2539,8 +2560,10 @@ L_4FAB:
 	jp L_4EB2		;4fc1
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x4fc4..0x4fd0  (12 bytes)
-DATA_4FC4:
+; DATOS figura_4FC4: 4 columnas x 3 filas de numeros de dibujo (0xE2-0xEA) que
+;   p00:4FBB pinta donde dice su ficha
+;   0x4fc4..0x4fd0  (12 bytes)
+DATA_figura_4FC4:
 	defb 0e2h,0e3h,0e3h,0e4h,0e5h,0e6h,0e6h,0e7h,0e8h,0e9h,0e9h,0eah	; 4fc4  ............
 
 ; ======================================================================
@@ -2869,13 +2892,86 @@ L_517D:
 	jp L_42BC		;5197
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x519a..0x51ea  (80 bytes)
-DATA_519A:
-	defb 0f8h,0f8h,0f8h,0f8h,0f8h,0f8h,0f8h,0f8h,0f8h,008h,0f8h,008h,0f1h,0f9h,0f1h,0f9h	; 519a  ................
-	defb 001h,0f9h,001h,0f9h,0f0h,0f0h,0f0h,0f0h,0f0h,000h,0f0h,000h,000h,0f0h,000h,0f0h	; 51aa  ................
-	defb 000h,000h,000h,000h,0f8h,0f9h,0f8h,0f9h,0efh,0f0h,0efh,0f0h,0efh,000h,0efh,000h	; 51ba  ................
-	defb 0ffh,0f0h,0ffh,0f0h,0ffh,000h,0ffh,000h,00fh,0f0h,00fh,0f0h,00fh,000h,00fh,000h	; 51ca  ................
-	defb 0f8h,0f0h,0f8h,0f0h,0f8h,000h,0f8h,000h,0e0h,000h,0e0h,000h,010h,000h,010h,000h	; 51da  ................
+; DATOS plantilla_0: plantilla 0x80: 2 parejas [dy][dx], una por sprite; lo
+;   leen p00:517E (4 bytes)
+;   0x519a..0x519e  (4 bytes)
+DATA_plantilla_0:
+	defb 0f8h,0f8h	; 519a
+	defb 0f8h,0f8h	; 519c
+
+; ----------------------------------------------------------------------
+; DATOS plantilla_1: plantilla 0x81: 4 parejas [dy][dx], una por sprite; lo
+;   leen p00:517E (8 bytes)
+;   0x519e..0x51a6  (8 bytes)
+DATA_plantilla_1:
+	defb 0f8h,0f8h	; 519e
+	defb 0f8h,0f8h	; 51a0
+	defb 0f8h,008h	; 51a2
+	defb 0f8h,008h	; 51a4
+
+; ----------------------------------------------------------------------
+; DATOS plantilla_2: plantilla 0x82: 4 parejas [dy][dx], una por sprite; lo
+;   leen p00:517E (8 bytes)
+;   0x51a6..0x51ae  (8 bytes)
+DATA_plantilla_2:
+	defb 0f1h,0f9h	; 51a6
+	defb 0f1h,0f9h	; 51a8
+	defb 001h,0f9h	; 51aa
+	defb 001h,0f9h	; 51ac
+
+; ----------------------------------------------------------------------
+; DATOS plantilla_3: plantilla 0x83: 8 parejas [dy][dx], una por sprite; lo
+;   leen p00:517E (16 bytes)
+;   0x51ae..0x51be  (16 bytes)
+DATA_plantilla_3:
+	defb 0f0h,0f0h	; 51ae
+	defb 0f0h,0f0h	; 51b0
+	defb 0f0h,000h	; 51b2
+	defb 0f0h,000h	; 51b4
+	defb 000h,0f0h	; 51b6
+	defb 000h,0f0h	; 51b8
+	defb 000h,000h	; 51ba
+	defb 000h,000h	; 51bc
+
+; ----------------------------------------------------------------------
+; DATOS plantilla_4: plantilla 0x84: 2 parejas [dy][dx], una por sprite; lo
+;   leen p00:517E (4 bytes)
+;   0x51be..0x51c2  (4 bytes)
+DATA_plantilla_4:
+	defb 0f8h,0f9h	; 51be
+	defb 0f8h,0f9h	; 51c0
+
+; ----------------------------------------------------------------------
+; DATOS plantilla_5: plantilla 0x85: 12 parejas [dy][dx], una por sprite; lo
+;   leen p00:517E (24 bytes)
+;   0x51c2..0x51da  (24 bytes)
+DATA_plantilla_5:
+	defb 0efh,0f0h	; 51c2
+	defb 0efh,0f0h	; 51c4
+	defb 0efh,000h	; 51c6
+	defb 0efh,000h	; 51c8
+	defb 0ffh,0f0h	; 51ca
+	defb 0ffh,0f0h	; 51cc
+	defb 0ffh,000h	; 51ce
+	defb 0ffh,000h	; 51d0
+	defb 00fh,0f0h	; 51d2
+	defb 00fh,0f0h	; 51d4
+	defb 00fh,000h	; 51d6
+	defb 00fh,000h	; 51d8
+
+; ----------------------------------------------------------------------
+; DATOS plantilla_6: plantilla 0x86: 8 parejas [dy][dx], una por sprite; lo
+;   leen p00:517E (16 bytes)
+;   0x51da..0x51ea  (16 bytes)
+DATA_plantilla_6:
+	defb 0f8h,0f0h	; 51da
+	defb 0f8h,0f0h	; 51dc
+	defb 0f8h,000h	; 51de
+	defb 0f8h,000h	; 51e0
+	defb 0e0h,000h	; 51e2
+	defb 0e0h,000h	; 51e4
+	defb 010h,000h	; 51e6
+	defb 010h,000h	; 51e8
 
 ; ======================================================================
 ; CODIGO 0x51ea..0x54ec  (770 bytes)
@@ -3582,8 +3678,10 @@ DATA_lista_de_sprites_6:
 	defb 000h	; 56f2
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x56f3..0x5704  (17 bytes)
-DATA_56F3:
+; DATOS lista_de_sprites_7: lista de patrones de sprite 7 de p00:5630: no la
+;   pide ninguna pantalla (p09:B0B7 no da el 7)
+;   0x56f3..0x5704  (17 bytes)
+DATA_lista_de_sprites_7:
 	defb 011h,040h,0d5h,093h,011h,058h,066h,08dh,011h,070h,0dfh,08dh,011h,0e0h,03ah,084h	; 56f3  .@...Xf..p....:.
 	defb 000h	; 5703
 
@@ -3747,8 +3845,10 @@ DATA_lista_de_sprites_19:
 	defb 000h	; 580b
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x580c..0x5811  (5 bytes)
-DATA_580C:
+; DATOS lista_de_sprites_20: lista de patrones de sprite 20 de p00:5630:
+;   tampoco la pide ninguna pantalla
+;   0x580c..0x5811  (5 bytes)
+DATA_lista_de_sprites_20:
 	defb 011h,0e0h,03ah,084h,000h	; 580c
 
 ; ----------------------------------------------------------------------

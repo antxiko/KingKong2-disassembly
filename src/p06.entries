@@ -53,7 +53,7 @@
 0xAAC9   # a mano: tabla de p06:AA78, entrada 15 (despachador de p06:A8B0, por 0xC138)
 0xB9C8   # p01:661E call
 0xBA46   # p01:665B call
-0xBA79   # p01:6607 call
+0xBA79   # p01:67A9 call
 0xBB57   # p00:4E0B call
 0xBD49   # p00:5CDB call
 0xBD64   # p00:5CD8 call

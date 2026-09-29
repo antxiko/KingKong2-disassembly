@@ -911,9 +911,10 @@ DATA_dibujos_9A63:
 
 ; ----------------------------------------------------------------------
 ; DATOS dibujos_9B23: 17 dibujos de 8x8 a 4 bits para la hoja de la pagina 1
-;   (desde el dibujo 123); los sube p00:48A6 por la lista 0x5530; lo leen
-;   p00:48A6 (544 bytes)
-;   0x9b23..0x9d43  (544 bytes)
+;   (desde el dibujo 123); los sube p00:48A6 por la lista 0x5530; se solapan 2
+;   bloques (0x9B23-0x9D43, 0x9CC3-0x9D93); lo leen p00:48A6, p00:510E (624
+;   bytes)
+;   0x9b23..0x9d93  (624 bytes)
 DATA_dibujos_9B23:
 	defb 0b1h,0aah,0a1h,0a1h	; 9b23
 	defb 0d1h,011h,01ah,0a1h	; 9b27
@@ -1051,48 +1052,803 @@ DATA_dibujos_9B23:
 	defb 069h,09eh,06ch,09eh	; 9d37
 	defb 06fh,09eh,072h,09eh	; 9d3b
 	defb 075h,09eh,078h,09eh	; 9d3f
+	defb 081h,09eh,099h,09eh	; 9d43
+	defb 099h,09eh,09eh,09eh	; 9d47
+	defb 0a3h,09eh,0ach,09eh	; 9d4b
+	defb 0b5h,09eh,0beh,09eh	; 9d4f
+	defb 0c7h,09eh,0d0h,09eh	; 9d53
+	defb 0d9h,09eh,0d9h,09eh	; 9d57
+	defb 0dch,09eh,0dfh,09eh	; 9d5b
+	defb 0e2h,09eh,0e5h,09eh	; 9d5f
+	defb 0ebh,09eh,0eeh,09eh	; 9d63
+	defb 0f4h,09eh,0f7h,09eh	; 9d67
+	defb 0f7h,09eh,0fah,09eh	; 9d6b
+	defb 0fdh,09eh,000h,09fh	; 9d6f
+	defb 003h,09fh,006h,09fh	; 9d73
+	defb 009h,09fh,00ch,09fh	; 9d77
+	defb 00fh,09fh,012h,09fh	; 9d7b
+	defb 015h,09fh,018h,09fh	; 9d7f
+	defb 01bh,09fh,021h,09fh	; 9d83
+	defb 027h,09fh,030h,09fh	; 9d87
+	defb 048h,09fh,048h,09fh	; 9d8b
+	defb 051h,09fh,075h,09fh	; 9d8f
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9d43..0x9f99  (598 bytes)
-DATA_9D43:
-	defb 081h,09eh,099h,09eh,099h,09eh,09eh,09eh,0a3h,09eh,0ach,09eh,0b5h,09eh,0beh,09eh	; 9d43  ................
-	defb 0c7h,09eh,0d0h,09eh,0d9h,09eh,0d9h,09eh,0dch,09eh,0dfh,09eh,0e2h,09eh,0e5h,09eh	; 9d53  ................
-	defb 0ebh,09eh,0eeh,09eh,0f4h,09eh,0f7h,09eh,0f7h,09eh,0fah,09eh,0fdh,09eh,000h,09fh	; 9d63  ................
-	defb 003h,09fh,006h,09fh,009h,09fh,00ch,09fh,00fh,09fh,012h,09fh,015h,09fh,018h,09fh	; 9d73  ................
-	defb 01bh,09fh,021h,09fh,027h,09fh,030h,09fh,048h,09fh,048h,09fh,051h,09fh,075h,09fh	; 9d83  ..!.'.0.H.H.Q.u.
-	defb 080h,040h,044h,080h,048h,04ch,080h,050h,054h,080h,058h,05ch,080h,060h,064h,080h	; 9d93  .@D.HL.PT.X\.`d.
-	defb 068h,06ch,080h,070h,074h,080h,078h,07ch,080h,080h,084h,080h,088h,08ch,080h,090h	; 9da3  hl.pt.x|........
-	defb 094h,080h,098h,09ch,080h,0a0h,0a4h,080h,0a8h,0ach,080h,0b0h,0b4h,080h,0b8h,0bch	; 9db3  ................
-	defb 080h,0c0h,0c4h,080h,0c8h,0cch,080h,0d0h,0d4h,080h,0d8h,0dch,080h,0e0h,0e4h,080h	; 9dc3  ................
-	defb 0e8h,0ech,080h,0f0h,0f4h,080h,0f8h,0fch,082h,090h,094h,088h,08ch,082h,098h,09ch	; 9dd3  ................
-	defb 088h,08ch,082h,0a0h,0a4h,088h,08ch,082h,0a8h,0ach,088h,08ch,082h,0b8h,0bch,088h	; 9de3  ................
-	defb 08ch,082h,0c0h,0c4h,088h,08ch,082h,0c8h,0cch,088h,08ch,082h,0d0h,0d4h,088h,08ch	; 9df3  ................
-	defb 081h,060h,064h,080h,084h,081h,068h,06ch,088h,08ch,081h,070h,074h,090h,094h,083h	; 9e03  .`d...hl...pt...
-	defb 040h,044h,048h,04ch,050h,054h,058h,05ch,083h,060h,064h,068h,06ch,070h,074h,078h	; 9e13  @DHLPTX\.`dhlptx
-	defb 07ch,083h,080h,084h,088h,08ch,050h,054h,058h,05ch,080h,040h,044h,080h,048h,04ch	; 9e23  |.....PTX\.@D.HL
-	defb 084h,050h,054h,080h,058h,05ch,084h,060h,064h,084h,068h,06ch,080h,070h,074h,084h	; 9e33  .PT.X\.`d.hl.pt.
-	defb 078h,07ch,080h,080h,084h,084h,088h,08ch,080h,090h,094h,084h,098h,09ch,080h,0a0h	; 9e43  x|..............
-	defb 0a4h,080h,0a8h,0ach,080h,0b0h,0b4h,080h,0b8h,0bch,080h,0c0h,0c4h,084h,040h,044h	; 9e53  ..............@D
-	defb 080h,048h,04ch,080h,050h,054h,080h,058h,05ch,080h,060h,064h,084h,068h,06ch,080h	; 9e63  .HL.PT.X\.`d.hl.
-	defb 070h,074h,080h,078h,07ch,083h,0e0h,0e4h,0e8h,0ech,0f0h,0f4h,0f8h,0fch,0f5h,0f0h	; 9e73  pt.x|...........
-	defb 0e0h,0f5h,0f0h,0e4h,0f5h,000h,0e8h,0f5h,000h,0ech,005h,0f0h,0f0h,005h,0f0h,0f4h	; 9e83  ................
-	defb 005h,000h,0f8h,005h,000h,0fch,081h,080h,084h,088h,08ch,081h,090h,094h,098h,09ch	; 9e93  ................
-	defb 083h,040h,044h,040h,044h,040h,044h,040h,044h,083h,048h,04ch,048h,04ch,048h,04ch	; 9ea3  .@D@D@D@D.HLHLHL
-	defb 048h,04ch,083h,050h,054h,050h,054h,050h,054h,050h,054h,083h,058h,05ch,058h,05ch	; 9eb3  HL.PTPTPTPT.X\X\
-	defb 058h,05ch,058h,05ch,085h,040h,044h,040h,044h,040h,044h,040h,044h,085h,048h,04ch	; 9ec3  X\X\.@D@D@D@D.HL
-	defb 048h,04ch,048h,04ch,048h,04ch,084h,040h,044h,080h,048h,04ch,084h,050h,054h,080h	; 9ed3  HLHLHL.@D.HL.PT.
-	defb 058h,05ch,0f8h,0f7h,060h,0f8h,0f7h,064h,080h,068h,06ch,0f8h,0f7h,070h,0f8h,0f7h	; 9ee3  X\..`..d.hl..p..
-	defb 074h,080h,078h,07ch,080h,040h,044h,080h,048h,04ch,080h,050h,054h,080h,058h,05ch	; 9ef3  t.x|.@D.HL.PT.X\
-	defb 084h,060h,064h,080h,068h,06ch,084h,070h,074h,080h,078h,07ch,084h,080h,084h,080h	; 9f03  .`d.hl.pt.x|....
-	defb 088h,08ch,084h,090h,094h,080h,098h,09ch,0e8h,0f7h,0c0h,0e8h,0f7h,0c4h,0e8h,0f7h	; 9f13  ................
-	defb 0c8h,0e8h,0f7h,0cch,083h,040h,044h,068h,06ch,048h,04ch,070h,074h,0f1h,0f0h,040h	; 9f23  .....@DhlHLpt..@
-	defb 0f1h,0f0h,044h,001h,0f0h,050h,001h,0f0h,054h,0f1h,000h,068h,0f1h,000h,06ch,001h	; 9f33  ..D..P..T..h..l.
-	defb 000h,078h,001h,000h,07ch,083h,058h,05ch,060h,064h,068h,06ch,070h,074h,0e7h,0f0h	; 9f43  .x..|.X\`dhlpt..
-	defb 040h,0e7h,0f0h,044h,0e7h,000h,040h,0e7h,000h,044h,0f7h,0f0h,040h,0f7h,0f0h,044h	; 9f53  @..D..@..D..@..D
-	defb 0f7h,000h,040h,0f7h,000h,044h,007h,0f0h,040h,007h,0f0h,044h,007h,000h,040h,007h	; 9f63  ..@..D..@..D..@.
-	defb 000h,044h,0e7h,0f0h,048h,0e7h,0f0h,04ch,0e7h,000h,048h,0e7h,000h,04ch,0f7h,0f0h	; 9f73  .D..H..L..H..L..
-	defb 048h,0f7h,0f0h,04ch,0f7h,000h,048h,0f7h,000h,04ch,007h,0f0h,048h,007h,0f0h,04ch	; 9f83  H..L..H..L..H..L
-	defb 007h,000h,048h,007h,000h,04ch	; 9f93
+; DATOS cuadro_9D93: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9d93..0x9d96  (3 bytes)
+DATA_cuadro_9D93:
+	defb 080h,040h,044h	; 9d93
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9D96: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9d96..0x9d99  (3 bytes)
+DATA_cuadro_9D96:
+	defb 080h,048h,04ch	; 9d96
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9D99: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9d99..0x9d9c  (3 bytes)
+DATA_cuadro_9D99:
+	defb 080h,050h,054h	; 9d99
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9D9C: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9d9c..0x9d9f  (3 bytes)
+DATA_cuadro_9D9C:
+	defb 080h,058h,05ch	; 9d9c
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9D9F: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9d9f..0x9da2  (3 bytes)
+DATA_cuadro_9D9F:
+	defb 080h,060h,064h	; 9d9f
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9DA2: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9da2..0x9da5  (3 bytes)
+DATA_cuadro_9DA2:
+	defb 080h,068h,06ch	; 9da2
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9DA5: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9da5..0x9da8  (3 bytes)
+DATA_cuadro_9DA5:
+	defb 080h,070h,074h	; 9da5
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9DA8: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9da8..0x9dab  (3 bytes)
+DATA_cuadro_9DA8:
+	defb 080h,078h,07ch	; 9da8
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9DAB: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9dab..0x9dae  (3 bytes)
+DATA_cuadro_9DAB:
+	defb 080h,080h,084h	; 9dab
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9DAE: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9dae..0x9db1  (3 bytes)
+DATA_cuadro_9DAE:
+	defb 080h,088h,08ch	; 9dae
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9DB1: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9db1..0x9db4  (3 bytes)
+DATA_cuadro_9DB1:
+	defb 080h,090h,094h	; 9db1
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9DB4: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9db4..0x9db7  (3 bytes)
+DATA_cuadro_9DB4:
+	defb 080h,098h,09ch	; 9db4
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9DB7: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9db7..0x9dba  (3 bytes)
+DATA_cuadro_9DB7:
+	defb 080h,0a0h,0a4h	; 9db7
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9DBA: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9dba..0x9dbd  (3 bytes)
+DATA_cuadro_9DBA:
+	defb 080h,0a8h,0ach	; 9dba
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9DBD: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9dbd..0x9dc0  (3 bytes)
+DATA_cuadro_9DBD:
+	defb 080h,0b0h,0b4h	; 9dbd
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9DC0: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9dc0..0x9dc3  (3 bytes)
+DATA_cuadro_9DC0:
+	defb 080h,0b8h,0bch	; 9dc0
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9DC3: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9dc3..0x9dc6  (3 bytes)
+DATA_cuadro_9DC3:
+	defb 080h,0c0h,0c4h	; 9dc3
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9DC6: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9dc6..0x9dc9  (3 bytes)
+DATA_cuadro_9DC6:
+	defb 080h,0c8h,0cch	; 9dc6
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9DC9: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9dc9..0x9dcc  (3 bytes)
+DATA_cuadro_9DC9:
+	defb 080h,0d0h,0d4h	; 9dc9
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9DCC: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9dcc..0x9dcf  (3 bytes)
+DATA_cuadro_9DCC:
+	defb 080h,0d8h,0dch	; 9dcc
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9DCF: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9dcf..0x9dd2  (3 bytes)
+DATA_cuadro_9DCF:
+	defb 080h,0e0h,0e4h	; 9dcf
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9DD2: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9dd2..0x9dd5  (3 bytes)
+DATA_cuadro_9DD2:
+	defb 080h,0e8h,0ech	; 9dd2
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9DD5: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9dd5..0x9dd8  (3 bytes)
+DATA_cuadro_9DD5:
+	defb 080h,0f0h,0f4h	; 9dd5
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9DD8: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9dd8..0x9ddb  (3 bytes)
+DATA_cuadro_9DD8:
+	defb 080h,0f8h,0fch	; 9dd8
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9DDB: cuadro de enemigo: plantilla 2 y 4 patrones; lo leen
+;   p00:5123 (5 bytes)
+;   0x9ddb..0x9de0  (5 bytes)
+DATA_cuadro_9DDB:
+	defb 082h,090h,094h	; 9ddb
+	defb 088h,08ch	; 9dde
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9DE0: cuadro de enemigo: plantilla 2 y 4 patrones; lo leen
+;   p00:5123 (5 bytes)
+;   0x9de0..0x9de5  (5 bytes)
+DATA_cuadro_9DE0:
+	defb 082h,098h,09ch	; 9de0
+	defb 088h,08ch	; 9de3
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9DE5: cuadro de enemigo: plantilla 2 y 4 patrones; lo leen
+;   p00:5123 (5 bytes)
+;   0x9de5..0x9dea  (5 bytes)
+DATA_cuadro_9DE5:
+	defb 082h,0a0h,0a4h	; 9de5
+	defb 088h,08ch	; 9de8
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9DEA: cuadro de enemigo: plantilla 2 y 4 patrones; lo leen
+;   p00:5123 (5 bytes)
+;   0x9dea..0x9def  (5 bytes)
+DATA_cuadro_9DEA:
+	defb 082h,0a8h,0ach	; 9dea
+	defb 088h,08ch	; 9ded
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9DEF: cuadro de enemigo: plantilla 2 y 4 patrones; lo leen
+;   p00:5123 (5 bytes)
+;   0x9def..0x9df4  (5 bytes)
+DATA_cuadro_9DEF:
+	defb 082h,0b8h,0bch	; 9def
+	defb 088h,08ch	; 9df2
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9DF4: cuadro de enemigo: plantilla 2 y 4 patrones; lo leen
+;   p00:5123 (5 bytes)
+;   0x9df4..0x9df9  (5 bytes)
+DATA_cuadro_9DF4:
+	defb 082h,0c0h,0c4h	; 9df4
+	defb 088h,08ch	; 9df7
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9DF9: cuadro de enemigo: plantilla 2 y 4 patrones; lo leen
+;   p00:5123 (5 bytes)
+;   0x9df9..0x9dfe  (5 bytes)
+DATA_cuadro_9DF9:
+	defb 082h,0c8h,0cch	; 9df9
+	defb 088h,08ch	; 9dfc
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9DFE: cuadro de enemigo: plantilla 2 y 4 patrones; lo leen
+;   p00:5123 (5 bytes)
+;   0x9dfe..0x9e03  (5 bytes)
+DATA_cuadro_9DFE:
+	defb 082h,0d0h,0d4h	; 9dfe
+	defb 088h,08ch	; 9e01
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E03: cuadro de enemigo: plantilla 1 y 4 patrones; lo leen
+;   p00:5123 (5 bytes)
+;   0x9e03..0x9e08  (5 bytes)
+DATA_cuadro_9E03:
+	defb 081h,060h,064h	; 9e03
+	defb 080h,084h	; 9e06
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E08: cuadro de enemigo: plantilla 1 y 4 patrones; lo leen
+;   p00:5123 (5 bytes)
+;   0x9e08..0x9e0d  (5 bytes)
+DATA_cuadro_9E08:
+	defb 081h,068h,06ch	; 9e08
+	defb 088h,08ch	; 9e0b
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E0D: cuadro de enemigo: plantilla 1 y 4 patrones; lo leen
+;   p00:5123 (5 bytes)
+;   0x9e0d..0x9e12  (5 bytes)
+DATA_cuadro_9E0D:
+	defb 081h,070h,074h	; 9e0d
+	defb 090h,094h	; 9e10
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E12: cuadro de enemigo: plantilla 3 y 8 patrones; lo leen
+;   p00:5123 (9 bytes)
+;   0x9e12..0x9e1b  (9 bytes)
+DATA_cuadro_9E12:
+	defb 083h,040h,044h	; 9e12
+	defb 048h,04ch,050h	; 9e15
+	defb 054h,058h,05ch	; 9e18
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E1B: cuadro de enemigo: plantilla 3 y 8 patrones; lo leen
+;   p00:5123 (9 bytes)
+;   0x9e1b..0x9e24  (9 bytes)
+DATA_cuadro_9E1B:
+	defb 083h,060h,064h	; 9e1b
+	defb 068h,06ch,070h	; 9e1e
+	defb 074h,078h,07ch	; 9e21
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E24: cuadro de enemigo: plantilla 3 y 8 patrones; lo leen
+;   p00:5123 (9 bytes)
+;   0x9e24..0x9e2d  (9 bytes)
+DATA_cuadro_9E24:
+	defb 083h,080h,084h	; 9e24
+	defb 088h,08ch,050h	; 9e27
+	defb 054h,058h,05ch	; 9e2a
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E2D: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9e2d..0x9e30  (3 bytes)
+DATA_cuadro_9E2D:
+	defb 080h,040h,044h	; 9e2d
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E30: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9e30..0x9e33  (3 bytes)
+DATA_cuadro_9E30:
+	defb 080h,048h,04ch	; 9e30
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E33: cuadro de enemigo: plantilla 4 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9e33..0x9e36  (3 bytes)
+DATA_cuadro_9E33:
+	defb 084h,050h,054h	; 9e33
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E36: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9e36..0x9e39  (3 bytes)
+DATA_cuadro_9E36:
+	defb 080h,058h,05ch	; 9e36
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E39: cuadro de enemigo: plantilla 4 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9e39..0x9e3c  (3 bytes)
+DATA_cuadro_9E39:
+	defb 084h,060h,064h	; 9e39
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E3C: cuadro de enemigo: plantilla 4 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9e3c..0x9e3f  (3 bytes)
+DATA_cuadro_9E3C:
+	defb 084h,068h,06ch	; 9e3c
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E3F: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9e3f..0x9e42  (3 bytes)
+DATA_cuadro_9E3F:
+	defb 080h,070h,074h	; 9e3f
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E42: cuadro de enemigo: plantilla 4 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9e42..0x9e45  (3 bytes)
+DATA_cuadro_9E42:
+	defb 084h,078h,07ch	; 9e42
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E45: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9e45..0x9e48  (3 bytes)
+DATA_cuadro_9E45:
+	defb 080h,080h,084h	; 9e45
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E48: cuadro de enemigo: plantilla 4 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9e48..0x9e4b  (3 bytes)
+DATA_cuadro_9E48:
+	defb 084h,088h,08ch	; 9e48
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E4B: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9e4b..0x9e4e  (3 bytes)
+DATA_cuadro_9E4B:
+	defb 080h,090h,094h	; 9e4b
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E4E: cuadro de enemigo: plantilla 4 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9e4e..0x9e51  (3 bytes)
+DATA_cuadro_9E4E:
+	defb 084h,098h,09ch	; 9e4e
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E51: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9e51..0x9e54  (3 bytes)
+DATA_cuadro_9E51:
+	defb 080h,0a0h,0a4h	; 9e51
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E54: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9e54..0x9e57  (3 bytes)
+DATA_cuadro_9E54:
+	defb 080h,0a8h,0ach	; 9e54
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E57: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9e57..0x9e5a  (3 bytes)
+DATA_cuadro_9E57:
+	defb 080h,0b0h,0b4h	; 9e57
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E5A: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9e5a..0x9e5d  (3 bytes)
+DATA_cuadro_9E5A:
+	defb 080h,0b8h,0bch	; 9e5a
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E5D: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9e5d..0x9e60  (3 bytes)
+DATA_cuadro_9E5D:
+	defb 080h,0c0h,0c4h	; 9e5d
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E60: cuadro de enemigo: plantilla 4 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9e60..0x9e63  (3 bytes)
+DATA_cuadro_9E60:
+	defb 084h,040h,044h	; 9e60
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E63: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9e63..0x9e66  (3 bytes)
+DATA_cuadro_9E63:
+	defb 080h,048h,04ch	; 9e63
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E66: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9e66..0x9e69  (3 bytes)
+DATA_cuadro_9E66:
+	defb 080h,050h,054h	; 9e66
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E69: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9e69..0x9e6c  (3 bytes)
+DATA_cuadro_9E69:
+	defb 080h,058h,05ch	; 9e69
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E6C: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9e6c..0x9e6f  (3 bytes)
+DATA_cuadro_9E6C:
+	defb 080h,060h,064h	; 9e6c
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E6F: cuadro de enemigo: plantilla 4 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9e6f..0x9e72  (3 bytes)
+DATA_cuadro_9E6F:
+	defb 084h,068h,06ch	; 9e6f
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E72: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9e72..0x9e75  (3 bytes)
+DATA_cuadro_9E72:
+	defb 080h,070h,074h	; 9e72
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E75: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9e75..0x9e78  (3 bytes)
+DATA_cuadro_9E75:
+	defb 080h,078h,07ch	; 9e75
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E78: cuadro de enemigo: plantilla 3 y 8 patrones; lo leen
+;   p00:5123 (9 bytes)
+;   0x9e78..0x9e81  (9 bytes)
+DATA_cuadro_9E78:
+	defb 083h,0e0h,0e4h	; 9e78
+	defb 0e8h,0ech,0f0h	; 9e7b
+	defb 0f4h,0f8h,0fch	; 9e7e
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E81: cuadro de enemigo: 8 sprites [dy][dx][patron]; lo leen
+;   p00:5123 (24 bytes)
+;   0x9e81..0x9e99  (24 bytes)
+DATA_cuadro_9E81:
+	defb 0f5h,0f0h,0e0h	; 9e81
+	defb 0f5h,0f0h,0e4h	; 9e84
+	defb 0f5h,000h,0e8h	; 9e87
+	defb 0f5h,000h,0ech	; 9e8a
+	defb 005h,0f0h,0f0h	; 9e8d
+	defb 005h,0f0h,0f4h	; 9e90
+	defb 005h,000h,0f8h	; 9e93
+	defb 005h,000h,0fch	; 9e96
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E99: cuadro de enemigo: plantilla 1 y 4 patrones; lo leen
+;   p00:5123 (5 bytes)
+;   0x9e99..0x9e9e  (5 bytes)
+DATA_cuadro_9E99:
+	defb 081h,080h,084h	; 9e99
+	defb 088h,08ch	; 9e9c
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9E9E: cuadro de enemigo: plantilla 1 y 4 patrones; lo leen
+;   p00:5123 (5 bytes)
+;   0x9e9e..0x9ea3  (5 bytes)
+DATA_cuadro_9E9E:
+	defb 081h,090h,094h	; 9e9e
+	defb 098h,09ch	; 9ea1
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9EA3: cuadro de enemigo: plantilla 3 y 8 patrones; lo leen
+;   p00:5123 (9 bytes)
+;   0x9ea3..0x9eac  (9 bytes)
+DATA_cuadro_9EA3:
+	defb 083h,040h,044h	; 9ea3
+	defb 040h,044h,040h	; 9ea6
+	defb 044h,040h,044h	; 9ea9
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9EAC: cuadro de enemigo: plantilla 3 y 8 patrones; lo leen
+;   p00:5123 (9 bytes)
+;   0x9eac..0x9eb5  (9 bytes)
+DATA_cuadro_9EAC:
+	defb 083h,048h,04ch	; 9eac
+	defb 048h,04ch,048h	; 9eaf
+	defb 04ch,048h,04ch	; 9eb2
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9EB5: cuadro de enemigo: plantilla 3 y 8 patrones; lo leen
+;   p00:5123 (9 bytes)
+;   0x9eb5..0x9ebe  (9 bytes)
+DATA_cuadro_9EB5:
+	defb 083h,050h,054h	; 9eb5
+	defb 050h,054h,050h	; 9eb8
+	defb 054h,050h,054h	; 9ebb
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9EBE: cuadro de enemigo: plantilla 3 y 8 patrones; lo leen
+;   p00:5123 (9 bytes)
+;   0x9ebe..0x9ec7  (9 bytes)
+DATA_cuadro_9EBE:
+	defb 083h,058h,05ch	; 9ebe
+	defb 058h,05ch,058h	; 9ec1
+	defb 05ch,058h,05ch	; 9ec4
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9EC7: cuadro de enemigo: plantilla 5 y 8 patrones; lo leen
+;   p00:5123 (9 bytes)
+;   0x9ec7..0x9ed0  (9 bytes)
+DATA_cuadro_9EC7:
+	defb 085h,040h,044h	; 9ec7
+	defb 040h,044h,040h	; 9eca
+	defb 044h,040h,044h	; 9ecd
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9ED0: cuadro de enemigo: plantilla 5 y 8 patrones; lo leen
+;   p00:5123 (9 bytes)
+;   0x9ed0..0x9ed9  (9 bytes)
+DATA_cuadro_9ED0:
+	defb 085h,048h,04ch	; 9ed0
+	defb 048h,04ch,048h	; 9ed3
+	defb 04ch,048h,04ch	; 9ed6
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9ED9: cuadro de enemigo: plantilla 4 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9ed9..0x9edc  (3 bytes)
+DATA_cuadro_9ED9:
+	defb 084h,040h,044h	; 9ed9
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9EDC: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9edc..0x9edf  (3 bytes)
+DATA_cuadro_9EDC:
+	defb 080h,048h,04ch	; 9edc
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9EDF: cuadro de enemigo: plantilla 4 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9edf..0x9ee2  (3 bytes)
+DATA_cuadro_9EDF:
+	defb 084h,050h,054h	; 9edf
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9EE2: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9ee2..0x9ee5  (3 bytes)
+DATA_cuadro_9EE2:
+	defb 080h,058h,05ch	; 9ee2
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9EE5: cuadro de enemigo: 2 sprites [dy][dx][patron]; lo leen
+;   p00:5123 (6 bytes)
+;   0x9ee5..0x9eeb  (6 bytes)
+DATA_cuadro_9EE5:
+	defb 0f8h,0f7h,060h	; 9ee5
+	defb 0f8h,0f7h,064h	; 9ee8
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9EEB: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9eeb..0x9eee  (3 bytes)
+DATA_cuadro_9EEB:
+	defb 080h,068h,06ch	; 9eeb
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9EEE: cuadro de enemigo: 2 sprites [dy][dx][patron]; lo leen
+;   p00:5123 (6 bytes)
+;   0x9eee..0x9ef4  (6 bytes)
+DATA_cuadro_9EEE:
+	defb 0f8h,0f7h,070h	; 9eee
+	defb 0f8h,0f7h,074h	; 9ef1
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9EF4: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9ef4..0x9ef7  (3 bytes)
+DATA_cuadro_9EF4:
+	defb 080h,078h,07ch	; 9ef4
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9EF7: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9ef7..0x9efa  (3 bytes)
+DATA_cuadro_9EF7:
+	defb 080h,040h,044h	; 9ef7
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9EFA: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9efa..0x9efd  (3 bytes)
+DATA_cuadro_9EFA:
+	defb 080h,048h,04ch	; 9efa
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9EFD: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9efd..0x9f00  (3 bytes)
+DATA_cuadro_9EFD:
+	defb 080h,050h,054h	; 9efd
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9F00: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9f00..0x9f03  (3 bytes)
+DATA_cuadro_9F00:
+	defb 080h,058h,05ch	; 9f00
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9F03: cuadro de enemigo: plantilla 4 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9f03..0x9f06  (3 bytes)
+DATA_cuadro_9F03:
+	defb 084h,060h,064h	; 9f03
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9F06: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9f06..0x9f09  (3 bytes)
+DATA_cuadro_9F06:
+	defb 080h,068h,06ch	; 9f06
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9F09: cuadro de enemigo: plantilla 4 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9f09..0x9f0c  (3 bytes)
+DATA_cuadro_9F09:
+	defb 084h,070h,074h	; 9f09
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9F0C: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9f0c..0x9f0f  (3 bytes)
+DATA_cuadro_9F0C:
+	defb 080h,078h,07ch	; 9f0c
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9F0F: cuadro de enemigo: plantilla 4 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9f0f..0x9f12  (3 bytes)
+DATA_cuadro_9F0F:
+	defb 084h,080h,084h	; 9f0f
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9F12: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9f12..0x9f15  (3 bytes)
+DATA_cuadro_9F12:
+	defb 080h,088h,08ch	; 9f12
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9F15: cuadro de enemigo: plantilla 4 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9f15..0x9f18  (3 bytes)
+DATA_cuadro_9F15:
+	defb 084h,090h,094h	; 9f15
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9F18: cuadro de enemigo: plantilla 0 y 2 patrones; lo leen
+;   p00:5123 (3 bytes)
+;   0x9f18..0x9f1b  (3 bytes)
+DATA_cuadro_9F18:
+	defb 080h,098h,09ch	; 9f18
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9F1B: cuadro de enemigo: 2 sprites [dy][dx][patron]; lo leen
+;   p00:5123 (6 bytes)
+;   0x9f1b..0x9f21  (6 bytes)
+DATA_cuadro_9F1B:
+	defb 0e8h,0f7h,0c0h	; 9f1b
+	defb 0e8h,0f7h,0c4h	; 9f1e
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9F21: cuadro de enemigo: 2 sprites [dy][dx][patron]; lo leen
+;   p00:5123 (6 bytes)
+;   0x9f21..0x9f27  (6 bytes)
+DATA_cuadro_9F21:
+	defb 0e8h,0f7h,0c8h	; 9f21
+	defb 0e8h,0f7h,0cch	; 9f24
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9F27: cuadro de enemigo: plantilla 3 y 8 patrones; lo leen
+;   p00:5123 (9 bytes)
+;   0x9f27..0x9f30  (9 bytes)
+DATA_cuadro_9F27:
+	defb 083h,040h,044h	; 9f27
+	defb 068h,06ch,048h	; 9f2a
+	defb 04ch,070h,074h	; 9f2d
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9F30: cuadro de enemigo: 8 sprites [dy][dx][patron]; lo leen
+;   p00:5123 (24 bytes)
+;   0x9f30..0x9f48  (24 bytes)
+DATA_cuadro_9F30:
+	defb 0f1h,0f0h,040h	; 9f30
+	defb 0f1h,0f0h,044h	; 9f33
+	defb 001h,0f0h,050h	; 9f36
+	defb 001h,0f0h,054h	; 9f39
+	defb 0f1h,000h,068h	; 9f3c
+	defb 0f1h,000h,06ch	; 9f3f
+	defb 001h,000h,078h	; 9f42
+	defb 001h,000h,07ch	; 9f45
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9F48: cuadro de enemigo: plantilla 3 y 8 patrones; lo leen
+;   p00:5123 (9 bytes)
+;   0x9f48..0x9f51  (9 bytes)
+DATA_cuadro_9F48:
+	defb 083h,058h,05ch	; 9f48
+	defb 060h,064h,068h	; 9f4b
+	defb 06ch,070h,074h	; 9f4e
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9F51: cuadro de enemigo: 12 sprites [dy][dx][patron]; lo leen
+;   p00:5123 (36 bytes)
+;   0x9f51..0x9f75  (36 bytes)
+DATA_cuadro_9F51:
+	defb 0e7h,0f0h,040h	; 9f51
+	defb 0e7h,0f0h,044h	; 9f54
+	defb 0e7h,000h,040h	; 9f57
+	defb 0e7h,000h,044h	; 9f5a
+	defb 0f7h,0f0h,040h	; 9f5d
+	defb 0f7h,0f0h,044h	; 9f60
+	defb 0f7h,000h,040h	; 9f63
+	defb 0f7h,000h,044h	; 9f66
+	defb 007h,0f0h,040h	; 9f69
+	defb 007h,0f0h,044h	; 9f6c
+	defb 007h,000h,040h	; 9f6f
+	defb 007h,000h,044h	; 9f72
+
+; ----------------------------------------------------------------------
+; DATOS cuadro_9F75: cuadro de enemigo: 12 sprites [dy][dx][patron]; lo leen
+;   p00:5123 (36 bytes)
+;   0x9f75..0x9f99  (36 bytes)
+DATA_cuadro_9F75:
+	defb 0e7h,0f0h,048h	; 9f75
+	defb 0e7h,0f0h,04ch	; 9f78
+	defb 0e7h,000h,048h	; 9f7b
+	defb 0e7h,000h,04ch	; 9f7e
+	defb 0f7h,0f0h,048h	; 9f81
+	defb 0f7h,0f0h,04ch	; 9f84
+	defb 0f7h,000h,048h	; 9f87
+	defb 0f7h,000h,04ch	; 9f8a
+	defb 007h,0f0h,048h	; 9f8d
+	defb 007h,0f0h,04ch	; 9f90
+	defb 007h,000h,048h	; 9f93
+	defb 007h,000h,04ch	; 9f96
 
 ; ----------------------------------------------------------------------
 ; DATOS fuente: 96 letras de 1 bit (desde el '0', 0x30): la fuente; p01:6010

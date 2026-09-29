@@ -511,6 +511,31 @@ def decorado_que_cambia(t, bl):
                  "transparencia" % (c, fl), "p02:8204", ancho=c)
 
 
+def cuadros_de_enemigos(t, bl):
+    """p00:50F9 (bancos 4-5-6): el cuadro ix+0x0B de un enemigo. La palabra
+    p05:9CC3 + 2*cuadro apunta a una lista: por cada sprite (ix+0x20) [dy][dx]
+    [patron], o un codigo 0x80-0x86 que toma las posiciones de una plantilla
+    de p00:519A y deja solo un patron por sprite."""
+    B456 = (4, 5, 6)
+    n = (0x9D93 - 0x9CC3) // 2
+    bl.anota(B456, 0x9CC3, 0x9D93, "cuadros_de_enemigos",
+             "%d punteros, uno por cuadro (ix+0x0B), a su lista de sprites; p00:510B. "
+             "La lista 0x5530 sube tambien estos bytes como dibujos" % n, "p00:510E", ancho=2)
+    u = sorted(set(P.palabra(0x9CC3 + 2 * i, B456) for i in range(n)))
+    for i, a in enumerate(u):
+        fin = u[i + 1] if i + 1 < len(u) else 0x9F99
+        c = P.lee(a, B456)
+        que = ("plantilla %d y %d patrones" % (c - 0x80, fin - a - 1) if 0x80 <= c <= 0x86
+               else "%d sprites [dy][dx][patron]" % ((fin - a) // 3))
+        bl.anota(B456, a, fin, "cuadro_%04X" % a, "cuadro de enemigo: %s" % que,
+                 "p00:5123", ancho=3)
+    for k, (a, n) in enumerate(((0x519A, 2), (0x519E, 4), (0x51A6, 4), (0x51AE, 8),
+                                (0x51BE, 2), (0x51C2, 12), (0x51DA, 8))):
+        bl.anota(B123, a, a + 2 * n, "plantilla_%d" % k,
+                 "plantilla 0x%02X: %d parejas [dy][dx], una por sprite" % (0x80 + k, n),
+                 "p00:517E", ancho=2)
+
+
 def nombres_de_enemigos(t, bl):
     """p01:61D2: con el banco 15 en 0xA000, el nombre del tipo de enemigo t
     es la cadena (0xFF acaba) a la que apunta 0xBA76 + 2*t (t = 1..68; el 0
@@ -697,7 +722,7 @@ def conversaciones(t, bl):
 
 
 RECORRIDOS = [enemigos_de_cada_pantalla, nombres_de_enemigos, mitchel, cabecera, tablas_del_despachador, pantallas, vecinas, juegos_de_dibujos,
-              bloques_de_cada_juego, paletas, figuras_fijas, portadas, objetos, conversaciones, sprites_de_enemigos, el_final, sprites_de_mitchel, figuras_a_pelo, sonido, tablas_de_p15, decorado_que_cambia]
+              bloques_de_cada_juego, paletas, figuras_fijas, portadas, objetos, conversaciones, sprites_de_enemigos, el_final, sprites_de_mitchel, figuras_a_pelo, sonido, tablas_de_p15, decorado_que_cambia, cuadros_de_enemigos]
 
 
 # ------------------------------------------------------------------ escritura
