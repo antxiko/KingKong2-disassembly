@@ -39,6 +39,136 @@ D 0xB0B7 0xB145 lista_de_sprites_de_cada_pantalla  un byte por pantalla: el nume
 F 0xB0B7 16
 D 0xB1C5 0xB3FD vecinas  la pantalla a la que se sale por arriba, abajo, izquierda y derecha (0xFF no hay salida, 0xF0-0xFB especial); p01:6173 con 0xB1C5 + 4*pantalla + lado; lo leen p01:6183 (568 bytes)
 F 0xB1C5 4
+D 0xB3FD 0xB423 pantallas_con_decorado  37 pantallas (una vez por cada cosa) y un 0: p02:818A busca la actual; lo leen p02:818A (38 bytes)
+F 0xB3FD 16
+D 0xB423 0xB46D fichas_de_decorado  37 punteros, uno por entrada de p09:B3FD, a su ficha de 9 bytes; lo leen p02:819A (74 bytes)
+F 0xB423 2
+D 0xB46D 0xB476 ficha_B46D  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB46D 9
+D 0xB476 0xB47F ficha_B476  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB476 9
+D 0xB47F 0xB488 ficha_B47F  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB47F 9
+D 0xB488 0xB491 ficha_B488  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB488 9
+D 0xB491 0xB49A ficha_B491  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB491 9
+D 0xB49A 0xB4A3 ficha_B49A  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB49A 9
+D 0xB4A3 0xB4AC ficha_B4A3  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB4A3 9
+D 0xB4AC 0xB4B5 ficha_B4AC  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB4AC 9
+D 0xB4B5 0xB4BE ficha_B4B5  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB4B5 9
+D 0xB4BE 0xB4C7 ficha_B4BE  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB4BE 9
+D 0xB4C7 0xB4D0 ficha_B4C7  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB4C7 9
+D 0xB4D0 0xB4D9 ficha_B4D0  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB4D0 9
+D 0xB4D9 0xB4E2 ficha_B4D9  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB4D9 9
+D 0xB4E2 0xB4EB ficha_B4E2  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB4E2 9
+D 0xB4EB 0xB4F4 ficha_B4EB  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB4EB 9
+D 0xB4F4 0xB4FD ficha_B4F4  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB4F4 9
+D 0xB4FD 0xB506 ficha_B4FD  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB4FD 9
+D 0xB506 0xB50F ficha_B506  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB506 9
+D 0xB50F 0xB518 ficha_B50F  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB50F 9
+D 0xB518 0xB521 ficha_B518  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB518 9
+D 0xB521 0xB52A ficha_B521  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB521 9
+D 0xB52A 0xB533 ficha_B52A  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB52A 9
+D 0xB533 0xB53C ficha_B533  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB533 9
+D 0xB53C 0xB545 ficha_B53C  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB53C 9
+D 0xB545 0xB54E ficha_B545  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB545 9
+D 0xB54E 0xB557 ficha_B54E  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB54E 9
+D 0xB557 0xB560 ficha_B557  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB557 9
+D 0xB560 0xB569 ficha_B560  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB560 9
+D 0xB569 0xB572 ficha_B569  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB569 9
+D 0xB572 0xB57B ficha_B572  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB572 9
+D 0xB57B 0xB584 ficha_B57B  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB57B 9
+D 0xB584 0xB58D ficha_B584  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB584 9
+D 0xB58D 0xB596 ficha_B58D  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB58D 9
+D 0xB596 0xB59F ficha_B596  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB596 9
+D 0xB59F 0xB5A8 ficha_B59F  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB59F 9
+D 0xB5A8 0xB5B1 ficha_B5A8  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB5A8 9
+D 0xB5B1 0xB5BA ficha_B5B1  [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo (ya se quito); lo leen p02:81A5 (9 bytes)
+F 0xB5B1 9
+D 0xB5BA 0xB5F0 figuras_de_decorado  27 punteros: la figura de cada ficha (su byte 7); p02:81ED; lo leen p02:81F4 (54 bytes)
+F 0xB5BA 2
+D 0xB5F0 0xB602 figura_de_decorado_16  6 columnas x 3 filas de numeros de dibujo que p00:4EB5 pinta con transparencia; lo leen p02:8204 (18 bytes)
+F 0xB5F0 6
+D 0xB602 0xB60A figura_de_decorado_00  4 columnas x 2 filas de numeros de dibujo que p00:4EB5 pinta con transparencia; lo leen p02:8204 (8 bytes)
+F 0xB602 4
+D 0xB60A 0xB612 figura_de_decorado_05  2 columnas x 4 filas de numeros de dibujo que p00:4EB5 pinta con transparencia; lo leen p02:8204 (8 bytes)
+F 0xB60A 2
+D 0xB612 0xB61A figura_de_decorado_03  4 columnas x 2 filas de numeros de dibujo que p00:4EB5 pinta con transparencia; lo leen p02:8204 (8 bytes)
+F 0xB612 4
+D 0xB61A 0xB622 figura_de_decorado_02  4 columnas x 2 filas de numeros de dibujo que p00:4EB5 pinta con transparencia; lo leen p02:8204 (8 bytes)
+F 0xB61A 4
+D 0xB622 0xB632 figura_de_decorado_06  4 columnas x 4 filas de numeros de dibujo que p00:4EB5 pinta con transparencia; lo leen p02:8204 (16 bytes)
+F 0xB622 4
+D 0xB632 0xB653 figura_de_decorado_07  11 columnas x 3 filas de numeros de dibujo que p00:4EB5 pinta con transparencia; lo leen p02:8204 (33 bytes)
+F 0xB632 11
+D 0xB653 0xB68F figura_de_decorado_08  20 columnas x 3 filas de numeros de dibujo que p00:4EB5 pinta con transparencia; lo leen p02:8204 (60 bytes)
+F 0xB653 20
+D 0xB68F 0xB69D figura_de_decorado_0A  7 columnas x 2 filas de numeros de dibujo que p00:4EB5 pinta con transparencia; lo leen p02:8204 (14 bytes)
+F 0xB68F 7
+D 0xB69D 0xB6BD figura_de_decorado_0B  8 columnas x 4 filas de numeros de dibujo que p00:4EB5 pinta con transparencia; lo leen p02:8204 (32 bytes)
+F 0xB69D 8
+D 0xB6BD 0xB6C5 figura_de_decorado_0F  4 columnas x 2 filas de numeros de dibujo que p00:4EB5 pinta con transparencia; lo leen p02:8204 (8 bytes)
+F 0xB6BD 4
+D 0xB6C5 0xB6DD figura_de_decorado_10  8 columnas x 3 filas de numeros de dibujo que p00:4EB5 pinta con transparencia; lo leen p02:8204 (24 bytes)
+F 0xB6C5 8
+D 0xB6DD 0xB6FB figura_de_decorado_09  3 columnas x 10 filas de numeros de dibujo que p00:4EB5 pinta con transparencia; lo leen p02:8204 (30 bytes)
+F 0xB6DD 3
+D 0xB6FB 0xB713 figura_de_decorado_0C  3 columnas x 8 filas de numeros de dibujo que p00:4EB5 pinta con transparencia; lo leen p02:8204 (24 bytes)
+F 0xB6FB 3
+D 0xB713 0xB71B figura_de_decorado_0D  2 columnas x 4 filas de numeros de dibujo que p00:4EB5 pinta con transparencia; lo leen p02:8204 (8 bytes)
+F 0xB713 2
+D 0xB71B 0xB734 figura_de_decorado_0E  5 columnas x 5 filas de numeros de dibujo que p00:4EB5 pinta con transparencia; lo leen p02:8204 (25 bytes)
+F 0xB71B 5
+D 0xB734 0xB74A figura_de_decorado_11  11 columnas x 2 filas de numeros de dibujo que p00:4EB5 pinta con transparencia; lo leen p02:8204 (22 bytes)
+F 0xB734 11
+D 0xB74A 0xB75A figura_de_decorado_12  8 columnas x 2 filas de numeros de dibujo que p00:4EB5 pinta con transparencia; lo leen p02:8204 (16 bytes)
+F 0xB74A 8
+D 0xB75A 0xB78C figura_de_decorado_13  5 columnas x 10 filas de numeros de dibujo que p00:4EB5 pinta con transparencia; lo leen p02:8204 (50 bytes)
+F 0xB75A 5
+D 0xB78C 0xB794 figura_de_decorado_14  2 columnas x 4 filas de numeros de dibujo que p00:4EB5 pinta con transparencia; lo leen p02:8204 (8 bytes)
+F 0xB78C 2
+D 0xB794 0xB798 figura_de_decorado_15  4 columnas x 1 filas de numeros de dibujo que p00:4EB5 pinta con transparencia; lo leen p02:8204 (4 bytes)
+F 0xB794 4
+D 0xB798 0xB7B6 figura_de_decorado_17  3 columnas x 10 filas de numeros de dibujo que p00:4EB5 pinta con transparencia; lo leen p02:8204 (30 bytes)
+F 0xB798 3
+D 0xB7B6 0xB7C2 figura_de_decorado_18  2 columnas x 6 filas de numeros de dibujo que p00:4EB5 pinta con transparencia; lo leen p02:8204 (12 bytes)
+F 0xB7B6 2
+D 0xB7C2 0xB7D2 figura_de_decorado_19  4 columnas x 4 filas de numeros de dibujo que p00:4EB5 pinta con transparencia; lo leen p02:8204 (16 bytes)
+F 0xB7C2 4
+D 0xB7D2 0xB7D6 figura_de_decorado_1A  2 columnas x 2 filas de numeros de dibujo que p00:4EB5 pinta con transparencia; lo leen p02:8204 (4 bytes)
+F 0xB7D2 2
 D 0xBC4F 0xBC93 fuerza_de_cada_enemigo  68 bytes, uno por tipo de enemigo: la fuerza (STR) que se ve en el panel; p01:6287 con 0xBC4F + tipo - 1; lo leen p01:628A (68 bytes)
 F 0xBC4F 16
 # --- fin de los bloques de bloques.py ---

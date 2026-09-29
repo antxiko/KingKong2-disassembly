@@ -163,6 +163,16 @@ D 0xB9A5 0xB9F6 figura_estatua  9x9 numeros de dibujo de la estatua de King Kong
 F 0xB9A5 9
 D 0xB9F6 0xBA05 figura_de_la_60  3 columnas x 5 filas de dibujos: las dos piezas de la pantalla 0x60; lo leen p00:4EC1 (15 bytes)
 F 0xB9F6 3
+D 0xBA05 0xBA15 figura_BA05  4 columnas x 4 filas de numeros de dibujo (0 = no pinta) que p00:4EB2 copia con transparencia: el suceso de p06:A664 (0xC139 = 0), en (0x88, 0x48); lo leen p06:A66A (16 bytes)
+F 0xBA05 4
+D 0xBA15 0xBA38 figura_BA15  7 columnas x 5 filas de numeros de dibujo (0 = no pinta) que p00:4EB2 copia con transparencia: la escena del final (p00:4E7B); lo leen p06:AB70 (35 bytes)
+F 0xBA15 7
+D 0xBA38 0xBA4C figura_BA38  5 columnas x 4 filas de numeros de dibujo (0 = no pinta) que p00:4EB2 copia con transparencia: la escena del final (p00:4E86); lo leen p06:AA23 (20 bytes)
+F 0xBA38 5
+D 0xBA4C 0xBA68 figura_BA4C  7 columnas x 4 filas de numeros de dibujo (0 = no pinta) que p00:4EB2 copia con transparencia: la escena del final (p00:4E91); lo leen p06:ABC3 (28 bytes)
+F 0xBA4C 7
+D 0xBA68 0xBA78 figura_BA68  4 columnas x 4 filas de numeros de dibujo (0 = no pinta) que p00:4EB2 copia con transparencia: la escena del final (p00:4E99); lo leen p06:ABCC (16 bytes)
+F 0xBA68 4
 D 0xBA78 0xBB00 nombres_de_enemigos  68 punteros, uno por tipo de enemigo (1-68), a su nombre; p01:61DD los lee con 0xBA76 + 2*tipo; lo leen p00:4304 (136 bytes)
 F 0xBA78 2
 D 0xBB00 0xBB08 nombre_1  el nombre del enemigo 1 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (8 bytes)

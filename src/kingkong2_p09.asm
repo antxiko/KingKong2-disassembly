@@ -1279,70 +1279,674 @@ DATA_vecinas:
 	defb 0ffh,08ch,0ffh,0ffh	; b3f9
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xb3fd..0xb7d6  (985 bytes)
-DATA_B3FD:
+; DATOS pantallas_con_decorado: 37 pantallas (una vez por cada cosa) y un 0:
+;   p02:818A busca la actual; lo leen p02:818A (38 bytes)
+;   0xb3fd..0xb423  (38 bytes)
+DATA_pantallas_con_decorado:
 	defb 05ch,05ch,05dh,05dh,02ah,01ah,001h,001h,05dh,029h,00eh,009h,006h,016h,046h,030h	; b3fd  \\]]*...])....F0
 	defb 033h,00bh,034h,034h,050h,05bh,076h,07ah,082h,084h,038h,00dh,02dh,02eh,068h,06fh	; b40d  3.44P[vz..8.-.ho
-	defb 077h,07bh,005h,056h,06eh,000h,06dh,0b4h,076h,0b4h,07fh,0b4h,088h,0b4h,09ah,0b4h	; b41d  w{.Vn.m.v.......
-	defb 0a3h,0b4h,0ach,0b4h,0b5h,0b4h,091h,0b4h,0beh,0b4h,0d0h,0b4h,0d9h,0b4h,0e2h,0b4h	; b42d  ................
-	defb 0ebh,0b4h,0f4h,0b4h,0fdh,0b4h,006h,0b5h,00fh,0b5h,018h,0b5h,021h,0b5h,02ah,0b5h	; b43d  ............!.*.
-	defb 033h,0b5h,03ch,0b5h,045h,0b5h,04eh,0b5h,057h,0b5h,0c7h,0b4h,060h,0b5h,069h,0b5h	; b44d  3.<.E.N.W...`.i.
-	defb 072h,0b5h,07bh,0b5h,084h,0b5h,08dh,0b5h,096h,0b5h,09fh,0b5h,0a8h,0b5h,0b1h,0b5h	; b45d  r.{.............
-	defb 005h,008h,008h,00bh,003h,000h,0c7h,007h,000h,005h,068h,008h,008h,003h,040h,0c7h	; b46d  ..........h...@.
-	defb 010h,000h,005h,008h,098h,00bh,002h,000h,0c7h,011h,000h,005h,068h,098h,008h,002h	; b47d  ............h...
-	defb 040h,0c7h,012h,000h,008h,008h,008h,014h,003h,080h,0c7h,008h,004h,005h,008h,048h	; b48d  @..............H
-	defb 008h,004h,000h,0c7h,00bh,001h,005h,028h,058h,005h,00ah,000h,0c7h,013h,002h,005h	; b49d  .......(X.......
-	defb 008h,058h,003h,00ah,000h,0c7h,009h,003h,005h,020h,098h,007h,002h,040h,0c7h,00ah	; b4ad  .X....... ...@..
-	defb 003h,005h,008h,028h,003h,008h,000h,0c7h,00ch,005h,005h,068h,008h,006h,003h,000h	; b4bd  ...(.......h....
-	defb 0c7h,016h,015h,004h,048h,068h,004h,004h,000h,0c7h,006h,006h,004h,048h,028h,004h	; b4cd  ....Hh.......H(.
-	defb 004h,000h,0c7h,006h,009h,004h,028h,028h,004h,004h,000h,0c7h,006h,007h,004h,048h	; b4dd  ......((.......H
-	defb 048h,004h,004h,040h,0c7h,006h,008h,004h,028h,028h,004h,004h,000h,0c7h,006h,00ah	; b4ed  H..@....((......
-	defb 004h,068h,028h,004h,004h,000h,0c7h,006h,00bh,004h,030h,070h,004h,004h,000h,0c7h	; b4fd  .h(.......0p....
-	defb 006h,00ch,004h,048h,048h,004h,004h,000h,0c7h,006h,00dh,003h,008h,048h,002h,004h	; b50d  ...HH........H..
-	defb 000h,0c7h,005h,00eh,001h,048h,008h,004h,002h,040h,0c7h,000h,00fh,002h,048h,008h	; b51d  .....H...@....H.
-	defb 004h,002h,000h,0c7h,002h,010h,002h,048h,098h,004h,002h,000h,0c7h,003h,010h,005h	; b52d  .......H........
-	defb 098h,048h,002h,004h,000h,0c7h,00dh,011h,005h,028h,008h,005h,005h,000h,0c7h,00eh	; b53d  .H.......(......
-	defb 012h,005h,078h,008h,004h,002h,000h,0c7h,00fh,013h,005h,098h,028h,002h,004h,000h	; b54d  ..x.........(...
-	defb 0c7h,00dh,014h,006h,008h,018h,002h,004h,080h,0c7h,014h,016h,006h,098h,018h,002h	; b55d  ................
-	defb 006h,080h,0c7h,018h,017h,007h,048h,058h,004h,001h,080h,0c7h,015h,018h,006h,068h	; b56d  ......HX.......h
-	defb 048h,002h,004h,080h,0c7h,014h,019h,007h,068h,070h,004h,001h,080h,0c7h,015h,01ah	; b57d  H.......hp......
-	defb 006h,068h,048h,002h,004h,080h,0c7h,014h,01bh,006h,068h,068h,002h,004h,080h,0c7h	; b58d  .hH.......hh....
-	defb 014h,01ch,005h,008h,058h,003h,00ah,000h,0c7h,017h,01dh,009h,088h,018h,004h,004h	; b59d  ....X...........
-	defb 000h,0c7h,019h,01eh,00ah,050h,030h,002h,002h,080h,0c7h,01ah,01fh,002h,0b6h,002h	; b5ad  .....P0.........
-	defb 0b6h,01ah,0b6h,012h,0b6h,00ah,0b6h,00ah,0b6h,022h,0b6h,032h,0b6h,053h,0b6h,0ddh	; b5bd  .........".2.S..
-	defb 0b6h,08fh,0b6h,09dh,0b6h,0fbh,0b6h,013h,0b7h,01bh,0b7h,0bdh,0b6h,0c5h,0b6h,034h	; b5cd  ...............4
-	defb 0b7h,04ah,0b7h,05ah,0b7h,08ch,0b7h,094h,0b7h,0f0h,0b5h,098h,0b7h,0b6h,0b7h,0c2h	; b5dd  .J.Z............
-	defb 0b7h,0d2h,0b7h,001h,002h,09ch,003h,004h,09eh,001h,002h,09fh,003h,004h,09fh,001h	; b5ed  ................
-	defb 002h,09fh,003h,004h,001h,030h,031h,032h,033h,034h,035h,036h,037h,038h,039h,03ah	; b5fd  .....0123456789:
-	defb 03bh,03ch,03dh,03eh,03fh,040h,041h,042h,043h,044h,045h,046h,047h,040h,041h,042h	; b60d  ;<=>?@ABCDEFG@AB
-	defb 043h,044h,045h,046h,047h,050h,051h,052h,053h,054h,055h,056h,057h,058h,059h,05ah	; b61d  CDEFGPQRSTUVWXYZ
-	defb 05bh,05ch,05dh,05eh,05fh,09ch,09bh,09ah,096h,00bh,007h,097h,003h,0a4h,096h,004h	; b62d  [\]^_...........
-	defb 0a3h,097h,003h,0a2h,096h,004h,0a3h,097h,003h,0a2h,096h,004h,0a3h,097h,003h,0a2h	; b63d  ................
-	defb 007h,00bh,0a3h,0a0h,0a1h,0a4h,09ch,09bh,09ah,096h,00bh,007h,097h,003h,0a4h,096h	; b64d  ................
-	defb 004h,0a3h,097h,003h,0a2h,096h,004h,0a3h,097h,003h,0a2h,096h,004h,0a3h,097h,003h	; b65d  ................
-	defb 0a2h,096h,004h,0a3h,097h,003h,0a2h,096h,004h,0a3h,097h,003h,0a2h,096h,004h,0a3h	; b66d  ................
-	defb 097h,003h,0a2h,096h,004h,0a3h,097h,003h,0a2h,096h,004h,0a3h,097h,00ch,005h,09dh	; b67d  ................
-	defb 098h,099h,002h,065h,001h,064h,002h,065h,001h,064h,002h,065h,00bh,064h,069h,06fh	; b68d  ...e.d.e.d.e.dio
-	defb 00ch,00bh,009h,00ah,00ch,00ch,00ah,00bh,00bh,00bh,009h,00ch,002h,00ch,00ah,003h	; b69d  ................
-	defb 002h,00bh,00ch,003h,001h,00ch,00bh,004h,002h,00bh,00ch,003h,001h,00ch,00bh,004h	; b6ad  ................
-	defb 005h,006h,007h,008h,005h,006h,007h,008h,006h,009h,0a2h,097h,004h,0a3h,096h,003h	; b6bd  ................
-	defb 0a2h,097h,004h,0a3h,096h,003h,0a2h,097h,004h,0a3h,096h,003h,0a2h,097h,004h,0a3h	; b6cd  ................
-	defb 06ah,06bh,06ah,06bh,06ah,06bh,06ah,06bh,06ah,06eh,008h,007h,008h,007h,008h,007h	; b6dd  jkjkjkjkjn......
-	defb 008h,007h,00ch,065h,070h,071h,070h,071h,070h,071h,070h,071h,001h,064h,00ch,00bh	; b6ed  ...epqpqpqpq.d..
-	defb 009h,00ah,00ch,00bh,009h,00ah,00bh,00ch,00ch,009h,00bh,00ch,00ch,009h,065h,066h	; b6fd  ..............ef
-	defb 065h,066h,065h,066h,065h,066h,005h,006h,005h,006h,007h,008h,007h,008h,005h,006h	; b70d  efefef..........
-	defb 005h,006h,065h,007h,008h,007h,008h,065h,005h,006h,005h,006h,065h,007h,008h,007h	; b71d  ..e....e....e...
-	defb 008h,065h,005h,006h,005h,006h,065h,09ah,09eh,00ch,094h,001h,095h,002h,094h,001h	; b72d  .e....e.........
-	defb 095h,002h,094h,001h,095h,002h,094h,001h,095h,009h,007h,0a0h,0a1h,00ah,005h,001h	; b73d  ................
-	defb 094h,002h,095h,001h,094h,002h,095h,001h,094h,00ah,095h,098h,09fh,005h,006h,005h	; b74d  ................
-	defb 006h,005h,006h,005h,006h,064h,068h,068h,069h,068h,069h,068h,069h,068h,069h,068h	; b75d  .....dhhihihihih
-	defb 069h,067h,06bh,06ah,06bh,06ah,06bh,06ah,06bh,067h,06ah,06ah,008h,007h,008h,007h	; b76d  igkjkjkjkgjj....
-	defb 008h,007h,008h,06ah,064h,067h,003h,06ch,06dh,06ch,06dh,06ch,06dh,002h,065h,020h	; b77d  ...jdg.lmlmlm.e
-	defb 020h,020h,020h,021h,021h,021h,021h,022h,022h,022h,022h,06ch,06bh,06ah,06bh,06ah	; b78d     !!!!""""lkjkj
-	defb 06bh,06ah,06bh,06ah,06eh,066h,00ah,008h,008h,008h,007h,008h,007h,00ch,064h,067h	; b79d  kjkjnf........dg
-	defb 003h,074h,070h,071h,070h,071h,070h,001h,065h,020h,020h,020h,020h,020h,020h,021h	; b7ad  .tpqpqp.e      !
-	defb 021h,021h,021h,021h,021h,001h,002h,003h,004h,004h,003h,002h,001h,001h,002h,003h	; b7bd  !!!!!...........
-	defb 004h,004h,003h,002h,001h,010h,011h,012h,013h	; b7cd  .........
+	defb 077h,07bh,005h,056h,06eh,000h	; b41d
+
+; ----------------------------------------------------------------------
+; DATOS fichas_de_decorado: 37 punteros, uno por entrada de p09:B3FD, a su
+;   ficha de 9 bytes; lo leen p02:819A (74 bytes)
+;   0xb423..0xb46d  (74 bytes)
+DATA_fichas_de_decorado:
+	defb 06dh,0b4h	; b423
+	defb 076h,0b4h	; b425
+	defb 07fh,0b4h	; b427
+	defb 088h,0b4h	; b429
+	defb 09ah,0b4h	; b42b
+	defb 0a3h,0b4h	; b42d
+	defb 0ach,0b4h	; b42f
+	defb 0b5h,0b4h	; b431
+	defb 091h,0b4h	; b433
+	defb 0beh,0b4h	; b435
+	defb 0d0h,0b4h	; b437
+	defb 0d9h,0b4h	; b439
+	defb 0e2h,0b4h	; b43b
+	defb 0ebh,0b4h	; b43d
+	defb 0f4h,0b4h	; b43f
+	defb 0fdh,0b4h	; b441
+	defb 006h,0b5h	; b443
+	defb 00fh,0b5h	; b445
+	defb 018h,0b5h	; b447
+	defb 021h,0b5h	; b449
+	defb 02ah,0b5h	; b44b
+	defb 033h,0b5h	; b44d
+	defb 03ch,0b5h	; b44f
+	defb 045h,0b5h	; b451
+	defb 04eh,0b5h	; b453
+	defb 057h,0b5h	; b455
+	defb 0c7h,0b4h	; b457
+	defb 060h,0b5h	; b459
+	defb 069h,0b5h	; b45b
+	defb 072h,0b5h	; b45d
+	defb 07bh,0b5h	; b45f
+	defb 084h,0b5h	; b461
+	defb 08dh,0b5h	; b463
+	defb 096h,0b5h	; b465
+	defb 09fh,0b5h	; b467
+	defb 0a8h,0b5h	; b469
+	defb 0b1h,0b5h	; b46b
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B46D:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb46d..0xb476  (9 bytes)
+DATA_ficha_B46D:
+	defb 005h,008h,008h,00bh,003h,000h,0c7h,007h,000h	; b46d  .........
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B476:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb476..0xb47f  (9 bytes)
+DATA_ficha_B476:
+	defb 005h,068h,008h,008h,003h,040h,0c7h,010h,000h	; b476  .h...@...
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B47F:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb47f..0xb488  (9 bytes)
+DATA_ficha_B47F:
+	defb 005h,008h,098h,00bh,002h,000h,0c7h,011h,000h	; b47f  .........
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B488:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb488..0xb491  (9 bytes)
+DATA_ficha_B488:
+	defb 005h,068h,098h,008h,002h,040h,0c7h,012h,000h	; b488  .h...@...
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B491:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb491..0xb49a  (9 bytes)
+DATA_ficha_B491:
+	defb 008h,008h,008h,014h,003h,080h,0c7h,008h,004h	; b491  .........
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B49A:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb49a..0xb4a3  (9 bytes)
+DATA_ficha_B49A:
+	defb 005h,008h,048h,008h,004h,000h,0c7h,00bh,001h	; b49a  ..H......
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B4A3:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb4a3..0xb4ac  (9 bytes)
+DATA_ficha_B4A3:
+	defb 005h,028h,058h,005h,00ah,000h,0c7h,013h,002h	; b4a3  .(X......
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B4AC:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb4ac..0xb4b5  (9 bytes)
+DATA_ficha_B4AC:
+	defb 005h,008h,058h,003h,00ah,000h,0c7h,009h,003h	; b4ac  ..X......
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B4B5:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb4b5..0xb4be  (9 bytes)
+DATA_ficha_B4B5:
+	defb 005h,020h,098h,007h,002h,040h,0c7h,00ah,003h	; b4b5  . ...@...
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B4BE:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb4be..0xb4c7  (9 bytes)
+DATA_ficha_B4BE:
+	defb 005h,008h,028h,003h,008h,000h,0c7h,00ch,005h	; b4be  ..(......
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B4C7:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb4c7..0xb4d0  (9 bytes)
+DATA_ficha_B4C7:
+	defb 005h,068h,008h,006h,003h,000h,0c7h,016h,015h	; b4c7  .h.......
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B4D0:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb4d0..0xb4d9  (9 bytes)
+DATA_ficha_B4D0:
+	defb 004h,048h,068h,004h,004h,000h,0c7h,006h,006h	; b4d0  .Hh......
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B4D9:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb4d9..0xb4e2  (9 bytes)
+DATA_ficha_B4D9:
+	defb 004h,048h,028h,004h,004h,000h,0c7h,006h,009h	; b4d9  .H(......
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B4E2:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb4e2..0xb4eb  (9 bytes)
+DATA_ficha_B4E2:
+	defb 004h,028h,028h,004h,004h,000h,0c7h,006h,007h	; b4e2  .((......
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B4EB:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb4eb..0xb4f4  (9 bytes)
+DATA_ficha_B4EB:
+	defb 004h,048h,048h,004h,004h,040h,0c7h,006h,008h	; b4eb  .HH..@...
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B4F4:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb4f4..0xb4fd  (9 bytes)
+DATA_ficha_B4F4:
+	defb 004h,028h,028h,004h,004h,000h,0c7h,006h,00ah	; b4f4  .((......
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B4FD:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb4fd..0xb506  (9 bytes)
+DATA_ficha_B4FD:
+	defb 004h,068h,028h,004h,004h,000h,0c7h,006h,00bh	; b4fd  .h(......
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B506:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb506..0xb50f  (9 bytes)
+DATA_ficha_B506:
+	defb 004h,030h,070h,004h,004h,000h,0c7h,006h,00ch	; b506  .0p......
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B50F:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb50f..0xb518  (9 bytes)
+DATA_ficha_B50F:
+	defb 004h,048h,048h,004h,004h,000h,0c7h,006h,00dh	; b50f  .HH......
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B518:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb518..0xb521  (9 bytes)
+DATA_ficha_B518:
+	defb 003h,008h,048h,002h,004h,000h,0c7h,005h,00eh	; b518  ..H......
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B521:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb521..0xb52a  (9 bytes)
+DATA_ficha_B521:
+	defb 001h,048h,008h,004h,002h,040h,0c7h,000h,00fh	; b521  .H...@...
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B52A:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb52a..0xb533  (9 bytes)
+DATA_ficha_B52A:
+	defb 002h,048h,008h,004h,002h,000h,0c7h,002h,010h	; b52a  .H.......
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B533:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb533..0xb53c  (9 bytes)
+DATA_ficha_B533:
+	defb 002h,048h,098h,004h,002h,000h,0c7h,003h,010h	; b533  .H.......
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B53C:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb53c..0xb545  (9 bytes)
+DATA_ficha_B53C:
+	defb 005h,098h,048h,002h,004h,000h,0c7h,00dh,011h	; b53c  ..H......
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B545:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb545..0xb54e  (9 bytes)
+DATA_ficha_B545:
+	defb 005h,028h,008h,005h,005h,000h,0c7h,00eh,012h	; b545  .(.......
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B54E:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb54e..0xb557  (9 bytes)
+DATA_ficha_B54E:
+	defb 005h,078h,008h,004h,002h,000h,0c7h,00fh,013h	; b54e  .x.......
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B557:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb557..0xb560  (9 bytes)
+DATA_ficha_B557:
+	defb 005h,098h,028h,002h,004h,000h,0c7h,00dh,014h	; b557  ..(......
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B560:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb560..0xb569  (9 bytes)
+DATA_ficha_B560:
+	defb 006h,008h,018h,002h,004h,080h,0c7h,014h,016h	; b560  .........
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B569:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb569..0xb572  (9 bytes)
+DATA_ficha_B569:
+	defb 006h,098h,018h,002h,006h,080h,0c7h,018h,017h	; b569  .........
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B572:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb572..0xb57b  (9 bytes)
+DATA_ficha_B572:
+	defb 007h,048h,058h,004h,001h,080h,0c7h,015h,018h	; b572  .HX......
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B57B:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb57b..0xb584  (9 bytes)
+DATA_ficha_B57B:
+	defb 006h,068h,048h,002h,004h,080h,0c7h,014h,019h	; b57b  .hH......
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B584:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb584..0xb58d  (9 bytes)
+DATA_ficha_B584:
+	defb 007h,068h,070h,004h,001h,080h,0c7h,015h,01ah	; b584  .hp......
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B58D:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb58d..0xb596  (9 bytes)
+DATA_ficha_B58D:
+	defb 006h,068h,048h,002h,004h,080h,0c7h,014h,01bh	; b58d  .hH......
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B596:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb596..0xb59f  (9 bytes)
+DATA_ficha_B596:
+	defb 006h,068h,068h,002h,004h,080h,0c7h,014h,01ch	; b596  .hh......
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B59F:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb59f..0xb5a8  (9 bytes)
+DATA_ficha_B59F:
+	defb 005h,008h,058h,003h,00ah,000h,0c7h,017h,01dh	; b59f  ..X......
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B5A8:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb5a8..0xb5b1  (9 bytes)
+DATA_ficha_B5A8:
+	defb 009h,088h,018h,004h,004h,000h,0c7h,019h,01eh	; b5a8  .........
+
+; ----------------------------------------------------------------------
+; DATOS ficha_B5B1:
+;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
+;   (ya se quito); lo leen p02:81A5 (9 bytes)
+;   0xb5b1..0xb5ba  (9 bytes)
+DATA_ficha_B5B1:
+	defb 00ah,050h,030h,002h,002h,080h,0c7h,01ah,01fh	; b5b1  .P0......
+
+; ----------------------------------------------------------------------
+; DATOS figuras_de_decorado: 27 punteros: la figura de cada ficha (su byte 7);
+;   p02:81ED; lo leen p02:81F4 (54 bytes)
+;   0xb5ba..0xb5f0  (54 bytes)
+DATA_figuras_de_decorado:
+	defb 002h,0b6h	; b5ba
+	defb 002h,0b6h	; b5bc
+	defb 01ah,0b6h	; b5be
+	defb 012h,0b6h	; b5c0
+	defb 00ah,0b6h	; b5c2
+	defb 00ah,0b6h	; b5c4
+	defb 022h,0b6h	; b5c6
+	defb 032h,0b6h	; b5c8
+	defb 053h,0b6h	; b5ca
+	defb 0ddh,0b6h	; b5cc
+	defb 08fh,0b6h	; b5ce
+	defb 09dh,0b6h	; b5d0
+	defb 0fbh,0b6h	; b5d2
+	defb 013h,0b7h	; b5d4
+	defb 01bh,0b7h	; b5d6
+	defb 0bdh,0b6h	; b5d8
+	defb 0c5h,0b6h	; b5da
+	defb 034h,0b7h	; b5dc
+	defb 04ah,0b7h	; b5de
+	defb 05ah,0b7h	; b5e0
+	defb 08ch,0b7h	; b5e2
+	defb 094h,0b7h	; b5e4
+	defb 0f0h,0b5h	; b5e6
+	defb 098h,0b7h	; b5e8
+	defb 0b6h,0b7h	; b5ea
+	defb 0c2h,0b7h	; b5ec
+	defb 0d2h,0b7h	; b5ee
+
+; ----------------------------------------------------------------------
+; DATOS figura_de_decorado_16: 6 columnas x 3 filas de numeros de dibujo que
+;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (18 bytes)
+;   0xb5f0..0xb602  (18 bytes)
+DATA_figura_de_decorado_16:
+	defb 001h,002h,09ch,003h,004h,09eh	; b5f0
+	defb 001h,002h,09fh,003h,004h,09fh	; b5f6
+	defb 001h,002h,09fh,003h,004h,001h	; b5fc
+
+; ----------------------------------------------------------------------
+; DATOS figura_de_decorado_00: 4 columnas x 2 filas de numeros de dibujo que
+;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (8 bytes)
+;   0xb602..0xb60a  (8 bytes)
+DATA_figura_de_decorado_00:
+	defb 030h,031h,032h,033h	; b602
+	defb 034h,035h,036h,037h	; b606
+
+; ----------------------------------------------------------------------
+; DATOS figura_de_decorado_05: 2 columnas x 4 filas de numeros de dibujo que
+;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (8 bytes)
+;   0xb60a..0xb612  (8 bytes)
+DATA_figura_de_decorado_05:
+	defb 038h,039h	; b60a
+	defb 03ah,03bh	; b60c
+	defb 03ch,03dh	; b60e
+	defb 03eh,03fh	; b610
+
+; ----------------------------------------------------------------------
+; DATOS figura_de_decorado_03: 4 columnas x 2 filas de numeros de dibujo que
+;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (8 bytes)
+;   0xb612..0xb61a  (8 bytes)
+DATA_figura_de_decorado_03:
+	defb 040h,041h,042h,043h	; b612
+	defb 044h,045h,046h,047h	; b616
+
+; ----------------------------------------------------------------------
+; DATOS figura_de_decorado_02: 4 columnas x 2 filas de numeros de dibujo que
+;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (8 bytes)
+;   0xb61a..0xb622  (8 bytes)
+DATA_figura_de_decorado_02:
+	defb 040h,041h,042h,043h	; b61a
+	defb 044h,045h,046h,047h	; b61e
+
+; ----------------------------------------------------------------------
+; DATOS figura_de_decorado_06: 4 columnas x 4 filas de numeros de dibujo que
+;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (16 bytes)
+;   0xb622..0xb632  (16 bytes)
+DATA_figura_de_decorado_06:
+	defb 050h,051h,052h,053h	; b622
+	defb 054h,055h,056h,057h	; b626
+	defb 058h,059h,05ah,05bh	; b62a
+	defb 05ch,05dh,05eh,05fh	; b62e
+
+; ----------------------------------------------------------------------
+; DATOS figura_de_decorado_07: 11 columnas x 3 filas de numeros de dibujo que
+;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (33 bytes)
+;   0xb632..0xb653  (33 bytes)
+DATA_figura_de_decorado_07:
+	defb 09ch,09bh,09ah,096h,00bh,007h,097h,003h,0a4h,096h,004h	; b632  ...........
+	defb 0a3h,097h,003h,0a2h,096h,004h,0a3h,097h,003h,0a2h,096h	; b63d  ...........
+	defb 004h,0a3h,097h,003h,0a2h,007h,00bh,0a3h,0a0h,0a1h,0a4h	; b648  ...........
+
+; ----------------------------------------------------------------------
+; DATOS figura_de_decorado_08: 20 columnas x 3 filas de numeros de dibujo que
+;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (60 bytes)
+;   0xb653..0xb68f  (60 bytes)
+DATA_figura_de_decorado_08:
+	defb 09ch,09bh,09ah,096h,00bh,007h,097h,003h,0a4h,096h,004h,0a3h,097h,003h,0a2h,096h,004h,0a3h,097h,003h	; b653  ....................
+	defb 0a2h,096h,004h,0a3h,097h,003h,0a2h,096h,004h,0a3h,097h,003h,0a2h,096h,004h,0a3h,097h,003h,0a2h,096h	; b667  ....................
+	defb 004h,0a3h,097h,003h,0a2h,096h,004h,0a3h,097h,003h,0a2h,096h,004h,0a3h,097h,00ch,005h,09dh,098h,099h	; b67b  ....................
+
+; ----------------------------------------------------------------------
+; DATOS figura_de_decorado_0A: 7 columnas x 2 filas de numeros de dibujo que
+;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (14 bytes)
+;   0xb68f..0xb69d  (14 bytes)
+DATA_figura_de_decorado_0A:
+	defb 002h,065h,001h,064h,002h,065h,001h	; b68f
+	defb 064h,002h,065h,00bh,064h,069h,06fh	; b696
+
+; ----------------------------------------------------------------------
+; DATOS figura_de_decorado_0B: 8 columnas x 4 filas de numeros de dibujo que
+;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (32 bytes)
+;   0xb69d..0xb6bd  (32 bytes)
+DATA_figura_de_decorado_0B:
+	defb 00ch,00bh,009h,00ah,00ch,00ch,00ah,00bh	; b69d  ........
+	defb 00bh,00bh,009h,00ch,002h,00ch,00ah,003h	; b6a5  ........
+	defb 002h,00bh,00ch,003h,001h,00ch,00bh,004h	; b6ad  ........
+	defb 002h,00bh,00ch,003h,001h,00ch,00bh,004h	; b6b5  ........
+
+; ----------------------------------------------------------------------
+; DATOS figura_de_decorado_0F: 4 columnas x 2 filas de numeros de dibujo que
+;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (8 bytes)
+;   0xb6bd..0xb6c5  (8 bytes)
+DATA_figura_de_decorado_0F:
+	defb 005h,006h,007h,008h	; b6bd
+	defb 005h,006h,007h,008h	; b6c1
+
+; ----------------------------------------------------------------------
+; DATOS figura_de_decorado_10: 8 columnas x 3 filas de numeros de dibujo que
+;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (24 bytes)
+;   0xb6c5..0xb6dd  (24 bytes)
+DATA_figura_de_decorado_10:
+	defb 006h,009h,0a2h,097h,004h,0a3h,096h,003h	; b6c5  ........
+	defb 0a2h,097h,004h,0a3h,096h,003h,0a2h,097h	; b6cd  ........
+	defb 004h,0a3h,096h,003h,0a2h,097h,004h,0a3h	; b6d5  ........
+
+; ----------------------------------------------------------------------
+; DATOS figura_de_decorado_09: 3 columnas x 10 filas de numeros de dibujo que
+;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (30 bytes)
+;   0xb6dd..0xb6fb  (30 bytes)
+DATA_figura_de_decorado_09:
+	defb 06ah,06bh,06ah	; b6dd
+	defb 06bh,06ah,06bh	; b6e0
+	defb 06ah,06bh,06ah	; b6e3
+	defb 06eh,008h,007h	; b6e6
+	defb 008h,007h,008h	; b6e9
+	defb 007h,008h,007h	; b6ec
+	defb 00ch,065h,070h	; b6ef
+	defb 071h,070h,071h	; b6f2
+	defb 070h,071h,070h	; b6f5
+	defb 071h,001h,064h	; b6f8
+
+; ----------------------------------------------------------------------
+; DATOS figura_de_decorado_0C: 3 columnas x 8 filas de numeros de dibujo que
+;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (24 bytes)
+;   0xb6fb..0xb713  (24 bytes)
+DATA_figura_de_decorado_0C:
+	defb 00ch,00bh,009h	; b6fb
+	defb 00ah,00ch,00bh	; b6fe
+	defb 009h,00ah,00bh	; b701
+	defb 00ch,00ch,009h	; b704
+	defb 00bh,00ch,00ch	; b707
+	defb 009h,065h,066h	; b70a
+	defb 065h,066h,065h	; b70d
+	defb 066h,065h,066h	; b710
+
+; ----------------------------------------------------------------------
+; DATOS figura_de_decorado_0D: 2 columnas x 4 filas de numeros de dibujo que
+;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (8 bytes)
+;   0xb713..0xb71b  (8 bytes)
+DATA_figura_de_decorado_0D:
+	defb 005h,006h	; b713
+	defb 005h,006h	; b715
+	defb 007h,008h	; b717
+	defb 007h,008h	; b719
+
+; ----------------------------------------------------------------------
+; DATOS figura_de_decorado_0E: 5 columnas x 5 filas de numeros de dibujo que
+;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (25 bytes)
+;   0xb71b..0xb734  (25 bytes)
+DATA_figura_de_decorado_0E:
+	defb 005h,006h,005h,006h,065h	; b71b
+	defb 007h,008h,007h,008h,065h	; b720
+	defb 005h,006h,005h,006h,065h	; b725
+	defb 007h,008h,007h,008h,065h	; b72a
+	defb 005h,006h,005h,006h,065h	; b72f
+
+; ----------------------------------------------------------------------
+; DATOS figura_de_decorado_11: 11 columnas x 2 filas de numeros de dibujo que
+;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (22 bytes)
+;   0xb734..0xb74a  (22 bytes)
+DATA_figura_de_decorado_11:
+	defb 09ah,09eh,00ch,094h,001h,095h,002h,094h,001h,095h,002h	; b734  ...........
+	defb 094h,001h,095h,002h,094h,001h,095h,009h,007h,0a0h,0a1h	; b73f  ...........
+
+; ----------------------------------------------------------------------
+; DATOS figura_de_decorado_12: 8 columnas x 2 filas de numeros de dibujo que
+;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (16 bytes)
+;   0xb74a..0xb75a  (16 bytes)
+DATA_figura_de_decorado_12:
+	defb 00ah,005h,001h,094h,002h,095h,001h,094h	; b74a  ........
+	defb 002h,095h,001h,094h,00ah,095h,098h,09fh	; b752  ........
+
+; ----------------------------------------------------------------------
+; DATOS figura_de_decorado_13: 5 columnas x 10 filas de numeros de dibujo que
+;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (50 bytes)
+;   0xb75a..0xb78c  (50 bytes)
+DATA_figura_de_decorado_13:
+	defb 005h,006h,005h,006h,005h	; b75a
+	defb 006h,005h,006h,064h,068h	; b75f
+	defb 068h,069h,068h,069h,068h	; b764
+	defb 069h,068h,069h,068h,069h	; b769
+	defb 067h,06bh,06ah,06bh,06ah	; b76e
+	defb 06bh,06ah,06bh,067h,06ah	; b773
+	defb 06ah,008h,007h,008h,007h	; b778
+	defb 008h,007h,008h,06ah,064h	; b77d
+	defb 067h,003h,06ch,06dh,06ch	; b782
+	defb 06dh,06ch,06dh,002h,065h	; b787
+
+; ----------------------------------------------------------------------
+; DATOS figura_de_decorado_14: 2 columnas x 4 filas de numeros de dibujo que
+;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (8 bytes)
+;   0xb78c..0xb794  (8 bytes)
+DATA_figura_de_decorado_14:
+	defb 020h,020h	; b78c
+	defb 020h,020h	; b78e
+	defb 021h,021h	; b790
+	defb 021h,021h	; b792
+
+; ----------------------------------------------------------------------
+; DATOS figura_de_decorado_15: 4 columnas x 1 filas de numeros de dibujo que
+;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (4 bytes)
+;   0xb794..0xb798  (4 bytes)
+DATA_figura_de_decorado_15:
+	defb 022h,022h,022h,022h	; b794
+
+; ----------------------------------------------------------------------
+; DATOS figura_de_decorado_17: 3 columnas x 10 filas de numeros de dibujo que
+;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (30 bytes)
+;   0xb798..0xb7b6  (30 bytes)
+DATA_figura_de_decorado_17:
+	defb 06ch,06bh,06ah	; b798
+	defb 06bh,06ah,06bh	; b79b
+	defb 06ah,06bh,06ah	; b79e
+	defb 06eh,066h,00ah	; b7a1
+	defb 008h,008h,008h	; b7a4
+	defb 007h,008h,007h	; b7a7
+	defb 00ch,064h,067h	; b7aa
+	defb 003h,074h,070h	; b7ad
+	defb 071h,070h,071h	; b7b0
+	defb 070h,001h,065h	; b7b3
+
+; ----------------------------------------------------------------------
+; DATOS figura_de_decorado_18: 2 columnas x 6 filas de numeros de dibujo que
+;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (12 bytes)
+;   0xb7b6..0xb7c2  (12 bytes)
+DATA_figura_de_decorado_18:
+	defb 020h,020h	; b7b6
+	defb 020h,020h	; b7b8
+	defb 020h,020h	; b7ba
+	defb 021h,021h	; b7bc
+	defb 021h,021h	; b7be
+	defb 021h,021h	; b7c0
+
+; ----------------------------------------------------------------------
+; DATOS figura_de_decorado_19: 4 columnas x 4 filas de numeros de dibujo que
+;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (16 bytes)
+;   0xb7c2..0xb7d2  (16 bytes)
+DATA_figura_de_decorado_19:
+	defb 001h,002h,003h,004h	; b7c2
+	defb 004h,003h,002h,001h	; b7c6
+	defb 001h,002h,003h,004h	; b7ca
+	defb 004h,003h,002h,001h	; b7ce
+
+; ----------------------------------------------------------------------
+; DATOS figura_de_decorado_1A: 2 columnas x 2 filas de numeros de dibujo que
+;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (4 bytes)
+;   0xb7d2..0xb7d6  (4 bytes)
+DATA_figura_de_decorado_1A:
+	defb 010h,011h	; b7d2
+	defb 012h,013h	; b7d4
 
 ; ======================================================================
 ; CODIGO 0xb7d6..0xb83b  (101 bytes)

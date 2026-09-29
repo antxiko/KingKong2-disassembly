@@ -1356,16 +1356,60 @@ DATA_figura_de_la_60:
 	defb 0cch,0cdh,0ceh	; ba02
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xba05..0xba78  (115 bytes)
-DATA_BA05:
-	defb 007h,07ch,07dh,008h,033h,090h,091h,034h,035h,03bh,03ch,036h,037h,038h,039h,03ah	; ba05  .|}.3..45;<6789:
-	defb 003h,004h,005h,006h,007h,008h,000h,009h,00ah,00bh,00ch,00dh,00eh,00fh,010h,011h	; ba15  ................
-	defb 012h,013h,014h,015h,016h,000h,04ch,017h,018h,019h,01ah,000h,000h,01bh,01ch,01dh	; ba25  ......L.........
-	defb 01eh,01fh,020h,021h,022h,023h,024h,000h,025h,026h,027h,028h,04dh,029h,02ah,02bh	; ba35  .. !"#$.%&'(M)*+
-	defb 02ch,02dh,02eh,02fh,030h,031h,000h,000h,000h,03bh,000h,000h,000h,000h,039h,03ah	; ba45  ,-./01...;....9:
-	defb 03ch,03dh,03eh,03fh,040h,041h,042h,043h,044h,045h,046h,047h,036h,037h,038h,036h	; ba55  <=>?@ABCDEFG6786
-	defb 037h,038h,036h,000h,000h,03bh,000h,039h,03ah,03ch,03dh,041h,042h,043h,044h,036h	; ba65  786..;.9:<=ABCD6
-	defb 037h,038h,036h	; ba75
+; DATOS figura_BA05: 4 columnas x 4 filas de numeros de dibujo (0 = no pinta)
+;   que p00:4EB2 copia con transparencia: el suceso de p06:A664 (0xC139 = 0),
+;   en (0x88, 0x48); lo leen p06:A66A (16 bytes)
+;   0xba05..0xba15  (16 bytes)
+DATA_figura_BA05:
+	defb 007h,07ch,07dh,008h	; ba05
+	defb 033h,090h,091h,034h	; ba09
+	defb 035h,03bh,03ch,036h	; ba0d
+	defb 037h,038h,039h,03ah	; ba11
+
+; ----------------------------------------------------------------------
+; DATOS figura_BA15: 7 columnas x 5 filas de numeros de dibujo (0 = no pinta)
+;   que p00:4EB2 copia con transparencia: la escena del final (p00:4E7B); lo
+;   leen p06:AB70 (35 bytes)
+;   0xba15..0xba38  (35 bytes)
+DATA_figura_BA15:
+	defb 003h,004h,005h,006h,007h,008h,000h	; ba15
+	defb 009h,00ah,00bh,00ch,00dh,00eh,00fh	; ba1c
+	defb 010h,011h,012h,013h,014h,015h,016h	; ba23
+	defb 000h,04ch,017h,018h,019h,01ah,000h	; ba2a
+	defb 000h,01bh,01ch,01dh,01eh,01fh,020h	; ba31
+
+; ----------------------------------------------------------------------
+; DATOS figura_BA38: 5 columnas x 4 filas de numeros de dibujo (0 = no pinta)
+;   que p00:4EB2 copia con transparencia: la escena del final (p00:4E86); lo
+;   leen p06:AA23 (20 bytes)
+;   0xba38..0xba4c  (20 bytes)
+DATA_figura_BA38:
+	defb 021h,022h,023h,024h,000h	; ba38
+	defb 025h,026h,027h,028h,04dh	; ba3d
+	defb 029h,02ah,02bh,02ch,02dh	; ba42
+	defb 02eh,02fh,030h,031h,000h	; ba47
+
+; ----------------------------------------------------------------------
+; DATOS figura_BA4C: 7 columnas x 4 filas de numeros de dibujo (0 = no pinta)
+;   que p00:4EB2 copia con transparencia: la escena del final (p00:4E91); lo
+;   leen p06:ABC3 (28 bytes)
+;   0xba4c..0xba68  (28 bytes)
+DATA_figura_BA4C:
+	defb 000h,000h,03bh,000h,000h,000h,000h	; ba4c
+	defb 039h,03ah,03ch,03dh,03eh,03fh,040h	; ba53
+	defb 041h,042h,043h,044h,045h,046h,047h	; ba5a
+	defb 036h,037h,038h,036h,037h,038h,036h	; ba61
+
+; ----------------------------------------------------------------------
+; DATOS figura_BA68: 4 columnas x 4 filas de numeros de dibujo (0 = no pinta)
+;   que p00:4EB2 copia con transparencia: la escena del final (p00:4E99); lo
+;   leen p06:ABCC (16 bytes)
+;   0xba68..0xba78  (16 bytes)
+DATA_figura_BA68:
+	defb 000h,000h,03bh,000h	; ba68
+	defb 039h,03ah,03ch,03dh	; ba6c
+	defb 041h,042h,043h,044h	; ba70
+	defb 036h,037h,038h,036h	; ba74
 
 ; ----------------------------------------------------------------------
 ; DATOS nombres_de_enemigos: 68 punteros, uno por tipo de enemigo (1-68), a su

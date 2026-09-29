@@ -466,9 +466,49 @@ def tablas_de_p15(t, bl):
         fin = g[i + 1] if i + 1 < len(g) else 0xA3CA
         bl.anota(B131415, a, fin, "grupo_%04X" % a,
                  "%d sprites [dy][dx][patron][color]" % ((fin - a) // 4), "p00:5E96", ancho=4)
+    for a, cols, filas, quien, que in (
+            (0xBA05, 4, 4, "p06:A66A", "el suceso de p06:A664 (0xC139 = 0), en (0x88, 0x48)"),
+            (0xBA15, 7, 5, "p06:AB70", "la escena del final (p00:4E7B)"),
+            (0xBA38, 5, 4, "p06:AA23", "la escena del final (p00:4E86)"),
+            (0xBA4C, 7, 4, "p06:ABC3", "la escena del final (p00:4E91)"),
+            (0xBA68, 4, 4, "p06:ABCC", "la escena del final (p00:4E99)")):
+        bl.anota(B131415, a, a + cols * filas, "figura_%04X" % a,
+                 "%d columnas x %d filas de numeros de dibujo (0 = no pinta) que p00:4EB2 "
+                 "copia con transparencia: %s" % (cols, filas, que), quien, ancho=cols)
     bl.anota(B131415, 0xA3CA, 0xA3CA + 68, "tipo_al_aparecer",
              "68 bytes, uno por tipo: el que p00:5DCA pone en ix+0 al aparecer el enemigo",
              "p00:5DC9", ancho=16)
+
+
+def decorado_que_cambia(t, bl):
+    """p02:8181 (con el banco 9 en 0xA000, p02:8176): las cosas de cada
+    pantalla que se pueden quitar (hasta tres, en 0xC500/0xC520/0xC540)."""
+    B129 = (1, 2, 9)
+    a, k = 0xB3FD, 0
+    while P.lee(a + k, B129):
+        k += 1
+    bl.anota(B129, a, a + k + 1, "pantallas_con_decorado",
+             "%d pantallas (una vez por cada cosa) y un 0: p02:818A busca la actual" % k,
+             "p02:818A", ancho=16)
+    bl.anota(B129, 0xB423, 0xB423 + 2 * k, "fichas_de_decorado",
+             "%d punteros, uno por entrada de p09:B3FD, a su ficha de 9 bytes" % k,
+             "p02:819A", ancho=2)
+    figuras = {}
+    for i in range(k):
+        r = P.palabra(0xB423 + 2 * i, B129)
+        figuras[P.lee(r + 7, B129)] = (P.lee(r + 3, B129), P.lee(r + 4, B129))
+        bl.anota(B129, r, r + 9, "ficha_%04X" % r,
+                 "[tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en "
+                 "0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se "
+                 "queda sin tipo (ya se quito)", "p02:81A5", ancho=9)
+    n = max(figuras) + 1
+    bl.anota(B129, 0xB5BA, 0xB5BA + 2 * n, "figuras_de_decorado",
+             "%d punteros: la figura de cada ficha (su byte 7); p02:81ED" % n, "p02:81F4", ancho=2)
+    for f, (c, fl) in sorted(figuras.items()):
+        a = P.palabra(0xB5BA + 2 * f, B129)
+        bl.anota(B129, a, a + c * fl, "figura_de_decorado_%02X" % f,
+                 "%d columnas x %d filas de numeros de dibujo que p00:4EB5 pinta con "
+                 "transparencia" % (c, fl), "p02:8204", ancho=c)
 
 
 def nombres_de_enemigos(t, bl):
@@ -657,7 +697,7 @@ def conversaciones(t, bl):
 
 
 RECORRIDOS = [enemigos_de_cada_pantalla, nombres_de_enemigos, mitchel, cabecera, tablas_del_despachador, pantallas, vecinas, juegos_de_dibujos,
-              bloques_de_cada_juego, paletas, figuras_fijas, portadas, objetos, conversaciones, sprites_de_enemigos, el_final, sprites_de_mitchel, figuras_a_pelo, sonido, tablas_de_p15]
+              bloques_de_cada_juego, paletas, figuras_fijas, portadas, objetos, conversaciones, sprites_de_enemigos, el_final, sprites_de_mitchel, figuras_a_pelo, sonido, tablas_de_p15, decorado_que_cambia]
 
 
 # ------------------------------------------------------------------ escritura
