@@ -19,7 +19,7 @@ toca. Si dos caminos pusieran la misma pantalla en sitios distintos, el
 montaje no valdria: se comprueba y se para.
 
 Lo que sale:
-  isla.png        las 101 pantallas de fuera (0x00-0x61 y 0x89-0x8B)
+  isla.png        las pantallas de fuera que caben en una rejilla
   zona_XX.png     cada grupo de pantallas de dentro, por su pantalla mas baja
   mapa.png        todo junto: la isla a la izquierda y las zonas a la derecha,
                   en estantes, con una pantalla de separacion
@@ -35,7 +35,10 @@ sys.path.insert(0, AQUI)
 import pantalla as P                                   # noqa: E402
 
 DIRS = [(0, -1), (0, 1), (-1, 0), (1, 0)]              # arriba, abajo, izq, der
-PANTALLAS = range(0x8C)                                # 0x00-0x8B
+PANTALLAS = range(0x8E)                                # 0x00-0x8D
+# 0x8A y 0x8B son la mitad derecha de 0x32 y 0x33 (pantalla.MITAD): van
+# dentro de ellas, no en una casilla propia.
+DENTRO = {0x8A: 0x32, 0x8B: 0x33}
 
 
 def vecinas(n):
@@ -51,37 +54,60 @@ def especiales():
     return fuera
 
 
-def coloca(inicio):
-    """{pantalla: (col, fila)} desde `inicio`, por las vecinas."""
+def coloca(inicio, ya=()):
+    """{pantalla: (col, fila)} desde `inicio`, por las vecinas, a lo ancho.
+
+    Las pantallas de `ya` (colocadas en otro grupo) no se tocan. Y si una
+    vecina cae en una casilla que YA ocupa otra pantalla, no se pone: el mundo
+    del juego no es plano en todas partes -0x8A esta a la izquierda de 0x38 y
+    0x32 tambien; 0x61, el templo, encima de 0x3A, donde esta 0x39- y esa
+    pantalla sale en su propio grupo.
+    """
     pos = {inicio: (0, 0)}
-    pila = [inicio]
-    while pila:
-        n = pila.pop()
+    ocupa = {(0, 0): inicio}
+    cola = [inicio]
+    while cola:
+        n = cola.pop(0)
         x, y = pos[n]
         for k, d in enumerate(vecinas(n)):
-            if d >= 0xF0:
+            if d >= 0xF0 or d in ya or d in DENTRO:
                 continue
             p = (x + DIRS[k][0], y + DIRS[k][1])
             if d in pos:
                 if pos[d] != p:
                     raise SystemExit("la pantalla 0x%02X no cabe: %s y %s" % (d, pos[d], p))
                 continue
+            if p in ocupa:
+                continue                    # otra capa: va en su grupo
             pos[d] = p
-            pila.append(d)
+            ocupa[p] = d
+            cola.append(d)
     x0 = min(p[0] for p in pos.values())
     y0 = min(p[1] for p in pos.values())
     return {n: (x - x0, y - y0) for n, (x, y) in pos.items()}
 
 
 def grupos():
-    """Las pantallas en grupos conexos por las vecinas, la isla primero."""
+    """Las pantallas en grupos, la isla primero."""
     hechos, fuera = set(), []
     for s in [0] + list(PANTALLAS):
-        if s in hechos:
+        if s in hechos or s in DENTRO:
             continue
-        pos = coloca(s)
+        pos = coloca(s, hechos)
         hechos |= set(pos)
         fuera.append(pos)
+    return fuera
+
+
+def enlaces(gs):
+    """Las salidas que pasan de un grupo a otro: (desde, lado, hasta)."""
+    grupo = {n: i for i, g in enumerate(gs) for n in g}
+    lados = ("arriba", "abajo", "izq", "der")
+    fuera = []
+    for n in sorted(grupo):
+        for k, d in enumerate(vecinas(n)):
+            if d in grupo and grupo[d] != grupo[n]:
+                fuera.append((n, lados[k], d))
     return fuera
 
 
@@ -114,12 +140,9 @@ def lamina(pos, ruta, escala=1):
     fondo = (32, 32, 32)
     img = [[fondo] * (w * 160) for _ in range(h * 160)]
     for n, (cx, cy) in pos.items():
-        ind, pal = P.pinta(n)
-        rgb = [tuple(v * 255 // 7 for v in c) for c in pal]
+        col = P.rgb(n)                   # entera: con su plano alterno
         for y in range(160):
-            fila = img[cy * 160 + y]
-            for x in range(160):
-                fila[cx * 160 + x] = rgb[ind[y][x]]
+            img[cy * 160 + y][cx * 160:cx * 160 + 160] = col[y]
     escribe_png(ruta, img, escala)
 
 
@@ -153,6 +176,8 @@ def main(argv):
         lamina(pos, os.path.join(sal, nom), escala)
         print("%-12s %3d pantallas  %dx%d" % (nom, len(pos),
               max(x for x, _ in pos.values()) + 1, max(y for _, y in pos.values()) + 1))
+    for n, lado, d in enlaces(gs):
+        print("  enlace entre grupos: 0x%02X %s -> 0x%02X" % (n, lado, d))
     junto = todo_junto(gs)
     lamina(junto, os.path.join(sal, "mapa.png"), escala)
     print("%-12s %3d pantallas  %dx%d" % ("mapa.png", len(junto),

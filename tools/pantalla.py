@@ -203,6 +203,52 @@ def pinta(n, cueva=0):
     return img, paleta(n, juego)
 
 
+# p06:BEC5: en estas pantallas el juego ensena un plano u otro segun el lado
+# en que este Mitchel (0xC131 = el alterno; 0 = el base). Cada plano deja a
+# negro -dibujos 0- la parte que no se ve, y las dos partes no se pisan: solo
+# comparten la fila o columna de bloques del medio. La pantalla entera es la
+# suma. (pantalla: plano alterno)
+ALTERNO = {0x01: 1, 0x04: 2, 0x05: 3, 0x06: 4, 0x0D: 5, 0x0E: 6, 0x1F: 7,
+           0x20: 8, 0x21: 9, 0x55: 12, 0x56: 13, 0x58: 14}
+
+
+# Pantallas que son MEDIA pantalla: la otra mitad es otro numero. 0x32 lleva
+# las columnas 0-9 y 0x8A las 10-19, sin un dibujo en comun (igual 0x33 y
+# 0x8B). 0x8C y 0x8D son otra version de esas mitades derechas: p06:BF7A
+# cambia 0xC125 de 0x8A a 0x8C cuando la y de Mitchel pasa de 0x60.
+# (pantalla: la que pone la otra mitad)
+MITAD = {0x32: 0x8A, 0x33: 0x8B, 0x8C: 0x32, 0x8D: 0x33}
+
+
+def rgb(n, cueva=0):
+    """La pantalla en color (filas de tuplas RGB). Las de ALTERNO, enteras:
+    cada dibujo 0 (negro) del plano base se toma del alterno, con SU juego de
+    dibujos y SU paleta."""
+    img, pal = pinta(n, cueva)
+    col = [tuple(v * 255 // 7 for v in c) for c in pal]
+    fuera = [[col[p] for p in fila] for fila in img]
+    if cueva or (n not in ALTERNO and n not in MITAD):
+        return fuera
+    if n in MITAD:
+        img2, pal2 = pinta(MITAD[n])
+    else:
+        img2, pal2 = pinta(n, ALTERNO[n])
+    col2 = [tuple(v * 255 // 7 for v in q) for q in pal2]
+    juego = juego_de_dibujos(n)
+    bl = bloques_de(n)
+    for k in range(25):
+        ts = dibujos_de_bloque(juego, bl[k])
+        for i, t in enumerate(ts):
+            if t:
+                continue                 # dibujo del plano base
+            y0 = (k // 5) * 32 + (i >> 2) * 8
+            x0 = (k % 5) * 32 + (i & 3) * 8
+            for y in range(y0, y0 + 8):
+                for x in range(x0, x0 + 8):
+                    fuera[y][x] = col2[img2[y][x]]
+    return fuera
+
+
 def png(ruta, img, pal, escala=2):
     h, w = len(img), len(img[0])
     rgb = [tuple(v * 255 // 7 for v in c) for c in pal]
