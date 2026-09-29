@@ -1,0 +1,20 @@
+# Zonas que el trazador NO puede entrar a desensamblar como codigo.
+#
+# La tabla de destinos del despachador de Konami (0x425F) va pegada JUSTO
+# DETRAS de su `call`: sin declararla, el trazador sigue de largo y se la come
+# como instrucciones, y ademas sigue desde ahi. Es la contaminacion mas facil
+# de este cartucho.
+#
+# Este fichero lo regenera `make semillas` (tools/bancos.py escribe).
+0x65D6 0x65EA   tabla de 10 palabras del despachador (call 0x425F en 0x65D3)
+0x6885 0x690D   tabla de 68 palabras del despachador (call 0x425F en 0x6882)
+0x6D3C 0x6D4E   tabla de 9 palabras del despachador (call 0x425F en 0x6D39)
+0x7077 0x7099   tabla de 17 palabras del despachador (call 0x425F en 0x7074)
+0x714A 0x716C   tabla de 17 palabras del despachador (call 0x425F en 0x7147)
+0x7345 0x734D   tabla de 4 palabras del despachador (call 0x425F en 0x7342)
+0x742F 0x7437   tabla de 4 palabras del despachador (call 0x425F en 0x742C)
+0x747F 0x7497   tabla de 12 palabras del despachador (call 0x425F en 0x747C)
+0x7613 0x761B   tabla de 4 palabras del despachador (call 0x425F en 0x7610)
+0x78A5 0x78B1   tabla de 6 palabras del despachador (call 0x425F en 0x78A2)
+0x7C05 0x7C37   tabla de 25 palabras del despachador (call 0x425F en 0x7C02)
+0x7FFC 0x8000   tabla de 2 palabras del despachador (call 0x425F en 0x7FF9)
