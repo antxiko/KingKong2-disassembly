@@ -1128,7 +1128,7 @@ L_6746:
 	di			;6746   ; el final, con el banco 6 (p06:A6CF)
 	ld a,006h		;6747
 	call 05d9ch		;6749   ; p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
-	call 0a6cfh		;674c
+	call 0a6cfh		;674c   ; p06:el_final: paso 0: a negro...
 	jp 042bch		;674f   ; p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 L_6752:
 	call teclas_del_cuadro		;6752   ; teclas_del_cuadro: sin el bit 6 de 0xC102 (la demostracion), las teclas salen del guion (p01:69D7)
@@ -3506,7 +3506,7 @@ L_7631:
 	jr c,L_7694		;764b
 	ld e,(ix+003h)		;764d   ; ...y al acabar se deja en el suelo (el objeto 0x0A)...
 	ld d,(ix+005h)		;7650
-	ld bc,0010ah		;7653
+	ld bc,0010ah		;7653   ; el objeto 0x0A, ぶーめらん (1)
 	push ix		;7656
 	call pon_objeto		;7658   ; pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 	pop ix		;765b

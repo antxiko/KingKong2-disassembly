@@ -1154,6 +1154,7 @@ C 0x6726 guarda LIFE, los dos bytes (BCD)
 C 0x673D p03:game_over: [x][y] "GAME  OVER" y 0xFE, que sigue con p03:BFEC: p01:673D escribe las dos lineas
 C 0x6740 p00:rotulo: [x][y] letras, 0xFE [x][y] otro sitio, 0xFF acaba
 C 0x6749 p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
+C 0x674C p06:el_final: paso 0: a negro...
 C 0x674F p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 C 0x6752 teclas_del_cuadro: sin el bit 6 de 0xC102 (la demostracion), las teclas salen del guion (p01:69D7)
 C 0x6755 lee las teclas del teclado (bits 3-5: 1, 2 y 3; bit 2: F5)
@@ -1398,6 +1399,7 @@ C 0x75F2 lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha
 C 0x75F7 niega_de: DE = -DE
 C 0x7610 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 C 0x7638 p00:sonido: pone los bancos 4 y 5 y pide el sonido A a p04:6032
+C 0x7653 el objeto 0x0A, ぶーめらん (1)
 C 0x7658 pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 C 0x7660 lee cuantos objetos 0x0A se llevan (BCD; 0xFF sin cuenta)
 C 0x767C niega_de: DE = -DE

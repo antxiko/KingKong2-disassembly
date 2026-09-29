@@ -2943,10 +2943,10 @@ L_BE92:
 	ld (0c372h),a		;beac
 	ld de,07828h		;beaf
 	ld hl,0bec4h		;beb2   ; figura_BEC4: 2x2 dibujos 0x62 que p09:BEB2 pinta en (0x28, 0x78) antes de poner alli el objeto 0x13
-	ld bc,00202h		;beb5
+	ld bc,00202h		;beb5   ; el objeto 0x02, ROD (2)
 	call 041c4h		;beb8   ; p00:puente_pinta_figura_sin_bancos
 	ld de,08030h		;bebb
-	ld bc,00113h		;bebe
+	ld bc,00113h		;bebe   ; el objeto 0x13, ささやき (1)
 	jp 0419ah		;bec1   ; p00:puente_pon_objeto: p01:7852: pone el objeto C (B unidades) en (E, D) de la pantalla
 
 ; ----------------------------------------------------------------------

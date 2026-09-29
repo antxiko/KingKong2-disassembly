@@ -434,7 +434,9 @@ C 0xBE88 apunta a cuantos objetos 0x0A se llevan (BCD; 0xFF sin cuenta)
 C 0xBE92 lee cuantos objetos 0x14 se llevan (BCD; 0xFF sin cuenta)
 C 0xBE9C p00:puente_posicion_de_mitchel
 C 0xBEB2 figura_BEC4: 2x2 dibujos 0x62 que p09:BEB2 pinta en (0x28, 0x78) antes de poner alli el objeto 0x13
+C 0xBEB5 el objeto 0x02, ROD (2)
 C 0xBEB8 p00:puente_pinta_figura_sin_bancos
+C 0xBEBE el objeto 0x13, ささやき (1)
 C 0xBEC1 p00:puente_pon_objeto: p01:7852: pone el objeto C (B unidades) en (E, D) de la pantalla
 C 0xBEC8 p00:puente_posicion_de_mitchel
 C 0xBECB apunta a los objetos del suelo (4 fichas de 16 bytes)

@@ -14,7 +14,6 @@ C 0xA85F 51 o mas: el final 1
 C 0xA867 menos: el final 2
 C 0xA86C 0xC137 = final, 0xC138 = 0 (el paso)
 L 0xA8AA escena_del_final
-C 0xA8AA 0xC137: el final (0, 1 o 2)
 L 0xA8B0 salta_por_la_tabla
 L 0xA8BF final_0
 C 0xA8BF 0xC138: el paso de la escena
@@ -47,9 +46,6 @@ D 0xBFDA 0xBFF6 contadores_iniciales  28 bytes que p06:BF86 copia a 0xDE00 al em
 D 0xBFF6 0xC000 relleno_p06  0xFF hasta el final del banco
 L 0xA774 limpia_para_el_final
 L 0xA788 paleta_del_final_A794
-L 0xA7C5 aclara_la_paleta
-L 0xA7DF sube_un_tono
-L 0xA805 oscurece_la_paleta
 L 0xAB46 escena_del_final_AB46
 L 0xAB86 escena_del_final_AB86
 L 0xAC56 cuenta_cf37
@@ -61,6 +57,147 @@ L 0xB970 prepara_el_titulo
 C 0xB970 borra la pagina 0, pone la paleta de p06:BA6F y sube las letras del rotulo
 L 0xB9BD banco_5_en_8000
 L 0xBADE pinta_figura_del_titulo_B8FC
+L 0xA649 la_entrada
+B 0xA649 LA ENTRADA: al empezar la partida (p01:62B4 pone 0xC139 = 0) p00:5C2D llama
+B 0xA649 aqui cada cuadro hasta que 0xC139 = 0xFF; mientras, p01:64E4 no lee las teclas.
+C 0xA649 salta por el paso (0xC139)
+C 0xA664 paso 0: la figura de p15:BA05 (4x4 dibujos) en DE = 0x4888, y 0xC307 = 2
+C 0xA674 paso 1: espera 0xC13A cuadros (0x40, de p01:62BA)...
+C 0xA679 ...y 16 para el paso siguiente
+C 0xA67E el paso siguiente
+C 0xA683 paso 2: 16 cuadros sumando a la y de Mitchel p06:A6BF (arriba y abajo)...
+C 0xA687 ...y 8 de espera para el paso 3
+C 0xA699 paso 3: espera 8 cuadros
+C 0xA6A0 paso 4: hasta la y 0x59 de Mitchel...
+C 0xA6A7 ...las teclas = 1 (bit 0, arriba)
+C 0xA6AC paso 5: 0xE22A y 0xE22B = 0xF0, 0xC307 = 4, y 0xC139 = 0xFF: ya manda el jugador
+L 0xA6CF el_final
+B 0xA6CF EL FINAL (el estado de p01:6746): B = el paso (0xC101) + 1, como en todos los
+B 0xA6CF estados de p01:65D3.
+C 0xA6CF paso 0: a negro...
+C 0xA6D5 ...pantalla y sprites limpios, los dibujos y la musica del final...
+C 0xA6DE ...y 0x20 cuadros
+C 0xA6E3 el paso siguiente
+C 0xA6E8 paso 1: la escena del final (0xC137) cada cuadro...
+C 0xA6F3 ...hasta que acaba (0xC137 = 3)
+C 0xA702 paso 2: a negro, y "THE END" (p06:AF39)
+C 0xA71D paso 3: letra a letra; al acabar...
+C 0xA727 ...se funde la musica (0xFF) y 256 cuadros
+C 0xA730 pasos 4 y 5: 256 cuadros cada uno...
+C 0xA73B ...y la paleta del final en 0xCF00 para fundirla
+C 0xA749 paso 6: a negro, y al estado 0 (el logotipo de Konami)
+C 0xA769 con B de 8 en adelante (el paso 6 ya vuelve al estado 0)
+L 0xA7C5 funde_a_negro
+C 0xA7C5 un tono menos en los 16 colores de 0xCF00; acarreo cuando todos son negro
+L 0xA7DF baja_un_tono
+C 0xA7DF uno de cada 4 cuadros: R, B y G de cada color, uno menos (sin bajar de 0)
+L 0xA805 funde_el_color_14
+C 0xA805 lo mismo con un solo color, 0xCF00 [RB] 0xCF01 [G], en el 14; acarreo al llegar a negro
+C 0xA842 y los sprites
+C 0xA873 y su paleta
+C 0xA8AA salta por el final (0, 1 o 2)
+C 0xA8DF final 0: "MITCHEL, luchaste con valor y diste con LADY KONG. Pero ya era tarde"
+C 0xA8F1 a negro el color 14, la escena de p06:AB46...
+C 0xA8F8 ..."AMY no pudo hacer nada: KING KONG acaba de morir"
+C 0xA90A a negro, la escena de p06:AB86 y "Mira a LADY, que contenta corre"
+C 0xA921 letra a letra y los 8 sprites de 0xCF38 hasta que salen por la izquierda
+C 0xA933 a negro, y "No salvaste a KING KONG, pero tu aventura no fue en vano. Gracias, MITCHEL"
+C 0xA954 cuanto espera el paso siguiente
+C 0xA957 el paso siguiente de la escena
+C 0xA97F final 1: "MITCHEL, luchaste con valor y diste con LADY KONG. Y AMY le opero"
+C 0xA990 a negro el color 14 y la escena de p06:AB46
+C 0xA99B cuenta la espera...
+C 0xA9A4 ...de 0xBF a 0x80, cada 8 cuadros, dos copias LMMM de la tira 8x1 numero (espera & 0x38) / 8
+C 0xA9D3 ...y a 0x40: "Lo conseguiste! KING KONG ha vuelto a la vida!"
+C 0xA9E5 a negro, los tres marcos, la figura de p15:BA38...
+C 0xAA26 ..."Enhorabuena MITCHEL! Enhorabuena AMY!"
+C 0xAA38 a negro, la escena de p06:AB86 con dos grupos de sprites (0xCF37 y 0xCF38)...
+C 0xAA49 ..."Vuelve la paz a GOLNEBO; KONG vive feliz con LADY. Gracias, MITCHEL"
+C 0xAA59 letra a letra y los dos grupos de sprites
+C 0xAA9B final 2: a negro el color 14, borra la parte de abajo...
+C 0xAAA8 ...los 2 sprites de 0xCF39 y "Anda! Un bebe KONG! Bien por KONG y por LADY!"
+C 0xAAB9 letra a letra y los 2 sprites hasta que salen
+C 0xAAE2 una letra cada 4 cuadros (0xCF36 = 0 mientras quedan)
+C 0xAAF3 la letra en DE (D la x, E la y) y 8 puntos a la derecha
+C 0xAB13 0xFE [n]: la x mas n y 16 puntos mas abajo
+C 0xAB26 letra a letra, y al acabar 0x80 cuadros de espera
+C 0xAB46 LA ESCENA de los finales 0 y 1: borra la parte de abajo, la paleta, tres marcos y la figura de p15:BA15
+C 0xAB73 al acabar la espera, la paleta del final en 0xCF00 para fundirla
+C 0xAB86 LA OTRA ESCENA: pantalla limpia, la paleta, tres marcos, un rectangulo de color 0xFF...
+C 0xABC0 ...dos figuras de p15:BA4C, la de p15:BA68 y cuatro copias LMMM
+C 0xAC07 AL ACABAR EL FINAL: tras la espera, la paleta en 0xCF00 y 0xC137 = 3
+C 0xAC1D la cuenta de 0xCF37 llego a 0: los 8 sprites de p06:AD1C en los 8-15...
+C 0xAC29 ...y sus colores, 16 lineas de 1 y 16 de 4 por cada uno
+C 0xAC31 la de 0xCF38: los mismos en los sprites 0-7
+C 0xAC43 C sprites: 16 lineas del color D y 16 del E
+C 0xAC56 0xCF37: cuenta atras; a 0 saca los sprites; a 0xFF los mueve...
+C 0xAC63 ...los sprites 8-15
+C 0xAC68 0xCF38: lo mismo con los sprites 0-7
+C 0xAC78 uno de cada 2 cuadros: cambia de patron...
+C 0xAC82 ...y los 8 un punto a la izquierda...
+C 0xAC92 ...hasta x 0x37: entonces fuera (y 0xE0) y acarreo
+C 0xAC9F los patrones de 8 sprites: 0x00, 0x04... o 0x20, 0x24... alternando cada 16 cuadros
+C 0xACB6 los de 2 sprites: 0x40 y 0x44 o 0x48 y 0x4C, alternando cada 8 cuadros
+C 0xACCE la de 0xCF39 llego a 0: los 2 sprites de p06:AD3C en los 16 y 17, con sus colores
+C 0xACE5 0xCF39: como 0xCF37, con los 2 sprites 16 y 17
+C 0xAB33 al acabar la espera, 0xCF00 y 0xCF01 = 7: el color 14 que funde p06:A805
+C 0xB973 registro 7 del VDP = 0: el borde negro
+C 0xB97C la paleta del titulo a 0xDFB0, donde p06:B9C8 la va subiendo
+C 0xB990 las letras de 1 bit del rotulo, en tres trozos (el banco 5 en 0x8000)
+C 0xB9C8 EL TITULO SE ENCIENDE: uno de cada 4 cuadros, un paso...
+C 0xB9CF ...tres fases en 0xDFB0: 0 sube R y B (nibble alto), 1 sube B, 2 sube G...
+C 0xB9DD ...de los tres colores de 0xDFB1 hacia los de p06:BA5A
+C 0xBA2E fase 2: el G (el tercer byte)
+C 0xBA40 la paleta subida
+C 0xBA46 EL TITULO PARPADEA: cada 4 cuadros, la paleta p06:BA5A o la p06:BA64
+C 0xBA79 EL TITULO: la pagina 0 y las letras...
+C 0xBA7C ...el color 15 en tres tonos (0x66/0x06, 0x44/0x04, 0x22/0x02), con una espera de 0x800 vueltas entre uno y otro...
+C 0xBA96 ...y con la pantalla apagada, las figuras del rotulo...
+C 0xBAD5 ...los creditos, y se enciende
+C 0xBB57 LOS OBJETOS PUESTOS de algunas pantallas (p00:4E05, al entrar)
+C 0xBB7B pantalla 0x89, con らくなのたま (0x1C):...
+C 0xBB83 ...さけび (0x1B) en DE = 0x5060 si no se lleva ちからのたま (0x11)...
+C 0xBB90 ...y ちからのたま en DE = 0x6060 si no se lleva さけび
+C 0xBB9E pantalla 0x6B: ねむり (0x0D) con 0xC373, ぱぴるす (0x1D) con 0xC370 y con 0xC371 (p00:536D los pone a 1)
+C 0xBBC5 pantalla 0x68: おまもり (0x18) si no se lleva
+C 0xBBD3 pantalla 0x69: らくなのたま (0x1C) si no se lleva
+C 0xBBE1 pantalla 0x7D: なみだ (0x16) si no se lleva
+C 0xBBEF pantalla 0x88: sin ささやき (0x13), 0xC372 = 1 y la figura de p06:BC05
+C 0xBD49 pantalla 0x5B: con la figura que sigue a Mitchel (0xC600) en y 0x40 o mas...
+C 0xBD5A ...el suceso 2
+C 0xBD64 LA CAIDA: sin 0xC168 ni nada en marcha (0xC133)...
+C 0xBD6E ...las casillas de Mitchel, 8 puntos mas arriba...
+C 0xBD79 ...si las dos de arriba y las dos de abajo son 0xFF...
+C 0xBD8B ...alineado a 8 en y, Mitchel muere...
+C 0xBD93 ...si no, tambien si lo son las de la fila siguiente
+C 0xBD9D LOS PASADIZOS: Mitchel andando (estado < 5) y alineado a 8...
+C 0xBDB6 ...sobre una casilla 0xC0-0xC3
+C 0xBDC0 fuera de ellas, 0xC14F = 0: se puede volver a entrar
+C 0xBDC5 una vez (0xC14F), busca la pantalla en p06:BE16
+C 0xBDE0 la pantalla de destino, el punto de entrada (DE) y 0xC323
+C 0xBDE7 cambio de pantalla, con el sonido 0x24
+C 0xBE62 LO QUE SE ROMPE A GOLPES: una vez (0xC165), Mitchel golpeando (estado 5)...
+C 0xBE6D ...en las pantallas 0x76, 0x7A, 0x82 y 0x84, cada una con su ficha de p06:BEB1...
+C 0xBE8D ...mirando a donde diga y dentro de la caja [x min, x max) [y min, y max)...
+C 0xBEA3 ...el suceso 5
+C 0xBEC5 LOS PLANOS ALTERNOS (p00:53F4): el que habia a 0xE800, y 0 (el exterior)...
+C 0xBECE ...E la y de Mitchel, D la x; cada pantalla partida pone su plano segun el lado
+C 0xBF10 pantalla 0x58: x 0x58 o mas, plano 14
+C 0xBF17 0x01: y menos de 0x58, plano 1
+C 0xBF1E 0x04: x 0x58 o mas, plano 2
+C 0xBF25 0x05: x 0x58 o mas, plano 3
+C 0xBF2C 0x06: x 0x58 o mas, plano 4
+C 0xBF33 0x0D: x menos de 0x58, plano 5
+C 0xBF3A 0x0E: x menos de 0x58, plano 6
+C 0xBF41 0x1F: y 0x58 o mas y x 0x48 o mas, plano 7
+C 0xBF4C 0x20: y 0x58 o mas, plano 8
+C 0xBF53 0x21: y 0x58 o mas, plano 9
+C 0xBF5A 0x55: y menos de 0x58, plano 12
+C 0xBF61 0x56: y 0x58 o mas y x 0x48 o mas, plano 13
+C 0xBF6C 0x61: con la x fuera de 0x20-0x7F, la pantalla pasa a ser la 0x39
+C 0xBF7A 0x8A: con y 0x60 o mas, la pantalla pasa a ser la 0x8C
+C 0xBF86 AL EMPEZAR LA PARTIDA (p00:5343): 0xDE00 desde p06:BFDA...
+C 0xBF91 ...y las cuentas de lo que sueltan los enemigos (p03:BAF8 en adelante): cada cuantas muertes
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA000 0xA299 fuente_cola  96 letras de 1 bit (desde el '0', 0x30): la fuente; p01:6010 la sube dos veces (color 14 y color 3) (sigue del banco anterior, 0x9F99); lo leen p00:48ED (665 bytes)
@@ -124,36 +261,32 @@ F 0xBAE7 16
 # --- fin de los bloques de bloques.py ---
 
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
-C 0xA649 lee el paso del suceso de p06:A649
 C 0xA64C tabla_A658: 6 palabras: a donde salta p06:A649 segun 0xC139 (p06:A664, A674, A683, A699, A6A0 y A6AC)
 C 0xA650 p00:puente_hl_mas_a
 C 0xA66A p00:puente_pinta_figura_BA05
-C 0xA67E apunta a el paso del suceso de p06:A649
 C 0xA68C saltito_A6BF: 16 bytes que p06:A68C suma a la y de Mitchel (0xC303) segun 0xC13A: un saltito arriba y abajo
 C 0xA68F p00:puente_hl_mas_a
 C 0xA693 apunta a la Y de Mitchel
-C 0xA6A0 lee la Y de Mitchel
 C 0xA6A9 p00:puente_guarda_las_teclas
 C 0xA6B9 el paso del suceso de p06:A649 = 0xFF
 C 0xA6BB guarda el paso del suceso de p06:A649
+C 0xA6D1 funde_a_negro: un tono menos en los 16 colores de 0xCF00; acarreo cuando todos son negro
 C 0xA6D8 p00:puente_sube_los_colores_de_sprite
 C 0xA6DB elige_el_final: Sube los 77 dibujos de la escena (p06:AF41) y elige el final (0xC137):
-C 0xA6DE la espera del estado, en cuadros = 0x20
 C 0xA6E0 guarda la espera del estado, en cuadros
-C 0xA6E3 apunta a el paso del estado
 C 0xA6EA p00:puente_copia_lineas_a_la_pagina_1
 C 0xA6ED p00:puente_sube_los_colores_de_sprite
-C 0xA6F0 escena_del_final: 0xC137: el final (0, 1 o 2)
-C 0xA6F3 lee en el final, cual de los tres (0, 1 o 2; 3 acabado)
+C 0xA6F0 escena_del_final: salta por el final (0, 1 o 2)
 C 0xA6F9 paleta_A879: paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00
 C 0xA6FC p00:puente_pon_paleta
+C 0xA704 funde_a_negro: un tono menos en los 16 colores de 0xCF00; acarreo cuando todos son negro
 C 0xA70B paleta_A879: paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00
 C 0xA70E p00:puente_pon_paleta
 C 0xA711 texto_AF39: texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD)
 C 0xA717 empieza_texto: HL el texto, DE donde; una letra cada 4 cuadros
 C 0xA729 p00:puente_sonido_si_juega
 C 0xA736 apunta a la espera del estado, en cuadros
-C 0xA73B paleta_A879: paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00
+C 0xA74B funde_a_negro: un tono menos en los 16 colores de 0xCF00; acarreo cuando todos son negro
 C 0xA74F p00:puente_limpia_la_pantalla
 C 0xA752 p00:puente_espera_al_vdp
 C 0xA755 p00:puente_paleta_inicial
@@ -162,46 +295,36 @@ C 0xA75C guarda el ESTADO del juego
 C 0xA75F la espera del estado, en cuadros = 0x20
 C 0xA761 guarda la espera del estado, en cuadros
 C 0xA765 guarda el paso del estado
-C 0xA769 apunta a la espera del estado, en cuadros
 C 0xA774 p00:puente_limpia_la_pantalla
 C 0xA777 p00:puente_espera_al_vdp
 C 0xA77A apunta a los atributos de los sprites, para la VRAM
 C 0xA788 paleta_A794: paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00
 C 0xA7CB p00:puente_pon_paleta
-C 0xA7DF lee el contador de cuadros
-C 0xA805 lee el contador de cuadros
 C 0xA82A p00:puente_pon_un_color
 C 0xA83A dibujos_del_final: 77 dibujos de 8x8 a 4 bits de la escena del final; p06:A83F los sube a la hoja de la pagina 1 desde (8, 0) con p00:48A6
 C 0xA83F p00:puente_sube_dibujos
-C 0xA842 p00:puente_sube_sprites_4C92
 C 0xA870 p00:puente_sonido_si_juega
-C 0xA873 paleta_A879: paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00
 C 0xA876 p00:puente_pon_paleta
 C 0xA8AD finales: 3 palabras: la escena de cada final (0xC137 = 0, 1 o 2) que reparte p06:A8AA
 C 0xA8B1 p00:puente_hl_mas_a
 C 0xA8C2 pasos_del_final_0: 12 palabras: los pasos (0xC138) del final 0, que reparte p06:A8B0
-C 0xA8DF texto_AD44: texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD)
 C 0xA8E5 empieza_texto: HL el texto, DE donde; una letra cada 4 cuadros
-C 0xA8F8 texto_AD8A: texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD)
 C 0xA8FE empieza_texto: HL el texto, DE donde; una letra cada 4 cuadros
 C 0xA916 texto_ADB6: texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD)
 C 0xA91C empieza_texto: HL el texto, DE donde; una letra cada 4 cuadros
+C 0xA928 cuenta_cf38: 0xCF38: lo mismo con los sprites 0-7
 C 0xA937 p00:puente_limpia_la_pantalla
 C 0xA93A p00:puente_espera_al_vdp
 C 0xA93D paleta_A879: paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00
 C 0xA940 p00:puente_pon_paleta
 C 0xA943 texto_ADE1: texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD)
 C 0xA949 empieza_texto: HL el texto, DE donde; una letra cada 4 cuadros
-C 0xA954 guarda la espera del estado, en cuadros
-C 0xA957 apunta a el paso de la escena del final
+C 0xA951 fin_de_la_escena: AL ACABAR EL FINAL: tras la espera, la paleta en 0xCF00 y 0xC137 = 3
 C 0xA95C lee el paso de la escena del final
 C 0xA95F pasos_del_final_1: 13 palabras: los pasos del final 1
-C 0xA97F texto_AE24: texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD)
 C 0xA985 empieza_texto: HL el texto, DE donde; una letra cada 4 cuadros
-C 0xA99B apunta a la espera del estado, en cuadros
 C 0xA9BE p00:puente_lmmm
 C 0xA9D0 p00:puente_lmmm
-C 0xA9D3 texto_AE6F: texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD)
 C 0xA9D9 empieza_texto: HL el texto, DE donde; una letra cada 4 cuadros
 C 0xA9E9 p00:puente_limpia_la_pantalla
 C 0xA9EC p00:puente_espera_al_vdp
@@ -212,10 +335,11 @@ C 0xAA08 p00:puente_marco
 C 0xAA13 p00:puente_marco
 C 0xAA20 p00:puente_hmmv
 C 0xAA23 p00:puente_pinta_figura_BA38
-C 0xAA26 texto_AEA4: texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD)
 C 0xAA2C empieza_texto: HL el texto, DE donde; una letra cada 4 cuadros
-C 0xAA49 texto_AEBD: texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD)
 C 0xAA4F empieza_texto: HL el texto, DE donde; una letra cada 4 cuadros
+C 0xAA60 cuenta_cf37: 0xCF37: cuenta atras; a 0 saca los sprites; a 0xFF los mueve...
+C 0xAA63 cuenta_cf38: 0xCF38: lo mismo con los sprites 0-7
+C 0xAA6C fin_de_la_escena: AL ACABAR EL FINAL: tras la espera, la paleta en 0xCF00 y 0xC137 = 3
 C 0xAA6F lee el paso de la escena del final
 C 0xAA72 pasos_del_final_2: 16 palabras: los pasos del final 2 (los doce primeros, los del final 1)
 C 0xAA9F p00:puente_borra_la_parte_de_abajo
@@ -223,18 +347,16 @@ C 0xAAA2 paleta_A879: paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:
 C 0xAAA5 p00:puente_pon_paleta
 C 0xAAAD texto_AF03: texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD)
 C 0xAAB3 empieza_texto: HL el texto, DE donde; una letra cada 4 cuadros
+C 0xAAC0 cuenta_cf39: 0xCF39: como 0xCF37, con los 2 sprites 16 y 17
+C 0xAAC9 fin_de_la_escena: AL ACABAR EL FINAL: tras la espera, la paleta en 0xCF00 y 0xC137 = 3
 C 0xAAFA p00:puente_escribe_una_letra
-C 0xAB33 apunta a la espera del estado, en cuadros
-C 0xAB46 p00:puente_borra_la_parte_de_abajo
 C 0xAB49 paleta_A879: paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00
 C 0xAB4C p00:puente_pon_paleta
 C 0xAB57 p00:puente_marco
 C 0xAB62 p00:puente_marco
 C 0xAB6D p00:puente_marco
 C 0xAB70 p00:puente_pinta_figura_BA15
-C 0xAB73 apunta a la espera del estado, en cuadros
 C 0xAB78 paleta_A879: paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00
-C 0xAB86 p00:puente_limpia_la_pantalla
 C 0xAB89 p00:puente_espera_al_vdp
 C 0xAB8C paleta_A879: paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00
 C 0xAB8F p00:puente_pon_paleta
@@ -251,16 +373,12 @@ C 0xABEB p00:cabecera_de_konami: 'CD', 0x07 y 0x45: la cabecera que lee el Konam
 C 0xABF6 p00:puente_lmmm
 C 0xABF9 p00:cabecera_de_konami: 'CD', 0x07 y 0x45: la cabecera que lee el Konami Game Master (RC-745)
 C 0xAC04 p00:puente_lmmm
-C 0xAC07 apunta a la espera del estado, en cuadros
 C 0xAC0C paleta_A879: paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00
 C 0xAC17 en el final, cual de los tres (0, 1 o 2; 3 acabado) = 0x03
 C 0xAC1E sprites_del_final: 8 sprites [y][x][patron][color] que p06:AC1E y p06:AC32 copian a 0xE600/0xE620
 C 0xAC32 sprites_del_final: 8 sprites [y][x][patron][color] que p06:AC1E y p06:AC32 copian a 0xE600/0xE620
 C 0xAC35 apunta a los atributos de los sprites, para la VRAM
 C 0xAC3D apunta a los colores de los sprites, para la VRAM
-C 0xAC78 lee el contador de cuadros
-C 0xAC9F lee el contador de cuadros
-C 0xACB6 lee el contador de cuadros
 C 0xACCF sprites_del_final_2: 2 sprites [y][x][patron][color] que p06:ACCF copia a 0xE640
 C 0xACF5 lee el contador de cuadros
 C 0xB979 p00:puente_modo_de_pantalla
@@ -274,7 +392,6 @@ C 0xB9B1 titulo_A561: 29 letras de 1 bit del rotulo del titulo (color 8); p06:B9
 C 0xB9BA p00:puente_sube_letras
 C 0xB9C0 el mapper: el banco de A en 0x8000
 C 0xB9C3 guarda la copia del banco de 0x8000
-C 0xB9C8 lee la espera del estado, en cuadros
 C 0xB9E3 brillo_BA5A: [color][RB][G] ... 0xFF: a donde sube (y con que parpadea) el rotulo (p06:B9C8, p06:BA46)
 C 0xB9FA p00:puente_hl_mas_a
 C 0xB9FF p00:puente_de_mas_a
@@ -283,13 +400,10 @@ C 0xBA24 p00:puente_hl_mas_a
 C 0xBA29 p00:puente_de_mas_a
 C 0xBA39 brillo_BA5A: [color][RB][G] ... 0xFF: a donde sube (y con que parpadea) el rotulo (p06:B9C8, p06:BA46)
 C 0xBA43 p00:puente_pon_paleta
-C 0xBA46 lee la espera del estado, en cuadros
 C 0xBA4F brillo_BA5A: [color][RB][G] ... 0xFF: a donde sube (y con que parpadea) el rotulo (p06:B9C8, p06:BA46)
 C 0xBA54 brillo_BA64: [color][RB][G] ... 0xFF: a donde sube (y con que parpadea) el rotulo (p06:B9C8, p06:BA46)
 C 0xBA57 p00:puente_pon_paleta
-C 0xBA79 prepara_el_titulo: borra la pagina 0, pone la paleta de p06:BA6F y sube las letras del rotulo
 C 0xBA83 p00:puente_pon_un_color
-C 0xBA96 p00:puente_apaga_la_pantalla
 C 0xBA9C titulo_figura_B8E8: 4 columnas x 5 filas de dibujos del rotulo (p06:BA99, con transparencia)
 C 0xBAA2 p00:puente_pinta_figura_sin_bancos
 C 0xBAA8 titulo_figura_B91F: 3 columnas x 5 filas de dibujos del rotulo (p06:BA99, con transparencia)
@@ -298,7 +412,6 @@ C 0xBAB4 titulo_figura_B92E: 5 columnas x 6 filas de dibujos del rotulo (p06:BA9
 C 0xBABA p00:puente_pinta_figura_sin_bancos
 C 0xBACC titulo_figura_B94C: 12 columnas x 3 filas de dibujos del rotulo (p06:BA99, con transparencia)
 C 0xBAD2 p00:puente_pinta_figura_sin_bancos
-C 0xBAD5 creditos: los creditos del titulo: [x][y] letras, 0xFE otra posicion, 0xFF acaba (p00:4915)
 C 0xBAD8 p00:puente_rotulo
 C 0xBADB p00:puente_enciende_la_pantalla
 C 0xBAE1 titulo_figura_B8FC: 7 columnas x 5 filas de dibujos del rotulo (p06:BA99, con transparencia)
@@ -311,54 +424,45 @@ C 0xBB89 lee cuantos objetos 0x11 se llevan (BCD; 0xFF sin cuenta)
 C 0xBB8D p00:puente_pon_objeto: p01:7852: pone el objeto C (B unidades) en (E, D) de la pantalla
 C 0xBB96 lee cuantos objetos 0x1B se llevan (BCD; 0xFF sin cuenta)
 C 0xBB9A p00:puente_pon_objeto: p01:7852: pone el objeto C (B unidades) en (E, D) de la pantalla
+C 0xBBA2 el objeto 0x0D, ねむり (1)
 C 0xBBA8 p00:puente_pon_objeto: p01:7852: pone el objeto C (B unidades) en (E, D) de la pantalla
+C 0xBBAE el objeto 0x1D, ぱぴるす (1)
 C 0xBBB6 p00:puente_pon_objeto: p01:7852: pone el objeto C (B unidades) en (E, D) de la pantalla
 C 0xBBC2 p00:puente_pon_objeto: p01:7852: pone el objeto C (B unidades) en (E, D) de la pantalla
-C 0xBBC5 lee cuantos objetos 0x18 se llevan (BCD; 0xFF sin cuenta)
+C 0xBBCD el objeto 0x18, おまもり (1)
 C 0xBBD0 p00:puente_pon_objeto: p01:7852: pone el objeto C (B unidades) en (E, D) de la pantalla
-C 0xBBD3 lee cuantos objetos 0x1C se llevan (BCD; 0xFF sin cuenta)
+C 0xBBDB el objeto 0x1C, らくなのたま (1)
 C 0xBBDE p00:puente_pon_objeto: p01:7852: pone el objeto C (B unidades) en (E, D) de la pantalla
-C 0xBBE1 lee cuantos objetos 0x16 se llevan (BCD; 0xFF sin cuenta)
+C 0xBBE9 el objeto 0x16, なみだ (1)
 C 0xBBEC p00:puente_pon_objeto: p01:7852: pone el objeto C (B unidades) en (E, D) de la pantalla
-C 0xBBEF lee cuantos objetos 0x13 se llevan (BCD; 0xFF sin cuenta)
 C 0xBBF9 figura_BC05: 2x2 numeros de dibujo que p06:BBF9 pinta en (0x28, 0x78) mientras no se tiene el objeto 0x13 (0xC352)
 C 0xBC02 p00:puente_pinta_figura_sin_bancos
-C 0xBD49 lee la PANTALLA
 C 0xBD4C la pantalla 0x5B?
 C 0xBD4F lee la figura que sigue a Mitchel
-C 0xBD5A el SUCESO: el tipo de decorado que hay que quitar = 0x02
 C 0xBD5C guarda el SUCESO: el tipo de decorado que hay que quitar
 C 0xBD60 guarda el paso del suceso
-C 0xBD6E p00:puente_posicion_de_mitchel
 C 0xBD76 p00:puente_casilla_en_ram
-C 0xBD8B lee la Y de Mitchel
 C 0xBD90 p00:puente_mitchel_muere
 C 0xBD9A p00:puente_mitchel_muere
 C 0xBDA2 lee el estado de Mitchel
 C 0xBDA8 lee la Y de Mitchel
 C 0xBDAF lee la X de Mitchel
-C 0xBDB6 p00:puente_casilla_en_ram
 C 0xBDCC lee la PANTALLA
 C 0xBDD0 pasadizos: 15 fichas [pantalla][a donde][x][y][C] y un 0: p06:BDD0 busca la pantalla y manda alli a Mitchel (0xC201 = 1, sonido 0x24)
-C 0xBDE7 guarda la PANTALLA
 C 0xBDEA guarda el punto de entrada (y, x)
 C 0xBDF2 el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER) = 0x01
 C 0xBDF4 guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
 C 0xBDFC p00:puente_sonido_si_juega
 C 0xBE67 lee el estado de Mitchel
-C 0xBE6D lee la PANTALLA
 C 0xBE72 la pantalla 0x76?
 C 0xBE78 la pantalla 0x7A?
 C 0xBE7E la pantalla 0x82?
 C 0xBE84 la pantalla 0x84?
 C 0xBE89 zonas_BEB1: 4 fichas [direccion][x min][x max][y min][y max]: donde tiene que estar Mitchel, y mirando a donde, para lo de p06:BE87
-C 0xBE8D lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 C 0xBE93 p00:puente_posicion_de_mitchel
 C 0xBEA4 guarda el paso del suceso
 C 0xBEAB el SUCESO: el tipo de decorado que hay que quitar = 0x05
 C 0xBEAD guarda el SUCESO: el tipo de decorado que hay que quitar
-C 0xBEC5 apunta a el plano de la pantalla (0, el exterior)
-C 0xBECE lee la Y de Mitchel
 C 0xBED2 lee la X de Mitchel
 C 0xBED6 lee la PANTALLA
 C 0xBED9 la pantalla 0x01?
@@ -375,11 +479,8 @@ C 0xBF01 la pantalla 0x56?
 C 0xBF05 la pantalla 0x8A?
 C 0xBF09 la pantalla 0x61?
 C 0xBF0D la pantalla 0x58?
-C 0xBF6C lee la X de Mitchel
 C 0xBF74 la PANTALLA = 0x39
 C 0xBF76 guarda la PANTALLA
-C 0xBF7A lee la Y de Mitchel
 C 0xBF80 la PANTALLA = 0x8C
 C 0xBF82 guarda la PANTALLA
-C 0xBF86 contadores_iniciales: 28 bytes que p06:BF86 copia a 0xDE00 al empezar la partida
 # --- fin de las anotaciones de anota.py ---

@@ -422,6 +422,13 @@ def comentario(b, filas, k, clases, rut, cruces, fuentes=None, datos=None, repar
         n = nombre_objeto(v)
         if n:
             return "el objeto 0x%02X, %s" % (v, n)
+    m = re.match(r"ld bc,0([0-9a-f]{2})([0-9a-f]{2})h$", t)
+    siguen = [filas[j][1] for j in range(k + 1, min(k + 5, len(filas)))]
+    if m and any(re.search(r"(07852h|0419ah|pon_objeto|puente_pon_objeto)$", x) for x in siguen):
+        v, u = int(m.group(2), 16), int(m.group(1), 16)
+        n = nombre_objeto(v)
+        if n:
+            return "el objeto 0x%02X, %s (%d)" % (v, n, u)
     # llamadas y saltos a rutinas con nombre
     m = re.match(r"(call|jp)\s+(?:(?:nz|z|nc|c|po|pe|p|m),)?(?:L_([0-9A-F]{4})|0([0-9a-f]{4})h|([a-z_][a-z0-9_]*))$", t)
     if m:

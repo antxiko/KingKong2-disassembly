@@ -247,8 +247,13 @@ DATA_titulo_A561:
 ; ======================================================================
 
 
-L_A649:
-	ld a,(0c139h)		;a649   ; lee el paso del suceso de p06:A649
+
+; ----------------------------------------------------------------------
+; LA ENTRADA: al empezar la partida (p01:62B4 pone 0xC139 = 0) p00:5C2D llama
+; aqui cada cuadro hasta que 0xC139 = 0xFF; mientras, p01:64E4 no lee las teclas.
+; ----------------------------------------------------------------------
+la_entrada:
+	ld a,(0c139h)		;a649   ; salta por el paso (0xC139)
 	ld hl,0a658h		;a64c   ; tabla_A658: 6 palabras: a donde salta p06:A649 segun 0xC139 (p06:A664, A674, A683, A699, A6A0 y A6AC)
 	add a,a			;a64f
 	call 0408ch		;a650   ; p00:puente_hl_mas_a
@@ -271,27 +276,27 @@ DATA_tabla_A658:
 
 
 L_A664:
-	ld bc,00404h		;a664
+	ld bc,00404h		;a664   ; paso 0: la figura de p15:BA05 (4x4 dibujos) en DE = 0x4888, y 0xC307 = 2
 	ld de,04888h		;a667
 	call 0410ah		;a66a   ; p00:puente_pinta_figura_BA05
 	ld a,002h		;a66d
 	ld (0c307h),a		;a66f
 	jr L_A67E		;a672
 L_A674:
-	ld hl,0c13ah		;a674
+	ld hl,0c13ah		;a674   ; paso 1: espera 0xC13A cuadros (0x40, de p01:62BA)...
 	dec (hl)			;a677
 	ret nz			;a678
-	ld a,010h		;a679
+	ld a,010h		;a679   ; ...y 16 para el paso siguiente
 L_A67B:
 	ld (0c13ah),a		;a67b
 L_A67E:
-	ld hl,0c139h		;a67e   ; apunta a el paso del suceso de p06:A649
+	ld hl,0c139h		;a67e   ; el paso siguiente
 	inc (hl)			;a681
 	ret			;a682
 L_A683:
-	ld hl,0c13ah		;a683
+	ld hl,0c13ah		;a683   ; paso 2: 16 cuadros sumando a la y de Mitchel p06:A6BF (arriba y abajo)...
 	dec (hl)			;a686
-	ld a,008h		;a687
+	ld a,008h		;a687   ; ...y 8 de espera para el paso 3
 	jr z,L_A67B		;a689
 	ld a,(hl)			;a68b
 	ld hl,0a6bfh		;a68c   ; saltito_A6BF: 16 bytes que p06:A68C suma a la y de Mitchel (0xC303) segun 0xC13A: un saltito arriba y abajo
@@ -302,18 +307,18 @@ L_A683:
 	ld (hl),a			;a697
 	ret			;a698
 L_A699:
-	ld hl,0c13ah		;a699
+	ld hl,0c13ah		;a699   ; paso 3: espera 8 cuadros
 	dec (hl)			;a69c
 	ret nz			;a69d
 	jr L_A67E		;a69e
 L_A6A0:
-	ld a,(0c303h)		;a6a0   ; lee la Y de Mitchel
+	ld a,(0c303h)		;a6a0   ; paso 4: hasta la y 0x59 de Mitchel...
 	cp 059h		;a6a3
 	jr c,L_A67E		;a6a5
-	ld a,001h		;a6a7
+	ld a,001h		;a6a7   ; ...las teclas = 1 (bit 0, arriba)
 	jp 04104h		;a6a9   ; p00:puente_guarda_las_teclas
 L_A6AC:
-	ld a,0f0h		;a6ac
+	ld a,0f0h		;a6ac   ; paso 5: 0xE22A y 0xE22B = 0xF0, 0xC307 = 4, y 0xC139 = 0xFF: ya manda el jugador
 	ld (0e22ah),a		;a6ae
 	ld (0e22bh),a		;a6b1
 	ld a,004h		;a6b4
@@ -334,34 +339,39 @@ DATA_saltito_A6BF:
 ; ======================================================================
 
 
-L_A6CF:
-	djnz L_A6E8		;a6cf
-	call aclara_la_paleta		;a6d1
+
+; ----------------------------------------------------------------------
+; EL FINAL (el estado de p01:6746): B = el paso (0xC101) + 1, como en todos los
+; estados de p01:65D3.
+; ----------------------------------------------------------------------
+el_final:
+	djnz L_A6E8		;a6cf   ; paso 0: a negro...
+	call funde_a_negro		;a6d1   ; funde_a_negro: un tono menos en los 16 colores de 0xCF00; acarreo cuando todos son negro
 	ret nc			;a6d4
-	call limpia_para_el_final		;a6d5
+	call limpia_para_el_final		;a6d5   ; ...pantalla y sprites limpios, los dibujos y la musica del final...
 	call 04206h		;a6d8   ; p00:puente_sube_los_colores_de_sprite
 	call elige_el_final		;a6db   ; elige_el_final: Sube los 77 dibujos de la escena (p06:AF41) y elige el final (0xC137):
-	ld a,020h		;a6de   ; la espera del estado, en cuadros = 0x20
+	ld a,020h		;a6de   ; ...y 0x20 cuadros
 L_A6E0:
 	ld (0c104h),a		;a6e0   ; guarda la espera del estado, en cuadros
 L_A6E3:
-	ld hl,0c101h		;a6e3   ; apunta a el paso del estado
+	ld hl,0c101h		;a6e3   ; el paso siguiente
 	inc (hl)			;a6e6
 	ret			;a6e7
 L_A6E8:
-	djnz L_A702		;a6e8
+	djnz L_A702		;a6e8   ; paso 1: la escena del final (0xC137) cada cuadro...
 	call 041d6h		;a6ea   ; p00:puente_copia_lineas_a_la_pagina_1
 	call 04206h		;a6ed   ; p00:puente_sube_los_colores_de_sprite
-	call escena_del_final		;a6f0   ; escena_del_final: 0xC137: el final (0, 1 o 2)
-	ld a,(0c137h)		;a6f3   ; lee en el final, cual de los tres (0, 1 o 2; 3 acabado)
+	call escena_del_final		;a6f0   ; escena_del_final: salta por el final (0, 1 o 2)
+	ld a,(0c137h)		;a6f3   ; ...hasta que acaba (0xC137 = 3)
 	cp 003h		;a6f6
 	ret nz			;a6f8
 	ld hl,0a879h		;a6f9   ; paleta_A879: paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00
 	call 040f2h		;a6fc   ; p00:puente_pon_paleta
 	jp L_A6E3		;a6ff
 L_A702:
-	djnz L_A71D		;a702
-	call aclara_la_paleta		;a704
+	djnz L_A71D		;a702   ; paso 2: a negro, y "THE END" (p06:AF39)
+	call funde_a_negro		;a704   ; funde_a_negro: un tono menos en los 16 colores de 0xCF00; acarreo cuando todos son negro
 	ret nc			;a707
 	call limpia_para_el_final		;a708
 	ld hl,0a879h		;a70b   ; paleta_A879: paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00
@@ -371,17 +381,17 @@ L_A702:
 	call empieza_texto		;a717   ; empieza_texto: HL el texto, DE donde; una letra cada 4 cuadros
 	jp L_A6E3		;a71a
 L_A71D:
-	djnz L_A730		;a71d
+	djnz L_A730		;a71d   ; paso 3: letra a letra; al acabar...
 	call escribe_una_letra		;a71f
 	ld a,(0cf36h)		;a722
 	and a			;a725
 	ret z			;a726
-	ld a,0ffh		;a727
+	ld a,0ffh		;a727   ; ...se funde la musica (0xFF) y 256 cuadros
 	call 040e6h		;a729   ; p00:puente_sonido_si_juega
 	xor a			;a72c
 	jp L_A6E0		;a72d
 L_A730:
-	djnz L_A734		;a730
+	djnz L_A734		;a730   ; pasos 4 y 5: 256 cuadros cada uno...
 	jr L_A736		;a732
 L_A734:
 	djnz L_A749		;a734
@@ -389,14 +399,14 @@ L_A736:
 	ld hl,0c104h		;a736   ; apunta a la espera del estado, en cuadros
 	dec (hl)			;a739
 	ret nz			;a73a
-	ld hl,0a879h		;a73b   ; paleta_A879: paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00
+	ld hl,0a879h		;a73b   ; ...y la paleta del final en 0xCF00 para fundirla
 	ld de,0cf00h		;a73e
 	ld bc,00031h		;a741
 	ldir		;a744
 	jp L_A6E3		;a746
 L_A749:
-	djnz L_A769		;a749
-	call aclara_la_paleta		;a74b
+	djnz L_A769		;a749   ; paso 6: a negro, y al estado 0 (el logotipo de Konami)
+	call funde_a_negro		;a74b   ; funde_a_negro: un tono menos en los 16 colores de 0xCF00; acarreo cuando todos son negro
 	ret nc			;a74e
 	call 0409eh		;a74f   ; p00:puente_limpia_la_pantalla
 	call 04116h		;a752   ; p00:puente_espera_al_vdp
@@ -410,7 +420,7 @@ L_A749:
 	ld (0c101h),a		;a765   ; guarda el paso del estado
 	ret			;a768
 L_A769:
-	ld hl,0c104h		;a769   ; apunta a la espera del estado, en cuadros
+	ld hl,0c104h		;a769   ; con B de 8 en adelante (el paso 6 ya vuelve al estado 0)
 	dec (hl)			;a76c
 	ret nz			;a76d
 	call paleta_del_final_A794		;a76e
@@ -459,8 +469,8 @@ DATA_paleta_A794:
 ; ======================================================================
 
 
-aclara_la_paleta:
-	call sube_un_tono		;a7c5
+funde_a_negro:
+	call baja_un_tono		;a7c5   ; un tono menos en los 16 colores de 0xCF00; acarreo cuando todos son negro
 	ld hl,0cf00h		;a7c8
 	call 040f2h		;a7cb   ; p00:puente_pon_paleta
 	ld hl,0cf01h		;a7ce
@@ -477,8 +487,8 @@ L_A7D4:
 	ret nz			;a7dc
 	scf			;a7dd
 	ret			;a7de
-sube_un_tono:
-	ld a,(0c103h)		;a7df   ; lee el contador de cuadros
+baja_un_tono:
+	ld a,(0c103h)		;a7df   ; uno de cada 4 cuadros: R, B y G de cada color, uno menos (sin bajar de 0)
 	and 003h		;a7e2
 	ret nz			;a7e4
 	ld hl,0cf01h		;a7e5
@@ -506,8 +516,8 @@ L_A800:
 	inc hl			;a801
 	djnz L_A7EA		;a802
 	ret			;a804
-oscurece_la_paleta:
-	ld a,(0c103h)		;a805   ; lee el contador de cuadros
+funde_el_color_14:
+	ld a,(0c103h)		;a805   ; lo mismo con un solo color, 0xCF00 [RB] 0xCF01 [G], en el 14; acarreo al llegar a negro
 	and 003h		;a808
 	ret nz			;a80a
 	ld hl,0cf00h		;a80b
@@ -553,7 +563,7 @@ elige_el_final:
 	ld hl,0af41h		;a83a   ; dibujos_del_final: 77 dibujos de 8x8 a 4 bits de la escena del final; p06:A83F los sube a la hoja de la pagina 1 desde (8, 0) con p00:48A6
 	ld b,04dh		;a83d
 	call 0411ch		;a83f   ; p00:puente_sube_dibujos
-	call 041b8h		;a842   ; p00:puente_sube_sprites_4C92
+	call 041b8h		;a842   ; y los sprites
 	ld hl,(0c127h)		;a845   ; DAYS
 	ld a,h			;a848
 	cp 003h		;a849   ; las centenas: 3...
@@ -580,7 +590,7 @@ L_A869:
 	ld (0c137h),hl		;a86c   ; 0xC137 = final, 0xC138 = 0 (el paso)
 	ld a,c			;a86f
 	call 040e6h		;a870   ; p00:puente_sonido_si_juega
-	ld hl,0a879h		;a873   ; paleta_A879: paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00
+	ld hl,0a879h		;a873   ; y su paleta
 	jp 040f2h		;a876   ; p00:puente_pon_paleta
 
 ; ----------------------------------------------------------------------
@@ -612,7 +622,7 @@ DATA_paleta_A879:
 
 
 escena_del_final:
-	ld a,(0c137h)		;a8aa   ; 0xC137: el final (0, 1 o 2)
+	ld a,(0c137h)		;a8aa   ; salta por el final (0, 1 o 2)
 	ld hl,0a8b9h		;a8ad   ; finales: 3 palabras: la escena de cada final (0xC137 = 0, 1 o 2) que reparte p06:A8AA
 salta_por_la_tabla:
 	add a,a			;a8b0
@@ -654,7 +664,7 @@ DATA_pasos_del_final_0:
 
 
 L_A8DF:
-	ld hl,0ad44h		;a8df   ; texto_AD44: texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD)
+	ld hl,0ad44h		;a8df   ; final 0: "MITCHEL, luchaste con valor y diste con LADY KONG. Pero ya era tarde"
 	ld de,02898h		;a8e2
 	call empieza_texto		;a8e5   ; empieza_texto: HL el texto, DE donde; una letra cada 4 cuadros
 	jp L_A957		;a8e8
@@ -663,10 +673,10 @@ L_A8EB:
 L_A8EE:
 	jp L_AB33		;a8ee
 L_A8F1:
-	call oscurece_la_paleta		;a8f1
+	call funde_el_color_14		;a8f1   ; a negro el color 14, la escena de p06:AB46...
 	ret nc			;a8f4
 	call escena_del_final_AB46		;a8f5
-	ld hl,0ad8ah		;a8f8   ; texto_AD8A: texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD)
+	ld hl,0ad8ah		;a8f8   ; ..."AMY no pudo hacer nada: KING KONG acaba de morir"
 	ld de,04098h		;a8fb
 	call empieza_texto		;a8fe   ; empieza_texto: HL el texto, DE donde; una letra cada 4 cuadros
 	jp L_A957		;a901
@@ -675,7 +685,7 @@ L_A904:
 L_A907:
 	jp L_AB73		;a907
 L_A90A:
-	call aclara_la_paleta		;a90a
+	call funde_a_negro		;a90a   ; a negro, la escena de p06:AB86 y "Mira a LADY, que contenta corre"
 	ret nc			;a90d
 	call escena_del_final_AB86		;a90e
 	ld a,010h		;a911
@@ -685,17 +695,17 @@ L_A90A:
 	call empieza_texto		;a91c   ; empieza_texto: HL el texto, DE donde; una letra cada 4 cuadros
 	jr L_A957		;a91f
 L_A921:
-	ld a,(0cf36h)		;a921
+	ld a,(0cf36h)		;a921   ; letra a letra y los 8 sprites de 0xCF38 hasta que salen por la izquierda
 	and a			;a924
 	call z,escribe_una_letra		;a925
-	call cuenta_cf38		;a928
+	call cuenta_cf38		;a928   ; cuenta_cf38: 0xCF38: lo mismo con los sprites 0-7
 	ret nc			;a92b
 	ld a,080h		;a92c
 	jr L_A954		;a92e
 L_A930:
 	jp L_AB73		;a930
 L_A933:
-	call aclara_la_paleta		;a933
+	call funde_a_negro		;a933   ; a negro, y "No salvaste a KING KONG, pero tu aventura no fue en vano. Gracias, MITCHEL"
 	ret nc			;a936
 	call 0409eh		;a937   ; p00:puente_limpia_la_pantalla
 	call 04116h		;a93a   ; p00:puente_espera_al_vdp
@@ -708,11 +718,11 @@ L_A933:
 L_A94E:
 	jp L_AB26		;a94e
 L_A951:
-	jp fin_de_la_escena		;a951
+	jp fin_de_la_escena		;a951   ; fin_de_la_escena: AL ACABAR EL FINAL: tras la espera, la paleta en 0xCF00 y 0xC137 = 3
 L_A954:
-	ld (0c104h),a		;a954   ; guarda la espera del estado, en cuadros
+	ld (0c104h),a		;a954   ; cuanto espera el paso siguiente
 L_A957:
-	ld hl,0c138h		;a957   ; apunta a el paso de la escena del final
+	ld hl,0c138h		;a957   ; el paso siguiente de la escena
 	inc (hl)			;a95a
 	ret			;a95b
 final_1:
@@ -733,7 +743,7 @@ DATA_pasos_del_final_1:
 
 
 L_A97F:
-	ld hl,0ae24h		;a97f   ; texto_AE24: texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD)
+	ld hl,0ae24h		;a97f   ; final 1: "MITCHEL, luchaste con valor y diste con LADY KONG. Y AMY le opero"
 	ld de,02898h		;a982
 	call empieza_texto		;a985   ; empieza_texto: HL el texto, DE donde; una letra cada 4 cuadros
 	jr $-49		;a988
@@ -742,18 +752,18 @@ L_A98A:
 L_A98D:
 	jp L_AB33		;a98d
 L_A990:
-	call oscurece_la_paleta		;a990
+	call funde_el_color_14		;a990   ; a negro el color 14 y la escena de p06:AB46
 	ret nc			;a993
 	call escena_del_final_AB46		;a994
 	xor a			;a997
 	jp L_A954		;a998
 L_A99B:
-	ld hl,0c104h		;a99b   ; apunta a la espera del estado, en cuadros
+	ld hl,0c104h		;a99b   ; cuenta la espera...
 	dec (hl)			;a99e
 	ld a,(hl)			;a99f
 	cp 040h		;a9a0
 	jr z,L_A9D3		;a9a2
-	cp 0c0h		;a9a4
+	cp 0c0h		;a9a4   ; ...de 0xBF a 0x80, cada 8 cuadros, dos copias LMMM de la tira 8x1 numero (espera & 0x38) / 8
 	ret nc			;a9a6
 	cp 080h		;a9a7
 	ret c			;a9a9
@@ -782,7 +792,7 @@ L_A99B:
 	ld a,048h		;a9ce
 	jp 04182h		;a9d0   ; p00:puente_lmmm
 L_A9D3:
-	ld hl,0ae6fh		;a9d3   ; texto_AE6F: texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD)
+	ld hl,0ae6fh		;a9d3   ; ...y a 0x40: "Lo conseguiste! KING KONG ha vuelto a la vida!"
 	ld de,02098h		;a9d6
 	call empieza_texto		;a9d9   ; empieza_texto: HL el texto, DE donde; una letra cada 4 cuadros
 	jp L_A957		;a9dc
@@ -791,7 +801,7 @@ L_A9DF:
 L_A9E2:
 	jp L_AB73		;a9e2
 L_A9E5:
-	call aclara_la_paleta		;a9e5
+	call funde_a_negro		;a9e5   ; a negro, los tres marcos, la figura de p15:BA38...
 	ret nc			;a9e8
 	call 0409eh		;a9e9   ; p00:puente_limpia_la_pantalla
 	call 04116h		;a9ec   ; p00:puente_espera_al_vdp
@@ -815,7 +825,7 @@ L_A9E5:
 	ld d,000h		;aa1e
 	call 0407ah		;aa20   ; p00:puente_hmmv
 	call 04128h		;aa23   ; p00:puente_pinta_figura_BA38
-	ld hl,0aea4h		;aa26   ; texto_AEA4: texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD)
+	ld hl,0aea4h		;aa26   ; ..."Enhorabuena MITCHEL! Enhorabuena AMY!"
 	ld de,02098h		;aa29
 	call empieza_texto		;aa2c   ; empieza_texto: HL el texto, DE donde; una letra cada 4 cuadros
 	jp L_A957		;aa2f
@@ -824,30 +834,30 @@ L_AA32:
 L_AA35:
 	jp L_AB73		;aa35
 L_AA38:
-	call aclara_la_paleta		;aa38
+	call funde_a_negro		;aa38   ; a negro, la escena de p06:AB86 con dos grupos de sprites (0xCF37 y 0xCF38)...
 	ret nc			;aa3b
 	call escena_del_final_AB86		;aa3c
 	ld a,010h		;aa3f
 	ld (0cf37h),a		;aa41
 	ld a,030h		;aa44
 	ld (0cf38h),a		;aa46
-	ld hl,0aebdh		;aa49   ; texto_AEBD: texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD)
+	ld hl,0aebdh		;aa49   ; ..."Vuelve la paz a GOLNEBO; KONG vive feliz con LADY. Gracias, MITCHEL"
 	ld de,02898h		;aa4c
 	call empieza_texto		;aa4f   ; empieza_texto: HL el texto, DE donde; una letra cada 4 cuadros
 	xor a			;aa52
 	ld (0cf36h),a		;aa53
 	jp L_A957		;aa56
 L_AA59:
-	ld a,(0cf36h)		;aa59
+	ld a,(0cf36h)		;aa59   ; letra a letra y los dos grupos de sprites
 	and a			;aa5c
 	call z,escribe_una_letra		;aa5d
-	call cuenta_cf37		;aa60
-	call cuenta_cf38		;aa63
+	call cuenta_cf37		;aa60   ; cuenta_cf37: 0xCF37: cuenta atras; a 0 saca los sprites; a 0xFF los mueve...
+	call cuenta_cf38		;aa63   ; cuenta_cf38: 0xCF38: lo mismo con los sprites 0-7
 	ret nc			;aa66
 	ld a,080h		;aa67
 	jp L_A954		;aa69
 L_AA6C:
-	jp fin_de_la_escena		;aa6c
+	jp fin_de_la_escena		;aa6c   ; fin_de_la_escena: AL ACABAR EL FINAL: tras la espera, la paleta en 0xCF00 y 0xC137 = 3
 final_2:
 	ld a,(0c138h)		;aa6f   ; lee el paso de la escena del final
 	ld hl,0aa78h		;aa72   ; pasos_del_final_2: 16 palabras: los pasos del final 2 (los doce primeros, los del final 1)
@@ -869,27 +879,27 @@ DATA_pasos_del_final_2:
 L_AA98:
 	jp L_AB33		;aa98
 L_AA9B:
-	call oscurece_la_paleta		;aa9b
+	call funde_el_color_14		;aa9b   ; final 2: a negro el color 14, borra la parte de abajo...
 	ret nc			;aa9e
 	call 04110h		;aa9f   ; p00:puente_borra_la_parte_de_abajo
 	ld hl,0a879h		;aaa2   ; paleta_A879: paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00
 	call 040f2h		;aaa5   ; p00:puente_pon_paleta
-	ld a,010h		;aaa8
+	ld a,010h		;aaa8   ; ...los 2 sprites de 0xCF39 y "Anda! Un bebe KONG! Bien por KONG y por LADY!"
 	ld (0cf39h),a		;aaaa
 	ld hl,0af03h		;aaad   ; texto_AF03: texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD)
 	ld de,01898h		;aab0
 	call empieza_texto		;aab3   ; empieza_texto: HL el texto, DE donde; una letra cada 4 cuadros
 	jp L_A957		;aab6
 L_AAB9:
-	ld a,(0cf36h)		;aab9
+	ld a,(0cf36h)		;aab9   ; letra a letra y los 2 sprites hasta que salen
 	and a			;aabc
 	call z,escribe_una_letra		;aabd
-	call cuenta_cf39		;aac0
+	call cuenta_cf39		;aac0   ; cuenta_cf39: 0xCF39: como 0xCF37, con los 2 sprites 16 y 17
 	ret nc			;aac3
 	ld a,080h		;aac4
 	jp L_A954		;aac6
 L_AAC9:
-	jp fin_de_la_escena		;aac9
+	jp fin_de_la_escena		;aac9   ; fin_de_la_escena: AL ACABAR EL FINAL: tras la espera, la paleta en 0xCF00 y 0xC137 = 3
 empieza_texto:
 	ld a,004h		;aacc   ; HL el texto, DE donde; una letra cada 4 cuadros
 	ld (0cf35h),a		;aace
@@ -902,7 +912,7 @@ escribe_una_letra:
 	ld hl,0cf35h		;aadd
 	dec (hl)			;aae0
 	ret nz			;aae1
-	ld a,(hl)			;aae2
+	ld a,(hl)			;aae2   ; una letra cada 4 cuadros (0xCF36 = 0 mientras quedan)
 	ld (0cf36h),a		;aae3
 	ld (hl),004h		;aae6
 	ld hl,(0cf31h)		;aae8
@@ -912,7 +922,7 @@ escribe_una_letra:
 	jr z,L_AB0D		;aaee   ; 0xFF: se acabo (0xCF36 = 1)
 	inc a			;aaf0
 	jr z,L_AB13		;aaf1   ; 0xFE [x]: renglon siguiente, en x
-	ld a,c			;aaf3
+	ld a,c			;aaf3   ; la letra en DE (D la x, E la y) y 8 puntos a la derecha
 	ld c,0ffh		;aaf4
 	ld de,(0cf33h)		;aaf6
 	call 040feh		;aafa   ; p00:puente_escribe_una_letra
@@ -928,7 +938,7 @@ L_AB0D:
 	ld (0cf36h),a		;ab0f
 	ret			;ab12
 L_AB13:
-	inc hl			;ab13
+	inc hl			;ab13   ; 0xFE [n]: la x mas n y 16 puntos mas abajo
 	ld a,(hl)			;ab14
 	inc hl			;ab15
 	ld (0cf31h),hl		;ab16
@@ -941,14 +951,14 @@ L_AB13:
 	ld (0cf33h),hl		;ab22
 	ret			;ab25
 L_AB26:
-	call escribe_una_letra		;ab26
+	call escribe_una_letra		;ab26   ; letra a letra, y al acabar 0x80 cuadros de espera
 	ld a,(0cf36h)		;ab29
 	and a			;ab2c
 	ret z			;ab2d
 	ld a,080h		;ab2e
 	jp L_A954		;ab30
 L_AB33:
-	ld hl,0c104h		;ab33   ; apunta a la espera del estado, en cuadros
+	ld hl,0c104h		;ab33   ; al acabar la espera, 0xCF00 y 0xCF01 = 7: el color 14 que funde p06:A805
 	dec (hl)			;ab36
 	ret nz			;ab37
 	ld hl,0cf00h		;ab38
@@ -959,7 +969,7 @@ L_AB33:
 	ld (hl),007h		;ab41
 	jp L_A957		;ab43
 escena_del_final_AB46:
-	call 04110h		;ab46   ; p00:puente_borra_la_parte_de_abajo
+	call 04110h		;ab46   ; LA ESCENA de los finales 0 y 1: borra la parte de abajo, la paleta, tres marcos y la figura de p15:BA15
 	ld hl,0a879h		;ab49   ; paleta_A879: paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00
 	call 040f2h		;ab4c   ; p00:puente_pon_paleta
 	ld hl,05b3eh		;ab4f
@@ -976,7 +986,7 @@ escena_del_final_AB46:
 	call 0417ch		;ab6d   ; p00:puente_marco
 	jp 04122h		;ab70   ; p00:puente_pinta_figura_BA15
 L_AB73:
-	ld hl,0c104h		;ab73   ; apunta a la espera del estado, en cuadros
+	ld hl,0c104h		;ab73   ; al acabar la espera, la paleta del final en 0xCF00 para fundirla
 	dec (hl)			;ab76
 	ret nz			;ab77
 	ld hl,0a879h		;ab78   ; paleta_A879: paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00
@@ -985,7 +995,7 @@ L_AB73:
 	ldir		;ab81
 	jp L_A957		;ab83
 escena_del_final_AB86:
-	call 0409eh		;ab86   ; p00:puente_limpia_la_pantalla
+	call 0409eh		;ab86   ; LA OTRA ESCENA: pantalla limpia, la paleta, tres marcos, un rectangulo de color 0xFF...
 	call 04116h		;ab89   ; p00:puente_espera_al_vdp
 	ld hl,0a879h		;ab8c   ; paleta_A879: paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00
 	call 040f2h		;ab8f   ; p00:puente_pon_paleta
@@ -1006,7 +1016,7 @@ escena_del_final_AB86:
 	ld a,0ffh		;abb9
 	ld d,000h		;abbb
 	call 0407ah		;abbd   ; p00:puente_hmmv
-	ld de,03860h		;abc0
+	ld de,03860h		;abc0   ; ...dos figuras de p15:BA4C, la de p15:BA68 y cuatro copias LMMM
 	call 0412eh		;abc3   ; p00:puente_pinta_figura_BA4C
 	ld de,07060h		;abc6
 	call 0412eh		;abc9   ; p00:puente_pinta_figura_BA4C
@@ -1032,7 +1042,7 @@ escena_del_final_AB86:
 	ld a,048h		;ac02
 	jp 04182h		;ac04   ; p00:puente_lmmm
 fin_de_la_escena:
-	ld hl,0c104h		;ac07   ; apunta a la espera del estado, en cuadros
+	ld hl,0c104h		;ac07   ; AL ACABAR EL FINAL: tras la espera, la paleta en 0xCF00 y 0xC137 = 3
 	dec (hl)			;ac0a
 	ret nz			;ac0b
 	ld hl,0a879h		;ac0c   ; paleta_A879: paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00
@@ -1043,16 +1053,16 @@ fin_de_la_escena:
 	ld (0c137h),a		;ac19   ; 0xC137 = 3: acabada
 	ret			;ac1c
 L_AC1D:
-	dec (hl)			;ac1d
+	dec (hl)			;ac1d   ; la cuenta de 0xCF37 llego a 0: los 8 sprites de p06:AD1C en los 8-15...
 	ld hl,0ad1ch		;ac1e   ; sprites_del_final: 8 sprites [y][x][patron][color] que p06:AC1E y p06:AC32 copian a 0xE600/0xE620
 	ld de,0e620h		;ac21
 	ld bc,00020h		;ac24
 	ldir		;ac27
-	ld hl,0e480h		;ac29
+	ld hl,0e480h		;ac29   ; ...y sus colores, 16 lineas de 1 y 16 de 4 por cada uno
 	ld de,00144h		;ac2c
 	jr L_AC43		;ac2f
 L_AC31:
-	dec (hl)			;ac31
+	dec (hl)			;ac31   ; la de 0xCF38: los mismos en los sprites 0-7
 	ld hl,0ad1ch		;ac32   ; sprites_del_final: 8 sprites [y][x][patron][color] que p06:AC1E y p06:AC32 copian a 0xE600/0xE620
 	ld de,0e600h		;ac35   ; apunta a los atributos de los sprites, para la VRAM
 	ld bc,00020h		;ac38
@@ -1060,7 +1070,7 @@ L_AC31:
 	ld hl,0e400h		;ac3d   ; apunta a los colores de los sprites, para la VRAM
 	ld de,00146h		;ac40
 L_AC43:
-	ld c,004h		;ac43
+	ld c,004h		;ac43   ; C sprites: 16 lineas del color D y 16 del E
 L_AC45:
 	ld b,010h		;ac45
 L_AC47:
@@ -1077,7 +1087,7 @@ L_AC4D:
 	and a			;ac54
 	ret			;ac55
 cuenta_cf37:
-	ld hl,0cf37h		;ac56
+	ld hl,0cf37h		;ac56   ; 0xCF37: cuenta atras; a 0 saca los sprites; a 0xFF los mueve...
 	ld a,(hl)			;ac59
 	and a			;ac5a
 	jr z,L_AC1D		;ac5b
@@ -1087,10 +1097,10 @@ cuenta_cf37:
 	and a			;ac61
 	ret			;ac62
 L_AC63:
-	ld hl,0e621h		;ac63
+	ld hl,0e621h		;ac63   ; ...los sprites 8-15
 	jr L_AC78		;ac66
 cuenta_cf38:
-	ld hl,0cf38h		;ac68
+	ld hl,0cf38h		;ac68   ; 0xCF38: lo mismo con los sprites 0-7
 	ld a,(hl)			;ac6b
 	and a			;ac6c
 	jr z,L_AC31		;ac6d
@@ -1102,13 +1112,13 @@ cuenta_cf38:
 L_AC75:
 	ld hl,0e601h		;ac75
 L_AC78:
-	ld a,(0c103h)		;ac78   ; lee el contador de cuadros
+	ld a,(0c103h)		;ac78   ; uno de cada 2 cuadros: cambia de patron...
 	rra			;ac7b
 	ret nc			;ac7c
 	push hl			;ac7d
 	call parpadeo_AC9F		;ac7e
 	pop hl			;ac81
-	ld b,008h		;ac82
+	ld b,008h		;ac82   ; ...y los 8 un punto a la izquierda...
 L_AC84:
 	dec (hl)			;ac84
 	ld a,(hl)			;ac85
@@ -1122,7 +1132,7 @@ L_AC84:
 	and a			;ac90
 	ret			;ac91
 L_AC92:
-	dec hl			;ac92
+	dec hl			;ac92   ; ...hasta x 0x37: entonces fuera (y 0xE0) y acarreo
 	ld b,008h		;ac93
 L_AC95:
 	ld (hl),0e0h		;ac95
@@ -1134,7 +1144,7 @@ L_AC95:
 	scf			;ac9d
 	ret			;ac9e
 parpadeo_AC9F:
-	ld a,(0c103h)		;ac9f   ; lee el contador de cuadros
+	ld a,(0c103h)		;ac9f   ; los patrones de 8 sprites: 0x00, 0x04... o 0x20, 0x24... alternando cada 16 cuadros
 	bit 4,a		;aca2
 	ld a,020h		;aca4
 	jr z,L_ACA9		;aca6
@@ -1152,7 +1162,7 @@ L_ACAC:
 	djnz L_ACAC		;acb3
 	ret			;acb5
 parpadeo_ACB6:
-	ld a,(0c103h)		;acb6   ; lee el contador de cuadros
+	ld a,(0c103h)		;acb6   ; los de 2 sprites: 0x40 y 0x44 o 0x48 y 0x4C, alternando cada 8 cuadros
 	bit 3,a		;acb9
 	ld a,040h		;acbb
 	jr z,L_ACC1		;acbd
@@ -1170,7 +1180,7 @@ L_ACC4:
 	djnz L_ACC4		;accb
 	ret			;accd
 L_ACCE:
-	dec (hl)			;acce
+	dec (hl)			;acce   ; la de 0xCF39 llego a 0: los 2 sprites de p06:AD3C en los 16 y 17, con sus colores
 	ld hl,0ad3ch		;accf   ; sprites_del_final_2: 2 sprites [y][x][patron][color] que p06:ACCF copia a 0xE640
 	ld de,0e640h		;acd2
 	ld bc,00008h		;acd5
@@ -1180,7 +1190,7 @@ L_ACCE:
 	ld c,001h		;ace0
 	jp L_AC45		;ace2
 cuenta_cf39:
-	ld hl,0cf39h		;ace5
+	ld hl,0cf39h		;ace5   ; 0xCF39: como 0xCF37, con los 2 sprites 16 y 17
 	ld a,(hl)			;ace8
 	and a			;ace9
 	jr z,L_ACCE		;acea
@@ -2033,10 +2043,10 @@ DATA_titulo_figura_B94C:
 
 prepara_el_titulo:
 	call 0409eh		;b970   ; borra la pagina 0, pone la paleta de p06:BA6F y sube las letras del rotulo
-	ld bc,00007h		;b973
+	ld bc,00007h		;b973   ; registro 7 del VDP = 0: el borde negro
 	call 00047h		;b976   ; BIOS WRTVDP - Writes data in the VDP-register
 	call 041ach		;b979   ; p00:puente_modo_de_pantalla
-	ld b,00bh		;b97c
+	ld b,00bh		;b97c   ; la paleta del titulo a 0xDFB0, donde p06:B9C8 la va subiendo
 	ld hl,0ba6eh		;b97e   ; paleta_del_titulo: 11 bytes que p06:B97C copia a 0xDFB0 (contador y [color][RB][G] x3 + 0xFF), la lista de p06:B98D
 	ld de,0dfb0h		;b981
 L_B984:
@@ -2047,7 +2057,7 @@ L_B984:
 	djnz L_B984		;b988
 	ld hl,0ba6fh		;b98a
 	call 040f2h		;b98d   ; p00:puente_pon_paleta
-	call banco_5_en_8000		;b990
+	call banco_5_en_8000		;b990   ; las letras de 1 bit del rotulo, en tres trozos (el banco 5 en 0x8000)
 	ld hl,0a2a1h		;b993   ; titulo_A2A1: 36 letras de 1 bit del rotulo del titulo (color 6); p06:B993
 	ld de,00800h		;b996
 	ld bc,02406h		;b999
@@ -2070,18 +2080,18 @@ banco_5_en_8000:
 	ei			;b9c6
 	ret			;b9c7
 L_B9C8:
-	ld a,(0c104h)		;b9c8   ; lee la espera del estado, en cuadros
+	ld a,(0c104h)		;b9c8   ; EL TITULO SE ENCIENDE: uno de cada 4 cuadros, un paso...
 	ld b,a			;b9cb
 	and 003h		;b9cc
 	ret nz			;b9ce
-	ld a,(0dfb0h)		;b9cf
+	ld a,(0dfb0h)		;b9cf   ; ...tres fases en 0xDFB0: 0 sube R y B (nibble alto), 1 sube B, 2 sube G...
 	dec a			;b9d2
 	jr z,L_BA04		;b9d3
 	dec a			;b9d5
 	jr z,L_BA2E		;b9d6
 	ld a,001h		;b9d8
 	ld (0dfb0h),a		;b9da
-	ld b,003h		;b9dd
+	ld b,003h		;b9dd   ; ...de los tres colores de 0xDFB1 hacia los de p06:BA5A
 	ld hl,0dfb1h		;b9df
 	inc hl			;b9e2
 	ld de,0ba5ah		;b9e3   ; brillo_BA5A: [color][RB][G] ... 0xFF: a donde sube (y con que parpadea) el rotulo (p06:B9C8, p06:BA46)
@@ -2132,7 +2142,7 @@ L_BA22:
 	call 04098h		;ba29   ; p00:puente_de_mas_a
 	jr L_BA13		;ba2c
 L_BA2E:
-	xor a			;ba2e
+	xor a			;ba2e   ; fase 2: el G (el tercer byte)
 	ld (0dfb0h),a		;ba2f
 	ld b,003h		;ba32
 	ld hl,0dfb1h		;ba34
@@ -2143,10 +2153,10 @@ L_BA2E:
 	inc de			;ba3d
 	jr L_BA13		;ba3e
 L_BA40:
-	ld hl,0dfb1h		;ba40
+	ld hl,0dfb1h		;ba40   ; la paleta subida
 	jp 040f2h		;ba43   ; p00:puente_pon_paleta
 L_BA46:
-	ld a,(0c104h)		;ba46   ; lee la espera del estado, en cuadros
+	ld a,(0c104h)		;ba46   ; EL TITULO PARPADEA: cada 4 cuadros, la paleta p06:BA5A o la p06:BA64
 	ld b,a			;ba49
 	and 003h		;ba4a
 	ret nz			;ba4c
@@ -2191,8 +2201,8 @@ DATA_paleta_del_titulo:
 
 
 L_BA79:
-	call prepara_el_titulo		;ba79   ; prepara_el_titulo: borra la pagina 0, pone la paleta de p06:BA6F y sube las letras del rotulo
-	ld b,003h		;ba7c
+	call prepara_el_titulo		;ba79   ; EL TITULO: la pagina 0 y las letras...
+	ld b,003h		;ba7c   ; ...el color 15 en tres tonos (0x66/0x06, 0x44/0x04, 0x22/0x02), con una espera de 0x800 vueltas entre uno y otro...
 	ld de,06606h		;ba7e
 L_BA81:
 	ld a,00fh		;ba81
@@ -2209,7 +2219,7 @@ L_BA8F:
 	or l			;ba91
 	jr nz,L_BA8F		;ba92
 	djnz L_BA81		;ba94
-	call 0406eh		;ba96   ; p00:puente_apaga_la_pantalla
+	call 0406eh		;ba96   ; ...y con la pantalla apagada, las figuras del rotulo...
 	ld bc,00405h		;ba99
 	ld hl,0b8e8h		;ba9c   ; titulo_figura_B8E8: 4 columnas x 5 filas de dibujos del rotulo (p06:BA99, con transparencia)
 	ld de,01820h		;ba9f
@@ -2230,7 +2240,7 @@ L_BA8F:
 	ld hl,0b94ch		;bacc   ; titulo_figura_B94C: 12 columnas x 3 filas de dibujos del rotulo (p06:BA99, con transparencia)
 	ld de,05058h		;bacf
 	call 041c4h		;bad2   ; p00:puente_pinta_figura_sin_bancos
-	ld hl,0bae7h		;bad5   ; creditos: los creditos del titulo: [x][y] letras, 0xFE otra posicion, 0xFF acaba (p00:4915)
+	ld hl,0bae7h		;bad5   ; ...los creditos, y se enciende
 	call 04056h		;bad8   ; p00:puente_rotulo
 	jp 04086h		;badb   ; p00:puente_enciende_la_pantalla
 pinta_figura_del_titulo_B8FC:
@@ -2257,7 +2267,7 @@ DATA_creditos:
 
 
 L_BB57:
-	xor a			;bb57
+	xor a			;bb57   ; LOS OBJETOS PUESTOS de algunas pantallas (p00:4E05, al entrar)
 	ld (0c372h),a		;bb58
 	ld a,(0c125h)		;bb5b   ; lee la PANTALLA
 	cp 088h		;bb5e   ; la pantalla 0x88?
@@ -2275,30 +2285,30 @@ L_BB57:
 	jr z,L_BBE1		;bb75
 	cp 06bh		;bb77
 	jr z,L_BB9E		;bb79
-	cp 089h		;bb7b
+	cp 089h		;bb7b   ; pantalla 0x89, con らくなのたま (0x1C):...
 	ret nz			;bb7d
 	ld a,(0c35bh)		;bb7e   ; lee cuantos objetos 0x1C se llevan (BCD; 0xFF sin cuenta)
 	and a			;bb81
 	ret z			;bb82
-	ld bc,0011bh		;bb83
+	ld bc,0011bh		;bb83   ; ...さけび (0x1B) en DE = 0x5060 si no se lleva ちからのたま (0x11)...
 	ld de,05060h		;bb86
 	ld a,(0c350h)		;bb89   ; lee cuantos objetos 0x11 se llevan (BCD; 0xFF sin cuenta)
 	and a			;bb8c
 	call z,0419ah		;bb8d   ; p00:puente_pon_objeto: p01:7852: pone el objeto C (B unidades) en (E, D) de la pantalla
-	ld bc,00111h		;bb90
+	ld bc,00111h		;bb90   ; ...y ちからのたま en DE = 0x6060 si no se lleva さけび
 	ld de,06060h		;bb93
 	ld a,(0c35ah)		;bb96   ; lee cuantos objetos 0x1B se llevan (BCD; 0xFF sin cuenta)
 	and a			;bb99
 	jp z,0419ah		;bb9a   ; p00:puente_pon_objeto: p01:7852: pone el objeto C (B unidades) en (E, D) de la pantalla
 	ret			;bb9d
 L_BB9E:
-	ld a,(0c373h)		;bb9e
+	ld a,(0c373h)		;bb9e   ; pantalla 0x6B: ねむり (0x0D) con 0xC373, ぱぴるす (0x1D) con 0xC370 y con 0xC371 (p00:536D los pone a 1)
 	and a			;bba1
-	ld bc,0010dh		;bba2
+	ld bc,0010dh		;bba2   ; el objeto 0x0D, ねむり (1)
 	ld de,07070h		;bba5
 	call nz,0419ah		;bba8   ; p00:puente_pon_objeto: p01:7852: pone el objeto C (B unidades) en (E, D) de la pantalla
 	ld de,02090h		;bbab
-	ld bc,0011dh		;bbae
+	ld bc,0011dh		;bbae   ; el objeto 0x1D, ぱぴるす (1)
 	push bc			;bbb1
 	ld a,(0c370h)		;bbb2
 	and a			;bbb5
@@ -2310,28 +2320,28 @@ L_BB9E:
 	ret z			;bbc1
 	jp 0419ah		;bbc2   ; p00:puente_pon_objeto: p01:7852: pone el objeto C (B unidades) en (E, D) de la pantalla
 L_BBC5:
-	ld a,(0c357h)		;bbc5   ; lee cuantos objetos 0x18 se llevan (BCD; 0xFF sin cuenta)
+	ld a,(0c357h)		;bbc5   ; pantalla 0x68: おまもり (0x18) si no se lleva
 	and a			;bbc8
 	ret nz			;bbc9
 	ld de,05890h		;bbca
-	ld bc,00118h		;bbcd
+	ld bc,00118h		;bbcd   ; el objeto 0x18, おまもり (1)
 	jp 0419ah		;bbd0   ; p00:puente_pon_objeto: p01:7852: pone el objeto C (B unidades) en (E, D) de la pantalla
 L_BBD3:
-	ld a,(0c35bh)		;bbd3   ; lee cuantos objetos 0x1C se llevan (BCD; 0xFF sin cuenta)
+	ld a,(0c35bh)		;bbd3   ; pantalla 0x69: らくなのたま (0x1C) si no se lleva
 	and a			;bbd6
 	ret nz			;bbd7
 	ld de,05868h		;bbd8
-	ld bc,0011ch		;bbdb
+	ld bc,0011ch		;bbdb   ; el objeto 0x1C, らくなのたま (1)
 	jp 0419ah		;bbde   ; p00:puente_pon_objeto: p01:7852: pone el objeto C (B unidades) en (E, D) de la pantalla
 L_BBE1:
-	ld a,(0c355h)		;bbe1   ; lee cuantos objetos 0x16 se llevan (BCD; 0xFF sin cuenta)
+	ld a,(0c355h)		;bbe1   ; pantalla 0x7D: なみだ (0x16) si no se lleva
 	and a			;bbe4
 	ret nz			;bbe5
 	ld de,05858h		;bbe6
-	ld bc,00116h		;bbe9
+	ld bc,00116h		;bbe9   ; el objeto 0x16, なみだ (1)
 	jp 0419ah		;bbec   ; p00:puente_pon_objeto: p01:7852: pone el objeto C (B unidades) en (E, D) de la pantalla
 L_BBEF:
-	ld a,(0c352h)		;bbef   ; lee cuantos objetos 0x13 se llevan (BCD; 0xFF sin cuenta)
+	ld a,(0c352h)		;bbef   ; pantalla 0x88: sin ささやき (0x13), 0xC372 = 1 y la figura de p06:BC05
 	and a			;bbf2
 	ret nz			;bbf3
 	ld a,001h		;bbf4
@@ -2410,7 +2420,7 @@ DATA_demostracion_2:
 
 
 L_BD49:
-	ld a,(0c125h)		;bd49   ; lee la PANTALLA
+	ld a,(0c125h)		;bd49   ; pantalla 0x5B: con la figura que sigue a Mitchel (0xC600) en y 0x40 o mas...
 	cp 05bh		;bd4c   ; la pantalla 0x5B?
 	ret nz			;bd4e
 	ld a,(0c600h)		;bd4f   ; lee la figura que sigue a Mitchel
@@ -2419,25 +2429,25 @@ L_BD49:
 	ld a,(0c603h)		;bd54
 	cp 040h		;bd57
 	ret c			;bd59
-	ld a,002h		;bd5a   ; el SUCESO: el tipo de decorado que hay que quitar = 0x02
+	ld a,002h		;bd5a   ; ...el suceso 2
 	ld (0c560h),a		;bd5c   ; guarda el SUCESO: el tipo de decorado que hay que quitar
 	xor a			;bd5f
 	ld (0c561h),a		;bd60   ; guarda el paso del suceso
 	ret			;bd63
 L_BD64:
-	ld a,(0c168h)		;bd64
+	ld a,(0c168h)		;bd64   ; LA CAIDA: sin 0xC168 ni nada en marcha (0xC133)...
 	and a			;bd67
 	ret nz			;bd68
 	ld a,(0c133h)		;bd69
 	and a			;bd6c
 	ret nz			;bd6d
-	call 040e0h		;bd6e   ; p00:puente_posicion_de_mitchel
+	call 040e0h		;bd6e   ; ...las casillas de Mitchel, 8 puntos mas arriba...
 	ex de,hl			;bd71
 	ld a,0f8h		;bd72
 	add a,l			;bd74
 	ld l,a			;bd75
 	call 041cah		;bd76   ; p00:puente_casilla_en_ram
-	ld a,(hl)			;bd79
+	ld a,(hl)			;bd79   ; ...si las dos de arriba y las dos de abajo son 0xFF...
 	inc a			;bd7a
 	ret nz			;bd7b
 	dec hl			;bd7c
@@ -2453,10 +2463,10 @@ L_BD64:
 	ld a,(hl)			;bd88
 	inc a			;bd89
 	ret nz			;bd8a
-	ld a,(0c303h)		;bd8b   ; lee la Y de Mitchel
+	ld a,(0c303h)		;bd8b   ; ...alineado a 8 en y, Mitchel muere...
 	and 007h		;bd8e
 	jp z,041a6h		;bd90   ; p00:puente_mitchel_muere
-	add hl,de			;bd93
+	add hl,de			;bd93   ; ...si no, tambien si lo son las de la fila siguiente
 	ld a,(hl)			;bd94
 	inc a			;bd95
 	ret nz			;bd96
@@ -2465,7 +2475,7 @@ L_BD64:
 	ret nz			;bd99
 	jp 041a6h		;bd9a   ; p00:puente_mitchel_muere
 L_BD9D:
-	ld a,(0c133h)		;bd9d
+	ld a,(0c133h)		;bd9d   ; LOS PASADIZOS: Mitchel andando (estado < 5) y alineado a 8...
 	and a			;bda0
 	ret nz			;bda1
 	ld a,(0c300h)		;bda2   ; lee el estado de Mitchel
@@ -2479,16 +2489,16 @@ L_BD9D:
 	ld h,a			;bdb2
 	and 007h		;bdb3
 	ret nz			;bdb5
-	call 041cah		;bdb6   ; p00:puente_casilla_en_ram
+	call 041cah		;bdb6   ; ...sobre una casilla 0xC0-0xC3
 	ld a,(hl)			;bdb9
 	sub 0c0h		;bdba
 	cp 004h		;bdbc
 	jr c,L_BDC5		;bdbe
-	xor a			;bdc0
+	xor a			;bdc0   ; fuera de ellas, 0xC14F = 0: se puede volver a entrar
 	ld (0c14fh),a		;bdc1
 	ret			;bdc4
 L_BDC5:
-	ld hl,0c14fh		;bdc5
+	ld hl,0c14fh		;bdc5   ; una vez (0xC14F), busca la pantalla en p06:BE16
 	ld a,(hl)			;bdc8
 	and a			;bdc9
 	ret nz			;bdca
@@ -2509,7 +2519,7 @@ L_BDD3:
 	inc hl			;bddd
 	jr L_BDD3		;bdde
 L_BDE0:
-	ld a,(hl)			;bde0
+	ld a,(hl)			;bde0   ; la pantalla de destino, el punto de entrada (DE) y 0xC323
 	inc hl			;bde1
 	ld e,(hl)			;bde2
 	inc hl			;bde3
@@ -2517,7 +2527,7 @@ L_BDE0:
 	inc hl			;bde5
 	ld c,(hl)			;bde6
 L_BDE7:
-	ld (0c125h),a		;bde7   ; guarda la PANTALLA
+	ld (0c125h),a		;bde7   ; cambio de pantalla, con el sonido 0x24
 	ld (0c321h),de		;bdea   ; guarda el punto de entrada (y, x)
 	ld a,c			;bdee
 	ld (0c323h),a		;bdef
@@ -2552,13 +2562,13 @@ DATA_pasadizos:
 
 
 L_BE62:
-	ld a,(0c165h)		;be62
+	ld a,(0c165h)		;be62   ; LO QUE SE ROMPE A GOLPES: una vez (0xC165), Mitchel golpeando (estado 5)...
 	and a			;be65
 	ret nz			;be66
 	ld a,(0c300h)		;be67   ; lee el estado de Mitchel
 	cp 005h		;be6a
 	ret nz			;be6c
-	ld a,(0c125h)		;be6d   ; lee la PANTALLA
+	ld a,(0c125h)		;be6d   ; ...en las pantallas 0x76, 0x7A, 0x82 y 0x84, cada una con su ficha de p06:BEB1...
 	ld c,000h		;be70
 	cp 076h		;be72   ; la pantalla 0x76?
 	jr z,L_BE87		;be74
@@ -2575,7 +2585,7 @@ L_BE87:
 	ld b,000h		;be87
 	ld hl,0beb1h		;be89   ; zonas_BEB1: 4 fichas [direccion][x min][x max][y min][y max]: donde tiene que estar Mitchel, y mirando a donde, para lo de p06:BE87
 	add hl,bc			;be8c
-	ld a,(0c306h)		;be8d   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+	ld a,(0c306h)		;be8d   ; ...mirando a donde diga y dentro de la caja [x min, x max) [y min, y max)...
 	cp (hl)			;be90
 	ret nz			;be91
 	inc hl			;be92
@@ -2593,7 +2603,7 @@ L_BE87:
 	inc hl			;bea0
 	cp (hl)			;bea1
 	ret nc			;bea2
-	xor a			;bea3
+	xor a			;bea3   ; ...el suceso 5
 	ld (0c561h),a		;bea4   ; guarda el paso del suceso
 	inc a			;bea7
 	ld (0c165h),a		;bea8
@@ -2615,11 +2625,11 @@ DATA_zonas_BEB1:
 
 
 L_BEC5:
-	ld hl,0c131h		;bec5   ; apunta a el plano de la pantalla (0, el exterior)
+	ld hl,0c131h		;bec5   ; LOS PLANOS ALTERNOS (p00:53F4): el que habia a 0xE800, y 0 (el exterior)...
 	ld a,(hl)			;bec8
 	ld (0e800h),a		;bec9
 	ld (hl),000h		;becc
-	ld a,(0c303h)		;bece   ; lee la Y de Mitchel
+	ld a,(0c303h)		;bece   ; ...E la y de Mitchel, D la x; cada pantalla partida pone su plano segun el lado
 	ld e,a			;bed1
 	ld a,(0c305h)		;bed2   ; lee la X de Mitchel
 	ld d,a			;bed5
@@ -2652,49 +2662,49 @@ L_BEC5:
 	jr z,L_BF6C		;bf0b
 	cp 058h		;bf0d   ; la pantalla 0x58?
 	ret nz			;bf0f
-	ld a,d			;bf10
+	ld a,d			;bf10   ; pantalla 0x58: x 0x58 o mas, plano 14
 	cp 058h		;bf11
 	ret c			;bf13
 	ld (hl),00eh		;bf14
 	ret			;bf16
 L_BF17:
-	ld a,e			;bf17
+	ld a,e			;bf17   ; 0x01: y menos de 0x58, plano 1
 	cp 058h		;bf18
 	ret nc			;bf1a
 	ld (hl),001h		;bf1b
 	ret			;bf1d
 L_BF1E:
-	ld a,d			;bf1e
+	ld a,d			;bf1e   ; 0x04: x 0x58 o mas, plano 2
 	cp 058h		;bf1f
 	ret c			;bf21
 	ld (hl),002h		;bf22
 	ret			;bf24
 L_BF25:
-	ld a,d			;bf25
+	ld a,d			;bf25   ; 0x05: x 0x58 o mas, plano 3
 	cp 058h		;bf26
 	ret c			;bf28
 	ld (hl),003h		;bf29
 	ret			;bf2b
 L_BF2C:
-	ld a,d			;bf2c
+	ld a,d			;bf2c   ; 0x06: x 0x58 o mas, plano 4
 	cp 058h		;bf2d
 	ret c			;bf2f
 	ld (hl),004h		;bf30
 	ret			;bf32
 L_BF33:
-	ld a,d			;bf33
+	ld a,d			;bf33   ; 0x0D: x menos de 0x58, plano 5
 	cp 058h		;bf34
 	ret nc			;bf36
 	ld (hl),005h		;bf37
 	ret			;bf39
 L_BF3A:
-	ld a,d			;bf3a
+	ld a,d			;bf3a   ; 0x0E: x menos de 0x58, plano 6
 	cp 058h		;bf3b
 	ret nc			;bf3d
 	ld (hl),006h		;bf3e
 	ret			;bf40
 L_BF41:
-	ld a,e			;bf41
+	ld a,e			;bf41   ; 0x1F: y 0x58 o mas y x 0x48 o mas, plano 7
 	cp 058h		;bf42
 	ret c			;bf44
 	ld a,d			;bf45
@@ -2703,25 +2713,25 @@ L_BF41:
 	ld (hl),007h		;bf49
 	ret			;bf4b
 L_BF4C:
-	ld a,e			;bf4c
+	ld a,e			;bf4c   ; 0x20: y 0x58 o mas, plano 8
 	cp 058h		;bf4d
 	ret c			;bf4f
 	ld (hl),008h		;bf50
 	ret			;bf52
 L_BF53:
-	ld a,e			;bf53
+	ld a,e			;bf53   ; 0x21: y 0x58 o mas, plano 9
 	cp 058h		;bf54
 	ret c			;bf56
 	ld (hl),009h		;bf57
 	ret			;bf59
 L_BF5A:
-	ld a,e			;bf5a
+	ld a,e			;bf5a   ; 0x55: y menos de 0x58, plano 12
 	cp 058h		;bf5b
 	ret nc			;bf5d
 	ld (hl),00ch		;bf5e
 	ret			;bf60
 L_BF61:
-	ld a,e			;bf61
+	ld a,e			;bf61   ; 0x56: y 0x58 o mas y x 0x48 o mas, plano 13
 	cp 058h		;bf62
 	ret c			;bf64
 	ld a,d			;bf65
@@ -2730,7 +2740,7 @@ L_BF61:
 	ld (hl),00dh		;bf69
 	ret			;bf6b
 L_BF6C:
-	ld a,(0c305h)		;bf6c   ; lee la X de Mitchel
+	ld a,(0c305h)		;bf6c   ; 0x61: con la x fuera de 0x20-0x7F, la pantalla pasa a ser la 0x39
 	sub 020h		;bf6f
 	cp 060h		;bf71
 	ret c			;bf73
@@ -2738,18 +2748,18 @@ L_BF6C:
 	ld (0c125h),a		;bf76   ; guarda la PANTALLA
 	ret			;bf79
 L_BF7A:
-	ld a,(0c303h)		;bf7a   ; lee la Y de Mitchel
+	ld a,(0c303h)		;bf7a   ; 0x8A: con y 0x60 o mas, la pantalla pasa a ser la 0x8C
 	cp 060h		;bf7d
 	ret c			;bf7f
 	ld a,08ch		;bf80   ; la PANTALLA = 0x8C
 	ld (0c125h),a		;bf82   ; guarda la PANTALLA
 	ret			;bf85
 L_BF86:
-	ld hl,0bfdah		;bf86   ; contadores_iniciales: 28 bytes que p06:BF86 copia a 0xDE00 al empezar la partida
+	ld hl,0bfdah		;bf86   ; AL EMPEZAR LA PARTIDA (p00:5343): 0xDE00 desde p06:BFDA...
 	ld de,0de00h		;bf89
 	ld bc,0001ch		;bf8c
 	ldir		;bf8f
-	xor a			;bf91
+	xor a			;bf91   ; ...y las cuentas de lo que sueltan los enemigos (p03:BAF8 en adelante): cada cuantas muertes
 	ld (0dfc0h),a		;bf92
 	ld (0dfc1h),a		;bf95
 	ld a,002h		;bf98
