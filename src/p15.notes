@@ -48,6 +48,8 @@ C 0xBFDD el registro 45 = A
 C 0xBFE6 el registro 46 = A (la orden)
 C 0xBE98 LOS SUCESOS 6 EN ADELANTE: si ninguna ficha es de tipo 6 o mas, a jugar (0xC201 = 0)...
 C 0xBEBA ...la primera vez (0xC567): casillas al mapa, 8 pasadas por cada fila (por cada columna en el tipo 6), y el sonido 0x22 (pantalla 0x2D) o 0x23
+C 0xBE25 las columnas de la fila...
+C 0xBE2C ...y la fila siguiente del mapa (32 casillas)
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA047 0xA062 rotulo_del_panel  numeros de dibujo, 0xFE otra fila, 0xFF acaba: el rotulo del panel que p00:4A6F pinta con p00:492B en (0xA8, 0); lo leen p00:4A6F (27 bytes)

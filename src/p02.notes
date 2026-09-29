@@ -454,6 +454,62 @@ C 0x9F46 AL CREAR REDSPIDER y BIGSPIDER: 0xDFB5 = su tipo, cuadro 0x23, en march
 C 0x8A82 AL CREAR BOWLER: cuadro 0, 0x90 cuadros, y su bola
 C 0x8AA8 AL CREAR TWINMIRES: hay jefe, ix+0x11 = 2, 0x20 cuadros...
 C 0x87DB AL CREAR BATT: ix+0x19 = 1 si esta arriba (y < 0x20) o abajo (0x80 o mas): la otra tabla de pasos
+C 0x8008 LA CONVERSACION, por pasos (0xC14B, tabla de p01:7FFC): paso 0, desde la linea 0
+C 0x8012 el paso siguiente
+C 0x8017 PASO 1: ventana en blanco y la linea que toca; si no hay mas, se acaba
+C 0x8025 PASO 2: letra a letra; al acabar la linea, con accion al paso 4 y sin ella al 3
+C 0x8039 PASO 3: espera a SHOT1 (tecla nueva) y a la linea siguiente (paso 1)
+C 0x8045 SE ACABO: ventana en blanco; si no la pidio la radio (0xC149), Mitchel quieto mirando abajo...
+C 0x8056 ...a jugar, y si 0xC15F esta puesto, p01:7D00
+C 0x80BF la palabra 0: fin de la conversacion (accion 0xFF)
+C 0x80CF el texto en (8, 0xB0) de la ventana: 0xC159 donde va, 0xC15B el principio del renglon
+C 0x80FF 0xFD: renglon siguiente; 0xFF: fin de la linea
+C 0x8107 la letra, y 8 puntos a la derecha...
+C 0x810E ...pasado x 0xA8, a x 8 y 8 puntos mas abajo
+C 0x8120 0xFD: al principio del renglon, 8 mas abajo
+C 0x812A FIN DE LA LINEA: la siguiente, 0xC155 = 1 (acabada)...
+C 0x8132 ...o la que diga la accion (0xC15D), si la puso
+C 0x8141 A = pantalla - 1: 0 es la 0x01...
+C 0x8144 ...4 la 0x05, 0x0C la 0x0D, 0x32 la 0x33 (solo en su plano alterno)...
+C 0x8148 ...5 la 0x06, 0x0D la 0x0E, 0x55 la 0x56 (solo en el exterior)
+C 0x818A [pantalla] ... 0
+C 0x8196 B, el numero de ficha
+C 0x8224 una fila de casillas...
+C 0x822B ...y la siguiente del mapa (32 casillas)
+C 0x8316 22 veces [y][x][direccion]
+C 0x831E la cola empieza de nuevo
+C 0x8341 22 sitios con la y fuera (0xE1) y la direccion A
+C 0x8356 E y D, B veces
+C 0x8495 y la de al lado
+C 0x85B3 a menos de 9 en x...
+C 0x85B6 ...y en y
+C 0x87B8 al extremo: ix+0x13 cambia de signo y el cuadro, 2 o 1
+C 0x89B7 el primer bit de tecla: 0 arriba, 1 abajo, 2 izquierda, 3 derecha
+C 0x89C2 bit 2: izquierda (3)
+C 0x89C7 bit 3: derecha (1)
+C 0x8B0C en x, a +-0x0C del punto
+C 0x8CC6 los colores B y C de dos sprites seguidos
+C 0x8CCA 4 parejas
+C 0x8CDF el cuadro de la tabla (A - 3), 4 por fila...
+C 0x8CE5 ...fila siguiente
+C 0x8E24 dos casillas 0xF0...
+C 0x8E29 ...y dos filas
+C 0x8E9C cuantos: ix+0x14 / 4 (los bits 2-5)
+C 0x8EA9 el primero 0x0C por encima de su y
+C 0x8EB7 a la derecha de 0x58: la x menos lo que lleva cerrado
+C 0x8EC3 el trozo de 0x10x0x18 de (0, 0xA8) de la pagina 1...
+C 0x8ED1 ...y sus casillas (2 mas abajo)
+C 0x8EDA el siguiente, 0x10 a la derecha
+C 0x8F09 D en dos casillas...
+C 0x8F0D ...la fila siguiente (0x20 - 2)
+C 0x990A el golpe de este cuadro...
+C 0x9915 ...de un lado que no es el de su direccion (ix+0x7E)...
+C 0x991D ...ni el contrario
+C 0x9BDC la ficha siguiente, 0xDFB0 fichas
+C 0x9EAC gira a un lado: hasta +5...
+C 0x9EB6 ...un punto mas del circulo (36)
+C 0x9EC2 al otro: hasta -5...
+C 0x9ECC ...un punto menos
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x8000 0x8008 tabla_7FFC_cola  6 destinos del despachador de 0x425F (call en p01:7FF9): 0x8008, 0x8017, 0x8025, 0x8039, 0x8065, 0x8039 (sigue del banco anterior, 0x7FFC); lo leen p01:7FF9 (8 bytes)
@@ -488,17 +544,12 @@ F 0x9F91 2
 C 0x8009 guarda la linea de la conversacion
 C 0x800C guarda la accion de la linea
 C 0x800F guarda la linea a la que se salta tras la accion
-C 0x8012 apunta a el paso de la conversacion
-C 0x8017 p01:borra_la_ventana_de_texto: 160x24 puntos en (8, 0xB0): debajo del decorado
 C 0x801D lee la accion de la linea
-C 0x8025 escribe_la_conversacion: una letra cada 5 cuadros (0xC156), con su sonido; 0xFD salta de renglon, 0xFF acaba la linea
 C 0x802D lee la accion de la linea
 C 0x8033 el paso de la conversacion = 0x04
 C 0x8035 guarda el paso de la conversacion
-C 0x8039 lee las teclas nuevas del cuadro (bit 4 SHOT1, bit 5 SHOT2)
 C 0x803F el paso de la conversacion = 0x01
 C 0x8041 guarda el paso de la conversacion
-C 0x8045 p01:borra_la_ventana_de_texto: 160x24 puntos en (8, 0xB0): debajo del decorado
 C 0x804F guarda el estado de Mitchel
 C 0x8053 guarda hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 C 0x8057 guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
@@ -515,9 +566,6 @@ C 0x80DF guarda la cuenta de la letra siguiente de la conversacion
 C 0x80F0 p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 C 0x80F7 lee la letra de la conversacion que toca
 C 0x80FC guarda la letra de la conversacion que toca
-C 0x8107 p00:escribe_una_letra
-C 0x812A apunta a la linea de la conversacion
-C 0x8132 apunta a la linea a la que se salta tras la accion
 C 0x813A guarda la linea de la conversacion
 C 0x816D busca_el_decorado_de_la_pantalla: p09:B3FD: las pantallas con decorado que se quita
 C 0x8173 p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
@@ -658,7 +706,7 @@ C 0x8659 el cuadro del enemigo = 0x3F
 C 0x865D p01:hay_jefe: 0xC151 = 1: hay jefe
 C 0x8667 tablas_8675: dos tablas de tres palabras (0x8675 y 0x867B, segun ix+0x19) que p02:866F reparte por ix+1 con p00:4260
 C 0x866F lee el paso en que va
-C 0x8672 p00:despacha_hl
+C 0x8672 p00:despacha_hl: SALTA A LA ENTRADA A de la tabla de palabras de HL
 C 0x8684 lee la y del enemigo
 C 0x869B p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 C 0x86A1 p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
@@ -822,6 +870,7 @@ C 0x8DF0 lee la y del enemigo
 C 0x8E0E p00:hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
 C 0x8E18 lee la y del enemigo
 C 0x8E1E p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
+C 0x8E37 guarda si hay un SHUT ALL cerrandose (0: ninguno)
 C 0x8E4A lee la y del enemigo
 C 0x8E50 lee la x del enemigo
 C 0x8E6D lee el tipo del enemigo

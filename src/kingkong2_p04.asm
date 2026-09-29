@@ -546,7 +546,7 @@ L_6400:
 	jp mezclador_solo_tono		;6407
 L_640A:
 	ld a,(ix+008h)		;640a   ; con envolvente: la tabla que diga ix+8 (0-6), una palabra por nota
-	cp 000h		;640d
+	cp 000h		;640d   ; 0-5, las tablas de p04:7ABD, 7AD5, 7AED, 7B05, 7B1D y 7B35; si no, la de p04:7B4D
 	jr z,L_642A		;640f
 	cp 001h		;6411
 	jr z,L_644B		;6413
@@ -563,7 +563,7 @@ L_640A:
 L_642A:
 	ld hl,07abdh		;642a   ; envolventes: 7 tablas de 12 palabras (una por nota): la envolvente de volumen de cada nota segun 0xE8 n; p04:640A
 L_642D:
-	ld a,c			;642d
+	ld a,c			;642d   ; la palabra de la nota (c >> 4) en su tabla
 	and 0f0h		;642e
 	rrca			;6430
 	rrca			;6431
@@ -767,10 +767,10 @@ L_6572:
 	ld b,a			;6576
 	ld a,07fh		;6577
 L_6579:
-	rlca			;6579
+	rlca			;6579   ; la mascara sin el bit del canal...
 	djnz L_6579		;657a
 	ld b,a			;657c
-	ld a,(0c08dh)		;657d
+	ld a,(0c08dh)		;657d   ; ...fuera de los que suenan (0xC08D)
 	and b			;6580
 	ld (0c08dh),a		;6581
 	jp L_6299		;6584
@@ -857,9 +857,9 @@ L_6611:
 	ld a,(hl)			;661a
 	dec a			;661b
 L_661C:
-	inc hl			;661c
+	inc hl			;661c   ; las vueltas que quedan en ix+0x11...
 	ld (ix+011h),a		;661d
-	ld a,(hl)			;6620
+	ld a,(hl)			;6620   ; ...y a w
 	inc hl			;6621
 	ld h,(hl)			;6622
 	ld l,a			;6623

@@ -26,23 +26,23 @@ DATA_tabla_7FFC_cola:
 
 
 L_8008:
-	xor a			;8008
+	xor a			;8008   ; LA CONVERSACION, por pasos (0xC14B, tabla de p01:7FFC): paso 0, desde la linea 0
 	ld (0c14dh),a		;8009   ; guarda la linea de la conversacion
 	ld (0c14ch),a		;800c   ; guarda la accion de la linea
 	ld (0c15dh),a		;800f   ; guarda la linea a la que se salta tras la accion
 L_8012:
-	ld hl,0c14bh		;8012   ; apunta a el paso de la conversacion
+	ld hl,0c14bh		;8012   ; el paso siguiente
 	inc (hl)			;8015
 	ret			;8016
 L_8017:
-	call 06428h		;8017   ; p01:borra_la_ventana_de_texto: 160x24 puntos en (8, 0xB0): debajo del decorado
+	call 06428h		;8017   ; PASO 1: ventana en blanco y la linea que toca; si no hay mas, se acaba
 	call busca_la_linea		;801a
 	ld a,(0c14ch)		;801d   ; lee la accion de la linea
 	inc a			;8020
 	jr z,L_8045		;8021
 	jr L_8012		;8023
 L_8025:
-	call escribe_la_conversacion		;8025   ; escribe_la_conversacion: una letra cada 5 cuadros (0xC156), con su sonido; 0xFD salta de renglon, 0xFF acaba la linea
+	call escribe_la_conversacion		;8025   ; PASO 2: letra a letra; al acabar la linea, con accion al paso 4 y sin ella al 3
 	ld a,(0c155h)		;8028
 	and a			;802b
 	ret z			;802c
@@ -53,14 +53,14 @@ L_8025:
 	ld (0c14bh),a		;8035   ; guarda el paso de la conversacion
 	ret			;8038
 L_8039:
-	ld a,(0c106h)		;8039   ; lee las teclas nuevas del cuadro (bit 4 SHOT1, bit 5 SHOT2)
+	ld a,(0c106h)		;8039   ; PASO 3: espera a SHOT1 (tecla nueva) y a la linea siguiente (paso 1)
 	bit 4,a		;803c
 	ret z			;803e
 	ld a,001h		;803f   ; el paso de la conversacion = 0x01
 	ld (0c14bh),a		;8041   ; guarda el paso de la conversacion
 	ret			;8044
 L_8045:
-	call 06428h		;8045   ; p01:borra_la_ventana_de_texto: 160x24 puntos en (8, 0xB0): debajo del decorado
+	call 06428h		;8045   ; SE ACABO: ventana en blanco; si no la pidio la radio (0xC149), Mitchel quieto mirando abajo...
 	ld a,(0c149h)		;8048
 	and a			;804b
 	jr nz,L_8056		;804c
@@ -69,7 +69,7 @@ L_8045:
 	inc a			;8052
 	ld (0c306h),a		;8053   ; guarda hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 L_8056:
-	xor a			;8056
+	xor a			;8056   ; ...a jugar, y si 0xC15F esta puesto, p01:7D00
 	ld (0c201h),a		;8057   ; guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
 	ld hl,0c15fh		;805a
 	ld a,(hl)			;805d
@@ -140,7 +140,7 @@ busca_la_linea:
 	call 042ffh		;80b6   ; p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
 	ld a,(0c14dh)		;80b9   ; lee la linea de la conversacion
 	call 042ffh		;80bc   ; ...y la palabra de la linea 0xC14D; 0 = se acabo
-	ld a,e			;80bf
+	ld a,e			;80bf   ; la palabra 0: fin de la conversacion (accion 0xFF)
 	or d			;80c0
 	jr nz,L_80C9		;80c1
 	ld a,0ffh		;80c3   ; la accion de la linea = 0xFF
@@ -151,7 +151,7 @@ L_80C9:
 	ld a,(hl)			;80ca
 	ld (0c14ch),a		;80cb   ; el primer byte es la accion; luego el texto
 	inc hl			;80ce
-	ld de,008b0h		;80cf
+	ld de,008b0h		;80cf   ; el texto en (8, 0xB0) de la ventana: 0xC159 donde va, 0xC15B el principio del renglon
 	ld (0c157h),hl		;80d2   ; guarda la letra de la conversacion que toca
 	ld (0c159h),de		;80d5
 	ld (0c15bh),de		;80d9
@@ -172,15 +172,15 @@ escribe_la_conversacion:
 	ld a,(hl)			;80fa
 	inc hl			;80fb
 	ld (0c157h),hl		;80fc   ; guarda la letra de la conversacion que toca
-	cp 0fdh		;80ff
+	cp 0fdh		;80ff   ; 0xFD: renglon siguiente; 0xFF: fin de la linea
 	jr z,L_8120		;8101
 	cp 0ffh		;8103
 	jr z,L_812A		;8105
-	call 04952h		;8107   ; p00:escribe_una_letra
+	call 04952h		;8107   ; la letra, y 8 puntos a la derecha...
 	ld a,d			;810a
 	add a,008h		;810b
 	ld d,a			;810d
-	cp 0a8h		;810e
+	cp 0a8h		;810e   ; ...pasado x 0xA8, a x 8 y 8 puntos mas abajo
 	jr c,L_811B		;8110
 	ld d,008h		;8112
 	ld a,e			;8114
@@ -192,17 +192,17 @@ L_811B:
 	ld (0c159h),de		;811b
 	ret			;811f
 L_8120:
-	ld de,(0c15bh)		;8120
+	ld de,(0c15bh)		;8120   ; 0xFD: al principio del renglon, 8 mas abajo
 	ld a,e			;8124
 	add a,008h		;8125
 	ld e,a			;8127
 	jr L_8117		;8128
 L_812A:
-	ld hl,0c14dh		;812a   ; apunta a la linea de la conversacion
+	ld hl,0c14dh		;812a   ; FIN DE LA LINEA: la siguiente, 0xC155 = 1 (acabada)...
 	inc (hl)			;812d
 	ld hl,0c155h		;812e
 	inc (hl)			;8131
-	ld hl,0c15dh		;8132   ; apunta a la linea a la que se salta tras la accion
+	ld hl,0c15dh		;8132   ; ...o la que diga la accion (0xC15D), si la puso
 	ld a,(hl)			;8135
 	ld (hl),000h		;8136
 	and a			;8138
@@ -211,11 +211,11 @@ L_812A:
 	ret			;813d
 decorado_de_la_pantalla:
 	ld a,(0c125h)		;813e   ; EL DECORADO QUE SE QUITA, al entrar: en las pantallas partidas depende del plano...
-	dec a			;8141
+	dec a			;8141   ; A = pantalla - 1: 0 es la 0x01...
 	jr z,L_815E		;8142
-	cp 004h		;8144
+	cp 004h		;8144   ; ...4 la 0x05, 0x0C la 0x0D, 0x32 la 0x33 (solo en su plano alterno)...
 	jr z,L_815E		;8146
-	cp 005h		;8148
+	cp 005h		;8148   ; ...5 la 0x06, 0x0D la 0x0E, 0x55 la 0x56 (solo en el exterior)
 	jr z,L_8165		;814a
 	cp 00ch		;814c
 	jr z,L_815E		;814e
@@ -253,7 +253,7 @@ busca_el_decorado_de_la_pantalla:
 	ld hl,0b3fdh		;8185
 	ld b,000h		;8188
 L_818A:
-	ld a,(hl)			;818a
+	ld a,(hl)			;818a   ; [pantalla] ... 0
 	inc hl			;818b
 	and a			;818c
 	ret z			;818d
@@ -263,7 +263,7 @@ L_818A:
 	call z,copia_la_ficha_de_decorado		;8191   ; copia_la_ficha_de_decorado: la ficha B: su palabra de p09:B423, 9 bytes, a un hueco libre...
 	pop bc			;8194
 	pop hl			;8195
-	inc b			;8196
+	inc b			;8196   ; B, el numero de ficha
 	jr L_818A		;8197
 copia_la_ficha_de_decorado:
 	ld a,b			;8199   ; la ficha B: su palabra de p09:B423, 9 bytes, a un hueco libre...
@@ -339,13 +339,13 @@ L_8220:
 	push hl			;8220
 	ld b,(ix+004h)		;8221   ; lee cuantas columnas
 L_8224:
-	ld a,(hl)			;8224
+	ld a,(hl)			;8224   ; una fila de casillas...
 	inc hl			;8225
 	ld (de),a			;8226
 	inc de			;8227
 	djnz L_8224		;8228
 	pop hl			;822a
-	ld a,020h		;822b
+	ld a,020h		;822b   ; ...y la siguiente del mapa (32 casillas)
 	call 04255h		;822d   ; p00:hl_mas_a
 	dec c			;8230
 	jr nz,L_8220		;8231
@@ -483,14 +483,14 @@ L_82EA:
 	ld b,016h		;8311
 	ld a,(0c601h)		;8313
 L_8316:
-	ld (hl),e			;8316
+	ld (hl),e			;8316   ; 22 veces [y][x][direccion]
 	inc l			;8317
 	ld (hl),d			;8318
 	inc l			;8319
 	ld (hl),a			;831a
 	inc l			;831b
 	djnz L_8316		;831c
-	xor a			;831e
+	xor a			;831e   ; la cola empieza de nuevo
 	ld (0c60fh),a		;831f
 	ret			;8322
 la_que_sigue_al_cambiar:
@@ -509,7 +509,7 @@ la_que_sigue_al_cambiar:
 	ld b,016h		;833c   ; ...con la cola vacia (y 0xE1)...
 	ld hl,0c610h		;833e
 L_8341:
-	ld (hl),0e1h		;8341
+	ld (hl),0e1h		;8341   ; 22 sitios con la y fuera (0xE1) y la direccion A
 	inc l			;8343
 	inc l			;8344
 	ld (hl),a			;8345
@@ -521,7 +521,7 @@ L_8341:
 	ld de,04201h		;8351
 	ld b,004h		;8354
 L_8356:
-	ld (hl),e			;8356
+	ld (hl),e			;8356   ; E y D, B veces
 	inc hl			;8357
 	ld (hl),d			;8358
 	inc hl			;8359
@@ -702,7 +702,7 @@ casilla_libre_para_la_ficha:
 	ret z			;8492
 	cp (hl)			;8493
 	ret c			;8494
-	inc de			;8495
+	inc de			;8495   ; y la de al lado
 	ld a,(de)			;8496
 	cp 0f0h		;8497
 	scf			;8499
@@ -872,9 +872,9 @@ L_85A2:
 	jr nc,L_85B3		;85af
 	neg		;85b1
 L_85B3:
-	cp h			;85b3
+	cp h			;85b3   ; a menos de 9 en x...
 	jr nc,L_85C5		;85b4
-	ld a,e			;85b6
+	ld a,e			;85b6   ; ...y en y
 	sub c			;85b7
 	jr nc,L_85BC		;85b8
 	neg		;85ba
@@ -967,7 +967,7 @@ L_8660:
 	ld hl,0867bh		;866c
 L_866F:
 	ld a,(ix+001h)		;866f   ; lee el paso en que va
-	jp 04260h		;8672   ; p00:despacha_hl
+	jp 04260h		;8672   ; p00:despacha_hl: SALTA A LA ENTRADA A de la tabla de palabras de HL
 
 ; ----------------------------------------------------------------------
 ; DATOS tablas_8675: dos tablas de tres palabras (0x8675 y 0x867B, segun
@@ -1131,7 +1131,7 @@ batt_cambia_de_cuadro:
 	cp 004h		;87b4
 	jr nz,L_87C5		;87b6
 L_87B8:
-	ld a,b			;87b8
+	ld a,b			;87b8   ; al extremo: ix+0x13 cambia de signo y el cuadro, 2 o 1
 	neg		;87b9
 	ld (ix+013h),a		;87bb
 	cp 0ffh		;87be
@@ -1448,17 +1448,17 @@ L_89A8:
 L_89B2:
 	ld (ix+006h),001h		;89b2   ; ...arriba (bit 0), abajo (1), izquierda (2) o derecha (3)...
 	ld b,a			;89b6
-	ld a,b			;89b7
+	ld a,b			;89b7   ; el primer bit de tecla: 0 arriba, 1 abajo, 2 izquierda, 3 derecha
 	rra			;89b8
 	ld b,000h		;89b9
 	jr c,L_89D4		;89bb
 	rra			;89bd
 	ld b,002h		;89be
 	jr c,L_89D4		;89c0
-	rra			;89c2
+	rra			;89c2   ; bit 2: izquierda (3)
 	ld b,003h		;89c3
 	jr c,L_89D4		;89c5
-	rra			;89c7
+	rra			;89c7   ; bit 3: derecha (1)
 	ld b,001h		;89c8
 	jr c,L_89D4		;89ca
 bowler_se_para:
@@ -1648,7 +1648,7 @@ L_8AFE:
 	ret c			;8b09
 	jr L_8B15		;8b0a
 L_8B0C:
-	ld a,d			;8b0c
+	ld a,d			;8b0c   ; en x, a +-0x0C del punto
 	sub 00ch		;8b0d
 	cp b			;8b0f
 	ret nc			;8b10
@@ -1933,11 +1933,11 @@ colores_a_4:
 	call colores_de_los_sprites_de_la_ficha		;8cc1   ; cuatro parejas de colores B y C en los 8 sprites de la ficha
 	ld a,004h		;8cc4
 L_8CC6:
-	ld (hl),b			;8cc6
+	ld (hl),b			;8cc6   ; los colores B y C de dos sprites seguidos
 	add hl,de			;8cc7
 	ld (hl),c			;8cc8
 	add hl,de			;8cc9
-	dec a			;8cca
+	dec a			;8cca   ; 4 parejas
 	jr nz,L_8CC6		;8ccb
 	ret			;8ccd
 L_8CCE:
@@ -1950,11 +1950,11 @@ L_8CCE:
 L_8CDD:
 	ld b,004h		;8cdd
 L_8CDF:
-	dec a			;8cdf
+	dec a			;8cdf   ; el cuadro de la tabla (A - 3), 4 por fila...
 	jr z,L_8CE9		;8ce0
 	inc hl			;8ce2
 	djnz L_8CDF		;8ce3
-	sub 004h		;8ce5
+	sub 004h		;8ce5   ; ...fila siguiente
 	jr L_8CDD		;8ce7
 L_8CE9:
 	ld a,(hl)			;8ce9
@@ -2146,10 +2146,10 @@ shut_all_casillas:
 	call 0431fh		;8e1e   ; p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
 	ld bc,00202h		;8e21
 L_8E24:
-	ld (hl),0f0h		;8e24
+	ld (hl),0f0h		;8e24   ; dos casillas 0xF0...
 	inc hl			;8e26
 	djnz L_8E24		;8e27
-	ld de,0001eh		;8e29
+	ld de,0001eh		;8e29   ; ...y dos filas
 	add hl,de			;8e2c
 	ld b,002h		;8e2d
 	dec c			;8e2f
@@ -2158,7 +2158,7 @@ L_8E24:
 L_8E33:
 	inc (ix+013h)		;8e33   ; cerrada: ix+0x13, 0xDFF5 = 0 y al paso siguiente
 	xor a			;8e36
-	ld (0dff5h),a		;8e37
+	ld (0dff5h),a		;8e37   ; guarda si hay un SHUT ALL cerrandose (0: ninguno)
 	jp L_8910		;8e3a
 L_8E3D:
 	inc (ix+011h)		;8e3d   ; AL CREAR SHUT ALL: su sitio en ix+0x18 (y) e ix+0x19 (x); a la derecha de 0x58 cierra hacia la izquierda (ix+0x15 = 1)
@@ -2205,7 +2205,7 @@ L_8E87:
 	ret			;8e98
 cuantos_segun_ix14:
 	ld a,(ix+014h)		;8e99   ; los trozos que lleva ya (ix+0x14 / 4), de 0x10 en 0x10 desde su sitio (a la izquierda si esta a la derecha de 0x58)
-	sla a		;8e9c
+	sla a		;8e9c   ; cuantos: ix+0x14 / 4 (los bits 2-5)
 	sla a		;8e9e
 	and 0f0h		;8ea0
 	rra			;8ea2
@@ -2215,14 +2215,14 @@ cuantos_segun_ix14:
 	or a			;8ea6
 	ret z			;8ea7
 	ld b,a			;8ea8
-	ld a,(ix+018h)		;8ea9
+	ld a,(ix+018h)		;8ea9   ; el primero 0x0C por encima de su y
 	sub 00ch		;8eac
 	ld e,a			;8eae
 	ld a,(ix+019h)		;8eaf
 	cp 058h		;8eb2
 	ld d,a			;8eb4
 	jr c,L_8EC2		;8eb5
-	ld a,(ix+014h)		;8eb7
+	ld a,(ix+014h)		;8eb7   ; a la derecha de 0x58: la x menos lo que lleva cerrado
 	and 03ch		;8eba
 	rla			;8ebc
 	rla			;8ebd
@@ -2231,21 +2231,21 @@ cuantos_segun_ix14:
 	ld d,a			;8ec1
 L_8EC2:
 	push bc			;8ec2
-	ld hl,000a8h		;8ec3
+	ld hl,000a8h		;8ec3   ; el trozo de 0x10x0x18 de (0, 0xA8) de la pagina 1...
 	ld bc,01018h		;8ec6
 	ld a,001h		;8ec9
 	push de			;8ecb
 	call 047d7h		;8ecc   ; p00:hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
 	pop de			;8ecf
 	push de			;8ed0
-	ld h,d			;8ed1
+	ld h,d			;8ed1   ; ...y sus casillas (2 mas abajo)
 	ld l,e			;8ed2
 	inc l			;8ed3
 	inc l			;8ed4
 	call shut_all_casillas		;8ed5
 	pop de			;8ed8
 	pop bc			;8ed9
-	ld a,d			;8eda
+	ld a,d			;8eda   ; el siguiente, 0x10 a la derecha
 	add a,010h		;8edb
 	ld d,a			;8edd
 	djnz L_8EC2		;8ede
@@ -2276,10 +2276,10 @@ pinta_dos_casillas:
 casillas_2x3:
 	ld bc,00203h		;8f06   ; D en 2x3 casillas
 L_8F09:
-	ld (hl),d			;8f09
+	ld (hl),d			;8f09   ; D en dos casillas...
 	inc hl			;8f0a
 	djnz L_8F09		;8f0b
-	ld a,01eh		;8f0d
+	ld a,01eh		;8f0d   ; ...la fila siguiente (0x20 - 2)
 	add a,l			;8f0f
 	ld l,a			;8f10
 	jr nc,L_8F14		;8f11
@@ -3592,14 +3592,14 @@ L_9903:
 	ld a,(ix+018h)		;9903   ; ...si les dan (bit 1 de ix+0x1E) por un lado que no es el suyo ni el contrario, pasan a andar a medias (ix+0x18 = 1)...
 	and 002h		;9906
 	jr z,L_992A		;9908
-	ld a,(ix+01eh)		;990a
+	ld a,(ix+01eh)		;990a   ; el golpe de este cuadro...
 	ld (ix+01eh),000h		;990d
 	and 002h		;9911
 	jr z,L_993B		;9913
-	ld a,(ix+01ah)		;9915
+	ld a,(ix+01ah)		;9915   ; ...de un lado que no es el de su direccion (ix+0x7E)...
 	cp (ix+07eh)		;9918
 	jr z,L_993B		;991b
-	add a,002h		;991d
+	add a,002h		;991d   ; ...ni el contrario
 	and 003h		;991f
 	cp (ix+07eh)		;9921
 	jr z,L_993B		;9924
@@ -3904,7 +3904,7 @@ L_9BD5:
 	cp 03ch		;9bd8   ; STONEOGRE (tipo 0x3C)?
 	jr z,L_9BEF		;9bda
 L_9BDC:
-	ld bc,00080h		;9bdc
+	ld bc,00080h		;9bdc   ; la ficha siguiente, 0xDFB0 fichas
 	add ix,bc		;9bdf
 	ld a,(0dfb0h)		;9be1
 	dec a			;9be4
@@ -4276,22 +4276,22 @@ L_9EA2:
 	rra			;9ea9
 	jr nc,L_9EC2		;9eaa
 L_9EAC:
-	ld a,005h		;9eac
+	ld a,005h		;9eac   ; gira a un lado: hasta +5...
 	cp (ix+016h)		;9eae
 	jr z,L_9EC2		;9eb1
 	inc (ix+016h)		;9eb3
-	ld a,(ix+013h)		;9eb6
+	ld a,(ix+013h)		;9eb6   ; ...un punto mas del circulo (36)
 	inc a			;9eb9
 	cp 024h		;9eba
 	jr c,L_9ED5		;9ebc
 	sub 024h		;9ebe
 	jr L_9ED5		;9ec0
 L_9EC2:
-	ld a,0fbh		;9ec2
+	ld a,0fbh		;9ec2   ; al otro: hasta -5...
 	cp (ix+016h)		;9ec4
 	jr z,L_9EAC		;9ec7
 	dec (ix+016h)		;9ec9
-	ld a,(ix+013h)		;9ecc
+	ld a,(ix+013h)		;9ecc   ; ...un punto menos
 	sub 001h		;9ecf
 	jr nc,L_9ED5		;9ed1
 	add a,024h		;9ed3

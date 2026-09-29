@@ -294,9 +294,9 @@ sitio_del_enemigo_en_el_panel:
 	ld c,a			;61c5
 	add a,a			;61c6
 	add a,c			;61c7
-	add a,080h		;61c8
+	add a,080h		;61c8   ; y = 0x80 + 24*(3 - B)...
 	ld e,a			;61ca
-	ld d,0b0h		;61cb
+	ld d,0b0h		;61cb   ; ...x = 0xB0
 	ld (0c204h),de		;61cd
 	ret			;61d1
 escribe_nombre_del_enemigo:
@@ -379,12 +379,12 @@ apunta_enemigo_en_el_panel:
 	ld hl,0c220h		;625f   ; si ya esta, nada...
 	ld e,003h		;6262
 L_6264:
-	ld a,(hl)			;6264
+	ld a,(hl)			;6264   ; busca C en la lista (3 bytes por entrada, E entradas); 0 es un hueco libre
 	and a			;6265
 	jr z,L_6271		;6266
-	cp c			;6268
+	cp c			;6268   ; ya esta: Z
 	ret z			;6269
-	inc l			;626a
+	inc l			;626a   ; la entrada siguiente
 	inc l			;626b
 	inc l			;626c
 	dec e			;626d
@@ -654,7 +654,7 @@ cambia_el_enemigo_del_panel:
 	ld hl,0c220h		;644f   ; busca en cual de los tres huecos esta
 	ld b,003h		;6452
 L_6454:
-	ld a,(hl)			;6454
+	ld a,(hl)			;6454   ; busca C en la lista (3 bytes por entrada, B entradas)
 	cp c			;6455
 	jr z,L_645E		;6456
 	inc l			;6458
@@ -1644,7 +1644,7 @@ L_6AA1:
 	cp 058h		;6aa1
 	ret c			;6aa3
 L_6AA4:
-	ld hl,0dff5h		;6aa4
+	ld hl,0dff5h		;6aa4   ; apunta a si hay un SHUT ALL cerrandose (0: ninguno)
 	ld a,(hl)			;6aa7
 	or a			;6aa8
 	ret nz			;6aa9
@@ -1695,7 +1695,7 @@ L_6AE1:
 	cp 078h		;6ae1
 	ret c			;6ae3
 L_6AE4:
-	ld hl,0dff5h		;6ae4
+	ld hl,0dff5h		;6ae4   ; apunta a si hay un SHUT ALL cerrandose (0: ninguno)
 	ld a,(hl)			;6ae7
 	or a			;6ae8
 	ret nz			;6ae9
@@ -1850,7 +1850,7 @@ L_6BD9:
 	sub 008h		;6be0
 	cp 002h		;6be2
 	jr c,L_6BC7		;6be4
-	sub 020h		;6be6
+	sub 020h		;6be6   ; 0x88-0x89
 	cp 002h		;6be8
 	jr c,L_6BC7		;6bea
 	ret			;6bec
@@ -2009,12 +2009,12 @@ mitchel_resbala:
 	ld a,(0c800h)		;6cd5   ; ...ni meterse en lo de 0xC800
 	and a			;6cd8
 	jr z,L_6D18		;6cd9
-	ld a,(0c801h)		;6cdb
+	ld a,(0c801h)		;6cdb   ; lee la y de lo que se empuja
 	sub l			;6cde
 	add a,010h		;6cdf
 	cp 020h		;6ce1
 	jr nc,L_6CEF		;6ce3
-	ld a,(0c802h)		;6ce5
+	ld a,(0c802h)		;6ce5   ; lee la x de lo que se empuja
 	sub h			;6ce8
 	add a,010h		;6ce9
 	cp 020h		;6ceb
@@ -2034,12 +2034,12 @@ L_6CFE:
 	ld (bc),a			;6d00
 L_6D01:
 	call 04308h		;6d01   ; se acaba el empujon: Mitchel, alineado a 8
-	ld a,e			;6d04
+	ld a,e			;6d04   ; y alineada a 8 (sin la parte baja)...
 	and 0f8h		;6d05
 	ld l,000h		;6d07
 	ld h,a			;6d09
 	ld (0c302h),hl		;6d0a
-	ld a,d			;6d0d
+	ld a,d			;6d0d   ; ...y la x
 	and 0f8h		;6d0e
 	ld h,a			;6d10
 	ld (0c304h),hl		;6d11
@@ -2418,8 +2418,8 @@ puede_andar_hacia:
 	and a			;6f5e
 	ret z			;6f5f
 	call 04308h		;6f60   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
-	ld hl,(0c801h)		;6f63
-	ld a,(0c800h)		;6f66
+	ld hl,(0c801h)		;6f63   ; lee la y de lo que se empuja
+	ld a,(0c800h)		;6f66   ; lee lo que se empuja ([hay][y][x][pasos])
 	and a			;6f69
 	ret z			;6f6a
 	ld a,c			;6f6b   ; segun la direccion: si esta delante y cerca, no se pasa
@@ -2440,7 +2440,7 @@ puede_andar_hacia:
 	ret nc			;6f80
 	jr L_6FBD		;6f81
 L_6F83:
-	ld a,e			;6f83
+	ld a,e			;6f83   ; E - L dentro de +-0x0A y D - H de 0 a 0x13...
 	sub l			;6f84
 	add a,00ah		;6f85
 	cp 014h		;6f87
@@ -2449,7 +2449,7 @@ L_6F83:
 	sub h			;6f8b
 	cp 014h		;6f8c
 	ret nc			;6f8e
-	jr L_6FBD		;6f8f
+	jr L_6FBD		;6f8f   ; ...choca
 L_6F91:
 	ld a,d			;6f91
 	sub h			;6f92
@@ -2472,7 +2472,7 @@ L_6FA9:
 	scf			;6fad
 	ret			;6fae
 L_6FAF:
-	ld a,d			;6faf
+	ld a,d			;6faf   ; D - H dentro de +-0x0A y E - L de 0 a 0x13...
 	sub h			;6fb0
 	add a,00ah		;6fb1
 	cp 014h		;6fb3
@@ -2481,7 +2481,7 @@ L_6FAF:
 	sub l			;6fb7
 	cp 014h		;6fb8
 	ret nc			;6fba
-	jr L_6FBD		;6fbb
+	jr L_6FBD		;6fbb   ; ...choca
 L_6FBD:
 	ld de,(0c801h)		;6fbd   ; la casilla de lo de 0xC800...
 	ld a,e			;6fc1
@@ -2823,11 +2823,11 @@ angulo_hacia_e800:
 L_71D6:
 	inc hl			;71d6   ; ...y dx (signo en 0xE811)...
 	ld (hl),000h		;71d7
-	rra			;71d9
+	rra			;71d9   ; dy / 4 en los bits 3-5 (E)...
 	rra			;71da
 	and 038h		;71db
 	ld e,a			;71dd
-	ld a,(0e801h)		;71de
+	ld a,(0e801h)		;71de   ; ...y dx, con su signo
 	sub d			;71e1
 	jr nc,L_71E7		;71e2
 	neg		;71e4
@@ -4267,11 +4267,11 @@ L_7AE7:
 	ld (ix+00ch),000h		;7af8
 L_7AFC:
 	ld a,(ix+015h)		;7afc   ; cae: la velocidad vertical + 0x40...
-	and 001h		;7aff
+	and 001h		;7aff   ; con el bit 0 de ix+0x15, rebota (p01:7B1B)
 	jr nz,L_7B1B		;7b01
 	ld bc,00040h		;7b03
 	xor a			;7b06
-	ld (ix+00ah),a		;7b07
+	ld (ix+00ah),a		;7b07   ; sin velocidad horizontal
 	ld (ix+009h),a		;7b0a
 	ld h,(ix+008h)		;7b0d
 	ld l,(ix+007h)		;7b10
@@ -4321,12 +4321,12 @@ L_7B6F:
 	jr nz,L_7B77		;7b72
 	call paso_de_la_ficha_7BB9		;7b74
 L_7B77:
-	ld a,(ix+001h)		;7b77
+	ld a,(ix+001h)		;7b77   ; pasos 1 (p01:7BA5) y 2 (p01:7BB5); el 0 sigue aqui
 	dec a			;7b7a
 	jr z,L_7BA5		;7b7b
 	dec a			;7b7d
 	jr z,L_7BB5		;7b7e
-	dec (ix+012h)		;7b80
+	dec (ix+012h)		;7b80   ; paso 0: ix+0x12 cuadros y al paso 1
 	jr nz,L_7B88		;7b83
 	inc (ix+001h)		;7b85
 L_7B88:
@@ -4938,11 +4938,11 @@ L_7F7A:
 	ld a,(0c131h)		;7f7a   ; lee el plano de la pantalla (0, el exterior)
 	and a			;7f7d
 	jr nz,L_7F9B		;7f7e
-	ld a,(0c362h)		;7f80   ; lee cuantos objetos 0x23 se llevan (BCD; 0xFF sin cuenta)
+	ld a,(0c362h)		;7f80   ; pantalla 0x0D, exterior: sin きのかぎ (0x23), la 0...
 	ld c,000h		;7f83
 	and a			;7f85
 	ret z			;7f86
-	ld a,006h		;7f87
+	ld a,006h		;7f87   ; ...con ella, un pasadizo (p06:BDE7) a la pantalla 0x70 por (0x18, 0x58), y ninguna
 	call 05d9ch		;7f89   ; p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
 	ld a,070h		;7f8c
 	ld de,05818h		;7f8e
@@ -4951,7 +4951,7 @@ L_7F7A:
 	call 042bch		;7f96   ; p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 	jr L_7FA5		;7f99
 L_7F9B:
-	ld hl,0c32ah		;7f9b
+	ld hl,0c32ah		;7f9b   ; en el plano alterno: con 0xC32A (que nadie pone), ninguna; si no, la 0x17
 	ld a,(hl)			;7f9e
 	and a			;7f9f
 	jr nz,L_7FA5		;7fa0
@@ -4961,7 +4961,7 @@ L_7FA5:
 	ld c,000h		;7fa5
 	ret			;7fa7
 L_7FA8:
-	ld c,007h		;7fa8
+	ld c,007h		;7fa8   ; pantalla 0x14: y < 0x60, la 7; x < 0x60, la 8; si no, la 9
 	ld a,e			;7faa
 	cp 060h		;7fab
 	ret c			;7fad
@@ -4972,7 +4972,7 @@ L_7FA8:
 	inc c			;7fb3
 	ret			;7fb4
 L_7FB5:
-	ld a,e			;7fb5
+	ld a,e			;7fb5   ; pantalla 0x23: y < 0x50, la 0x1C; < 0x70, la 0x16; si no, la 0x15
 	ld c,01ch		;7fb6
 	cp 050h		;7fb8
 	ret c			;7fba
@@ -4982,7 +4982,7 @@ L_7FB5:
 	ld c,015h		;7fc0
 	ret			;7fc2
 L_7FC3:
-	ld c,01eh		;7fc3
+	ld c,01eh		;7fc3   ; pantalla 0x27: x 0x60 o mas, la 0x1E; y < 0x60, la 0x1F; si no, la 0x1D
 	ld a,d			;7fc5
 	cp 060h		;7fc6
 	ret nc			;7fc8
@@ -4993,21 +4993,21 @@ L_7FC3:
 	ld c,01dh		;7fce
 	ret			;7fd0
 L_7FD1:
-	ld c,01ah		;7fd1
+	ld c,01ah		;7fd1   ; pantalla 0x2D: y < 0x60, la 0x1A; si no, la 0x1B
 	ld a,e			;7fd3
 	cp 060h		;7fd4
 	ret c			;7fd6
 	inc c			;7fd7
 	ret			;7fd8
 L_7FD9:
-	ld c,014h		;7fd9
+	ld c,014h		;7fd9   ; pantalla 0x2E: x < 0x60, la 0x14; si no, la 0x13
 	ld a,d			;7fdb
 	cp 060h		;7fdc
 	ret c			;7fde
 	dec c			;7fdf
 	ret			;7fe0
 L_7FE1:
-	ld c,025h		;7fe1
+	ld c,025h		;7fe1   ; pantalla 0x3E: y < 0x50, la 0x25; si no, la 0x24
 	ld a,e			;7fe3
 	cp 050h		;7fe4
 	ret c			;7fe6

@@ -369,6 +369,34 @@ C 0xBE5D ...a 0x50
 C 0xBE7B PASO 1: aletea y se mueve...
 C 0xBE81 ...hasta salirse de 0x10-0xA0 en y o en x: se queda en el borde, 0x10 cuadros en el paso 0
 C 0xBEB8 cada 4 cuadros, el cuadro siguiente de los 6 de p03:BEDA
+C 0xA2F4 cada 4 cuadros...
+C 0xA2FD ...el dibujo siguiente de los 4
+C 0xAEB1 y < 0x30: 0...
+C 0xAEB7 ...< 0x50: 2; < 0x80: 4; si no, 6
+C 0xAF69 un salto mas; a los ix+0x12, cambia de lado
+C 0xAF74 bit 0 de ix+0x19: arriba (-1) o abajo (+1, y el paso siguiente)
+C 0xB3FC 128 veces [y][x]
+C 0xB409 0xE800 el hueco de sprite siguiente (desde 2), 0xE801 el numero de parte (desde 1)
+C 0xB412 B = cuantas partes, C el retraso (0x40 menos cada vez)
+C 0xB4B1 4 bytes por sprite...
+C 0xB4B7 ...y = 0xE1: el hueco, ocupado sin verse
+C 0xB4C0 la parte siguiente
+C 0xB507 hacia abajo, sin llegar a ix+0x18
+C 0xB519 la x del centro hacia Mitchel...
+C 0xB524 ...a la izquierda, sin bajar de ix+0x19
+C 0xB537 hacia la derecha, sin llegar a ix+0x1A
+C 0xB578 el sitio en el rastro (0-0x7F)
+C 0xB5AB hacia abajo, sin llegar a ix+0x18
+C 0xB5BD la x del centro hacia Mitchel...
+C 0xB5C8 ...a la izquierda, sin bajar de ix+0x19
+C 0xB5DB hacia la derecha, sin llegar a ix+0x1A
+C 0xB6C0 tercer cuarto: 0xC0 - ix+0x12, hacia abajo
+C 0xB712 tercer cuarto: 0xC0 - ix+0x12, hacia arriba
+C 0xB77C y hasta 0x80, x de 0x20 a 0x90, velocidad 3
+C 0xB78C vida 0x20
+C 0xB7BA cuantas partes (A) y los cuadros 0x10 (cabeza) y 0x12 (partes)
+C 0xBE9B la x, entre 0x10 y 0xA0...
+C 0xBEA3 ...fuera, al borde
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA3EE 0xA3FA tabla_A3EE  6 destinos del despachador de 0x425F (call en p03:A3EB): 0xA3FA, 0xA442, 0xA48F, 0xA4F4, 0xA505, 0xA511; lo leen p03:A3EB (12 bytes)
@@ -597,9 +625,11 @@ C 0xA6FE p01:hay_jefe: 0xC151 = 1: hay jefe
 C 0xA721 lee el cuadro del enemigo
 C 0xA72E guarda el cuadro del enemigo
 C 0xA734 mira el bit 0 de el cuadro del enemigo
+C 0xA741 lee los GARGOYLE que quedan por soltar
 C 0xA751 lee la y del enemigo
 C 0xA756 lee la x del enemigo
 C 0xA75B p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
+C 0xA762 apunta a los GARGOYLE que quedan por soltar
 C 0xA789 p00:lmmm: orden LMMM del V9938: lo mismo con operacion logica (A: paginas y operacion; 8 = TIMP)
 C 0xA7B5 el cuadro del enemigo = 0x10
 C 0xA7BD lee el contador de cuadros
@@ -682,6 +712,7 @@ C 0xAB68 p00:hl_mas_a
 C 0xAB78 guarda la y del enemigo
 C 0xAB84 guarda la x del enemigo
 C 0xABF8 ENTRADA de GARGOYLE (tipo 0x08), con su ficha en IX
+C 0xAC03 apunta a las ranas que quedan por salir
 C 0xAC17 p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
 C 0xAC27 ENTRADA de POISNFROG (tipo 0x07), con su ficha en IX
 C 0xAC2A p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
@@ -700,6 +731,8 @@ C 0xACA8 POISNFROG, paso 8
 C 0xACAF POISNFROG, paso 9
 C 0xACB9 la pantalla 0x06?
 C 0xACBD lee el plano de la pantalla (0, el exterior)
+C 0xACC2 apunta a la cuenta de cuadros para la rana siguiente
+C 0xACCA apunta a las ranas que quedan por salir
 C 0xACD4 la pantalla 0x06?
 C 0xACDE dibujos_ACEA: 4 palabras segun A & C que p03:ACDE pasa a p00:5A69
 C 0xACE1 p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
@@ -878,7 +911,6 @@ C 0xB4B4 p00:hl_mas_a
 C 0xB4C5 ENTRADA de GRASSWORM (tipo 0x12), con su ficha en IX
 C 0xB4C8 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 C 0xB4E9 lee la Y de Mitchel
-C 0xB519 lee la X de Mitchel
 C 0xB555 gusanos_paso: LA VUELTA: con ix+0x12 (0-0xFF, sube ix+0x1B cada vez) y los 65 bytes de p03:B737...
 C 0xB55F p00:hl_mas_a
 C 0xB562 lee la y del enemigo
@@ -886,7 +918,6 @@ C 0xB567 lee la x del enemigo
 C 0xB571 sube el paso en que va
 C 0xB587 lee la cuenta de cuadros
 C 0xB58D lee la Y de Mitchel
-C 0xB5BD lee la X de Mitchel
 C 0xB5FA gusanos_paso: LA VUELTA: con ix+0x12 (0-0xFF, sube ix+0x1B cada vez) y los 65 bytes de p03:B737...
 C 0xB604 p00:hl_mas_a
 C 0xB607 lee la y del enemigo
@@ -981,6 +1012,7 @@ C 0xBAE4 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a
 C 0xBAF1 el objeto 0x23, きのかぎ
 C 0xBAF5 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 C 0xBB03 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0xBB0A apunta a las muertes que faltan para que RATT suelte やくそう
 C 0xBB13 el objeto 0x10, やくそう
 C 0xBB15 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 C 0xBB1C p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
@@ -989,8 +1021,10 @@ C 0xBB34 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a
 C 0xBB45 suelta_alguien_que_habla: LO QUE SUELTAN GRASSWORM y MIREWORM: el objeto 0x25: al tocarlo, la conversacion de la pantalla
 C 0xBB4A suelta_piedras: el objeto 8 (piedras), B unidades
 C 0xBB56 suelta_piedras: el objeto 8 (piedras), B unidades
+C 0xBB69 apunta a las muertes que faltan para que BOOMERANG suelte el boomerang
 C 0xBB74 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 C 0xBB8B p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0xBB9F apunta a las muertes de BOWLER que faltan para alguien que habla
 C 0xBBA6 suelta_alguien_que_habla: LO QUE SUELTAN GRASSWORM y MIREWORM: el objeto 0x25: al tocarlo, la conversacion de la pantalla
 C 0xBBB1 lee cuantos objetos 0x05 se llevan (BCD; 0xFF sin cuenta)
 C 0xBBB7 el objeto 0x05, おの
@@ -1007,6 +1041,7 @@ C 0xBC12 el objeto 0x09, ほのおのたま
 C 0xBC16 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 C 0xBC2E el objeto 0x1F, きいろいいし
 C 0xBC32 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0xBC39 apunta a las muertes de WATCHMAN que faltan para el pasadizo
 C 0xBC45 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 C 0xBC4C p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 C 0xBC57 suelta_carne: el objeto 0x15 (carne), B unidades
@@ -1020,9 +1055,11 @@ C 0xBC8B p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a
 C 0xBCA3 suelta_alguien_que_habla: LO QUE SUELTAN GRASSWORM y MIREWORM: el objeto 0x25: al tocarlo, la conversacion de la pantalla
 C 0xBCAB el objeto 0x07, つめ
 C 0xBCAF p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0xBCCC apunta a las muertes de CLINGMAN que faltan para alguien que habla
 C 0xBCD3 suelta_alguien_que_habla: LO QUE SUELTAN GRASSWORM y MIREWORM: el objeto 0x25: al tocarlo, la conversacion de la pantalla
 C 0xBCDB el objeto 0x14, あぐのす
 C 0xBCDF p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0xBCE6 apunta a las muertes que faltan para que WHITEFIRE suelte らめらのえき
 C 0xBCF2 el objeto 0x0F, らめらのえき
 C 0xBCF6 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 C 0xBCFD p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
@@ -1038,6 +1075,7 @@ C 0xBD45 la pantalla 0x82?
 C 0xBD4A la pantalla 0x83?
 C 0xBD50 fichas_BD82: 5 punteros segun C a fichas de 9 bytes (p03:BD50)
 C 0xBD53 p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
+C 0xBD56 apunta a la ficha 0x3D que va (su terna de p03:BD82)
 C 0xBD5E p00:de_mas_a
 C 0xBD72 velocidades_BDB9: 4 palabras segun ix+0x12 que p03:BD72 pone en ix+7 o ix+9
 C 0xBD75 p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE

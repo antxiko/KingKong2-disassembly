@@ -323,6 +323,45 @@ C 0xBD9C ...x
 C 0xBDA3 y los marcos de lo que se lleva en SHOT1, SHOT2 y los zuecos
 C 0xBDAB sin nada, fuera de la vista
 C 0xBDB3 SHOT1 fuera de la vista con la ventana corrida
+C 0xBDE2 AL ENTRAR EN LA PANTALLA: lo que se empuja solo esta en el exterior, en su pantalla (0xC153)...
+C 0xBDF1 ...si no, fuera (sprites en y 0xE0); y en las pantallas 0-2 vuelve a la 8, en (0x50, 0x50)
+C 0xBE0F en la pantalla 4 tambien vuelve; si esta encima de Mitchel (+-0x12), se aparta delante de el
+C 0xBE2F esta aqui
+C 0xBE4C mirando arriba: 0x10 por encima
+C 0xBE53 abajo: 0x10 por debajo
+C 0xBE5A izquierda: 0x10 a la izquierda
+C 0xBE61 derecha: 0x10 a la derecha
+C 0xBE68 MITCHEL EMPUJA: 0xC152 = 0; si hay algo en 0xC800...
+C 0xBE7A ...y Mitchel anda (estados 1-4: arriba, abajo, izquierda, derecha)...
+C 0xBE8A ...arriba: si esta a menos de 0x10 por debajo de ello...
+C 0xBE95 ...y a +-0x0C en x, lo empuja: su y, 0x10 por encima de Mitchel...
+C 0xBEA7 ...fuera de 0x08-0xA7, se va a la pantalla de al lado...
+C 0xBEAF ...empujando (0xC152), un paso mas, y el sonido 0x0E cada 8 puntos
+C 0xBEC7 abajo: 0x10 por debajo de Mitchel
+C 0xBED4 izquierda: a menos de 0x10 a su derecha, y a +-0x0C en y...
+C 0xBEEA ...su x, 0x10 a la izquierda de Mitchel
+C 0xBEFB derecha: 0x10 a la derecha
+C 0xBF08 por arriba: aparece abajo (y 0xA0) de la pantalla de arriba (0)
+C 0xBF0E por abajo: arriba (0x10) de la de abajo (1)
+C 0xBF17 por la izquierda: a la derecha (x 0xA0) de la de la izquierda (2)
+C 0xBF1D por la derecha: a la izquierda (0x10) de la de la derecha (3)
+C 0xBF24 su pantalla nueva, y aqui ya no esta
+C 0xBF37 SUS DOS SPRITES (0xE678): 8 arriba y a la izquierda de su sitio...
+C 0xBF48 ...el patron 0xE0 + 2*(pasos & 0x0C): cambia al empujarlo...
+C 0xBF53 ...y, x y patron de cada uno (el segundo, 4 patrones mas alla)
+C 0xBF5E sus colores: 1 el primero (0xE5E0) y 0x4C el segundo
+C 0xBF68 A en 16 bytes de HL (las 16 lineas de color de un sprite)
+C 0xBC95 la casilla de la lista de B (DE) pasa a la de A (HL) y queda vacia
+C 0xBCC0 los iconos de cada casilla de la fila...
+C 0xBCCC ...y las tres filas
+C 0xBD32 busca el objeto E en la lista (2 bytes por casilla)...
+C 0xBD36 ...C casillas por fila...
+C 0xBF9B LAS PAREDES QUE SE CIERRAN, en las pantallas 0x73-0x77, si no hay nada en marcha...
+C 0xBFB5 ...un SHUT ALL abierto (sin ix+0x13) con Mitchel dentro de su hueco (+-0x11 en y, +-8 en x)...
+C 0xBFD6 la ficha siguiente
+C 0xBDC0 y = D, x de la tabla, patron 4 y el cuarto byte 4...
+C 0xBDD0 ...y detras, 0x70 veces 4 bytes con la y fuera de la vista (0xE0 + 0xC281)
+C 0xBDD7 4 bytes por vuelta
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA000 0xA09E dibujos_9F9E_cola  8 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 56); los sube p00:48A6 por la lista 0x55BD (sigue del banco anterior, 0x9F9E); lo leen p00:48A6 (158 bytes)
@@ -984,32 +1023,44 @@ C 0xBD7C apunta a cuantos objetos 0x1E se llevan (BCD; 0xFF sin cuenta)
 C 0xBD81 p00:puente_escribe_numero_bcd
 C 0xBD90 p00:puente_vram_para_escribir
 C 0xBD93 sitio_del_cursor: el sitio del cursor (columna, fila)
-C 0xBDE2 lee el plano de la pantalla (0, el exterior)
+C 0xBDE8 lee la pantalla en que esta lo que se empuja
 C 0xBDEB apunta a la PANTALLA
+C 0xBDF2 guarda lo que se empuja ([hay][y][x][pasos])
 C 0xBDFD lee la PANTALLA
 C 0xBE00 la pantalla 0x03?
+C 0xBE03 la pantalla en que esta lo que se empuja = 0x08
+C 0xBE05 guarda la pantalla en que esta lo que se empuja
+C 0xBE0B guarda la y de lo que se empuja
+C 0xBE14 lee la y de lo que se empuja
 C 0xBE18 lee la Y de Mitchel
 C 0xBE23 lee la X de Mitchel
 C 0xBE2C pon_c800_delante_de_mitchel: la posicion de 0xC800 a 0x10 de Mitchel, hacia donde mira
+C 0xBE31 guarda lo que se empuja ([hay][y][x][pasos])
 C 0xBE34 lee la PANTALLA
+C 0xBE37 guarda la pantalla en que esta lo que se empuja
 C 0xBE40 lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
-C 0xBE7A lee el estado de Mitchel
-C 0xBE8A lee la Y de Mitchel
-C 0xBE95 lee la X de Mitchel
+C 0xBE4F guarda la y de lo que se empuja
+C 0xBE56 guarda la y de lo que se empuja
+C 0xBE5D guarda la x de lo que se empuja
+C 0xBE64 guarda la x de lo que se empuja
+C 0xBE69 guarda si Mitchel esta empujando
+C 0xBE6C lee lo que se empuja ([hay][y][x][pasos])
+C 0xBE76 apunta a lo que se empuja ([hay][y][x][pasos])
 C 0xBEA0 lee la Y de Mitchel
+C 0xBEB1 guarda si Mitchel esta empujando
 C 0xBEB8 lee la Y de Mitchel
 C 0xBEBB apunta a la X de Mitchel
 C 0xBEC4 p00:puente_sonido_si_juega
-C 0xBEC7 lee la Y de Mitchel
-C 0xBED4 lee la X de Mitchel
 C 0xBEDF lee la Y de Mitchel
-C 0xBEEA lee la X de Mitchel
-C 0xBEFB lee la X de Mitchel
-C 0xBF24 p00:puente_pantalla_vecina
+C 0xBF10 la y de lo que se empuja = 0x10
+C 0xBF12 guarda la y de lo que se empuja
+C 0xBF21 guarda la x de lo que se empuja
+C 0xBF27 guarda la pantalla en que esta lo que se empuja
+C 0xBF2B guarda lo que se empuja ([hay][y][x][pasos])
+C 0xBF63 dieciseis_bytes: A en 16 bytes de HL (las 16 lineas de color de un sprite)
 C 0xBFA0 lee la PANTALLA
 C 0xBFAC apunta a las fichas de los enemigos (13 de 0x80)
 C 0xBFB2 p00:puente_posicion_de_mitchel
-C 0xBFB5 lee el tipo del enemigo
 C 0xBFB8 SHUT ALL (tipo 0x40)?
 C 0xBFED guarda la X de Mitchel
 C 0xBFF0 p00:puente_mitchel_contra_el_decorado

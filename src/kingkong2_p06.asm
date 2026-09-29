@@ -477,13 +477,13 @@ funde_a_negro:
 	ld b,010h		;a7d1
 	xor a			;a7d3
 L_A7D4:
-	or (hl)			;a7d4
+	or (hl)			;a7d4   ; junta los RB y G de los 16 colores...
 	inc hl			;a7d5
 	or (hl)			;a7d6
 	inc hl			;a7d7
 	inc hl			;a7d8
 	djnz L_A7D4		;a7d9
-	and a			;a7db
+	and a			;a7db   ; ...y si todos son 0, acarreo: negro
 	ret nz			;a7dc
 	scf			;a7dd
 	ret			;a7de
@@ -494,11 +494,11 @@ baja_un_tono:
 	ld hl,0cf01h		;a7e5
 	ld b,010h		;a7e8
 L_A7EA:
-	ld a,(hl)			;a7ea
+	ld a,(hl)			;a7ea   ; R (nibble alto) uno menos si no es 0...
 	and 0f0h		;a7eb
 	jr z,L_A7F3		;a7ed
 	ld a,(hl)			;a7ef
-	sub 010h		;a7f0
+	sub 010h		;a7f0   ; ...de 0x10 en 0x10
 	ld (hl),a			;a7f2
 L_A7F3:
 	ld a,(hl)			;a7f3
@@ -539,13 +539,13 @@ L_A81D:
 	jr z,L_A824		;a821
 	dec (hl)			;a823
 L_A824:
-	dec hl			;a824
+	dec hl			;a824   ; el color 14 con sus RB (D) y G (E)
 	ld d,(hl)			;a825
 	inc hl			;a826
 	ld e,(hl)			;a827
 	ld a,00eh		;a828
 	call 040f8h		;a82a   ; p00:puente_pon_un_color
-	ld a,(0cf00h)		;a82d
+	ld a,(0cf00h)		;a82d   ; acarreo cuando los dos son 0
 	ld hl,0cf01h		;a830
 	or (hl)			;a833
 	ret nz			;a834
@@ -939,13 +939,13 @@ L_AB0D:
 	ret			;ab12
 L_AB13:
 	inc hl			;ab13   ; 0xFE [n]: la x mas n y 16 puntos mas abajo
-	ld a,(hl)			;ab14
+	ld a,(hl)			;ab14   ; n, lo que se mueve la x
 	inc hl			;ab15
 	ld (0cf31h),hl		;ab16
 	ld hl,(0cf33h)		;ab19
 	add a,h			;ab1c
 	ld h,a			;ab1d
-	ld a,l			;ab1e
+	ld a,l			;ab1e   ; y 16 puntos mas abajo
 	add a,010h		;ab1f
 	ld l,a			;ab21
 	ld (0cf33h),hl		;ab22
@@ -1079,10 +1079,10 @@ L_AC47:
 	djnz L_AC47		;ac49
 	ld b,010h		;ac4b
 L_AC4D:
-	ld (hl),e			;ac4d
+	ld (hl),e			;ac4d   ; la segunda mitad del sprite, el color E
 	inc hl			;ac4e
 	djnz L_AC4D		;ac4f
-	dec c			;ac51
+	dec c			;ac51   ; los C sprites
 	jr nz,L_AC45		;ac52
 	and a			;ac54
 	ret			;ac55
@@ -1120,11 +1120,11 @@ L_AC78:
 	pop hl			;ac81
 	ld b,008h		;ac82   ; ...y los 8 un punto a la izquierda...
 L_AC84:
-	dec (hl)			;ac84
+	dec (hl)			;ac84   ; la x, un punto a la izquierda...
 	ld a,(hl)			;ac85
 	cp 038h		;ac86
 	jr c,L_AC92		;ac88
-	inc hl			;ac8a
+	inc hl			;ac8a   ; ...los 4 bytes del sprite siguiente
 	inc hl			;ac8b
 	inc hl			;ac8c
 	inc hl			;ac8d
@@ -1135,13 +1135,13 @@ L_AC92:
 	dec hl			;ac92   ; ...hasta x 0x37: entonces fuera (y 0xE0) y acarreo
 	ld b,008h		;ac93
 L_AC95:
-	ld (hl),0e0h		;ac95
+	ld (hl),0e0h		;ac95   ; y = 0xE0: el sprite fuera
 	inc hl			;ac97
 	inc hl			;ac98
 	inc hl			;ac99
 	inc hl			;ac9a
 	djnz L_AC95		;ac9b
-	scf			;ac9d
+	scf			;ac9d   ; acarreo: ya han salido
 	ret			;ac9e
 parpadeo_AC9F:
 	ld a,(0c103h)		;ac9f   ; los patrones de 8 sprites: 0x00, 0x04... o 0x20, 0x24... alternando cada 16 cuadros
@@ -1153,9 +1153,9 @@ L_ACA9:
 	inc hl			;aca9
 	ld b,008h		;acaa
 L_ACAC:
-	ld (hl),a			;acac
+	ld (hl),a			;acac   ; el patron, 4 mas en cada sprite (uno de 16x16 son 4 patrones)
 	add a,004h		;acad
-	inc hl			;acaf
+	inc hl			;acaf   ; los 4 bytes del sprite siguiente
 	inc hl			;acb0
 	inc hl			;acb1
 	inc hl			;acb2
@@ -1171,9 +1171,9 @@ L_ACC1:
 	inc hl			;acc1
 	ld b,002h		;acc2
 L_ACC4:
-	ld (hl),a			;acc4
+	ld (hl),a			;acc4   ; el patron, 4 mas en cada sprite
 	add a,004h		;acc5
-	inc hl			;acc7
+	inc hl			;acc7   ; los 4 bytes del sprite siguiente
 	inc hl			;acc8
 	inc hl			;acc9
 	inc hl			;acca
@@ -1209,11 +1209,11 @@ L_ACF2:
 	pop hl			;acfe
 	ld b,002h		;acff
 L_AD01:
-	dec (hl)			;ad01
+	dec (hl)			;ad01   ; la x, un punto a la izquierda...
 	ld a,(hl)			;ad02
 	cp 038h		;ad03
 	jr c,L_AD0F		;ad05
-	inc hl			;ad07
+	inc hl			;ad07   ; ...los 4 bytes del sprite siguiente
 	inc hl			;ad08
 	inc hl			;ad09
 	inc hl			;ad0a
@@ -1224,13 +1224,13 @@ L_AD0F:
 	dec hl			;ad0f
 	ld b,002h		;ad10
 L_AD12:
-	ld (hl),0e0h		;ad12
+	ld (hl),0e0h		;ad12   ; y = 0xE0: el sprite fuera
 	inc hl			;ad14
 	inc hl			;ad15
 	inc hl			;ad16
 	inc hl			;ad17
 	djnz L_AD12		;ad18
-	scf			;ad1a
+	scf			;ad1a   ; acarreo: ya han salido
 	ret			;ad1b
 
 ; ----------------------------------------------------------------------
@@ -2084,7 +2084,7 @@ L_B9C8:
 	ld b,a			;b9cb
 	and 003h		;b9cc
 	ret nz			;b9ce
-	ld a,(0dfb0h)		;b9cf   ; ...tres fases en 0xDFB0: 0 sube R y B (nibble alto), 1 sube B, 2 sube G...
+	ld a,(0dfb0h)		;b9cf   ; ...tres fases en 0xDFB0: 0 sube el R (nibble alto), 1 el B (nibble bajo), 2 el G...
 	dec a			;b9d2
 	jr z,L_BA04		;b9d3
 	dec a			;b9d5
@@ -2097,14 +2097,14 @@ L_B9C8:
 	ld de,0ba5ah		;b9e3   ; brillo_BA5A: [color][RB][G] ... 0xFF: a donde sube (y con que parpadea) el rotulo (p06:B9C8, p06:BA46)
 	inc de			;b9e6
 L_B9E7:
-	ld a,(de)			;b9e7
+	ld a,(de)			;b9e7   ; el R (nibble alto) del color al que va...
 	and 0f0h		;b9e8
 	ld c,a			;b9ea
 	ld a,(hl)			;b9eb
 	and 0f0h		;b9ec
 	cp c			;b9ee
 	jr z,L_B9F4		;b9ef
-	add a,010h		;b9f1
+	add a,010h		;b9f1   ; ...y el de ahora, uno mas si no ha llegado
 	ld (hl),a			;b9f3
 L_B9F4:
 	djnz L_B9F8		;b9f4
@@ -2124,14 +2124,14 @@ L_BA04:
 	ld de,0ba5ah		;ba0f   ; brillo_BA5A: [color][RB][G] ... 0xFF: a donde sube (y con que parpadea) el rotulo (p06:B9C8, p06:BA46)
 	inc de			;ba12
 L_BA13:
-	ld a,(de)			;ba13
+	ld a,(de)			;ba13   ; el B (nibble bajo) del color al que va (en la fase 2, el G)...
 	and 00fh		;ba14
 	ld c,a			;ba16
 	ld a,(hl)			;ba17
 	and 00fh		;ba18
 	cp c			;ba1a
 	jr z,L_BA1E		;ba1b
-	inc (hl)			;ba1d
+	inc (hl)			;ba1d   ; ...y el de ahora, uno mas si no ha llegado
 L_BA1E:
 	djnz L_BA22		;ba1e
 	jr L_BA40		;ba20
@@ -2507,13 +2507,13 @@ L_BDC5:
 	ld c,a			;bdcf
 	ld hl,0be16h		;bdd0   ; pasadizos: 15 fichas [pantalla][a donde][x][y][C] y un 0: p06:BDD0 busca la pantalla y manda alli a Mitchel (0xC201 = 1, sonido 0x24)
 L_BDD3:
-	ld a,(hl)			;bdd3
+	ld a,(hl)			;bdd3   ; [pantalla]: 0 acaba la lista
 	inc hl			;bdd4
 	and a			;bdd5
 	ret z			;bdd6
 	cp c			;bdd7
 	jr z,L_BDE0		;bdd8
-	inc hl			;bdda
+	inc hl			;bdda   ; 5 bytes por ficha
 	inc hl			;bddb
 	inc hl			;bddc
 	inc hl			;bddd
@@ -2760,33 +2760,33 @@ L_BF86:
 	ld bc,0001ch		;bf8c
 	ldir		;bf8f
 	xor a			;bf91   ; ...y las cuentas de lo que sueltan los enemigos (p03:BAF8 en adelante): cada cuantas muertes
-	ld (0dfc0h),a		;bf92
-	ld (0dfc1h),a		;bf95
-	ld a,002h		;bf98
-	ld (0dfc4h),a		;bf9a
-	ld (0dfd9h),a		;bf9d
+	ld (0dfc0h),a		;bf92   ; guarda la cuenta de lo que suelta CENTIPEDE (0x13)
+	ld (0dfc1h),a		;bf95   ; guarda la cuenta de lo que suelta CENTIPEDE (0x14)
+	ld a,002h		;bf98   ; las muertes de TWINMIRES que faltan para el suceso 1 = 0x02
+	ld (0dfc4h),a		;bf9a   ; guarda las muertes de TWINMIRES que faltan para el suceso 1
+	ld (0dfd9h),a		;bf9d   ; guarda las muertes de CROW que faltan para alguien que habla
 	inc a			;bfa0
-	ld (0dfd2h),a		;bfa1
-	ld a,005h		;bfa4
-	ld (0dfd6h),a		;bfa6
-	ld (0dfd7h),a		;bfa9
-	ld (0dfd3h),a		;bfac
-	ld (0dfd4h),a		;bfaf
+	ld (0dfd2h),a		;bfa1   ; guarda las muertes que faltan para que RATT suelte やくそう
+	ld a,005h		;bfa4   ; las muertes de BOWLER que faltan para alguien que habla = 0x05
+	ld (0dfd6h),a		;bfa6   ; guarda las muertes de BOWLER que faltan para alguien que habla
+	ld (0dfd7h),a		;bfa9   ; guarda las muertes que faltan para que THICKSKIN suelte かいてん
+	ld (0dfd3h),a		;bfac   ; guarda las muertes que faltan para que DUNGROLL suelte piedras
+	ld (0dfd4h),a		;bfaf   ; guarda las muertes que faltan para que BOOMERANG suelte el boomerang
 	inc a			;bfb2
-	ld (0dfdah),a		;bfb3
-	ld (0dfdbh),a		;bfb6
-	ld (0dfd1h),a		;bfb9
-	ld (0dfc5h),a		;bfbc
+	ld (0dfdah),a		;bfb3   ; guarda las muertes de CLINGMAN que faltan para alguien que habla
+	ld (0dfdbh),a		;bfb6   ; guarda las muertes que faltan para que WHITEFIRE suelte らめらのえき
+	ld (0dfd1h),a		;bfb9   ; guarda las muertes que faltan para que BATT suelte carne
+	ld (0dfc5h),a		;bfbc   ; guarda las muertes de WATCHMAN que faltan para el pasadizo
 	ld a,008h		;bfbf
 	ld (0dfd0h),a		;bfc1
-	ld a,00ah		;bfc4
-	ld (0dfd8h),a		;bfc6
-	ld a,00ch		;bfc9
-	ld (0dfc3h),a		;bfcb
-	ld a,010h		;bfce
-	ld (0dfc6h),a		;bfd0
-	ld (0dfc2h),a		;bfd3
-	ld (0dfd5h),a		;bfd6
+	ld a,00ah		;bfc4   ; las muertes que faltan para que CAVEMAN suelte ほのおのたま = 0x0A
+	ld (0dfd8h),a		;bfc6   ; guarda las muertes que faltan para que CAVEMAN suelte ほのおのたま
+	ld a,00ch		;bfc9   ; las muertes que faltan para que FIRETOTEM suelte el garrote = 0x0C
+	ld (0dfc3h),a		;bfcb   ; guarda las muertes que faltan para que FIRETOTEM suelte el garrote
+	ld a,010h		;bfce   ; las muertes que faltan para que GRASSOGRE suelte el ROD = 0x10
+	ld (0dfc6h),a		;bfd0   ; guarda las muertes que faltan para que GRASSOGRE suelte el ROD
+	ld (0dfc2h),a		;bfd3   ; guarda las muertes que faltan para que BOWLER suelte el hacha
+	ld (0dfd5h),a		;bfd6   ; guarda las muertes que faltan para que SEALOUSE suelte やくそう
 	ret			;bfd9
 
 ; ----------------------------------------------------------------------

@@ -372,9 +372,9 @@ de_mas_a:
 despacha:
 	pop hl			;425f
 despacha_hl:
-	add a,a			;4260
+	add a,a			;4260   ; SALTA A LA ENTRADA A de la tabla de palabras de HL
 	call hl_mas_a		;4261
-	ld e,(hl)			;4264
+	ld e,(hl)			;4264   ; la palabra, y alli
 	inc hl			;4265
 	ld d,(hl)			;4266
 	ex de,hl			;4267
@@ -643,7 +643,7 @@ L_43E1:
 	ld c,a			;43ec
 L_43ED:
 	ld a,b			;43ed   ; a la mitad, lo que se suma sube de 10 en 10
-	cp 005h		;43ee
+	cp 005h		;43ee   ; tras el bit 3 (B = 5), DE pasa a ser el multiplicando x10 (un digito BCD a la izquierda: x16 en binario)...
 	jr nz,L_4400		;43f0
 	exx			;43f2
 	add hl,hl			;43f3
@@ -652,7 +652,7 @@ L_43ED:
 	add hl,hl			;43f6
 	ld a,l			;43f7
 	exx			;43f8
-	ld e,a			;43f9
+	ld e,a			;43f9   ; ...E los dos digitos bajos y D los altos
 	exx			;43fa
 	ld a,h			;43fb
 	exx			;43fc
@@ -791,31 +791,31 @@ repone_el_fondo_del_jefe:
 	jp casilla_que_no_se_pisa		;44e3   ; casilla_que_no_se_pisa: 0xF0 en las BxC casillas de debajo de la ficha: la casilla que no se pisa
 indice_del_jefe:
 	ld a,c			;44e6   ; C = el tipo; L = su numero de jefe (de dos en dos) y acarreo; sin acarreo, no es jefe
-	cp 004h		;44e7
+	cp 004h		;44e7   ; CLUBMAN (4): jefe 0
 	ld l,000h		;44e9
 	jr z,L_4548		;44eb
-	cp 005h		;44ed
+	cp 005h		;44ed   ; MUDARMOR (5): 2
 	ld l,002h		;44ef
 	jr z,L_4548		;44f1
-	cp 00bh		;44f3
+	cp 00bh		;44f3   ; REDSPIDER (0x0B): 4
 	ld l,004h		;44f5
 	jr z,L_4548		;44f7
-	cp 02ah		;44f9
+	cp 02ah		;44f9   ; THE NASTY (0x2A): 0x0E
 	ld l,00eh		;44fb
 	jr z,L_4548		;44fd
-	cp 02bh		;44ff
+	cp 02bh		;44ff   ; BADPRIEST (0x2B): 0x10
 	ld l,010h		;4501
 	jr z,L_4548		;4503
-	cp 039h		;4505
+	cp 039h		;4505   ; REVOLVER (0x39): 0x12
 	ld l,012h		;4507
 	jr z,L_4548		;4509
-	cp 042h		;450b
+	cp 042h		;450b   ; BIGFLOWER (0x42): 0x14
 	ld l,014h		;450d
 	jr z,L_4548		;450f
-	cp 026h		;4511
+	cp 026h		;4511   ; BIGGUARD (0x26): 0x16
 	ld l,016h		;4513
 	jr z,L_4548		;4515
-	cp 01eh		;4517
+	cp 01eh		;4517   ; GRIZZLY (0x1E): 0x0A en la pantalla 0x1A, 0x0C en las demas
 	jr nz,L_4528		;4519
 	ld a,(0c125h)		;451b   ; lee la PANTALLA
 	cp 01ah		;451e   ; la pantalla 0x1A?
@@ -824,7 +824,7 @@ indice_del_jefe:
 	ld l,00ch		;4524
 	jr L_4548		;4526
 L_4528:
-	cp 027h		;4528
+	cp 027h		;4528   ; SAVAGE (0x27): 0x18 en la pantalla 0x77, 0x1A en las demas
 	jr nz,L_4539		;452a
 	ld a,(0c125h)		;452c   ; lee la PANTALLA
 	cp 077h		;452f   ; la pantalla 0x77?
@@ -833,7 +833,7 @@ L_4528:
 	ld l,01ah		;4535
 	jr L_4548		;4537
 L_4539:
-	cp 01ah		;4539
+	cp 01ah		;4539   ; TWINMIRES (0x1A): 6 en la pantalla 0x31, 8 en las demas
 	jr nz,L_454A		;453b
 	ld a,(0c125h)		;453d   ; lee la PANTALLA
 	cp 031h		;4540   ; la pantalla 0x31?
@@ -1141,7 +1141,7 @@ espera_al_vdp:
 lee_estado_del_vdp:
 	push bc			;46e6   ; lee el registro de estado A del V9938
 	push hl			;46e7
-	ld hl,(00006h)		;46e8   ; los puertos del VDP (0x0006) + 1
+	ld hl,(00006h)		;46e8   ; H = el puerto de control (0x0007), L = el de lectura (0x0006 + 1)
 	inc h			;46eb
 	inc l			;46ec
 	ld c,h			;46ed
@@ -1165,7 +1165,7 @@ lee_estado_del_vdp:
 raya_horizontal:
 	call espera_al_vdp		;4706   ; orden LINE del V9938 (MAJ = 0): de (H, L), B-1 puntos
 	push bc			;4709
-	ld a,(00007h)		;470a
+	ld a,(00007h)		;470a   ; C = el puerto de control del VDP (0x0007 + 1)
 	inc a			;470d
 	ld c,a			;470e
 	ld a,024h		;470f   ; desde R#36...
@@ -1176,20 +1176,20 @@ raya_horizontal:
 	inc c			;4718   ; ...el puerto de los registros seguidos (R#17 auto)
 	inc c			;4719
 	out (c),h		;471a   ; DX = H
-	xor a			;471c
+	xor a			;471c   ; DX alto = 0
 	out (c),a		;471d
 	out (c),l		;471f   ; DY = L
-	out (c),a		;4721
+	out (c),a		;4721   ; DY alto = 0 (pagina 0)
 	pop hl			;4723   ; lo largo: B - 1 puntos
 	dec h			;4724
-	out (c),h		;4725
+	out (c),h		;4725   ; NX (el lado largo) = B - 1...
 	xor a			;4727
-	out (c),a		;4728
-	xor a			;472a
+	out (c),a		;4728   ; ...su byte alto 0...
+	xor a			;472a   ; ...NY (el corto) = 0...
 	out (c),a		;472b
 	out (c),a		;472d
-	out (c),l		;472f
-	out (c),a		;4731
+	out (c),l		;472f   ; CLR = C, el color
+	out (c),a		;4731   ; ARG = 0: MAJ 0, hacia la derecha
 	ld a,070h		;4733   ; LINE con IMP
 	out (c),a		;4735
 	ei			;4737
@@ -1197,7 +1197,7 @@ raya_horizontal:
 raya_vertical:
 	call espera_al_vdp		;4739   ; orden LINE con MAJ = 1: la raya va hacia abajo
 	push bc			;473c
-	ld a,(00007h)		;473d
+	ld a,(00007h)		;473d   ; C = el puerto de control del VDP
 	inc a			;4740
 	ld c,a			;4741
 	ld a,024h		;4742
@@ -1207,23 +1207,23 @@ raya_vertical:
 	out (c),a		;4749
 	inc c			;474b
 	inc c			;474c
-	out (c),h		;474d
+	out (c),h		;474d   ; DX = H
 	xor a			;474f
 	out (c),a		;4750
-	out (c),l		;4752
+	out (c),l		;4752   ; DY = L
 	out (c),a		;4754
 	pop hl			;4756
-	dec h			;4757
+	dec h			;4757   ; NX (el lado largo) = B - 1
 	out (c),h		;4758
 	xor a			;475a
 	out (c),a		;475b
 	xor a			;475d
 	out (c),a		;475e
 	out (c),a		;4760
-	out (c),l		;4762
+	out (c),l		;4762   ; CLR = C, el color
 	inc a			;4764   ; ARG con MAJ = 1: el lado largo es el vertical
 	out (c),a		;4765
-	ld a,070h		;4767
+	ld a,070h		;4767   ; LINE con IMP
 	out (c),a		;4769
 	ei			;476b
 	ret			;476c
@@ -1268,7 +1268,7 @@ hmmv:
 	ex af,af'			;479b   ; el color, a un lado
 	call espera_al_vdp		;479c   ; espera_al_vdp: espera a que el V9938 acabe la orden (bit 0 de S#2)
 	push bc			;479f
-	ld a,(00007h)		;47a0
+	ld a,(00007h)		;47a0   ; C = el puerto de control del VDP
 	inc a			;47a3
 	ld c,a			;47a4
 	ld a,024h		;47a5   ; desde R#36
@@ -1280,26 +1280,26 @@ hmmv:
 	inc c			;47af
 	out (c),h		;47b0   ; DX = H
 	xor a			;47b2
-	out (c),a		;47b3
+	out (c),a		;47b3   ; DX alto = 0
 	out (c),l		;47b5   ; DY = L y la pagina D
 	out (c),d		;47b7
 	pop hl			;47b9   ; NX = B (0 = 256)
 	out (c),h		;47ba
-	cp h			;47bc
+	cp h			;47bc   ; NX alto: 1 si NX es 0 (256 puntos)
 	jr nz,L_47C0		;47bd
 	inc a			;47bf
 L_47C0:
 	out (c),a		;47c0
 	xor a			;47c2
 	out (c),l		;47c3   ; NY = C (0 = 256)
-	cp l			;47c5
+	cp l			;47c5   ; NY alto: 1 si NY es 0
 	jr nz,L_47C9		;47c6
 	inc a			;47c8
 L_47C9:
 	out (c),a		;47c9
 	ex af,af'			;47cb   ; CLR = el color
 	out (c),a		;47cc
-	xor a			;47ce
+	xor a			;47ce   ; ARG = 0
 	out (c),a		;47cf
 	ld a,0c0h		;47d1   ; HMMV
 	out (c),a		;47d3
@@ -1309,7 +1309,7 @@ hmmm:
 	ex af,af'			;47d7   ; orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
 	call espera_al_vdp		;47d8   ; espera_al_vdp: espera a que el V9938 acabe la orden (bit 0 de S#2)
 	push bc			;47db   ; desde R#32 (SX)
-	ld a,(00007h)		;47dc
+	ld a,(00007h)		;47dc   ; C = el puerto de control del VDP
 	inc a			;47df
 	ld c,a			;47e0
 	ld a,020h		;47e1
@@ -1320,7 +1320,7 @@ hmmm:
 	inc c			;47ea
 	inc c			;47eb
 	out (c),h		;47ec   ; SX = H
-	xor a			;47ee
+	xor a			;47ee   ; SX alto = 0
 	out (c),a		;47ef
 	out (c),l		;47f1   ; SY = L...
 	ex af,af'			;47f3
@@ -1328,7 +1328,7 @@ hmmm:
 	and 003h		;47f5
 	out (c),a		;47f7
 	out (c),d		;47f9   ; DX = D
-	xor a			;47fb
+	xor a			;47fb   ; DX alto = 0
 	out (c),a		;47fc
 	out (c),e		;47fe   ; DY = E...
 	ld a,l			;4800   ; ...y la pagina de destino: bits 2-3 de A
@@ -1338,10 +1338,10 @@ hmmm:
 	out (c),a		;4805
 	pop hl			;4807
 	out (c),h		;4808   ; NX = B
-	xor a			;480a
+	xor a			;480a   ; NX alto = 0
 	out (c),a		;480b
 	out (c),l		;480d   ; NY = C
-	out (c),a		;480f
+	out (c),a		;480f   ; NY alto = 0, y R#44 (CLR) y R#45 (ARG) = 0
 	out (c),a		;4811
 	out (c),a		;4813
 	ld a,0d0h		;4815   ; HMMM
@@ -1352,7 +1352,7 @@ lmmm:
 	ex af,af'			;481b   ; orden LMMM del V9938: lo mismo con operacion logica (A: paginas y operacion; 8 = TIMP)
 	call espera_al_vdp		;481c   ; espera_al_vdp: espera a que el V9938 acabe la orden (bit 0 de S#2)
 	push bc			;481f   ; desde R#32
-	ld a,(00007h)		;4820
+	ld a,(00007h)		;4820   ; C = el puerto de control del VDP
 	inc a			;4823
 	ld c,a			;4824
 	ld a,020h		;4825
@@ -1363,7 +1363,7 @@ lmmm:
 	inc c			;482e
 	inc c			;482f
 	out (c),h		;4830   ; SX = H
-	xor a			;4832
+	xor a			;4832   ; SX alto = 0
 	out (c),a		;4833
 	out (c),l		;4835   ; SY = L...
 	ex af,af'			;4837
@@ -1373,7 +1373,7 @@ lmmm:
 	and 003h		;483b
 	out (c),a		;483d
 	out (c),d		;483f   ; DX = D
-	xor a			;4841
+	xor a			;4841   ; DX alto = 0
 	out (c),a		;4842
 	out (c),e		;4844   ; DY = E...
 	ld a,l			;4846   ; ...y la pagina de destino: bits 4-5
@@ -1384,10 +1384,10 @@ lmmm:
 	out (c),a		;484c
 	pop hl			;484e
 	out (c),h		;484f   ; NX = B
-	xor a			;4851
+	xor a			;4851   ; NX alto = 0
 	out (c),a		;4852
 	out (c),l		;4854   ; NY = C
-	out (c),a		;4856
+	out (c),a		;4856   ; NY alto = 0, CLR y ARG = 0
 	out (c),a		;4858
 	out (c),a		;485a
 	ld a,e			;485c   ; LMMM con la operacion de los bits 0-3 (8 = TIMP)
@@ -2732,10 +2732,10 @@ L_50AC:
 	ld a,(hl)			;50ac
 	ld b,010h		;50ad
 L_50AF:
-	ld (de),a			;50af
+	ld (de),a			;50af   ; 16 lineas del mismo color
 	inc de			;50b0
 	djnz L_50AF		;50b1
-	inc hl			;50b3
+	inc hl			;50b3   ; el color siguiente, los 8
 	dec c			;50b4
 	jr nz,L_50AC		;50b5
 	ret			;50b7
@@ -3049,13 +3049,13 @@ L_5230:
 	jr z,L_523D		;5238
 	ld hl,07250h		;523a   ; ...o 0xE4A0 + 16*hueco (0x7250*2) con 0xC132
 L_523D:
-	ld a,b			;523d
+	ld a,b			;523d   ; 16 bytes por hueco...
 	add a,a			;523e
 	add a,a			;523f
 	add a,a			;5240
 	ld c,a			;5241
 	ld b,000h		;5242
-	add hl,bc			;5244
+	add hl,bc			;5244   ; ...y por 2 (HL era la mitad)
 	add hl,hl			;5245
 	ex de,hl			;5246
 	ld a,(hl)			;5247   ; el color...
@@ -3206,9 +3206,9 @@ empieza_la_partida:
 	xor a			;5352
 	ld (0c13ch),a		;5353
 	ld a,008h		;5356   ; 0xC153 = 8
-	ld (0c153h),a		;5358
+	ld (0c153h),a		;5358   ; guarda la pantalla en que esta lo que se empuja
 	ld hl,05050h		;535b   ; lo de 0xC800 en (0x50, 0x50)
-	ld (0c801h),hl		;535e
+	ld (0c801h),hl		;535e   ; guarda la y de lo que se empuja
 	ld hl,00200h		;5361   ; GOLD = 200 al empezar
 	ld (0c135h),hl		;5364   ; guarda GOLD, los dos bytes bajos (BCD)
 	ld hl,00030h		;5367   ; LIFE = 30 al empezar
@@ -3953,8 +3953,8 @@ DATA_lista_de_sprites_27:
 empieza_la_pantalla:
 	xor a			;5888   ; EMPIEZA LA PANTALLA: sin grafico de jefe...
 	ld (0df94h),a		;5889   ; guarda el grafico de jefe que hay subido
-	ld (0dff4h),a		;588c
-	ld (0dff5h),a		;588f
+	ld (0dff4h),a		;588c   ; guarda los SHUT ALL que han salido en las pantallas 0x73-0x76
+	ld (0dff5h),a		;588f   ; guarda si hay un SHUT ALL cerrandose (0: ninguno)
 	ld de,0dfb1h		;5892   ; ...0xDFB0-0xDFBF a cero...
 	ld hl,0dfb0h		;5895
 	ld (hl),a			;5898
@@ -3963,21 +3963,21 @@ empieza_la_pantalla:
 	ld l,c			;589e   ; ...0xDFA0 = 1...
 	ld h,b			;589f
 	inc hl			;58a0
-	ld (0dfa0h),hl		;58a1
+	ld (0dfa0h),hl		;58a1   ; guarda la cuenta de cuadros para el SEALOUSE siguiente
 	call posicion_de_mitchel		;58a4   ; ...donde esta Mitchel (0xDFF6)...
 	ld hl,0dff6h		;58a7
 	ld (hl),e			;58aa
 	inc hl			;58ab
 	ld (hl),d			;58ac
-	ld a,010h		;58ad
-	ld (0dfa4h),a		;58af
-	ld a,00ah		;58b2
-	ld (0df93h),a		;58b4
+	ld a,010h		;58ad   ; los GARGOYLE que quedan por soltar = 0x10
+	ld (0dfa4h),a		;58af   ; guarda los GARGOYLE que quedan por soltar
+	ld a,00ah		;58b2   ; las ranas que quedan por salir = 0x0A
+	ld (0df93h),a		;58b4   ; guarda las ranas que quedan por salir
 	xor a			;58b7
-	ld (0df92h),a		;58b8
+	ld (0df92h),a		;58b8   ; guarda la cuenta de cuadros para la rana siguiente
 	ld (0df9ah),a		;58bb
 	dec a			;58be
-	ld (0dfe0h),a		;58bf
+	ld (0dfe0h),a		;58bf   ; guarda la ficha 0x3D que va (su terna de p03:BD82)
 	ld a,(0c13bh)		;58c2   ; con 0xC13B, directamente a p00:5992
 	and a			;58c5
 	jp nz,L_5992		;58c6
@@ -3997,14 +3997,14 @@ L_58DD:
 	cp 089h		;58e2
 	jp c,L_5992		;58e4
 L_58E7:
-	ld a,b			;58e7
+	ld a,b			;58e7   ; de la 0x57 a la 0x5A...
 	cp 057h		;58e8
 	jr nz,L_58F1		;58ea
 	ld a,c			;58ec
 	cp 05ah		;58ed
 	jr z,L_58FB		;58ef
 L_58F1:
-	ld a,b			;58f1
+	ld a,b			;58f1   ; ...o de la 0x5A a la 0x57
 	cp 05ah		;58f2
 	jr nz,L_590B		;58f4
 	ld a,c			;58f6
@@ -4078,10 +4078,10 @@ L_596B:
 L_5971:
 	ld b,010h		;5971
 L_5973:
-	ld (hl),a			;5973
+	ld (hl),a			;5973   ; B ceros...
 	inc hl			;5974
 	djnz L_5973		;5975
-	dec c			;5977
+	dec c			;5977   ; ...C tiras, DE mas alla cada una
 	jr z,L_5992		;5978
 	add hl,de			;597a
 	jr L_5971		;597b
@@ -4205,8 +4205,8 @@ L_5A34:
 	jp z,0acb6h		;5a34
 	cp 011h		;5a37
 L_5A39:
-	jp z,06a0fh		;5a39
-	cp 024h		;5a3c
+	jp z,06a0fh		;5a39   ; 0x11, 0x3E, 0x43, 0x46 y 0x4A: los SEALOUSE (p01:6A0F)
+	cp 024h		;5a3c   ; 0x24 y 0x25: los MIREFROG (p03:ACB6)
 	jr z,L_5A34		;5a3e
 	cp 025h		;5a40
 	jr z,L_5A34		;5a42
@@ -4218,7 +4218,7 @@ L_5A39:
 	jr z,L_5A39		;5a4e
 	cp 04ah		;5a50
 	jr z,L_5A39		;5a52
-	cp 073h		;5a54
+	cp 073h		;5a54   ; 0x73-0x76: las paredes que se cierran (p01:6A52, 6A93, 6AD3, 6B30)
 	jp z,06a52h		;5a56
 	cp 074h		;5a59
 	jp z,06a93h		;5a5b
@@ -4416,7 +4416,7 @@ colores_de_la_ficha:
 	add a,l			;5bba
 	ld l,a			;5bbb
 L_5BBC:
-	ld a,(de)			;5bbc
+	ld a,(de)			;5bbc   ; el color, en la ficha de cada sprite (5 bytes por sprite)
 	inc de			;5bbd
 	ld (hl),a			;5bbe
 	ld a,l			;5bbf
@@ -4426,14 +4426,14 @@ L_5BBC:
 	ret			;5bc5
 color_de_un_sprite:
 	push hl			;5bc6
-	ld hl,(0e804h)		;5bc7   ; ix+0x21 + 5*E = el hueco de sprite D
-	ld a,e			;5bca
+	ld hl,(0e804h)		;5bc7   ; ix+0x21 + 5*E: el hueco del sprite E en la ficha
+	ld a,e			;5bca   ; 5 bytes por sprite
 	add a,a			;5bcb
 	add a,a			;5bcc
 	add a,e			;5bcd
 	add a,021h		;5bce
 	call hl_mas_a		;5bd0
-	ld (hl),d			;5bd3
+	ld (hl),d			;5bd3   ; D en su hueco
 	pop hl			;5bd4
 	ret			;5bd5
 da_vueltas:
@@ -4646,7 +4646,7 @@ L_5D68:
 L_5D72:
 	ld a,00fh		;5d72   ; p15:BE98 con el banco 15
 	call banco_en_a000		;5d74   ; banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
-	call 0be98h		;5d77   ; p15:suceso_BE98: LOS SUCESOS 6 EN ADELANTE (pantallas que se abren de golpe): si ninguna ficha es de tipo 6 o mas, a jugar (0xC201 = 0)...
+	call 0be98h		;5d77   ; p15:suceso_BE98: LOS SUCESOS 6 EN ADELANTE: si ninguna ficha es de tipo 6 o mas, a jugar (0xC201 = 0)...
 	jp bancos_1_2_3		;5d7a   ; bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 L_5D7D:
 	ld a,00fh		;5d7d   ; p15:BD3A: quita el decorado del suceso
@@ -4806,7 +4806,7 @@ L_5E93:
 	jp bancos_1_2_3		;5eae   ; bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 cuenta_los_de_su_clase:
 	ld a,(ix+000h)		;5eb1   ; tipos 0x12-0x14, 0x2C-0x2E, 0x38 y 0x39: los que van en grupo...
-	cp 012h		;5eb4
+	cp 012h		;5eb4   ; 12-14 (GRASSWORM, CENTIPEDE), 0x2C (GROUNDER), 0x2D (SPS), 0x2E (MIREWORM), 0x38 y 0x39 (REVOLVER)
 	jr c,ya_no_quedan		;5eb6
 	cp 015h		;5eb8
 	jr c,L_5ED4		;5eba
@@ -4841,7 +4841,7 @@ L_5EDE:
 	jr nz,L_5EF1		;5eec   ; al ultimo, ix+0x7D = 1
 	call ya_no_quedan		;5eee   ; ya_no_quedan: ix+0x7D = 1: ya no queda ninguno de su grupo
 L_5EF1:
-	ld a,c			;5ef1
+	ld a,c			;5ef1   ; la ficha siguiente (0x80): HL y DE
 	call hl_mas_a		;5ef2
 	ld a,c			;5ef5
 	call de_mas_a		;5ef6

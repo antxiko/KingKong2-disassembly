@@ -116,6 +116,12 @@ C 0x6682 no acabo
 C 0x6684 acabo
 C 0x667C 0x20: espera; el paso siguiente sigue aqui
 C 0x6659 cuantos cuadros dura cada paso
+C 0x640D 0-5, las tablas de p04:7ABD, 7AD5, 7AED, 7B05, 7B1D y 7B35; si no, la de p04:7B4D
+C 0x642D la palabra de la nota (c >> 4) en su tabla
+C 0x6579 la mascara sin el bit del canal...
+C 0x657D ...fuera de los que suenan (0xC08D)
+C 0x661C las vueltas que quedan en ix+0x11...
+C 0x6620 ...y a w
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x60BC 0x60D0 canal_en_reposo  20 bytes que p04:605D copia a cada canal al empezar una pieza o un efecto; lo leen p04:6060 (20 bytes)

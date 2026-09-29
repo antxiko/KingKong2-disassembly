@@ -2204,55 +2204,55 @@ efecto_de_lo_lanzado:
 	ld hl,0c380h		;b975   ; apunta a lo que lanza Mitchel (su ficha)
 	ld a,(ix+000h)		;b978   ; los tipos que no se dejan (acarreo: no se les hace nada)...
 	sub 002h		;b97b
-	ret z			;b97d
+	ret z			;b97d   ; SLIPSLIME (0x02): lo lanzado no le hace nada
 	sub 002h		;b97e
-	ret z			;b980
+	ret z			;b980   ; CLUBMAN (0x04): lo lanzado no le hace nada
 	dec a			;b981
-	jr z,L_B9C7		;b982
+	jr z,L_B9C7		;b982   ; MUDARMOR (0x05): se mira aparte (L_B9C7)
 	dec a			;b984
-	ret z			;b985
+	ret z			;b985   ; GARGOYLE (0x06): lo lanzado no le hace nada
 	sub 005h		;b986
-	ret z			;b988
+	ret z			;b988   ; REDSPIDER (0x0B): lo lanzado no le hace nada
 	dec a			;b989
-	ret z			;b98a
+	ret z			;b98a   ; BIGSPIDER (0x0C): lo lanzado no le hace nada
 	sub 002h		;b98b
-	ret z			;b98d
+	ret z			;b98d   ; MUDMASK (0x0E): lo lanzado no le hace nada
 	dec a			;b98e
-	ret z			;b98f
+	ret z			;b98f   ; BOGGEDMAN (0x0F): lo lanzado no le hace nada
 	sub 00ah		;b990
-	ret z			;b992
+	ret z			;b992   ; BLOWMIRE (0x19): lo lanzado no le hace nada
 	dec a			;b993
-	jp z,L_BBAB		;b994
+	jp z,L_BBAB		;b994   ; TWINMIRES (0x1A): se mira aparte (L_BBAB)
 	sub 003h		;b997
-	jr z,L_B9DF		;b999
+	jr z,L_B9DF		;b999   ; THICKSKIN (0x1D): se mira aparte (L_B9DF)
 	sub 002h		;b99b
-	jr z,L_B9DF		;b99d
+	jr z,L_B9DF		;b99d   ; MRRUINS (0x1F): se mira aparte (L_B9DF)
 	sub 002h		;b99f
-	jr z,L_B9DF		;b9a1
+	jr z,L_B9DF		;b9a1   ; CAVERNMAN (0x21): se mira aparte (L_B9DF)
 	sub 008h		;b9a3
-	jr z,L_B9D1		;b9a5
+	jr z,L_B9D1		;b9a5   ; FIRETOTEM (0x29): se mira aparte (L_B9D1)
 	dec a			;b9a7
-	ret z			;b9a8
+	ret z			;b9a8   ; THE NASTY (0x2A): lo lanzado no le hace nada
 	dec a			;b9a9
-	ret z			;b9aa
+	ret z			;b9aa   ; BADPRIEST (0x2B): lo lanzado no le hace nada
 	sub 003h		;b9ab
-	ret z			;b9ad
+	ret z			;b9ad   ; MIREWORM (0x2E): lo lanzado no le hace nada
 	sub 006h		;b9ae
-	ret z			;b9b0
+	ret z			;b9b0   ; B FMAN (0x34): lo lanzado no le hace nada
 	dec a			;b9b1
-	ret z			;b9b2
+	ret z			;b9b2   ; D FMAN (0x35): lo lanzado no le hace nada
 	sub 005h		;b9b3
-	ret z			;b9b5
+	ret z			;b9b5   ; WHITEFIRE (0x3A): lo lanzado no le hace nada
 	sub 004h		;b9b6
-	ret z			;b9b8
+	ret z			;b9b8   ; MIREFROG (0x3E): lo lanzado no le hace nada
 	cp 003h		;b9b9
-	ret z			;b9bb
+	ret z			;b9bb   ; ROCK ROCK (0x41): lo lanzado no le hace nada
 	sub 004h		;b9bc
-	jr z,L_B9D8		;b9be
+	jr z,L_B9D8		;b9be   ; BIGFLOWER (0x42): se mira aparte (L_B9D8)
 	dec a			;b9c0
-	ret z			;b9c1
+	ret z			;b9c1   ; GRASSOGRE (0x43): lo lanzado no le hace nada
 	dec a			;b9c2
-	jr z,L_B9DF		;b9c3
+	jr z,L_B9DF		;b9c3   ; BUCKLER (0x44): se mira aparte (L_B9DF)
 	scf			;b9c5   ; los demas, si
 	ret			;b9c6
 L_B9C7:
@@ -2363,14 +2363,14 @@ empuja_a_mitchel:
 	neg		;ba7a
 	inc c			;ba7c
 L_BA7D:
-	ld e,a			;ba7d
+	ld e,a			;ba7d   ; E = la distancia en y (C = 1 si el enemigo esta por encima); la distancia en x (B = 1 si esta a la izquierda)...
 	ld a,(ix+005h)		;ba7e
 	sub d			;ba81
 	jr nc,L_BA87		;ba82
 	neg		;ba84
 	inc b			;ba86
 L_BA87:
-	cp e			;ba87
+	cp e			;ba87   ; ...si la de x es menor, en vertical: 0 (arriba) o 1 (abajo) a 0xC164...
 	jr nc,L_BA91		;ba88
 	xor a			;ba8a
 	dec c			;ba8b
@@ -2380,7 +2380,7 @@ L_BA8F:
 	ld (hl),a			;ba8f
 	ret			;ba90
 L_BA91:
-	ld a,003h		;ba91
+	ld a,003h		;ba91   ; ...si no, en horizontal: 3 o 2
 	dec b			;ba93
 	jr z,L_BA97		;ba94
 	dec a			;ba96
@@ -2889,7 +2889,7 @@ L_BE2F:
 	pop bc			;be52
 	pop ix		;be53
 L_BE55:
-	exx			;be55
+	exx			;be55   ; la ficha siguiente (0x80 bytes)
 	ld de,00080h		;be56
 	add ix,de		;be59
 	exx			;be5b
@@ -2988,7 +2988,7 @@ L_BEDE:
 	cp 018h		;bef8
 	jp c,recoge_objeto		;befa
 L_BEFD:
-	exx			;befd
+	exx			;befd   ; el objeto siguiente (0x10 bytes)
 	ld de,00010h		;befe
 	add ix,de		;bf01
 	exx			;bf03
@@ -3025,7 +3025,7 @@ L_BF1A:
 	pop de			;bf3b
 	pop bc			;bf3c
 L_BF3D:
-	exx			;bf3d
+	exx			;bf3d   ; la ficha siguiente
 	ld de,00080h		;bf3e
 	add ix,de		;bf41
 	exx			;bf43
@@ -3062,7 +3062,7 @@ L_BF57:
 	pop bc			;bf7b
 	pop ix		;bf7c
 L_BF7E:
-	exx			;bf7e
+	exx			;bf7e   ; la ficha siguiente
 	ld de,00080h		;bf7f
 	add ix,de		;bf82
 	exx			;bf84
@@ -3104,7 +3104,7 @@ L_BFA0:
 	pop de			;bfc4
 	pop ix		;bfc5
 L_BFC7:
-	exx			;bfc7
+	exx			;bfc7   ; la ficha siguiente
 	ld de,00080h		;bfc8
 	add ix,de		;bfcb
 	exx			;bfcd

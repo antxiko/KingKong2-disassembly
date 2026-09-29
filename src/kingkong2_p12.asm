@@ -3236,7 +3236,7 @@ L_BC8B:
 	jr nz,L_BC8B		;bc92
 	ret			;bc94
 L_BC95:
-	ld a,(de)			;bc95
+	ld a,(de)			;bc95   ; la casilla de la lista de B (DE) pasa a la de A (HL) y queda vacia
 	ld (hl),a			;bc96
 	xor a			;bc97
 	ld (de),a			;bc98
@@ -3267,14 +3267,14 @@ L_BCBC:
 	ld a,(0e801h)		;bcbc
 	ld c,a			;bcbf
 L_BCC0:
-	push bc			;bcc0
+	push bc			;bcc0   ; los iconos de cada casilla de la fila...
 	call pinta_los_iconos_de_la_lista		;bcc1   ; pinta_los_iconos_de_la_lista: sin objeto, nada
 	pop bc			;bcc4
 	inc c			;bcc5
 	ld a,(0e800h)		;bcc6
 	cp c			;bcc9
 	jr nz,L_BCC0		;bcca
-	inc b			;bccc
+	inc b			;bccc   ; ...y las tres filas
 	ld a,b			;bccd
 	cp 003h		;bcce
 	jr nz,L_BCBC		;bcd0
@@ -3334,10 +3334,10 @@ L_BD29:
 	ld b,000h		;bd2e
 	ld d,000h		;bd30
 L_BD32:
-	ld a,(hl)			;bd32
+	ld a,(hl)			;bd32   ; busca el objeto E en la lista (2 bytes por casilla)...
 	cp e			;bd33
 	jr z,L_BD46		;bd34
-	inc hl			;bd36
+	inc hl			;bd36   ; ...C casillas por fila...
 	inc hl			;bd37
 	inc b			;bd38
 	ld a,b			;bd39
@@ -3428,7 +3428,7 @@ L_BDBA:
 	add a,0e0h		;bdbd
 	ld d,a			;bdbf
 L_BDC0:
-	out (c),d		;bdc0
+	out (c),d		;bdc0   ; y = D, x de la tabla, patron 4 y el cuarto byte 4...
 	inc l			;bdc2
 	ld a,(hl)			;bdc3
 	out (c),a		;bdc4
@@ -3438,27 +3438,27 @@ L_BDC0:
 	out (c),a		;bdca
 	out (c),a		;bdcc
 	djnz L_BDA8		;bdce
-	ld a,(0c281h)		;bdd0
+	ld a,(0c281h)		;bdd0   ; ...y detras, 0x70 veces 4 bytes con la y fuera de la vista (0xE0 + 0xC281)
 	add a,0e0h		;bdd3
 	ld b,070h		;bdd5
 L_BDD7:
-	out (c),a		;bdd7
+	out (c),a		;bdd7   ; 4 bytes por vuelta
 	out (c),a		;bdd9
 	out (c),a		;bddb
 	out (c),a		;bddd
 	djnz L_BDD7		;bddf
 	ret			;bde1
 L_BDE2:
-	ld a,(0c131h)		;bde2   ; lee el plano de la pantalla (0, el exterior)
+	ld a,(0c131h)		;bde2   ; AL ENTRAR EN LA PANTALLA: lo que se empuja solo esta en el exterior, en su pantalla (0xC153)...
 	and a			;bde5
 	jr nz,L_BDF1		;bde6
-	ld a,(0c153h)		;bde8
+	ld a,(0c153h)		;bde8   ; lee la pantalla en que esta lo que se empuja
 	ld hl,0c125h		;bdeb   ; apunta a la PANTALLA
 	cp (hl)			;bdee
 	jr z,L_BE0F		;bdef
 L_BDF1:
-	xor a			;bdf1
-	ld (0c800h),a		;bdf2
+	xor a			;bdf1   ; ...si no, fuera (sprites en y 0xE0); y en las pantallas 0-2 vuelve a la 8, en (0x50, 0x50)
+	ld (0c800h),a		;bdf2   ; guarda lo que se empuja ([hay][y][x][pasos])
 	ld a,0e0h		;bdf5
 	ld (0e678h),a		;bdf7
 	ld (0e67ch),a		;bdfa
@@ -3466,16 +3466,16 @@ L_BDF1:
 	cp 003h		;be00   ; la pantalla 0x03?
 	ret nc			;be02
 L_BE03:
-	ld a,008h		;be03
-	ld (0c153h),a		;be05
+	ld a,008h		;be03   ; la pantalla en que esta lo que se empuja = 0x08
+	ld (0c153h),a		;be05   ; guarda la pantalla en que esta lo que se empuja
 	ld hl,05050h		;be08
-	ld (0c801h),hl		;be0b
+	ld (0c801h),hl		;be0b   ; guarda la y de lo que se empuja
 	ret			;be0e
 L_BE0F:
-	ld a,(hl)			;be0f
+	ld a,(hl)			;be0f   ; en la pantalla 4 tambien vuelve; si esta encima de Mitchel (+-0x12), se aparta delante de el
 	cp 004h		;be10
 	jr z,L_BE03		;be12
-	ld de,(0c801h)		;be14
+	ld de,(0c801h)		;be14   ; lee la y de lo que se empuja
 	ld a,(0c303h)		;be18   ; lee la Y de Mitchel
 	ld c,a			;be1b
 	sub e			;be1c
@@ -3489,10 +3489,10 @@ L_BE0F:
 	cp 024h		;be2a
 	call c,pon_c800_delante_de_mitchel		;be2c   ; pon_c800_delante_de_mitchel: la posicion de 0xC800 a 0x10 de Mitchel, hacia donde mira
 L_BE2F:
-	ld a,001h		;be2f
-	ld (0c800h),a		;be31
+	ld a,001h		;be2f   ; esta aqui
+	ld (0c800h),a		;be31   ; guarda lo que se empuja ([hay][y][x][pasos])
 	ld a,(0c125h)		;be34   ; lee la PANTALLA
-	ld (0c153h),a		;be37
+	ld (0c153h),a		;be37   ; guarda la pantalla en que esta lo que se empuja
 	jp L_BF37		;be3a
 pon_c800_delante_de_mitchel:
 	call 040e0h		;be3d   ; la posicion de 0xC800 a 0x10 de Mitchel, hacia donde mira
@@ -3503,36 +3503,36 @@ pon_c800_delante_de_mitchel:
 	jr z,L_BE5A		;be47
 	dec a			;be49
 	jr z,L_BE61		;be4a
-	ld a,e			;be4c
+	ld a,e			;be4c   ; mirando arriba: 0x10 por encima
 	sub 010h		;be4d
-	ld (0c801h),a		;be4f
+	ld (0c801h),a		;be4f   ; guarda la y de lo que se empuja
 	ret			;be52
 L_BE53:
-	ld a,e			;be53
+	ld a,e			;be53   ; abajo: 0x10 por debajo
 	add a,010h		;be54
-	ld (0c801h),a		;be56
+	ld (0c801h),a		;be56   ; guarda la y de lo que se empuja
 	ret			;be59
 L_BE5A:
-	ld a,d			;be5a
+	ld a,d			;be5a   ; izquierda: 0x10 a la izquierda
 	sub 010h		;be5b
-	ld (0c802h),a		;be5d
+	ld (0c802h),a		;be5d   ; guarda la x de lo que se empuja
 	ret			;be60
 L_BE61:
-	ld a,d			;be61
+	ld a,d			;be61   ; derecha: 0x10 a la derecha
 	add a,010h		;be62
-	ld (0c802h),a		;be64
+	ld (0c802h),a		;be64   ; guarda la x de lo que se empuja
 	ret			;be67
 L_BE68:
-	xor a			;be68
-	ld (0c152h),a		;be69
-	ld a,(0c800h)		;be6c
+	xor a			;be68   ; MITCHEL EMPUJA: 0xC152 = 0; si hay algo en 0xC800...
+	ld (0c152h),a		;be69   ; guarda si Mitchel esta empujando
+	ld a,(0c800h)		;be6c   ; lee lo que se empuja ([hay][y][x][pasos])
 	and a			;be6f
 	ret z			;be70
 	ld hl,0c173h		;be71
 	and a			;be74
 	ret z			;be75
-	ld ix,0c800h		;be76
-	ld a,(0c300h)		;be7a   ; lee el estado de Mitchel
+	ld ix,0c800h		;be76   ; apunta a lo que se empuja ([hay][y][x][pasos])
+	ld a,(0c300h)		;be7a   ; ...y Mitchel anda (estados 1-4: arriba, abajo, izquierda, derecha)...
 	dec a			;be7d
 	cp 004h		;be7e
 	ret nc			;be80
@@ -3542,13 +3542,13 @@ L_BE68:
 	jr z,L_BED4		;be85
 	dec a			;be87
 	jr z,L_BEFB		;be88
-	ld a,(0c303h)		;be8a   ; lee la Y de Mitchel
+	ld a,(0c303h)		;be8a   ; ...arriba: si esta a menos de 0x10 por debajo de ello...
 	sub (ix+001h)		;be8d
 	cp 010h		;be90
 	ret nc			;be92
 	ld c,0f0h		;be93
 L_BE95:
-	ld a,(0c305h)		;be95   ; lee la X de Mitchel
+	ld a,(0c305h)		;be95   ; ...y a +-0x0C en x, lo empuja: su y, 0x10 por encima de Mitchel...
 	sub (ix+002h)		;be98
 	add a,00ch		;be9b
 	cp 018h		;be9d
@@ -3556,13 +3556,13 @@ L_BE95:
 	ld a,(0c303h)		;bea0   ; lee la Y de Mitchel
 	add a,c			;bea3
 	ld (ix+001h),a		;bea4
-	cp 008h		;bea7
+	cp 008h		;bea7   ; ...fuera de 0x08-0xA7, se va a la pantalla de al lado...
 	jr c,L_BF08		;bea9
 	cp 0a8h		;beab
 	jr nc,L_BF0E		;bead
 L_BEAF:
-	ld a,001h		;beaf
-	ld (0c152h),a		;beb1
+	ld a,001h		;beaf   ; ...empujando (0xC152), un paso mas, y el sonido 0x0E cada 8 puntos
+	ld (0c152h),a		;beb1   ; guarda si Mitchel esta empujando
 	ld hl,0c803h		;beb4
 	inc (hl)			;beb7
 	ld a,(0c303h)		;beb8   ; lee la Y de Mitchel
@@ -3573,14 +3573,14 @@ L_BEAF:
 	ld a,00eh		;bec2
 	jp 040e6h		;bec4   ; p00:puente_sonido_si_juega
 L_BEC7:
-	ld a,(0c303h)		;bec7   ; lee la Y de Mitchel
+	ld a,(0c303h)		;bec7   ; abajo: 0x10 por debajo de Mitchel
 	sub (ix+001h)		;beca
 	add a,010h		;becd
 	ret nc			;becf
 	ld c,010h		;bed0
 	jr L_BE95		;bed2
 L_BED4:
-	ld a,(0c305h)		;bed4   ; lee la X de Mitchel
+	ld a,(0c305h)		;bed4   ; izquierda: a menos de 0x10 a su derecha, y a +-0x0C en y...
 	sub (ix+002h)		;bed7
 	cp 010h		;beda
 	ret nc			;bedc
@@ -3591,7 +3591,7 @@ L_BEDF:
 	add a,00ch		;bee5
 	cp 018h		;bee7
 	ret nc			;bee9
-	ld a,(0c305h)		;beea   ; lee la X de Mitchel
+	ld a,(0c305h)		;beea   ; ...su x, 0x10 a la izquierda de Mitchel
 	add a,c			;beed
 	ld (ix+002h),a		;beee
 	cp 008h		;bef1
@@ -3600,42 +3600,42 @@ L_BEDF:
 	jr nc,L_BF1D		;bef7
 	jr L_BEAF		;bef9
 L_BEFB:
-	ld a,(0c305h)		;befb   ; lee la X de Mitchel
+	ld a,(0c305h)		;befb   ; derecha: 0x10 a la derecha
 	sub (ix+002h)		;befe
 	add a,010h		;bf01
 	ret nc			;bf03
 	ld c,010h		;bf04
 	jr L_BEDF		;bf06
 L_BF08:
-	ld c,000h		;bf08
+	ld c,000h		;bf08   ; por arriba: aparece abajo (y 0xA0) de la pantalla de arriba (0)
 	ld a,0a0h		;bf0a
 	jr L_BF12		;bf0c
 L_BF0E:
-	ld c,001h		;bf0e
-	ld a,010h		;bf10
+	ld c,001h		;bf0e   ; por abajo: arriba (0x10) de la de abajo (1)
+	ld a,010h		;bf10   ; la y de lo que se empuja = 0x10
 L_BF12:
-	ld (0c801h),a		;bf12
+	ld (0c801h),a		;bf12   ; guarda la y de lo que se empuja
 	jr L_BF24		;bf15
 L_BF17:
-	ld a,0a0h		;bf17
+	ld a,0a0h		;bf17   ; por la izquierda: a la derecha (x 0xA0) de la de la izquierda (2)
 	ld c,002h		;bf19
 	jr L_BF21		;bf1b
 L_BF1D:
-	ld a,010h		;bf1d
+	ld a,010h		;bf1d   ; por la derecha: a la izquierda (0x10) de la de la derecha (3)
 	ld c,003h		;bf1f
 L_BF21:
-	ld (0c802h),a		;bf21
+	ld (0c802h),a		;bf21   ; guarda la x de lo que se empuja
 L_BF24:
-	call 040ech		;bf24   ; p00:puente_pantalla_vecina
-	ld (0c153h),a		;bf27
+	call 040ech		;bf24   ; su pantalla nueva, y aqui ya no esta
+	ld (0c153h),a		;bf27   ; guarda la pantalla en que esta lo que se empuja
 	xor a			;bf2a
-	ld (0c800h),a		;bf2b
+	ld (0c800h),a		;bf2b   ; guarda lo que se empuja ([hay][y][x][pasos])
 	ld a,0e0h		;bf2e
 	ld (0e678h),a		;bf30
 	ld (0e67ch),a		;bf33
 	ret			;bf36
 L_BF37:
-	ld hl,0c800h		;bf37
+	ld hl,0c800h		;bf37   ; SUS DOS SPRITES (0xE678): 8 arriba y a la izquierda de su sitio...
 	ld a,(hl)			;bf3a
 	and a			;bf3b
 	ret z			;bf3c
@@ -3648,14 +3648,14 @@ L_BF37:
 	sub 008h		;bf44
 	ld d,a			;bf46
 	inc l			;bf47
-	ld a,(hl)			;bf48
+	ld a,(hl)			;bf48   ; ...el patron 0xE0 + 2*(pasos & 0x0C): cambia al empujarlo...
 	and 00ch		;bf49
 	add a,a			;bf4b
 	add a,0e0h		;bf4c
 	ld hl,0e678h		;bf4e
 	ld b,002h		;bf51
 L_BF53:
-	ld (hl),e			;bf53
+	ld (hl),e			;bf53   ; ...y, x y patron de cada uno (el segundo, 4 patrones mas alla)
 	inc l			;bf54
 	ld (hl),d			;bf55
 	inc l			;bf56
@@ -3664,12 +3664,12 @@ L_BF53:
 	inc l			;bf5a
 	inc l			;bf5b
 	djnz L_BF53		;bf5c
-	ld hl,0e5e0h		;bf5e
+	ld hl,0e5e0h		;bf5e   ; sus colores: 1 el primero (0xE5E0) y 0x4C el segundo
 	ld a,001h		;bf61
-	call dieciseis_bytes		;bf63
+	call dieciseis_bytes		;bf63   ; dieciseis_bytes: A en 16 bytes de HL (las 16 lineas de color de un sprite)
 	ld a,04ch		;bf66
 dieciseis_bytes:
-	ld b,010h		;bf68
+	ld b,010h		;bf68   ; A en 16 bytes de HL (las 16 lineas de color de un sprite)
 L_BF6A:
 	ld (hl),a			;bf6a
 	inc hl			;bf6b
@@ -3691,7 +3691,7 @@ DATA_patrones_de_la_ventana:
 
 
 L_BF9B:
-	ld a,(0c133h)		;bf9b
+	ld a,(0c133h)		;bf9b   ; LAS PAREDES QUE SE CIERRAN, en las pantallas 0x73-0x77, si no hay nada en marcha...
 	and a			;bf9e
 	ret nz			;bf9f
 	ld a,(0c125h)		;bfa0   ; lee la PANTALLA
@@ -3704,7 +3704,7 @@ L_BF9B:
 	ld b,00dh		;bfb0
 	call 040e0h		;bfb2   ; p00:puente_posicion_de_mitchel
 L_BFB5:
-	ld a,(ix+000h)		;bfb5   ; lee el tipo del enemigo
+	ld a,(ix+000h)		;bfb5   ; ...un SHUT ALL abierto (sin ix+0x13) con Mitchel dentro de su hueco (+-0x11 en y, +-8 en x)...
 	cp 040h		;bfb8   ; SHUT ALL (tipo 0x40)?
 	jr nz,L_BFD6		;bfba
 	ld a,(ix+013h)		;bfbc
@@ -3721,7 +3721,7 @@ L_BFB5:
 	cp 011h		;bfd2
 	jr c,L_BFE0		;bfd4
 L_BFD6:
-	exx			;bfd6
+	exx			;bfd6   ; la ficha siguiente
 	ld de,00080h		;bfd7
 	add ix,de		;bfda
 	exx			;bfdc

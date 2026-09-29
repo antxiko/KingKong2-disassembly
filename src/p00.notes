@@ -442,7 +442,6 @@ C 0x46AB el siguiente color
 C 0x46D1 0xFF acaba
 C 0x46D4 RB y G
 C 0x46E2 el bit 0 de S#2 (CE): la orden sigue en marcha
-C 0x46E8 los puertos del VDP (0x0006) + 1
 C 0x46EF R#15 = A...
 C 0x46F5 ...se lee el registro de estado...
 C 0x46F9 ...y R#15 vuelve a 0 (la BIOS lo espera asi)
@@ -891,7 +890,6 @@ C 0x5B07 la vida: p15:A265 + tipo
 C 0x5B17 y lo de su tipo, por la tabla de p00:5B1E
 C 0x5BAC p15:A1B0 + 2*tipo: la lista de colores
 C 0x5BB2 los colores, en ix+0x25, +5, +10...
-C 0x5BC7 ix+0x21 + 5*E = el hueco de sprite D
 C 0x5BDE ...un paso mas de la vuelta (64 pasos, ix+0x14)...
 C 0x5BEC ...con el circulo de p09:B145: y y x alrededor de (0x58, 0x58)
 C 0x5C05 EL CUADRO DEL JUEGO (desde p01:65C2): 0xC200 bit 0...
@@ -999,6 +997,68 @@ L 0x43B6 casilla_que_no_se_pisa
 C 0x43B6 0xF0 en las BxC casillas de debajo de la ficha: la casilla que no se pisa
 L 0x5BD6 da_vueltas
 C 0x5BD6 cada dos cuadros, un paso mas del circulo de p09:B145 alrededor de (0x58, 0x58)
+C 0x470A C = el puerto de control del VDP (0x0007 + 1)
+C 0x471C DX alto = 0
+C 0x4721 DY alto = 0 (pagina 0)
+C 0x4725 NX (el lado largo) = B - 1...
+C 0x4728 ...su byte alto 0...
+C 0x472A ...NY (el corto) = 0...
+C 0x472F CLR = C, el color
+C 0x4731 ARG = 0: MAJ 0, hacia la derecha
+C 0x473D C = el puerto de control del VDP
+C 0x474D DX = H
+C 0x4752 DY = L
+C 0x4757 NX (el lado largo) = B - 1
+C 0x4762 CLR = C, el color
+C 0x4767 LINE con IMP
+C 0x47A0 C = el puerto de control del VDP
+C 0x47B3 DX alto = 0
+C 0x47BC NX alto: 1 si NX es 0 (256 puntos)
+C 0x47C5 NY alto: 1 si NY es 0
+C 0x47CE ARG = 0
+C 0x47DC C = el puerto de control del VDP
+C 0x47EE SX alto = 0
+C 0x47FB DX alto = 0
+C 0x480A NX alto = 0
+C 0x480F NY alto = 0, y R#44 (CLR) y R#45 (ARG) = 0
+C 0x4820 C = el puerto de control del VDP
+C 0x4832 SX alto = 0
+C 0x4841 DX alto = 0
+C 0x4851 NX alto = 0
+C 0x4856 NY alto = 0, CLR y ARG = 0
+C 0x46E8 H = el puerto de control (0x0007), L = el de lectura (0x0006 + 1)
+C 0x4260 SALTA A LA ENTRADA A de la tabla de palabras de HL
+C 0x4264 la palabra, y alli
+C 0x43F9 ...E los dos digitos bajos y D los altos
+C 0x44E7 CLUBMAN (4): jefe 0
+C 0x44ED MUDARMOR (5): 2
+C 0x44F3 REDSPIDER (0x0B): 4
+C 0x44F9 THE NASTY (0x2A): 0x0E
+C 0x44FF BADPRIEST (0x2B): 0x10
+C 0x4505 REVOLVER (0x39): 0x12
+C 0x450B BIGFLOWER (0x42): 0x14
+C 0x4511 BIGGUARD (0x26): 0x16
+C 0x4517 GRIZZLY (0x1E): 0x0A en la pantalla 0x1A, 0x0C en las demas
+C 0x4528 SAVAGE (0x27): 0x18 en la pantalla 0x77, 0x1A en las demas
+C 0x4539 TWINMIRES (0x1A): 6 en la pantalla 0x31, 8 en las demas
+C 0x50AF 16 lineas del mismo color
+C 0x50B3 el color siguiente, los 8
+C 0x523D 16 bytes por hueco...
+C 0x5244 ...y por 2 (HL era la mitad)
+C 0x58E7 de la 0x57 a la 0x5A...
+C 0x58F1 ...o de la 0x5A a la 0x57
+C 0x5973 B ceros...
+C 0x5977 ...C tiras, DE mas alla cada una
+C 0x5A39 0x11, 0x3E, 0x43, 0x46 y 0x4A: los SEALOUSE (p01:6A0F)
+C 0x5A3C 0x24 y 0x25: los MIREFROG (p03:ACB6)
+C 0x5A54 0x73-0x76: las paredes que se cierran (p01:6A52, 6A93, 6AD3, 6B30)
+C 0x5BBC el color, en la ficha de cada sprite (5 bytes por sprite)
+C 0x5BC7 ix+0x21 + 5*E: el hueco del sprite E en la ficha
+C 0x5EB4 12-14 (GRASSWORM, CENTIPEDE), 0x2C (GROUNDER), 0x2D (SPS), 0x2E (MIREWORM), 0x38 y 0x39 (REVOLVER)
+C 0x5EF1 la ficha siguiente (0x80): HL y DE
+C 0x43EE tras el bit 3 (B = 5), DE pasa a ser el multiplicando x10 (un digito BCD a la izquierda: x16 en binario)...
+C 0x5BCA 5 bytes por sprite
+C 0x5BD3 D en su hueco
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x4000 0x4010 cabecera_ab  la cabecera del cartucho: 'AB', INIT (0x4269) y STATEMENT, DEVICE y TEXT a cero; lo leen la BIOS (16 bytes)
@@ -1441,6 +1501,8 @@ C 0x5331 apunta a los colores de los sprites, para la VRAM
 C 0x533A copia_a_la_vram: BC bytes de HL a la VRAM de DE
 C 0x5346 bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 C 0x534F guarda el punto de entrada (y, x)
+C 0x5358 guarda la pantalla en que esta lo que se empuja
+C 0x535E guarda la y de lo que se empuja
 C 0x5364 guarda GOLD, los dos bytes bajos (BCD)
 C 0x536A guarda LIFE, los dos bytes (BCD)
 C 0x5378 apunta a las banderas del decorado ya quitado
@@ -1482,6 +1544,15 @@ C 0x54DA lee el fundido de la musica (se suma al volumen)
 C 0x54E6 p04:el_sonido_desde_cero: EL SONIDO DESDE CERO: el mezclador con todo apagado (0xBC)
 C 0x54E9 bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 C 0x5889 guarda el grafico de jefe que hay subido
+C 0x588C guarda los SHUT ALL que han salido en las pantallas 0x73-0x76
+C 0x588F guarda si hay un SHUT ALL cerrandose (0: ninguno)
+C 0x58A1 guarda la cuenta de cuadros para el SEALOUSE siguiente
+C 0x58AD los GARGOYLE que quedan por soltar = 0x10
+C 0x58AF guarda los GARGOYLE que quedan por soltar
+C 0x58B2 las ranas que quedan por salir = 0x0A
+C 0x58B4 guarda las ranas que quedan por salir
+C 0x58B8 guarda la cuenta de cuadros para la rana siguiente
+C 0x58BF guarda la ficha 0x3D que va (su terna de p03:BD82)
 C 0x58CD lee la PANTALLA
 C 0x58D4 la pantalla 0x62?
 C 0x58D8 la pantalla 0x89?
@@ -1552,7 +1623,7 @@ C 0x5D4B sube_los_sprites_girando: 0xC10F avanza 0x68: el orden de los sprites d
 C 0x5D60 sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 C 0x5D68 hay_musica: Z si no suena nada que importe: sin fundido (0xC08B) ni musica (0xC08D)
 C 0x5D74 banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
-C 0x5D77 p15:suceso_BE98: LOS SUCESOS 6 EN ADELANTE (pantallas que se abren de golpe): si ninguna ficha es de tipo 6 o mas, a jugar (0xC201 = 0)...
+C 0x5D77 p15:suceso_BE98: LOS SUCESOS 6 EN ADELANTE: si ninguna ficha es de tipo 6 o mas, a jugar (0xC201 = 0)...
 C 0x5D7A bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 C 0x5D7F banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
 C 0x5D82 p15:quita_el_decorado_del_suceso: El suceso de 0xC560 (lo dejan los objetos y los conjuros al usarse: el

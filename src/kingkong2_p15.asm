@@ -2066,13 +2066,13 @@ L_BE21:
 	ld b,(ix+004h)		;be21   ; lee cuantas columnas
 	push hl			;be24
 L_BE25:
-	ld a,(de)			;be25
+	ld a,(de)			;be25   ; las columnas de la fila...
 	ld (hl),a			;be26
 	inc de			;be27
 	inc hl			;be28
 	djnz L_BE25		;be29
 	pop hl			;be2b
-	ld a,020h		;be2c
+	ld a,020h		;be2c   ; ...y la fila siguiente del mapa (32 casillas)
 	call 0408ch		;be2e   ; p00:puente_hl_mas_a
 	dec c			;be31
 	jr nz,L_BE21		;be32

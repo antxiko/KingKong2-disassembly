@@ -369,10 +369,10 @@ L_A2E0:
 	add a,002h		;a2ef
 	ld (ix+00eh),a		;a2f1
 L_A2F4:
-	dec (ix+01bh)		;a2f4
+	dec (ix+01bh)		;a2f4   ; cada 4 cuadros...
 	jr nz,L_A313		;a2f7
 	ld (ix+01bh),004h		;a2f9
-	ld a,(ix+01ah)		;a2fd
+	ld a,(ix+01ah)		;a2fd   ; ...el dibujo siguiente de los 4
 	inc a			;a300
 	cp 004h		;a301
 	jr nz,L_A306		;a303
@@ -897,7 +897,7 @@ L_A72B:
 	ld a,(ix+013h)		;a73a   ; ...al abrir, si ix+0x13 no ha llegado a 0x80 y quedan en 0xDFA4, crea una (y quedan una menos)...
 	cp 080h		;a73d
 	jr nc,L_A768		;a73f
-	ld a,(0dfa4h)		;a741
+	ld a,(0dfa4h)		;a741   ; lee los GARGOYLE que quedan por soltar
 	and a			;a744
 	jr z,L_A768		;a745
 	ld a,(0e800h)		;a747
@@ -913,7 +913,7 @@ L_A72B:
 	call 05a69h		;a75b   ; p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
 	pop ix		;a75e
 	jr nc,L_A768		;a760
-	ld hl,0dfa4h		;a762
+	ld hl,0dfa4h		;a762   ; apunta a los GARGOYLE que quedan por soltar
 	dec (hl)			;a765
 	jr L_A770		;a766
 L_A768:
@@ -1451,7 +1451,7 @@ L_ABFB:
 	ld a,(hl)			;abff
 	and 01fh		;ac00
 	ret nz			;ac02
-	ld hl,0df93h		;ac03
+	ld hl,0df93h		;ac03   ; apunta a las ranas que quedan por salir
 	ld a,(hl)			;ac06
 	and a			;ac07
 	ret z			;ac08
@@ -1551,12 +1551,12 @@ L_ACB6:
 	and a			;acc0
 	ret z			;acc1
 L_ACC2:
-	ld hl,0df92h		;acc2
+	ld hl,0df92h		;acc2   ; apunta a la cuenta de cuadros para la rana siguiente
 	dec (hl)			;acc5
 	ld a,(hl)			;acc6
 	and 01fh		;acc7
 	ret nz			;acc9
-	ld hl,0df93h		;acca
+	ld hl,0df93h		;acca   ; apunta a las ranas que quedan por salir
 	ld a,(hl)			;accd
 	and a			;acce
 	ret z			;accf
@@ -1829,10 +1829,10 @@ dungroll_empieza_a_rodar:
 	jp 04318h		;aeab   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_AEAE:
 	ld a,(ix+003h)		;aeae   ; AL CREAR FIRETOTEM: su franja de y (0-3: 0x30, 0x50, 0x80)...
-	cp 030h		;aeb1
+	cp 030h		;aeb1   ; y < 0x30: 0...
 	ld c,000h		;aeb3
 	jr c,L_AEC5		;aeb5
-	cp 050h		;aeb7
+	cp 050h		;aeb7   ; ...< 0x50: 2; < 0x80: 4; si no, 6
 	ld c,002h		;aeb9
 	jr c,L_AEC5		;aebb
 	cp 080h		;aebd
@@ -1935,11 +1935,11 @@ L_AF4F:
 	ret			;af64
 L_AF65:
 	ld (ix+018h),000h		;af65   ; ...luego otro salto, arriba o abajo segun el bit 0 de ix+0x19, 0x0E cuadros...
-	inc (ix+013h)		;af69
+	inc (ix+013h)		;af69   ; un salto mas; a los ix+0x12, cambia de lado
 	ld a,(ix+013h)		;af6c
 	cp (ix+012h)		;af6f
 	jr z,L_AF95		;af72
-	bit 0,(ix+019h)		;af74
+	bit 0,(ix+019h)		;af74   ; bit 0 de ix+0x19: arriba (-1) o abajo (+1, y el paso siguiente)
 	ld a,(0e800h)		;af78
 	ld de,0ff00h		;af7b
 	jr z,L_AF84		;af7e
@@ -2598,7 +2598,7 @@ L_B3D1:
 	ld e,(ix+003h)		;b3f6   ; lee la y del enemigo
 	ld d,(ix+005h)		;b3f9   ; lee la x del enemigo
 L_B3FC:
-	ld (hl),e			;b3fc
+	ld (hl),e			;b3fc   ; 128 veces [y][x]
 	inc hl			;b3fd
 	ld (hl),d			;b3fe
 	inc hl			;b3ff
@@ -2607,11 +2607,11 @@ L_B3FC:
 	pop iy		;b404
 	push iy		;b406
 	pop hl			;b408
-	ld a,002h		;b409
+	ld a,002h		;b409   ; 0xE800 el hueco de sprite siguiente (desde 2), 0xE801 el numero de parte (desde 1)
 	ld (0e800h),a		;b40b
 	dec a			;b40e
 	ld (0e801h),a		;b40f
-	ld b,c			;b412
+	ld b,c			;b412   ; B = cuantas partes, C el retraso (0x40 menos cada vez)
 	ld c,000h		;b413
 	ld de,00080h		;b415
 L_B418:
@@ -2674,16 +2674,16 @@ L_B4A5:
 	jr z,L_B4B1		;b4ac
 	ld hl,0e628h		;b4ae
 L_B4B1:
-	ld a,c			;b4b1
+	ld a,c			;b4b1   ; 4 bytes por sprite...
 	add a,a			;b4b2
 	add a,a			;b4b3
 	call 04255h		;b4b4   ; p00:hl_mas_a
-	ld (hl),0e1h		;b4b7
+	ld (hl),0e1h		;b4b7   ; ...y = 0xE1: el hueco, ocupado sin verse
 	ld c,(ix+026h)		;b4b9
 	djnz L_B4A5		;b4bc
 	pop hl			;b4be
 	pop bc			;b4bf
-	dec b			;b4c0
+	dec b			;b4c0   ; la parte siguiente
 	jp nz,L_B418		;b4c1
 	ret			;b4c4
 L_B4C5:
@@ -2730,7 +2730,7 @@ L_B4E3:
 	ld (ix+016h),a		;b502
 	jr L_B519		;b505
 L_B507:
-	inc (ix+016h)		;b507
+	inc (ix+016h)		;b507   ; hacia abajo, sin llegar a ix+0x18
 	ld a,(ix+016h)		;b50a
 	cp (ix+018h)		;b50d
 	jr c,L_B519		;b510
@@ -2738,12 +2738,12 @@ L_B507:
 	dec a			;b515
 	ld (ix+016h),a		;b516
 L_B519:
-	ld a,(0c305h)		;b519   ; lee la X de Mitchel
+	ld a,(0c305h)		;b519   ; la x del centro hacia Mitchel...
 	ld c,(ix+015h)		;b51c
 	sub c			;b51f
 	jr z,L_B549		;b520
 	jr nc,L_B537		;b522
-	dec (ix+015h)		;b524
+	dec (ix+015h)		;b524   ; ...a la izquierda, sin bajar de ix+0x19
 	ld a,(ix+015h)		;b527
 	cp (ix+019h)		;b52a
 	jr nc,L_B549		;b52d
@@ -2751,7 +2751,7 @@ L_B519:
 	ld (ix+015h),a		;b532
 	jr L_B549		;b535
 L_B537:
-	inc (ix+015h)		;b537
+	inc (ix+015h)		;b537   ; hacia la derecha, sin llegar a ix+0x1A
 	ld a,(ix+015h)		;b53a
 	cp (ix+01ah)		;b53d
 	jr c,L_B549		;b540
@@ -2782,7 +2782,7 @@ L_B549:
 L_B575:
 	call gusanos_color		;b575   ; PASO 1 (vuelta de abajo): lo mismo, 0x10 por debajo del centro; al acabar, al paso 0
 L_B578:
-	ld a,(ix+013h)		;b578
+	ld a,(ix+013h)		;b578   ; el sitio en el rastro (0-0x7F)
 	inc a			;b57b
 	ld (ix+013h),a		;b57c
 	sub 080h		;b57f
@@ -2805,7 +2805,7 @@ L_B587:
 	ld (ix+016h),a		;b5a6
 	jr L_B5BD		;b5a9
 L_B5AB:
-	inc (ix+016h)		;b5ab
+	inc (ix+016h)		;b5ab   ; hacia abajo, sin llegar a ix+0x18
 	ld a,(ix+016h)		;b5ae
 	cp (ix+018h)		;b5b1
 	jr c,L_B5BD		;b5b4
@@ -2813,12 +2813,12 @@ L_B5AB:
 	dec a			;b5b9
 	ld (ix+016h),a		;b5ba
 L_B5BD:
-	ld a,(0c305h)		;b5bd   ; lee la X de Mitchel
+	ld a,(0c305h)		;b5bd   ; la x del centro hacia Mitchel...
 	ld c,(ix+015h)		;b5c0
 	sub c			;b5c3
 	jr z,L_B5ED		;b5c4
 	jr nc,L_B5DB		;b5c6
-	dec (ix+015h)		;b5c8
+	dec (ix+015h)		;b5c8   ; ...a la izquierda, sin bajar de ix+0x19
 	ld a,(ix+015h)		;b5cb
 	cp (ix+019h)		;b5ce
 	jr nc,L_B5ED		;b5d1
@@ -2826,7 +2826,7 @@ L_B5BD:
 	ld (ix+015h),a		;b5d6
 	jr L_B5ED		;b5d9
 L_B5DB:
-	inc (ix+015h)		;b5db
+	inc (ix+015h)		;b5db   ; hacia la derecha, sin llegar a ix+0x1A
 	ld a,(ix+015h)		;b5de
 	cp (ix+01ah)		;b5e1
 	jr c,L_B5ED		;b5e4
@@ -2958,7 +2958,7 @@ L_B6B6:
 	sub 040h		;b6bc
 	jr L_B6D0		;b6be
 L_B6C0:
-	cp 0c0h		;b6c0
+	cp 0c0h		;b6c0   ; tercer cuarto: 0xC0 - ix+0x12, hacia abajo
 	jr nc,L_B6CC		;b6c2
 	ld c,000h		;b6c4
 	ld b,a			;b6c6
@@ -3010,7 +3010,7 @@ L_B708:
 	sub 040h		;b70e
 	jr L_B722		;b710
 L_B712:
-	cp 0c0h		;b712
+	cp 0c0h		;b712   ; tercer cuarto: 0xC0 - ix+0x12, hacia arriba
 	jr nc,L_B71E		;b714
 	ld c,001h		;b716
 	ld b,a			;b718
@@ -3051,11 +3051,11 @@ DATA_pasos_B737:
 
 L_B778:
 	ld (ix+017h),040h		;b778   ; AL CREAR MIREWORM: la misma caja, vida 0x20, colores 1/0x46, 5 partes
-	ld (ix+018h),081h		;b77c
+	ld (ix+018h),081h		;b77c   ; y hasta 0x80, x de 0x20 a 0x90, velocidad 3
 	ld (ix+019h),020h		;b780
 	ld (ix+01ah),091h		;b784
 	ld (ix+01bh),003h		;b788
-	ld a,020h		;b78c
+	ld a,020h		;b78c   ; vida 0x20
 	ld (0e807h),a		;b78e
 	ld hl,04601h		;b791
 	ld (0e805h),hl		;b794
@@ -3073,7 +3073,7 @@ L_B79F:
 	ld (0e807h),a		;b7b5
 	ld a,003h		;b7b8
 L_B7BA:
-	ld c,a			;b7ba
+	ld c,a			;b7ba   ; cuantas partes (A) y los cuadros 0x10 (cabeza) y 0x12 (partes)
 	ld (0e802h),a		;b7bb
 	ld hl,01210h		;b7be
 	ld (0e803h),hl		;b7c1
@@ -3541,7 +3541,7 @@ L_BB06:
 	ld a,b			;bb06   ; LO QUE SUELTA RATT: en la pantalla 9, cada 3 muertes (0xDFD2), una やくそう (0x10)
 	cp 009h		;bb07
 	ret nz			;bb09
-	ld hl,0dfd2h		;bb0a
+	ld hl,0dfd2h		;bb0a   ; apunta a las muertes que faltan para que RATT suelte やくそう
 	dec (hl)			;bb0d
 	ret nz			;bb0e
 	ld (hl),003h		;bb0f
@@ -3602,7 +3602,7 @@ L_BB64:
 	ld a,b			;bb64   ; LO QUE SUELTA BOOMERANG: en la pantalla 0x21 siempre; en las demas cada 5 muertes (0xDFD4)...
 	cp 021h		;bb65
 	jr z,L_BB70		;bb67
-	ld hl,0dfd4h		;bb69
+	ld hl,0dfd4h		;bb69   ; apunta a las muertes que faltan para que BOOMERANG suelte el boomerang
 	dec (hl)			;bb6c
 	ret nz			;bb6d
 	ld (hl),005h		;bb6e
@@ -3634,7 +3634,7 @@ L_BB9A:
 	ld a,b			;bb9a   ; LO QUE SUELTA BOWLER: en la pantalla 0x22, cada 5 muertes (0xDFD6), alguien que habla...
 	cp 022h		;bb9b
 	jr nz,L_BBA9		;bb9d
-	ld hl,0dfd6h		;bb9f
+	ld hl,0dfd6h		;bb9f   ; apunta a las muertes de BOWLER que faltan para alguien que habla
 	dec (hl)			;bba2
 	ret nz			;bba3
 	ld (hl),005h		;bba4
@@ -3723,7 +3723,7 @@ L_BC35:
 	ld a,b			;bc35   ; LO QUE SUELTA WATCHMAN: en la pantalla 0x6E, al acabar la cuenta de 0xDFC5, el objeto 0x2A: aparece un pasadizo (las casillas 0xC0-0xC3 en (0x50, 0x30))
 	cp 06eh		;bc36
 	ret nz			;bc38
-	ld hl,0dfc5h		;bc39
+	ld hl,0dfc5h		;bc39   ; apunta a las muertes de WATCHMAN que faltan para el pasadizo
 	ld a,(hl)			;bc3c
 	and a			;bc3d
 	ret z			;bc3e
@@ -3807,7 +3807,7 @@ L_BCC8:
 	ld a,b			;bcc8   ; LO QUE SUELTA CLINGMAN: en la pantalla 0x4F, cada 6 muertes (0xDFDA), alguien que habla
 	cp 04fh		;bcc9
 	ret nz			;bccb
-	ld hl,0dfdah		;bccc
+	ld hl,0dfdah		;bccc   ; apunta a las muertes de CLINGMAN que faltan para alguien que habla
 	dec (hl)			;bccf
 	ret nz			;bcd0
 	ld (hl),006h		;bcd1
@@ -3823,7 +3823,7 @@ L_BCE2:
 	ld a,b			;bce2   ; LO QUE SUELTA WHITEFIRE: en la pantalla 0x6A, cada 6 muertes (0xDFDB), らめらのえき (0x0F) si no se tiene (0xC144)
 	cp 06ah		;bce3
 	ret nz			;bce5
-	ld hl,0dfdbh		;bce6
+	ld hl,0dfdbh		;bce6   ; apunta a las muertes que faltan para que WHITEFIRE suelte らめらのえき
 	dec (hl)			;bce9
 	ret nz			;bcea
 	ld (hl),006h		;bceb
@@ -3882,7 +3882,7 @@ L_BD4F:
 	ld a,c			;bd4f   ; ...de p03:BD82, la terna numero 0xDFE0 (una mas cada vez): ix+0x12 el eje y el sentido, ix+0x13 e ix+0x14 los dos extremos...
 	ld de,0bd82h		;bd50   ; fichas_BD82: 5 punteros segun C a fichas de 9 bytes (p03:BD50)
 	call 042ffh		;bd53   ; p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
-	ld hl,0dfe0h		;bd56
+	ld hl,0dfe0h		;bd56   ; apunta a la ficha 0x3D que va (su terna de p03:BD82)
 	inc (hl)			;bd59
 	ld a,(hl)			;bd5a
 	ld c,a			;bd5b
@@ -4055,11 +4055,11 @@ L_BE96:
 	ld (ix+003h),b		;be96   ; guarda la y del enemigo
 	ld l,001h		;be99
 L_BE9B:
-	ld bc,010a0h		;be9b
+	ld bc,010a0h		;be9b   ; la x, entre 0x10 y 0xA0...
 	ld a,d			;be9e
 	cp 010h		;be9f
 	jr c,L_BEA8		;bea1
-	ld b,c			;bea3
+	ld b,c			;bea3   ; ...fuera, al borde
 	cp 0a1h		;bea4
 	jr c,L_BEAD		;bea6
 L_BEA8:

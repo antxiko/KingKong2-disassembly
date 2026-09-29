@@ -145,7 +145,6 @@ C 0xB973 registro 7 del VDP = 0: el borde negro
 C 0xB97C la paleta del titulo a 0xDFB0, donde p06:B9C8 la va subiendo
 C 0xB990 las letras de 1 bit del rotulo, en tres trozos (el banco 5 en 0x8000)
 C 0xB9C8 EL TITULO SE ENCIENDE: uno de cada 4 cuadros, un paso...
-C 0xB9CF ...tres fases en 0xDFB0: 0 sube R y B (nibble alto), 1 sube B, 2 sube G...
 C 0xB9DD ...de los tres colores de 0xDFB1 hacia los de p06:BA5A
 C 0xBA2E fase 2: el G (el tercer byte)
 C 0xBA40 la paleta subida
@@ -198,6 +197,35 @@ C 0xBF6C 0x61: con la x fuera de 0x20-0x7F, la pantalla pasa a ser la 0x39
 C 0xBF7A 0x8A: con y 0x60 o mas, la pantalla pasa a ser la 0x8C
 C 0xBF86 AL EMPEZAR LA PARTIDA (p00:5343): 0xDE00 desde p06:BFDA...
 C 0xBF91 ...y las cuentas de lo que sueltan los enemigos (p03:BAF8 en adelante): cada cuantas muertes
+C 0xA7D4 junta los RB y G de los 16 colores...
+C 0xA7DB ...y si todos son 0, acarreo: negro
+C 0xA7F0 ...de 0x10 en 0x10
+C 0xA824 el color 14 con sus RB (D) y G (E)
+C 0xA82D acarreo cuando los dos son 0
+C 0xAB14 n, lo que se mueve la x
+C 0xAB1E y 16 puntos mas abajo
+C 0xAC4D la segunda mitad del sprite, el color E
+C 0xAC51 los C sprites
+C 0xAC84 la x, un punto a la izquierda...
+C 0xAC8A ...los 4 bytes del sprite siguiente
+C 0xAC95 y = 0xE0: el sprite fuera
+C 0xAC9D acarreo: ya han salido
+C 0xACAC el patron, 4 mas en cada sprite (uno de 16x16 son 4 patrones)
+C 0xACAF los 4 bytes del sprite siguiente
+C 0xACC4 el patron, 4 mas en cada sprite
+C 0xACC7 los 4 bytes del sprite siguiente
+C 0xAD01 la x, un punto a la izquierda...
+C 0xAD07 ...los 4 bytes del sprite siguiente
+C 0xAD12 y = 0xE0: el sprite fuera
+C 0xAD1A acarreo: ya han salido
+C 0xB9F1 ...y el de ahora, uno mas si no ha llegado
+C 0xBA1D ...y el de ahora, uno mas si no ha llegado
+C 0xBDD3 [pantalla]: 0 acaba la lista
+C 0xBDDA 5 bytes por ficha
+C 0xA7EA R (nibble alto) uno menos si no es 0...
+C 0xB9CF ...tres fases en 0xDFB0: 0 sube el R (nibble alto), 1 el B (nibble bajo), 2 el G...
+C 0xB9E7 el R (nibble alto) del color al que va...
+C 0xBA13 el B (nibble bajo) del color al que va (en la fase 2, el G)...
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA000 0xA299 fuente_cola  96 letras de 1 bit (desde el '0', 0x30): la fuente; p01:6010 la sube dos veces (color 14 y color 3) (sigue del banco anterior, 0x9F99); lo leen p00:48ED (665 bytes)
@@ -483,4 +511,27 @@ C 0xBF74 la PANTALLA = 0x39
 C 0xBF76 guarda la PANTALLA
 C 0xBF80 la PANTALLA = 0x8C
 C 0xBF82 guarda la PANTALLA
+C 0xBF92 guarda la cuenta de lo que suelta CENTIPEDE (0x13)
+C 0xBF95 guarda la cuenta de lo que suelta CENTIPEDE (0x14)
+C 0xBF98 las muertes de TWINMIRES que faltan para el suceso 1 = 0x02
+C 0xBF9A guarda las muertes de TWINMIRES que faltan para el suceso 1
+C 0xBF9D guarda las muertes de CROW que faltan para alguien que habla
+C 0xBFA1 guarda las muertes que faltan para que RATT suelte やくそう
+C 0xBFA4 las muertes de BOWLER que faltan para alguien que habla = 0x05
+C 0xBFA6 guarda las muertes de BOWLER que faltan para alguien que habla
+C 0xBFA9 guarda las muertes que faltan para que THICKSKIN suelte かいてん
+C 0xBFAC guarda las muertes que faltan para que DUNGROLL suelte piedras
+C 0xBFAF guarda las muertes que faltan para que BOOMERANG suelte el boomerang
+C 0xBFB3 guarda las muertes de CLINGMAN que faltan para alguien que habla
+C 0xBFB6 guarda las muertes que faltan para que WHITEFIRE suelte らめらのえき
+C 0xBFB9 guarda las muertes que faltan para que BATT suelte carne
+C 0xBFBC guarda las muertes de WATCHMAN que faltan para el pasadizo
+C 0xBFC4 las muertes que faltan para que CAVEMAN suelte ほのおのたま = 0x0A
+C 0xBFC6 guarda las muertes que faltan para que CAVEMAN suelte ほのおのたま
+C 0xBFC9 las muertes que faltan para que FIRETOTEM suelte el garrote = 0x0C
+C 0xBFCB guarda las muertes que faltan para que FIRETOTEM suelte el garrote
+C 0xBFCE las muertes que faltan para que GRASSOGRE suelte el ROD = 0x10
+C 0xBFD0 guarda las muertes que faltan para que GRASSOGRE suelte el ROD
+C 0xBFD3 guarda las muertes que faltan para que BOWLER suelte el hacha
+C 0xBFD6 guarda las muertes que faltan para que SEALOUSE suelte やくそう
 # --- fin de las anotaciones de anota.py ---

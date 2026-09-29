@@ -177,6 +177,39 @@ C 0xBE11 hacia arriba: una fila menos y 0x18 arriba
 C 0xBE1A con 0xC152...
 C 0xBE1F ...lo de 0xC800, en su (y, x)...
 C 0xBE2D ...contra las 13 fichas
+C 0xB97D SLIPSLIME (0x02): lo lanzado no le hace nada
+C 0xB980 CLUBMAN (0x04): lo lanzado no le hace nada
+C 0xB982 MUDARMOR (0x05): se mira aparte (L_B9C7)
+C 0xB985 GARGOYLE (0x06): lo lanzado no le hace nada
+C 0xB988 REDSPIDER (0x0B): lo lanzado no le hace nada
+C 0xB98A BIGSPIDER (0x0C): lo lanzado no le hace nada
+C 0xB98D MUDMASK (0x0E): lo lanzado no le hace nada
+C 0xB98F BOGGEDMAN (0x0F): lo lanzado no le hace nada
+C 0xB992 BLOWMIRE (0x19): lo lanzado no le hace nada
+C 0xB994 TWINMIRES (0x1A): se mira aparte (L_BBAB)
+C 0xB999 THICKSKIN (0x1D): se mira aparte (L_B9DF)
+C 0xB99D MRRUINS (0x1F): se mira aparte (L_B9DF)
+C 0xB9A1 CAVERNMAN (0x21): se mira aparte (L_B9DF)
+C 0xB9A5 FIRETOTEM (0x29): se mira aparte (L_B9D1)
+C 0xB9A8 THE NASTY (0x2A): lo lanzado no le hace nada
+C 0xB9AA BADPRIEST (0x2B): lo lanzado no le hace nada
+C 0xB9AD MIREWORM (0x2E): lo lanzado no le hace nada
+C 0xB9B0 B FMAN (0x34): lo lanzado no le hace nada
+C 0xB9B2 D FMAN (0x35): lo lanzado no le hace nada
+C 0xB9B5 WHITEFIRE (0x3A): lo lanzado no le hace nada
+C 0xB9B8 MIREFROG (0x3E): lo lanzado no le hace nada
+C 0xB9BB ROCK ROCK (0x41): lo lanzado no le hace nada
+C 0xB9BE BIGFLOWER (0x42): se mira aparte (L_B9D8)
+C 0xB9C1 GRASSOGRE (0x43): lo lanzado no le hace nada
+C 0xB9C3 BUCKLER (0x44): se mira aparte (L_B9DF)
+C 0xBE55 la ficha siguiente (0x80 bytes)
+C 0xBEFD el objeto siguiente (0x10 bytes)
+C 0xBF3D la ficha siguiente
+C 0xBF7E la ficha siguiente
+C 0xBFC7 la ficha siguiente
+C 0xBA7D E = la distancia en y (C = 1 si el enemigo esta por encima); la distancia en x (B = 1 si esta a la izquierda)...
+C 0xBA87 ...si la de x es menor, en vertical: 0 (arriba) o 1 (abajo) a 0xC164...
+C 0xBA91 ...si no, en horizontal: 3 o 2
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA000 0xA31B dibujos_9F5B_cola  30 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 96); los sube p00:48A6 por la lista 0x5506 (sigue del banco anterior, 0x9F5B); lo leen p00:48A6 (795 bytes)
