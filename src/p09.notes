@@ -29,6 +29,14 @@ D 0xACDB 0xAD9B dibujos_ACDB  6 dibujos de 8x8 a 4 bits para la hoja de la pagin
 F 0xACDB 4
 D 0xAD9B 0xAF3B dibujos_AD9B  13 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 121); los sube p00:48A6 por la lista 0x5546; lo leen p00:48A6 (416 bytes)
 F 0xAD9B 4
+D 0xAF3B 0xAFBE sprites_AF3B  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 15; lo leen p00:45EF (131 bytes)
+F 0xAF3B 16
+D 0xAFBE 0xB000 sprites_AFBE  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 10; lo leen p00:45EF (66 bytes)
+F 0xAFBE 16
+D 0xB000 0xB0B7 sprites_comunes  RLE de los 192 bytes de patrones de sprite que p00:4CB6 sube a la VRAM 0xF940 (patrones 0x28-0x3F) al entrar en cada pantalla; lo leen p00:4CBC (183 bytes)
+F 0xB000 16
+D 0xB0B7 0xB145 lista_de_sprites_de_cada_pantalla  un byte por pantalla: el numero de lista de sprites (p00:5630); p00:4CB3 con 0xB0B7 + pantalla; lo leen p00:4CC2 (142 bytes)
+F 0xB0B7 16
 D 0xB1C5 0xB3FD vecinas  la pantalla a la que se sale por arriba, abajo, izquierda y derecha (0xFF no hay salida, 0xF0-0xFB especial); p01:6173 con 0xB1C5 + 4*pantalla + lado; lo leen p01:6183 (568 bytes)
 F 0xB1C5 4
 D 0xBC4F 0xBC93 fuerza_de_cada_enemigo  68 bytes, uno por tipo de enemigo: la fuerza (STR) que se ve en el panel; p01:6287 con 0xBC4F + tipo - 1; lo leen p01:628A (68 bytes)

@@ -393,6 +393,100 @@ def objetos(t, bl):
              "p03:B9FB salta con jp (hl)", "p03:B9FB", ancho=2)
 
 
+def sprites_de_enemigos(t, bl):
+    """p00:4CB3 y p00:5253 (tools/figuras.py): los patrones de sprite de cada
+    pantalla y los graficos de los jefes."""
+    import figuras as F
+    lista = [P.lee(0xB0B7 + n, B789) for n in range(N_PANTALLAS)]
+    _, tramos = F.rle_con_saltos(0xB000, B789)
+    for i, j in tramos:
+        bl.anota(B789, i, j, "sprites_comunes",
+                 "RLE de los 192 bytes de patrones de sprite que p00:4CB6 sube a la "
+                 "VRAM 0xF940 (patrones 0x28-0x3F) al entrar en cada pantalla", "p00:4CBC")
+    bl.anota(B789, 0xB0B7, 0xB0B7 + N_PANTALLAS, "lista_de_sprites_de_cada_pantalla",
+             "un byte por pantalla: el numero de lista de sprites (p00:5630); p00:4CB3 "
+             "con 0xB0B7 + pantalla", "p00:4CC2", ancho=16)
+    bl.anota(B123, 0x5630, 0x5630 + 2 * (max(lista) + 1), "listas_de_sprites",
+             "%d palabras: la lista de patrones de sprite de cada numero (p09:B0B7)"
+             % (max(lista) + 1), "p00:4CC9", ancho=2)
+    for k in sorted(set(lista)):
+        a = P.palabra(0x5630 + 2 * k, B123)
+        ini = a
+        while True:
+            e = [P.lee(a + i, B123) for i in range(4)]
+            if e[0] & 0x0F == 0:
+                break
+            if e[0] & 0x0F == 1:
+                s = F.TRIO_NIBBLE.get(e[0] & 0xF0, B131415)
+                _, tramos = F.rle_con_saltos(e[2] | (e[3] << 8), s)
+                for i, j in tramos:
+                    bl.anota(s, i, j, "sprites_%04X" % i,
+                             "RLE de patrones de sprite (n con el bit 7 = n bytes tal "
+                             "cual; sin el, repetir el siguiente; 0x80 [palabra] sigue "
+                             "en otra direccion; 0 acaba); lista %d" % k, "p00:45EF")
+            a += 4
+        bl.anota(B123, ini, a + 1, "lista_de_sprites_%d" % k,
+                 "entradas [bancos | accion][destino][fuente]: 1 RLE, 2 espejo, 3 "
+                 "del reves, 4 las dos; un 0 acaba", "p00:4CD2", ancho=4)
+    bl.anota(B131415, 0x6620, 0x6620 + N_PANTALLAS, "jefe_de_cada_pantalla",
+             "un byte por pantalla: los graficos de jefe que sube p00:4B15 (0 = "
+             "ninguno); los cuatro ultimos son los primeros de p13:66AA", "p00:4B1E", ancho=16)
+    for k in range(1, 4):
+        bl.anota(B131415, 0x66D2 + 8 * (k - 1), 0x66D2 + 8 * k, "juegos_de_jefe_%d" % k,
+                 "cuatro punteros a RLE: los cuatro juegos de patrones del jefe %d" % k,
+                 "p00:4B29", ancho=2)
+        for i in range(4):
+            _, tramos = F.rle_con_saltos(P.palabra(0x66D2 + 8 * (k - 1) + 2 * i, B131415), B131415)
+            for x, y in tramos:
+                bl.anota(B131415, x, y, "jefe_%04X" % x,
+                         "RLE de 256 bytes: juego %d del jefe %d (p00:4BB4)" % (i, k), "p00:4BB4")
+    bl.anota(B131415, 0x66AA, 0x66AA + 40, "modo_de_cada_grafico",
+             "40 bytes: bit 0 = el grafico de jefe va en RLE (p00:45EF); si no, se "
+             "copian 256 bytes tal cual (de la RAM 0xE840-0xEB40); p00:525B",
+             "p00:5262", ancho=8)
+    bl.anota(B131415, 0x7D4B, 0x7D4B + 80, "graficos_de_jefe",
+             "40 palabras: de donde sale cada grafico de jefe (0xDF94 = 1..40)",
+             "p00:5272", ancho=2)
+    for k in range(40):
+        if P.lee(0x66AA + k, B131415) & 1:
+            _, tramos = F.rle_con_saltos(P.palabra(0x7D4B + 2 * k, B131415), B131415)
+            for x, y in tramos:
+                bl.anota(B131415, x, y, "grafico_%04X" % x,
+                         "RLE de los patrones 224-255 del grafico de jefe %d" % (k + 1),
+                         "p00:528B")
+
+
+B126 = (1, 2, 6)
+# Los textos del final (p06:AACC los escribe letra a letra, uno cada cuatro
+# cuadros con p06:AADD): (direccion, instruccion que la carga).
+TEXTOS_DEL_FINAL = [(0xAD44, "p06:A8DF"), (0xAD8A, "p06:A8F8"), (0xADB6, "p06:A916"),
+                    (0xADE1, "p06:A943"), (0xAE24, "p06:A97F"), (0xAE6F, "p06:A9D3"),
+                    (0xAEA4, "p06:AA26"), (0xAEBD, "p06:AA49"), (0xAF03, "p06:AAAD"),
+                    (0xAF39, "p06:A711")]
+
+
+def el_final(t, bl):
+    """p06:A6CF y los despachadores de p06:A8AA: las dos escenas del final."""
+    import dialogos as D
+    for a, quien in TEXTOS_DEL_FINAL:
+        _, fin = D.texto(a, B126)
+        bl.anota(B126, a, fin + 1, "texto_%04X" % a,
+                 "texto del final: letras de la fuente, 0xFE [x] salta de renglon, "
+                 "0xFF acaba (p06:AADD)", quien)
+    for a, quien in ((0xA794, "p06:A788"), (0xA879, "p06:A6F9")):
+        bl.anota(B126, a, a + 49, "paleta_%04X" % a,
+                 "paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y "
+                 "p06:A788 la copian a 0xCF00", quien, ancho=3)
+    bl.anota(B126, 0xAF41, 0xAF41 + 77 * 32, "dibujos_del_final",
+             "77 dibujos de 8x8 a 4 bits de la escena del final; p06:A83F los sube a la "
+             "hoja de la pagina 1 desde (8, 0) con p00:48A6", "p06:A83A", ancho=4)
+    bl.anota(B126, 0xAD1C, 0xAD1C + 32, "sprites_del_final",
+             "8 sprites [y][x][patron][color] que p06:AC1E y p06:AC32 copian a 0xE600/0xE620",
+             "p06:AC1E", ancho=4)
+    bl.anota(B126, 0xAD3C, 0xAD3C + 8, "sprites_del_final_2",
+             "2 sprites [y][x][patron][color] que p06:ACCF copia a 0xE640", "p06:ACCF", ancho=4)
+
+
 def conversaciones(t, bl):
     """tools/dialogos.py: quien habla en cada pantalla, la lista de lineas de
     cada conversacion y sus textos."""
@@ -421,7 +515,7 @@ def conversaciones(t, bl):
 
 
 RECORRIDOS = [enemigos_de_cada_pantalla, nombres_de_enemigos, mitchel, cabecera, tablas_del_despachador, pantallas, vecinas, juegos_de_dibujos,
-              bloques_de_cada_juego, paletas, figuras_fijas, portadas, objetos, conversaciones]
+              bloques_de_cada_juego, paletas, figuras_fijas, portadas, objetos, conversaciones, sprites_de_enemigos, el_final]
 
 
 # ------------------------------------------------------------------ escritura

@@ -1,6 +1,22 @@
 # Notas del banco 15: comentarios (C), etiquetas (L) y datos (D) anclados a direccion.
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0xA40E 0xA5E4 sprites_A40E  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 10; lo leen p00:45EF (470 bytes)
+F 0xA40E 16
+D 0xA5E4 0xA6E3 sprites_A5E4  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 22; lo leen p00:45EF (255 bytes)
+F 0xA5E4 16
+D 0xA6E3 0xA7DC sprites_A6E3  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 11; lo leen p00:45EF (249 bytes)
+F 0xA6E3 16
+D 0xA7DC 0xA9DE sprites_A7DC  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 4; lo leen p00:45EF (514 bytes)
+F 0xA7DC 16
+D 0xA9DE 0xAAE0 sprites_A9DE  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 9; lo leen p00:45EF (258 bytes)
+F 0xA9DE 16
+D 0xAAE0 0xABE4 sprites_AAE0  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 14; lo leen p00:45EF (260 bytes)
+F 0xAAE0 16
+D 0xABE4 0xACC1 sprites_ABE4  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 23; lo leen p00:45EF (221 bytes)
+F 0xABE4 16
+D 0xB465 0xB525 sprites_B465  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 21; lo leen p00:45EF (192 bytes)
+F 0xB465 16
 D 0xB525 0xB625 dibujos_B525  8 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 1); los sube p00:48A6 por la lista 0x5612; lo leen p00:48A6 (256 bytes)
 F 0xB525 4
 D 0xB625 0xB6E5 dibujos_B625  6 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 9); los sube p00:48A6 por la lista 0x5612; lo leen p00:48A6 (192 bytes)

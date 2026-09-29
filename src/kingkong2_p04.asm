@@ -1312,8 +1312,11 @@ DATA_planos_alternos:
 	defb 03eh,03eh,039h,023h,009h,03eh,03eh,037h,021h,002h,03eh,03eh,037h,021h,002h,03eh,03eh,037h,021h,002h,03eh,03eh,037h,021h,002h	; 7fbb  >>9#.>>7!.>>7!.>>7!.>>7!.
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7fd4..0x8000  (44 bytes)
-DATA_7FD4:
+; DATOS sprites_7FD4: RLE de patrones de sprite (n con el bit 7 = n bytes tal
+;   cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra
+;   direccion; 0 acaba); lista 3; lo leen p00:45EF (44 bytes)
+;   0x7fd4..0x8000  (44 bytes)
+DATA_sprites_7FD4:
 	defb 0a0h,00fh,01fh,03fh,03fh,01fh,03fh,05fh,0bfh,0f8h,0ffh,0bfh,0ffh,07bh,03eh,022h	; 7fd4  ...??.?_.....{>"
 	defb 03ch,0e0h,0f0h,0f8h,0f8h,0f0h,0f8h,0fch,0fah,01dh,0f9h,0fdh,0feh,0fch,054h,07ch	; 7fe4  <.............T|
 	defb 044h,006h,000h,089h,020h,060h,047h,040h,040h,000h,004h,000h	; 7ff4  D... `G@@...

@@ -16,9 +16,57 @@ p06 0xA6AC 1 2 6 r6  # a mano: tabla de p06:A658, entrada 5 (despachador de p06:
 #
 # p06:A8AA: lo mismo con 0xC137 y la tabla de 0xA8B9, de tres palabras (acaba en
 # 0xA8BF, su primer destino).
-p06 0xA8BF 1 2 6  # a mano: tabla de p06:A8B9, entrada 0 (despachador de p06:A8AA, por 0xC137)
-p06 0xA95C 1 2 6  # a mano: tabla de p06:A8B9, entrada 1 (despachador de p06:A8AA, por 0xC137)
-p06 0xAA6F 1 2 6  # a mano: tabla de p06:A8B9, entrada 2 (despachador de p06:A8AA, por 0xC137)
+p06 0xA8BF 1 2 6 r6  # a mano: tabla de p06:A8B9, entrada 0 (despachador de p06:A8AA, por 0xC137)
+p06 0xA95C 1 2 6 r6  # a mano: tabla de p06:A8B9, entrada 1 (despachador de p06:A8AA, por 0xC137)
+p06 0xAA6F 1 2 6 r6  # a mano: tabla de p06:A8B9, entrada 2 (despachador de p06:A8AA, por 0xC137)
+#
+# p06:A8BF, p06:A95C y p06:AA6F: el segundo nivel, por 0xC138, con la misma
+# salida (p06:A8B0: add a,a / call 0x408C / ld e,(hl) / inc hl / ld d,(hl) /
+# ex de,hl / jp (hl)). Tablas de 12, 13 y 16 palabras (p06:A8C7, A965, AA78):
+# cada una acaba donde empieza el primero de sus destinos que va detras (la
+# ultima comparte los doce primeros con la de A965). Se llega desde p06:A6F0
+# con el banco 6 de reserva (las rutinas llaman a puentes y siguen en p06): r6.
+p06 0xA8DF 1 2 6 r6  # a mano: tabla de p06:A8C7, entrada 0 (despachador de p06:A8B0, por 0xC138)
+p06 0xA8EB 1 2 6 r6  # a mano: tabla de p06:A8C7, entrada 1 (despachador de p06:A8B0, por 0xC138)
+p06 0xA8EE 1 2 6 r6  # a mano: tabla de p06:A8C7, entrada 2 (despachador de p06:A8B0, por 0xC138)
+p06 0xA8F1 1 2 6 r6  # a mano: tabla de p06:A8C7, entrada 3 (despachador de p06:A8B0, por 0xC138)
+p06 0xA904 1 2 6 r6  # a mano: tabla de p06:A8C7, entrada 4 (despachador de p06:A8B0, por 0xC138)
+p06 0xA907 1 2 6 r6  # a mano: tabla de p06:A8C7, entrada 5 (despachador de p06:A8B0, por 0xC138)
+p06 0xA90A 1 2 6 r6  # a mano: tabla de p06:A8C7, entrada 6 (despachador de p06:A8B0, por 0xC138)
+p06 0xA921 1 2 6 r6  # a mano: tabla de p06:A8C7, entrada 7 (despachador de p06:A8B0, por 0xC138)
+p06 0xA930 1 2 6 r6  # a mano: tabla de p06:A8C7, entrada 8 (despachador de p06:A8B0, por 0xC138)
+p06 0xA933 1 2 6 r6  # a mano: tabla de p06:A8C7, entrada 9 (despachador de p06:A8B0, por 0xC138)
+p06 0xA94E 1 2 6 r6  # a mano: tabla de p06:A8C7, entrada 10 (despachador de p06:A8B0, por 0xC138)
+p06 0xA951 1 2 6 r6  # a mano: tabla de p06:A8C7, entrada 11 (despachador de p06:A8B0, por 0xC138)
+p06 0xA97F 1 2 6 r6  # a mano: tabla de p06:A965, entrada 0 (despachador de p06:A8B0, por 0xC138)
+p06 0xA98A 1 2 6 r6  # a mano: tabla de p06:A965, entrada 1 (despachador de p06:A8B0, por 0xC138)
+p06 0xA98D 1 2 6 r6  # a mano: tabla de p06:A965, entrada 2 (despachador de p06:A8B0, por 0xC138)
+p06 0xA990 1 2 6 r6  # a mano: tabla de p06:A965, entrada 3 (despachador de p06:A8B0, por 0xC138)
+p06 0xA99B 1 2 6 r6  # a mano: tabla de p06:A965, entrada 4 (despachador de p06:A8B0, por 0xC138)
+p06 0xA9DF 1 2 6 r6  # a mano: tabla de p06:A965, entrada 5 (despachador de p06:A8B0, por 0xC138)
+p06 0xA9E2 1 2 6 r6  # a mano: tabla de p06:A965, entrada 6 (despachador de p06:A8B0, por 0xC138)
+p06 0xA9E5 1 2 6 r6  # a mano: tabla de p06:A965, entrada 7 (despachador de p06:A8B0, por 0xC138)
+p06 0xAA32 1 2 6 r6  # a mano: tabla de p06:A965, entrada 8 (despachador de p06:A8B0, por 0xC138)
+p06 0xAA35 1 2 6 r6  # a mano: tabla de p06:A965, entrada 9 (despachador de p06:A8B0, por 0xC138)
+p06 0xAA38 1 2 6 r6  # a mano: tabla de p06:A965, entrada 10 (despachador de p06:A8B0, por 0xC138)
+p06 0xAA59 1 2 6 r6  # a mano: tabla de p06:A965, entrada 11 (despachador de p06:A8B0, por 0xC138)
+p06 0xAA6C 1 2 6 r6  # a mano: tabla de p06:A965, entrada 12 (despachador de p06:A8B0, por 0xC138)
+p06 0xA97F 1 2 6 r6  # a mano: tabla de p06:AA78, entrada 0 (despachador de p06:A8B0, por 0xC138)
+p06 0xA98A 1 2 6 r6  # a mano: tabla de p06:AA78, entrada 1 (despachador de p06:A8B0, por 0xC138)
+p06 0xA98D 1 2 6 r6  # a mano: tabla de p06:AA78, entrada 2 (despachador de p06:A8B0, por 0xC138)
+p06 0xA990 1 2 6 r6  # a mano: tabla de p06:AA78, entrada 3 (despachador de p06:A8B0, por 0xC138)
+p06 0xA99B 1 2 6 r6  # a mano: tabla de p06:AA78, entrada 4 (despachador de p06:A8B0, por 0xC138)
+p06 0xA9DF 1 2 6 r6  # a mano: tabla de p06:AA78, entrada 5 (despachador de p06:A8B0, por 0xC138)
+p06 0xA9E2 1 2 6 r6  # a mano: tabla de p06:AA78, entrada 6 (despachador de p06:A8B0, por 0xC138)
+p06 0xA9E5 1 2 6 r6  # a mano: tabla de p06:AA78, entrada 7 (despachador de p06:A8B0, por 0xC138)
+p06 0xAA32 1 2 6 r6  # a mano: tabla de p06:AA78, entrada 8 (despachador de p06:A8B0, por 0xC138)
+p06 0xAA35 1 2 6 r6  # a mano: tabla de p06:AA78, entrada 9 (despachador de p06:A8B0, por 0xC138)
+p06 0xAA38 1 2 6 r6  # a mano: tabla de p06:AA78, entrada 10 (despachador de p06:A8B0, por 0xC138)
+p06 0xAA59 1 2 6 r6  # a mano: tabla de p06:AA78, entrada 11 (despachador de p06:A8B0, por 0xC138)
+p06 0xAA98 1 2 6 r6  # a mano: tabla de p06:AA78, entrada 12 (despachador de p06:A8B0, por 0xC138)
+p06 0xAA9B 1 2 6 r6  # a mano: tabla de p06:AA78, entrada 13 (despachador de p06:A8B0, por 0xC138)
+p06 0xAAB9 1 2 6 r6  # a mano: tabla de p06:AA78, entrada 14 (despachador de p06:A8B0, por 0xC138)
+p06 0xAAC9 1 2 6 r6  # a mano: tabla de p06:AA78, entrada 15 (despachador de p06:A8B0, por 0xC138)
 #
 # p03:B9E9: el byte de 0xBA66 + indice (69 bytes, 0xFF = nada) elige una de las
 # 48 palabras de 0xBA06, que p00:42FF lee (`ld l,a / ld h,0 / add hl,hl / add

@@ -1,5 +1,33 @@
 # Notas del banco 06: comentarios (C), etiquetas (L) y datos (D) anclados a direccion.
 
+# --- A MANO: comentarios, nombres y bloques (cada uno de lo que hace ESE codigo) ---
+L 0xA837 elige_el_final
+B 0xA837 Sube los 77 dibujos de la escena (p06:AF41) y elige el final (0xC137):
+B 0xA837 con DAYS (0xC127, BCD) en 366 o mas, el 0 (KING KONG muere); si no, con
+B 0xA837 0xC16E (las veces que se ha continuado tras GAME OVER, p01:66FF) en
+B 0xA837 0x33 o mas, el 1 (lo operan y revive); con menos, el 2 (y el bebe KONG).
+C 0xA845 DAYS
+C 0xA849 las centenas: 3...
+C 0xA856 ...y 66 o mas: 366 dias
+C 0xA85C 0xC16E: cuantas veces se ha continuado
+C 0xA85F 51 o mas: el final 1
+C 0xA867 menos: el final 2
+C 0xA86C 0xC137 = final, 0xC138 = 0 (el paso)
+L 0xA8AA escena_del_final
+C 0xA8AA 0xC137: el final (0, 1 o 2)
+L 0xA8B0 salta_por_la_tabla
+L 0xA8BF final_0
+C 0xA8BF 0xC138: el paso de la escena
+L 0xA95C final_1
+L 0xAA6F final_2
+L 0xAACC empieza_texto
+C 0xAACC HL el texto, DE donde; una letra cada 4 cuadros
+L 0xAADD escribe_una_letra
+C 0xAAEE 0xFF: se acabo (0xCF36 = 1)
+C 0xAAF1 0xFE [x]: renglon siguiente, en x
+L 0xAC07 fin_de_la_escena
+C 0xAC19 0xC137 = 3: acabada
+
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA000 0xA299 fuente_cola  96 letras de 1 bit (desde el '0', 0x30): la fuente; p01:6010 la sube dos veces (color 14 y color 3) (sigue del banco anterior, 0x9F99); lo leen p00:48ED (665 bytes)
 F 0xA000 8
@@ -11,6 +39,36 @@ D 0xA3C1 0xA561 titulo_A3C1  52 letras de 1 bit del rotulo del titulo (color 5);
 F 0xA3C1 8
 D 0xA561 0xA649 titulo_A561  29 letras de 1 bit del rotulo del titulo (color 8); p06:B993; lo leen p00:48ED (232 bytes)
 F 0xA561 8
+D 0xA794 0xA7C5 paleta_A794  paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00; lo leen p06:A788 (49 bytes)
+F 0xA794 3
+D 0xA879 0xA8AA paleta_A879  paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00; lo leen p06:A6F9 (49 bytes)
+F 0xA879 3
+D 0xAD1C 0xAD3C sprites_del_final  8 sprites [y][x][patron][color] que p06:AC1E y p06:AC32 copian a 0xE600/0xE620; lo leen p06:AC1E (32 bytes)
+F 0xAD1C 4
+D 0xAD3C 0xAD44 sprites_del_final_2  2 sprites [y][x][patron][color] que p06:ACCF copia a 0xE640; lo leen p06:ACCF (8 bytes)
+F 0xAD3C 4
+D 0xAD44 0xAD8A texto_AD44  texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD); lo leen p06:A8DF (70 bytes)
+F 0xAD44 16
+D 0xAD8A 0xADB6 texto_AD8A  texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD); lo leen p06:A8F8 (44 bytes)
+F 0xAD8A 16
+D 0xADB6 0xADE1 texto_ADB6  texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD); lo leen p06:A916 (43 bytes)
+F 0xADB6 16
+D 0xADE1 0xAE24 texto_ADE1  texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD); lo leen p06:A943 (67 bytes)
+F 0xADE1 16
+D 0xAE24 0xAE6F texto_AE24  texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD); lo leen p06:A97F (75 bytes)
+F 0xAE24 16
+D 0xAE6F 0xAEA4 texto_AE6F  texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD); lo leen p06:A9D3 (53 bytes)
+F 0xAE6F 16
+D 0xAEA4 0xAEBD texto_AEA4  texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD); lo leen p06:AA26 (25 bytes)
+F 0xAEA4 16
+D 0xAEBD 0xAF03 texto_AEBD  texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD); lo leen p06:AA49 (70 bytes)
+F 0xAEBD 16
+D 0xAF03 0xAF39 texto_AF03  texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD); lo leen p06:AAAD (54 bytes)
+F 0xAF03 16
+D 0xAF39 0xAF41 texto_AF39  texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD); lo leen p06:A711 (8 bytes)
+F 0xAF39 16
+D 0xAF41 0xB8E1 dibujos_del_final  77 dibujos de 8x8 a 4 bits de la escena del final; p06:A83F los sube a la hoja de la pagina 1 desde (8, 0) con p00:48A6; lo leen p06:A83A (2464 bytes)
+F 0xAF41 4
 D 0xB8E8 0xB8FC titulo_figura_B8E8  4 columnas x 5 filas de dibujos del rotulo (p06:BA99, con transparencia); lo leen p00:4EC1 (20 bytes)
 F 0xB8E8 4
 D 0xB8FC 0xB91F titulo_figura_B8FC  7 columnas x 5 filas de dibujos del rotulo (p06:BA99, con transparencia); lo leen p00:4EC1 (35 bytes)

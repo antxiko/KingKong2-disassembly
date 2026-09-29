@@ -52,6 +52,60 @@ D 0x55F8 0x5612 lista_hoja_55F8  lista del juego 8: [destino][cuantos][fuente], 
 F 0x55F8 4
 D 0x5612 0x5630 lista_hoja_5612  lista del juego 9: [destino][cuantos][fuente], 0xFE pasa a los bancos 10-11-12, 0xFF acaba (p00:4AB9); lo leen p00:4AB9 (30 bytes)
 F 0x5612 4
+D 0x5630 0x5668 listas_de_sprites  28 palabras: la lista de patrones de sprite de cada numero (p09:B0B7); lo leen p00:4CC9 (56 bytes)
+F 0x5630 2
+D 0x5668 0x5685 lista_de_sprites_0  entradas [bancos | accion][destino][fuente]: 1 RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (29 bytes)
+F 0x5668 4
+D 0x5685 0x5696 lista_de_sprites_1  entradas [bancos | accion][destino][fuente]: 1 RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (17 bytes)
+F 0x5685 4
+D 0x5696 0x56AB lista_de_sprites_2  entradas [bancos | accion][destino][fuente]: 1 RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (21 bytes)
+F 0x5696 4
+D 0x56AB 0x56C8 lista_de_sprites_3  entradas [bancos | accion][destino][fuente]: 1 RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (29 bytes)
+F 0x56AB 4
+D 0x56C8 0x56D9 lista_de_sprites_4  entradas [bancos | accion][destino][fuente]: 1 RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (17 bytes)
+F 0x56C8 4
+D 0x56D9 0x56EE lista_de_sprites_5  entradas [bancos | accion][destino][fuente]: 1 RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (21 bytes)
+F 0x56D9 4
+D 0x56EE 0x56F3 lista_de_sprites_6  entradas [bancos | accion][destino][fuente]: 1 RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (5 bytes)
+F 0x56EE 4
+D 0x5704 0x570D lista_de_sprites_8  entradas [bancos | accion][destino][fuente]: 1 RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (9 bytes)
+F 0x5704 4
+D 0x570D 0x5726 lista_de_sprites_9  entradas [bancos | accion][destino][fuente]: 1 RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (25 bytes)
+F 0x570D 4
+D 0x5726 0x573F lista_de_sprites_10  entradas [bancos | accion][destino][fuente]: 1 RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (25 bytes)
+F 0x5726 4
+D 0x573F 0x5758 lista_de_sprites_11  entradas [bancos | accion][destino][fuente]: 1 RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (25 bytes)
+F 0x573F 4
+D 0x5758 0x5769 lista_de_sprites_12  entradas [bancos | accion][destino][fuente]: 1 RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (17 bytes)
+F 0x5758 4
+D 0x5769 0x578A lista_de_sprites_13  entradas [bancos | accion][destino][fuente]: 1 RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (33 bytes)
+F 0x5769 4
+D 0x578A 0x57AB lista_de_sprites_14  entradas [bancos | accion][destino][fuente]: 1 RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (33 bytes)
+F 0x578A 4
+D 0x57AB 0x57DC lista_de_sprites_15  entradas [bancos | accion][destino][fuente]: 1 RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (49 bytes)
+F 0x57AB 4
+D 0x57DC 0x57E5 lista_de_sprites_16  entradas [bancos | accion][destino][fuente]: 1 RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (9 bytes)
+F 0x57DC 4
+D 0x57E5 0x57FA lista_de_sprites_17  entradas [bancos | accion][destino][fuente]: 1 RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (21 bytes)
+F 0x57E5 4
+D 0x57FA 0x57FF lista_de_sprites_18  entradas [bancos | accion][destino][fuente]: 1 RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (5 bytes)
+F 0x57FA 4
+D 0x57FF 0x580C lista_de_sprites_19  entradas [bancos | accion][destino][fuente]: 1 RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (13 bytes)
+F 0x57FF 4
+D 0x5811 0x5822 lista_de_sprites_21  entradas [bancos | accion][destino][fuente]: 1 RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (17 bytes)
+F 0x5811 4
+D 0x5822 0x582F lista_de_sprites_22  entradas [bancos | accion][destino][fuente]: 1 RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (13 bytes)
+F 0x5822 4
+D 0x582F 0x5840 lista_de_sprites_23  entradas [bancos | accion][destino][fuente]: 1 RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (17 bytes)
+F 0x582F 4
+D 0x5840 0x5855 lista_de_sprites_24  entradas [bancos | accion][destino][fuente]: 1 RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (21 bytes)
+F 0x5840 4
+D 0x5855 0x586A lista_de_sprites_25  entradas [bancos | accion][destino][fuente]: 1 RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (21 bytes)
+F 0x5855 4
+D 0x586A 0x5873 lista_de_sprites_26  entradas [bancos | accion][destino][fuente]: 1 RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (9 bytes)
+F 0x586A 4
+D 0x5873 0x5888 lista_de_sprites_27  entradas [bancos | accion][destino][fuente]: 1 RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (21 bytes)
+F 0x5873 4
 D 0x5B1E 0x5BA6 tabla_5B1E  68 destinos del despachador de 0x425F (call en p00:5B1B): 0xB0FD, 0xB367, 0xB39D, 0x8645, 0x8635, 0xA7A9, 0xAC1A, 0xABC4 ...; lo leen p00:5B1B (136 bytes)
 F 0x5B1E 2
 D 0x5C39 0x5C49 tabla_5C39  8 destinos del despachador de 0x425F (call en p00:5C36): 0x5C49, 0x539E, 0x5D91, 0x5D88, 0x5C49, 0x5D72, 0x8234, 0x5D53; lo leen p00:5C36 (16 bytes)

@@ -211,6 +211,72 @@ D 0x6606 0x6613 enemigos_6606  4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en
 F 0x6606 3
 D 0x6613 0x6620 enemigos_6613  4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (13 bytes)
 F 0x6613 3
+D 0x6620 0x66D2 jefe_de_cada_pantalla  un byte por pantalla: los graficos de jefe que sube p00:4B15 (0 = ninguno); los cuatro ultimos son los primeros de p13:66AA; se solapan 2 bloques (0x6620-0x66AE, 0x66AA-0x66D2); lo leen p00:4B1E, p00:5262 (178 bytes)
+F 0x6620 16
+D 0x66D2 0x66DA juegos_de_jefe_1  cuatro punteros a RLE: los cuatro juegos de patrones del jefe 1; lo leen p00:4B29 (8 bytes)
+F 0x66D2 2
+D 0x66DA 0x66E2 juegos_de_jefe_2  cuatro punteros a RLE: los cuatro juegos de patrones del jefe 2; lo leen p00:4B29 (8 bytes)
+F 0x66DA 2
+D 0x66E2 0x66EA juegos_de_jefe_3  cuatro punteros a RLE: los cuatro juegos de patrones del jefe 3; lo leen p00:4B29 (8 bytes)
+F 0x66E2 2
+D 0x66EA 0x67D1 jefe_66EA  RLE de 256 bytes: juego 0 del jefe 1 (p00:4BB4); lo leen p00:4BB4, p00:528B (231 bytes)
+F 0x66EA 16
+D 0x67D1 0x68B4 jefe_67D1  RLE de 256 bytes: juego 1 del jefe 1 (p00:4BB4); lo leen p00:4BB4, p00:528B (227 bytes)
+F 0x67D1 16
+D 0x68B4 0x698D jefe_68B4  RLE de 256 bytes: juego 2 del jefe 1 (p00:4BB4); lo leen p00:4BB4, p00:528B (217 bytes)
+F 0x68B4 16
+D 0x698D 0x6A48 jefe_698D  RLE de 256 bytes: juego 3 del jefe 1 (p00:4BB4); lo leen p00:4BB4, p00:528B (187 bytes)
+F 0x698D 16
+D 0x6A48 0x6B27 grafico_6A48  RLE de los patrones 224-255 del grafico de jefe 9; lo leen p00:528B (223 bytes)
+F 0x6A48 16
+D 0x6B27 0x6BED grafico_6B27  RLE de los patrones 224-255 del grafico de jefe 10; lo leen p00:528B (198 bytes)
+F 0x6B27 16
+D 0x6BED 0x6CAA grafico_6BED  RLE de los patrones 224-255 del grafico de jefe 11; lo leen p00:528B (189 bytes)
+F 0x6BED 16
+D 0x6CAA 0x6D71 grafico_6CAA  RLE de los patrones 224-255 del grafico de jefe 12; lo leen p00:528B (199 bytes)
+F 0x6CAA 16
+D 0x6D71 0x6E52 grafico_6D71  RLE de los patrones 224-255 del grafico de jefe 13; lo leen p00:528B (225 bytes)
+F 0x6D71 16
+D 0x6E52 0x6F22 grafico_6E52  RLE de los patrones 224-255 del grafico de jefe 14; lo leen p00:528B (208 bytes)
+F 0x6E52 16
+D 0x6F22 0x6FDC grafico_6F22  RLE de los patrones 224-255 del grafico de jefe 15; lo leen p00:528B (186 bytes)
+F 0x6F22 16
+D 0x6FDC 0x70A3 grafico_6FDC  RLE de los patrones 224-255 del grafico de jefe 16; lo leen p00:528B (199 bytes)
+F 0x6FDC 16
+D 0x70A3 0x717F grafico_70A3  RLE de los patrones 224-255 del grafico de jefe 17; lo leen p00:528B (220 bytes)
+F 0x70A3 16
+D 0x717F 0x7248 grafico_717F  RLE de los patrones 224-255 del grafico de jefe 18; lo leen p00:528B (201 bytes)
+F 0x717F 16
+D 0x7248 0x72FB grafico_7248  RLE de los patrones 224-255 del grafico de jefe 19; lo leen p00:528B (179 bytes)
+F 0x7248 16
+D 0x72FB 0x73C3 grafico_72FB  RLE de los patrones 224-255 del grafico de jefe 20; lo leen p00:528B (200 bytes)
+F 0x72FB 16
+D 0x73C3 0x74A3 grafico_73C3  RLE de los patrones 224-255 del grafico de jefe 21; lo leen p00:528B (224 bytes)
+F 0x73C3 16
+D 0x74A3 0x7569 grafico_74A3  RLE de los patrones 224-255 del grafico de jefe 22; lo leen p00:528B (198 bytes)
+F 0x74A3 16
+D 0x7569 0x761B grafico_7569  RLE de los patrones 224-255 del grafico de jefe 23; lo leen p00:528B (178 bytes)
+F 0x7569 16
+D 0x761B 0x76E3 grafico_761B  RLE de los patrones 224-255 del grafico de jefe 24; lo leen p00:528B (200 bytes)
+F 0x761B 16
+D 0x76E3 0x77C7 jefe_76E3  RLE de 256 bytes: juego 0 del jefe 2 (p00:4BB4); lo leen p00:4BB4, p00:528B (228 bytes)
+F 0x76E3 16
+D 0x77C7 0x78A8 jefe_77C7  RLE de 256 bytes: juego 1 del jefe 2 (p00:4BB4); lo leen p00:4BB4, p00:528B (225 bytes)
+F 0x77C7 16
+D 0x78A8 0x797E jefe_78A8  RLE de 256 bytes: juego 2 del jefe 2 (p00:4BB4); lo leen p00:4BB4, p00:528B (214 bytes)
+F 0x78A8 16
+D 0x797E 0x7A36 jefe_797E  RLE de 256 bytes: juego 3 del jefe 2 (p00:4BB4); lo leen p00:4BB4, p00:528B (184 bytes)
+F 0x797E 16
+D 0x7A36 0x7B0F jefe_7A36  RLE de 256 bytes: juego 0 del jefe 3 (p00:4BB4); lo leen p00:4BB4, p00:528B (217 bytes)
+F 0x7A36 16
+D 0x7B0F 0x7BD3 jefe_7B0F  RLE de 256 bytes: juego 1 del jefe 3 (p00:4BB4); lo leen p00:4BB4, p00:528B (196 bytes)
+F 0x7B0F 16
+D 0x7BD3 0x7C98 jefe_7BD3  RLE de 256 bytes: juego 2 del jefe 3 (p00:4BB4); lo leen p00:4BB4, p00:528B (197 bytes)
+F 0x7BD3 16
+D 0x7C98 0x7D4B jefe_7C98  RLE de 256 bytes: juego 3 del jefe 3 (p00:4BB4); lo leen p00:4BB4, p00:528B (179 bytes)
+F 0x7C98 16
+D 0x7D4B 0x7D9B graficos_de_jefe  40 palabras: de donde sale cada grafico de jefe (0xDF94 = 1..40); lo leen p00:5272 (80 bytes)
+F 0x7D4B 2
 D 0x7D9B 0x7DBD poses_7D9B  17 punteros, uno por pose de Mitchel (0xC310), cuando 0xC160 = 0; lo leen p00:5008 (34 bytes)
 F 0x7D9B 2
 D 0x7DBD 0x7DDF poses_7DBD  17 punteros, uno por pose de Mitchel (0xC310), cuando 0xC160 distinto de 0; lo leen p00:5008 (34 bytes)

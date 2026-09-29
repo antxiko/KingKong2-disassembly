@@ -1041,12 +1041,12 @@ L_66D6:
 	ld a,089h		;66d6
 	call 05490h		;66d8
 	jr L_6688		;66db
-L_66DD:
+continuar:
 	djnz L_6736		;66dd
 	call L_64D9		;66df
 	ld hl,0c11ah		;66e2
 	ld a,(0c112h)		;66e5
-	bit 2,a		;66e8
+	bit 2,a		;66e8   ; F5 (bit 2 de 0xC112): CONTINUE
 	jr z,L_66F4		;66ea
 	ld (hl),001h		;66ec
 	ld hl,0bfech		;66ee
@@ -1057,7 +1057,7 @@ L_66F4:
 	ld a,(0c11ah)		;66f8
 	and a			;66fb
 	jp z,L_6636		;66fc
-	ld hl,0c16eh		;66ff
+	ld hl,0c16eh		;66ff   ; una vez mas (lo mira p06:A85C para el final)
 	inc (hl)			;6702
 	ld a,(0c12eh)		;6703
 	add a,003h		;6706

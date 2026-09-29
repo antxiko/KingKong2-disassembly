@@ -100,6 +100,9 @@ L 0x7ED9 conversacion_de_la_pantalla
 C 0x7EDD parejas [pantalla][conversacion] de p01:7EF5 (0 acaba)
 L 0x7EBB conversacion_de_la_mesa
 C 0x7ECD la 0x2C, en la pantalla 0x60
+L 0x66DD continuar
+C 0x66E8 F5 (bit 2 de 0xC112): CONTINUE
+C 0x66FF una vez mas (lo mira p06:A85C para el final)
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x611F 0x6143 salidas_especiales  12 salidas especiales (0xF0-0xFB): pantalla de llegada y punto (x, y) donde aparece Mitchel; p01:60FA con 0x611F + 3*(n-0xF0); lo leen p01:6109 (36 bytes)

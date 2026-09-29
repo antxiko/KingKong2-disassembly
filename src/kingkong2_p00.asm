@@ -96,7 +96,7 @@ DATA_40AA:
 	defb 0cdh,033h,064h,0c3h,015h,042h	; 40aa
 
 ; ======================================================================
-; CODIGO 0x40b0..0x4110  (96 bytes)
+; CODIGO 0x40b0..0x4194  (228 bytes)
 ; ======================================================================
 
 
@@ -148,35 +148,27 @@ L_4104:
 L_410A:
 	call L_4EA4		;410a
 	jp L_4215		;410d
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x4110..0x4116  (6 bytes)
-DATA_4110:
-	defb 0cdh,03ah,046h,0c3h,015h,042h	; 4110
-
-; ======================================================================
-; CODIGO 0x4116..0x4122  (12 bytes)
-; ======================================================================
-
-
+L_4110:
+	call L_463A		;4110
+	jp L_4215		;4113
 L_4116:
 	call L_46DD		;4116
 	jp L_4215		;4119
 L_411C:
 	call L_48A6		;411c
 	jp L_4215		;411f
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x4122..0x413a  (24 bytes)
-DATA_4122:
-	defb 0cdh,07bh,04eh,0c3h,015h,042h,0cdh,086h,04eh,0c3h,015h,042h,0cdh,091h,04eh,0c3h	; 4122  .{N..B..N..B..N.
-	defb 015h,042h,0cdh,099h,04eh,0c3h,015h,042h	; 4132  .B..N..B
-
-; ======================================================================
-; CODIGO 0x413a..0x417c  (66 bytes)
-; ======================================================================
-
-
+L_4122:
+	call L_4E7B		;4122
+	jp L_4215		;4125
+L_4128:
+	call L_4E86		;4128
+	jp L_4215		;412b
+L_412E:
+	call L_4E91		;412e
+	jp L_4215		;4131
+L_4134:
+	call L_4E99		;4134
+	jp L_4215		;4137
 L_413A:
 	call L_43D5		;413a
 	jp L_4215		;413d
@@ -210,17 +202,12 @@ L_4170:
 puente_da_objeto_b:
 	call 079d0h		;4176   ; p01:79D0: da el objeto A, B unidades (al recogerlo del suelo, p09:BC03)
 	jp L_4215		;4179
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x417c..0x4188  (12 bytes)
-DATA_417C:
-	defb 0cdh,06dh,047h,0c3h,015h,042h,0cdh,01bh,048h,0c3h,015h,042h	; 417c  .mG..B..H..B
-
-; ======================================================================
-; CODIGO 0x4188..0x4194  (12 bytes)
-; ======================================================================
-
-
+L_417C:
+	call L_476D		;417c
+	jp L_4215		;417f
+L_4182:
+	call L_481B		;4182
+	jp L_4215		;4185
 L_4188:
 	call L_469C		;4188
 	jp L_4215		;418b
@@ -897,7 +884,7 @@ DATA_459F:
 	defb 0c5h,0f5h,0cdh,0adh,045h,03ah,007h,000h,04fh,0f1h,0edh,079h,0c1h,0c9h	; 459f  ....E:..O..y..
 
 ; ======================================================================
-; CODIGO 0x45ad..0x463a  (141 bytes)
+; CODIGO 0x45ad..0x46af  (258 bytes)
 ; ======================================================================
 
 
@@ -991,27 +978,21 @@ L_4620:
 	ld b,a			;4625
 	ld c,001h		;4626
 	call 00047h		;4628   ; BIOS WRTVDP - Writes data in the VDP-register
-	jr $+60		;462b
+	jr L_4667		;462b
 L_462D:
 	ld a,(0f3e0h)		;462d
 	and 0bfh		;4630
 	ld b,a			;4632
 	ld c,001h		;4633
 	call 00047h		;4635   ; BIOS WRTVDP - Writes data in the VDP-register
-	jr $+36		;4638
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x463a..0x4642  (8 bytes)
-DATA_463A:
-	defb 021h,098h,000h,001h,03ch,000h,018h,003h	; 463a  !...<...
-
-; ======================================================================
-; CODIGO 0x4642..0x46af  (109 bytes)
-; ======================================================================
-
-
+	jr L_465C		;4638
+L_463A:
+	ld hl,00098h		;463a
+	ld bc,0003ch		;463d
+	jr L_4645		;4640
 L_4642:
 	ld hl,00000h		;4642
+L_4645:
 	xor a			;4645
 	ld d,a			;4646
 	call L_479B		;4647
@@ -2131,7 +2112,7 @@ DATA_tabla_4CE4:
 	defb 035h,04dh	; 4cea
 
 ; ======================================================================
-; CODIGO 0x4cec..0x4e7b  (399 bytes)
+; CODIGO 0x4cec..0x4f64  (632 bytes)
 ; ======================================================================
 
 
@@ -2326,7 +2307,7 @@ L_4E24:
 	cp 028h		;4e54
 	jr z,L_4E76		;4e56
 	cp 089h		;4e58
-	jr z,$+79		;4e5a
+	jr z,L_4EA9		;4e5a
 	cp 060h		;4e5c
 	ret nz			;4e5e
 	ld de,03820h		;4e5f
@@ -2337,23 +2318,29 @@ L_4E24:
 L_4E6E:
 	ld hl,0b9f6h		;4e6e
 	ld bc,00305h		;4e71
-	jr $+62		;4e74
+	jr L_4EB2		;4e74
 L_4E76:
 	ld de,03820h		;4e76
-	jr $+51		;4e79
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x4e7b..0x4ea4  (41 bytes)
-DATA_4E7B:
-	defb 021h,015h,0bah,011h,040h,064h,001h,005h,007h,018h,02ch,021h,038h,0bah,011h,047h	; 4e7b  !...@d....,!8..G
-	defb 070h,001h,004h,005h,018h,021h,021h,04ch,0bah,001h,004h,007h,018h,019h,021h,068h	; 4e8b  p....!!L......!h
-	defb 0bah,011h,060h,0a8h,001h,004h,004h,018h,00eh	; 4e9b  ..`......
-
-; ======================================================================
-; CODIGO 0x4ea4..0x4f64  (192 bytes)
-; ======================================================================
-
-
+	jr L_4EAC		;4e79
+L_4E7B:
+	ld hl,0ba15h		;4e7b
+	ld de,06440h		;4e7e
+	ld bc,00705h		;4e81
+	jr L_4EB2		;4e84
+L_4E86:
+	ld hl,0ba38h		;4e86
+	ld de,07047h		;4e89
+	ld bc,00504h		;4e8c
+	jr L_4EB2		;4e8f
+L_4E91:
+	ld hl,0ba4ch		;4e91
+	ld bc,00704h		;4e94
+	jr L_4EB2		;4e97
+L_4E99:
+	ld hl,0ba68h		;4e99
+	ld de,0a860h		;4e9c
+	ld bc,00404h		;4e9f
+	jr L_4EB2		;4ea2
 L_4EA4:
 	ld hl,0ba05h		;4ea4
 	jr L_4EB2		;4ea7
@@ -3436,46 +3423,381 @@ DATA_lista_hoja_5612:
 	defb 0a0h,0ffh	; 562e
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5630..0x5888  (600 bytes)
-DATA_5630:
-	defb 068h,056h,085h,056h,096h,056h,0abh,056h,0c8h,056h,0d9h,056h,0eeh,056h,0f3h,056h	; 5630  hV.V.V.V.V.V.V.V
-	defb 004h,057h,00dh,057h,026h,057h,03fh,057h,058h,057h,069h,057h,08ah,057h,0abh,057h	; 5640  .W.W&W?WXWiW.W.W
-	defb 0dch,057h,0e5h,057h,0fah,057h,0ffh,057h,00ch,058h,011h,058h,022h,058h,02fh,058h	; 5650  .W.W.W.W.X.X"X/X
-	defb 040h,058h,055h,058h,06ah,058h,073h,058h,011h,040h,085h,08eh,002h,078h,040h,002h	; 5660  @XUXjXsX.@...x@.
-	defb 002h,080h,050h,002h,002h,088h,060h,006h,011h,0a0h,08ch,094h,011h,0c0h,09fh,081h	; 5670  ..P...`.........
-	defb 002h,0f0h,0e0h,004h,000h,011h,040h,0d5h,093h,011h,058h,03fh,095h,002h,078h,058h	; 5680  ......@...X?..xX
-	defb 008h,011h,0e0h,03ah,084h,000h,011h,040h,0d5h,093h,011h,058h,0b6h,08ah,002h,088h	; 5690  ...:...@...X....
-	defb 078h,004h,011h,098h,03fh,095h,002h,0b8h,098h,008h,000h,011h,040h,0d4h,07fh,002h	; 56a0  x...?.......@...
-	defb 048h,040h,002h,011h,050h,00dh,080h,002h,068h,060h,002h,002h,070h,050h,004h,011h	; 56b0  H@..P...h`..pP..
-	defb 0a0h,0cbh,080h,004h,0b0h,0a0h,004h,000h,041h,040h,0dch,0a7h,011h,098h,03fh,095h	; 56c0  ........A@....?.
-	defb 002h,0b8h,098h,008h,011h,0e0h,03ah,084h,000h,011h,040h,0d5h,093h,011h,058h,066h	; 56d0  ......:...@...Xf
-	defb 08dh,011h,070h,0dfh,08dh,011h,0c0h,09fh,081h,002h,0f0h,0e0h,004h,000h,011h,040h	; 56e0  ..p............@
-	defb 074h,086h,000h,011h,040h,0d5h,093h,011h,058h,066h,08dh,011h,070h,0dfh,08dh,011h	; 56f0  t...@...Xf..p...
-	defb 0e0h,03ah,084h,000h,011h,040h,03ch,089h,011h,078h,074h,086h,000h,041h,040h,0deh	; 5700  .:...@<..xt..A@.
-	defb 0a9h,002h,060h,040h,008h,011h,0a0h,08ch,094h,011h,0c0h,01eh,081h,002h,0d0h,0c0h	; 5710  ..`@............
-	defb 004h,011h,0e0h,03ah,084h,000h,011h,040h,00dh,083h,002h,068h,048h,008h,021h,088h	; 5720  ...:...@...hH.!.
-	defb 0beh,0afh,002h,090h,088h,002h,041h,098h,00eh,0a4h,002h,0d8h,0b0h,00ah,000h,041h	; 5730  ......A........A
-	defb 040h,0e3h,0a6h,002h,060h,040h,008h,011h,0a0h,08ch,094h,011h,0c0h,01eh,081h,002h	; 5740  @...`@..........
-	defb 0d0h,0c0h,004h,011h,0e0h,03ah,084h,000h,011h,040h,00dh,083h,002h,068h,048h,008h	; 5750  .....:...@...hH.
-	defb 011h,088h,085h,08eh,002h,0b8h,0a8h,004h,000h,011h,040h,0d4h,07fh,002h,048h,040h	; 5760  ..........@...H@
-	defb 002h,011h,050h,00dh,080h,002h,068h,060h,002h,002h,070h,050h,004h,011h,0a0h,0cbh	; 5770  ..P...h`..pP....
-	defb 080h,004h,0b0h,0a0h,004h,011h,080h,074h,086h,000h,011h,040h,0e4h,08ch,003h,050h	; 5780  .......t...@...P
-	defb 040h,004h,004h,060h,040h,004h,002h,070h,040h,004h,041h,080h,0e0h,0aah,002h,0a0h	; 5790  @..`@..p@.A.....
-	defb 080h,002h,003h,0a8h,088h,002h,004h,0b0h,090h,004h,000h,011h,040h,0e8h,090h,002h	; 57a0  ............@...
-	defb 048h,040h,002h,011h,050h,029h,091h,002h,068h,060h,002h,002h,070h,050h,004h,011h	; 57b0  H@..P)..h`..pP..
-	defb 080h,0e7h,091h,002h,098h,088h,002h,011h,0a0h,0a3h,092h,002h,0b0h,0a0h,004h,021h	; 57c0  ...............!
-	defb 0c0h,03bh,0afh,021h,0d0h,0beh,0afh,002h,0d8h,0d0h,002h,000h,011h,0a8h,044h,090h	; 57d0  .;.!..........D.
-	defb 011h,0c0h,0f0h,092h,000h,011h,040h,0efh,087h,011h,060h,06eh,087h,011h,070h,06eh	; 57e0  ......@...`n..pn
-	defb 087h,002h,050h,070h,004h,011h,080h,068h,088h,000h,011h,040h,0d5h,093h,000h,011h	; 57f0  ..Pp...h...@....
-	defb 080h,03dh,085h,002h,0a8h,088h,008h,041h,0c8h,00eh,0a4h,000h,011h,0e0h,03ah,084h	; 5800  .=.....A......:.
-	defb 000h,041h,040h,0deh,0a9h,002h,060h,040h,008h,041h,0c0h,065h,0b4h,011h,0e0h,03ah	; 5810  .A@...`@.A.e...:
-	defb 084h,000h,041h,040h,0e4h,0a5h,041h,060h,0e3h,0a6h,002h,080h,040h,010h,000h,011h	; 5820  ..A@..A`....@...
-	defb 040h,03dh,085h,002h,068h,048h,008h,041h,088h,0e4h,0abh,002h,0c8h,0b8h,004h,000h	; 5830  @=..hH.A........
-	defb 011h,040h,066h,08dh,011h,058h,0b6h,08ah,002h,088h,078h,004h,011h,098h,03fh,095h	; 5840  .@f..X....x...?.
-	defb 002h,0b8h,098h,008h,000h,011h,040h,0d5h,093h,011h,058h,03fh,095h,002h,078h,058h	; 5850  ......@...X?..xX
-	defb 008h,041h,098h,00eh,0a4h,002h,0d8h,0b0h,00ah,000h,011h,040h,025h,08ch,002h,068h	; 5860  .A.........@%..h
-	defb 040h,00ah,000h,011h,040h,0d5h,093h,011h,058h,066h,08dh,011h,070h,0b6h,08ah,002h	; 5870  @...@...Xf..p...
-	defb 0a0h,090h,004h,011h,0e0h,03ah,084h,000h	; 5880  .....:..
+; DATOS listas_de_sprites: 28 palabras: la lista de patrones de sprite de cada
+;   numero (p09:B0B7); lo leen p00:4CC9 (56 bytes)
+;   0x5630..0x5668  (56 bytes)
+DATA_listas_de_sprites:
+	defb 068h,056h	; 5630
+	defb 085h,056h	; 5632
+	defb 096h,056h	; 5634
+	defb 0abh,056h	; 5636
+	defb 0c8h,056h	; 5638
+	defb 0d9h,056h	; 563a
+	defb 0eeh,056h	; 563c
+	defb 0f3h,056h	; 563e
+	defb 004h,057h	; 5640
+	defb 00dh,057h	; 5642
+	defb 026h,057h	; 5644
+	defb 03fh,057h	; 5646
+	defb 058h,057h	; 5648
+	defb 069h,057h	; 564a
+	defb 08ah,057h	; 564c
+	defb 0abh,057h	; 564e
+	defb 0dch,057h	; 5650
+	defb 0e5h,057h	; 5652
+	defb 0fah,057h	; 5654
+	defb 0ffh,057h	; 5656
+	defb 00ch,058h	; 5658
+	defb 011h,058h	; 565a
+	defb 022h,058h	; 565c
+	defb 02fh,058h	; 565e
+	defb 040h,058h	; 5660
+	defb 055h,058h	; 5662
+	defb 06ah,058h	; 5664
+	defb 073h,058h	; 5666
+
+; ----------------------------------------------------------------------
+; DATOS lista_de_sprites_0: entradas [bancos | accion][destino][fuente]: 1
+;   RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (29
+;   bytes)
+;   0x5668..0x5685  (29 bytes)
+DATA_lista_de_sprites_0:
+	defb 011h,040h,085h,08eh	; 5668
+	defb 002h,078h,040h,002h	; 566c
+	defb 002h,080h,050h,002h	; 5670
+	defb 002h,088h,060h,006h	; 5674
+	defb 011h,0a0h,08ch,094h	; 5678
+	defb 011h,0c0h,09fh,081h	; 567c
+	defb 002h,0f0h,0e0h,004h	; 5680
+	defb 000h	; 5684
+
+; ----------------------------------------------------------------------
+; DATOS lista_de_sprites_1: entradas [bancos | accion][destino][fuente]: 1
+;   RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (17
+;   bytes)
+;   0x5685..0x5696  (17 bytes)
+DATA_lista_de_sprites_1:
+	defb 011h,040h,0d5h,093h	; 5685
+	defb 011h,058h,03fh,095h	; 5689
+	defb 002h,078h,058h,008h	; 568d
+	defb 011h,0e0h,03ah,084h	; 5691
+	defb 000h	; 5695
+
+; ----------------------------------------------------------------------
+; DATOS lista_de_sprites_2: entradas [bancos | accion][destino][fuente]: 1
+;   RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (21
+;   bytes)
+;   0x5696..0x56ab  (21 bytes)
+DATA_lista_de_sprites_2:
+	defb 011h,040h,0d5h,093h	; 5696
+	defb 011h,058h,0b6h,08ah	; 569a
+	defb 002h,088h,078h,004h	; 569e
+	defb 011h,098h,03fh,095h	; 56a2
+	defb 002h,0b8h,098h,008h	; 56a6
+	defb 000h	; 56aa
+
+; ----------------------------------------------------------------------
+; DATOS lista_de_sprites_3: entradas [bancos | accion][destino][fuente]: 1
+;   RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (29
+;   bytes)
+;   0x56ab..0x56c8  (29 bytes)
+DATA_lista_de_sprites_3:
+	defb 011h,040h,0d4h,07fh	; 56ab
+	defb 002h,048h,040h,002h	; 56af
+	defb 011h,050h,00dh,080h	; 56b3
+	defb 002h,068h,060h,002h	; 56b7
+	defb 002h,070h,050h,004h	; 56bb
+	defb 011h,0a0h,0cbh,080h	; 56bf
+	defb 004h,0b0h,0a0h,004h	; 56c3
+	defb 000h	; 56c7
+
+; ----------------------------------------------------------------------
+; DATOS lista_de_sprites_4: entradas [bancos | accion][destino][fuente]: 1
+;   RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (17
+;   bytes)
+;   0x56c8..0x56d9  (17 bytes)
+DATA_lista_de_sprites_4:
+	defb 041h,040h,0dch,0a7h	; 56c8
+	defb 011h,098h,03fh,095h	; 56cc
+	defb 002h,0b8h,098h,008h	; 56d0
+	defb 011h,0e0h,03ah,084h	; 56d4
+	defb 000h	; 56d8
+
+; ----------------------------------------------------------------------
+; DATOS lista_de_sprites_5: entradas [bancos | accion][destino][fuente]: 1
+;   RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (21
+;   bytes)
+;   0x56d9..0x56ee  (21 bytes)
+DATA_lista_de_sprites_5:
+	defb 011h,040h,0d5h,093h	; 56d9
+	defb 011h,058h,066h,08dh	; 56dd
+	defb 011h,070h,0dfh,08dh	; 56e1
+	defb 011h,0c0h,09fh,081h	; 56e5
+	defb 002h,0f0h,0e0h,004h	; 56e9
+	defb 000h	; 56ed
+
+; ----------------------------------------------------------------------
+; DATOS lista_de_sprites_6: entradas [bancos | accion][destino][fuente]: 1
+;   RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (5
+;   bytes)
+;   0x56ee..0x56f3  (5 bytes)
+DATA_lista_de_sprites_6:
+	defb 011h,040h,074h,086h	; 56ee
+	defb 000h	; 56f2
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x56f3..0x5704  (17 bytes)
+DATA_56F3:
+	defb 011h,040h,0d5h,093h,011h,058h,066h,08dh,011h,070h,0dfh,08dh,011h,0e0h,03ah,084h	; 56f3  .@...Xf..p....:.
+	defb 000h	; 5703
+
+; ----------------------------------------------------------------------
+; DATOS lista_de_sprites_8: entradas [bancos | accion][destino][fuente]: 1
+;   RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (9
+;   bytes)
+;   0x5704..0x570d  (9 bytes)
+DATA_lista_de_sprites_8:
+	defb 011h,040h,03ch,089h	; 5704
+	defb 011h,078h,074h,086h	; 5708
+	defb 000h	; 570c
+
+; ----------------------------------------------------------------------
+; DATOS lista_de_sprites_9: entradas [bancos | accion][destino][fuente]: 1
+;   RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (25
+;   bytes)
+;   0x570d..0x5726  (25 bytes)
+DATA_lista_de_sprites_9:
+	defb 041h,040h,0deh,0a9h	; 570d
+	defb 002h,060h,040h,008h	; 5711
+	defb 011h,0a0h,08ch,094h	; 5715
+	defb 011h,0c0h,01eh,081h	; 5719
+	defb 002h,0d0h,0c0h,004h	; 571d
+	defb 011h,0e0h,03ah,084h	; 5721
+	defb 000h	; 5725
+
+; ----------------------------------------------------------------------
+; DATOS lista_de_sprites_10: entradas [bancos | accion][destino][fuente]: 1
+;   RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (25
+;   bytes)
+;   0x5726..0x573f  (25 bytes)
+DATA_lista_de_sprites_10:
+	defb 011h,040h,00dh,083h	; 5726
+	defb 002h,068h,048h,008h	; 572a
+	defb 021h,088h,0beh,0afh	; 572e
+	defb 002h,090h,088h,002h	; 5732
+	defb 041h,098h,00eh,0a4h	; 5736
+	defb 002h,0d8h,0b0h,00ah	; 573a
+	defb 000h	; 573e
+
+; ----------------------------------------------------------------------
+; DATOS lista_de_sprites_11: entradas [bancos | accion][destino][fuente]: 1
+;   RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (25
+;   bytes)
+;   0x573f..0x5758  (25 bytes)
+DATA_lista_de_sprites_11:
+	defb 041h,040h,0e3h,0a6h	; 573f
+	defb 002h,060h,040h,008h	; 5743
+	defb 011h,0a0h,08ch,094h	; 5747
+	defb 011h,0c0h,01eh,081h	; 574b
+	defb 002h,0d0h,0c0h,004h	; 574f
+	defb 011h,0e0h,03ah,084h	; 5753
+	defb 000h	; 5757
+
+; ----------------------------------------------------------------------
+; DATOS lista_de_sprites_12: entradas [bancos | accion][destino][fuente]: 1
+;   RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (17
+;   bytes)
+;   0x5758..0x5769  (17 bytes)
+DATA_lista_de_sprites_12:
+	defb 011h,040h,00dh,083h	; 5758
+	defb 002h,068h,048h,008h	; 575c
+	defb 011h,088h,085h,08eh	; 5760
+	defb 002h,0b8h,0a8h,004h	; 5764
+	defb 000h	; 5768
+
+; ----------------------------------------------------------------------
+; DATOS lista_de_sprites_13: entradas [bancos | accion][destino][fuente]: 1
+;   RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (33
+;   bytes)
+;   0x5769..0x578a  (33 bytes)
+DATA_lista_de_sprites_13:
+	defb 011h,040h,0d4h,07fh	; 5769
+	defb 002h,048h,040h,002h	; 576d
+	defb 011h,050h,00dh,080h	; 5771
+	defb 002h,068h,060h,002h	; 5775
+	defb 002h,070h,050h,004h	; 5779
+	defb 011h,0a0h,0cbh,080h	; 577d
+	defb 004h,0b0h,0a0h,004h	; 5781
+	defb 011h,080h,074h,086h	; 5785
+	defb 000h	; 5789
+
+; ----------------------------------------------------------------------
+; DATOS lista_de_sprites_14: entradas [bancos | accion][destino][fuente]: 1
+;   RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (33
+;   bytes)
+;   0x578a..0x57ab  (33 bytes)
+DATA_lista_de_sprites_14:
+	defb 011h,040h,0e4h,08ch	; 578a
+	defb 003h,050h,040h,004h	; 578e
+	defb 004h,060h,040h,004h	; 5792
+	defb 002h,070h,040h,004h	; 5796
+	defb 041h,080h,0e0h,0aah	; 579a
+	defb 002h,0a0h,080h,002h	; 579e
+	defb 003h,0a8h,088h,002h	; 57a2
+	defb 004h,0b0h,090h,004h	; 57a6
+	defb 000h	; 57aa
+
+; ----------------------------------------------------------------------
+; DATOS lista_de_sprites_15: entradas [bancos | accion][destino][fuente]: 1
+;   RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (49
+;   bytes)
+;   0x57ab..0x57dc  (49 bytes)
+DATA_lista_de_sprites_15:
+	defb 011h,040h,0e8h,090h	; 57ab
+	defb 002h,048h,040h,002h	; 57af
+	defb 011h,050h,029h,091h	; 57b3
+	defb 002h,068h,060h,002h	; 57b7
+	defb 002h,070h,050h,004h	; 57bb
+	defb 011h,080h,0e7h,091h	; 57bf
+	defb 002h,098h,088h,002h	; 57c3
+	defb 011h,0a0h,0a3h,092h	; 57c7
+	defb 002h,0b0h,0a0h,004h	; 57cb
+	defb 021h,0c0h,03bh,0afh	; 57cf
+	defb 021h,0d0h,0beh,0afh	; 57d3
+	defb 002h,0d8h,0d0h,002h	; 57d7
+	defb 000h	; 57db
+
+; ----------------------------------------------------------------------
+; DATOS lista_de_sprites_16: entradas [bancos | accion][destino][fuente]: 1
+;   RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (9
+;   bytes)
+;   0x57dc..0x57e5  (9 bytes)
+DATA_lista_de_sprites_16:
+	defb 011h,0a8h,044h,090h	; 57dc
+	defb 011h,0c0h,0f0h,092h	; 57e0
+	defb 000h	; 57e4
+
+; ----------------------------------------------------------------------
+; DATOS lista_de_sprites_17: entradas [bancos | accion][destino][fuente]: 1
+;   RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (21
+;   bytes)
+;   0x57e5..0x57fa  (21 bytes)
+DATA_lista_de_sprites_17:
+	defb 011h,040h,0efh,087h	; 57e5
+	defb 011h,060h,06eh,087h	; 57e9
+	defb 011h,070h,06eh,087h	; 57ed
+	defb 002h,050h,070h,004h	; 57f1
+	defb 011h,080h,068h,088h	; 57f5
+	defb 000h	; 57f9
+
+; ----------------------------------------------------------------------
+; DATOS lista_de_sprites_18: entradas [bancos | accion][destino][fuente]: 1
+;   RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (5
+;   bytes)
+;   0x57fa..0x57ff  (5 bytes)
+DATA_lista_de_sprites_18:
+	defb 011h,040h,0d5h,093h	; 57fa
+	defb 000h	; 57fe
+
+; ----------------------------------------------------------------------
+; DATOS lista_de_sprites_19: entradas [bancos | accion][destino][fuente]: 1
+;   RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (13
+;   bytes)
+;   0x57ff..0x580c  (13 bytes)
+DATA_lista_de_sprites_19:
+	defb 011h,080h,03dh,085h	; 57ff
+	defb 002h,0a8h,088h,008h	; 5803
+	defb 041h,0c8h,00eh,0a4h	; 5807
+	defb 000h	; 580b
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x580c..0x5811  (5 bytes)
+DATA_580C:
+	defb 011h,0e0h,03ah,084h,000h	; 580c
+
+; ----------------------------------------------------------------------
+; DATOS lista_de_sprites_21: entradas [bancos | accion][destino][fuente]: 1
+;   RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (17
+;   bytes)
+;   0x5811..0x5822  (17 bytes)
+DATA_lista_de_sprites_21:
+	defb 041h,040h,0deh,0a9h	; 5811
+	defb 002h,060h,040h,008h	; 5815
+	defb 041h,0c0h,065h,0b4h	; 5819
+	defb 011h,0e0h,03ah,084h	; 581d
+	defb 000h	; 5821
+
+; ----------------------------------------------------------------------
+; DATOS lista_de_sprites_22: entradas [bancos | accion][destino][fuente]: 1
+;   RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (13
+;   bytes)
+;   0x5822..0x582f  (13 bytes)
+DATA_lista_de_sprites_22:
+	defb 041h,040h,0e4h,0a5h	; 5822
+	defb 041h,060h,0e3h,0a6h	; 5826
+	defb 002h,080h,040h,010h	; 582a
+	defb 000h	; 582e
+
+; ----------------------------------------------------------------------
+; DATOS lista_de_sprites_23: entradas [bancos | accion][destino][fuente]: 1
+;   RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (17
+;   bytes)
+;   0x582f..0x5840  (17 bytes)
+DATA_lista_de_sprites_23:
+	defb 011h,040h,03dh,085h	; 582f
+	defb 002h,068h,048h,008h	; 5833
+	defb 041h,088h,0e4h,0abh	; 5837
+	defb 002h,0c8h,0b8h,004h	; 583b
+	defb 000h	; 583f
+
+; ----------------------------------------------------------------------
+; DATOS lista_de_sprites_24: entradas [bancos | accion][destino][fuente]: 1
+;   RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (21
+;   bytes)
+;   0x5840..0x5855  (21 bytes)
+DATA_lista_de_sprites_24:
+	defb 011h,040h,066h,08dh	; 5840
+	defb 011h,058h,0b6h,08ah	; 5844
+	defb 002h,088h,078h,004h	; 5848
+	defb 011h,098h,03fh,095h	; 584c
+	defb 002h,0b8h,098h,008h	; 5850
+	defb 000h	; 5854
+
+; ----------------------------------------------------------------------
+; DATOS lista_de_sprites_25: entradas [bancos | accion][destino][fuente]: 1
+;   RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (21
+;   bytes)
+;   0x5855..0x586a  (21 bytes)
+DATA_lista_de_sprites_25:
+	defb 011h,040h,0d5h,093h	; 5855
+	defb 011h,058h,03fh,095h	; 5859
+	defb 002h,078h,058h,008h	; 585d
+	defb 041h,098h,00eh,0a4h	; 5861
+	defb 002h,0d8h,0b0h,00ah	; 5865
+	defb 000h	; 5869
+
+; ----------------------------------------------------------------------
+; DATOS lista_de_sprites_26: entradas [bancos | accion][destino][fuente]: 1
+;   RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (9
+;   bytes)
+;   0x586a..0x5873  (9 bytes)
+DATA_lista_de_sprites_26:
+	defb 011h,040h,025h,08ch	; 586a
+	defb 002h,068h,040h,00ah	; 586e
+	defb 000h	; 5872
+
+; ----------------------------------------------------------------------
+; DATOS lista_de_sprites_27: entradas [bancos | accion][destino][fuente]: 1
+;   RLE, 2 espejo, 3 del reves, 4 las dos; un 0 acaba; lo leen p00:4CD2 (21
+;   bytes)
+;   0x5873..0x5888  (21 bytes)
+DATA_lista_de_sprites_27:
+	defb 011h,040h,0d5h,093h	; 5873
+	defb 011h,058h,066h,08dh	; 5877
+	defb 011h,070h,0b6h,08ah	; 587b
+	defb 002h,0a0h,090h,004h	; 587f
+	defb 011h,0e0h,03ah,084h	; 5883
+	defb 000h	; 5887
 
 ; ======================================================================
 ; CODIGO 0x5888..0x5b1e  (662 bytes)
