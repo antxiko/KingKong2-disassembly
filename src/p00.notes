@@ -1571,7 +1571,7 @@ C 0x5DD7 la pantalla 0x62?
 C 0x5DDB la pantalla 0x89?
 C 0x5E1C sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 C 0x5E32 casilla_de_la_ficha: PON UNA CASILLA: A en las BxC casillas de debajo de la ficha
-C 0x5E47 p03:lo_que_suelta: Al morir un enemigo: p03:BA66 + tipo - 1 da el numero de rutina (0xFF =
+C 0x5E47 p03:lo_que_suelta: LO QUE SUELTA AL MORIR: su tipo de antes (ix+0x1F) en p03:BA66 (0xFF: nada)...
 C 0x5E84 p15:cuadros_de_explosion: 12 punteros por ix+0 - 0xF0 (las explosiones: p00:5E7F sube ix+0 cada vez): grupos de sprites [dy][dx][patron][color] que p00:5E93 suma a la posicion
 C 0x5EAE bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 C 0x5ED8 apunta a las fichas de los enemigos (13 de 0x80)

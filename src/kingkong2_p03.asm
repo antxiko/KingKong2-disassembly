@@ -3099,13 +3099,13 @@ DATA_tabla_B7D3:
 
 
 L_B7D9:
-	call centipede_color		;b7d9   ; CENTIPEDE, paso 0
+	call centipede_color		;b7d9   ; PASO 0: su cuadro (0x10 o 0x11) y la vuelta de arriba de GRASSWORM
 	jp L_B4D4		;b7dc
 L_B7DF:
-	call centipede_color		;b7df   ; CENTIPEDE, paso 1
+	call centipede_color		;b7df   ; PASO 1: la vuelta de abajo
 	jp L_B578		;b7e2
 L_B7E5:
-	ld a,(ix+00ch)		;b7e5   ; CENTIPEDE, paso 2
+	ld a,(ix+00ch)		;b7e5   ; PASO 2 (las partes): cuadro 0x12 o 0x13, cambiando cada 16, y siguen el rastro
 	and 010h		;b7e8
 	ld a,012h		;b7ea
 	jr nz,L_B7F0		;b7ec
@@ -3114,7 +3114,7 @@ L_B7F0:
 	ld (ix+00bh),a		;b7f0   ; guarda el cuadro del enemigo
 	jp L_B629		;b7f3
 centipede_color:
-	ld a,(ix+00ch)		;b7f6   ; lee la cuenta de cuadros
+	ld a,(ix+00ch)		;b7f6   ; el cuadro 0x10 o 0x11, cambiando cada 16 cuadros
 	and 010h		;b7f9
 	ld a,010h		;b7fb
 	jr nz,L_B801		;b7fd
@@ -3123,7 +3123,7 @@ L_B801:
 	ld (ix+00bh),a		;b801   ; guarda el cuadro del enemigo
 	ret			;b804
 L_B805:
-	ld (ix+017h),040h		;b805   ; AL CREAR CENTIPEDE (tipo 0x14)
+	ld (ix+017h),040h		;b805   ; AL CREAR CENTIPEDE (tipo 0x14): caja y 0x40-0x70, x 0x20-0x90, vida 0x20, 5 partes
 	ld (ix+018h),071h		;b809
 	ld (ix+019h),020h		;b80d
 	ld (ix+01ah),091h		;b811
@@ -3133,7 +3133,7 @@ L_B805:
 	ld a,005h		;b81e
 	jp L_B7BA		;b820
 L_B823:
-	ld a,(ix+001h)		;b823   ; ENTRADA de CENTIPEDE (tipo 0x14), con su ficha en IX
+	ld a,(ix+001h)		;b823   ; CENTIPEDE (0x14) usa los pasos del 0x13
 	call 0425fh		;b826   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
@@ -3157,20 +3157,20 @@ L_B832:
 L_B835:
 	jp L_B7E5		;b835   ; CENTIPEDE, paso 2
 L_B838:
-	ld a,020h		;b838
+	ld a,020h		;b838   ; AL CREAR LA FIGURA 0x8C (la tira FIRETOTEM): hacia Mitchel a 0x20, cuadro 0x12, sonido 5
 	call 0716fh		;b83a   ; p01:rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
 	call 08bdch		;b83d   ; p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
 	ld (ix+00bh),012h		;b840   ; el cuadro del enemigo = 0x12
 	ld a,005h		;b844
 	jp 05488h		;b846   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 L_B849:
-	bit 2,(ix+00ch)		;b849   ; mira el bit 2 de la cuenta de cuadros
+	bit 2,(ix+00ch)		;b849   ; LA FIGURA 0x8C, cada cuadro: cuadro 0x12 o 0x13 cada 4 cuadros...
 	ld a,012h		;b84d
 	jr nz,L_B853		;b84f
 	ld a,013h		;b851
 L_B853:
 	ld (ix+00bh),a		;b853   ; guarda el cuadro del enemigo
-	ld a,(0c131h)		;b856   ; lee el plano de la pantalla (0, el exterior)
+	ld a,(0c131h)		;b856   ; ...y desaparece al pasar de y 0x48 en el exterior, o por encima de 0x58 en un plano alterno
 	and a			;b859
 	jr nz,L_B864		;b85a
 	ld a,(ix+003h)		;b85c   ; lee la y del enemigo
@@ -3184,7 +3184,7 @@ L_B864:
 L_B86A:
 	jp 0694bh		;b86a   ; p01:quita_la_ficha: se borra la ficha y sus sprites se dejan libres (y = 0xE0)
 L_B86D:
-	ld (ix+006h),001h		;b86d   ; si se mueve = 0x01
+	ld (ix+006h),001h		;b86d   ; AL CREAR LA FIGURA 0x85 (la tira DUNGROLL): en marcha, cuadro 0x0C, hacia abajo (con el cuadro 0x10 de DUNGROLL en 0xE806) o hacia arriba, a 1
 	ld (ix+00bh),00ch		;b871   ; el cuadro del enemigo = 0x0C
 	ld a,(0e806h)		;b875
 	cp 010h		;b878
@@ -3196,7 +3196,7 @@ L_B881:
 	ld d,000h		;b884
 	jp 04318h		;b886   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_B889:
-	ld a,(ix+00ch)		;b889   ; lee la cuenta de cuadros
+	ld a,(ix+00ch)		;b889   ; LA FIGURA 0x85, cada cuadro: su cuadro de p03:B8B2 cada 4...
 	and 00ch		;b88c
 	rra			;b88e
 	rra			;b88f
@@ -3204,7 +3204,7 @@ L_B889:
 	call 04255h		;b893   ; p00:hl_mas_a
 	ld a,(hl)			;b896
 	ld (ix+00bh),a		;b897   ; guarda el cuadro del enemigo
-	ld a,(ix+003h)		;b89a   ; lee la y del enemigo
+	ld a,(ix+003h)		;b89a   ; ...y alineada a 8, desaparece si choca por donde va
 	and 007h		;b89d
 	ret nz			;b89f
 	ld e,000h		;b8a0
@@ -3230,10 +3230,10 @@ DATA_cuadros_B8B2:
 
 
 L_B8B6:
-	ld a,040h		;b8b6
+	ld a,040h		;b8b6   ; AL CREAR LA FIGURA 0x84 (la tira TWINMIRES): hacia Mitchel a 0x40, cuadro 8...
 	call 0716fh		;b8b8   ; p01:rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
-	call para_y_cuadro_8		;b8bb
-	ld d,(ix+005h)		;b8be   ; lee la x del enemigo
+	call para_y_cuadro_8		;b8bb   ; para_y_cuadro_8: ...en marcha, cuadro 8
+	ld d,(ix+005h)		;b8be   ; ...y dos mas en su sitio, las 0x90 y 0x91
 	ld e,(ix+003h)		;b8c1   ; lee la y del enemigo
 	push de			;b8c4
 	ld c,090h		;b8c5
@@ -3242,25 +3242,25 @@ L_B8B6:
 	ld c,091h		;b8cb
 	jp 0709ah		;b8cd   ; p01:crea_una_figura: CREA UNA FIGURA: el tipo C en DE
 L_B8D0:
-	sub 005h		;b8d0
+	sub 005h		;b8d0   ; AL CREAR LA FIGURA 0x90: el rumbo del angulo A - 5...
 	jr L_B8D6		;b8d2
 L_B8D4:
-	add a,00ah		;b8d4
+	add a,00ah		;b8d4   ; AL CREAR LA FIGURA 0x91: el del angulo A + 0x0A...
 L_B8D6:
-	call 07186h		;b8d6
+	call 07186h		;b8d6   ; p01:rumbo_con_angulo: el rumbo del angulo A (0x40 un cuarto de vuelta): DE y HL las velocidades, del seno y el coseno de p01:725E
 para_y_cuadro_8:
-	call 08bdch		;b8d9   ; p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
+	call 08bdch		;b8d9   ; ...en marcha, cuadro 8
 	ld (ix+00bh),008h		;b8dc   ; el cuadro del enemigo = 0x08
 	ret			;b8e0
 L_B8E1:
-	ld a,(0c125h)		;b8e1   ; lee la PANTALLA
+	ld a,(0c125h)		;b8e1   ; LA FIGURA 0x88 (el boomerang de BOOMERANG): en la pantalla 0x21, fuera por encima de y 0x58...
 	cp 021h		;b8e4   ; la pantalla 0x21?
 	jr nz,L_B8F0		;b8e6
 	ld a,(ix+003h)		;b8e8   ; lee la y del enemigo
 	cp 058h		;b8eb
 	jp c,0694bh		;b8ed   ; p01:quita_la_ficha: se borra la ficha y sus sprites se dejan libres (y = 0xE0)
 L_B8F0:
-	dec (ix+017h)		;b8f0
+	dec (ix+017h)		;b8f0   ; ...a los 0x20 cuadros (ix+0x17) vuelve por donde vino (la direccion contraria, p03:B90C), una vez (ix+0x16)...
 	jr nz,$+38		;b8f3
 	ld a,(ix+016h)		;b8f5
 	or a			;b8f8
@@ -3288,10 +3288,10 @@ DATA_tabla_B90C:
 
 
 L_B914:
-	ld (ix+003h),0e1h		;b914   ; la y del enemigo = 0xE1
+	ld (ix+003h),0e1h		;b914   ; ...y a los 0x20 siguientes, fuera (y 0xE1)
 	ret			;b918
 L_B919:
-	ld a,(ix+00ch)		;b919   ; lee la cuenta de cuadros
+	ld a,(ix+00ch)		;b919   ; mientras, el cuadro sube cada 4 cuadros, de 0x0C a 0x0F
 	and 003h		;b91c
 	ret nz			;b91e
 	inc (ix+00bh)		;b91f   ; sube el cuadro del enemigo
@@ -3301,11 +3301,11 @@ L_B919:
 	ld (ix+00bh),00ch		;b928   ; el cuadro del enemigo = 0x0C
 	ret			;b92c
 L_B92D:
-	inc (ix+006h)		;b92d   ; sube si se mueve
+	inc (ix+006h)		;b92d   ; AL CREAR LAS FIGURAS 0x87 y 0x88 (las tiran POLEMAN y BOOMERANG): en marcha, cuadro 0x0C, 0x20 cuadros...
 	ld (ix+00bh),00ch		;b930   ; el cuadro del enemigo = 0x0C
 	ld (ix+017h),020h		;b934
 	ld (ix+016h),000h		;b938
-	ld hl,0c303h		;b93c   ; apunta a la Y de Mitchel
+	ld hl,0c303h		;b93c   ; ...hacia Mitchel a 0x1A0 (1,6 puntos por cuadro): en vertical si no esta en su fila...
 	ld a,(hl)			;b93f
 	add a,004h		;b940
 	and 0f8h		;b942
@@ -3318,7 +3318,7 @@ L_B94B:
 	call 04311h		;b950   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	jr L_B972		;b953
 L_B955:
-	inc hl			;b955
+	inc hl			;b955   ; ...en horizontal si lo esta
 	inc hl			;b956
 	ld a,(hl)			;b957
 	add a,004h		;b958
@@ -3335,7 +3335,7 @@ L_B96B:
 	ld de,0fe60h		;b96c
 	call 04311h		;b96f   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 L_B972:
-	ld (ix+014h),000h		;b972
+	ld (ix+014h),000h		;b972   ; ix+0x14 = 0 (vertical) o 1, ix+0x15 la direccion
 	ld (ix+015h),a		;b976
 	ld de,00000h		;b979
 	jp 04318h		;b97c   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
@@ -3349,14 +3349,14 @@ L_B987:
 	ld de,00000h		;b98e
 	jp 04311h		;b991   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 L_B994:
-	ld d,008h		;b994
-	call 073ddh		;b996
-	ld a,(ix+017h)		;b999
+	ld d,008h		;b994   ; LA FIGURA 0x8A (la bola de BOWLER): si choca a 8 puntos, rebota...
+	call 073ddh		;b996   ; p01:choca_o_da_la_vuelta: si a D puntos hay casilla que no se pasa, da la vuelta (p01:7423)
+	ld a,(ix+017h)		;b999   ; ...y cuando se acaba ix+0x17, fuera...
 	or a			;b99c
 	jr nz,L_B9A3		;b99d
 	ld (ix+003h),0e1h		;b99f   ; la y del enemigo = 0xE1
 L_B9A3:
-	ld a,(ix+00ch)		;b9a3   ; lee la cuenta de cuadros
+	ld a,(ix+00ch)		;b9a3   ; ...su cuadro, de 8 a 0x0B cada 4 cuadros
 	and 003h		;b9a6
 	ret nz			;b9a8
 	inc (ix+00bh)		;b9a9   ; sube el cuadro del enemigo
@@ -3366,7 +3366,7 @@ L_B9A3:
 	ld (ix+00bh),008h		;b9b2   ; el cuadro del enemigo = 0x08
 	ret			;b9b6
 L_B9B7:
-	ld a,008h		;b9b7
+	ld a,008h		;b9b7   ; AL CREAR LA FIGURA 0x8A: cuadro 8, 8 en ix+0x17, en marcha a 2 hacia Mitchel en diagonal
 	ld (ix+017h),a		;b9b9
 	ld (ix+00bh),a		;b9bc   ; guarda el cuadro del enemigo
 	ld (ix+006h),001h		;b9bf   ; si se mueve = 0x01
@@ -3395,7 +3395,7 @@ L_B9E3:
 ; p01:65C2 sube cada cuadro) sueltan la mitad de las veces.
 ; ----------------------------------------------------------------------
 lo_que_suelta:
-	ld a,(ix+01fh)		;b9e6   ; lee el tipo que tenia antes de morir
+	ld a,(ix+01fh)		;b9e6   ; LO QUE SUELTA AL MORIR: su tipo de antes (ix+0x1F) en p03:BA66 (0xFF: nada)...
 	ld hl,0ba66h		;b9e9   ; p03:BA66: tipo -> rutina
 	dec a			;b9ec
 	call 04255h		;b9ed   ; p00:hl_mas_a
@@ -3405,7 +3405,7 @@ lo_que_suelta:
 	ld a,(0c125h)		;b9f3   ; B = la pantalla
 	ld b,a			;b9f6
 	ld a,(hl)			;b9f7
-	ld de,0ba06h		;b9f8   ; p03:BA06: las 47 rutinas
+	ld de,0ba06h		;b9f8   ; ...la rutina de p03:BA06, con B la pantalla y DE su sitio
 	call 042ffh		;b9fb   ; p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
 	ex de,hl			;b9fe
 	ld e,(ix+003h)		;b9ff   ; lee la y del enemigo
@@ -3486,50 +3486,50 @@ DATA_lo_que_suelta_cada_enemigo:
 
 
 L_BAAB:
-	push ix		;baab
-	ld b,049h		;baad
+	push ix		;baab   ; LO QUE SUELTA CLUBMAN al morir
+	ld b,049h		;baad   ; 49 piedras...
 	call suelta_piedras		;baaf   ; suelta_piedras: el objeto 8 (piedras), B unidades
 	pop ix		;bab2
 L_BAB4:
-	ld c,028h		;bab4
+	ld c,028h		;bab4   ; LO QUE SUELTAN MUDARMOR y REVOLVER: el objeto 0x28: el suceso 5 (se quita el decorado de ese tipo; el 8 en la pantalla 0x5D)
 	ld b,000h		;bab6
 	jp 07852h		;bab8   ; p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 L_BABB:
-	ld a,(0c103h)		;babb   ; lee el contador de cuadros
+	ld a,(0c103h)		;babb   ; LO QUE SUELTA POISNFROG: la mitad de las veces (bit 2 del contador de cuadros a 0)...
 	and 004h		;babe
 	ret nz			;bac0
-	ld b,005h		;bac1
+	ld b,005h		;bac1   ; ...5 de oro
 L_BAC3:
-	ld c,026h		;bac3
+	ld c,026h		;bac3   ; el objeto 0x26, el oro: B (en BCD)
 	jp 07852h		;bac5   ; p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 L_BAC8:
-	ld a,(0c103h)		;bac8   ; lee el contador de cuadros
+	ld a,(0c103h)		;bac8   ; LO QUE SUELTA ROCKMAN: la mitad de las veces, 4 de oro
 	and 004h		;bacb
 	ret nz			;bacd
 	ld b,004h		;bace
 	jp L_BAC3		;bad0
 L_BAD3:
-	ld a,(0c103h)		;bad3   ; lee el contador de cuadros
+	ld a,(0c103h)		;bad3   ; LO QUE SUELTA WILDBOAR: la mitad de las veces, 5 de oro
 	and 004h		;bad6
 	ret nz			;bad8
 	ld b,005h		;bad9
 	jp L_BAC3		;badb
 L_BADE:
-	push ix		;bade
+	push ix		;bade   ; LO QUE SUELTA REDSPIDER: ぱぴるす (0x1D) y el suceso 5
 	ld c,01dh		;bae0   ; el objeto 0x1D, ぱぴるす
 	ld b,000h		;bae2
 	call 07852h		;bae4   ; p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 	pop ix		;bae7
 	jp L_BAB4		;bae9
 L_BAEC:
-	ld a,(0c362h)		;baec   ; lee cuantos objetos 0x23 se llevan (BCD; 0xFF sin cuenta)
+	ld a,(0c362h)		;baec   ; LO QUE SUELTA BIGSPIDER: si no se lleva la llave de madera, きのかぎ (0x23)
 	and a			;baef
 	ret nz			;baf0
 	ld c,023h		;baf1   ; el objeto 0x23, きのかぎ
 	ld b,000h		;baf3
 	jp 07852h		;baf5   ; p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 L_BAF8:
-	ld hl,0dfd1h		;baf8
+	ld hl,0dfd1h		;baf8   ; LO QUE SUELTA BATT: cada 6 muertes (0xDFD1), una carne
 	dec (hl)			;bafb
 	ret nz			;bafc
 	ld (hl),006h		;bafd
@@ -3538,7 +3538,7 @@ suelta_carne:
 	ld c,015h		;bb01   ; el objeto 0x15 (carne), B unidades
 	jp 07852h		;bb03   ; p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 L_BB06:
-	ld a,b			;bb06
+	ld a,b			;bb06   ; LO QUE SUELTA RATT: en la pantalla 9, cada 3 muertes (0xDFD2), una やくそう (0x10)
 	cp 009h		;bb07
 	ret nz			;bb09
 	ld hl,0dfd2h		;bb0a
@@ -3550,11 +3550,11 @@ L_BB13:
 	ld c,010h		;bb13   ; el objeto 0x10, やくそう
 	jp 07852h		;bb15   ; p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 suelta_alguien_que_habla:
-	ld c,025h		;bb18   ; el objeto 0x25: al tocarlo sale la conversacion de la pantalla (p01:7EF5)
+	ld c,025h		;bb18   ; LO QUE SUELTAN GRASSWORM y MIREWORM: el objeto 0x25: al tocarlo, la conversacion de la pantalla
 	ld b,000h		;bb1a
 	jp 07852h		;bb1c   ; p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 L_BB1F:
-	ld hl,0dfc0h		;bb1f
+	ld hl,0dfc0h		;bb1f   ; LO QUE SUELTA CENTIPEDE: uno de cada 4 (0xDFC0): el 1, 99 piedras; el 3, alguien que habla
 	inc (hl)			;bb22
 	ld a,(hl)			;bb23
 	and 003h		;bb24
@@ -3564,14 +3564,14 @@ L_BB1F:
 	ret z			;bb2a
 	dec a			;bb2b
 	ret nz			;bb2c
-	jp suelta_alguien_que_habla		;bb2d   ; suelta_alguien_que_habla: el objeto 0x25: al tocarlo sale la conversacion de la pantalla (p01:7EF5)
+	jp suelta_alguien_que_habla		;bb2d   ; suelta_alguien_que_habla: LO QUE SUELTAN GRASSWORM y MIREWORM: el objeto 0x25: al tocarlo, la conversacion de la pantalla
 L_BB30:
 	ld b,099h		;bb30
 suelta_piedras:
 	ld c,008h		;bb32   ; el objeto 8 (piedras), B unidades
 	jp 07852h		;bb34   ; p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 L_BB37:
-	ld hl,0dfc1h		;bb37
+	ld hl,0dfc1h		;bb37   ; LO QUE SUELTA CENTIPEDE: lo mismo, con 0xDFC1
 	inc (hl)			;bb3a
 	ld a,(hl)			;bb3b
 	and 003h		;bb3c
@@ -3581,25 +3581,25 @@ L_BB37:
 	ret z			;bb42
 	dec a			;bb43
 	ret nz			;bb44
-	jp suelta_alguien_que_habla		;bb45   ; suelta_alguien_que_habla: el objeto 0x25: al tocarlo sale la conversacion de la pantalla (p01:7EF5)
+	jp suelta_alguien_que_habla		;bb45   ; suelta_alguien_que_habla: LO QUE SUELTAN GRASSWORM y MIREWORM: el objeto 0x25: al tocarlo, la conversacion de la pantalla
 L_BB48:
 	ld b,099h		;bb48
 	jp suelta_piedras		;bb4a   ; suelta_piedras: el objeto 8 (piedras), B unidades
 L_BB4D:
-	ld hl,0dfd3h		;bb4d
+	ld hl,0dfd3h		;bb4d   ; LO QUE SUELTA DUNGROLL: cada 5 muertes (0xDFD3), 99 piedras
 	dec (hl)			;bb50
 	ret nz			;bb51
 	ld (hl),005h		;bb52
 	ld b,099h		;bb54
 	jp suelta_piedras		;bb56   ; suelta_piedras: el objeto 8 (piedras), B unidades
 L_BB59:
-	ld a,(0c103h)		;bb59   ; lee el contador de cuadros
+	ld a,(0c103h)		;bb59   ; LO QUE SUELTA POLEMAN: la mitad de las veces, 5 de oro
 	and 002h		;bb5c
 	ret nz			;bb5e
 	ld b,005h		;bb5f
 	jp L_BAC3		;bb61
 L_BB64:
-	ld a,b			;bb64
+	ld a,b			;bb64   ; LO QUE SUELTA BOOMERANG: en la pantalla 0x21 siempre; en las demas cada 5 muertes (0xDFD4)...
 	cp 021h		;bb65
 	jr z,L_BB70		;bb67
 	ld hl,0dfd4h		;bb69
@@ -3607,40 +3607,40 @@ L_BB64:
 	ret nz			;bb6d
 	ld (hl),005h		;bb6e
 L_BB70:
-	ld c,00ah		;bb70   ; el objeto 0x0A, ぶーめらん
+	ld c,00ah		;bb70   ; ...un ぶーめらん (0x0A)
 	ld b,001h		;bb72
 	jp 07852h		;bb74   ; p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 L_BB77:
-	ld a,(0c103h)		;bb77   ; lee el contador de cuadros
+	ld a,(0c103h)		;bb77   ; LO QUE SUELTA BLOWMIRE: la mitad de las veces, 5 de oro
 	and 004h		;bb7a
 	ret nz			;bb7c
 	ld b,005h		;bb7d
 	jp L_BAC3		;bb7f
 L_BB82:
-	ld hl,0dfc4h		;bb82
+	ld hl,0dfc4h		;bb82   ; LO QUE SUELTA TWINMIRES: al acabar la cuenta de 0xDFC4 (una vez), el objeto 0x2B: el suceso 1
 	dec (hl)			;bb85
 	ret nz			;bb86
 	ld c,02bh		;bb87
 	ld b,000h		;bb89
 	jp 07852h		;bb8b   ; p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 L_BB8E:
-	ld hl,0dfd5h		;bb8e
+	ld hl,0dfd5h		;bb8e   ; LO QUE SUELTA SEALOUSE: cada 16 muertes (0xDFD5), una やくそう
 	dec (hl)			;bb91
 	ret nz			;bb92
 	ld (hl),010h		;bb93
 	ld b,001h		;bb95
 	jp L_BB13		;bb97
 L_BB9A:
-	ld a,b			;bb9a
+	ld a,b			;bb9a   ; LO QUE SUELTA BOWLER: en la pantalla 0x22, cada 5 muertes (0xDFD6), alguien que habla...
 	cp 022h		;bb9b
 	jr nz,L_BBA9		;bb9d
 	ld hl,0dfd6h		;bb9f
 	dec (hl)			;bba2
 	ret nz			;bba3
 	ld (hl),005h		;bba4
-	jp suelta_alguien_que_habla		;bba6   ; suelta_alguien_que_habla: el objeto 0x25: al tocarlo sale la conversacion de la pantalla (p01:7EF5)
+	jp suelta_alguien_que_habla		;bba6   ; suelta_alguien_que_habla: LO QUE SUELTAN GRASSWORM y MIREWORM: el objeto 0x25: al tocarlo, la conversacion de la pantalla
 L_BBA9:
-	ld hl,0dfc2h		;bba9
+	ld hl,0dfc2h		;bba9   ; ...en las demas, cada 16 (0xDFC2), EL HACHA (おの, 0x05) si no se lleva...
 	dec (hl)			;bbac
 	jr nz,L_BBBE		;bbad
 	ld (hl),010h		;bbaf
@@ -3651,7 +3651,7 @@ L_BBA9:
 	ld b,000h		;bbb9
 	jp 07852h		;bbbb   ; p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 L_BBBE:
-	ld a,b			;bbbe
+	ld a,b			;bbbe   ; ...y en la pantalla 0x17, la mitad de las veces, 5 de oro
 	cp 017h		;bbbf
 	ret nz			;bbc1
 	ld a,(0c103h)		;bbc2   ; lee el contador de cuadros
@@ -3660,7 +3660,7 @@ L_BBBE:
 	ld b,005h		;bbc8
 	jp L_BAC3		;bbca
 L_BBCD:
-	ld hl,0dfd7h		;bbcd
+	ld hl,0dfd7h		;bbcd   ; LO QUE SUELTA THICKSKIN: cada 5 muertes (0xDFD7), かいてん (0x22) si no se lleva; si no, la mitad de las veces 0x10 de oro
 	dec (hl)			;bbd0
 	jr z,L_BBDE		;bbd1
 	ld a,(0c103h)		;bbd3   ; lee el contador de cuadros
@@ -3678,7 +3678,7 @@ L_BBDE:
 	ld b,000h		;bbe8
 	jp 07852h		;bbea   ; p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 L_BBED:
-	ld a,b			;bbed
+	ld a,b			;bbed   ; LO QUE SUELTA GRIZZLY: en la pantalla 0x1A, alguien que habla y el suceso 5; en la 0x1F, 2 carnes
 	cp 01ah		;bbee
 	jr z,L_BBFA		;bbf0
 	cp 01fh		;bbf2
@@ -3687,16 +3687,16 @@ L_BBED:
 	jp suelta_carne		;bbf7   ; suelta_carne: el objeto 0x15 (carne), B unidades
 L_BBFA:
 	push ix		;bbfa
-	call suelta_alguien_que_habla		;bbfc   ; suelta_alguien_que_habla: el objeto 0x25: al tocarlo sale la conversacion de la pantalla (p01:7EF5)
+	call suelta_alguien_que_habla		;bbfc   ; suelta_alguien_que_habla: LO QUE SUELTAN GRASSWORM y MIREWORM: el objeto 0x25: al tocarlo, la conversacion de la pantalla
 	pop ix		;bbff
 	jp L_BAB4		;bc01
 L_BC04:
-	ld a,b			;bc04
+	ld a,b			;bc04   ; LO QUE SUELTA MRRUINS: en la pantalla 0x3A, alguien que habla
 	cp 03ah		;bc05
 	ret nz			;bc07
-	jp suelta_alguien_que_habla		;bc08   ; suelta_alguien_que_habla: el objeto 0x25: al tocarlo sale la conversacion de la pantalla (p01:7EF5)
+	jp suelta_alguien_que_habla		;bc08   ; suelta_alguien_que_habla: LO QUE SUELTAN GRASSWORM y MIREWORM: el objeto 0x25: al tocarlo, la conversacion de la pantalla
 L_BC0B:
-	ld hl,0dfd8h		;bc0b
+	ld hl,0dfd8h		;bc0b   ; LO QUE SUELTA CAVEMAN: cada 10 muertes (0xDFD8), 10 ほのおのたま (0x09)
 	dec (hl)			;bc0e
 	ret nz			;bc0f
 	ld (hl),00ah		;bc10
@@ -3704,23 +3704,23 @@ L_BC0B:
 	ld b,010h		;bc14
 	jp 07852h		;bc16   ; p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 L_BC19:
-	ld b,050h		;bc19
+	ld b,050h		;bc19   ; LO QUE SUELTA CAVERNMAN: 50 de oro
 	jp L_BAC3		;bc1b
 L_BC1E:
-	ld a,(0c103h)		;bc1e   ; lee el contador de cuadros
+	ld a,(0c103h)		;bc1e   ; LO QUE SUELTA PROWLER: la mitad de las veces, 20 de oro
 	and 004h		;bc21
 	ret nz			;bc23
 	ld b,020h		;bc24
 	jp L_BAC3		;bc26
 L_BC29:
-	ld a,(0c35eh)		;bc29   ; lee cuantos objetos 0x1F se llevan (BCD; 0xFF sin cuenta)
+	ld a,(0c35eh)		;bc29   ; LO QUE SUELTA CAVERNBIG: si no se lleva, 99 きいろいいし (0x1F)
 	and a			;bc2c
 	ret nz			;bc2d
 	ld c,01fh		;bc2e   ; el objeto 0x1F, きいろいいし
 	ld b,099h		;bc30
 	jp 07852h		;bc32   ; p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 L_BC35:
-	ld a,b			;bc35
+	ld a,b			;bc35   ; LO QUE SUELTA WATCHMAN: en la pantalla 0x6E, al acabar la cuenta de 0xDFC5, el objeto 0x2A: aparece un pasadizo (las casillas 0xC0-0xC3 en (0x50, 0x30))
 	cp 06eh		;bc36
 	ret nz			;bc38
 	ld hl,0dfc5h		;bc39
@@ -3733,17 +3733,17 @@ L_BC35:
 	ld b,000h		;bc43
 	jp 07852h		;bc45   ; p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 L_BC48:
-	ld c,024h		;bc48   ; el objeto 0x24, てつのかぎ
+	ld c,024h		;bc48   ; LO QUE SUELTAN BIGGUARD y SAVAGE: てつのかぎ (0x24), la llave de hierro
 	ld b,001h		;bc4a
 	jp 07852h		;bc4c   ; p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 L_BC4F:
-	ld a,(0c103h)		;bc4f   ; lee el contador de cuadros
+	ld a,(0c103h)		;bc4f   ; LO QUE SUELTA FALCONBAT: la mitad de las veces, una carne
 	and 004h		;bc52
 	ret nz			;bc54
 	ld b,001h		;bc55
 	jp suelta_carne		;bc57   ; suelta_carne: el objeto 0x15 (carne), B unidades
 L_BC5A:
-	ld hl,0dfc3h		;bc5a
+	ld hl,0dfc3h		;bc5a   ; LO QUE SUELTA FIRETOTEM: cada 12 muertes (0xDFC3), こんぼう (0x03) si no se lleva
 	dec (hl)			;bc5d
 	ret nz			;bc5e
 	ld (hl),00ch		;bc5f
@@ -3754,73 +3754,73 @@ L_BC5A:
 	ld b,000h		;bc68
 	jp 07852h		;bc6a   ; p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 L_BC6D:
-	push ix		;bc6d
+	push ix		;bc6d   ; LO QUE SUELTA THE NASTY: もり (0x0B), el arpon, y el suceso 5
 	ld c,00bh		;bc6f   ; el objeto 0x0B, もり
 	ld b,000h		;bc71
 	call 07852h		;bc73   ; p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 	pop ix		;bc76
 	jp L_BAB4		;bc78
 L_BC7B:
-	push ix		;bc7b
+	push ix		;bc7b   ; LO QUE SUELTA BADPRIEST: 4 carnes y el suceso 5
 	ld b,004h		;bc7d
 	call suelta_carne		;bc7f   ; suelta_carne: el objeto 0x15 (carne), B unidades
 	pop ix		;bc82
 	jp L_BAB4		;bc84
 L_BC87:
-	ld b,016h		;bc87
+	ld b,016h		;bc87   ; LO QUE SUELTA GROUNDER: 0x16 de MP...
 L_BC89:
-	ld c,02ch		;bc89
+	ld c,02ch		;bc89   ; ...el objeto 0x2C: suma B al MP
 	jp 07852h		;bc8b   ; p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 L_BC8E:
-	ld a,(0c103h)		;bc8e   ; lee el contador de cuadros
+	ld a,(0c103h)		;bc8e   ; LO QUE SUELTA THE NOT: la mitad de las veces, 5 de oro
 	and 004h		;bc91
 	ret nz			;bc93
 	ld b,005h		;bc94
 	jp L_BAC3		;bc96
 L_BC99:
-	ld hl,0dfd9h		;bc99
+	ld hl,0dfd9h		;bc99   ; LO QUE SUELTA CROW: cada 2 muertes (0xDFD9), alguien que habla en (0x80, 0x20)
 	dec (hl)			;bc9c
 	ret nz			;bc9d
 	ld (hl),002h		;bc9e
 	ld de,02080h		;bca0
-	jp suelta_alguien_que_habla		;bca3   ; suelta_alguien_que_habla: el objeto 0x25: al tocarlo sale la conversacion de la pantalla (p01:7EF5)
+	jp suelta_alguien_que_habla		;bca3   ; suelta_alguien_que_habla: LO QUE SUELTAN GRASSWORM y MIREWORM: el objeto 0x25: al tocarlo, la conversacion de la pantalla
 L_BCA6:
-	ld a,(0c346h)		;bca6   ; lee cuantos objetos 0x07 se llevan (BCD; 0xFF sin cuenta)
+	ld a,(0c346h)		;bca6   ; LO QUE SUELTA RED FMAN: si no se lleva, つめ (0x07), la garra
 	and a			;bca9
 	ret nz			;bcaa
 	ld c,007h		;bcab   ; el objeto 0x07, つめ
 	ld b,000h		;bcad
 	jp 07852h		;bcaf   ; p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 L_BCB2:
-	ld a,(0c103h)		;bcb2   ; lee el contador de cuadros
+	ld a,(0c103h)		;bcb2   ; LO QUE SUELTA B FMAN: una vez de cada 4 (bits 1-2 del contador), 0x10 de MP
 	and 006h		;bcb5
 	ret nz			;bcb7
 	ld b,010h		;bcb8
 	jp L_BC89		;bcba
 L_BCBD:
-	ld a,(0c103h)		;bcbd   ; lee el contador de cuadros
+	ld a,(0c103h)		;bcbd   ; LO QUE SUELTA D FMAN: una vez de cada 4, 0x20 de MP
 	and 006h		;bcc0
 	ret nz			;bcc2
 	ld b,020h		;bcc3
 	jp L_BC89		;bcc5
 L_BCC8:
-	ld a,b			;bcc8
+	ld a,b			;bcc8   ; LO QUE SUELTA CLINGMAN: en la pantalla 0x4F, cada 6 muertes (0xDFDA), alguien que habla
 	cp 04fh		;bcc9
 	ret nz			;bccb
 	ld hl,0dfdah		;bccc
 	dec (hl)			;bccf
 	ret nz			;bcd0
 	ld (hl),006h		;bcd1
-	jp suelta_alguien_que_habla		;bcd3   ; suelta_alguien_que_habla: el objeto 0x25: al tocarlo sale la conversacion de la pantalla (p01:7EF5)
+	jp suelta_alguien_que_habla		;bcd3   ; suelta_alguien_que_habla: LO QUE SUELTAN GRASSWORM y MIREWORM: el objeto 0x25: al tocarlo, la conversacion de la pantalla
 L_BCD6:
-	ld a,(0c353h)		;bcd6   ; lee cuantos objetos 0x14 se llevan (BCD; 0xFF sin cuenta)
+	ld a,(0c353h)		;bcd6   ; LO QUE SUELTA REVOLVER: si no se lleva, あぐのす (0x14)
 	and a			;bcd9
 	ret nz			;bcda
 	ld c,014h		;bcdb   ; el objeto 0x14, あぐのす
 	ld b,000h		;bcdd
 	jp 07852h		;bcdf   ; p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 L_BCE2:
-	ld a,b			;bce2
+	ld a,b			;bce2   ; LO QUE SUELTA WHITEFIRE: en la pantalla 0x6A, cada 6 muertes (0xDFDB), らめらのえき (0x0F) si no se tiene (0xC144)
 	cp 06ah		;bce3
 	ret nz			;bce5
 	ld hl,0dfdbh		;bce6
@@ -3834,11 +3834,11 @@ L_BCE2:
 	ld b,000h		;bcf4
 	jp 07852h		;bcf6   ; p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 L_BCF9:
-	ld c,029h		;bcf9
+	ld c,029h		;bcf9   ; LO QUE SUELTA BIGFLOWER: el objeto 0x29: nada
 	ld b,000h		;bcfb
 	jp 07852h		;bcfd   ; p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 L_BD00:
-	ld hl,0dfc6h		;bd00
+	ld hl,0dfc6h		;bd00   ; LO QUE SUELTA GRASSOGRE: cada 16 muertes (0xDFC6), el ROD (0x02) si no se lleva; si no, la mitad de las veces 1 de MP
 	dec (hl)			;bd03
 	jr nz,L_BD14		;bd04
 	ld (hl),010h		;bd06
@@ -3855,7 +3855,7 @@ L_BD14:
 	ld b,001h		;bd1a
 	jp L_BC89		;bd1c
 L_BD1F:
-	ld a,(0c103h)		;bd1f   ; lee el contador de cuadros
+	ld a,(0c103h)		;bd1f   ; LO QUE SUELTA BUCKLER: la mitad de las veces, 2 de MP
 	and 004h		;bd22
 	ret nz			;bd24
 	ld b,002h		;bd25
@@ -4100,7 +4100,7 @@ DATA_cuadros_BEDA:
 
 
 L_BEE0:
-	ld a,(ix+00ch)		;bee0   ; lee la cuenta de cuadros
+	ld a,(ix+00ch)		;bee0   ; LA FIGURA 0x87 (la tira POLEMAN, p03:A5EE), cada cuadro
 	and 003h		;bee3
 	ret nz			;bee5
 	inc (ix+00bh)		;bee6   ; sube el cuadro del enemigo
@@ -4110,7 +4110,7 @@ L_BEE0:
 	ld (ix+00bh),00ch		;beef   ; el cuadro del enemigo = 0x0C
 	ret			;bef3
 L_BEF4:
-	ld (ix+00bh),008h		;bef4   ; el cuadro del enemigo = 0x08
+	ld (ix+00bh),008h		;bef4   ; AL CREAR LA FIGURA 0x89 (la tira BLOWMIRE, p03:A5EE)
 	ld a,040h		;bef8
 	call 0716fh		;befa   ; p01:rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
 	jp 08bdch		;befd   ; p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical

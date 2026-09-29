@@ -4743,7 +4743,7 @@ L_5E1C:
 L_5E42:
 	push ix		;5e42   ; la explosion acaba: ix+0x7D baja...
 	dec (ix+07dh)		;5e44
-	call z,0b9e6h		;5e47   ; p03:lo_que_suelta: Al morir un enemigo: p03:BA66 + tipo - 1 da el numero de rutina (0xFF =
+	call z,0b9e6h		;5e47   ; p03:lo_que_suelta: LO QUE SUELTA AL MORIR: su tipo de antes (ix+0x1F) en p03:BA66 (0xFF: nada)...
 	pop ix		;5e4a
 	jp 0694bh		;5e4c   ; ...y la ficha se borra (p01:694B)
 L_5E4F:

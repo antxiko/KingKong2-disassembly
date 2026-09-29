@@ -971,6 +971,10 @@ C 0x716D rumbo hacia Mitchel a velocidad 0x80
 C 0x73E4 ACARREO si la casilla a D puntos por encima, a la derecha, por debajo o a la izquierda de la ficha es de las que no se pasan; B el lado (0-3)
 L 0x6913 mueve_la_ficha
 C 0x6913 un paso: la y (ix+2, ix+3) mas la velocidad vertical...
+L 0x7186 rumbo_con_angulo
+C 0x7186 el rumbo del angulo A (0x40 un cuarto de vuelta): DE y HL las velocidades, del seno y el coseno de p01:725E
+L 0x73DD choca_o_da_la_vuelta
+C 0x73DD si a D puntos hay casilla que no se pasa, da la vuelta (p01:7423)
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x611F 0x6143 salidas_especiales  12 salidas especiales (0xF0-0xFB): pantalla de llegada y punto (x, y) donde aparece Mitchel; p01:60FA con 0x611F + 3*(n-0xF0); lo leen p01:6109 (36 bytes)
@@ -1364,7 +1368,6 @@ C 0x7338 p00:hl_mas_a
 C 0x7342 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 C 0x7369 p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
 C 0x73A5 p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
-C 0x73DD ficha_contra_el_mapa: ACARREO si la casilla a D puntos por encima, a la derecha, por debajo o a la izquierda de la ficha es de las que no se pasan; B el lado (0-3)
 C 0x73E7 byte_por_juego_de_dibujos: un byte por juego de dibujos (0xC148, 13): lo que p01:7332 pone en 0xE802
 C 0x73EA p00:hl_mas_a
 C 0x73FA p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)

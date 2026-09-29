@@ -520,6 +520,20 @@ def comentario(b, filas, k, clases, rut, cruces, fuentes=None, datos=None, repar
 
 TABLA_DE_TIPOS = 0x6885              # p01:6885: la entrada de cada tipo (1-68)
 TABLA_DE_CREACION = 0x5B1E           # p00:5B1E: lo que hace cada tipo al crearse
+LO_QUE_SUELTA_TIPO = 0xBA66          # p03:BA66: tipo - 1 -> rutina (0xFF nada)
+LO_QUE_SUELTA = 0xBA06               # p03:BA06: las rutinas
+FIGURAS_CADA_CUADRO = 0x7077         # p01:7077 y p01:714A: las figuras 0x81-0x91
+FIGURAS_AL_CREAR = 0x714A
+# Quien crea cada figura (el `ld c,N` antes de p01:crea_una_figura, 0x709A).
+QUIEN_LA_TIRA = {
+    0x81: "la tiran ROCKMAN y STONEMAN, p02:94E3", 0x82: "la tira REVOLVER, p02:9D69",
+    0x84: "la tira TWINMIRES, p02:8AA3", 0x85: "la tira DUNGROLL, p03:AE5F",
+    0x87: "la tira POLEMAN, p03:A5EE", 0x88: "la tira BOOMERANG, p03:A5EE",
+    0x89: "la tira BLOWMIRE, p03:A5EE", 0x8A: "la tira BOWLER, p02:8A5B",
+    0x8C: "la tira FIRETOTEM, p03:B05D", 0x8D: "la tira CLINGMAN, p03:A630",
+    0x8E: "la tira STONEOGRE, p02:9B4F", 0x8F: "la tira SPS, p02:9D9F",
+    0x90: "la crea la figura 0x84, p03:B8C5", 0x91: "la crea la figura 0x84, p03:B8CB",
+}
 
 
 def etiquetas_con_nombre(b):
@@ -636,6 +650,35 @@ def pasos_de_los_enemigos():
             ns[0] if len(ns) == 1 else "%s y %s" % (", ".join(ns[:-1]), ns[-1]) if len(ns) <= 3
             else "%s y %d mas" % (", ".join(ns[:2]), len(ns) - 2),
             "s" if len(ts) > 1 else "", ", ".join("0x%02X" % t for t in ts))
+    suelta = {}
+    for t in range(1, 69):
+        r = rom[3 * 0x2000 + LO_QUE_SUELTA_TIPO - 0xA000 + t - 1]
+        if r == 0xFF:
+            continue
+        o = 3 * 0x2000 + LO_QUE_SUELTA - 0xA000 + 2 * r
+        d = rom[o] | rom[o + 1] << 8
+        if banco(d):
+            suelta.setdefault(d, []).append(t)
+    for d, ts in suelta.items():
+        ns = list(dict.fromkeys(nombre_enemigo(t) or "el tipo 0x%02X" % t for t in ts))
+        fuera.setdefault((banco(d), d), "LO QUE SUELTA%s %s al morir" % (
+            "N" if len(ns) > 1 else "",
+            ns[0] if len(ns) == 1 else "%s y %s" % (", ".join(ns[:-1]), ns[-1]) if len(ns) <= 4
+            else "%s y %d mas" % (", ".join(ns[:3]), len(ns) - 3)))
+    por_destino = {}
+    for k in range(17):
+        for tabla, que in ((FIGURAS_CADA_CUADRO, "cada cuadro"), (FIGURAS_AL_CREAR, "al crear")):
+            o = 0x2000 + tabla - 0x6000 + 2 * k
+            d = rom[o] | rom[o + 1] << 8
+            if banco(d):
+                por_destino.setdefault((banco(d), d, que), []).append(0x81 + k)
+    for (bd, d, que), ns in por_destino.items():
+        if (bd, d) in fuera:
+            continue
+        cual = "; ".join("0x%02X%s" % (n, (" (%s)" % QUIEN_LA_TIRA[n]) if n in QUIEN_LA_TIRA else "")
+                         for n in ns)
+        fuera[(bd, d)] = ("LA FIGURA %s, cada cuadro" if que == "cada cuadro"
+                          else "AL CREAR LA FIGURA %s") % cual
     for e, ts in entradas.items():
         if not any(nombre_enemigo(t) for t in ts):
             fuera[(banco(e), e)] = "ENTRADA de la ficha del tipo %s, con ella en IX" % ", ".join(

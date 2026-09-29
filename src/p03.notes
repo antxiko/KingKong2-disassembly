@@ -8,7 +8,6 @@ B 0xB9E6 DE = donde estaba. Las que miran el bit 2 de 0xC103 (un contador que
 B 0xB9E6 p01:65C2 sube cada cuadro) sueltan la mitad de las veces.
 C 0xB9E9 p03:BA66: tipo -> rutina
 C 0xB9F3 B = la pantalla
-C 0xB9F8 p03:BA06: las 47 rutinas
 D 0xA000 0xA002 call_partido  el resto (0x729E) de call 0x729E que empieza en p02:9FFF: el codigo sigue de largo de p02:9FFC a p03:A002
 D 0xA362 0xA36A cuadros_A362  8 bytes: el cuadro (ix+0x0B) segun ix+0x13 (p03:A34F) o ix+0x1A (desde 0xA366, p03:A309)
 D 0xA6A0 0xA6D0 tablas_A6A0  tres tablas de 16 bytes: 0xA6A0 (tipo 0x37) y 0xA6B8 (los demas) segun ix+0x18 (p03:A4C2), y parejas desde 0xA6C8 segun ix+0x19 (p03:A553)
@@ -71,7 +70,6 @@ L 0xB8D9 para_y_cuadro_8
 L 0xBB01 suelta_carne
 C 0xBB01 el objeto 0x15 (carne), B unidades
 L 0xBB18 suelta_alguien_que_habla
-C 0xBB18 el objeto 0x25: al tocarlo sale la conversacion de la pantalla (p01:7EF5)
 L 0xBB32 suelta_piedras
 C 0xBB32 el objeto 8 (piedras), B unidades
 L 0xBEB8 ruinsbat_anima
@@ -277,6 +275,87 @@ C 0xB39D AL CREAR WOODWORM: cuadro 0, con 0xDF99
 C 0xAC1A AL CREAR POISNFROG: cuadro 0, 0x20 cuadros
 C 0xACF2 AL CREAR MIREFROG: cuadro 3, 0x20 cuadros
 C 0xA36A AL CREAR POLEMAN, BOOMERANG, BLOWMIRE, FALCONER, JUMPMAN y CLINGMAN: paso 3 (esperando 0x0F cuadros), mirando abajo (2), 8 pasos
+C 0xB7D9 PASO 0: su cuadro (0x10 o 0x11) y la vuelta de arriba de GRASSWORM
+C 0xB7DF PASO 1: la vuelta de abajo
+C 0xB7E5 PASO 2 (las partes): cuadro 0x12 o 0x13, cambiando cada 16, y siguen el rastro
+C 0xB7F6 el cuadro 0x10 o 0x11, cambiando cada 16 cuadros
+C 0xB805 AL CREAR CENTIPEDE (tipo 0x14): caja y 0x40-0x70, x 0x20-0x90, vida 0x20, 5 partes
+C 0xB823 CENTIPEDE (0x14) usa los pasos del 0x13
+C 0xB838 AL CREAR LA FIGURA 0x8C (la tira FIRETOTEM): hacia Mitchel a 0x20, cuadro 0x12, sonido 5
+C 0xB849 LA FIGURA 0x8C, cada cuadro: cuadro 0x12 o 0x13 cada 4 cuadros...
+C 0xB856 ...y desaparece al pasar de y 0x48 en el exterior, o por encima de 0x58 en un plano alterno
+C 0xB86D AL CREAR LA FIGURA 0x85 (la tira DUNGROLL): en marcha, cuadro 0x0C, hacia abajo (con el cuadro 0x10 de DUNGROLL en 0xE806) o hacia arriba, a 1
+C 0xB889 LA FIGURA 0x85, cada cuadro: su cuadro de p03:B8B2 cada 4...
+C 0xB89A ...y alineada a 8, desaparece si choca por donde va
+C 0xB8B6 AL CREAR LA FIGURA 0x84 (la tira TWINMIRES): hacia Mitchel a 0x40, cuadro 8...
+C 0xB8BE ...y dos mas en su sitio, las 0x90 y 0x91
+C 0xB8D0 AL CREAR LA FIGURA 0x90: el rumbo del angulo A - 5...
+C 0xB8D4 AL CREAR LA FIGURA 0x91: el del angulo A + 0x0A...
+C 0xB8D9 ...en marcha, cuadro 8
+C 0xB92D AL CREAR LAS FIGURAS 0x87 y 0x88 (las tiran POLEMAN y BOOMERANG): en marcha, cuadro 0x0C, 0x20 cuadros...
+C 0xB93C ...hacia Mitchel a 0x1A0 (1,6 puntos por cuadro): en vertical si no esta en su fila...
+C 0xB955 ...en horizontal si lo esta
+C 0xB972 ix+0x14 = 0 (vertical) o 1, ix+0x15 la direccion
+C 0xB994 LA FIGURA 0x8A (la bola de BOWLER): si choca a 8 puntos, rebota...
+C 0xB999 ...y cuando se acaba ix+0x17, fuera...
+C 0xB9A3 ...su cuadro, de 8 a 0x0B cada 4 cuadros
+C 0xB9B7 AL CREAR LA FIGURA 0x8A: cuadro 8, 8 en ix+0x17, en marcha a 2 hacia Mitchel en diagonal
+C 0xB9E6 LO QUE SUELTA AL MORIR: su tipo de antes (ix+0x1F) en p03:BA66 (0xFF: nada)...
+C 0xB9F8 ...la rutina de p03:BA06, con B la pantalla y DE su sitio
+C 0xB8E1 LA FIGURA 0x88 (el boomerang de BOOMERANG): en la pantalla 0x21, fuera por encima de y 0x58...
+C 0xB8F0 ...a los 0x20 cuadros (ix+0x17) vuelve por donde vino (la direccion contraria, p03:B90C), una vez (ix+0x16)...
+C 0xB914 ...y a los 0x20 siguientes, fuera (y 0xE1)
+C 0xB919 mientras, el cuadro sube cada 4 cuadros, de 0x0C a 0x0F
+C 0xBAAD 49 piedras...
+C 0xBAC1 ...5 de oro
+C 0xBAC3 el objeto 0x26, el oro: B (en BCD)
+C 0xBB70 ...un ぶーめらん (0x0A)
+C 0xBBA9 ...en las demas, cada 16 (0xDFC2), EL HACHA (おの, 0x05) si no se lleva...
+C 0xBBBE ...y en la pantalla 0x17, la mitad de las veces, 5 de oro
+C 0xBC89 ...el objeto 0x2C: suma B al MP
+C 0xBAB4 LO QUE SUELTAN MUDARMOR y REVOLVER: el objeto 0x28: el suceso 5 (se quita el decorado de ese tipo; el 8 en la pantalla 0x5D)
+C 0xBABB LO QUE SUELTA POISNFROG: la mitad de las veces (bit 2 del contador de cuadros a 0)...
+C 0xBAC8 LO QUE SUELTA ROCKMAN: la mitad de las veces, 4 de oro
+C 0xBAD3 LO QUE SUELTA WILDBOAR: la mitad de las veces, 5 de oro
+C 0xBADE LO QUE SUELTA REDSPIDER: ぱぴるす (0x1D) y el suceso 5
+C 0xBAEC LO QUE SUELTA BIGSPIDER: si no se lleva la llave de madera, きのかぎ (0x23)
+C 0xBAF8 LO QUE SUELTA BATT: cada 6 muertes (0xDFD1), una carne
+C 0xBB06 LO QUE SUELTA RATT: en la pantalla 9, cada 3 muertes (0xDFD2), una やくそう (0x10)
+C 0xBB18 LO QUE SUELTAN GRASSWORM y MIREWORM: el objeto 0x25: al tocarlo, la conversacion de la pantalla
+C 0xBB1F LO QUE SUELTA CENTIPEDE: uno de cada 4 (0xDFC0): el 1, 99 piedras; el 3, alguien que habla
+C 0xBB37 LO QUE SUELTA CENTIPEDE: lo mismo, con 0xDFC1
+C 0xBB4D LO QUE SUELTA DUNGROLL: cada 5 muertes (0xDFD3), 99 piedras
+C 0xBB59 LO QUE SUELTA POLEMAN: la mitad de las veces, 5 de oro
+C 0xBB64 LO QUE SUELTA BOOMERANG: en la pantalla 0x21 siempre; en las demas cada 5 muertes (0xDFD4)...
+C 0xBB77 LO QUE SUELTA BLOWMIRE: la mitad de las veces, 5 de oro
+C 0xBB82 LO QUE SUELTA TWINMIRES: al acabar la cuenta de 0xDFC4 (una vez), el objeto 0x2B: el suceso 1
+C 0xBB8E LO QUE SUELTA SEALOUSE: cada 16 muertes (0xDFD5), una やくそう
+C 0xBB9A LO QUE SUELTA BOWLER: en la pantalla 0x22, cada 5 muertes (0xDFD6), alguien que habla...
+C 0xBBCD LO QUE SUELTA THICKSKIN: cada 5 muertes (0xDFD7), かいてん (0x22) si no se lleva; si no, la mitad de las veces 0x10 de oro
+C 0xBBED LO QUE SUELTA GRIZZLY: en la pantalla 0x1A, alguien que habla y el suceso 5; en la 0x1F, 2 carnes
+C 0xBC04 LO QUE SUELTA MRRUINS: en la pantalla 0x3A, alguien que habla
+C 0xBC0B LO QUE SUELTA CAVEMAN: cada 10 muertes (0xDFD8), 10 ほのおのたま (0x09)
+C 0xBC19 LO QUE SUELTA CAVERNMAN: 50 de oro
+C 0xBC1E LO QUE SUELTA PROWLER: la mitad de las veces, 20 de oro
+C 0xBC29 LO QUE SUELTA CAVERNBIG: si no se lleva, 99 きいろいいし (0x1F)
+C 0xBC35 LO QUE SUELTA WATCHMAN: en la pantalla 0x6E, al acabar la cuenta de 0xDFC5, el objeto 0x2A: aparece un pasadizo (las casillas 0xC0-0xC3 en (0x50, 0x30))
+C 0xBC48 LO QUE SUELTAN BIGGUARD y SAVAGE: てつのかぎ (0x24), la llave de hierro
+C 0xBC4F LO QUE SUELTA FALCONBAT: la mitad de las veces, una carne
+C 0xBC5A LO QUE SUELTA FIRETOTEM: cada 12 muertes (0xDFC3), こんぼう (0x03) si no se lleva
+C 0xBC6D LO QUE SUELTA THE NASTY: もり (0x0B), el arpon, y el suceso 5
+C 0xBC7B LO QUE SUELTA BADPRIEST: 4 carnes y el suceso 5
+C 0xBC87 LO QUE SUELTA GROUNDER: 0x16 de MP...
+C 0xBC8E LO QUE SUELTA THE NOT: la mitad de las veces, 5 de oro
+C 0xBC99 LO QUE SUELTA CROW: cada 2 muertes (0xDFD9), alguien que habla en (0x80, 0x20)
+C 0xBCA6 LO QUE SUELTA RED FMAN: si no se lleva, つめ (0x07), la garra
+C 0xBCB2 LO QUE SUELTA B FMAN: una vez de cada 4 (bits 1-2 del contador), 0x10 de MP
+C 0xBCBD LO QUE SUELTA D FMAN: una vez de cada 4, 0x20 de MP
+C 0xBCC8 LO QUE SUELTA CLINGMAN: en la pantalla 0x4F, cada 6 muertes (0xDFDA), alguien que habla
+C 0xBCD6 LO QUE SUELTA REVOLVER: si no se lleva, あぐのす (0x14)
+C 0xBCE2 LO QUE SUELTA WHITEFIRE: en la pantalla 0x6A, cada 6 muertes (0xDFDB), らめらのえき (0x0F) si no se tiene (0xC144)
+C 0xBCF9 LO QUE SUELTA BIGFLOWER: el objeto 0x29: nada
+C 0xBD00 LO QUE SUELTA GRASSOGRE: cada 16 muertes (0xDFC6), el ROD (0x02) si no se lleva; si no, la mitad de las veces 1 de MP
+C 0xBD1F LO QUE SUELTA BUCKLER: la mitad de las veces, 2 de MP
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA3EE 0xA3FA tabla_A3EE  6 destinos del despachador de 0x425F (call en p03:A3EB): 0xA3FA, 0xA442, 0xA48F, 0xA4F4, 0xA505, 0xA511; lo leen p03:A3EB (12 bytes)
@@ -818,14 +897,8 @@ C 0xB722 gusanos_de_la_tabla: A = el byte de la tabla >> E, con el signo de C en
 C 0xB731 guarda la y del enemigo
 C 0xB7CD ENTRADA de CENTIPEDE (tipo 0x13), con su ficha en IX
 C 0xB7D0 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
-C 0xB7D9 CENTIPEDE, paso 0
-C 0xB7DF CENTIPEDE, paso 1
-C 0xB7E5 CENTIPEDE, paso 2
 C 0xB7F0 guarda el cuadro del enemigo
-C 0xB7F6 lee la cuenta de cuadros
 C 0xB801 guarda el cuadro del enemigo
-C 0xB805 AL CREAR CENTIPEDE (tipo 0x14)
-C 0xB823 ENTRADA de CENTIPEDE (tipo 0x14), con su ficha en IX
 C 0xB826 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 C 0xB82F CENTIPEDE, paso 0
 C 0xB832 CENTIPEDE, paso 1
@@ -834,44 +907,34 @@ C 0xB83A p01:rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo..
 C 0xB83D p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
 C 0xB840 el cuadro del enemigo = 0x12
 C 0xB846 p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
-C 0xB849 mira el bit 2 de la cuenta de cuadros
 C 0xB853 guarda el cuadro del enemigo
-C 0xB856 lee el plano de la pantalla (0, el exterior)
 C 0xB85C lee la y del enemigo
 C 0xB864 lee la y del enemigo
 C 0xB86A p01:quita_la_ficha: se borra la ficha y sus sprites se dejan libres (y = 0xE0)
-C 0xB86D si se mueve = 0x01
 C 0xB871 el cuadro del enemigo = 0x0C
 C 0xB881 p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 C 0xB886 p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
-C 0xB889 lee la cuenta de cuadros
 C 0xB890 cuadros_B8B2: 4 bytes: el cuadro (ix+0x0B) segun el paso (p03:B890)
 C 0xB893 p00:hl_mas_a
 C 0xB897 guarda el cuadro del enemigo
-C 0xB89A lee la y del enemigo
 C 0xB8A2 lee la velocidad vertical
 C 0xB8AB p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 C 0xB8AF p01:quita_la_ficha: se borra la ficha y sus sprites se dejan libres (y = 0xE0)
 C 0xB8B8 p01:rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
-C 0xB8BE lee la x del enemigo
+C 0xB8BB para_y_cuadro_8: ...en marcha, cuadro 8
 C 0xB8C1 lee la y del enemigo
 C 0xB8C7 p01:crea_una_figura: CREA UNA FIGURA: el tipo C en DE
 C 0xB8CD p01:crea_una_figura: CREA UNA FIGURA: el tipo C en DE
-C 0xB8D9 p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
+C 0xB8D6 p01:rumbo_con_angulo: el rumbo del angulo A (0x40 un cuarto de vuelta): DE y HL las velocidades, del seno y el coseno de p01:725E
 C 0xB8DC el cuadro del enemigo = 0x08
-C 0xB8E1 lee la PANTALLA
 C 0xB8E4 la pantalla 0x21?
 C 0xB8E8 lee la y del enemigo
 C 0xB8ED p01:quita_la_ficha: se borra la ficha y sus sprites se dejan libres (y = 0xE0)
 C 0xB909 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
-C 0xB914 la y del enemigo = 0xE1
-C 0xB919 lee la cuenta de cuadros
 C 0xB91F sube el cuadro del enemigo
 C 0xB922 lee el cuadro del enemigo
 C 0xB928 el cuadro del enemigo = 0x0C
-C 0xB92D sube si se mueve
 C 0xB930 el cuadro del enemigo = 0x0C
-C 0xB93C apunta a la Y de Mitchel
 C 0xB944 compara con la y del enemigo
 C 0xB950 p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 C 0xB95C compara con la x del enemigo
@@ -880,8 +943,8 @@ C 0xB96F p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7
 C 0xB97C p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 C 0xB984 p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 C 0xB991 p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
+C 0xB996 p01:choca_o_da_la_vuelta: si a D puntos hay casilla que no se pasa, da la vuelta (p01:7423)
 C 0xB99F la y del enemigo = 0xE1
-C 0xB9A3 lee la cuenta de cuadros
 C 0xB9A9 sube el cuadro del enemigo
 C 0xB9AC lee el cuadro del enemigo
 C 0xB9B2 el cuadro del enemigo = 0x08
@@ -892,37 +955,30 @@ C 0xB9C6 lee la x del enemigo
 C 0xB9D2 p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 C 0xB9D7 lee la y del enemigo
 C 0xB9E3 p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
-C 0xB9E6 lee el tipo que tenia antes de morir
 C 0xB9ED p00:hl_mas_a
 C 0xB9FB p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
 C 0xB9FF lee la y del enemigo
 C 0xBA02 lee la x del enemigo
+C 0xBAAB LO QUE SUELTA CLUBMAN al morir
 C 0xBAAF suelta_piedras: el objeto 8 (piedras), B unidades
 C 0xBAB8 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
-C 0xBABB lee el contador de cuadros
 C 0xBAC5 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
-C 0xBAC8 lee el contador de cuadros
-C 0xBAD3 lee el contador de cuadros
 C 0xBAE0 el objeto 0x1D, ぱぴるす
 C 0xBAE4 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
-C 0xBAEC lee cuantos objetos 0x23 se llevan (BCD; 0xFF sin cuenta)
 C 0xBAF1 el objeto 0x23, きのかぎ
 C 0xBAF5 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 C 0xBB03 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 C 0xBB13 el objeto 0x10, やくそう
 C 0xBB15 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 C 0xBB1C p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
-C 0xBB2D suelta_alguien_que_habla: el objeto 0x25: al tocarlo sale la conversacion de la pantalla (p01:7EF5)
+C 0xBB2D suelta_alguien_que_habla: LO QUE SUELTAN GRASSWORM y MIREWORM: el objeto 0x25: al tocarlo, la conversacion de la pantalla
 C 0xBB34 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
-C 0xBB45 suelta_alguien_que_habla: el objeto 0x25: al tocarlo sale la conversacion de la pantalla (p01:7EF5)
+C 0xBB45 suelta_alguien_que_habla: LO QUE SUELTAN GRASSWORM y MIREWORM: el objeto 0x25: al tocarlo, la conversacion de la pantalla
 C 0xBB4A suelta_piedras: el objeto 8 (piedras), B unidades
 C 0xBB56 suelta_piedras: el objeto 8 (piedras), B unidades
-C 0xBB59 lee el contador de cuadros
-C 0xBB70 el objeto 0x0A, ぶーめらん
 C 0xBB74 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
-C 0xBB77 lee el contador de cuadros
 C 0xBB8B p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
-C 0xBBA6 suelta_alguien_que_habla: el objeto 0x25: al tocarlo sale la conversacion de la pantalla (p01:7EF5)
+C 0xBBA6 suelta_alguien_que_habla: LO QUE SUELTAN GRASSWORM y MIREWORM: el objeto 0x25: al tocarlo, la conversacion de la pantalla
 C 0xBBB1 lee cuantos objetos 0x05 se llevan (BCD; 0xFF sin cuenta)
 C 0xBBB7 el objeto 0x05, おの
 C 0xBBBB p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
@@ -932,18 +988,14 @@ C 0xBBE0 lee cuantos objetos 0x22 se llevan (BCD; 0xFF sin cuenta)
 C 0xBBE6 el objeto 0x22, かいてん
 C 0xBBEA p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 C 0xBBF7 suelta_carne: el objeto 0x15 (carne), B unidades
-C 0xBBFC suelta_alguien_que_habla: el objeto 0x25: al tocarlo sale la conversacion de la pantalla (p01:7EF5)
-C 0xBC08 suelta_alguien_que_habla: el objeto 0x25: al tocarlo sale la conversacion de la pantalla (p01:7EF5)
+C 0xBBFC suelta_alguien_que_habla: LO QUE SUELTAN GRASSWORM y MIREWORM: el objeto 0x25: al tocarlo, la conversacion de la pantalla
+C 0xBC08 suelta_alguien_que_habla: LO QUE SUELTAN GRASSWORM y MIREWORM: el objeto 0x25: al tocarlo, la conversacion de la pantalla
 C 0xBC12 el objeto 0x09, ほのおのたま
 C 0xBC16 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
-C 0xBC1E lee el contador de cuadros
-C 0xBC29 lee cuantos objetos 0x1F se llevan (BCD; 0xFF sin cuenta)
 C 0xBC2E el objeto 0x1F, きいろいいし
 C 0xBC32 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 C 0xBC45 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
-C 0xBC48 el objeto 0x24, てつのかぎ
 C 0xBC4C p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
-C 0xBC4F lee el contador de cuadros
 C 0xBC57 suelta_carne: el objeto 0x15 (carne), B unidades
 C 0xBC61 lee cuantos objetos 0x03 se llevan (BCD; 0xFF sin cuenta)
 C 0xBC66 el objeto 0x03, こんぼう
@@ -952,15 +1004,10 @@ C 0xBC6F el objeto 0x0B, もり
 C 0xBC73 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 C 0xBC7F suelta_carne: el objeto 0x15 (carne), B unidades
 C 0xBC8B p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
-C 0xBC8E lee el contador de cuadros
-C 0xBCA3 suelta_alguien_que_habla: el objeto 0x25: al tocarlo sale la conversacion de la pantalla (p01:7EF5)
-C 0xBCA6 lee cuantos objetos 0x07 se llevan (BCD; 0xFF sin cuenta)
+C 0xBCA3 suelta_alguien_que_habla: LO QUE SUELTAN GRASSWORM y MIREWORM: el objeto 0x25: al tocarlo, la conversacion de la pantalla
 C 0xBCAB el objeto 0x07, つめ
 C 0xBCAF p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
-C 0xBCB2 lee el contador de cuadros
-C 0xBCBD lee el contador de cuadros
-C 0xBCD3 suelta_alguien_que_habla: el objeto 0x25: al tocarlo sale la conversacion de la pantalla (p01:7EF5)
-C 0xBCD6 lee cuantos objetos 0x14 se llevan (BCD; 0xFF sin cuenta)
+C 0xBCD3 suelta_alguien_que_habla: LO QUE SUELTAN GRASSWORM y MIREWORM: el objeto 0x25: al tocarlo, la conversacion de la pantalla
 C 0xBCDB el objeto 0x14, あぐのす
 C 0xBCDF p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 C 0xBCF2 el objeto 0x0F, らめらのえき
@@ -970,7 +1017,6 @@ C 0xBD08 lee cuantos objetos 0x02 se llevan (BCD; 0xFF sin cuenta)
 C 0xBD0D el objeto 0x02, ROD
 C 0xBD11 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 C 0xBD14 lee el contador de cuadros
-C 0xBD1F lee el contador de cuadros
 C 0xBD2A AL CREAR la ficha del tipo 0x3D
 C 0xBD32 si se mueve = 0x01
 C 0xBD36 lee la PANTALLA
@@ -1026,11 +1072,11 @@ C 0xBEB8 lee la cuenta de cuadros
 C 0xBECF cuadros_BEDA: 6 bytes: el cuadro (ix+0x0B) segun ix+0x14 (p03:BECF)
 C 0xBED2 p00:hl_mas_a
 C 0xBED6 guarda el cuadro del enemigo
-C 0xBEE0 lee la cuenta de cuadros
+C 0xBEE0 LA FIGURA 0x87 (la tira POLEMAN, p03:A5EE), cada cuadro
 C 0xBEE6 sube el cuadro del enemigo
 C 0xBEE9 lee el cuadro del enemigo
 C 0xBEEF el cuadro del enemigo = 0x0C
-C 0xBEF4 el cuadro del enemigo = 0x08
+C 0xBEF4 AL CREAR LA FIGURA 0x89 (la tira BLOWMIRE, p03:A5EE)
 C 0xBEFA p01:rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
 C 0xBEFD p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
 C 0xBF01 guarda la velocidad vertical

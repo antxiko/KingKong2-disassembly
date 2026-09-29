@@ -2778,8 +2778,8 @@ rumbo_hacia_mitchel:
 	call mitchel_en_e800		;7180
 L_7183:
 	ld a,(0e815h)		;7183   ; ...el seno y el coseno (p01:725E)...
-L_7186:
-	ld e,a			;7186
+rumbo_con_angulo:
+	ld e,a			;7186   ; el rumbo del angulo A (0x40 un cuarto de vuelta): DE y HL las velocidades, del seno y el coseno de p01:725E
 	ld d,000h		;7187
 	ld a,e			;7189
 	sub 03fh		;718a
@@ -3103,8 +3103,8 @@ DATA_byte_por_juego_de_dibujos:
 ; ======================================================================
 
 
-L_73DD:
-	call ficha_contra_el_mapa		;73dd   ; ficha_contra_el_mapa: ACARREO si la casilla a D puntos por encima, a la derecha, por debajo o a la izquierda de la ficha es de las que no se pasan; B el lado (0-3)
+choca_o_da_la_vuelta:
+	call ficha_contra_el_mapa		;73dd   ; si a D puntos hay casilla que no se pasa, da la vuelta (p01:7423)
 	jp c,L_7423		;73e0
 	ret			;73e3
 ficha_contra_el_mapa:
