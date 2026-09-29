@@ -30,10 +30,11 @@ def paleta_volcada(p):
 
 
 def coteja_pantalla(ruta):
-    n = int(os.path.basename(ruta)[1:3], 16)
     v = open(ruta, "rb").read()
     ram = open(ruta[:-5] + ".ram", "rb").read()
-    cueva = ram[0x131]
+    # la que HAY en el volcado, que puede no ser la pedida: el juego salta a
+    # otra si Mitchel cae en una salida
+    n, cueva = ram[0x125], ram[0x131]
     img, pal = P.pinta(n, cueva)
     celdas = {}
     for y in range(160):
