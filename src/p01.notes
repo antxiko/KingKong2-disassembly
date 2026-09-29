@@ -1124,8 +1124,10 @@ C 0x6621 p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del m
 C 0x6624 apunta a la espera del estado, en cuadros
 C 0x6637 guarda las banderas de la partida (bit 6: de verdad, no la demostracion)
 C 0x663A guarda el ESTADO del juego
+C 0x663D la espera del estado, en cuadros = 0x20
 C 0x663F guarda la espera del estado, en cuadros
 C 0x6647 empieza_la_demostracion: LA DEMOSTRACION: la RAM a cero...
+C 0x664A la espera del estado, en cuadros = 0x20
 C 0x664C guarda la espera del estado, en cuadros
 C 0x664F apunta a el paso del estado
 C 0x6658 p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
@@ -1243,6 +1245,7 @@ C 0x6C78 escribe_life: LIFE: 2 bytes en (0x30, 0xD8)
 C 0x6C7E guarda el color del primer sprite de Mitchel
 C 0x6C84 guarda LIFE, los dos bytes (BCD)
 C 0x6C87 guarda lo que lanza Mitchel (su ficha)
+C 0x6C8E la cuenta de los pasos de Mitchel = 0x50
 C 0x6C90 guarda la cuenta de los pasos de Mitchel
 C 0x6C95 p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 C 0x6C98 escribe_life: LIFE: 2 bytes en (0x30, 0xD8)
@@ -1379,6 +1382,7 @@ C 0x7535 hay_algo_lanzado: 0xC380: la ficha de lo que Mitchel lanza
 C 0x753B p00:sonido: pone los bancos 4 y 5 y pide el sonido A a p04:6032
 C 0x753E apunta a el estado de Mitchel
 C 0x754C lee SHOT1, el arma que se lleva (0 el puno)
+C 0x7557 lo que lanza Mitchel (su ficha) = 0xFF
 C 0x7559 guarda lo que lanza Mitchel (su ficha)
 C 0x7560 p00:sonido: pone los bancos 4 y 5 y pide el sonido A a p04:6032
 C 0x7563 apunta a el estado de Mitchel
@@ -1476,6 +1480,7 @@ C 0x7C3D p00:hl_mas_a
 C 0x7C5A hay_algo_lanzado: 0xC380: la ficha de lo que Mitchel lanza
 C 0x7C6A p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 C 0x7C6D apunta a el estado de Mitchel
+C 0x7C7B lo que lanza Mitchel (su ficha) = 0xFF
 C 0x7C7D guarda lo que lanza Mitchel (su ficha)
 C 0x7CA1 p00:rotulo: [x][y] letras, 0xFE [x][y] otro sitio, 0xFF acaba
 C 0x7CEF guarda LIFE, los dos bytes (BCD)
@@ -1485,6 +1490,7 @@ C 0x7D02 guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conv
 C 0x7D0D la pantalla 0x56?
 C 0x7D14 lee la PANTALLA
 C 0x7D18 la pantalla 0x34?
+C 0x7D1F el SUCESO: el tipo de decorado que hay que quitar = 0x03
 C 0x7D25 guarda el paso del suceso
 C 0x7D2C la pantalla 0x38?
 C 0x7D38 p00:posicion_de_mitchel: E = la y de Mitchel, D = su x

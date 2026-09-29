@@ -404,6 +404,13 @@ def comentario(b, filas, k, clases, rut, cruces, fuentes=None, datos=None, repar
                 return q
     # el objeto que se da o se pone
     siguientes = [filas[j][1] for j in range(k + 1, min(k + 3, len(filas)))]
+    # una constante que va a una variable conocida
+    m = re.match(r"ld a,0?([0-9a-f]+)h$", t)
+    if m and siguientes:
+        m2 = re.match(r"ld \(0([c-f][0-9a-f]{3})h\),a$", siguientes[0])
+        if m2 and int(m2.group(1), 16) in RAM:
+            v = int(m.group(1), 16)
+            return "%s = 0x%02X" % (RAM[int(m2.group(1), 16)][0], v)
     m = re.match(r"ld a,0?([0-9a-f]+)h$", t)
     if m and siguientes and re.match(r"call (04068h|04176h)$", siguientes[0]):
         n = nombre_objeto(int(m.group(1), 16))

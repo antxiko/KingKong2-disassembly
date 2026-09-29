@@ -269,6 +269,7 @@ F 0x7FD4 16
 # --- fin de los bloques de bloques.py ---
 
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
+C 0x6000 la copia del registro 7 del PSG (el mezclador) = 0xBC
 C 0x6002 guarda la copia del registro 7 del PSG (el mezclador)
 C 0x6009 guarda el fundido de la musica (se suma al volumen)
 C 0x6016 guarda el sonido que suena (para no pisarlo con uno menor)
@@ -290,8 +291,10 @@ C 0x60E6 canal_en_reposo: 20 bytes que p04:605D copia a cada canal al empezar un
 C 0x6101 guarda el manejador del canal de los efectos
 C 0x6130 lee el fundido de la musica (se suma al volumen)
 C 0x6136 lee la copia del registro 7 del PSG (el mezclador)
+C 0x6146 la copia del registro 7 del PSG (el mezclador) = 0xBF
 C 0x6148 guarda la copia del registro 7 del PSG (el mezclador)
 C 0x61A0 guarda el canal del PSG que se esta tocando
+C 0x61A3 el numero de canal = 0x04
 C 0x61A5 guarda el numero de canal
 C 0x61AB guarda el manejador de la musica de la pausa
 C 0x61B1 canal_en_reposo: 20 bytes que p04:605D copia a cada canal al empezar una pieza o un efecto

@@ -134,9 +134,11 @@ C 0xA68F p00:puente_hl_mas_a
 C 0xA693 apunta a la Y de Mitchel
 C 0xA6A0 lee la Y de Mitchel
 C 0xA6A9 p00:puente_guarda_las_teclas
+C 0xA6B9 el paso del suceso de p06:A649 = 0xFF
 C 0xA6BB guarda el paso del suceso de p06:A649
 C 0xA6D8 p00:puente_sube_los_colores_de_sprite
 C 0xA6DB elige_el_final: Sube los 77 dibujos de la escena (p06:AF41) y elige el final (0xC137):
+C 0xA6DE la espera del estado, en cuadros = 0x20
 C 0xA6E0 guarda la espera del estado, en cuadros
 C 0xA6E3 apunta a el paso del estado
 C 0xA6EA p00:puente_copia_lineas_a_la_pagina_1
@@ -157,6 +159,7 @@ C 0xA752 p00:puente_espera_al_vdp
 C 0xA755 p00:puente_paleta_inicial
 C 0xA759 guarda las banderas de la partida (bit 6: de verdad, no la demostracion)
 C 0xA75C guarda el ESTADO del juego
+C 0xA75F la espera del estado, en cuadros = 0x20
 C 0xA761 guarda la espera del estado, en cuadros
 C 0xA765 guarda el paso del estado
 C 0xA769 apunta a la espera del estado, en cuadros
@@ -250,6 +253,7 @@ C 0xABF9 p00:cabecera_de_konami: 'CD', 0x07 y 0x45: la cabecera que lee el Konam
 C 0xAC04 p00:puente_lmmm
 C 0xAC07 apunta a la espera del estado, en cuadros
 C 0xAC0C paleta_A879: paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00
+C 0xAC17 en el final, cual de los tres (0, 1 o 2; 3 acabado) = 0x03
 C 0xAC1E sprites_del_final: 8 sprites [y][x][patron][color] que p06:AC1E y p06:AC32 copian a 0xE600/0xE620
 C 0xAC32 sprites_del_final: 8 sprites [y][x][patron][color] que p06:AC1E y p06:AC32 copian a 0xE600/0xE620
 C 0xAC35 apunta a los atributos de los sprites, para la VRAM
@@ -322,6 +326,7 @@ C 0xBC02 p00:puente_pinta_figura_sin_bancos
 C 0xBD49 lee la PANTALLA
 C 0xBD4C la pantalla 0x5B?
 C 0xBD4F lee la figura que sigue a Mitchel
+C 0xBD5A el SUCESO: el tipo de decorado que hay que quitar = 0x02
 C 0xBD5C guarda el SUCESO: el tipo de decorado que hay que quitar
 C 0xBD60 guarda el paso del suceso
 C 0xBD6E p00:puente_posicion_de_mitchel
@@ -337,6 +342,7 @@ C 0xBDCC lee la PANTALLA
 C 0xBDD0 pasadizos: 15 fichas [pantalla][a donde][x][y][C] y un 0: p06:BDD0 busca la pantalla y manda alli a Mitchel (0xC201 = 1, sonido 0x24)
 C 0xBDE7 guarda la PANTALLA
 C 0xBDEA guarda el punto de entrada (y, x)
+C 0xBDF2 el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER) = 0x01
 C 0xBDF4 guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
 C 0xBDFC p00:puente_sonido_si_juega
 C 0xBE67 lee el estado de Mitchel
@@ -349,6 +355,7 @@ C 0xBE89 zonas_BEB1: 4 fichas [direccion][x min][x max][y min][y max]: donde tie
 C 0xBE8D lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 C 0xBE93 p00:puente_posicion_de_mitchel
 C 0xBEA4 guarda el paso del suceso
+C 0xBEAB el SUCESO: el tipo de decorado que hay que quitar = 0x05
 C 0xBEAD guarda el SUCESO: el tipo de decorado que hay que quitar
 C 0xBEC5 apunta a el plano de la pantalla (0, el exterior)
 C 0xBECE lee la Y de Mitchel
@@ -369,8 +376,10 @@ C 0xBF05 la pantalla 0x8A?
 C 0xBF09 la pantalla 0x61?
 C 0xBF0D la pantalla 0x58?
 C 0xBF6C lee la X de Mitchel
+C 0xBF74 la PANTALLA = 0x39
 C 0xBF76 guarda la PANTALLA
 C 0xBF7A lee la Y de Mitchel
+C 0xBF80 la PANTALLA = 0x8C
 C 0xBF82 guarda la PANTALLA
 C 0xBF86 contadores_iniciales: 28 bytes que p06:BF86 copia a 0xDE00 al empezar la partida
 # --- fin de las anotaciones de anota.py ---

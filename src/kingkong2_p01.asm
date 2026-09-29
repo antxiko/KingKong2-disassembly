@@ -975,13 +975,13 @@ L_6636:
 	ld (0c102h),a		;6637   ; guarda las banderas de la partida (bit 6: de verdad, no la demostracion)
 L_663A:
 	ld (0c100h),a		;663a   ; guarda el ESTADO del juego
-	ld a,020h		;663d
+	ld a,020h		;663d   ; la espera del estado, en cuadros = 0x20
 	ld (0c104h),a		;663f   ; guarda la espera del estado, en cuadros
 	jr L_6691		;6642
 L_6644:
 	call 04612h		;6644   ; empieza una demostracion
 	call empieza_la_demostracion		;6647   ; empieza_la_demostracion: LA DEMOSTRACION: la RAM a cero...
-	ld a,020h		;664a
+	ld a,020h		;664a   ; la espera del estado, en cuadros = 0x20
 L_664C:
 	ld (0c104h),a		;664c   ; guarda la espera del estado, en cuadros
 L_664F:
@@ -1969,7 +1969,7 @@ mitchel_muere:
 	ld (0c380h),a		;6c87   ; guarda lo que lanza Mitchel (su ficha)
 	inc a			;6c8a   ; 0xC133 = 1: algo en marcha
 	ld (0c133h),a		;6c8b
-	ld a,050h		;6c8e
+	ld a,050h		;6c8e   ; la cuenta de los pasos de Mitchel = 0x50
 	ld (0c311h),a		;6c90   ; guarda la cuenta de los pasos de Mitchel
 	ld a,00fh		;6c93   ; el sonido 0x0F
 	call 05488h		;6c95   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
@@ -3357,7 +3357,7 @@ L_7534:
 	and a			;7552
 	ret z			;7553
 	ld (0c38fh),a		;7554   ; y con arma, 0xC38F y 0xC380 = 0xFF
-	ld a,0ffh		;7557
+	ld a,0ffh		;7557   ; lo que lanza Mitchel (su ficha) = 0xFF
 	ld (0c380h),a		;7559   ; guarda lo que lanza Mitchel (su ficha)
 L_755C:
 	jp 05046h		;755c   ; los sprites del arma (p00:5046)
@@ -4471,7 +4471,7 @@ L_7C59:
 	ld (0c314h),a		;7c73
 	ld a,01eh		;7c76
 	ld (0c313h),a		;7c78
-	ld a,0ffh		;7c7b
+	ld a,0ffh		;7c7b   ; lo que lanza Mitchel (su ficha) = 0xFF
 	ld (0c380h),a		;7c7d   ; guarda lo que lanza Mitchel (su ficha)
 	call sitio_del_golpe		;7c80
 	ld a,001h		;7c83   ; ...con el dibujo del conjuro (patrones 1 y 0x0E)...
@@ -4576,7 +4576,7 @@ usa_el_0x13:
 	ld a,(0c58eh)		;7d1a
 	and a			;7d1d
 	ret z			;7d1e
-	ld a,003h		;7d1f
+	ld a,003h		;7d1f   ; el SUCESO: el tipo de decorado que hay que quitar = 0x03
 L_7D21:
 	ld (0c560h),a		;7d21   ; el suceso a 0xC560: p15 quita el decorado de ese tipo
 	xor a			;7d24

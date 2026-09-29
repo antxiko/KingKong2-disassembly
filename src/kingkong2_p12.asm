@@ -1960,7 +1960,7 @@ DATA_ya_no_basta:
 
 
 accion_01_el_cuchillo:
-	call elige_1_2_o_3		;b500   ; elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+	call elige_1_2_o_3		;b500   ; elige_1_2_o_3: la direccion de la tabla de detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B503: 3 destinos del despachador de 0xB9B3 (call en p12:B500):
@@ -1979,29 +1979,29 @@ DATA_tabla_B503:
 L_B509:
 	ld de,00200h		;b509   ; 200 GOLD
 	call cobra		;b50c   ; cobra: Cobra DE (BCD) del oro 0xC135-0xC137. Acarreo = no hay bastante; con
-	jr c,L_B529		;b50f
+	jr c,L_B529		;b50f   ; sin bastante oro, la linea 3
 	ld a,001h		;b511   ; el objeto 1
 	call 04068h		;b513   ; p00:puente_da_un_objeto: p01:79CE: da el objeto A, una unidad (lo usan las conversaciones de p12)
-	ld a,002h		;b516
+	ld a,002h		;b516   ; la linea 2: "ありがとよ。"...
 	ld (0c14dh),a		;b518   ; guarda la linea de la conversacion
-	ld a,004h		;b51b
+	ld a,004h		;b51b   ; ...y luego la 4 (el hacha)
 	ld (0c15dh),a		;b51d   ; guarda la linea a la que se salta tras la accion
-	jr L_B531		;b520
+	jr sigue_la_conversacion		;b520
 L_B522:
-	ld a,004h		;b522
+	ld a,004h		;b522   ; no: la 4
 	ld (0c14dh),a		;b524   ; guarda la linea de la conversacion
-	jr L_B531		;b527
+	jr sigue_la_conversacion		;b527
 L_B529:
-	ld a,003h		;b529
+	ld a,003h		;b529   ; la 3: "かねが たりねえぞ。"
 	ld (0c14dh),a		;b52b   ; guarda la linea de la conversacion
-	jp L_B531		;b52e
-L_B531:
-	ld a,001h		;b531
+	jp sigue_la_conversacion		;b52e   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
+sigue_la_conversacion:
+	ld a,001h		;b531   ; 0xC14B = 1: se escribe la linea que diga 0xC14D
 	ld (0c14bh),a		;b533   ; guarda el paso de la conversacion
 L_B536:
 	ret			;b536
 accion_02_el_hacha:
-	call elige_1_2_o_3		;b537   ; elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+	call elige_1_2_o_3		;b537   ; elige_1_2_o_3: la direccion de la tabla de detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B53A: 3 destinos del despachador de 0xB9B3 (call en p12:B537):
@@ -2018,27 +2018,27 @@ DATA_tabla_B53A:
 
 
 L_B540:
-	ld a,007h		;b540
+	ld a,007h		;b540   ; no: la 7 (se acaba)
 	ld (0c14dh),a		;b542   ; guarda la linea de la conversacion
-	jp L_B531		;b545
+	jp sigue_la_conversacion		;b545   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 quiere_el_hacha:
 	ld a,(0c136h)		;b548   ; con 300 GOLD o mas (0xC136 >= 3), la linea siguiente: "agotada"
-	cp 003h		;b54b
-	jp nc,L_B531		;b54d
+	cp 003h		;b54b   ; con 300 o mas, la linea siguiente (agotada)
+	jp nc,sigue_la_conversacion		;b54d   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 	ld a,003h		;b550   ; con menos, la 3: "no te llega"
 	ld (0c14dh),a		;b552   ; guarda la linea de la conversacion
-	ld a,007h		;b555
+	ld a,007h		;b555   ; y despues la 7 (se acaba)
 	ld (0c15dh),a		;b557   ; guarda la linea a la que se salta tras la accion
-	jp L_B531		;b55a
+	jp sigue_la_conversacion		;b55a   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 accion_03_la_radio:
 	ld a,(0c358h)		;b55d   ; con el objeto 0x19 (0xC358) sigue la conversacion; sin el, se acaba
-	and a			;b560
-	jp nz,L_B7DA		;b561
-	ld a,005h		;b564
+	and a			;b560   ; con la radio, la linea siguiente...
+	jp nz,linea_siguiente		;b561   ; linea_siguiente: el paso siguiente de la conversacion
+	ld a,005h		;b564   ; ...sin ella, la 5 (se acaba)
 	ld (0c14dh),a		;b566   ; guarda la linea de la conversacion
-	jp L_B7DA		;b569
+	jp linea_siguiente		;b569   ; linea_siguiente: el paso siguiente de la conversacion
 accion_04_la_carta:
-	call elige_1_2_o_3		;b56c   ; elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+	call elige_1_2_o_3		;b56c   ; elige_1_2_o_3: la direccion de la tabla de detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B56F: 3 destinos del despachador de 0xB9B3 (call en p12:B56C):
@@ -2057,14 +2057,14 @@ DATA_tabla_B56F:
 L_B575:
 	ld a,020h		;b575   ; aceptar: el objeto 0x20
 	call 04068h		;b577   ; p00:puente_da_un_objeto: p01:79CE: da el objeto A, una unidad (lo usan las conversaciones de p12)
-	jp L_B531		;b57a
+	jp sigue_la_conversacion		;b57a   ; y sigue
 rechaza_la_carta:
 	xor a			;b57d   ; rechazar: el MP se queda a 0
 	ld (0c12fh),a		;b57e   ; guarda MP, la magia (BCD, hasta 99)
 	call 04062h		;b581   ; p00:puente_pinta_el_panel
-	jp L_B531		;b584
+	jp sigue_la_conversacion		;b584   ; y sigue
 accion_05_comida:
-	call elige_1_2_o_3		;b587   ; elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+	call elige_1_2_o_3		;b587   ; elige_1_2_o_3: la direccion de la tabla de detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B58A: 3 destinos del despachador de 0xB9B3 (call en p12:B587):
@@ -2083,27 +2083,27 @@ DATA_tabla_B58A:
 L_B590:
 	ld de,00050h		;b590   ; la primera, 50 GOLD: no hace nada mas
 	call cobra		;b593   ; cobra: Cobra DE (BCD) del oro 0xC135-0xC137. Acarreo = no hay bastante; con
-	jr c,L_B5B7		;b596
+	jr c,L_B5B7		;b596   ; sin bastante oro, la 2
 L_B598:
-	ld a,003h		;b598
+	ld a,003h		;b598   ; la 3 (se acaba)
 	ld (0c14dh),a		;b59a   ; guarda la linea de la conversacion
-	jp L_B531		;b59d
+	jp sigue_la_conversacion		;b59d   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 L_B5A0:
 	ld de,00100h		;b5a0   ; la segunda, 100 GOLD: media vida
 	call cobra		;b5a3   ; cobra: Cobra DE (BCD) del oro 0xC135-0xC137. Acarreo = no hay bastante; con
-	jp c,L_B531		;b5a6
+	jp c,sigue_la_conversacion		;b5a6   ; sin bastante oro, sigue
 	call media_vida		;b5a9   ; media_vida: cura la mitad de lo que falta hasta la vida maxima
 	jp L_B598		;b5ac
 L_B5AF:
-	ld a,003h		;b5af
+	ld a,003h		;b5af   ; la tercera opcion: no come, la 3
 	ld (0c14dh),a		;b5b1   ; guarda la linea de la conversacion
-	jp L_B531		;b5b4
+	jp sigue_la_conversacion		;b5b4   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 L_B5B7:
-	ld a,002h		;b5b7
+	ld a,002h		;b5b7   ; la 2: "おかねが たりません。"
 	ld (0c14dh),a		;b5b9   ; guarda la linea de la conversacion
-	jp L_B531		;b5bc
+	jp sigue_la_conversacion		;b5bc   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 accion_06_posada:
-	call elige_1_2_o_3		;b5bf   ; elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+	call elige_1_2_o_3		;b5bf   ; elige_1_2_o_3: la direccion de la tabla de detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B5C2: 3 destinos del despachador de 0xB9B3 (call en p12:B5BF):
@@ -2122,47 +2122,47 @@ DATA_tabla_B5C2:
 L_B5C8:
 	ld de,00150h		;b5c8   ; 150 GOLD: vida llena y 20 de MP
 	call cobra		;b5cb   ; cobra: Cobra DE (BCD) del oro 0xC135-0xC137. Acarreo = no hay bastante; con
-	jp c,L_B531		;b5ce
+	jp c,sigue_la_conversacion		;b5ce   ; sin bastante oro, sigue
 	call vida_llena		;b5d1
 	call mp_mas_20		;b5d4
 L_B5D7:
-	ld a,002h		;b5d7
+	ld a,002h		;b5d7   ; la 2 (se acaba)
 	ld (0c14dh),a		;b5d9   ; guarda la linea de la conversacion
-	jp L_B531		;b5dc
+	jp sigue_la_conversacion		;b5dc   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 accion_07_da_el_0x0C:
 	ld a,00ch		;b5df   ; el objeto 0x0C, てむさ
 	call 04068h		;b5e1   ; p00:puente_da_un_objeto: p01:79CE: da el objeto A, una unidad (lo usan las conversaciones de p12)
-	jp L_B7DA		;b5e4
+	jp linea_siguiente		;b5e4   ; y la linea siguiente
 accion_08_sin_libro:
 	ld a,(0c360h)		;b5e7   ; 0xC360: el objeto 0x21; sin el, solo "kii kii kuu kii"
-	and a			;b5ea
+	and a			;b5ea   ; con el libro...
 	jr z,L_B5F5		;b5eb
-	ld a,002h		;b5ed
+	ld a,002h		;b5ed   ; ...la 2 (se entiende al mono)
 	ld (0c14dh),a		;b5ef   ; guarda la linea de la conversacion
-	jp L_B531		;b5f2
+	jp sigue_la_conversacion		;b5f2   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 L_B5F5:
-	ld a,001h		;b5f5
+	ld a,001h		;b5f5   ; sin el, la 1: "きい きい くう きい"...
 	ld (0c14dh),a		;b5f7   ; guarda la linea de la conversacion
-	ld a,003h		;b5fa
+	ld a,003h		;b5fa   ; ...y despues la 3 (se acaba)
 	ld (0c15dh),a		;b5fc   ; guarda la linea a la que se salta tras la accion
-	jp L_B531		;b5ff
+	jp sigue_la_conversacion		;b5ff   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 accion_09_da_el_0x17:
 	ld a,017h		;b602   ; el objeto 0x17, どりあん
 	call 04068h		;b604   ; p00:puente_da_un_objeto: p01:79CE: da el objeto A, una unidad (lo usan las conversaciones de p12)
-	jp L_B7DA		;b607
+	jp linea_siguiente		;b607   ; y la linea siguiente
 accion_0A_sin_libro:
 	ld a,(0c360h)		;b60a   ; lee cuantos objetos 0x21 se llevan (BCD; 0xFF sin cuenta)
-	and a			;b60d
+	and a			;b60d   ; con el libro, la 2
 	jr z,L_B618		;b60e
-	ld a,002h		;b610
+	ld a,002h		;b610   ; la linea de la conversacion = 0x02
 	ld (0c14dh),a		;b612   ; guarda la linea de la conversacion
-	jp L_B531		;b615
+	jp sigue_la_conversacion		;b615   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 L_B618:
-	ld a,009h		;b618
+	ld a,009h		;b618   ; sin el, despues la 9 (se acaba)
 	ld (0c15dh),a		;b61a   ; guarda la linea a la que se salta tras la accion
-	jp L_B531		;b61d
+	jp sigue_la_conversacion		;b61d   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 accion_1D_cinco_0x10:
-	call elige_1_2_o_3		;b620   ; elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+	call elige_1_2_o_3		;b620   ; elige_1_2_o_3: la direccion de la tabla de detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B623: 3 destinos del despachador de 0xB9B3 (call en p12:B620):
@@ -2180,32 +2180,32 @@ DATA_tabla_B623:
 
 L_B629:
 	ld hl,0c34fh		;b629   ; gasta cinco 0x10 (0xC34F)
-	ld a,(hl)			;b62c
+	ld a,(hl)			;b62c   ; cinco hierbas...
 	sub 005h		;b62d
 	daa			;b62f
 	jr c,L_B646		;b630
-	ld (hl),a			;b632
-	ld a,007h		;b633
+	ld (hl),a			;b632   ; ...se dan...
+	ld a,007h		;b633   ; ...la linea 7: "ありがとう。"...
 	ld (0c14dh),a		;b635   ; guarda la linea de la conversacion
-	ld a,001h		;b638
+	ld a,001h		;b638   ; ...0xC15F = 1...
 	ld (0c15fh),a		;b63a
 	ld a,(0c146h)		;b63d   ; lee la ENFERMEDAD (la picadura)
-	and a			;b640
-	jp nz,L_B531		;b641
+	and a			;b640   ; ...y si Mitchel esta enfermo, sigue (la 8)
+	jp nz,sigue_la_conversacion		;b641   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 	jr L_B64B		;b644
 L_B646:
-	ld a,006h		;b646
+	ld a,006h		;b646   ; no hay cinco: la 6
 	ld (0c14dh),a		;b648   ; guarda la linea de la conversacion
 L_B64B:
-	ld a,009h		;b64b
+	ld a,009h		;b64b   ; y despues la 9 (se acaba)
 	ld (0c15dh),a		;b64d   ; guarda la linea a la que se salta tras la accion
-	jp L_B531		;b650
+	jp sigue_la_conversacion		;b650   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 L_B653:
-	ld a,005h		;b653
+	ld a,005h		;b653   ; no: la 5
 	ld (0c14dh),a		;b655   ; guarda la linea de la conversacion
 	jr L_B64B		;b658
 accion_0B_el_libro:
-	call elige_1_2_o_3		;b65a   ; elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+	call elige_1_2_o_3		;b65a   ; elige_1_2_o_3: la direccion de la tabla de detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B65D: 3 destinos del despachador de 0xB9B3 (call en p12:B65A):
@@ -2224,18 +2224,18 @@ DATA_tabla_B65D:
 L_B663:
 	ld de,00200h		;b663   ; 200 GOLD
 	call cobra		;b666   ; cobra: Cobra DE (BCD) del oro 0xC135-0xC137. Acarreo = no hay bastante; con
-	jp c,L_B531		;b669
+	jp c,sigue_la_conversacion		;b669   ; sin bastante oro, sigue
 	ld a,021h		;b66c   ; el objeto 0x21
 	call 04068h		;b66e   ; p00:puente_da_un_objeto: p01:79CE: da el objeto A, una unidad (lo usan las conversaciones de p12)
-	ld a,002h		;b671
+	ld a,002h		;b671   ; la 2 (se acaba)
 	ld (0c14dh),a		;b673   ; guarda la linea de la conversacion
-	jp L_B531		;b676
+	jp sigue_la_conversacion		;b676   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 L_B679:
-	ld a,002h		;b679
+	ld a,002h		;b679   ; no: la 2
 	ld (0c14dh),a		;b67b   ; guarda la linea de la conversacion
-	jp L_B531		;b67e
+	jp sigue_la_conversacion		;b67e   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 accion_0C_los_zuecos:
-	call elige_1_2_o_3		;b681   ; elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+	call elige_1_2_o_3		;b681   ; elige_1_2_o_3: la direccion de la tabla de detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B684: 3 destinos del despachador de 0xB9B3 (call en p12:B681):
@@ -2253,50 +2253,50 @@ DATA_tabla_B684:
 
 L_B68A:
 	ld a,(0c35ch)		;b68a   ; sin el objeto 0x1D (0xC35C) no hay zuecos
-	and a			;b68d
+	and a			;b68d   ; sin material, la 3
 	jr z,L_B6AD		;b68e
 	ld de,00150h		;b690   ; 150 GOLD
 	call cobra		;b693   ; cobra: Cobra DE (BCD) del oro 0xC135-0xC137. Acarreo = no hay bastante; con
-	jr c,L_B6BD		;b696
+	jr c,L_B6BD		;b696   ; sin bastante oro, la 2 y despues la 4
 	ld hl,0c35ch		;b698   ; gasta un 0x1D...
-	ld a,(hl)			;b69b
+	ld a,(hl)			;b69b   ; un material menos
 	sub 001h		;b69c
 	daa			;b69e
 	ld (hl),a			;b69f
 	ld a,01eh		;b6a0   ; ...y da el 0x1E
 	call 04068h		;b6a2   ; p00:puente_da_un_objeto: p01:79CE: da el objeto A, una unidad (lo usan las conversaciones de p12)
-	ld a,004h		;b6a5
+	ld a,004h		;b6a5   ; la 4 (se acaba)
 	ld (0c14dh),a		;b6a7   ; guarda la linea de la conversacion
-	jp L_B531		;b6aa
+	jp sigue_la_conversacion		;b6aa   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 L_B6AD:
-	ld a,003h		;b6ad
+	ld a,003h		;b6ad   ; la 3: "みずげたを つくるには ざいりょう が ひつようだ。"
 	ld (0c14dh),a		;b6af   ; guarda la linea de la conversacion
-	jp L_B531		;b6b2
+	jp sigue_la_conversacion		;b6b2   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 L_B6B5:
-	ld a,004h		;b6b5
+	ld a,004h		;b6b5   ; no: la 4
 	ld (0c14dh),a		;b6b7   ; guarda la linea de la conversacion
-	jp L_B531		;b6ba
+	jp sigue_la_conversacion		;b6ba   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 L_B6BD:
-	ld a,002h		;b6bd
+	ld a,002h		;b6bd   ; la 2...
 	ld (0c14dh),a		;b6bf   ; guarda la linea de la conversacion
-	ld a,004h		;b6c2
+	ld a,004h		;b6c2   ; ...y despues la 4
 	ld (0c15dh),a		;b6c4   ; guarda la linea a la que se salta tras la accion
-	jp L_B531		;b6c7
+	jp sigue_la_conversacion		;b6c7   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 accion_0D_sin_libro:
 	ld a,(0c360h)		;b6ca   ; lee cuantos objetos 0x21 se llevan (BCD; 0xFF sin cuenta)
-	and a			;b6cd
+	and a			;b6cd   ; con el libro, la 2
 	jr z,L_B6D8		;b6ce
-	ld a,002h		;b6d0
+	ld a,002h		;b6d0   ; la linea de la conversacion = 0x02
 	ld (0c14dh),a		;b6d2   ; guarda la linea de la conversacion
-	jp L_B531		;b6d5
+	jp sigue_la_conversacion		;b6d5   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 L_B6D8:
-	ld a,001h		;b6d8
+	ld a,001h		;b6d8   ; sin el, la 1 ("きい きい")...
 	ld (0c14dh),a		;b6da   ; guarda la linea de la conversacion
-	ld a,005h		;b6dd
+	ld a,005h		;b6dd   ; ...y despues la 5 (se acaba)
 	ld (0c15dh),a		;b6df   ; guarda la linea a la que se salta tras la accion
-	jp L_B531		;b6e2
+	jp sigue_la_conversacion		;b6e2   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 accion_1E_carne_para_pasar:
-	call elige_1_2_o_3		;b6e5   ; elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+	call elige_1_2_o_3		;b6e5   ; elige_1_2_o_3: la direccion de la tabla de detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B6E8: 3 destinos del despachador de 0xB9B3 (call en p12:B6E5):
@@ -2314,19 +2314,19 @@ DATA_tabla_B6E8:
 
 L_B6EE:
 	call gasta_un_0x15		;b6ee   ; gasta_un_0x15: 0xC354: el objeto 0x15
-	jp c,L_B531		;b6f1
+	jp c,sigue_la_conversacion		;b6f1   ; sin carne, sigue ("にくが ありません。")
 	call 04050h		;b6f4   ; p00:puente_borra_la_ventana_de_texto: LOS PUENTES. De seis bytes, `call X / jp 0x4215`: se llaman desde cualquier
-	ld a,001h		;b6f7
+	ld a,001h		;b6f7   ; 0xC15F = 1...
 	ld (0c15fh),a		;b6f9
-	ld a,001h		;b6fc
+	ld a,001h		;b6fc   ; ...y 0xC16A = 1: deja pasar
 	ld (0c16ah),a		;b6fe
 L_B701:
-	ld a,005h		;b701
+	ld a,005h		;b701   ; la 5 (se acaba)
 	ld (0c14dh),a		;b703   ; guarda la linea de la conversacion
-	jp L_B531		;b706
+	jp sigue_la_conversacion		;b706   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 gasta_un_0x15:
 	ld hl,0c354h		;b709   ; 0xC354: el objeto 0x15
-	ld a,(hl)			;b70c
+	ld a,(hl)			;b70c   ; una carne menos; sin ninguna, acarreo
 	sub 001h		;b70d
 	daa			;b70f
 	ret c			;b710
@@ -2335,20 +2335,20 @@ gasta_un_0x15:
 accion_0E_la_picadura:
 	ld a,001h		;b713   ; 0xC146: la enfermedad
 	ld (0c146h),a		;b715   ; guarda la ENFERMEDAD (la picadura)
-	jp L_B7DA		;b718
+	jp linea_siguiente		;b718   ; la picadura, y la linea siguiente
 accion_0F_sin_libro:
 	ld a,(0c360h)		;b71b   ; lee cuantos objetos 0x21 se llevan (BCD; 0xFF sin cuenta)
-	and a			;b71e
+	and a			;b71e   ; con el libro, la 2
 	jr z,L_B729		;b71f
-	ld a,002h		;b721
+	ld a,002h		;b721   ; la linea de la conversacion = 0x02
 	ld (0c14dh),a		;b723   ; guarda la linea de la conversacion
-	jp L_B531		;b726
+	jp sigue_la_conversacion		;b726   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 L_B729:
-	ld a,005h		;b729
+	ld a,005h		;b729   ; sin el, despues la 5
 	ld (0c15dh),a		;b72b   ; guarda la linea a la que se salta tras la accion
-	jp L_B531		;b72e
+	jp sigue_la_conversacion		;b72e   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 accion_1F_carne_por_posada:
-	call elige_1_2_o_3		;b731   ; elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+	call elige_1_2_o_3		;b731   ; elige_1_2_o_3: la direccion de la tabla de detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B734: 3 destinos del despachador de 0xB9B3 (call en p12:B731):
@@ -2366,28 +2366,28 @@ DATA_tabla_B734:
 
 L_B73A:
 	call gasta_un_0x15		;b73a   ; gasta_un_0x15: 0xC354: el objeto 0x15
-	jp c,L_B531		;b73d
-	call vida_llena		;b740
-	ld a,005h		;b743
+	jp c,sigue_la_conversacion		;b73d   ; sin carne, sigue
+	call vida_llena		;b740   ; la vida llena...
+	ld a,005h		;b743   ; ...y la 5
 	ld (0c14dh),a		;b745   ; guarda la linea de la conversacion
-	jp L_B531		;b748
+	jp sigue_la_conversacion		;b748   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 L_B74B:
-	ld a,005h		;b74b
+	ld a,005h		;b74b   ; no: la 5
 	ld (0c14dh),a		;b74d   ; guarda la linea de la conversacion
-	jp L_B531		;b750
+	jp sigue_la_conversacion		;b750   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 accion_10_sin_libro:
 	ld a,(0c360h)		;b753   ; lee cuantos objetos 0x21 se llevan (BCD; 0xFF sin cuenta)
-	and a			;b756
+	and a			;b756   ; con el libro, la 2
 	jr z,L_B761		;b757
-	ld a,002h		;b759
+	ld a,002h		;b759   ; la linea de la conversacion = 0x02
 	ld (0c14dh),a		;b75b   ; guarda la linea de la conversacion
-	jp L_B531		;b75e
+	jp sigue_la_conversacion		;b75e   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 L_B761:
-	ld a,005h		;b761
+	ld a,005h		;b761   ; sin el, despues la 5
 	ld (0c15dh),a		;b763   ; guarda la linea a la que se salta tras la accion
-	jp L_B531		;b766
+	jp sigue_la_conversacion		;b766   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 accion_20_carne_por_llave:
-	call elige_1_2_o_3		;b769   ; elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+	call elige_1_2_o_3		;b769   ; elige_1_2_o_3: la direccion de la tabla de detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B76C: 3 destinos del despachador de 0xB9B3 (call en p12:B769):
@@ -2407,14 +2407,14 @@ L_B772:
 	call gasta_un_0x15		;b772   ; gasta_un_0x15: 0xC354: el objeto 0x15
 	ld a,024h		;b775   ; el objeto 0x24
 	call 04068h		;b777   ; p00:puente_da_un_objeto: p01:79CE: da el objeto A, una unidad (lo usan las conversaciones de p12)
-	ld a,001h		;b77a
+	ld a,001h		;b77a   ; 0xC169 = 1
 	ld (0c169h),a		;b77c
 L_B77F:
-	ld a,005h		;b77f
+	ld a,005h		;b77f   ; la 5
 	ld (0c14dh),a		;b781   ; guarda la linea de la conversacion
-	jp L_B531		;b784
+	jp sigue_la_conversacion		;b784   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 accion_11_comida:
-	call elige_1_2_o_3		;b787   ; elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+	call elige_1_2_o_3		;b787   ; elige_1_2_o_3: la direccion de la tabla de detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B78A: 3 destinos del despachador de 0xB9B3 (call en p12:B787):
@@ -2431,21 +2431,21 @@ DATA_tabla_B78A:
 
 
 L_B790:
-	ld de,00050h		;b790
+	ld de,00050h		;b790   ; 50 GOLD
 	call cobra		;b793   ; cobra: Cobra DE (BCD) del oro 0xC135-0xC137. Acarreo = no hay bastante; con
-	jp c,L_B531		;b796
+	jp c,sigue_la_conversacion		;b796   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 L_B799:
-	ld a,003h		;b799
+	ld a,003h		;b799   ; la 3 (se acaba)
 	ld (0c14dh),a		;b79b   ; guarda la linea de la conversacion
-	jp L_B531		;b79e
+	jp sigue_la_conversacion		;b79e   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 L_B7A1:
-	ld de,00100h		;b7a1
+	ld de,00100h		;b7a1   ; 100 GOLD
 	call cobra		;b7a4   ; cobra: Cobra DE (BCD) del oro 0xC135-0xC137. Acarreo = no hay bastante; con
-	jp c,L_B531		;b7a7
+	jp c,sigue_la_conversacion		;b7a7   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 	call media_vida		;b7aa   ; media_vida: cura la mitad de lo que falta hasta la vida maxima
 	jr L_B799		;b7ad
 accion_12_zuecos_por_posada:
-	call elige_1_2_o_3		;b7af   ; elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+	call elige_1_2_o_3		;b7af   ; elige_1_2_o_3: la direccion de la tabla de detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B7B2: 3 destinos del despachador de 0xB9B3 (call en p12:B7AF):
@@ -2463,24 +2463,24 @@ DATA_tabla_B7B2:
 
 L_B7B8:
 	ld hl,0c35dh		;b7b8   ; gasta un 0x1E (0xC35D)...
-	ld a,(hl)			;b7bb
+	ld a,(hl)			;b7bb   ; unos zuecos menos; sin ninguno, sigue ("みずげたが ありません。")
 	sub 001h		;b7bc
 	daa			;b7be
-	jp c,L_B531		;b7bf
+	jp c,sigue_la_conversacion		;b7bf   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 	ld (hl),a			;b7c2
-	xor a			;b7c3
+	xor a			;b7c3   ; 0xC142 = 0: sin los zuecos puestos
 	ld (0c142h),a		;b7c4   ; guarda los zuecos puestos
 	call vida_llena		;b7c7   ; ...vida llena y 20 de MP
 	call mp_mas_20		;b7ca
-	ld a,003h		;b7cd
+	ld a,003h		;b7cd   ; la 3
 	ld (0c14dh),a		;b7cf   ; guarda la linea de la conversacion
-	jp L_B531		;b7d2
+	jp sigue_la_conversacion		;b7d2   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 accion_13_da_el_0x12:
 	ld a,012h		;b7d5   ; el objeto 0x12, きば
 	call 04068h		;b7d7   ; p00:puente_da_un_objeto: p01:79CE: da el objeto A, una unidad (lo usan las conversaciones de p12)
-L_B7DA:
-	ld hl,0c14bh		;b7da   ; apunta a el paso de la conversacion
-	inc (hl)			;b7dd
+linea_siguiente:
+	ld hl,0c14bh		;b7da   ; el paso siguiente de la conversacion
+	inc (hl)			;b7dd   ; 0xC14B + 1
 	ret			;b7de
 accion_14_sin_uso:
 	call elige_1_2_o_3		;b7df   ; ninguna linea lleva la accion 0x14
@@ -2502,14 +2502,14 @@ DATA_tabla_B7E2:
 L_B7E8:
 	ld de,00300h		;b7e8   ; 300 GOLD
 	call cobra		;b7eb   ; cobra: Cobra DE (BCD) del oro 0xC135-0xC137. Acarreo = no hay bastante; con
-	jp c,L_B531		;b7ee
-	ld a,001h		;b7f1
+	jp c,sigue_la_conversacion		;b7ee   ; sin bastante oro, sigue
+	ld a,001h		;b7f1   ; 0xC144 = 1...
 	ld (0c144h),a		;b7f3
-	inc a			;b7f6
+	inc a			;b7f6   ; ...y despues la 2
 	ld (0c15dh),a		;b7f7   ; guarda la linea a la que se salta tras la accion
-	jp L_B531		;b7fa
+	jp sigue_la_conversacion		;b7fa   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 accion_15_comida:
-	call elige_1_2_o_3		;b7fd   ; elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+	call elige_1_2_o_3		;b7fd   ; elige_1_2_o_3: la direccion de la tabla de detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B800: 3 destinos del despachador de 0xB9B3 (call en p12:B7FD):
@@ -2528,23 +2528,23 @@ DATA_tabla_B800:
 L_B806:
 	ld de,00010h		;b806   ; la primera, 10 GOLD...
 	call cobra		;b809   ; cobra: Cobra DE (BCD) del oro 0xC135-0xC137. Acarreo = no hay bastante; con
-	jp c,L_B531		;b80c
+	jp c,sigue_la_conversacion		;b80c   ; sin bastante oro, sigue
 	ld hl,0c12ah		;b80f   ; ...y quita vida (LIFE / 2, redondeando en BCD)
-	ld a,(hl)			;b812
+	ld a,(hl)			;b812   ; LIFE / 2, en BCD: el byte alto...
 	dec hl			;b813
 	srl a		;b814
 	ld d,a			;b816
-	ld a,(hl)			;b817
+	ld a,(hl)			;b817   ; ...y el bajo, con lo que baja del alto...
 	rra			;b818
 	bit 7,a		;b819
 	jr z,L_B81F		;b81b
 	sub 030h		;b81d
 L_B81F:
-	bit 3,a		;b81f
+	bit 3,a		;b81f   ; ...cada nibble ajustado (-3 si pasa de 7)
 	jr z,L_B825		;b821
 	sub 003h		;b823
 L_B825:
-	ld e,a			;b825
+	ld e,a			;b825   ; LIFE - la mitad
 	ld a,(hl)			;b826
 	sub e			;b827
 	daa			;b828
@@ -2555,37 +2555,37 @@ L_B825:
 	daa			;b82d
 	ld (hl),a			;b82e
 	call 04062h		;b82f   ; p00:puente_pinta_el_panel
-	ld a,003h		;b832
+	ld a,003h		;b832   ; la 3 y la siguiente
 	ld (0c14dh),a		;b834   ; guarda la linea de la conversacion
-	jp L_B7DA		;b837
+	jp linea_siguiente		;b837   ; linea_siguiente: el paso siguiente de la conversacion
 accion_16_la_carta_llega:
 	ld a,(0c35fh)		;b83a   ; con el objeto 0x20 (0xC35F)...
-	and a			;b83d
+	and a			;b83d   ; con la carta...
 	jr z,L_B851		;b83e
-	ld a,002h		;b840
+	ld a,002h		;b840   ; ...la 2...
 	ld (0c14dh),a		;b842   ; guarda la linea de la conversacion
 	ld a,01ah		;b845   ; ...da el 0x1A y se queda la carta
 	call 04068h		;b847   ; p00:puente_da_un_objeto: p01:79CE: da el objeto A, una unidad (lo usan las conversaciones de p12)
-	xor a			;b84a
+	xor a			;b84a   ; ...y la carta se entrega (0xC35F = 0)
 	ld (0c35fh),a		;b84b   ; guarda cuantos objetos 0x20 se llevan (BCD; 0xFF sin cuenta)
-	jp L_B531		;b84e
+	jp sigue_la_conversacion		;b84e   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 L_B851:
-	ld a,004h		;b851
+	ld a,004h		;b851   ; sin ella, la 4 (se acaba)
 	ld (0c15dh),a		;b853   ; guarda la linea a la que se salta tras la accion
-	jp L_B531		;b856
+	jp sigue_la_conversacion		;b856   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 accion_17_da_el_0x19:
 	ld a,(0c358h)		;b859   ; lee cuantos objetos 0x19 se llevan (BCD; 0xFF sin cuenta)
-	and a			;b85c
+	and a			;b85c   ; con la radio, la 3 ("こわれている")
 	jr z,L_B867		;b85d
-	ld a,003h		;b85f
+	ld a,003h		;b85f   ; la linea de la conversacion = 0x03
 	ld (0c14dh),a		;b861   ; guarda la linea de la conversacion
-	jp L_B531		;b864
+	jp sigue_la_conversacion		;b864   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 L_B867:
 	ld a,019h		;b867   ; el objeto 0x19, むせんき
 	call 04068h		;b869   ; p00:puente_da_un_objeto: p01:79CE: da el objeto A, una unidad (lo usan las conversaciones de p12)
-	jp L_B531		;b86c
+	jp sigue_la_conversacion		;b86c   ; sin ella, la da y sigue
 accion_18_repara:
-	call elige_1_2_o_3		;b86f   ; elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+	call elige_1_2_o_3		;b86f   ; elige_1_2_o_3: la direccion de la tabla de detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B872: 3 destinos del despachador de 0xB9B3 (call en p12:B86F):
@@ -2604,33 +2604,33 @@ DATA_tabla_B872:
 L_B878:
 	ld de,00350h		;b878   ; SHOT1: 350 GOLD y nada mas
 	call cobra		;b87b   ; cobra: Cobra DE (BCD) del oro 0xC135-0xC137. Acarreo = no hay bastante; con
-	jr c,L_B8A6		;b87e
+	jr c,L_B8A6		;b87e   ; sin bastante oro, la 3
 L_B880:
-	ld a,001h		;b880
+	ld a,001h		;b880   ; despues, la 1 (otra vez la pregunta)
 	ld (0c15dh),a		;b882   ; guarda la linea a la que se salta tras la accion
-	jp L_B531		;b885
+	jp sigue_la_conversacion		;b885   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 L_B888:
 	ld de,00350h		;b888   ; SHOT2: 350 GOLD...
 	call cobra		;b88b   ; cobra: Cobra DE (BCD) del oro 0xC135-0xC137. Acarreo = no hay bastante; con
-	jr c,L_B8A6		;b88e
+	jr c,L_B8A6		;b88e   ; sin bastante oro, la 3
 	ld a,(0c141h)		;b890   ; ...y si SHOT2 es el 0x19, queda reparado (0xC14E)
 	cp 019h		;b893   ; el objeto 0x19, むせんき?
-	jr nz,L_B880		;b895
-	ld a,001h		;b897
+	jr nz,L_B880		;b895   ; SHOT2 no es la radio: cobrado y nada
+	ld a,001h		;b897   ; la radio: reparada
 	ld (0c14eh),a		;b899   ; guarda la radio reparada
 	jr L_B880		;b89c
 L_B89E:
-	ld a,004h		;b89e
+	ld a,004h		;b89e   ; la tercera: la 4 (se acaba)
 	ld (0c14dh),a		;b8a0   ; guarda la linea de la conversacion
-	jp L_B531		;b8a3
+	jp sigue_la_conversacion		;b8a3   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 L_B8A6:
-	ld a,003h		;b8a6
+	ld a,003h		;b8a6   ; la 3: "かねが たりねえぞ。"
 	ld (0c14dh),a		;b8a8   ; guarda la linea de la conversacion
-	jp L_B531		;b8ab
+	jp sigue_la_conversacion		;b8ab   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 accion_19_la_mesa:
-	jp L_B7DA		;b8ae
+	jp linea_siguiente		;b8ae   ; la linea siguiente
 accion_1A_salir_de_la_cueva:
-	call elige_1_2_o_3		;b8b1   ; elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+	call elige_1_2_o_3		;b8b1   ; elige_1_2_o_3: la direccion de la tabla de detras del call
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B8B4: 3 destinos del despachador de 0xB9B3 (call en p12:B8B1):
@@ -2649,42 +2649,42 @@ DATA_tabla_B8B4:
 L_B8BA:
 	ld a,009h		;b8ba   ; a la pantalla 9
 	ld (0c125h),a		;b8bc   ; guarda la PANTALLA
-	ld a,001h		;b8bf
+	ld a,001h		;b8bf   ; 0xC201 = 1 (cambio de pantalla)...
 	ld (0c201h),a		;b8c1   ; guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
-	ld (0c14fh),a		;b8c4
-	ld hl,03858h		;b8c7
+	ld (0c14fh),a		;b8c4   ; ...0xC14F = 1...
+	ld hl,03858h		;b8c7   ; ...entrando por (0x58, 0x38)
 	ld (0c321h),hl		;b8ca   ; guarda el punto de entrada (y, x)
 	jp 04050h		;b8cd   ; p00:puente_borra_la_ventana_de_texto: LOS PUENTES. De seis bytes, `call X / jp 0x4215`: se llaman desde cualquier
 accion_1B_da_el_0x0E:
 	ld a,00eh		;b8d0   ; el objeto 0x0E, まかぷら
 	call 04068h		;b8d2   ; p00:puente_da_un_objeto: p01:79CE: da el objeto A, una unidad (lo usan las conversaciones de p12)
-	jp L_B7DA		;b8d5
+	jp linea_siguiente		;b8d5   ; la linea siguiente
 accion_1C_sin_libro:
 	ld a,(0c360h)		;b8d8   ; lee cuantos objetos 0x21 se llevan (BCD; 0xFF sin cuenta)
-	and a			;b8db
+	and a			;b8db   ; con el libro, la 2
 	jr z,L_B8E6		;b8dc
-	ld a,002h		;b8de
+	ld a,002h		;b8de   ; la linea de la conversacion = 0x02
 	ld (0c14dh),a		;b8e0   ; guarda la linea de la conversacion
-	jp L_B531		;b8e3
+	jp sigue_la_conversacion		;b8e3   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 L_B8E6:
-	ld a,003h		;b8e6
+	ld a,003h		;b8e6   ; sin el, la 3
 	ld (0c15dh),a		;b8e8   ; guarda la linea a la que se salta tras la accion
-	jp L_B531		;b8eb
+	jp sigue_la_conversacion		;b8eb   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 accion_21_espera:
 	ld a,(0c106h)		;b8ee   ; lee las teclas nuevas del cuadro (bit 4 SHOT1, bit 5 SHOT2)
-	and 010h		;b8f1
+	and 010h		;b8f1   ; espera al boton (bit 4 de 0xC106)...
 	ret z			;b8f3
-	ld a,0ffh		;b8f4
+	ld a,0ffh		;b8f4   ; ...y la linea 0xFF: se acaba
 	call 040e6h		;b8f6   ; p00:puente_sonido_si_juega
-	jp L_B531		;b8f9
+	jp sigue_la_conversacion		;b8f9   ; sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 accion_22_el_final:
-	call 04212h		;b8fc
+	call 04212h		;b8fc   ; con la musica acabada...
 	ret nz			;b8ff
-	ld a,08bh		;b900
+	ld a,08bh		;b900   ; ...la pieza 0x8B (el helicoptero)...
 	call 040e6h		;b902   ; p00:puente_sonido_si_juega
 	xor a			;b905
 	ld (0c167h),a		;b906
-	ld a,007h		;b909
+	ld a,007h		;b909   ; ...y el estado 7 de la partida: el final
 	ld (0c201h),a		;b90b   ; guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
 	xor a			;b90e
 	ld (0c682h),a		;b90f
@@ -2695,7 +2695,7 @@ vida_llena:
 	jp 04062h		;b919   ; p00:puente_pinta_el_panel
 vida_maxima:
 	ld a,(0c12eh)		;b91c   ; 30 + 16*LEVEL en BCD; 999 como mucho
-	ld h,000h		;b91f
+	ld h,000h		;b91f   ; 16*LEVEL + 30 (BCD)...
 	ld l,a			;b921
 	add hl,hl			;b922
 	add hl,hl			;b923
@@ -2709,24 +2709,24 @@ vida_maxima:
 	adc a,000h		;b92c
 	daa			;b92e
 	ld h,a			;b92f
-	cp 010h		;b930
+	cp 010h		;b930   ; ...y de 1000 en adelante, 999
 	ret c			;b932
 	ld hl,00999h		;b933
 	ret			;b936
 mp_mas_20:
 	ld hl,0c12fh		;b937   ; apunta a MP, la magia (BCD, hasta 99)
-	ld a,(hl)			;b93a
+	ld a,(hl)			;b93a   ; MP + 20...
 	add a,020h		;b93b
 	daa			;b93d
 	jr nc,L_B942		;b93e
-	ld a,099h		;b940
+	ld a,099h		;b940   ; ...hasta 99
 L_B942:
 	ld (hl),a			;b942
 	jp 04062h		;b943   ; p00:puente_pinta_el_panel
 media_vida:
 	call vida_maxima		;b946   ; cura la mitad de lo que falta hasta la vida maxima
 	ld de,(0c129h)		;b949   ; lee LIFE, los dos bytes (BCD)
-	ld a,l			;b94d
+	ld a,l			;b94d   ; la vida que falta hasta la maxima...
 	sub e			;b94e
 	daa			;b94f
 	ld l,a			;b950
@@ -2734,18 +2734,18 @@ media_vida:
 	sub d			;b952
 	daa			;b953
 	ld h,a			;b954
-	ret c			;b955
-	ld a,l			;b956
-	call media_en_bcd		;b957
+	ret c			;b955   ; ...(ninguna: nada)...
+	ld a,l			;b956   ; ...la mitad (BCD)...
+	call media_en_bcd		;b957   ; media_en_bcd: A / 2 por nibbles: el alto que baja suma 5 al bajo
 	bit 0,h		;b95a
 	jr z,L_B960		;b95c
 	add a,005h		;b95e
 L_B960:
 	ld l,a			;b960
 	ld a,h			;b961
-	call media_en_bcd		;b962
+	call media_en_bcd		;b962   ; media_en_bcd: A / 2 por nibbles: el alto que baja suma 5 al bajo
 	ld h,a			;b965
-	ld a,l			;b966
+	ld a,l			;b966   ; ...+ la de ahora
 	add a,e			;b967
 	daa			;b968
 	ld l,a			;b969
@@ -2770,7 +2770,7 @@ DATA_codigo_B974:
 
 
 media_en_bcd:
-	srl a		;b985
+	srl a		;b985   ; A / 2 por nibbles: el alto que baja suma 5 al bajo
 	bit 3,a		;b987
 	ret z			;b989
 	res 3,a		;b98a
@@ -2783,10 +2783,10 @@ media_en_bcd:
 ; ----------------------------------------------------------------------
 cobra:
 	ld hl,0c137h		;b98f   ; apunta a en el final, cual de los tres (0, 1 o 2; 3 acabado)
-	ld a,(hl)			;b992
+	ld a,(hl)			;b992   ; con 10000 o mas, se cobra sin mirar
 	and a			;b993
 	jr nz,L_B99E		;b994
-	dec hl			;b996
+	dec hl			;b996   ; GOLD (dos bytes) - DE: acarreo si no llega
 	dec hl			;b997
 	ld a,(hl)			;b998
 	sub e			;b999
@@ -2796,7 +2796,7 @@ cobra:
 	ret c			;b99d
 L_B99E:
 	ld hl,0c135h		;b99e   ; apunta a GOLD, el oro (tres bytes BCD)
-	ld a,(hl)			;b9a1
+	ld a,(hl)			;b9a1   ; GOLD - DE en BCD, tres bytes
 	sub e			;b9a2
 	daa			;b9a3
 	ld (hl),a			;b9a4
@@ -2818,29 +2818,29 @@ L_B99E:
 ; vuelve al que llamo al que llamo, y la pregunta sigue en pantalla.
 ; ----------------------------------------------------------------------
 elige_1_2_o_3:
-	pop hl			;b9b3
+	pop hl			;b9b3   ; la direccion de la tabla de detras del call
 	ld e,000h		;b9b4
 	ld a,(0c112h)		;b9b6   ; lee las teclas del teclado (bits 3-5: 1, 2 y 3; bit 2: F5)
-	rra			;b9b9
+	rra			;b9b9   ; bit 3: la tecla 1...
 	rra			;b9ba
 	rra			;b9bb
 	rra			;b9bc
 	jr c,L_B9C6		;b9bd
 	inc e			;b9bf
-	rra			;b9c0
+	rra			;b9c0   ; ...bit 4: la 2...
 	jr c,L_B9C6		;b9c1
-	rra			;b9c3
+	rra			;b9c3   ; ...bit 5: la 3; sin ninguna, se vuelve al de antes
 	ret nc			;b9c4
 	inc e			;b9c5
 L_B9C6:
-	sla e		;b9c6
+	sla e		;b9c6   ; la palabra E...
 	ld d,000h		;b9c8
 	add hl,de			;b9ca
 	ld e,(hl)			;b9cb
 	inc hl			;b9cc
 	ld d,(hl)			;b9cd
 	ex de,hl			;b9ce
-	jp (hl)			;b9cf
+	jp (hl)			;b9cf   ; ...y alli
 L_B9D0:
 	ld hl,0c201h		;b9d0   ; apunta a el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
 	ld a,(hl)			;b9d3

@@ -112,6 +112,134 @@ L 0xBD8D cursor_de_la_ventana
 L 0xBF68 dieciseis_bytes
 L 0xBE3D pon_c800_delante_de_mitchel
 C 0xBE3D la posicion de 0xC800 a 0x10 de Mitchel, hacia donde mira
+L 0xB531 sigue_la_conversacion
+C 0xB531 0xC14B = 1: se escribe la linea que diga 0xC14D
+L 0xB7DA linea_siguiente
+C 0xB7DA el paso siguiente de la conversacion
+C 0xB50F sin bastante oro, la linea 3
+C 0xB516 la linea 2: "ありがとよ。"...
+C 0xB51B ...y luego la 4 (el hacha)
+C 0xB522 no: la 4
+C 0xB529 la 3: "かねが たりねえぞ。"
+C 0xB540 no: la 7 (se acaba)
+C 0xB54B con 300 o mas, la linea siguiente (agotada)
+C 0xB555 y despues la 7 (se acaba)
+C 0xB560 con la radio, la linea siguiente...
+C 0xB564 ...sin ella, la 5 (se acaba)
+C 0xB57A y sigue
+C 0xB584 y sigue
+C 0xB596 sin bastante oro, la 2
+C 0xB598 la 3 (se acaba)
+C 0xB5A6 sin bastante oro, sigue
+C 0xB5AF la tercera opcion: no come, la 3
+C 0xB5B7 la 2: "おかねが たりません。"
+C 0xB5CE sin bastante oro, sigue
+C 0xB5D7 la 2 (se acaba)
+C 0xB5E4 y la linea siguiente
+C 0xB5EA con el libro...
+C 0xB5ED ...la 2 (se entiende al mono)
+C 0xB5F5 sin el, la 1: "きい きい くう きい"...
+C 0xB5FA ...y despues la 3 (se acaba)
+C 0xB607 y la linea siguiente
+C 0xB60D con el libro, la 2
+C 0xB618 sin el, despues la 9 (se acaba)
+C 0xB62C cinco hierbas...
+C 0xB632 ...se dan...
+C 0xB633 ...la linea 7: "ありがとう。"...
+C 0xB638 ...0xC15F = 1...
+C 0xB640 ...y si Mitchel esta enfermo, sigue (la 8)
+C 0xB646 no hay cinco: la 6
+C 0xB64B y despues la 9 (se acaba)
+C 0xB653 no: la 5
+C 0xB669 sin bastante oro, sigue
+C 0xB671 la 2 (se acaba)
+C 0xB679 no: la 2
+C 0xB68D sin material, la 3
+C 0xB696 sin bastante oro, la 2 y despues la 4
+C 0xB69B un material menos
+C 0xB6A5 la 4 (se acaba)
+C 0xB6AD la 3: "みずげたを つくるには ざいりょう が ひつようだ。"
+C 0xB6B5 no: la 4
+C 0xB6BD la 2...
+C 0xB6C2 ...y despues la 4
+C 0xB6CD con el libro, la 2
+C 0xB6D8 sin el, la 1 ("きい きい")...
+C 0xB6DD ...y despues la 5 (se acaba)
+C 0xB6F1 sin carne, sigue ("にくが ありません。")
+C 0xB6F7 0xC15F = 1...
+C 0xB6FC ...y 0xC16A = 1: deja pasar
+C 0xB701 la 5 (se acaba)
+C 0xB70C una carne menos; sin ninguna, acarreo
+C 0xB718 la picadura, y la linea siguiente
+C 0xB71E con el libro, la 2
+C 0xB729 sin el, despues la 5
+C 0xB73D sin carne, sigue
+C 0xB740 la vida llena...
+C 0xB743 ...y la 5
+C 0xB74B no: la 5
+C 0xB756 con el libro, la 2
+C 0xB761 sin el, despues la 5
+C 0xB77A 0xC169 = 1
+C 0xB77F la 5
+C 0xB790 50 GOLD
+C 0xB799 la 3 (se acaba)
+C 0xB7A1 100 GOLD
+C 0xB7BB unos zuecos menos; sin ninguno, sigue ("みずげたが ありません。")
+C 0xB7C3 0xC142 = 0: sin los zuecos puestos
+C 0xB7CD la 3
+C 0xB7DD 0xC14B + 1
+C 0xB7EE sin bastante oro, sigue
+C 0xB7F1 0xC144 = 1...
+C 0xB7F6 ...y despues la 2
+C 0xB80C sin bastante oro, sigue
+C 0xB812 LIFE / 2, en BCD: el byte alto...
+C 0xB817 ...y el bajo, con lo que baja del alto...
+C 0xB81F ...cada nibble ajustado (-3 si pasa de 7)
+C 0xB825 LIFE - la mitad
+C 0xB832 la 3 y la siguiente
+C 0xB83D con la carta...
+C 0xB840 ...la 2...
+C 0xB84A ...y la carta se entrega (0xC35F = 0)
+C 0xB851 sin ella, la 4 (se acaba)
+C 0xB85C con la radio, la 3 ("こわれている")
+C 0xB86C sin ella, la da y sigue
+C 0xB87E sin bastante oro, la 3
+C 0xB880 despues, la 1 (otra vez la pregunta)
+C 0xB88E sin bastante oro, la 3
+C 0xB895 SHOT2 no es la radio: cobrado y nada
+C 0xB897 la radio: reparada
+C 0xB89E la tercera: la 4 (se acaba)
+C 0xB8A6 la 3: "かねが たりねえぞ。"
+C 0xB8AE la linea siguiente
+C 0xB8BF 0xC201 = 1 (cambio de pantalla)...
+C 0xB8C4 ...0xC14F = 1...
+C 0xB8C7 ...entrando por (0x58, 0x38)
+C 0xB8D5 la linea siguiente
+C 0xB8DB con el libro, la 2
+C 0xB8E6 sin el, la 3
+C 0xB8F1 espera al boton (bit 4 de 0xC106)...
+C 0xB8F4 ...y la linea 0xFF: se acaba
+C 0xB8FC con la musica acabada...
+C 0xB900 ...la pieza 0x8B (el helicoptero)...
+C 0xB909 ...y el estado 7 de la partida: el final
+C 0xB91F 16*LEVEL + 30 (BCD)...
+C 0xB930 ...y de 1000 en adelante, 999
+C 0xB93A MP + 20...
+C 0xB940 ...hasta 99
+C 0xB94D la vida que falta hasta la maxima...
+C 0xB955 ...(ninguna: nada)...
+C 0xB956 ...la mitad (BCD)...
+C 0xB966 ...+ la de ahora
+C 0xB985 A / 2 por nibbles: el alto que baja suma 5 al bajo
+C 0xB992 con 10000 o mas, se cobra sin mirar
+C 0xB996 GOLD (dos bytes) - DE: acarreo si no llega
+C 0xB9A1 GOLD - DE en BCD, tres bytes
+C 0xB9B3 la direccion de la tabla de detras del call
+C 0xB9B9 bit 3: la tecla 1...
+C 0xB9C0 ...bit 4: la 2...
+C 0xB9C3 ...bit 5: la 3; sin ninguna, se vuelve al de antes
+C 0xB9C6 la palabra E...
+C 0xB9CF ...y alli
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA000 0xA09E dibujos_9F9E_cola  8 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 56); los sube p00:48A6 por la lista 0x55BD (sigue del banco anterior, 0x9F9E); lo leen p00:48A6 (158 bytes)
@@ -499,119 +627,168 @@ F 0xB8B4 2
 # --- fin de los bloques de bloques.py ---
 
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
-C 0xB500 elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+C 0xB500 elige_1_2_o_3: la direccion de la tabla de detras del call
 C 0xB50C cobra: Cobra DE (BCD) del oro 0xC135-0xC137. Acarreo = no hay bastante; con
 C 0xB513 p00:puente_da_un_objeto: p01:79CE: da el objeto A, una unidad (lo usan las conversaciones de p12)
 C 0xB518 guarda la linea de la conversacion
 C 0xB51D guarda la linea a la que se salta tras la accion
 C 0xB524 guarda la linea de la conversacion
 C 0xB52B guarda la linea de la conversacion
+C 0xB52E sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB533 guarda el paso de la conversacion
-C 0xB537 elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+C 0xB537 elige_1_2_o_3: la direccion de la tabla de detras del call
 C 0xB542 guarda la linea de la conversacion
+C 0xB545 sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
+C 0xB54D sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB552 guarda la linea de la conversacion
 C 0xB557 guarda la linea a la que se salta tras la accion
+C 0xB55A sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
+C 0xB561 linea_siguiente: el paso siguiente de la conversacion
 C 0xB566 guarda la linea de la conversacion
-C 0xB56C elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+C 0xB569 linea_siguiente: el paso siguiente de la conversacion
+C 0xB56C elige_1_2_o_3: la direccion de la tabla de detras del call
 C 0xB577 p00:puente_da_un_objeto: p01:79CE: da el objeto A, una unidad (lo usan las conversaciones de p12)
 C 0xB57E guarda MP, la magia (BCD, hasta 99)
 C 0xB581 p00:puente_pinta_el_panel
-C 0xB587 elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+C 0xB587 elige_1_2_o_3: la direccion de la tabla de detras del call
 C 0xB593 cobra: Cobra DE (BCD) del oro 0xC135-0xC137. Acarreo = no hay bastante; con
 C 0xB59A guarda la linea de la conversacion
+C 0xB59D sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB5A3 cobra: Cobra DE (BCD) del oro 0xC135-0xC137. Acarreo = no hay bastante; con
 C 0xB5A9 media_vida: cura la mitad de lo que falta hasta la vida maxima
 C 0xB5B1 guarda la linea de la conversacion
+C 0xB5B4 sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB5B9 guarda la linea de la conversacion
-C 0xB5BF elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+C 0xB5BC sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
+C 0xB5BF elige_1_2_o_3: la direccion de la tabla de detras del call
 C 0xB5CB cobra: Cobra DE (BCD) del oro 0xC135-0xC137. Acarreo = no hay bastante; con
 C 0xB5D9 guarda la linea de la conversacion
+C 0xB5DC sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB5DF el objeto 0x0C, てむさ
 C 0xB5E1 p00:puente_da_un_objeto: p01:79CE: da el objeto A, una unidad (lo usan las conversaciones de p12)
 C 0xB5EF guarda la linea de la conversacion
+C 0xB5F2 sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB5F7 guarda la linea de la conversacion
 C 0xB5FC guarda la linea a la que se salta tras la accion
+C 0xB5FF sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB602 el objeto 0x17, どりあん
 C 0xB604 p00:puente_da_un_objeto: p01:79CE: da el objeto A, una unidad (lo usan las conversaciones de p12)
 C 0xB60A lee cuantos objetos 0x21 se llevan (BCD; 0xFF sin cuenta)
+C 0xB610 la linea de la conversacion = 0x02
 C 0xB612 guarda la linea de la conversacion
+C 0xB615 sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB61A guarda la linea a la que se salta tras la accion
-C 0xB620 elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+C 0xB61D sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
+C 0xB620 elige_1_2_o_3: la direccion de la tabla de detras del call
 C 0xB635 guarda la linea de la conversacion
 C 0xB63D lee la ENFERMEDAD (la picadura)
+C 0xB641 sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB648 guarda la linea de la conversacion
 C 0xB64D guarda la linea a la que se salta tras la accion
+C 0xB650 sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB655 guarda la linea de la conversacion
-C 0xB65A elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+C 0xB65A elige_1_2_o_3: la direccion de la tabla de detras del call
 C 0xB666 cobra: Cobra DE (BCD) del oro 0xC135-0xC137. Acarreo = no hay bastante; con
 C 0xB66E p00:puente_da_un_objeto: p01:79CE: da el objeto A, una unidad (lo usan las conversaciones de p12)
 C 0xB673 guarda la linea de la conversacion
+C 0xB676 sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB67B guarda la linea de la conversacion
-C 0xB681 elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+C 0xB67E sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
+C 0xB681 elige_1_2_o_3: la direccion de la tabla de detras del call
 C 0xB693 cobra: Cobra DE (BCD) del oro 0xC135-0xC137. Acarreo = no hay bastante; con
 C 0xB6A2 p00:puente_da_un_objeto: p01:79CE: da el objeto A, una unidad (lo usan las conversaciones de p12)
 C 0xB6A7 guarda la linea de la conversacion
+C 0xB6AA sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB6AF guarda la linea de la conversacion
+C 0xB6B2 sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB6B7 guarda la linea de la conversacion
+C 0xB6BA sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB6BF guarda la linea de la conversacion
 C 0xB6C4 guarda la linea a la que se salta tras la accion
+C 0xB6C7 sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB6CA lee cuantos objetos 0x21 se llevan (BCD; 0xFF sin cuenta)
+C 0xB6D0 la linea de la conversacion = 0x02
 C 0xB6D2 guarda la linea de la conversacion
+C 0xB6D5 sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB6DA guarda la linea de la conversacion
 C 0xB6DF guarda la linea a la que se salta tras la accion
-C 0xB6E5 elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+C 0xB6E2 sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
+C 0xB6E5 elige_1_2_o_3: la direccion de la tabla de detras del call
 C 0xB6EE gasta_un_0x15: 0xC354: el objeto 0x15
 C 0xB6F4 p00:puente_borra_la_ventana_de_texto: LOS PUENTES. De seis bytes, `call X / jp 0x4215`: se llaman desde cualquier
 C 0xB703 guarda la linea de la conversacion
+C 0xB706 sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB715 guarda la ENFERMEDAD (la picadura)
 C 0xB71B lee cuantos objetos 0x21 se llevan (BCD; 0xFF sin cuenta)
+C 0xB721 la linea de la conversacion = 0x02
 C 0xB723 guarda la linea de la conversacion
+C 0xB726 sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB72B guarda la linea a la que se salta tras la accion
-C 0xB731 elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+C 0xB72E sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
+C 0xB731 elige_1_2_o_3: la direccion de la tabla de detras del call
 C 0xB73A gasta_un_0x15: 0xC354: el objeto 0x15
 C 0xB745 guarda la linea de la conversacion
+C 0xB748 sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB74D guarda la linea de la conversacion
+C 0xB750 sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB753 lee cuantos objetos 0x21 se llevan (BCD; 0xFF sin cuenta)
+C 0xB759 la linea de la conversacion = 0x02
 C 0xB75B guarda la linea de la conversacion
+C 0xB75E sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB763 guarda la linea a la que se salta tras la accion
-C 0xB769 elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+C 0xB766 sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
+C 0xB769 elige_1_2_o_3: la direccion de la tabla de detras del call
 C 0xB772 gasta_un_0x15: 0xC354: el objeto 0x15
 C 0xB777 p00:puente_da_un_objeto: p01:79CE: da el objeto A, una unidad (lo usan las conversaciones de p12)
 C 0xB781 guarda la linea de la conversacion
-C 0xB787 elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+C 0xB784 sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
+C 0xB787 elige_1_2_o_3: la direccion de la tabla de detras del call
 C 0xB793 cobra: Cobra DE (BCD) del oro 0xC135-0xC137. Acarreo = no hay bastante; con
+C 0xB796 sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB79B guarda la linea de la conversacion
+C 0xB79E sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB7A4 cobra: Cobra DE (BCD) del oro 0xC135-0xC137. Acarreo = no hay bastante; con
+C 0xB7A7 sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB7AA media_vida: cura la mitad de lo que falta hasta la vida maxima
-C 0xB7AF elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+C 0xB7AF elige_1_2_o_3: la direccion de la tabla de detras del call
+C 0xB7BF sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB7C4 guarda los zuecos puestos
 C 0xB7CF guarda la linea de la conversacion
+C 0xB7D2 sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB7D5 el objeto 0x12, きば
 C 0xB7D7 p00:puente_da_un_objeto: p01:79CE: da el objeto A, una unidad (lo usan las conversaciones de p12)
-C 0xB7DA apunta a el paso de la conversacion
 C 0xB7EB cobra: Cobra DE (BCD) del oro 0xC135-0xC137. Acarreo = no hay bastante; con
 C 0xB7F7 guarda la linea a la que se salta tras la accion
-C 0xB7FD elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+C 0xB7FA sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
+C 0xB7FD elige_1_2_o_3: la direccion de la tabla de detras del call
 C 0xB809 cobra: Cobra DE (BCD) del oro 0xC135-0xC137. Acarreo = no hay bastante; con
 C 0xB82F p00:puente_pinta_el_panel
 C 0xB834 guarda la linea de la conversacion
+C 0xB837 linea_siguiente: el paso siguiente de la conversacion
 C 0xB842 guarda la linea de la conversacion
 C 0xB847 p00:puente_da_un_objeto: p01:79CE: da el objeto A, una unidad (lo usan las conversaciones de p12)
 C 0xB84B guarda cuantos objetos 0x20 se llevan (BCD; 0xFF sin cuenta)
+C 0xB84E sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB853 guarda la linea a la que se salta tras la accion
+C 0xB856 sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB859 lee cuantos objetos 0x19 se llevan (BCD; 0xFF sin cuenta)
+C 0xB85F la linea de la conversacion = 0x03
 C 0xB861 guarda la linea de la conversacion
+C 0xB864 sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB867 el objeto 0x19, むせんき
 C 0xB869 p00:puente_da_un_objeto: p01:79CE: da el objeto A, una unidad (lo usan las conversaciones de p12)
-C 0xB86F elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+C 0xB86F elige_1_2_o_3: la direccion de la tabla de detras del call
 C 0xB87B cobra: Cobra DE (BCD) del oro 0xC135-0xC137. Acarreo = no hay bastante; con
 C 0xB882 guarda la linea a la que se salta tras la accion
+C 0xB885 sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB88B cobra: Cobra DE (BCD) del oro 0xC135-0xC137. Acarreo = no hay bastante; con
 C 0xB893 el objeto 0x19, むせんき?
 C 0xB899 guarda la radio reparada
 C 0xB8A0 guarda la linea de la conversacion
+C 0xB8A3 sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB8A8 guarda la linea de la conversacion
-C 0xB8B1 elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
+C 0xB8AB sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
+C 0xB8B1 elige_1_2_o_3: la direccion de la tabla de detras del call
 C 0xB8BC guarda la PANTALLA
 C 0xB8C1 guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
 C 0xB8CA guarda el punto de entrada (y, x)
@@ -619,10 +796,14 @@ C 0xB8CD p00:puente_borra_la_ventana_de_texto: LOS PUENTES. De seis bytes, `call
 C 0xB8D0 el objeto 0x0E, まかぷら
 C 0xB8D2 p00:puente_da_un_objeto: p01:79CE: da el objeto A, una unidad (lo usan las conversaciones de p12)
 C 0xB8D8 lee cuantos objetos 0x21 se llevan (BCD; 0xFF sin cuenta)
+C 0xB8DE la linea de la conversacion = 0x02
 C 0xB8E0 guarda la linea de la conversacion
+C 0xB8E3 sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB8E8 guarda la linea a la que se salta tras la accion
+C 0xB8EB sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB8EE lee las teclas nuevas del cuadro (bit 4 SHOT1, bit 5 SHOT2)
 C 0xB8F6 p00:puente_sonido_si_juega
+C 0xB8F9 sigue_la_conversacion: 0xC14B = 1: se escribe la linea que diga 0xC14D
 C 0xB902 p00:puente_sonido_si_juega
 C 0xB90B guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
 C 0xB913 vida_maxima: 30 + 16*LEVEL en BCD; 999 como mucho
@@ -631,6 +812,8 @@ C 0xB919 p00:puente_pinta_el_panel
 C 0xB937 apunta a MP, la magia (BCD, hasta 99)
 C 0xB943 p00:puente_pinta_el_panel
 C 0xB949 lee LIFE, los dos bytes (BCD)
+C 0xB957 media_en_bcd: A / 2 por nibbles: el alto que baja suma 5 al bajo
+C 0xB962 media_en_bcd: A / 2 por nibbles: el alto que baja suma 5 al bajo
 C 0xB96E guarda LIFE, los dos bytes (BCD)
 C 0xB971 p00:puente_pinta_el_panel
 C 0xB98F apunta a en el final, cual de los tres (0, 1 o 2; 3 acabado)

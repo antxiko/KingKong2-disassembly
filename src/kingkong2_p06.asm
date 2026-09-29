@@ -318,7 +318,7 @@ L_A6AC:
 	ld (0e22bh),a		;a6b1
 	ld a,004h		;a6b4
 	ld (0c307h),a		;a6b6
-	ld a,0ffh		;a6b9
+	ld a,0ffh		;a6b9   ; el paso del suceso de p06:A649 = 0xFF
 	ld (0c139h),a		;a6bb   ; guarda el paso del suceso de p06:A649
 	ret			;a6be
 
@@ -341,7 +341,7 @@ L_A6CF:
 	call limpia_para_el_final		;a6d5
 	call 04206h		;a6d8   ; p00:puente_sube_los_colores_de_sprite
 	call elige_el_final		;a6db   ; elige_el_final: Sube los 77 dibujos de la escena (p06:AF41) y elige el final (0xC137):
-	ld a,020h		;a6de
+	ld a,020h		;a6de   ; la espera del estado, en cuadros = 0x20
 L_A6E0:
 	ld (0c104h),a		;a6e0   ; guarda la espera del estado, en cuadros
 L_A6E3:
@@ -404,7 +404,7 @@ L_A749:
 	xor a			;a758
 	ld (0c102h),a		;a759   ; guarda las banderas de la partida (bit 6: de verdad, no la demostracion)
 	ld (0c100h),a		;a75c   ; guarda el ESTADO del juego
-	ld a,020h		;a75f
+	ld a,020h		;a75f   ; la espera del estado, en cuadros = 0x20
 	ld (0c104h),a		;a761   ; guarda la espera del estado, en cuadros
 	xor a			;a764
 	ld (0c101h),a		;a765   ; guarda el paso del estado
@@ -1039,7 +1039,7 @@ fin_de_la_escena:
 	ld de,0cf00h		;ac0f
 	ld bc,00031h		;ac12
 	ldir		;ac15
-	ld a,003h		;ac17
+	ld a,003h		;ac17   ; en el final, cual de los tres (0, 1 o 2; 3 acabado) = 0x03
 	ld (0c137h),a		;ac19   ; 0xC137 = 3: acabada
 	ret			;ac1c
 L_AC1D:
@@ -2419,7 +2419,7 @@ L_BD49:
 	ld a,(0c603h)		;bd54
 	cp 040h		;bd57
 	ret c			;bd59
-	ld a,002h		;bd5a
+	ld a,002h		;bd5a   ; el SUCESO: el tipo de decorado que hay que quitar = 0x02
 	ld (0c560h),a		;bd5c   ; guarda el SUCESO: el tipo de decorado que hay que quitar
 	xor a			;bd5f
 	ld (0c561h),a		;bd60   ; guarda el paso del suceso
@@ -2521,7 +2521,7 @@ L_BDE7:
 	ld (0c321h),de		;bdea   ; guarda el punto de entrada (y, x)
 	ld a,c			;bdee
 	ld (0c323h),a		;bdef
-	ld a,001h		;bdf2
+	ld a,001h		;bdf2   ; el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER) = 0x01
 	ld (0c201h),a		;bdf4   ; guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
 	ld (0c14fh),a		;bdf7
 	ld a,024h		;bdfa
@@ -2597,7 +2597,7 @@ L_BE87:
 	ld (0c561h),a		;bea4   ; guarda el paso del suceso
 	inc a			;bea7
 	ld (0c165h),a		;bea8
-	ld a,005h		;beab
+	ld a,005h		;beab   ; el SUCESO: el tipo de decorado que hay que quitar = 0x05
 	ld (0c560h),a		;bead   ; guarda el SUCESO: el tipo de decorado que hay que quitar
 	ret			;beb0
 
@@ -2734,14 +2734,14 @@ L_BF6C:
 	sub 020h		;bf6f
 	cp 060h		;bf71
 	ret c			;bf73
-	ld a,039h		;bf74
+	ld a,039h		;bf74   ; la PANTALLA = 0x39
 	ld (0c125h),a		;bf76   ; guarda la PANTALLA
 	ret			;bf79
 L_BF7A:
 	ld a,(0c303h)		;bf7a   ; lee la Y de Mitchel
 	cp 060h		;bf7d
 	ret c			;bf7f
-	ld a,08ch		;bf80
+	ld a,08ch		;bf80   ; la PANTALLA = 0x8C
 	ld (0c125h),a		;bf82   ; guarda la PANTALLA
 	ret			;bf85
 L_BF86:

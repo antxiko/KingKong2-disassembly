@@ -49,14 +49,14 @@ L_8025:
 	ld a,(0c14ch)		;802d   ; lee la accion de la linea
 	and a			;8030
 	jr z,L_8012		;8031
-	ld a,004h		;8033
+	ld a,004h		;8033   ; el paso de la conversacion = 0x04
 	ld (0c14bh),a		;8035   ; guarda el paso de la conversacion
 	ret			;8038
 L_8039:
 	ld a,(0c106h)		;8039   ; lee las teclas nuevas del cuadro (bit 4 SHOT1, bit 5 SHOT2)
 	bit 4,a		;803c
 	ret z			;803e
-	ld a,001h		;803f
+	ld a,001h		;803f   ; el paso de la conversacion = 0x01
 	ld (0c14bh),a		;8041   ; guarda el paso de la conversacion
 	ret			;8044
 L_8045:
@@ -143,7 +143,7 @@ busca_la_linea:
 	ld a,e			;80bf
 	or d			;80c0
 	jr nz,L_80C9		;80c1
-	ld a,0ffh		;80c3
+	ld a,0ffh		;80c3   ; la accion de la linea = 0xFF
 	ld (0c14ch),a		;80c5   ; guarda la accion de la linea
 	ret			;80c8
 L_80C9:
@@ -155,7 +155,7 @@ L_80C9:
 	ld (0c157h),hl		;80d2   ; guarda la letra de la conversacion que toca
 	ld (0c159h),de		;80d5
 	ld (0c15bh),de		;80d9
-	ld a,001h		;80dd
+	ld a,001h		;80dd   ; la cuenta de la letra siguiente de la conversacion = 0x01
 	ld (0c156h),a		;80df   ; guarda la cuenta de la letra siguiente de la conversacion
 	xor a			;80e2
 	ld (0c155h),a		;80e3
@@ -395,11 +395,11 @@ L_8265:
 L_8271:
 	call 054bdh		;8271   ; p00:hay_musica: Z si no suena nada que importe: sin fundido (0xC08B) ni musica (0xC08D)
 	ret nz			;8274
-	ld a,05fh		;8275
+	ld a,05fh		;8275   ; la PANTALLA = 0x5F
 	ld (0c125h),a		;8277   ; guarda la PANTALLA
 	ld hl,04810h		;827a
 	ld (0c321h),hl		;827d   ; guarda el punto de entrada (y, x)
-	ld a,002h		;8280
+	ld a,002h		;8280   ; el lado por el que se ha salido (0 arriba, 1 derecha, 2 abajo, 3 izquierda) = 0x02
 	ld (0c130h),a		;8282   ; guarda el lado por el que se ha salido (0 arriba, 1 derecha, 2 abajo, 3 izquierda)
 	dec a			;8285
 	ld (0c323h),a		;8286
@@ -473,7 +473,7 @@ L_82EA:
 	add a,018h		;82fc
 	cp 030h		;82fe
 	ret nc			;8300
-	ld a,001h		;8301
+	ld a,001h		;8301   ; la figura que sigue a Mitchel = 0x01
 	ld (0c600h),a		;8303   ; guarda la figura que sigue a Mitchel
 	ld a,(0c603h)		;8306
 	ld e,a			;8309
@@ -532,7 +532,7 @@ L_835D:
 	ld hl,0c125h		;8360   ; apunta a la PANTALLA
 	cp (hl)			;8363
 	ret nz			;8364
-	ld a,002h		;8365
+	ld a,002h		;8365   ; la figura que sigue a Mitchel = 0x02
 	ld (0c600h),a		;8367   ; guarda la figura que sigue a Mitchel
 	ret			;836a
 suceso_de_la_que_sigue:
@@ -952,7 +952,7 @@ L_8645:
 	call 04318h		;8648
 	ld de,00000h		;864b
 	call 04311h		;864e
-	ld a,009h		;8651
+	ld a,009h		;8651   ; el grafico de jefe que hay subido = 0x09
 L_8653:
 	ld (0df94h),a		;8653   ; guarda el grafico de jefe que hay subido
 	inc (ix+006h)		;8656   ; sube si se mueve

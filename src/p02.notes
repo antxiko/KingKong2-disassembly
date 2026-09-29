@@ -137,8 +137,10 @@ C 0x8017 p01:borra_la_ventana_de_texto: 160x24 puntos en (8, 0xB0): debajo del d
 C 0x801D lee la accion de la linea
 C 0x8025 escribe_la_conversacion: una letra cada 5 cuadros (0xC156), con su sonido; 0xFD salta de renglon, 0xFF acaba la linea
 C 0x802D lee la accion de la linea
+C 0x8033 el paso de la conversacion = 0x04
 C 0x8035 guarda el paso de la conversacion
 C 0x8039 lee las teclas nuevas del cuadro (bit 4 SHOT1, bit 5 SHOT2)
+C 0x803F el paso de la conversacion = 0x01
 C 0x8041 guarda el paso de la conversacion
 C 0x8045 p01:borra_la_ventana_de_texto: 160x24 puntos en (8, 0xB0): debajo del decorado
 C 0x804F guarda el estado de Mitchel
@@ -149,8 +151,10 @@ C 0x8069 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegad
 C 0x80B0 lee la CONVERSACION
 C 0x80B6 p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
 C 0x80B9 lee la linea de la conversacion
+C 0x80C3 la accion de la linea = 0xFF
 C 0x80C5 guarda la accion de la linea
 C 0x80D2 guarda la letra de la conversacion que toca
+C 0x80DD la cuenta de la letra siguiente de la conversacion = 0x01
 C 0x80DF guarda la cuenta de la letra siguiente de la conversacion
 C 0x80F0 p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 C 0x80F7 lee la letra de la conversacion que toca
@@ -197,8 +201,10 @@ C 0x8252 guarda SHOT2, el objeto que se lleva
 C 0x8255 guarda SHOT1, el arma que se lleva (0 el puno)
 C 0x826C p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 C 0x8271 p00:hay_musica: Z si no suena nada que importe: sin fundido (0xC08B) ni musica (0xC08D)
+C 0x8275 la PANTALLA = 0x5F
 C 0x8277 guarda la PANTALLA
 C 0x827D guarda el punto de entrada (y, x)
+C 0x8280 el lado por el que se ha salido (0 arriba, 1 derecha, 2 abajo, 3 izquierda) = 0x02
 C 0x8282 guarda el lado por el que se ha salido (0 arriba, 1 derecha, 2 abajo, 3 izquierda)
 C 0x828C guarda la figura que sigue a Mitchel
 C 0x828F guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
@@ -213,10 +219,12 @@ C 0x82D4 lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha
 C 0x82E6 guarda el cuadro de la figura que sigue (direccion*2 + paso)
 C 0x82ED lee la Y de Mitchel
 C 0x82F8 lee la X de Mitchel
+C 0x8301 la figura que sigue a Mitchel = 0x01
 C 0x8303 guarda la figura que sigue a Mitchel
 C 0x8328 lee la figura que sigue a Mitchel
 C 0x8332 lee la PANTALLA
 C 0x8360 apunta a la PANTALLA
+C 0x8365 la figura que sigue a Mitchel = 0x02
 C 0x8367 guarda la figura que sigue a Mitchel
 C 0x836B lee la figura que sigue a Mitchel
 C 0x8372 lee la PANTALLA
@@ -301,6 +309,7 @@ C 0x85D9 lee la x del enemigo
 C 0x85E2 p01:apunta_a_mitchel: APUNTA: la velocidad C...
 C 0x85ED p01:apunta_a_mitchel: APUNTA: la velocidad C...
 C 0x862C guarda el grafico de jefe que hay subido
+C 0x8651 el grafico de jefe que hay subido = 0x09
 C 0x8653 guarda el grafico de jefe que hay subido
 C 0x8656 sube si se mueve
 C 0x8659 el cuadro del enemigo = 0x3F

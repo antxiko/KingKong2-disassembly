@@ -15,7 +15,7 @@
 
 
 L_6000:
-	ld a,0bch		;6000
+	ld a,0bch		;6000   ; la copia del registro 7 del PSG (el mezclador) = 0xBC
 	ld (0c081h),a		;6002   ; guarda la copia del registro 7 del PSG (el mezclador)
 	xor a			;6005
 	ld (0c08bh),a		;6006
@@ -184,7 +184,7 @@ L_6125:
 	ld (0c097h),a		;613f
 	xor a			;6142
 	ld (0c08dh),a		;6143
-	ld a,0bfh		;6146
+	ld a,0bfh		;6146   ; la copia del registro 7 del PSG (el mezclador) = 0xBF
 	ld (0c081h),a		;6148   ; guarda la copia del registro 7 del PSG (el mezclador)
 	xor a			;614b
 	call 00096h		;614c   ; BIOS RDPSG - Reads value from PSG-register
@@ -221,7 +221,7 @@ L_6125:
 	call 00093h		;619c   ; BIOS WRTPSG - Writes data to PSG-register
 	xor a			;619f
 	ld (0c07eh),a		;61a0   ; guarda el canal del PSG que se esta tocando
-	ld a,004h		;61a3
+	ld a,004h		;61a3   ; el numero de canal = 0x04
 	ld (0c07fh),a		;61a5   ; guarda el numero de canal
 	ld hl,0631ah		;61a8
 	ld (0c018h),hl		;61ab   ; guarda el manejador de la musica de la pausa
