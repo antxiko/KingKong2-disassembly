@@ -1752,7 +1752,7 @@ DATA_grupos_6B1B:
 
 L_6B30:
 	ld a,040h		;6b30   ; la 0x76: con menos de 3 fichas del tipo 0x40...
-	call 08bc6h		;6b32   ; p02:cuenta_las_fichas
+	call 08bc6h		;6b32   ; p02:cuenta_las_fichas: A = cuantas fichas hay del tipo A
 	cp 003h		;6b35
 	ret nc			;6b37
 	call mitchel_en_la_mitad_de_abajo		;6b38   ; mitchel_en_la_mitad_de_abajo: 0 si Mitchel (0xDFF6, al entrar) estaba en la mitad de arriba; 1 si en la de abajo
@@ -2763,8 +2763,8 @@ DATA_tabla_714A:
 
 L_716C:
 	ret			;716c
-L_716D:
-	ld a,080h		;716d   ; la velocidad 0x80
+rumbo_a_0x80:
+	ld a,080h		;716d   ; rumbo hacia Mitchel a velocidad 0x80
 rumbo_hacia_mitchel:
 	ld e,(ix+003h)		;716f   ; RUMBO HACIA MITCHEL a velocidad A: el angulo...
 	ld d,(ix+005h)		;7172
@@ -3104,11 +3104,11 @@ DATA_byte_por_juego_de_dibujos:
 
 
 L_73DD:
-	call ficha_contra_el_mapa		;73dd
+	call ficha_contra_el_mapa		;73dd   ; ficha_contra_el_mapa: ACARREO si la casilla a D puntos por encima, a la derecha, por debajo o a la izquierda de la ficha es de las que no se pasan; B el lado (0-3)
 	jp c,L_7423		;73e0
 	ret			;73e3
 ficha_contra_el_mapa:
-	ld a,(0c148h)		;73e4   ; lee el juego de dibujos de la pantalla
+	ld a,(0c148h)		;73e4   ; ACARREO si la casilla a D puntos por encima, a la derecha, por debajo o a la izquierda de la ficha es de las que no se pasan; B el lado (0-3)
 	ld hl,073d0h		;73e7   ; byte_por_juego_de_dibujos: un byte por juego de dibujos (0xC148, 13): lo que p01:7332 pone en 0xE802
 	call 04255h		;73ea   ; p00:hl_mas_a
 	ld c,(hl)			;73ed   ; el limite del juego de dibujos; la casilla de la ficha
@@ -4298,7 +4298,7 @@ L_7B3C:
 	ld (ix+00bh),00ch		;7b3c   ; la figura 0x84: va hacia Mitchel a 0x30...
 	ld a,030h		;7b40
 	call rumbo_hacia_mitchel		;7b42   ; rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
-	jp 08bdch		;7b45   ; p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
+	jp 08bdch		;7b45   ; p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
 L_7B48:
 	ld l,(ix+003h)		;7b48   ; ...y se borra al pisar una casilla por debajo de 0x5F
 	ld h,(ix+005h)		;7b4b
@@ -4349,7 +4349,7 @@ L_7BA5:
 	ld a,020h		;7ba8
 L_7BAA:
 	call rumbo_hacia_mitchel		;7baa   ; rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
-	call 08bdch		;7bad   ; p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
+	call 08bdch		;7bad   ; p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
 	ld a,005h		;7bb0
 	jp 05488h		;7bb2   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 L_7BB5:

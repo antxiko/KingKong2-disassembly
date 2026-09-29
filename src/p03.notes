@@ -468,7 +468,7 @@ C 0xAD9B el cuadro del enemigo = 0x10
 C 0xADA3 si se mueve = 0x01
 C 0xADAE byte_12_ADC1: 8 bytes: lo que p03:ADAE pone en ix+0x12 segun (HL) & 7
 C 0xADB1 p00:hl_mas_a
-C 0xADBE p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
+C 0xADBE p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
 C 0xADC9 ENTRADA de DUNGROLL (tipo 0x15), con su ficha en IX
 C 0xADCF lee el paso en que va
 C 0xADD2 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
@@ -677,7 +677,7 @@ C 0xB82F CENTIPEDE, paso 0
 C 0xB832 CENTIPEDE, paso 1
 C 0xB835 CENTIPEDE, paso 2
 C 0xB83A p01:rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
-C 0xB83D p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
+C 0xB83D p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
 C 0xB840 el cuadro del enemigo = 0x12
 C 0xB846 p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 C 0xB849 mira el bit 2 de la cuenta de cuadros
@@ -703,7 +703,7 @@ C 0xB8BE lee la x del enemigo
 C 0xB8C1 lee la y del enemigo
 C 0xB8C7 p01:crea_una_figura: CREA UNA FIGURA: el tipo C en DE
 C 0xB8CD p01:crea_una_figura: CREA UNA FIGURA: el tipo C en DE
-C 0xB8D9 p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
+C 0xB8D9 p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
 C 0xB8DC el cuadro del enemigo = 0x08
 C 0xB8E1 lee la PANTALLA
 C 0xB8E4 la pantalla 0x21?
@@ -877,7 +877,7 @@ C 0xBEE9 lee el cuadro del enemigo
 C 0xBEEF el cuadro del enemigo = 0x0C
 C 0xBEF4 el cuadro del enemigo = 0x08
 C 0xBEFA p01:rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
-C 0xBEFD p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
+C 0xBEFD p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
 C 0xBF01 guarda la velocidad vertical
 C 0xBF04 guarda la velocidad vertical (baja)
 C 0xBF07 guarda la velocidad horizontal

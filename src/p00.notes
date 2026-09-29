@@ -892,7 +892,6 @@ C 0x5B17 y lo de su tipo, por la tabla de p00:5B1E
 C 0x5BAC p15:A1B0 + 2*tipo: la lista de colores
 C 0x5BB2 los colores, en ix+0x25, +5, +10...
 C 0x5BC7 ix+0x21 + 5*E = el hueco de sprite D
-C 0x5BD6 cada dos cuadros...
 C 0x5BDE ...un paso mas de la vuelta (64 pasos, ix+0x14)...
 C 0x5BEC ...con el circulo de p09:B145: y y x alrededor de (0x58, 0x58)
 C 0x5C05 EL CUADRO DEL JUEGO (desde p01:65C2): 0xC200 bit 0...
@@ -998,6 +997,8 @@ L 0x4318 pon_velocidad_horizontal
 L 0x4333 guarda_el_fondo
 L 0x43B6 casilla_que_no_se_pisa
 C 0x43B6 0xF0 en las BxC casillas de debajo de la ficha: la casilla que no se pisa
+L 0x5BD6 da_vueltas
+C 0x5BD6 cada dos cuadros, un paso mas del circulo de p09:B145 alrededor de (0x58, 0x58)
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x4000 0x4010 cabecera_ab  la cabecera del cartucho: 'AB', INIT (0x4269) y STATEMENT, DEVICE y TEXT a cero; lo leen la BIOS (16 bytes)
@@ -1166,14 +1167,14 @@ C 0x41B2 sube_letras: B letras de 1 bit de HL, en color C, a la hoja de la pagin
 C 0x41C4 pinta_figura_sin_bancos: HL' = la casilla del mapa de la RAM de la esquina
 C 0x41CA casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
 C 0x41D6 copia_lineas_a_la_pagina_1: la linea 0xEC de la pagina 0 a la 1...
-C 0x41DC p02:cerca_de_mitchel_84C3
+C 0x41DC p02:lleva_a_mitchel_encima: LA FICHA LLEVA A MITCHEL: con Mitchel a menos de 0x0C por debajo de su y...
 C 0x41E2 guarda_el_fondo_del_jefe: 0xDFE3: si hay fondo guardado
 C 0x41E8 repone_el_fondo_del_jefe: sin fondo guardado, a p02:8E67
 C 0x41EE p01:paleta_de_las_pantallas_oscuras
 C 0x41F4 hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
 C 0x41FA escribe_has_cogido: el nombre del objeto A en (0x10, 0xB8) y "を とりました。" detras
 C 0x4200 pon_la_paleta_de_la_pantalla: la comun (0x6128), la del juego de dibujos (0x6059) y la de la pantalla (0x61CF)
-C 0x420C p02:mitchel_contra_el_decorado
+C 0x420C p02:mitchel_contra_el_decorado: MITCHEL APLASTADO: su casilla (8 arriba, 8 a la izquierda)...
 C 0x4219 lee el banco de reserva de 0xA000 (el que devuelve p00:4215)
 C 0x4220 el mapper: el banco de A en 0xA000
 C 0x4223 guarda la copia del banco de 0xA000

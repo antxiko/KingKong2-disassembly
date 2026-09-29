@@ -665,7 +665,6 @@ C 0x7107 ...x
 C 0x711B con el banco 6: sus colores de p06:BC07 + 2*(tipo - 0x80)
 C 0x7136 un color por sprite, de 5 en 5
 C 0x7142 y lo de su tipo por p01:714A
-C 0x716D la velocidad 0x80
 C 0x716F RUMBO HACIA MITCHEL a velocidad A: el angulo...
 C 0x7176 ...la velocidad (con 0xC126 * 8)...
 C 0x7183 ...el seno y el coseno (p01:725E)...
@@ -968,6 +967,9 @@ C 0x694B se borra la ficha y sus sprites se dejan libres (y = 0xE0)
 L 0x6979 hay_jefe
 L 0x709A crea_una_figura
 L 0x694B quita_la_ficha
+L 0x716D rumbo_a_0x80
+C 0x716D rumbo hacia Mitchel a velocidad 0x80
+C 0x73E4 ACARREO si la casilla a D puntos por encima, a la derecha, por debajo o a la izquierda de la ficha es de las que no se pasan; B el lado (0-3)
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x611F 0x6143 salidas_especiales  12 salidas especiales (0xF0-0xFB): pantalla de llegada y punto (x, y) donde aparece Mitchel; p01:60FA con 0x611F + 3*(n-0xF0); lo leen p01:6109 (36 bytes)
@@ -1222,7 +1224,7 @@ C 0x6AD7 lee la Y de Mitchel
 C 0x6AFA grupos_6B1B: grupos [cuantos] y ternas [x][y][y2] que p01:6AFA pinta con p00:5A69 (C = 0x40)
 C 0x6B08 p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
 C 0x6B12 p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
-C 0x6B32 p02:cuenta_las_fichas
+C 0x6B32 p02:cuenta_las_fichas: A = cuantas fichas hay del tipo A
 C 0x6B38 mitchel_en_la_mitad_de_abajo: 0 si Mitchel (0xDFF6, al entrar) estaba en la mitad de arriba; 1 si en la de abajo
 C 0x6B3C lee la Y de Mitchel
 C 0x6B5D p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
@@ -1361,7 +1363,7 @@ C 0x7338 p00:hl_mas_a
 C 0x7342 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 C 0x7369 p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
 C 0x73A5 p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
-C 0x73E4 lee el juego de dibujos de la pantalla
+C 0x73DD ficha_contra_el_mapa: ACARREO si la casilla a D puntos por encima, a la derecha, por debajo o a la izquierda de la ficha es de las que no se pasan; B el lado (0-3)
 C 0x73E7 byte_por_juego_de_dibujos: un byte por juego de dibujos (0xC148, 13): lo que p01:7332 pone en 0xE802
 C 0x73EA p00:hl_mas_a
 C 0x73FA p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
@@ -1485,12 +1487,12 @@ C 0x7AE4 p03:velocidad_de_la_tabla_4: las dos velocidades de las 4 bytes HL + 4*
 C 0x7B30 p03:para_la_ficha: las dos velocidades a 0
 C 0x7B39 quita_la_ficha: se borra la ficha y sus sprites se dejan libres (y = 0xE0)
 C 0x7B42 rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
-C 0x7B45 p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
+C 0x7B45 p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
 C 0x7B4E p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
 C 0x7B55 quita_la_ficha: se borra la ficha y sus sprites se dejan libres (y = 0xE0)
 C 0x7B8E p02:sps_recorre_las_fichas
 C 0x7BAA rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
-C 0x7BAD p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
+C 0x7BAD p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
 C 0x7BB2 p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 C 0x7BF7 lee SHOT2, el objeto que se lleva
 C 0x7BFC el objeto 0x19, むせんき?

@@ -575,8 +575,8 @@ L_839A:
 	ret			;83a6
 persigue_a_mitchel_83A7:
 	call 04308h		;83a7   ; EL ENEMIGO ARRASTRA A MITCHEL: por el eje en que esten mas lejos...
-	call tipo_segun_la_pantalla_73		;83aa
-	call distancia_en_x		;83ad
+	call solape_en_y		;83aa   ; solape_en_y: E = 0x1C (0x18 en la pantalla 0x73) menos la distancia en y entre la ficha y E, sin bajar de 0
+	call solape_en_x		;83ad   ; solape_en_x: D = 0x18 menos la distancia en x entre la ficha y D
 	ld a,e			;83b0
 	cp d			;83b1
 	jr nc,L_8419		;83b2
@@ -669,26 +669,26 @@ L_844F:
 	add a,c			;8452
 	ld (0c305h),a		;8453   ; guarda la X de Mitchel
 mitchel_contra_el_decorado:
-	ld a,(0c303h)		;8456   ; lee la Y de Mitchel
+	ld a,(0c303h)		;8456   ; MITCHEL APLASTADO: su casilla (8 arriba, 8 a la izquierda)...
 	sub 008h		;8459
 	ld l,a			;845b
 	ld a,(0c305h)		;845c   ; lee la X de Mitchel
 	sub 008h		;845f
 	ld h,a			;8461
 	call 0431fh		;8462   ; p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
-	ld a,(0c148h)		;8465   ; lee el juego de dibujos de la pantalla
+	ld a,(0c148h)		;8465   ; ...y el umbral del juego de dibujos (p01:73D0)...
 	ld de,073d0h		;8468   ; p01:byte_por_juego_de_dibujos: un byte por juego de dibujos (0xC148, 13): lo que p01:7332 pone en 0xE802
 	call 0425ah		;846b   ; p00:de_mas_a
 	ex de,hl			;846e
-	call choca_con_el_decorado		;846f
+	call choca_con_el_decorado		;846f   ; ...si choca con el decorado, muere
 	jp c,06c7bh		;8472   ; p01:mitchel_muere: los colores de Mitchel otra vez los de siempre
 	ret			;8475
 choca_con_el_decorado:
-	call casilla_libre_para_la_ficha		;8476
+	call casilla_libre_para_la_ficha		;8476   ; dos casillas de la fila, las dos de la siguiente, y si la y no va alineada a 8, las de la tercera
 	ret c			;8479
 	ld a,01fh		;847a
 	call 0425ah		;847c   ; p00:de_mas_a
-	call casilla_libre_para_la_ficha		;847f
+	call casilla_libre_para_la_ficha		;847f   ; casilla_libre_para_la_ficha: acarreo si la casilla es 0xF0 (la que no se pisa) o menor que el umbral (HL); y la de al lado
 	ret c			;8482
 	ld a,(0c303h)		;8483   ; lee la Y de Mitchel
 	and 007h		;8486
@@ -696,7 +696,7 @@ choca_con_el_decorado:
 	ld a,01fh		;8489
 	call 0425ah		;848b   ; p00:de_mas_a
 casilla_libre_para_la_ficha:
-	ld a,(de)			;848e
+	ld a,(de)			;848e   ; acarreo si la casilla es 0xF0 (la que no se pisa) o menor que el umbral (HL); y la de al lado
 	cp 0f0h		;848f
 	scf			;8491
 	ret z			;8492
@@ -709,14 +709,14 @@ casilla_libre_para_la_ficha:
 	ret z			;849a
 	cp (hl)			;849b
 	ret			;849c
-tipo_segun_la_pantalla_73:
-	ld c,018h		;849d
+solape_en_y:
+	ld c,018h		;849d   ; E = 0x1C (0x18 en la pantalla 0x73) menos la distancia en y entre la ficha y E, sin bajar de 0
 	ld a,(0c125h)		;849f   ; lee la PANTALLA
 	cp 073h		;84a2   ; la pantalla 0x73?
 	jr z,L_84A8		;84a4
 	ld c,01ch		;84a6
 L_84A8:
-	ld a,(ix+003h)		;84a8   ; lee la y del enemigo
+	ld a,(ix+003h)		;84a8   ; la distancia en y, en negativo
 	sub e			;84ab
 	jr c,L_84B0		;84ac
 	neg		;84ae
@@ -727,8 +727,8 @@ L_84B0:
 L_84B5:
 	ld e,a			;84b5
 	ret			;84b6
-distancia_en_x:
-	ld a,(ix+005h)		;84b7   ; lee la x del enemigo
+solape_en_x:
+	ld a,(ix+005h)		;84b7   ; D = 0x18 menos la distancia en x entre la ficha y D
 	sub d			;84ba
 	jr c,L_84BF		;84bb
 	neg		;84bd
@@ -736,17 +736,17 @@ L_84BF:
 	add a,018h		;84bf
 	ld d,a			;84c1
 	ret			;84c2
-cerca_de_mitchel_84C3:
-	ld a,(0c303h)		;84c3   ; lee la Y de Mitchel
+lleva_a_mitchel_encima:
+	ld a,(0c303h)		;84c3   ; LA FICHA LLEVA A MITCHEL: con Mitchel a menos de 0x0C por debajo de su y...
 	sub (ix+003h)		;84c6   ; le resta la y del enemigo
 	jr c,L_84CE		;84c9
 	cp 00ch		;84cb
 	ret nc			;84cd
 L_84CE:
-	ld a,(ix+006h)		;84ce   ; lee si se mueve
+	ld a,(ix+006h)		;84ce   ; ...si la ficha se mueve...
 	and a			;84d1
 	jr z,L_8512		;84d2
-	ld a,(ix+008h)		;84d4   ; lee la velocidad vertical
+	ld a,(ix+008h)		;84d4   ; ...en vertical, direccion 0 o 2 segun el signo...
 	and a			;84d7
 	jr z,L_84E7		;84d8
 	ld c,000h		;84da
@@ -759,7 +759,7 @@ L_84E0:
 	jr nz,L_84FA		;84e3
 	jr L_84F5		;84e5
 L_84E7:
-	ld a,(ix+00ah)		;84e7   ; lee la velocidad horizontal
+	ld a,(ix+00ah)		;84e7   ; ...en horizontal, 1 o 3...
 	ld c,002h		;84ea
 	add a,c			;84ec
 	jr c,L_84F0		;84ed
@@ -769,10 +769,10 @@ L_84F0:
 	and 007h		;84f1
 	jr nz,L_84FA		;84f3
 L_84F5:
-	call 06fd3h		;84f5   ; p01:casilla_hacia
+	call 06fd3h		;84f5   ; ...mira si Mitchel puede ir hacia alli (alineado a 8)...
 	jr c,L_8512		;84f8
 L_84FA:
-	ld a,(0c147h)		;84fa
+	ld a,(0c147h)		;84fa   ; ...y sin ねむり (0xC147), Mitchel se mueve con ella
 	and a			;84fd
 	jr nz,L_8512		;84fe
 	ld a,(0c303h)		;8500   ; lee la Y de Mitchel
@@ -782,11 +782,11 @@ L_84FA:
 	add a,(ix+00ah)		;850c   ; le suma la velocidad horizontal
 	ld (0c305h),a		;850f   ; guarda la X de Mitchel
 L_8512:
-	ld a,001h		;8512
+	ld a,001h		;8512   ; 0xC168 = 1: Mitchel va encima de una ficha
 	ld (0c168h),a		;8514
 	ret			;8517
 L_8518:
-	ld (ix+011h),001h		;8518
+	ld (ix+011h),001h		;8518   ; ix+0x11 = 1; copia LMMM de 0x30x0x28 puntos desde (0xD0, 0xA8) a 0x14 arriba y a la izquierda de la ficha...
 	ld a,(ix+003h)		;851c   ; lee la y del enemigo
 	add a,0ech		;851f
 	ld e,a			;8521
@@ -797,27 +797,27 @@ L_8518:
 	ld bc,03028h		;852b
 	ld a,048h		;852e
 	call 0481bh		;8530   ; p00:lmmm: orden LMMM del V9938: lo mismo con operacion logica (A: paginas y operacion; 8 = TIMP)
-	ld bc,00808h		;8533
+	ld bc,00808h		;8533   ; ...guarda el fondo 8x8, hay jefe...
 	call 04333h		;8536   ; p00:guarda_el_fondo: GUARDA EL FONDO: lo que hay debajo de la ficha, desde su esquina
 	call 06979h		;8539   ; p01:hay_jefe: 0xC151 = 1: hay jefe
-	ld bc,00403h		;853c
+	ld bc,00403h		;853c   ; ...y 4x3 casillas que no se pisan
 	jp 043b6h		;853f   ; p00:casilla_que_no_se_pisa: 0xF0 en las BxC casillas de debajo de la ficha: la casilla que no se pisa
 L_8542:
-	ret			;8542   ; ENTRADA de BIGFLOWER (tipo 0x42), con su ficha en IX
+	ret			;8542   ; BIGFLOWER no hace nada
 L_8543:
 	ld a,(ix+005h)		;8543   ; ENTRADA de CLUBMAN (tipo 0x04), con su ficha en IX
-	cp 068h		;8546
+	cp 068h		;8546   ; entre x 0x68 y 0x88 sigue como va; a la izquierda, a la derecha a 0x30...
 	ld de,00030h		;8548
 	jr c,L_8554		;854b
-	ld de,0ffd0h		;854d
+	ld de,0ffd0h		;854d   ; ...a la derecha, a la izquierda a 0x30
 	cp 088h		;8550
 	jr c,L_8557		;8552
 L_8554:
 	call 04318h		;8554   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_8557:
-	ld bc,00001h		;8557
+	ld bc,00001h		;8557   ; la direccion hacia Mitchel...
 	call 0729eh		;855a   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
-	add a,a			;855d
+	add a,a			;855d   ; ...su grafico de jefe: 9 + 2*direccion, y el siguiente o este segun el bit 0 del que habia
 	add a,009h		;855e
 	ld hl,0df94h		;8560   ; apunta a el grafico de jefe que hay subido
 	ld b,a			;8563
@@ -829,18 +829,18 @@ L_8557:
 L_856B:
 	add a,b			;856b
 	ld (hl),a			;856c
-	cp 00eh		;856d
+	cp 00eh		;856d   ; el cuadro: 0x40 con el grafico 0x0E, si no 0x3F
 	ld a,040h		;856f
 	jr z,L_8575		;8571
 	ld a,03fh		;8573
 L_8575:
 	ld (ix+00bh),a		;8575   ; guarda el cuadro del enemigo
 L_8578:
-	dec (ix+014h)		;8578
+	dec (ix+014h)		;8578   ; cada 8 cuadros (ix+0x14)...
 	ld a,(ix+014h)		;857b
 	and 007h		;857e
 	ret nz			;8580
-	ld hl,0df94h		;8581   ; apunta a el grafico de jefe que hay subido
+	ld hl,0df94h		;8581   ; ...el grafico alterna con el de al lado (con el sonido 0x0C al subir)
 	ld a,(hl)			;8584
 	ld c,a			;8585
 	ld b,001h		;8586
@@ -850,7 +850,7 @@ L_8578:
 L_858D:
 	add a,c			;858d
 	ld (hl),a			;858e
-	cp 016h		;858f
+	cp 016h		;858f   ; el cuadro: 0x40 con el grafico 0x16, si no 0x3F
 	ld a,03fh		;8591
 	jr nz,L_8596		;8593
 	inc a			;8595
@@ -863,7 +863,7 @@ L_859A:
 	ld a,b			;859f
 	jr L_858D		;85a0
 L_85A2:
-	call 04308h		;85a2   ; ENTRADA de MUDARMOR (tipo 0x05), con su ficha en IX
+	call 04308h		;85a2   ; MUDARMOR: con Mitchel a menos de 9 en x y en y, quieto...
 	ld b,(ix+005h)		;85a5   ; lee la x del enemigo
 	ld c,(ix+003h)		;85a8   ; lee la y del enemigo
 	ld h,009h		;85ab
@@ -884,7 +884,7 @@ L_85BC:
 	ld (ix+006h),000h		;85bf   ; si se mueve = 0x00
 	jr L_8578		;85c3
 L_85C5:
-	ld (ix+006h),001h		;85c5   ; si se mueve = 0x01
+	ld (ix+006h),001h		;85c5   ; ...si no, en marcha; alineado a 8 en el eje por el que va (bit 0 de ix+0x15)...
 	ld b,007h		;85c9
 	ld a,(ix+015h)		;85cb
 	rra			;85ce
@@ -898,11 +898,11 @@ L_85D9:
 	and b			;85dc
 	jr nz,L_8632		;85dd
 L_85DF:
-	ld bc,00000h		;85df
+	ld bc,00000h		;85df   ; ...si la direccion hacia Mitchel cambia...
 	call 0729eh		;85e2   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	cp (ix+015h)		;85e5
 	jr z,L_8632		;85e8
-	ld bc,00001h		;85ea
+	ld bc,00001h		;85ea   ; ...la nueva, a velocidad 1: 0 arriba, 1 derecha, 2 abajo, 3 izquierda...
 	call 0729eh		;85ed   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	ld b,a			;85f0
 	or a			;85f1
@@ -911,17 +911,17 @@ L_85DF:
 	jr z,L_860E		;85f5
 	dec a			;85f7
 	jr z,L_861E		;85f8
-	ld a,017h		;85fa
+	ld a,017h		;85fa   ; ...izquierda: grafico 0x17, vx -1
 	ld de,0ff00h		;85fc
 	call 04318h		;85ff   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 	jr L_8616		;8602
 L_8604:
-	ld a,011h		;8604
+	ld a,011h		;8604   ; arriba: grafico 0x11, vy -1
 	ld de,0ff00h		;8606
 	call 04311h		;8609   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	jr L_8626		;860c
 L_860E:
-	ld a,013h		;860e
+	ld a,013h		;860e   ; derecha: grafico 0x13, vx +1
 	ld de,00100h		;8610
 	call 04318h		;8613   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_8616:
@@ -929,37 +929,37 @@ L_8616:
 	call 04311h		;8619   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	jr L_862C		;861c
 L_861E:
-	ld a,015h		;861e
+	ld a,015h		;861e   ; abajo: grafico 0x15, vy +1
 	ld de,00100h		;8620
 	call 04311h		;8623   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 L_8626:
 	ld de,00000h		;8626
 	call 04318h		;8629   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_862C:
-	ld (0df94h),a		;862c   ; guarda el grafico de jefe que hay subido
+	ld (0df94h),a		;862c   ; el grafico de jefe y la direccion en ix+0x15
 	ld (ix+015h),b		;862f
 L_8632:
 	jp L_8578		;8632
 L_8635:
-	ld de,00100h		;8635
+	ld de,00100h		;8635   ; AL CREARLO: hacia la derecha a 1, grafico 0x11...
 	call 04318h		;8638   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 	ld de,00000h		;863b
 	call 04311h		;863e   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	ld a,011h		;8641
 	jr L_8653		;8643
 L_8645:
-	ld de,00030h		;8645
+	ld de,00030h		;8645   ; ...o hacia la derecha a 0x30, grafico 9...
 	call 04318h		;8648   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 	ld de,00000h		;864b
 	call 04311h		;864e   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	ld a,009h		;8651   ; el grafico de jefe que hay subido = 0x09
 L_8653:
 	ld (0df94h),a		;8653   ; guarda el grafico de jefe que hay subido
-	inc (ix+006h)		;8656   ; sube si se mueve
+	inc (ix+006h)		;8656   ; ...en marcha, cuadro 0x3F, y hay jefe
 	ld (ix+00bh),03fh		;8659   ; el cuadro del enemigo = 0x3F
 	jp 06979h		;865d   ; p01:hay_jefe: 0xC151 = 1: hay jefe
 L_8660:
-	call batt_cambia_de_cuadro		;8660   ; ENTRADA de BATT (tipo 0x10), con su ficha en IX
+	call batt_cambia_de_cuadro		;8660   ; BATT: cambia de cuadro y va por sus pasos, con la tabla de p02:8675 o, con ix+0x19, la de p02:867B
 	ld a,(ix+019h)		;8663
 	or a			;8666
 	ld hl,08675h		;8667   ; tablas_8675: dos tablas de tres palabras (0x8675 y 0x867B, segun ix+0x19) que p02:866F reparte por ix+1 con p00:4260
@@ -982,7 +982,7 @@ DATA_tablas_8675:
 
 
 L_8681:
-	call 04308h		;8681   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
+	call 04308h		;8681   ; si Mitchel esta a su altura (+-4 en y)...
 	ld a,(ix+003h)		;8684   ; lee la y del enemigo
 	sub 004h		;8687
 	cp e			;8689
@@ -990,7 +990,7 @@ L_8681:
 	add a,008h		;868b
 	cp e			;868d
 	ret c			;868e
-	ld a,(ix+005h)		;868f   ; lee la x del enemigo
+	ld a,(ix+005h)		;868f   ; ...sale hacia el a 5 en horizontal...
 	cp d			;8692
 	ld de,00500h		;8693
 	jr c,L_869B		;8696
@@ -999,11 +999,11 @@ L_869B:
 	call 04318h		;869b   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 	ld de,00000h		;869e
 	call 04311h		;86a1   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
-	ld (ix+006h),001h		;86a4   ; si se mueve = 0x01
+	ld (ix+006h),001h		;86a4   ; ...en marcha, cuadro 2
 	ld (ix+00bh),002h		;86a8   ; el cuadro del enemigo = 0x02
 	jp L_8910		;86ac
 L_86AF:
-	ld de,00200h		;86af
+	ld de,00200h		;86af   ; subiendo y bajando: 2 arriba y 2 abajo, 4 cuadros cada vez...
 	dec (ix+014h)		;86b2
 	ld a,(ix+014h)		;86b5
 	and 004h		;86b8
@@ -1015,12 +1015,12 @@ L_86BF:
 	add hl,de			;86c5
 	ld (ix+002h),l		;86c6
 	ld (ix+003h),h		;86c9   ; guarda la y del enemigo
-	ld a,(ix+005h)		;86cc   ; lee la x del enemigo
+	ld a,(ix+005h)		;86cc   ; ...entre x 0x20 y 0x8F...
 	cp 020h		;86cf
 	jr c,L_86F7		;86d1
 	cp 090h		;86d3
 	jr nc,L_86F7		;86d5
-	call 04308h		;86d7   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
+	call 04308h		;86d7   ; ...si toca a Mitchel (+-4), se para
 	ld a,(ix+005h)		;86da   ; lee la x del enemigo
 	sub 004h		;86dd
 	cp d			;86df
@@ -1038,8 +1038,8 @@ L_86BF:
 	ld (ix+006h),000h		;86f0   ; si se mueve = 0x00
 	jp L_8910		;86f4
 L_86F7:
-	ld (ix+005h),a		;86f7   ; guarda la x del enemigo
-	cp 058h		;86fa
+	ld (ix+005h),a		;86f7   ; fuera de ese margen: se pega al borde
+	cp 058h		;86fa   ; contra el borde izquierdo (x 0x20) o el derecho (0x90), parado y al paso 0
 	ld a,020h		;86fc
 	jr c,L_8702		;86fe
 	ld a,090h		;8700
@@ -1048,12 +1048,12 @@ L_8702:
 	ld (ix+006h),000h		;8705   ; si se mueve = 0x00
 	jp vuelve_al_paso_0		;8709
 L_870C:
-	call 04308h		;870c   ; RATT, paso 2
+	call 04308h		;870c   ; pegado a Mitchel: su y y su x
 	ld (ix+003h),e		;870f   ; guarda la y del enemigo
 	ld (ix+005h),d		;8712   ; guarda la x del enemigo
 	ret			;8715
 L_8716:
-	call 04308h		;8716   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
+	call 04308h		;8716   ; si Mitchel esta en su columna (+-6 en x)...
 	ld a,(ix+005h)		;8719   ; lee la x del enemigo
 	sub 006h		;871c
 	cp d			;871e
@@ -1061,7 +1061,7 @@ L_8716:
 	add a,00ch		;8720
 	cp d			;8722
 	ret c			;8723
-	ld a,(ix+003h)		;8724   ; lee la y del enemigo
+	ld a,(ix+003h)		;8724   ; ...sale hacia el a 5 en vertical...
 	cp e			;8727
 	ld de,00500h		;8728
 	jr c,L_8730		;872b
@@ -1070,11 +1070,11 @@ L_8730:
 	call 04311h		;8730   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	ld de,00000h		;8733
 	call 04318h		;8736   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
-	ld (ix+006h),001h		;8739   ; si se mueve = 0x01
+	ld (ix+006h),001h		;8739   ; ...en marcha, cuadro 2, al paso siguiente
 	ld (ix+00bh),002h		;873d   ; el cuadro del enemigo = 0x02
 	jp L_8910		;8741
 L_8744:
-	ld de,00200h		;8744
+	ld de,00200h		;8744   ; de lado a lado: 2 a la derecha y 2 a la izquierda, 4 cuadros cada vez...
 	dec (ix+014h)		;8747
 	ld a,(ix+014h)		;874a
 	and 004h		;874d
@@ -1086,12 +1086,12 @@ L_8754:
 	add hl,de			;875a
 	ld (ix+004h),l		;875b
 	ld (ix+005h),h		;875e   ; guarda la x del enemigo
-	ld a,(ix+003h)		;8761   ; lee la y del enemigo
+	ld a,(ix+003h)		;8761   ; ...entre y 0x10 y 0x9F...
 	cp 010h		;8764
 	jr c,L_878C		;8766
 	cp 0a0h		;8768
 	jr nc,L_878C		;876a
-	call 04308h		;876c   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
+	call 04308h		;876c   ; ...si toca a Mitchel (+-4), se para
 	ld a,(ix+003h)		;876f   ; lee la y del enemigo
 	sub 004h		;8772
 	cp e			;8774
@@ -1109,7 +1109,7 @@ L_8754:
 	ld (ix+006h),000h		;8785   ; si se mueve = 0x00
 	jp L_8910		;8789
 L_878C:
-	ld (ix+003h),a		;878c   ; guarda la y del enemigo
+	ld (ix+003h),a		;878c   ; fuera de ese margen: arriba (0x10) o abajo (0xA0), parado y al paso 0
 	cp 058h		;878f
 	ld a,010h		;8791
 	jr c,L_8797		;8793
@@ -1119,7 +1119,7 @@ L_8797:
 	ld (ix+006h),000h		;879a   ; si se mueve = 0x00
 	jp vuelve_al_paso_0		;879e
 batt_cambia_de_cuadro:
-	ld a,(ix+00ch)		;87a1   ; lee la cuenta de cuadros
+	ld a,(ix+00ch)		;87a1   ; cada 4 cuadros el cuadro avanza ix+0x13 (1 o -1) entre 1 y 3, y vuelve al llegar a un extremo
 	and 003h		;87a4
 	ret nz			;87a6
 	ld a,(ix+013h)		;87a7
@@ -1141,7 +1141,7 @@ L_87B8:
 L_87C5:
 	ld e,000h		;87c5
 	ld d,a			;87c7
-	ld a,(0c125h)		;87c8   ; lee la PANTALLA
+	ld a,(0c125h)		;87c8   ; en las pantallas 0x1B y 0x1C, con el bit 3 (los otros colores)
 	cp 01bh		;87cb   ; la pantalla 0x1B?
 	jr z,L_87D3		;87cd
 	cp 01ch		;87cf   ; la pantalla 0x1C?
@@ -1154,7 +1154,7 @@ L_87D5:
 	ld (ix+00bh),a		;87d7   ; guarda el cuadro del enemigo
 	ret			;87da
 L_87DB:
-	ld b,000h		;87db
+	ld b,000h		;87db   ; AL CREARLO: ix+0x19 = 1 si esta arriba (y < 0x20) o abajo (0x80 o mas): la otra tabla de pasos
 	ld a,(ix+003h)		;87dd   ; lee la y del enemigo
 	cp 020h		;87e0
 	jr c,L_87E8		;87e2
@@ -1168,23 +1168,23 @@ L_87E9:
 	ld (ix+00bh),000h		;87f0   ; el cuadro del enemigo = 0x00
 	ret			;87f4
 L_87F5:
-	ld de,0ff00h		;87f5   ; ENTRADA de RATT (tipo 0x11), con su ficha en IX
+	ld de,0ff00h		;87f5   ; fuera por la derecha (x 0xA0 o mas): hacia la izquierda, cuadro 5...
 	ld b,005h		;87f8
 	ld a,(ix+005h)		;87fa   ; lee la x del enemigo
 	cp 0a0h		;87fd
 	jr nc,L_880A		;87ff
-	cp 010h		;8801
+	cp 010h		;8801   ; ...por la izquierda (menos de 0x10): hacia la derecha, cuadro 9...
 	jr nc,L_8818		;8803
 	ld b,009h		;8805
 	ld de,00100h		;8807
 L_880A:
 	ld (ix+00bh),b		;880a   ; guarda el cuadro del enemigo
-	call 04318h		;880d   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
+	call 04318h		;880d   ; ...y cambia el bit 0 de ix+0x14 (hacia donde va)
 	ld a,001h		;8810
 	xor (ix+014h)		;8812
 	ld (ix+014h),a		;8815
 L_8818:
-	ld a,(ix+00ch)		;8818   ; lee la cuenta de cuadros
+	ld a,(ix+00ch)		;8818   ; cada 4 cuadros, el cuadro siguiente de p02:8876
 	and 003h		;881b
 	jr nz,L_8833		;881d
 	ld a,(ix+00bh)		;881f   ; lee el cuadro del enemigo
@@ -1219,14 +1219,14 @@ DATA_tabla_8839:
 
 L_883F:
 	call 04308h		;883f   ; RATT, paso 0
-	ld a,(ix+005h)		;8842   ; lee la x del enemigo
+	ld a,(ix+005h)		;8842   ; si Mitchel esta en su columna (+-4 en x)...
 	sub 004h		;8845
 	cp d			;8847
 	ret nc			;8848
 	add a,008h		;8849
 	cp d			;884b
 	ret c			;884c
-	ld a,e			;884d
+	ld a,e			;884d   ; ...salta hacia el a 4 en vertical...
 	ld de,00400h		;884e
 	sub (ix+003h)		;8851   ; le resta la y del enemigo
 	jr nc,L_8859		;8854
@@ -1236,7 +1236,7 @@ L_8859:
 	ld de,00000h		;885c
 	call 04318h		;885f   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 	ld (ix+006h),001h		;8862   ; si se mueve = 0x01
-	ld a,(ix+003h)		;8866   ; lee la y del enemigo
+	ld a,(ix+003h)		;8866   ; ...cuadro 3 hacia abajo (arriba de la pantalla) o 4
 	cp 058h		;8869
 	ld a,003h		;886b
 	jr c,L_8870		;886d
@@ -1259,7 +1259,7 @@ DATA_cuadro_siguiente_8876:
 
 L_887E:
 	call 04308h		;887e   ; RATT, paso 1
-	ld a,e			;8881
+	ld a,e			;8881   ; si toca a Mitchel (+-4 en x y en y)...
 	ld e,(ix+003h)		;8882   ; lee la y del enemigo
 	sub 004h		;8885
 	cp e			;8887
@@ -1275,10 +1275,10 @@ L_887E:
 	add a,008h		;8898
 	cp d			;889a
 	jr c,L_88A3		;889b
-	dec (ix+006h)		;889d   ; baja si se mueve
+	dec (ix+006h)		;889d   ; ...pasa al paso 2 (pegado a el)
 	jp L_8910		;88a0
 L_88A3:
-	ld a,(ix+003h)		;88a3   ; lee la y del enemigo
+	ld a,(ix+003h)		;88a3   ; entre y 0x30 y 0x9F sigue; fuera, mira si puede seguir hacia arriba (0) o abajo (2)...
 	cp 030h		;88a6
 	jr c,L_88AD		;88a8
 	cp 0a0h		;88aa
@@ -1293,37 +1293,37 @@ L_88B3:
 	call 07303h		;88b6   ; p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 	pop de			;88b9
 	ret nc			;88ba
-	call vuelve_al_paso_0		;88bb
+	call vuelve_al_paso_0		;88bb   ; ...si no, vuelve al paso 0 andando al otro lado segun ix+0x14
 	ld a,(ix+014h)		;88be
 	or a			;88c1
 	jr z,L_88CD		;88c2
 L_88C4:
-	ld a,009h		;88c4
+	ld a,009h		;88c4   ; hacia la derecha, cuadro 9
 	ld b,001h		;88c6
 	ld de,00100h		;88c8
 	jr L_88D4		;88cb
 L_88CD:
-	ld a,005h		;88cd
+	ld a,005h		;88cd   ; hacia la izquierda, cuadro 5
 	ld b,000h		;88cf
 	ld de,0ff00h		;88d1
 L_88D4:
 	ld (ix+014h),b		;88d4
 	ld (ix+00bh),a		;88d7   ; guarda el cuadro del enemigo
 	ld hl,00000h		;88da
-	jp pon_velocidades		;88dd   ; pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
+	jp pon_velocidades		;88dd   ; pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
 L_88E0:
 	call bowler_paso_3		;88e0   ; ENTRADA de BOWLER (tipo 0x1C), con su ficha en IX
-	ld a,(ix+016h)		;88e3
+	ld a,(ix+016h)		;88e3   ; cuando se acaba la espera de ix+0x16...
 	or a			;88e6
 	jr z,L_88EE		;88e7
 	dec (ix+016h)		;88e9
 	jr nz,L_88F9		;88ec
 L_88EE:
-	ld l,(ix+018h)		;88ee
+	ld l,(ix+018h)		;88ee   ; ...si su bola (la figura de ix+0x18) ya no esta, mira si tira otra
 	ld h,(ix+019h)		;88f1
 	ld a,(hl)			;88f4
 	or a			;88f5
-	call z,bowler_mira_a_mitchel		;88f6
+	call z,bowler_mira_a_mitchel		;88f6   ; bowler_mira_a_mitchel: TIRA LA BOLA si esta alineado con Mitchel: compara la x de Mitchel (A) con la y de la ficha (parece que queria su y, E)...
 L_88F9:
 	ld a,(ix+001h)		;88f9   ; lee el paso en que va
 	call 0425fh		;88fc   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
@@ -1344,14 +1344,14 @@ DATA_tabla_88FF:
 
 
 L_8907:
-	dec (ix+015h)		;8907   ; BOWLER, paso 0
+	dec (ix+015h)		;8907   ; cada 0x90 cuadros, al paso siguiente
 	jr nz,L_8914		;890a
 	ld (ix+015h),090h		;890c
 L_8910:
 	inc (ix+001h)		;8910   ; sube el paso en que va
 	ret			;8913
 L_8914:
-	ld b,007h		;8914
+	ld b,007h		;8914   ; alineado a 8 en el eje por el que va (bit 0 de ix+0x14)...
 	ld a,(ix+014h)		;8916
 	rra			;8919
 	jr c,L_8923		;891a
@@ -1364,7 +1364,7 @@ L_8923:
 	and b			;8926
 	ret nz			;8927
 L_8928:
-	ld bc,00000h		;8928
+	ld bc,00000h		;8928   ; ...la mitad del tiempo (bit 5 del contador) hacia Mitchel; la otra, hacia un punto al azar (registro R)
 	ld a,(0c103h)		;892b   ; lee el contador de cuadros
 	and 020h		;892e
 	jr nz,L_893E		;8930
@@ -1379,11 +1379,11 @@ L_8928:
 	ld b,002h		;893c
 L_893E:
 	call 0729eh		;893e   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
-	jr nc,L_8948		;8941
+	jr nc,L_8948		;8941   ; sin camino, quieto
 	ld (ix+006h),000h		;8943   ; si se mueve = 0x00
 	ret			;8947
 L_8948:
-	ld b,a			;8948
+	ld b,a			;8948   ; la direccion: 0 arriba, 1 derecha, 2 abajo, 3 izquierda, a velocidad 1
 	or a			;8949
 	jr z,L_8957		;894a
 	dec a			;894c
@@ -1399,18 +1399,18 @@ L_895C:
 	ld de,00100h		;895c
 L_895F:
 	ld hl,00000h		;895f
-	call pon_velocidades		;8962   ; pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
+	call pon_velocidades		;8962   ; pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
 	jr L_8970		;8965
 L_8967:
 	ld hl,00100h		;8967
 L_896A:
 	ld de,00000h		;896a
-	call pon_velocidades		;896d   ; pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
+	call pon_velocidades		;896d   ; pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
 L_8970:
-	ld a,(ix+000h)		;8970   ; lee el tipo del enemigo
+	ld a,(ix+000h)		;8970   ; BLOWMIRE usa esto tambien, sin cambiar de cuadro
 	cp 019h		;8973   ; BLOWMIRE (tipo 0x19)?
 	ret z			;8975
-	ld (ix+014h),b		;8976
+	ld (ix+014h),b		;8976   ; el cuadro: direccion*2 mas el bit 0 que llevaba
 	ld a,(ix+00bh)		;8979   ; lee el cuadro del enemigo
 	and 001h		;897c
 	ld c,a			;897e
@@ -1420,7 +1420,7 @@ L_8970:
 	ld (ix+00bh),a		;8982   ; guarda el cuadro del enemigo
 	ret			;8985
 L_8986:
-	dec (ix+015h)		;8986   ; BOWLER, paso 1
+	dec (ix+015h)		;8986   ; PASO 1, 0x90 cuadros: SE MUEVE CON LAS TECLAS del jugador (0xC107)...
 	jr nz,L_8994		;8989
 L_898B:
 	ld (ix+015h),090h		;898b
@@ -1443,10 +1443,10 @@ L_89A8:
 	ld a,(0c107h)		;89a8   ; lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	or a			;89ab
 	jr nz,L_89B2		;89ac
-	ld (ix+006h),a		;89ae   ; guarda si se mueve
+	ld (ix+006h),a		;89ae   ; ...sin tecla, quieto...
 	ret			;89b1
 L_89B2:
-	ld (ix+006h),001h		;89b2   ; si se mueve = 0x01
+	ld (ix+006h),001h		;89b2   ; ...arriba (bit 0), abajo (1), izquierda (2) o derecha (3)...
 	ld b,a			;89b6
 	ld a,b			;89b7
 	rra			;89b8
@@ -1465,9 +1465,9 @@ bowler_se_para:
 	ld de,00000h		;89cc
 	ld h,d			;89cf
 	ld l,e			;89d0
-	jp pon_velocidades		;89d1   ; pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
+	jp pon_velocidades		;89d1   ; pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
 L_89D4:
-	ld a,b			;89d4
+	ld a,b			;89d4   ; ...si por ahi no se puede, quieto
 	ld e,000h		;89d5
 	push af			;89d7
 	call 07303h		;89d8   ; p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
@@ -1476,7 +1476,7 @@ L_89D4:
 	ld a,d			;89de
 	jp L_893E		;89df
 L_89E2:
-	dec (ix+016h)		;89e2   ; BOWLER, paso 2
+	dec (ix+016h)		;89e2   ; paso 2, ix+0x16 cuadros: huye de Mitchel (la direccion contraria)
 	jr z,L_898B		;89e5
 	ld b,007h		;89e7
 	ld a,(ix+014h)		;89e9
@@ -1502,7 +1502,7 @@ L_89FB:
 	ld (ix+006h),000h		;8a10   ; si se mueve = 0x00
 	ret			;8a14
 L_8A15:
-	dec (ix+016h)		;8a15   ; BOWLER, paso 3
+	dec (ix+016h)		;8a15   ; paso 3: quieto hasta que acaba ix+0x16 y vuelta al paso 0
 	ret nz			;8a18
 	ld (ix+006h),001h		;8a19   ; si se mueve = 0x01
 vuelve_al_paso_0:
@@ -1522,7 +1522,7 @@ DATA_codigo_8A22:
 
 
 bowler_mira_a_mitchel:
-	call 04308h		;8a2d   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
+	call 04308h		;8a2d   ; TIRA LA BOLA si esta alineado con Mitchel: compara la x de Mitchel (A) con la y de la ficha (parece que queria su y, E)...
 	ld h,(ix+005h)		;8a30   ; lee la x del enemigo
 	ld l,(ix+003h)		;8a33   ; lee la y del enemigo
 	cp l			;8a36
@@ -1534,7 +1534,7 @@ bowler_mira_a_mitchel:
 	ld b,001h		;8a3f
 	jr L_8A4E		;8a41
 L_8A43:
-	ld a,d			;8a43
+	ld a,d			;8a43   ; ...o en la misma columna...
 	cp h			;8a44
 	ret nz			;8a45
 	ld a,e			;8a46
@@ -1543,11 +1543,11 @@ L_8A43:
 	jr c,L_8A4E		;8a4a
 	ld b,002h		;8a4c
 L_8A4E:
-	ld (ix+006h),000h		;8a4e   ; si se mueve = 0x00
+	ld (ix+006h),000h		;8a4e   ; ...quieto 0x90 cuadros en el paso 3, sin volver a quien llamo...
 	ld (ix+016h),090h		;8a52
 	ld (ix+001h),003h		;8a56   ; el paso en que va = 0x03
 	pop de			;8a5a
-	ld c,08ah		;8a5b
+	ld c,08ah		;8a5b   ; ...y la figura 0x8A en su sitio; su ficha, en ix+0x18
 L_8A5D:
 	ld d,(ix+005h)		;8a5d   ; lee la x del enemigo
 	ld e,(ix+003h)		;8a60   ; lee la y del enemigo
@@ -1556,7 +1556,7 @@ L_8A5D:
 	ld (ix+019h),h		;8a69
 	ret			;8a6c
 bowler_paso_3:
-	ld a,(ix+001h)		;8a6d   ; lee el paso en que va
+	ld a,(ix+001h)		;8a6d   ; en el paso 3 no cambia de cuadro
 	cp 003h		;8a70
 	ret z			;8a72
 alterna_el_cuadro:
@@ -1568,16 +1568,16 @@ alterna_el_cuadro:
 	ld (ix+00bh),a		;8a7e   ; guarda el cuadro del enemigo
 	ret			;8a81
 L_8A82:
-	ld (ix+00bh),000h		;8a82   ; el cuadro del enemigo = 0x00
+	ld (ix+00bh),000h		;8a82   ; AL CREARLO: cuadro 0, 0x90 cuadros, y su bola
 	ld (ix+015h),090h		;8a86
 	ld c,08ah		;8a8a
 	jr L_8A5D		;8a8c
 L_8A8E:
 	call alterna_el_cuadro		;8a8e   ; ENTRADA de TWINMIRES (tipo 0x1A), con su ficha en IX
-	dec (ix+014h)		;8a91
+	dec (ix+014h)		;8a91   ; cada 0x40 cuadros (ix+0x14)...
 	ret nz			;8a94
 	ld (ix+014h),040h		;8a95
-	ld d,(ix+005h)		;8a99   ; lee la x del enemigo
+	ld d,(ix+005h)		;8a99   ; ...la figura 0x84, 0x0C por encima de el
 	dec d			;8a9c
 	ld a,(ix+003h)		;8a9d   ; lee la y del enemigo
 	sub 00ch		;8aa0
@@ -1585,13 +1585,13 @@ L_8A8E:
 	ld c,084h		;8aa3
 	jp 0709ah		;8aa5   ; p01:crea_una_figura: CREA UNA FIGURA: el tipo C en DE
 L_8AA8:
-	call 06979h		;8aa8   ; p01:hay_jefe: 0xC151 = 1: hay jefe
+	call 06979h		;8aa8   ; AL CREARLO: hay jefe, ix+0x11 = 2, 0x20 cuadros...
 	ld (ix+011h),002h		;8aab
 	ld (ix+014h),020h		;8aaf
-	ld bc,00504h		;8ab3
+	ld bc,00504h		;8ab3   ; ...guarda el fondo 5x4, cuadro 0x60...
 	call 04333h		;8ab6   ; p00:guarda_el_fondo: GUARDA EL FONDO: lo que hay debajo de la ficha, desde su esquina
 	ld (ix+00bh),060h		;8ab9   ; el cuadro del enemigo = 0x60
-	ld a,(ix+005h)		;8abd   ; lee la x del enemigo
+	ld a,(ix+005h)		;8abd   ; ...y copia LMMM de 0x28x0x20 puntos desde (0xD8, 0xB0) a 0x14 a su izquierda y 0x10 por encima
 	sub 014h		;8ac0
 	ld d,a			;8ac2
 	ld a,(ix+003h)		;8ac3   ; lee la y del enemigo
@@ -1622,7 +1622,7 @@ DATA_tabla_8ADD:
 
 
 L_8AE5:
-	ld d,(ix+019h)		;8ae5   ; FALCONBAT, paso 0
+	ld d,(ix+019h)		;8ae5   ; va al punto (ix+0x18, ix+0x19) = (y, x)...
 	ld e,(ix+018h)		;8ae8
 	ld b,(ix+005h)		;8aeb   ; lee la x del enemigo
 	ld c,(ix+003h)		;8aee   ; lee la y del enemigo
@@ -1637,7 +1637,7 @@ L_8AF7:
 	jr nc,L_8AFE		;8afa
 	neg		;8afc
 L_8AFE:
-	cp h			;8afe
+	cp h			;8afe   ; ...y cuando esta a menos de 0x0C en el eje mas largo...
 	jr c,L_8B0C		;8aff
 	ld a,e			;8b01
 	sub 00ch		;8b02
@@ -1656,14 +1656,14 @@ L_8B0C:
 	cp b			;8b13
 	ret c			;8b14
 L_8B15:
-	nop			;8b15
+	nop			;8b15   ; ...se pone en el, quieto, y al paso siguiente
 	ld (ix+005h),d		;8b16   ; guarda la x del enemigo
 	ld (ix+003h),e		;8b19   ; guarda la y del enemigo
 	dec (ix+006h)		;8b1c   ; baja si se mueve
 	jp L_8910		;8b1f
 L_8B22:
-	call 05bd6h		;8b22   ; FALCONBAT, paso 1
-	call 04308h		;8b25   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
+	call 05bd6h		;8b22   ; da vueltas alrededor del centro...
+	call 04308h		;8b25   ; ...hasta que esta en el mismo cuarto de pantalla que Mitchel (bit 0 abajo, bit 1 derecha, respecto a 0x58)...
 	ld a,058h		;8b28
 	ld b,000h		;8b2a
 	cp e			;8b2c
@@ -1688,26 +1688,26 @@ L_8B46:
 	ld a,c			;8b46
 	cp b			;8b47
 	ret nz			;8b48
-	call falconbat_velocidad		;8b49
+	call falconbat_velocidad		;8b49   ; ...entonces se lanza hacia el a 0x80
 	ld (ix+01eh),000h		;8b4c
 	jp L_8910		;8b50
 L_8B53:
-	ld a,(ix+01eh)		;8b53   ; FALCONBAT, paso 2
+	ld a,(ix+01eh)		;8b53   ; hasta que se levanta el bit 0 de ix+0x1E: quieto y al paso siguiente
 	rra			;8b56
 	ret nc			;8b57
 	ld (ix+006h),000h		;8b58   ; si se mueve = 0x00
 	jp L_8910		;8b5c
 L_8B5F:
-	ld (ix+00bh),008h		;8b5f   ; el cuadro del enemigo = 0x08
+	ld (ix+00bh),008h		;8b5f   ; AL CREARLO: cuadro 8; si ya hay 4 FALCONBAT o mas, fuera (y 0xE0)
 	ld (ix+013h),001h		;8b63
 	ld a,028h		;8b67
-	call cuenta_las_fichas		;8b69
+	call cuenta_las_fichas		;8b69   ; cuenta_las_fichas: A = cuantas fichas hay del tipo A
 	cp 004h		;8b6c
 	jr c,L_8B75		;8b6e
 	ld (ix+003h),0e0h		;8b70   ; la y del enemigo = 0xE0
 	ret			;8b74
 L_8B75:
-	call 04308h		;8b75   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
+	call 04308h		;8b75   ; el cuarto de pantalla de Mitchel...
 	ld (ix+01bh),d		;8b78
 	ld (ix+01ah),e		;8b7b
 	ld b,000h		;8b7e
@@ -1721,7 +1721,7 @@ L_8B86:
 	jr nc,L_8B8C		;8b88
 	or 002h		;8b8a
 L_8B8C:
-	ld b,a			;8b8c
+	ld b,a			;8b8c   ; ...su terna de p02:8BBA: el punto a donde va (ix+0x18, ix+0x19) y ix+0x14...
 	add a,a			;8b8d
 	add a,b			;8b8e
 	ld hl,08bbah		;8b8f   ; ternas_8BBA: 4 ternas que p02:8B8F pone en ix+0x18, ix+0x19 e ix+0x14 (3*A)
@@ -1734,7 +1734,7 @@ L_8B8C:
 	ld (ix+018h),b		;8b9a
 	ld (ix+019h),c		;8b9d
 	ld (ix+014h),a		;8ba0
-	ld hl,0c303h		;8ba3   ; apunta a la Y de Mitchel
+	ld hl,0c303h		;8ba3   ; ...y para apuntar a ese punto, pone ahi a Mitchel un momento, calcula el rumbo y lo devuelve a su sitio
 	ld (hl),b			;8ba6
 	inc hl			;8ba7
 	inc hl			;8ba8
@@ -1763,7 +1763,7 @@ DATA_ternas_8BBA:
 
 
 cuenta_las_fichas:
-	ld hl,0d000h		;8bc6   ; apunta a las fichas de los enemigos (13 de 0x80)
+	ld hl,0d000h		;8bc6   ; A = cuantas fichas hay del tipo A
 	ld de,00080h		;8bc9
 	ld b,00dh		;8bcc
 	ld c,000h		;8bce
@@ -1777,9 +1777,9 @@ L_8BD4:
 	ld a,c			;8bd7
 	ret			;8bd8
 falconbat_velocidad:
-	call 0716dh		;8bd9
+	call 0716dh		;8bd9   ; p01:rumbo_a_0x80: rumbo hacia Mitchel a velocidad 0x80
 pon_velocidades:
-	inc (ix+006h)		;8bdc   ; la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
+	inc (ix+006h)		;8bdc   ; la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
 	call 04318h		;8bdf   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 	ex de,hl			;8be2
 	jp 04311h		;8be3   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
@@ -1802,9 +1802,9 @@ DATA_tabla_8BEC:
 
 L_8BF0:
 	call alterna_el_cuadro		;8bf0   ; RED FMAN, B FMAN y D FMAN, paso 0
-	dec (ix+015h)		;8bf3
+	dec (ix+015h)		;8bf3   ; cada ix+0x15 cuadros sale hacia Mitchel...
 	ret nz			;8bf6
-	ld a,(ix+000h)		;8bf7   ; lee el tipo del enemigo
+	ld a,(ix+000h)		;8bf7   ; ...a 0x60, sea cual sea de los tres (las otras velocidades, p02:8C00, no se alcanzan)
 	cp 033h		;8bfa   ; RED FMAN (tipo 0x33)?
 	ld c,060h		;8bfc
 	jr $+10		;8bfe
@@ -1828,17 +1828,17 @@ L_8C08:
 	call 04318h		;8c0f   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 	ex de,hl			;8c12
 	call 04311h		;8c13   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
-	call 04308h		;8c16   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
+	call 04308h		;8c16   ; ...hasta su y (ix+0x16), con el cuadro 0x63
 	ld (ix+016h),e		;8c19
 	ld (ix+00bh),063h		;8c1c   ; el cuadro del enemigo = 0x63
 	jp L_8910		;8c20
 L_8C23:
-	ld a,00dh		;8c23   ; RED FMAN, B FMAN y D FMAN, paso 1
+	ld a,00dh		;8c23   ; con el sonido 0xD...
 	call 05488h		;8c25   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
-	ld d,010h		;8c28
-	call 073e4h		;8c2a   ; p01:ficha_contra_el_mapa
+	ld d,010h		;8c28   ; ...si choca con el mapa a 0x10...
+	call 073e4h		;8c2a   ; p01:ficha_contra_el_mapa: ACARREO si la casilla a D puntos por encima, a la derecha, por debajo o a la izquierda de la ficha es de las que no se pasan; B el lado (0-3)
 	jr c,L_8C5D		;8c2d
-	ld d,(ix+017h)		;8c2f
+	ld d,(ix+017h)		;8c2f   ; ...si no, cuando llega (+-4) al punto (ix+0x16, ix+0x17) en el eje mas largo, se para
 	ld e,(ix+016h)		;8c32
 	ld a,e			;8c35
 	sub (ix+003h)		;8c36   ; le resta la y del enemigo
@@ -1867,7 +1867,7 @@ L_8C4F:
 	ret c			;8c5a
 	jr $+53		;8c5b
 L_8C5D:
-	ld a,b			;8c5d
+	ld a,b			;8c5d   ; choca: se ajusta a la rejilla de 16 por el lado B...
 	ld bc,00ff0h		;8c5e
 	call 0425fh		;8c61   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
@@ -1908,13 +1908,13 @@ L_8C89:
 	and c			;8c8c
 	ld (ix+003h),a		;8c8d   ; guarda la y del enemigo
 L_8C90:
-	ld de,00000h		;8c90
+	ld de,00000h		;8c90   ; ...y quieto 0x10 cuadros en el paso 0
 	call 04318h		;8c93   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 	call 04311h		;8c96   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	ld (ix+015h),010h		;8c99
 	jp vuelve_al_paso_0		;8c9d
 L_8CA0:
-	ld (ix+015h),005h		;8ca0
+	ld (ix+015h),005h		;8ca0   ; AL CREARLO: 5 cuadros, cuadro 0x62, quieto
 	ld (ix+00bh),062h		;8ca4   ; el cuadro del enemigo = 0x62
 	inc (ix+006h)		;8ca8   ; sube si se mueve
 	ld de,00000h		;8cab
@@ -1930,7 +1930,7 @@ colores_de_los_sprites_de_la_ficha:
 	pop bc			;8cbf
 	ret			;8cc0
 colores_a_4:
-	call colores_de_los_sprites_de_la_ficha		;8cc1   ; colores_de_los_sprites_de_la_ficha: HL = ix+0x25 (el color del primer sprite), DE = 5 (de uno al siguiente)
+	call colores_de_los_sprites_de_la_ficha		;8cc1   ; cuatro parejas de colores B y C en los 8 sprites de la ficha
 	ld a,004h		;8cc4
 L_8CC6:
 	ld (hl),b			;8cc6
@@ -1941,7 +1941,7 @@ L_8CC6:
 	jr nz,L_8CC6		;8ccb
 	ret			;8ccd
 L_8CCE:
-	ld a,(ix+00ch)		;8cce   ; ENTRADA de WHITEOGRE (tipo 0x3B), con su ficha en IX
+	ld a,(ix+00ch)		;8cce   ; cada 4 cuadros, el cuadro siguiente de p02:8D60
 	and 003h		;8cd1
 	jr nz,L_8CED		;8cd3
 	ld hl,08d60h		;8cd5   ; cuadro_siguiente_8D60: 8 bytes: el cuadro (ix+0x0B) segun el de ahora menos 3 y el paso (p02:8CD5)
@@ -1960,7 +1960,7 @@ L_8CE9:
 	ld a,(hl)			;8ce9
 	ld (ix+00bh),a		;8cea   ; guarda el cuadro del enemigo
 L_8CED:
-	ld b,007h		;8ced
+	ld b,007h		;8ced   ; alineado a 8 en el eje por el que va (bit 0 de ix+0x14)...
 	ld a,(ix+014h)		;8cef
 	rra			;8cf2
 	jr c,L_8CFC		;8cf3
@@ -1973,7 +1973,7 @@ L_8CFC:
 	and b			;8cff
 	ret nz			;8d00
 L_8D01:
-	ld bc,00000h		;8d01
+	ld bc,00000h		;8d01   ; ...hacia Mitchel; si no se puede, prueba las otras tres direcciones...
 	call 0729eh		;8d04   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	jr nc,L_8D20		;8d07
 	ld c,003h		;8d09
@@ -1988,10 +1988,10 @@ L_8D0B:
 	jr nc,L_8D20		;8d16
 	dec c			;8d18
 	jr nz,L_8D0B		;8d19
-	ld (ix+006h),000h		;8d1b   ; si se mueve = 0x00
+	ld (ix+006h),000h		;8d1b   ; ...y si ninguna, quieto
 	ret			;8d1f
 L_8D20:
-	ld (ix+006h),001h		;8d20   ; si se mueve = 0x01
+	ld (ix+006h),001h		;8d20   ; a velocidad 1 en la direccion A (0 arriba, 1 derecha, 2 abajo, 3 izquierda)
 	ld b,a			;8d24
 	or a			;8d25
 	jr z,L_8D33		;8d26
@@ -2008,15 +2008,15 @@ L_8D38:
 	ld de,00100h		;8d38
 L_8D3B:
 	ld hl,00000h		;8d3b
-	call pon_velocidades		;8d3e   ; pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
+	call pon_velocidades		;8d3e   ; pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
 	jr L_8D4C		;8d41
 L_8D43:
 	ld hl,00100h		;8d43
 L_8D46:
 	ld de,00000h		;8d46
-	call pon_velocidades		;8d49   ; pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
+	call pon_velocidades		;8d49   ; pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
 L_8D4C:
-	ld a,b			;8d4c
+	ld a,b			;8d4c   ; si cambia de direccion, su cuadro de p02:8D68
 	cp (ix+014h)		;8d4d
 	ret z			;8d50
 	ld (ix+014h),b		;8d51
@@ -2047,23 +2047,23 @@ DATA_cuadro_8D68:
 
 
 L_8D6C:
-	ld (ix+00bh),004h		;8d6c   ; el cuadro del enemigo = 0x04
+	ld (ix+00bh),004h		;8d6c   ; AL CREARLO: cuadro 4, hacia abajo a 1
 	ld (ix+014h),002h		;8d70
 	ld de,00000h		;8d74
 	ld hl,00100h		;8d77
-	jp pon_velocidades		;8d7a   ; pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
+	jp pon_velocidades		;8d7a   ; pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
 L_8D7D:
-	ld a,(ix+013h)		;8d7d   ; ENTRADA de SHUT ALL (tipo 0x40), con su ficha en IX
+	ld a,(ix+013h)		;8d7d   ; LA PARED QUE SE CIERRA: con ix+0x13 ya cerrada, nada; si no, cada 4 cuadros un paso (ix+0x14)...
 	or a			;8d80
 	ret nz			;8d81
 	ld a,(ix+00ch)		;8d82   ; lee la cuenta de cuadros
 	and 003h		;8d85
 	ret nz			;8d87
 	inc (ix+014h)		;8d88
-	ld a,(ix+015h)		;8d8b
+	ld a,(ix+015h)		;8d8b   ; ...hacia la derecha (ix+0x15 = 0) o hacia la izquierda...
 	or a			;8d8e
 	jr nz,L_8DC8		;8d8f
-	ld a,(ix+014h)		;8d91
+	ld a,(ix+014h)		;8d91   ; ...cada 4 pasos avanza 0x10 en x; el trozo nuevo, 4 puntos por paso...
 	and 003h		;8d94
 	ld b,a			;8d96
 	ld c,(ix+005h)		;8d97   ; lee la x del enemigo
@@ -2084,7 +2084,7 @@ L_8DAE:
 	ld a,c			;8db0
 	add a,b			;8db1
 	ld (ix+017h),a		;8db2
-	ld a,(0c125h)		;8db5   ; lee la PANTALLA
+	ld a,(0c125h)		;8db5   ; ...hasta x 0x54 (0x34 en la pantalla 0x73)
 	cp 073h		;8db8   ; la pantalla 0x73?
 	ld a,c			;8dba
 	jr nz,L_8DC1		;8dbb
@@ -2096,7 +2096,7 @@ L_8DC1:
 	ld d,c			;8dc5
 	jr L_8DFF		;8dc6
 L_8DC8:
-	ld a,(ix+014h)		;8dc8
+	ld a,(ix+014h)		;8dc8   ; hacia la izquierda: hasta x 0x58 (0x68 en la pantalla 0x76 por debajo de y 0x58)
 	and 003h		;8dcb
 	ld b,a			;8dcd
 	ld c,(ix+005h)		;8dce   ; lee la x del enemigo
@@ -2127,7 +2127,7 @@ L_8DFC:
 	ld d,c			;8dfc
 	ld h,000h		;8dfd
 L_8DFF:
-	ld a,(ix+003h)		;8dff   ; lee la y del enemigo
+	ld a,(ix+003h)		;8dff   ; copia HMMM del trozo de pared (0x18 de alto, desde y 0xA8 de la pagina 1) en su sitio...
 	ld (ix+016h),a		;8e02
 	sub 00ch		;8e05
 	ld e,a			;8e07
@@ -2135,7 +2135,7 @@ L_8DFF:
 	ld l,0a8h		;8e0a
 	ld a,001h		;8e0c
 	call 047d7h		;8e0e   ; p00:hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
-	ld a,(ix+005h)		;8e11   ; lee la x del enemigo
+	ld a,(ix+005h)		;8e11   ; ...y alineada a 8, sus 2x2 casillas pasan a ser de las que no se pisan (0xF0)
 	ld h,a			;8e14
 	and 007h		;8e15
 	ret nz			;8e17
@@ -2156,12 +2156,12 @@ L_8E24:
 	jr nz,L_8E24		;8e30
 	ret			;8e32
 L_8E33:
-	inc (ix+013h)		;8e33
+	inc (ix+013h)		;8e33   ; cerrada: ix+0x13, 0xDFF5 = 0 y al paso siguiente
 	xor a			;8e36
 	ld (0dff5h),a		;8e37
 	jp L_8910		;8e3a
 L_8E3D:
-	inc (ix+011h)		;8e3d
+	inc (ix+011h)		;8e3d   ; AL CREARLA: su sitio en ix+0x18 (y) e ix+0x19 (x); a la derecha de 0x58 cierra hacia la izquierda (ix+0x15 = 1)
 	xor a			;8e40
 	ld (ix+00eh),a		;8e41
 	ld (ix+014h),a		;8e44
@@ -2178,24 +2178,24 @@ L_8E62:
 	ld (ix+00eh),000h		;8e62
 	ret			;8e66
 L_8E67:
-	ld ix,0d000h		;8e67   ; apunta a las fichas de los enemigos (13 de 0x80)
+	ld ix,0d000h		;8e67   ; AL REPINTAR LA PANTALLA: las paredes que se cierran, lo que llevan...
 	ld b,00dh		;8e6b
 L_8E6D:
 	ld a,(ix+000h)		;8e6d   ; lee el tipo del enemigo
 	cp 040h		;8e70   ; SHUT ALL (tipo 0x40)?
 	push bc			;8e72
-	call z,cuantos_segun_ix14		;8e73
+	call z,cuantos_segun_ix14		;8e73   ; cuantos_segun_ix14: los trozos que lleva ya (ix+0x14 / 4), de 0x10 en 0x10 desde su sitio (a la izquierda si esta a la derecha de 0x58)
 	pop bc			;8e76
 	ld de,00080h		;8e77
 	add ix,de		;8e7a
 	djnz L_8E6D		;8e7c
-	ld de,00008h		;8e7e
+	ld de,00008h		;8e7e   ; ...y cada casilla 0xF1 del mapa de 0xCA20 (32x20), con su trozo
 	ld hl,0ca20h		;8e81
 	ld bc,02014h		;8e84
 L_8E87:
 	ld a,0f1h		;8e87
 	cp (hl)			;8e89
-	call z,pinta_dos_casillas		;8e8a
+	call z,pinta_dos_casillas		;8e8a   ; pinta_dos_casillas: las 2x3 casillas del mapa de 0xCA20 a 0, las de la RAM de la pantalla a 0xF1, y el trozo con HMMM
 	inc hl			;8e8d
 	call 049ceh		;8e8e   ; p00:siguiente_sitio: D + 8; al dar la vuelta, E + 8
 	djnz L_8E87		;8e91
@@ -2204,7 +2204,7 @@ L_8E87:
 	jr nz,L_8E87		;8e96
 	ret			;8e98
 cuantos_segun_ix14:
-	ld a,(ix+014h)		;8e99
+	ld a,(ix+014h)		;8e99   ; los trozos que lleva ya (ix+0x14 / 4), de 0x10 en 0x10 desde su sitio (a la izquierda si esta a la derecha de 0x58)
 	sla a		;8e9c
 	sla a		;8e9e
 	and 0f0h		;8ea0
@@ -2251,18 +2251,18 @@ L_8EC2:
 	djnz L_8EC2		;8ede
 	ret			;8ee0
 pinta_dos_casillas:
-	push hl			;8ee1
+	push hl			;8ee1   ; las 2x3 casillas del mapa de 0xCA20 a 0, las de la RAM de la pantalla a 0xF1, y el trozo con HMMM
 	push bc			;8ee2
 	push de			;8ee3
 	ld d,000h		;8ee4
-	call casillas_2x3		;8ee6
+	call casillas_2x3		;8ee6   ; casillas_2x3: D en 2x3 casillas
 	pop de			;8ee9
 	push de			;8eea
 	ld h,d			;8eeb
 	ld l,e			;8eec
 	call 0431fh		;8eed   ; p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
 	ld d,0f1h		;8ef0
-	call casillas_2x3		;8ef2
+	call casillas_2x3		;8ef2   ; casillas_2x3: D en 2x3 casillas
 	pop de			;8ef5
 	push de			;8ef6
 	ld hl,010a8h		;8ef7
@@ -2274,7 +2274,7 @@ pinta_dos_casillas:
 	pop hl			;8f04
 	ret			;8f05
 casillas_2x3:
-	ld bc,00203h		;8f06
+	ld bc,00203h		;8f06   ; D en 2x3 casillas
 L_8F09:
 	ld (hl),d			;8f09
 	inc hl			;8f0a
@@ -2290,7 +2290,7 @@ L_8F14:
 	jr nz,L_8F09		;8f17
 	ret			;8f19
 L_8F1A:
-	ld b,(ix+00dh)		;8f1a   ; ENTRADA de ROCK ROCK (tipo 0x41), con su ficha en IX
+	ld b,(ix+00dh)		;8f1a   ; cuando le quedan menos de 0x18 de vida, el cuadro siguiente (0x49, o 0x67 en la pantalla 0x76)
 	ld c,(ix+00bh)		;8f1d   ; lee el cuadro del enemigo
 	ld a,(0c125h)		;8f20   ; lee la PANTALLA
 	cp 076h		;8f23   ; la pantalla 0x76?
@@ -2316,12 +2316,12 @@ L_8F3C:
 L_8F41:
 	inc (ix+00bh)		;8f41   ; sube el cuadro del enemigo
 L_8F44:
-	ld a,(ix+014h)		;8f44
+	ld a,(ix+014h)		;8f44   ; hacia donde va (ix+0x14), y si choca con el mapa...
 	ld c,a			;8f47
 	ld e,001h		;8f48
 	call 07303h		;8f4a   ; p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 	ret nc			;8f4d
-	ld a,c			;8f4e
+	ld a,c			;8f4e   ; ...da media vuelta, a 0xA0: 0 y 2 en vertical, 1 y 3 en horizontal
 	add a,002h		;8f4f
 	and 003h		;8f51
 	ld b,a			;8f53
@@ -2346,12 +2346,12 @@ L_8F70:
 L_8F73:
 	jp 04318h		;8f73   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_8F76:
-	ld a,(0c125h)		;8f76   ; lee la PANTALLA
+	ld a,(0c125h)		;8f76   ; AL CREARLO: en la pantalla 0x73 lleva 8 sprites...
 	cp 073h		;8f79   ; la pantalla 0x73?
 	jr nz,L_8F81		;8f7b
 	ld (ix+020h),008h		;8f7d   ; cuantos sprites lleva = 0x08
 L_8F81:
-	cp 076h		;8f81
+	cp 076h		;8f81   ; ...cuadro 0x48 (0x66 en la 0x76)...
 	ld c,048h		;8f83
 	jr nz,L_8F89		;8f85
 	ld c,066h		;8f87
@@ -2365,7 +2365,7 @@ L_8F89:
 	jr nz,L_8FA6		;8f97
 	ret			;8f99
 L_8F9A:
-	ld (ix+014h),001h		;8f9a
+	ld (ix+014h),001h		;8f9a   ; ...hacia la derecha a 0xA0; en la 0x73, con ix+0x0F, hacia arriba
 	ld de,000a0h		;8f9e
 	ld hl,00000h		;8fa1
 	jr L_8FAF		;8fa4
@@ -2376,9 +2376,9 @@ L_8FA6:
 	ld e,a			;8fab
 	ld hl,0ff60h		;8fac
 L_8FAF:
-	jp pon_velocidades		;8faf   ; pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
+	jp pon_velocidades		;8faf   ; pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
 L_8FB2:
-	ld (ix+006h),001h		;8fb2   ; si se mueve = 0x01
+	ld (ix+006h),001h		;8fb2   ; AL CREARLO: entra en diagonal desde el borde en que esta, cerca de Mitchel (+-0x20 al azar)...
 	ld (ix+016h),008h		;8fb6
 	ld (ix+017h),008h		;8fba
 	xor a			;8fbe
@@ -2389,12 +2389,12 @@ L_8FB2:
 	ld de,00100h		;8fc9
 	ld h,d			;8fcc
 	ld l,e			;8fcd
-	ld a,(ix+003h)		;8fce   ; lee la y del enemigo
+	ld a,(ix+003h)		;8fce   ; ...arriba (y 0x10): hacia abajo...
 	cp 010h		;8fd1
 	jr z,L_8FE9		;8fd3
-	cp 0a0h		;8fd5
+	cp 0a0h		;8fd5   ; ...abajo (0xA0): hacia arriba...
 	jr z,L_8FF2		;8fd7
-	ld a,(ix+005h)		;8fd9   ; lee la x del enemigo
+	ld a,(ix+005h)		;8fd9   ; ...izquierda (x 0x10): hacia la derecha; si no, desde la derecha hacia la izquierda
 	cp 010h		;8fdc
 	jr z,L_8FFB		;8fde
 	call cerca_de_mitchel_en_y		;8fe0
@@ -2421,27 +2421,27 @@ L_8FFB:
 	jr nc,L_9020		;9000
 	jr L_9010		;9002
 L_9004:
-	ld a,002h		;9004
+	ld a,002h		;9004   ; arriba a la izquierda, cuadro 2
 	ld bc,00101h		;9006
 	ld de,0ff00h		;9009
 	ld h,d			;900c
 	ld l,e			;900d
 	jr L_9028		;900e
 L_9010:
-	ld a,006h		;9010
+	ld a,006h		;9010   ; abajo a la derecha, cuadro 6
 	ld bc,00103h		;9012
 	jr L_9028		;9015
 L_9017:
-	xor a			;9017
+	xor a			;9017   ; abajo a la izquierda, cuadro 0
 	ld bc,00102h		;9018
 	ld hl,0ff00h		;901b
 	jr L_9028		;901e
 L_9020:
-	ld a,004h		;9020
+	ld a,004h		;9020   ; arriba a la derecha, cuadro 4
 	ld bc,00100h		;9022
 	ld de,0ff00h		;9025
 L_9028:
-	ld (ix+00bh),a		;9028   ; guarda el cuadro del enemigo
+	ld (ix+00bh),a		;9028   ; ix+0x12 = 1, ix+0x19 la direccion; DE vertical y HL horizontal
 	ld (ix+012h),b		;902b
 	ld (ix+019h),c		;902e
 	call 04311h		;9031   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
@@ -2451,9 +2451,9 @@ cerca_de_mitchel_en_x:
 	push hl			;9038   ; la x de Mitchel +/- 0x20 (al azar) y dentro de la pantalla
 	push de			;9039
 	push bc			;903a
-	call veinte_a_un_lado		;903b
+	call veinte_a_un_lado		;903b   ; veinte_a_un_lado: C = 0x20 o -0x20 al azar
 	ld a,(0c305h)		;903e   ; lee la X de Mitchel
-	call dentro_de_la_pantalla		;9041
+	call dentro_de_la_pantalla		;9041   ; dentro_de_la_pantalla: A + C, que de la vuelta dentro de 0x20-0x8F
 	ld (ix+005h),a		;9044   ; guarda la x del enemigo
 	pop bc			;9047
 	pop de			;9048
@@ -2463,23 +2463,23 @@ cerca_de_mitchel_en_y:
 	push hl			;904b
 	push de			;904c
 	push bc			;904d
-	call veinte_a_un_lado		;904e
+	call veinte_a_un_lado		;904e   ; veinte_a_un_lado: C = 0x20 o -0x20 al azar
 	ld a,(0c303h)		;9051   ; lee la Y de Mitchel
-	call dentro_de_la_pantalla		;9054
+	call dentro_de_la_pantalla		;9054   ; dentro_de_la_pantalla: A + C, que de la vuelta dentro de 0x20-0x8F
 	ld (ix+003h),a		;9057   ; guarda la y del enemigo
 	pop bc			;905a
 	pop de			;905b
 	pop hl			;905c
 	ret			;905d
 veinte_a_un_lado:
-	ld c,020h		;905e
+	ld c,020h		;905e   ; C = 0x20 o -0x20 al azar
 	call 0bf0eh		;9060   ; p03:al_azar: A al azar: el registro R, con los nibbles cambiados, XOR el contador de cuadros
 	and 001h		;9063
 	jr z,dentro_de_la_pantalla		;9065
 	ld c,0e0h		;9067
 	ret			;9069
 dentro_de_la_pantalla:
-	add a,c			;906a
+	add a,c			;906a   ; A + C, que de la vuelta dentro de 0x20-0x8F
 	cp 020h		;906b
 	jr c,L_9075		;906d
 	cp 090h		;906f
@@ -2490,12 +2490,12 @@ L_9075:
 	add a,040h		;9075
 	ret			;9077
 L_9078:
-	bit 0,(ix+01ah)		;9078   ; ENTRADA de SEALOUSE (tipo 0x1B), con su ficha en IX
+	bit 0,(ix+01ah)		;9078   ; con el bit 0 de ix+0x1A, mira la casilla en que esta...
 	jr z,L_909D		;907c
 	ld l,(ix+003h)		;907e   ; lee la y del enemigo
 	ld h,(ix+005h)		;9081   ; lee la x del enemigo
 	call 0431fh		;9084   ; p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
-	ld a,(hl)			;9087
+	ld a,(hl)			;9087   ; ...y en las 0x75-0x79 y 0x98-0x9F desaparece
 	cp 098h		;9088
 	jr nc,L_9092		;908a
 	cp 075h		;908c
@@ -2510,7 +2510,7 @@ L_9099:
 	cp 07ah		;9099
 	jr c,L_9096		;909b
 L_909D:
-	ld hl,0bfa8h		;909d
+	ld hl,0bfa8h		;909d   ; va en diagonal; ix+0x19 (0-3) la diagonal, y sus dos lados de p02:9148 en ix+0x1B (uno en cada nibble)...
 	call 0bf72h		;90a0   ; p03:cuadro_cada_ix16: salvo con ix+0x19 = 4, cada ix+0x16 cuadros el cuadro alterna entre los dos de HL + 2*ix+0x19
 	ld hl,09148h		;90a3   ; byte_1b_9148: 4 bytes: lo que p02:90A3 pone en ix+0x1B segun ix+0x19
 	ld a,(ix+019h)		;90a6
@@ -2518,11 +2518,11 @@ L_909D:
 	ld a,(hl)			;90ac
 	ld (ix+01bh),a		;90ad
 	ld (ix+012h),001h		;90b0
-	and 00fh		;90b4
+	and 00fh		;90b4   ; ...si por el primer lado no choca...
 	ld e,000h		;90b6
 	call 07303h		;90b8   ; p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 	jr c,L_9114		;90bb
-	ld a,(ix+01bh)		;90bd
+	ld a,(ix+01bh)		;90bd   ; ...mira el segundo; si choca, rebota en ese eje y la diagonal gira hacia atras (ix+0x12 = -1)
 	rra			;90c0
 	rra			;90c1
 	rra			;90c2
@@ -2534,7 +2534,7 @@ L_909D:
 	ret nc			;90ce
 	ld (ix+012h),0ffh		;90cf
 L_90D3:
-	ld (ix+01ah),001h		;90d3
+	ld (ix+01ah),001h		;90d3   ; la diagonal siguiente (ix+0x12 = 1 o -1), de 0 a 3 dando la vuelta
 	ld a,(ix+019h)		;90d7
 	add a,(ix+012h)		;90da
 	ld (ix+019h),a		;90dd
@@ -2550,7 +2550,7 @@ L_90F2:
 	ld (ix+017h),001h		;90f2
 	ld hl,0bfa8h		;90f6
 	call 0bf72h		;90f9   ; p03:cuadro_cada_ix16: salvo con ix+0x19 = 4, cada ix+0x16 cuadros el cuadro alterna entre los dos de HL + 2*ix+0x19
-	bit 0,(ix+01bh)		;90fc
+	bit 0,(ix+01bh)		;90fc   ; invierte la velocidad del eje del choque
 	jr z,invierte_la_velocidad_y		;9100
 invierte_la_velocidad_x:
 	ld a,(ix+00ah)		;9102   ; lee la velocidad horizontal
@@ -2563,7 +2563,7 @@ invierte_la_velocidad_y:
 	ld (ix+008h),a		;9110   ; guarda la velocidad vertical
 	ret			;9113
 L_9114:
-	ld a,(ix+01bh)		;9114
+	ld a,(ix+01bh)		;9114   ; choca por el primer lado: si por el segundo no, gira; si tambien, da media vuelta (las dos velocidades)
 	rra			;9117
 	rra			;9118
 	rra			;9119
@@ -2597,13 +2597,13 @@ DATA_byte_1b_9148:
 
 
 L_914C:
-	ld a,(ix+00dh)		;914c   ; lee la vida del enemigo (BCD)
+	ld a,(ix+00dh)		;914c   ; AL CREARLO: su vida en ix+0x14 (para saber si le han dado), 0xDFB5 = 0...
 	ld (ix+014h),a		;914f
 	xor a			;9152
 	ld (0dfb5h),a		;9153
 	ld (ix+013h),a		;9156
 	ld (ix+018h),a		;9159
-	inc a			;915c
+	inc a			;915c   ; ...cuadro 1, en marcha, diagonal 2, 6 cuadros por dibujo, y parado
 	ld (ix+00bh),a		;915d   ; guarda el cuadro del enemigo
 	ld (ix+006h),a		;9160   ; guarda si se mueve
 	inc a			;9163
@@ -2616,7 +2616,7 @@ L_914C:
 L_9175:
 	ld hl,0bf9eh		;9175   ; ENTRADA de THE NOT (tipo 0x2F), con su ficha en IX
 	call 0bf72h		;9178   ; p03:cuadro_cada_ix16: salvo con ix+0x19 = 4, cada ix+0x16 cuadros el cuadro alterna entre los dos de HL + 2*ix+0x19
-	ld b,(ix+003h)		;917b   ; lee la y del enemigo
+	ld b,(ix+003h)		;917b   ; alineado a 8 en el eje por el que va...
 	bit 0,(ix+019h)		;917e
 	jr z,L_9187		;9182
 	ld b,(ix+005h)		;9184   ; lee la x del enemigo
@@ -2624,10 +2624,10 @@ L_9187:
 	ld a,b			;9187
 	and 007h		;9188
 	ret nz			;918a
-	ld a,(0dfb5h)		;918b
+	ld a,(0dfb5h)		;918b   ; ...si ya le han dado (0xDFB5 = 1), una direccion al azar por la que se pueda...
 	dec a			;918e
 	jr z,L_9199		;918f
-	call 0bf0eh		;9191   ; p03:al_azar: A al azar: el registro R, con los nibbles cambiados, XOR el contador de cuadros
+	call 0bf0eh		;9191   ; ...si no, una vez de cada 4 tambien al azar...
 	and 003h		;9194
 	and a			;9196
 	jr nz,L_91A7		;9197
@@ -2639,20 +2639,20 @@ L_9199:
 	jr c,L_9199		;91a3
 	jr L_91D3		;91a5
 L_91A7:
-	ld a,(ix+014h)		;91a7
+	ld a,(ix+014h)		;91a7   ; ...y las demas, si le han dado ahora (su vida ya no es la de ix+0x14), 0xDFB5 = 1...
 	cp (ix+00dh)		;91aa   ; compara con la vida del enemigo (BCD)
 	jr z,L_91B4		;91ad
 	ld a,001h		;91af
 	ld (0dfb5h),a		;91b1
 L_91B4:
-	ld hl,09201h		;91b4   ; azar_9201: 16 bytes, uno por 0xC107 & 15 (0xFF = nada): lo que p02:91B4 pasa a p01:7303
+	ld hl,09201h		;91b4   ; ...va AL REVES DE LAS TECLAS del jugador: p02:9201 da abajo por arriba, arriba por abajo, derecha por izquierda e izquierda por derecha...
 	ld a,(0c107h)		;91b7   ; lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	and 00fh		;91ba
 	call 04255h		;91bc   ; p00:hl_mas_a
 	ld a,(hl)			;91bf
 	cp 0ffh		;91c0
 	jr z,L_91F0		;91c2
-	ld e,000h		;91c4
+	ld e,000h		;91c4   ; ...y si por ahi choca, hacia Mitchel
 	call 07303h		;91c6   ; p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 	jr c,L_91CD		;91c9
 	jr L_91D3		;91cb
@@ -2660,10 +2660,10 @@ L_91CD:
 	ld bc,00000h		;91cd
 	call 0729eh		;91d0   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 L_91D3:
-	ld (ix+019h),a		;91d3
+	ld (ix+019h),a		;91d3   ; la direccion en ix+0x19, sus velocidades de p03:BF42...
 	ld hl,0bf42h		;91d6
 	call 0bf19h		;91d9   ; p03:velocidad_de_la_tabla_4: las dos velocidades de las 4 bytes HL + 4*A: [vy alta][vy baja][vx alta][vx baja]
-	ld a,(ix+019h)		;91dc
+	ld a,(ix+019h)		;91dc   ; ...y si ha cambiado, su cuadro
 	cp (ix+01ah)		;91df
 	ret z			;91e2
 	ld (ix+01ah),a		;91e3
@@ -2671,7 +2671,7 @@ L_91D3:
 	ld hl,0bf9eh		;91ea
 	jp 0bf72h		;91ed   ; p03:cuadro_cada_ix16: salvo con ix+0x19 = 4, cada ix+0x16 cuadros el cuadro alterna entre los dos de HL + 2*ix+0x19
 L_91F0:
-	call 0bf0eh		;91f0   ; p03:al_azar: A al azar: el registro R, con los nibbles cambiados, XOR el contador de cuadros
+	call 0bf0eh		;91f0   ; sin tecla: la mitad de las veces al azar; la otra, sigue si puede
 	rra			;91f3
 	jr nc,L_9199		;91f4
 	ld a,(ix+019h)		;91f6
@@ -2693,7 +2693,7 @@ DATA_azar_9201:
 
 
 L_9211:
-	inc (ix+001h)		;9211   ; sube el paso en que va
+	inc (ix+001h)		;9211   ; AL CREARLO: al paso 1, ix+0x18 = 2, 4, 6 u 8 al azar, 0x0F cuadros...
 	xor a			;9214
 	ld (ix+016h),a		;9215
 	ld a,r		;9218
@@ -2701,19 +2701,19 @@ L_9211:
 	add a,002h		;921c
 	ld (ix+018h),a		;921e
 	ld (ix+019h),00fh		;9221
-	ld bc,00000h		;9225
+	ld bc,00000h		;9225   ; ...mirando hacia Mitchel (al reves si en la pantalla 3 choca)...
 	call 0729eh		;9228   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	ld (ix+01bh),a		;922b
-	call wildboar_en_la_pantalla_3		;922e
+	call wildboar_en_la_pantalla_3		;922e   ; wildboar_en_la_pantalla_3: EN LA PANTALLA 3: acarreo (no pasa) si va a entrar en el rectangulo de arriba a la izquierda (y < 0x48, x < 0x70), subiendo en y 0x48 o hacia la izquierda en x 0x70
 	ld a,(ix+01bh)		;9231
 	jr nc,L_923D		;9234
 	add a,002h		;9236
 	and 003h		;9238
 	ld (ix+01bh),a		;923a
 L_923D:
-	ld hl,09ab9h		;923d
+	ld hl,09ab9h		;923d   ; ...a la velocidad de p02:9AB9
 	call velocidad_de_la_tabla		;9240   ; velocidad_de_la_tabla: la pareja A de la tabla de HL en ix+8 e ix+0x0A
-	jp wildboar_cuadro_9326		;9243
+	jp wildboar_cuadro_9326		;9243   ; wildboar_cuadro_9326: el cuadro de p02:93E7: direccion*2, y el siguiente cada 8 cuadros
 L_9246:
 	ld a,(ix+001h)		;9246   ; ENTRADA de WILDBOAR (tipo 0x0A), con su ficha en IX
 	call 0425fh		;9249   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
@@ -2735,10 +2735,10 @@ DATA_tabla_924C:
 
 L_9254:
 	call wildboar_cuadro_9326		;9254   ; WILDBOAR, paso 0
-	dec (ix+01ah)		;9257
+	dec (ix+01ah)		;9257   ; cada 8 cuadros...
 	ret nz			;925a
 	ld (ix+01ah),008h		;925b
-	ld a,(0c303h)		;925f   ; lee la Y de Mitchel
+	ld a,(0c303h)		;925f   ; ...si Mitchel esta en su fila o en su columna (redondeado a 8), EMBISTE
 	add a,004h		;9262
 	and 0f8h		;9264
 	cp (ix+003h)		;9266   ; compara con la y del enemigo
@@ -2748,42 +2748,42 @@ L_9254:
 	and 0f8h		;9271
 	cp (ix+005h)		;9273   ; compara con la x del enemigo
 	jr z,L_92ED		;9276
-	dec (ix+019h)		;9278
+	dec (ix+019h)		;9278   ; si se acaba ix+0x19 o choca, cambia de rumbo
 	jr z,L_928B		;927b
 	ld a,(ix+01bh)		;927d
 	ld e,000h		;9280
 	call 07303h		;9282   ; p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 	jr c,L_928B		;9285
-	call wildboar_en_la_pantalla_3		;9287
+	call wildboar_en_la_pantalla_3		;9287   ; wildboar_en_la_pantalla_3: EN LA PANTALLA 3: acarreo (no pasa) si va a entrar en el rectangulo de arriba a la izquierda (y < 0x48, x < 0x70), subiendo en y 0x48 o hacia la izquierda en x 0x70
 	ret nc			;928a
 L_928B:
-	ld a,(ix+018h)		;928b
+	ld a,(ix+018h)		;928b   ; nuevo rumbo; si es el mismo de antes, al reves
 	ld (ix+019h),a		;928e
 	ld bc,00000h		;9291
-	call wildboar_elige_rumbo		;9294
+	call wildboar_elige_rumbo		;9294   ; wildboar_elige_rumbo: una vez hacia Mitchel y otra hacia una esquina al azar de p02:93EF: (0x20, 0x20), (0x20, 0x90), (0x90, 0x90) o (0x90, 0x20)
 	cp (ix+01bh)		;9297
 	jr nz,L_92A7		;929a
-	call wildboar_en_la_pantalla_3		;929c
+	call wildboar_en_la_pantalla_3		;929c   ; wildboar_en_la_pantalla_3: EN LA PANTALLA 3: acarreo (no pasa) si va a entrar en el rectangulo de arriba a la izquierda (y < 0x48, x < 0x70), subiendo en y 0x48 o hacia la izquierda en x 0x70
 	ret nc			;929f
 	ld a,(ix+01bh)		;92a0
 	add a,002h		;92a3
 	and 003h		;92a5
 L_92A7:
 	ld (ix+01bh),a		;92a7
-	call wildboar_en_la_pantalla_3		;92aa
+	call wildboar_en_la_pantalla_3		;92aa   ; wildboar_en_la_pantalla_3: EN LA PANTALLA 3: acarreo (no pasa) si va a entrar en el rectangulo de arriba a la izquierda (y < 0x48, x < 0x70), subiendo en y 0x48 o hacia la izquierda en x 0x70
 	ld a,(ix+01bh)		;92ad
 	jr nc,L_92B9		;92b0
 	add a,002h		;92b2
 	and 003h		;92b4
 	ld (ix+01bh),a		;92b6
 L_92B9:
-	ld (ix+001h),001h		;92b9   ; el paso en que va = 0x01
+	ld (ix+001h),001h		;92b9   ; parado 0x18 cuadros en el paso 1
 	ld (ix+006h),000h		;92bd   ; si se mueve = 0x00
 	ld (ix+019h),018h		;92c1
 	ld hl,09ab9h		;92c5
 	jp velocidad_de_la_tabla		;92c8   ; velocidad_de_la_tabla: la pareja A de la tabla de HL en ix+8 e ix+0x0A
 wildboar_elige_rumbo:
-	ld a,(ix+016h)		;92cb
+	ld a,(ix+016h)		;92cb   ; una vez hacia Mitchel y otra hacia una esquina al azar de p02:93EF: (0x20, 0x20), (0x20, 0x90), (0x90, 0x90) o (0x90, 0x20)
 	xor 001h		;92ce
 	ld (ix+016h),a		;92d0
 	jp z,0729eh		;92d3   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
@@ -2800,10 +2800,10 @@ wildboar_elige_rumbo:
 	ld d,a			;92e9
 	jp 0729eh		;92ea   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 L_92ED:
-	ld bc,00000h		;92ed
+	ld bc,00000h		;92ed   ; EMBESTIDA: hacia Mitchel...
 	call 0729eh		;92f0   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	ld (ix+01bh),a		;92f3
-	call wildboar_en_la_pantalla_3		;92f6
+	call wildboar_en_la_pantalla_3		;92f6   ; wildboar_en_la_pantalla_3: EN LA PANTALLA 3: acarreo (no pasa) si va a entrar en el rectangulo de arriba a la izquierda (y < 0x48, x < 0x70), subiendo en y 0x48 o hacia la izquierda en x 0x70
 	ld a,(ix+01bh)		;92f9
 	jr nc,L_9305		;92fc
 	add a,002h		;92fe
@@ -2812,16 +2812,16 @@ L_92ED:
 L_9305:
 	ld (ix+001h),000h		;9305   ; el paso en que va = 0x00
 	jp c,L_93B1		;9309
-	ld (ix+001h),002h		;930c   ; el paso en que va = 0x02
+	ld (ix+001h),002h		;930c   ; ...a la velocidad de p02:9ABE, parado 0x0F cuadros en el paso 2
 	ld hl,09abeh		;9310
 	call velocidad_de_la_tabla		;9313   ; velocidad_de_la_tabla: la pareja A de la tabla de HL en ix+8 e ix+0x0A
 	ld (ix+006h),000h		;9316   ; si se mueve = 0x00
 	ld (ix+019h),00fh		;931a
 	ld (ix+01ah),002h		;931e
-	call wildboar_cuadro_9326		;9322
+	call wildboar_cuadro_9326		;9322   ; wildboar_cuadro_9326: el cuadro de p02:93E7: direccion*2, y el siguiente cada 8 cuadros
 	ret			;9325
 wildboar_cuadro_9326:
-	ld a,(ix+01bh)		;9326
+	ld a,(ix+01bh)		;9326   ; el cuadro de p02:93E7: direccion*2, y el siguiente cada 8 cuadros
 	add a,a			;9329
 	ld b,a			;932a
 	ld a,(ix+00ch)		;932b   ; lee la cuenta de cuadros
@@ -2836,7 +2836,7 @@ L_9334:
 	ld (ix+00bh),a		;933b   ; guarda el cuadro del enemigo
 	ret			;933e
 wildboar_cuadro_933F:
-	ld a,(ix+01bh)		;933f
+	ld a,(ix+01bh)		;933f   ; lo mismo, cambiando cada 4 cuadros (corriendo)
 	add a,a			;9342
 	ld b,a			;9343
 	ld a,(ix+00ch)		;9344   ; lee la cuenta de cuadros
@@ -2846,7 +2846,7 @@ wildboar_cuadro_933F:
 	inc a			;934c
 	jr L_9334		;934d
 L_934F:
-	call wildboar_cuadro_9326		;934f   ; WILDBOAR, paso 1
+	call wildboar_cuadro_9326		;934f   ; parado ix+0x19 cuadros; luego al paso 0, en marcha
 	dec (ix+019h)		;9352
 	ret nz			;9355
 	dec (ix+001h)		;9356   ; baja el paso en que va
@@ -2856,13 +2856,13 @@ L_934F:
 	ld (ix+01ah),008h		;9362
 	ret			;9366
 L_9367:
-	dec (ix+019h)		;9367   ; WILDBOAR, paso 2
+	dec (ix+019h)		;9367   ; parado 0x0F cuadros; luego corre (paso 3)
 	ret nz			;936a
 	ld (ix+001h),003h		;936b   ; el paso en que va = 0x03
 	ld (ix+006h),001h		;936f   ; si se mueve = 0x01
 	ret			;9373
 L_9374:
-	call wildboar_cuadro_933F		;9374   ; WILDBOAR, paso 3
+	call wildboar_cuadro_933F		;9374   ; corriendo, cada 2 cuadros mira si choca...
 	dec (ix+01ah)		;9377
 	ret nz			;937a
 	ld (ix+01ah),002h		;937b
@@ -2870,16 +2870,16 @@ L_9374:
 	ld e,000h		;9382
 	call 07303h		;9384   ; p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 	jr c,L_938D		;9387
-	call wildboar_en_la_pantalla_3		;9389
+	call wildboar_en_la_pantalla_3		;9389   ; wildboar_en_la_pantalla_3: EN LA PANTALLA 3: acarreo (no pasa) si va a entrar en el rectangulo de arriba a la izquierda (y < 0x48, x < 0x70), subiendo en y 0x48 o hacia la izquierda en x 0x70
 	ret nc			;938c
 L_938D:
-	ld (ix+001h),001h		;938d   ; el paso en que va = 0x01
+	ld (ix+001h),001h		;938d   ; ...y al chocar, parado 0x18 cuadros (paso 1) mirando hacia Mitchel, a la velocidad de andar
 	ld (ix+006h),000h		;9391   ; si se mueve = 0x00
 	ld (ix+019h),018h		;9395
 	ld bc,00000h		;9399
 	call 0729eh		;939c   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	ld (ix+01bh),a		;939f
-	call wildboar_en_la_pantalla_3		;93a2
+	call wildboar_en_la_pantalla_3		;93a2   ; wildboar_en_la_pantalla_3: EN LA PANTALLA 3: acarreo (no pasa) si va a entrar en el rectangulo de arriba a la izquierda (y < 0x48, x < 0x70), subiendo en y 0x48 o hacia la izquierda en x 0x70
 	ld a,(ix+01bh)		;93a5
 	jr nc,L_93B1		;93a8
 	add a,002h		;93aa
@@ -2889,7 +2889,7 @@ L_93B1:
 	ld hl,09ab9h		;93b1
 	jp velocidad_de_la_tabla		;93b4   ; velocidad_de_la_tabla: la pareja A de la tabla de HL en ix+8 e ix+0x0A
 wildboar_en_la_pantalla_3:
-	ld a,(0c125h)		;93b7   ; lee la PANTALLA
+	ld a,(0c125h)		;93b7   ; EN LA PANTALLA 3: acarreo (no pasa) si va a entrar en el rectangulo de arriba a la izquierda (y < 0x48, x < 0x70), subiendo en y 0x48 o hacia la izquierda en x 0x70
 	cp 003h		;93ba   ; la pantalla 0x03?
 	scf			;93bc
 	ccf			;93bd
@@ -2932,7 +2932,7 @@ DATA_cuadros_93E7:
 
 
 L_93F4:
-	ld (ix+00bh),00eh		;93f4   ; el cuadro del enemigo = 0x0E
+	ld (ix+00bh),00eh		;93f4   ; AL CREARLO: cuadro 0x0E, 6 cuadros por dibujo, en marcha
 	ld (ix+016h),006h		;93f8
 	ld (ix+017h),006h		;93fc
 	xor a			;9400
@@ -2946,29 +2946,29 @@ L_93F4:
 	ret			;9412
 L_9413:
 	ld a,(ix+001h)		;9413   ; ENTRADA de ROCKMAN y STONEMAN (tipos 0x09, 0x31), con su ficha en IX
-	dec a			;9416
+	dec a			;9416   ; paso 1 (p02:9519) y paso 2 (p02:9529); el 0 sigue aqui
 	jp z,L_9519		;9417
 	dec a			;941a
 	jp z,L_9529		;941b
 	ld hl,0bf96h		;941e   ; p03:parejas_de_cuadros: parejas de cuadros que p03:BF72 alterna (ix+0x18) segun ix+0x19; se entra por 0xBF96, 0xBF9E, 0xBFA6 y 0xBFA8 (p02)
 	call 0bf72h		;9421   ; p03:cuadro_cada_ix16: salvo con ix+0x19 = 4, cada ix+0x16 cuadros el cuadro alterna entre los dos de HL + 2*ix+0x19
-	call rockman_coordenada		;9424
+	call rockman_coordenada		;9424   ; PASO 0, alineado a 8 en el eje por el que va...
 	ret nc			;9427
-	ld a,(0c303h)		;9428   ; lee la Y de Mitchel
+	ld a,(0c303h)		;9428   ; ...si Mitchel esta en su misma fila o columna, exacta, TIRA...
 	cp (ix+003h)		;942b   ; compara con la y del enemigo
 	jr z,L_94A4		;942e
 	ld a,(0c305h)		;9430   ; lee la X de Mitchel
 	cp (ix+005h)		;9433   ; compara con la x del enemigo
 	jr z,L_9480		;9436
 L_9438:
-	dec (ix+013h)		;9438
+	dec (ix+013h)		;9438   ; ...si no, cada 3 pasos (ix+0x13) sigue como iba; los demas, al azar o, a veces, hacia Mitchel
 	jr z,L_9454		;943b
 	call 0bf0eh		;943d   ; p03:al_azar: A al azar: el registro R, con los nibbles cambiados, XOR el contador de cuadros
 	and 004h		;9440
 	cp 001h		;9442
 	jr z,L_945D		;9444
 L_9446:
-	call 0bf0eh		;9446   ; p03:al_azar: A al azar: el registro R, con los nibbles cambiados, XOR el contador de cuadros
+	call 0bf0eh		;9446   ; una direccion al azar por la que se pueda
 	and 003h		;9449
 L_944B:
 	ld e,000h		;944b
@@ -2983,7 +2983,7 @@ L_945D:
 	ld bc,00000h		;945d
 	call 0729eh		;9460   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 L_9463:
-	ld (ix+019h),a		;9463
+	ld (ix+019h),a		;9463   ; la direccion en ix+0x19, sus velocidades de p03:BF42 y, si cambia, su cuadro
 	ld hl,0bf42h		;9466
 	call 0bf19h		;9469   ; p03:velocidad_de_la_tabla_4: las dos velocidades de las 4 bytes HL + 4*A: [vy alta][vy baja][vx alta][vx baja]
 	ld a,(ix+019h)		;946c
@@ -2994,7 +2994,7 @@ L_9463:
 	ld hl,0bf96h		;947a   ; p03:parejas_de_cuadros: parejas de cuadros que p03:BF72 alterna (ix+0x18) segun ix+0x19; se entra por 0xBF96, 0xBF9E, 0xBFA6 y 0xBFA8 (p02)
 	jp 0bf72h		;947d   ; p03:cuadro_cada_ix16: salvo con ix+0x19 = 4, cada ix+0x16 cuadros el cuadro alterna entre los dos de HL + 2*ix+0x19
 L_9480:
-	ld a,(ix+005h)		;9480   ; lee la x del enemigo
+	ld a,(ix+005h)		;9480   ; misma columna: el punto a donde ira, 0x30 hacia Mitchel en y (ix+0x1A x, ix+0x1B y)...
 	ld (ix+01ah),a		;9483
 	ld c,030h		;9486
 	ld a,(0c303h)		;9488   ; lee la Y de Mitchel
@@ -3011,7 +3011,7 @@ L_9492:
 	ld b,002h		;94a0
 	jr L_94C6		;94a2
 L_94A4:
-	ld a,(ix+003h)		;94a4   ; lee la y del enemigo
+	ld a,(ix+003h)		;94a4   ; misma fila: 0x30 hacia Mitchel en x
 	ld (ix+01bh),a		;94a7
 	ld c,030h		;94aa
 	ld a,(0c305h)		;94ac   ; lee la X de Mitchel
@@ -3027,9 +3027,9 @@ L_94B6:
 	jr c,L_94C6		;94c2
 	ld b,001h		;94c4
 L_94C6:
-	ld a,b			;94c6
+	ld a,b			;94c6   ; si la casilla de al lado (p02:9511, [dy][dx]) es de las que no se pasan (menor que 0x5F), no tira...
 	add a,a			;94c7
-	ld hl,09511h		;94c8   ; pasos_9511: 4 parejas [dx][dy] segun B (p02:94C8)
+	ld hl,09511h		;94c8   ; pasos_9511: 4 parejas [dy][dx] segun B (p02:94C8)
 	call 04255h		;94cb   ; p00:hl_mas_a
 	ld a,(hl)			;94ce
 	add a,(ix+003h)		;94cf   ; le suma la y del enemigo
@@ -3043,13 +3043,13 @@ L_94C6:
 	ld a,(hl)			;94dd
 	cp 05fh		;94de
 	jp c,L_9438		;94e0
-	ld c,081h		;94e3
+	ld c,081h		;94e3   ; ...si no, la figura 0x81 en su sitio, con el sonido 3...
 	ld e,(ix+003h)		;94e5   ; lee la y del enemigo
 	ld d,(ix+005h)		;94e8   ; lee la x del enemigo
 	call 0709ah		;94eb   ; p01:crea_una_figura: CREA UNA FIGURA: el tipo C en DE
 	ld a,003h		;94ee
 	call 05488h		;94f0   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
-	ld bc,00000h		;94f3
+	ld bc,00000h		;94f3   ; ...mirando a Mitchel (su cuadro de p02:950D), parado, al paso 1
 	call 0729eh		;94f6   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	ld hl,0950dh		;94f9   ; cuadros_950D: 4 bytes: el cuadro (ix+0x0B) segun A (p02:94F9)
 	call 04255h		;94fc   ; p00:hl_mas_a
@@ -3066,7 +3066,7 @@ DATA_cuadros_950D:
 	defb 00ch,017h,00bh,012h	; 950d
 
 ; ----------------------------------------------------------------------
-; DATOS pasos_9511: 4 parejas [dx][dy] segun B (p02:94C8)
+; DATOS pasos_9511: 4 parejas [dy][dx] segun B (p02:94C8)
 ;   0x9511..0x9519  (8 bytes)
 DATA_pasos_9511:
 	defb 0e3h,000h,002h,028h,024h,001h,004h,0d8h	; 9511  ...($...
@@ -3077,18 +3077,18 @@ DATA_pasos_9511:
 
 
 L_9519:
-	ld a,(ix+00ch)		;9519   ; lee la cuenta de cuadros
+	ld a,(ix+00ch)		;9519   ; PASO 1: a los 0x30 cuadros, al paso 2 con 0x12 pasos
 	cp 030h		;951c
 	ret nz			;951e
 	inc (ix+001h)		;951f   ; sube el paso en que va
 	ld (ix+012h),012h		;9522
 	jp L_9555		;9526
 L_9529:
-	ld hl,0bf96h		;9529   ; p03:parejas_de_cuadros: parejas de cuadros que p03:BF72 alterna (ix+0x18) segun ix+0x19; se entra por 0xBF96, 0xBF9E, 0xBFA6 y 0xBFA8 (p02)
+	ld hl,0bf96h		;9529   ; PASO 2: alineado a 8, va hacia el punto de ix+0x1A e ix+0x1B...
 	call 0bf72h		;952c   ; p03:cuadro_cada_ix16: salvo con ix+0x19 = 4, cada ix+0x16 cuadros el cuadro alterna entre los dos de HL + 2*ix+0x19
-	call rockman_coordenada		;952f
+	call rockman_coordenada		;952f   ; rockman_coordenada: acarreo si esta alineado a 8 en el eje por el que va (bit 0 de ix+0x19: la x)
 	ret nc			;9532
-	dec (ix+012h)		;9533
+	dec (ix+012h)		;9533   ; ...y al paso 0 cuando llega o se acaban los 0x12 pasos
 	jr nz,L_953C		;9536
 	ld (ix+001h),000h		;9538   ; el paso en que va = 0x00
 L_953C:
@@ -3109,7 +3109,7 @@ L_9555:
 	call 0729eh		;955e   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	jp L_9463		;9561
 rockman_coordenada:
-	ld a,(ix+003h)		;9564   ; lee la y del enemigo
+	ld a,(ix+003h)		;9564   ; acarreo si esta alineado a 8 en el eje por el que va (bit 0 de ix+0x19: la x)
 	bit 0,(ix+019h)		;9567
 	jr z,L_9570		;956b
 	ld a,(ix+005h)		;956d   ; lee la x del enemigo
@@ -3119,7 +3119,7 @@ L_9570:
 	scf			;9573
 	ret			;9574
 L_9575:
-	ld (ix+00bh),00dh		;9575   ; el cuadro del enemigo = 0x0D
+	ld (ix+00bh),00dh		;9575   ; AL CREARLO: cuadro 0x0D, en marcha, 3 hacia abajo; ix+0x15 la y alrededor de la que sube y baja
 	ld (ix+013h),0ffh		;9579
 	ld (ix+014h),020h		;957d
 	xor a			;9581
@@ -3137,7 +3137,7 @@ L_959D:
 	ld a,(ix+001h)		;959d   ; ENTRADA de CROW (tipo 0x32), con su ficha en IX
 	dec a			;95a0
 	jr z,crow_anima		;95a1
-	call crow_anima		;95a3
+	call crow_anima		;95a3   ; PASO 0: sube y baja alrededor de su y (ix+0x15), frenando: la velocidad vertical, 0x80 hacia ella...
 	ld bc,00080h		;95a6
 	ld a,(ix+015h)		;95a9
 	cp (ix+003h)		;95ac   ; compara con la y del enemigo
@@ -3149,7 +3149,7 @@ L_95B3:
 	add hl,bc			;95b9
 	ld (ix+008h),h		;95ba   ; guarda la velocidad vertical
 	ld (ix+007h),l		;95bd   ; guarda la velocidad vertical (baja)
-	ld a,(0c303h)		;95c0   ; lee la Y de Mitchel
+	ld a,(0c303h)		;95c0   ; ...y si Mitchel esta abajo a la izquierda, en diagonal (+-0x10)...
 	sub (ix+003h)		;95c3   ; le resta la y del enemigo
 	ret c			;95c6
 	ld (ix+01bh),a		;95c7
@@ -3163,7 +3163,7 @@ L_95B3:
 L_95DA:
 	cp 010h		;95da
 	ret nc			;95dc
-	ld a,090h		;95dd
+	ld a,090h		;95dd   ; ...se lanza hacia el a 0x90, con el sonido 6, y al paso 1 (solo aletea)
 	call 0716fh		;95df   ; p01:rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
 	call 04318h		;95e2   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 	ex de,hl			;95e5
@@ -3172,7 +3172,7 @@ L_95DA:
 	ld a,006h		;95ec
 	jp 05488h		;95ee   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 crow_anima:
-	dec (ix+012h)		;95f1
+	dec (ix+012h)		;95f1   ; cada 8 cuadros, el cuadro siguiente de los 4 de p02:9610
 	ret nz			;95f4
 	ld (ix+012h),008h		;95f5
 	ld a,(ix+013h)		;95f9
@@ -3200,7 +3200,7 @@ DATA_cuadros_9610:
 
 
 L_9614:
-	inc (ix+006h)		;9614   ; sube si se mueve
+	inc (ix+006h)		;9614   ; AL CREARLO: en marcha, 0x0F cuadros; su diagonal (ix+0x16) segun el cuarto de pantalla en que esta...
 	ld (ix+01bh),00fh		;9617
 	ld a,(ix+003h)		;961b   ; lee la y del enemigo
 	cp 058h		;961e
@@ -3214,7 +3214,7 @@ L_9626:
 	inc b			;962d
 L_962E:
 	ld (ix+016h),b		;962e
-	ld a,b			;9631
+	ld a,b			;9631   ; ...y su cuadro de p02:97FE
 	add a,a			;9632
 	ld hl,097feh		;9633   ; cuadros_97FE: 3 parejas: el cuadro (ix+0x0B) segun ix+0x16 (p02:9633)
 	call 04255h		;9636   ; p00:hl_mas_a
@@ -3222,7 +3222,7 @@ L_962E:
 	ld (ix+00bh),a		;963a   ; guarda el cuadro del enemigo
 	ret			;963d
 L_963E:
-	ld a,(ix+016h)		;963e   ; ENTRADA de WHITEFIRE (tipo 0x3A), con su ficha en IX
+	ld a,(ix+016h)		;963e   ; el cuadro de su diagonal, y el siguiente cada 8 cuadros
 	add a,a			;9641
 	ld b,a			;9642
 	ld a,(ix+00ch)		;9643   ; lee la cuenta de cuadros
@@ -3255,7 +3255,7 @@ DATA_tabla_965C:
 
 
 L_9666:
-	dec (ix+01bh)		;9666   ; WHITEFIRE, paso 0
+	dec (ix+01bh)		;9666   ; PASO 0: tras ix+0x1B cuadros, apunta donde esta (ix+0x19, ix+0x1A) y sale por su diagonal
 	ret nz			;9669
 	inc (ix+001h)		;966a   ; sube el paso en que va
 	ld a,(ix+003h)		;966d   ; lee la y del enemigo
@@ -3263,10 +3263,10 @@ L_9666:
 	ld a,(ix+005h)		;9673   ; lee la x del enemigo
 	ld (ix+01ah),a		;9676
 	ld a,(ix+016h)		;9679
-	jp whitefire_velocidad		;967c
+	jp whitefire_velocidad		;967c   ; whitefire_velocidad: las velocidades de la diagonal A, de p02:97F6
 L_967F:
-	call sigue_si_esta_en_casilla		;967f   ; WHITEFIRE, paso 1
-	call whitefire_hacia_mitchel		;9682
+	call sigue_si_esta_en_casilla		;967f   ; PASO 1, alineado a 8: si Mitchel esta en una diagonal exacta que no es la suya ni la contraria...
+	call whitefire_hacia_mitchel		;9682   ; whitefire_hacia_mitchel: Z si Mitchel (redondeado a 8) esta en una diagonal exacta; D la diagonal: bit 1 abajo, bit 0 izquierda
 	jr nz,L_96C4		;9685
 	ld a,d			;9687
 	ld b,(ix+016h)		;9688
@@ -3275,11 +3275,11 @@ L_967F:
 	xor 003h		;968e
 	cp b			;9690
 	jr z,L_96C4		;9691
-	ld (ix+015h),b		;9693
+	ld (ix+015h),b		;9693   ; ...la toma (guarda la de antes en ix+0x15)...
 	ld a,d			;9696
 	ld (ix+016h),a		;9697
-	call whitefire_velocidad		;969a
-	call 04308h		;969d   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
+	call whitefire_velocidad		;969a   ; whitefire_velocidad: las velocidades de la diagonal A, de p02:97F6
+	call 04308h		;969d   ; ...hasta el sitio de Mitchel (ix+0x17, ix+0x18), apunta de donde sale (ix+0x13, ix+0x12), y al paso 2
 	ld a,e			;96a0
 	add a,004h		;96a1
 	and 0f8h		;96a3
@@ -3296,47 +3296,47 @@ L_967F:
 	inc (ix+001h)		;96c0   ; sube el paso en que va
 	ret			;96c3
 L_96C4:
-	call whitefire_prueba_rumbo		;96c4
+	call whitefire_prueba_rumbo		;96c4   ; si no, sigue hasta que choca: entonces, la contraria y al paso 4
 	ret nc			;96c7
 	ld (ix+001h),004h		;96c8   ; el paso en que va = 0x04
 	ld a,(ix+016h)		;96cc
 	xor 003h		;96cf
 	ld (ix+016h),a		;96d1
-	jp whitefire_velocidad		;96d4
+	jp whitefire_velocidad		;96d4   ; whitefire_velocidad: las velocidades de la diagonal A, de p02:97F6
 L_96D7:
-	ld a,(ix+003h)		;96d7   ; WHITEFIRE, paso 2
+	ld a,(ix+003h)		;96d7   ; PASO 2: hasta el sitio de Mitchel o hasta que choca; entonces vuelve (paso 3)
 	cp (ix+017h)		;96da
 	jr nz,L_96E7		;96dd
 	ld a,(ix+005h)		;96df   ; lee la x del enemigo
 	cp (ix+018h)		;96e2
 	jr z,L_96EB		;96e5
 L_96E7:
-	call whitefire_prueba_rumbo		;96e7
+	call whitefire_prueba_rumbo		;96e7   ; whitefire_prueba_rumbo: acarreo si choca por alguno de los dos lados de su diagonal (p02:9804)
 	ret nc			;96ea
 L_96EB:
 	ld (ix+001h),003h		;96eb   ; el paso en que va = 0x03
 	ld a,(ix+016h)		;96ef
 	xor 003h		;96f2
 	ld (ix+016h),a		;96f4
-	jp whitefire_velocidad		;96f7
+	jp whitefire_velocidad		;96f7   ; whitefire_velocidad: las velocidades de la diagonal A, de p02:97F6
 L_96FA:
-	ld a,(ix+003h)		;96fa   ; WHITEFIRE, paso 3
+	ld a,(ix+003h)		;96fa   ; PASO 3: al volver a donde salio, recupera la diagonal y el paso de antes (ix+0x15, ix+0x14)...
 	cp (ix+013h)		;96fd
 	jr nz,L_970A		;9700
 	ld a,(ix+005h)		;9702   ; lee la x del enemigo
 	cp (ix+012h)		;9705
 	jr z,L_970E		;9708
 L_970A:
-	call whitefire_prueba_rumbo		;970a
+	call whitefire_prueba_rumbo		;970a   ; whitefire_prueba_rumbo: acarreo si choca por alguno de los dos lados de su diagonal (p02:9804)
 	ret nc			;970d
 L_970E:
 	ld a,(ix+014h)		;970e
 	ld (ix+001h),a		;9711   ; guarda el paso en que va
 	ld a,(ix+015h)		;9714
 	ld (ix+016h),a		;9717
-	call whitefire_prueba_rumbo		;971a
+	call whitefire_prueba_rumbo		;971a   ; ...y si por ahi choca, la contraria y el otro paso (1 <-> 4)
 	ld a,(ix+016h)		;971d
-	jp nc,whitefire_velocidad		;9720
+	jp nc,whitefire_velocidad		;9720   ; whitefire_velocidad: las velocidades de la diagonal A, de p02:97F6
 	inc (ix+001h)		;9723   ; sube el paso en que va
 	ld a,(ix+014h)		;9726
 	xor 005h		;9729
@@ -3344,10 +3344,10 @@ L_970E:
 	ld a,(ix+015h)		;972e
 	xor 003h		;9731
 	ld (ix+016h),a		;9733
-	jp whitefire_velocidad		;9736
+	jp whitefire_velocidad		;9736   ; whitefire_velocidad: las velocidades de la diagonal A, de p02:97F6
 L_9739:
-	call sigue_si_esta_en_casilla		;9739   ; WHITEFIRE, paso 4
-	call whitefire_hacia_mitchel		;973c
+	call sigue_si_esta_en_casilla		;9739   ; PASO 4: como el 1, de vuelta hacia su punto de salida (ix+0x19, ix+0x1A)...
+	call whitefire_hacia_mitchel		;973c   ; whitefire_hacia_mitchel: Z si Mitchel (redondeado a 8) esta en una diagonal exacta; D la diagonal: bit 1 abajo, bit 0 izquierda
 	jr nz,L_977F		;973f
 	ld a,d			;9741
 	ld b,(ix+016h)		;9742
@@ -3359,7 +3359,7 @@ L_9739:
 	ld (ix+015h),b		;974d
 	ld a,d			;9750
 	ld (ix+016h),a		;9751
-	call whitefire_velocidad		;9754
+	call whitefire_velocidad		;9754   ; whitefire_velocidad: las velocidades de la diagonal A, de p02:97F6
 	call 04308h		;9757   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
 	ld a,e			;975a
 	add a,004h		;975b
@@ -3377,24 +3377,24 @@ L_9739:
 	ld (ix+001h),002h		;977a   ; el paso en que va = 0x02
 	ret			;977e
 L_977F:
-	ld a,(ix+003h)		;977f   ; lee la y del enemigo
+	ld a,(ix+003h)		;977f   ; ...y al llegar o chocar, da media vuelta y al paso 1
 	cp (ix+019h)		;9782
 	jr nz,L_978F		;9785
 	ld a,(ix+005h)		;9787   ; lee la x del enemigo
 	cp (ix+01ah)		;978a
 	jr z,L_9793		;978d
 L_978F:
-	call whitefire_prueba_rumbo		;978f
+	call whitefire_prueba_rumbo		;978f   ; whitefire_prueba_rumbo: acarreo si choca por alguno de los dos lados de su diagonal (p02:9804)
 	ret nc			;9792
 L_9793:
 	ld a,(ix+016h)		;9793
 	xor 003h		;9796
 	ld (ix+016h),a		;9798
-	call whitefire_velocidad		;979b
+	call whitefire_velocidad		;979b   ; whitefire_velocidad: las velocidades de la diagonal A, de p02:97F6
 	ld (ix+001h),001h		;979e   ; el paso en que va = 0x01
 	ret			;97a2
 whitefire_hacia_mitchel:
-	ld a,(0c303h)		;97a3   ; lee la Y de Mitchel
+	ld a,(0c303h)		;97a3   ; Z si Mitchel (redondeado a 8) esta en una diagonal exacta; D la diagonal: bit 1 abajo, bit 0 izquierda
 	add a,004h		;97a6
 	and 0f8h		;97a8
 	sub (ix+003h)		;97aa   ; le resta la y del enemigo
@@ -3419,7 +3419,7 @@ L_97C9:
 	inc a			;97c9
 	ret			;97ca
 whitefire_velocidad:
-	add a,a			;97cb
+	add a,a			;97cb   ; las velocidades de la diagonal A, de p02:97F6
 	ld hl,097f6h		;97cc   ; velocidades_97F6: 4 parejas que p02:97CC pone en ix+8 e ix+0x0A segun A
 	call 04255h		;97cf   ; p00:hl_mas_a
 	ld a,(hl)			;97d2
@@ -3429,7 +3429,7 @@ whitefire_velocidad:
 	ld (ix+00ah),a		;97d8   ; guarda la velocidad horizontal
 	ret			;97db
 whitefire_prueba_rumbo:
-	ld a,(ix+016h)		;97dc
+	ld a,(ix+016h)		;97dc   ; acarreo si choca por alguno de los dos lados de su diagonal (p02:9804)
 	add a,a			;97df
 	ld hl,09804h		;97e0   ; parejas_9804: 4 parejas [C][A] segun ix+0x16 que p02:97E0 pasa a p01:7303
 	call 04255h		;97e3   ; p00:hl_mas_a
@@ -3735,11 +3735,11 @@ L_9A31:
 	jr nc,L_9A3D		;9a38
 	ld bc,00000h		;9a3a
 L_9A3D:
-	call colores_a_4		;9a3d
+	call colores_a_4		;9a3d   ; colores_a_4: cuatro parejas de colores B y C en los 8 sprites de la ficha
 	dec (ix+01bh)		;9a40
 	ret nz			;9a43
 	ld bc,00144h		;9a44
-	call colores_a_4		;9a47
+	call colores_a_4		;9a47   ; colores_a_4: cuatro parejas de colores B y C en los 8 sprites de la ficha
 	ld (ix+001h),000h		;9a4a   ; el paso en que va = 0x00
 	inc (ix+006h)		;9a4e   ; sube si se mueve
 	ld (ix+00eh),003h		;9a51

@@ -290,7 +290,7 @@ puente_copia_lineas_a_la_pagina_1:
 	call copia_lineas_a_la_pagina_1		;41d6   ; copia_lineas_a_la_pagina_1: la linea 0xEC de la pagina 0 a la 1...
 	jp L_4215		;41d9
 puente_cerca_de_mitchel_84C3:
-	call 084c3h		;41dc   ; p02:cerca_de_mitchel_84C3
+	call 084c3h		;41dc   ; p02:lleva_a_mitchel_encima: LA FICHA LLEVA A MITCHEL: con Mitchel a menos de 0x0C por debajo de su y...
 	jp L_4215		;41df
 puente_guarda_el_fondo_del_jefe:
 	call guarda_el_fondo_del_jefe		;41e2   ; guarda_el_fondo_del_jefe: 0xDFE3: si hay fondo guardado
@@ -314,7 +314,7 @@ puente_sube_los_colores_de_sprite:
 	call sube_los_colores_de_sprite		;4206
 	jp L_4215		;4209
 puente_mitchel_contra_el_decorado:
-	call 08456h		;420c   ; p02:mitchel_contra_el_decorado
+	call 08456h		;420c   ; p02:mitchel_contra_el_decorado: MITCHEL APLASTADO: su casilla (8 arriba, 8 a la izquierda)...
 	jp L_4215		;420f
 L_4212:
 	call hay_musica		;4212   ; en marcha si 0xC08B o 0xC08D no son cero (A = 0xC08F)
@@ -4436,8 +4436,8 @@ color_de_un_sprite:
 	ld (hl),d			;5bd3
 	pop hl			;5bd4
 	ret			;5bd5
-L_5BD6:
-	ld a,(ix+00ch)		;5bd6   ; cada dos cuadros...
+da_vueltas:
+	ld a,(ix+00ch)		;5bd6   ; cada dos cuadros, un paso mas del circulo de p09:B145 alrededor de (0x58, 0x58)
 	rra			;5bd9
 	ret nc			;5bda
 	call bancos_7_8_9		;5bdb

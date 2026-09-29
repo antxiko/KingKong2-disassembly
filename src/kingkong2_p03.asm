@@ -1686,7 +1686,7 @@ L_ADA0:
 	ld (ix+012h),a		;adb5
 	ld hl,00000h		;adb8
 	ld de,0ff00h		;adbb
-	jp 08bdch		;adbe   ; p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
+	jp 08bdch		;adbe   ; p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
 
 ; ----------------------------------------------------------------------
 ; DATOS byte_12_ADC1: 8 bytes: lo que p03:ADAE pone en ix+0x12 segun (HL) & 7
@@ -3159,7 +3159,7 @@ L_B835:
 L_B838:
 	ld a,020h		;b838
 	call 0716fh		;b83a   ; p01:rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
-	call 08bdch		;b83d   ; p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
+	call 08bdch		;b83d   ; p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
 	ld (ix+00bh),012h		;b840   ; el cuadro del enemigo = 0x12
 	ld a,005h		;b844
 	jp 05488h		;b846   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
@@ -3249,7 +3249,7 @@ L_B8D4:
 L_B8D6:
 	call 07186h		;b8d6
 para_y_cuadro_8:
-	call 08bdch		;b8d9   ; p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
+	call 08bdch		;b8d9   ; p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
 	ld (ix+00bh),008h		;b8dc   ; el cuadro del enemigo = 0x08
 	ret			;b8e0
 L_B8E1:
@@ -4113,7 +4113,7 @@ L_BEF4:
 	ld (ix+00bh),008h		;bef4   ; el cuadro del enemigo = 0x08
 	ld a,040h		;bef8
 	call 0716fh		;befa   ; p01:rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
-	jp 08bdch		;befd   ; p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
+	jp 08bdch		;befd   ; p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
 para_la_ficha:
 	xor a			;bf00   ; las dos velocidades a 0
 	ld (ix+008h),a		;bf01   ; guarda la velocidad vertical
