@@ -8,7 +8,13 @@
                     el juego pinta ENCIMA del decorado (la barca, puertas que
                     se abren...) no esta en el mapa y sale aqui con su sitio.
 
-Codigo de salida 1 si alguna pantalla tiene diferencias sin explicar.
+  titulo <dir>      tools/titulo.py contra los volcados de tools/omsx_vuelca.tcl:
+                    <dir>/konami.vram|.pal (a los 5 s: la composicion de
+                    Konami en la pagina 1, en toda su caja medida) y
+                    <dir>/titulo.vram|.pal (a los 16 s: la pagina 0 entera).
+                    Puntos y los 16 colores.
+
+Codigo de salida 1 si algo tiene diferencias sin explicar.
 """
 import glob
 import os
@@ -47,7 +53,28 @@ def coteja_pantalla(ruta):
     return n, cueva, ram[0x125], celdas, colores
 
 
+def coteja_titulo(d):
+    import titulo as T
+    mal = 0
+    for nom, f, pag, zona in (("konami", T.konami, 1, None), ("titulo", T.titulo, 0, (0, 0, 256, 212))):
+        v, pal = f()
+        if zona is None:
+            zona = T.caja(v, 0, 0x40, 256, 0x48, 1)
+        x0, y0, w, h = zona
+        vv = open(os.path.join(d, nom + ".vram"), "rb").read()
+        dif = sum(1 for y in range(y0, y0 + h) for x in range(x0, x0 + w)
+                  if v.lee(x, pag * 256 + y) != px(vv, x, pag * 256 + y))
+        pv = paleta_volcada(open(os.path.join(d, nom + ".pal"), "rb").read())
+        col = [i for i in range(16) if pv[i] != pal[i]]
+        print("%s (%dx%d en la pagina %d): %d puntos distintos, colores distintos %s"
+              % (nom, w, h, pag, dif, col or "ninguno"))
+        mal += bool(dif or col)
+    return 1 if mal else 0
+
+
 def main(argv):
+    if len(argv) >= 3 and argv[1] == "titulo":
+        return coteja_titulo(argv[2])
     if len(argv) < 3 or argv[1] != "pantallas":
         sys.exit(__doc__)
     mal = 0
