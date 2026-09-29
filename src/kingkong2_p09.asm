@@ -1921,14 +1921,14 @@ L_BBC0:
 	call L_B82D		;bbc3
 	sub 001h		;bbc6
 	ret			;bbc8
-L_BBC9:
+recoge_objeto:
 	ld a,(ix+000h)		;bbc9
 	ld c,a			;bbcc
 	ld a,c			;bbcd
-	cp 025h		;bbce
+	cp 025h		;bbce   ; 0x25: alguien que habla (p00:4170 -> p01:7ED9)
 	jr z,L_BC3F		;bbd0
-	cp 026h		;bbd2
-	jr z,L_BC1C		;bbd4
+	cp 026h		;bbd2   ; 0x26: oro (p09:BC1C)
+	jr z,recoge_oro		;bbd4
 	cp 00dh		;bbd6
 	jr z,L_BBEF		;bbd8
 	cp 01dh		;bbda
@@ -1947,7 +1947,7 @@ L_BBEF:
 	ld (hl),000h		;bbf2
 L_BBF4:
 	ld a,c			;bbf4
-	cp 00ah		;bbf5
+	cp 00ah		;bbf5   ; con cuatro boomerangs (0xC349) no se coge otro
 	jr nz,L_BBFF		;bbf7
 	ld a,(0c349h)		;bbf9
 	cp 004h		;bbfc
@@ -1964,10 +1964,10 @@ L_BBFF:
 	ld a,(ix+000h)		;bc13
 	call 041fah		;bc16
 	jp 04164h		;bc19
-L_BC1C:
+recoge_oro:
 	ld a,026h		;bc1c
 	call 040e6h		;bc1e
-	ld hl,0c135h		;bc21
+	ld hl,0c135h		;bc21   ; GOLD (0xC135-0xC136, BCD) + B; 9999 como mucho
 	ld a,(hl)			;bc24
 	add a,(ix+006h)		;bc25
 	daa			;bc28
@@ -2289,7 +2289,7 @@ L_BEDE:
 	sub d			;bef5
 	add a,00ch		;bef6
 	cp 018h		;bef8
-	jp c,L_BBC9		;befa
+	jp c,recoge_objeto		;befa
 L_BEFD:
 	exx			;befd
 	ld de,00010h		;befe

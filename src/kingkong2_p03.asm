@@ -3347,18 +3347,25 @@ L_B9D2:
 	ld de,0fe00h		;b9e0
 L_B9E3:
 	jp 04311h		;b9e3
-L_B9E6:
+
+; ----------------------------------------------------------------------
+; Al morir un enemigo: p03:BA66 + tipo - 1 da el numero de rutina (0xFF =
+; nada) y p03:BA06 + 2*numero la rutina, con B = la pantalla (0xC125) y
+; DE = donde estaba. Las que miran el bit 2 de 0xC103 (un contador que
+; p01:65C2 sube cada cuadro) sueltan la mitad de las veces.
+; ----------------------------------------------------------------------
+lo_que_suelta:
 	ld a,(ix+01fh)		;b9e6
-	ld hl,0ba66h		;b9e9
+	ld hl,0ba66h		;b9e9   ; p03:BA66: tipo -> rutina
 	dec a			;b9ec
 	call 04255h		;b9ed
 	ld a,(hl)			;b9f0
 	inc a			;b9f1
 	ret z			;b9f2
-	ld a,(0c125h)		;b9f3
+	ld a,(0c125h)		;b9f3   ; B = la pantalla
 	ld b,a			;b9f6
 	ld a,(hl)			;b9f7
-	ld de,0ba06h		;b9f8
+	ld de,0ba06h		;b9f8   ; p03:BA06: las 47 rutinas
 	call 042ffh		;b9fb
 	ex de,hl			;b9fe
 	ld e,(ix+003h)		;b9ff
@@ -3366,14 +3373,67 @@ L_B9E6:
 	jp (hl)			;ba05
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xba06..0xbaab  (165 bytes)
-DATA_BA06:
-	defb 0abh,0bah,0b4h,0bah,0bbh,0bah,0c8h,0bah,0d3h,0bah,0deh,0bah,0ech,0bah,018h,0bbh	; ba06  ................
-	defb 0f8h,0bah,006h,0bbh,018h,0bbh,01fh,0bbh,037h,0bbh,04dh,0bbh,059h,0bbh,064h,0bbh	; ba16  ........7.M.Y.d.
-	defb 077h,0bbh,082h,0bbh,08eh,0bbh,09ah,0bbh,0cdh,0bbh,0edh,0bbh,004h,0bch,00bh,0bch	; ba26  w...............
-	defb 019h,0bch,01eh,0bch,029h,0bch,035h,0bch,048h,0bch,048h,0bch,04fh,0bch,05ah,0bch	; ba36  ....).5.H.H.O.Z.
-	defb 06dh,0bch,07bh,0bch,087h,0bch,08eh,0bch,099h,0bch,0a6h,0bch,0b2h,0bch,0bdh,0bch	; ba46  m.{.............
-	defb 0c8h,0bch,0d6h,0bch,0b4h,0bah,0e2h,0bch,0f9h,0bch,000h,0bdh,01fh,0bdh,018h,0bbh	; ba56  ................
+; DATOS rutinas_de_lo_que_sueltan: 48 palabras: la rutina que suelta el objeto
+;   de cada enemigo (p03:BA66 usa las 47 primeras; la ultima, 0xBB18, no la
+;   pide ningun tipo); p03:B9FB salta con jp (hl); lo leen p03:B9FB (96 bytes)
+;   0xba06..0xba66  (96 bytes)
+DATA_rutinas_de_lo_que_sueltan:
+	defb 0abh,0bah	; ba06
+	defb 0b4h,0bah	; ba08
+	defb 0bbh,0bah	; ba0a
+	defb 0c8h,0bah	; ba0c
+	defb 0d3h,0bah	; ba0e
+	defb 0deh,0bah	; ba10
+	defb 0ech,0bah	; ba12
+	defb 018h,0bbh	; ba14
+	defb 0f8h,0bah	; ba16
+	defb 006h,0bbh	; ba18
+	defb 018h,0bbh	; ba1a
+	defb 01fh,0bbh	; ba1c
+	defb 037h,0bbh	; ba1e
+	defb 04dh,0bbh	; ba20
+	defb 059h,0bbh	; ba22
+	defb 064h,0bbh	; ba24
+	defb 077h,0bbh	; ba26
+	defb 082h,0bbh	; ba28
+	defb 08eh,0bbh	; ba2a
+	defb 09ah,0bbh	; ba2c
+	defb 0cdh,0bbh	; ba2e
+	defb 0edh,0bbh	; ba30
+	defb 004h,0bch	; ba32
+	defb 00bh,0bch	; ba34
+	defb 019h,0bch	; ba36
+	defb 01eh,0bch	; ba38
+	defb 029h,0bch	; ba3a
+	defb 035h,0bch	; ba3c
+	defb 048h,0bch	; ba3e
+	defb 048h,0bch	; ba40
+	defb 04fh,0bch	; ba42
+	defb 05ah,0bch	; ba44
+	defb 06dh,0bch	; ba46
+	defb 07bh,0bch	; ba48
+	defb 087h,0bch	; ba4a
+	defb 08eh,0bch	; ba4c
+	defb 099h,0bch	; ba4e
+	defb 0a6h,0bch	; ba50
+	defb 0b2h,0bch	; ba52
+	defb 0bdh,0bch	; ba54
+	defb 0c8h,0bch	; ba56
+	defb 0d6h,0bch	; ba58
+	defb 0b4h,0bah	; ba5a
+	defb 0e2h,0bch	; ba5c
+	defb 0f9h,0bch	; ba5e
+	defb 000h,0bdh	; ba60
+	defb 01fh,0bdh	; ba62
+	defb 018h,0bbh	; ba64
+
+; ----------------------------------------------------------------------
+; DATOS lo_que_suelta_cada_enemigo: 69 bytes, uno por tipo de enemigo (el 69,
+;   0xFF, es de un tipo 0x45 que no hay): el numero de rutina de p03:BA06
+;   (0xFF = no suelta nada); p03:B9E6 con 0xBA66 + tipo - 1; lo leen p03:B9ED
+;   (69 bytes)
+;   0xba66..0xbaab  (69 bytes)
+DATA_lo_que_suelta_cada_enemigo:
 	defb 0ffh,0ffh,0ffh,000h,001h,0ffh,002h,0ffh,003h,004h,005h,006h,0ffh,0ffh,0ffh,008h	; ba66  ................
 	defb 009h,00ah,00bh,00ch,00dh,0ffh,00eh,00fh,010h,011h,012h,013h,014h,015h,016h,017h	; ba76  ................
 	defb 018h,019h,01ah,0ffh,01bh,01ch,01dh,01eh,01fh,020h,021h,022h,0ffh,007h,023h,0ffh	; ba86  ......... !"..#.

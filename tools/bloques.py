@@ -264,7 +264,7 @@ def figuras_fijas(t, bl):
     bl.anota(B131415, 0xB9F6, 0xB9F6 + 15, "figura_de_la_60",
              "3 columnas x 5 filas de dibujos: las dos piezas de la pantalla 0x60",
              "p00:4EC1", ancho=3)
-    for src, n, d in P.VOLTEADOS:
+    for src, d, n in P.VOLTEADOS:            # (fuente, primer dibujo, cuantos)
         bl.anota(B101112, src, src + 32 * n, "volteados_%04X" % src,
                  "%d dibujos de 8x8 que p00:4A1B sube del reves (desde el %d): la mitad "
                  "derecha de la estatua" % (n, d), "p00:4A24", ancho=4)
@@ -371,8 +371,57 @@ def enemigos_de_cada_pantalla(t, bl):
                  "p00:59A9", ancho=3)
 
 
+def objetos(t, bl):
+    """tools/objetos.py y p03:B9E6: los dibujos, como se guarda cada objeto
+    y lo que suelta cada enemigo."""
+    import objetos as O
+    bl.anota(B789, O.FUENTE, O.FUENTE + 128 * O.N, "iconos_de_objetos",
+             "38 dibujos de 16x16 a 4 bits, 128 bytes cada uno: el objeto n es el "
+             "dibujo n-1; p00:4AED los sube a la VRAM 0xB800", "p00:4AED", ancho=8)
+    bl.anota(B123, O.CLASE + 1, O.CLASE + 0x25, "clase_de_cada_objeto",
+             "un byte por objeto (1-0x24): bit 7, sin cuenta; nibble bajo 0, lista "
+             "de SHOT1; si no, de SHOT2 (p01:79E3 y p01:7A27 con 0x7A35 + objeto)",
+             "p01:79E3", ancho=12)
+    bl.anota(B123, 0xBA66, 0xBA66 + 69, "lo_que_suelta_cada_enemigo",
+             "69 bytes, uno por tipo de enemigo (el 69, 0xFF, es de un tipo 0x45 que "
+             "no hay): el numero de rutina de p03:BA06 (0xFF = no suelta nada); "
+             "p03:B9E6 con 0xBA66 + tipo - 1",
+             "p03:B9ED", ancho=16)
+    bl.anota(B123, 0xBA06, 0xBA06 + 2 * 48, "rutinas_de_lo_que_sueltan",
+             "48 palabras: la rutina que suelta el objeto de cada enemigo (p03:BA66 "
+             "usa las 47 primeras; la ultima, 0xBB18, no la pide ningun tipo); "
+             "p03:B9FB salta con jp (hl)", "p03:B9FB", ancho=2)
+
+
+def conversaciones(t, bl):
+    """tools/dialogos.py: quien habla en cada pantalla, la lista de lineas de
+    cada conversacion y sus textos."""
+    import dialogos as D
+    bl.anota(B101112, D.TABLA_PANTALLA + 1, D.TABLA_PANTALLA + 0x72, "conversacion_de_cada_pantalla",
+             "0x71 bytes, uno por pantalla (1-0x71): la conversacion que empieza al "
+             "pararse alli (0 = nadie); p01:7E60 con 0xA5FE + pantalla", "p01:7E60", ancho=16)
+    bl.anota(B123, D.PAREJAS, D.PAREJAS + 19, "conversaciones_de_los_que_aparecen",
+             "[pantalla][conversacion] ... 0: la del objeto 0x25 (alguien que aparece al "
+             "matar a un enemigo); p01:7EE0", "p01:7EE0", ancho=2)
+    ini = D.TABLA_CONV + 2
+    bl.anota(B101112, ini, ini + 2 * D.N_CONVERSACIONES, "conversaciones",
+             "%d palabras: la lista de lineas de cada conversacion (desde la 1); "
+             "p02:80B3 con 0xA66E + 2*conversacion" % D.N_CONVERSACIONES, "p02:80B6", ancho=2)
+    for c in range(1, D.N_CONVERSACIONES + 1):
+        lista = P.palabra(D.TABLA_CONV + 2 * c, B101112)
+        lineas = D.lineas(c)
+        bl.anota(B101112, lista, lista + 2 * len(lineas) + 2, "lineas_%02X" % c,
+                 "las %d lineas de la conversacion 0x%02X y un 0 de fin" % (len(lineas), c),
+                 "p02:80BC", ancho=2)
+        for a, acc, txt in lineas:
+            _, fin = D.texto(a + 1)
+            bl.anota(B101112, a, fin + 1, "linea_%04X" % a,
+                     "accion 0x%02X y texto hasta 0xFF (conversacion 0x%02X)" % (acc, c),
+                     "p02:80CA", ancho=16)
+
+
 RECORRIDOS = [enemigos_de_cada_pantalla, nombres_de_enemigos, mitchel, cabecera, tablas_del_despachador, pantallas, vecinas, juegos_de_dibujos,
-              bloques_de_cada_juego, paletas, figuras_fijas, portadas]
+              bloques_de_cada_juego, paletas, figuras_fijas, portadas, objetos, conversaciones]
 
 
 # ------------------------------------------------------------------ escritura

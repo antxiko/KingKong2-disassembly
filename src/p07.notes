@@ -87,10 +87,8 @@ D 0x62F6 0x6303 colores_62F6  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 byte
 F 0x62F6 3
 D 0x6303 0x630A colores_6303  [color][RB][G] ... 0xFF; lo leen p00:46CF (7 bytes)
 F 0x6303 3
-D 0x758A 0x75CA dibujos_758A  2 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 240); los sube p00:48A6 por la lista 0x6050; lo leen p00:48A6 (64 bytes)
-F 0x758A 4
-D 0x75CA 0x764A dibujos_75CA  4 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 192); los sube p00:48A6 por la lista 0x5506; lo leen p00:48A6 (128 bytes)
-F 0x75CA 4
+D 0x630A 0x764A iconos_de_objetos  38 dibujos de 16x16 a 4 bits, 128 bytes cada uno: el objeto n es el dibujo n-1; p00:4AED los sube a la VRAM 0xB800; se solapan 3 bloques (0x630A-0x760A, 0x758A-0x75CA, 0x75CA-0x764A); lo leen p00:48A6, p00:4AED (4928 bytes)
+F 0x630A 8
 D 0x764A 0x788A dibujos_764A  18 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 208); los sube p00:48A6 por la lista 0x6050; lo leen p00:48A6 (576 bytes)
 F 0x764A 4
 D 0x788A 0x7D3A bloques_juego_0  los 75 bloques del juego de dibujos 0: 16 numeros de dibujo cada uno (4 filas de 4); hasta el mas alto que usa una pantalla; lo leen p00:4F5F (1200 bytes)

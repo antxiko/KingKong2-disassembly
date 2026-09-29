@@ -1,5 +1,15 @@
 # Notas del banco 02: comentarios (C), etiquetas (L) y datos (D) anclados a direccion.
 
+# --- A MANO: comentarios, nombres y bloques (cada uno de lo que hace ESE codigo) ---
+L 0x8065 accion_de_la_linea
+B 0x8065 Cada linea de una conversacion empieza por un byte de ACCION (0xC14C);
+B 0x8065 con la tabla de p02:806C se salta a una de las 34 rutinas de p12
+B 0x8065 (0xB500-0xB8FC), con los bancos 10-11-12.
+L 0x80B0 busca_la_linea
+C 0x80B3 p12:A66E + 2*conversacion: su lista de lineas...
+C 0x80BC ...y la palabra de la linea 0xC14D; 0 = se acabo
+C 0x80CB el primer byte es la accion; luego el texto
+
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x8000 0x8008 tabla_7FFC_cola  6 destinos del despachador de 0x425F (call en p01:7FF9): 0x8008, 0x8017, 0x8025, 0x8039, 0x8065, 0x8039 (sigue del banco anterior, 0x7FFC); lo leen p01:7FF9 (8 bytes)
 F 0x8000 2

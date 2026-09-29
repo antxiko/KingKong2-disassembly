@@ -466,7 +466,7 @@ L_62EF:
 	ld de,0e068h		;62f2
 L_62F5:
 	and a			;62f5
-	jp nz,L_7962		;62f6
+	jp nz,pinta_icono		;62f6
 	ex de,hl			;62f9
 	ld bc,01010h		;62fa
 	xor a			;62fd
@@ -1843,12 +1843,12 @@ L_6C41:
 	ret nc			;6c46
 	ld a,(0c106h)		;6c47
 	bit 5,a		;6c4a
-	jp nz,L_7BF3		;6c4c
+	jp nz,usa_shot2		;6c4c
 	and 010h		;6c4f
 	ret z			;6c51
 	xor a			;6c52
 	ld (0c324h),a		;6c53
-	jp L_7469		;6c56
+	jp usa_shot1		;6c56
 L_6C59:
 	ld a,(0c146h)		;6c59
 	and a			;6c5c
@@ -3097,7 +3097,14 @@ L_745F:
 	call 04318h		;7462
 	ld a,002h		;7465
 	jr L_744E		;7467
-L_7469:
+
+; ----------------------------------------------------------------------
+; El arma de SHOT1 (0xC140): 0 el puno; 1-3 golpes 0x11-0x13; 4 solo en las
+; pantallas 0x63-0x89 (fuera, SHOT1 vuelve a 0); 5 solo con LEVEL (0xC12E)
+; 5 o mas; 6 y 7 el golpe 0x17; 8 gasta uno de 0xC347; 9 uno de 0xC348;
+; 0x0A uno de 0xC349; 0x0B el golpe 0x1B; 0x1F gasta uno de 0xC35E.
+; ----------------------------------------------------------------------
+usa_shot1:
 	ld a,(0c132h)		;7469
 	and a			;746c
 	ld a,(0c140h)		;746d
@@ -3105,8 +3112,8 @@ L_7469:
 	and a			;7472
 	ret nz			;7473
 L_7474:
-	cp 01fh		;7474
-	jp z,L_74D4		;7476
+	cp 01fh		;7474   ; 0x1F: p01:74D4
+	jp z,lanza_un_0x1F		;7476
 	cp 00ch		;7479
 	ret nc			;747b
 	call 0425fh		;747c
@@ -3135,7 +3142,7 @@ DATA_tabla_747F:
 ; ======================================================================
 
 
-L_7497:
+golpe_del_puno:
 	ld c,010h		;7497
 	jp L_7534		;7499
 L_749C:
@@ -3147,8 +3154,8 @@ L_74A1:
 L_74A6:
 	ld c,013h		;74a6
 	jp L_7534		;74a8
-L_74AB:
-	ld a,(0c125h)		;74ab
+golpe_del_4:
+	ld a,(0c125h)		;74ab   ; solo en las pantallas 0x63-0x89
 	cp 063h		;74ae
 	jr c,L_74BB		;74b0
 	cp 08ah		;74b2
@@ -3156,35 +3163,35 @@ L_74AB:
 	ld c,014h		;74b6
 	jp L_7534		;74b8
 L_74BB:
-	xor a			;74bb
+	xor a			;74bb   ; fuera: se suelta (SHOT1 = 0) y va el puno
 	ld (0c140h),a		;74bc
-	call L_7497		;74bf
+	call golpe_del_puno		;74bf
 	jp L_62DE		;74c2
-L_74C5:
-	ld a,(0c12eh)		;74c5
+golpe_del_5:
+	ld a,(0c12eh)		;74c5   ; 0xC12E: LEVEL; hace falta 5
 	cp 005h		;74c8
 	ret c			;74ca
 	ld c,015h		;74cb
 	jp L_7534		;74cd
-L_74D0:
+golpe_del_6_y_7:
 	ld c,017h		;74d0
 	jr L_7534		;74d2
-L_74D4:
+lanza_un_0x1F:
 	ld hl,0c35eh		;74d4
 	ld b,004h		;74d7
 	jr L_74E0		;74d9
-L_74DB:
+lanza_un_8:
 	ld hl,0c347h		;74db
 	ld b,001h		;74de
 L_74E0:
-	call L_752F		;74e0
+	call hay_algo_lanzado		;74e0
 	ret nz			;74e3
-	ld a,(hl)			;74e4
+	ld a,(hl)			;74e4   ; gasta uno; sin ninguno, nada
 	sub 001h		;74e5
 	ret c			;74e7
 	daa			;74e8
 	ld (hl),a			;74e9
-	jr nz,L_74F6		;74ea
+	jr nz,L_74F6		;74ea   ; el ultimo: SHOT1 vuelve a 0
 	call L_74F6		;74ec
 L_74EF:
 	xor a			;74ef
@@ -3193,8 +3200,8 @@ L_74EF:
 L_74F6:
 	ld c,018h		;74f6
 	jr L_755F		;74f8
-L_74FA:
-	call L_752F		;74fa
+lanza_un_9:
+	call hay_algo_lanzado		;74fa
 	ret nz			;74fd
 	ld hl,0c348h		;74fe
 	ld a,(hl)			;7501
@@ -3208,11 +3215,11 @@ L_74FA:
 L_750E:
 	ld bc,00219h		;750e
 	jr L_755F		;7511
-L_7513:
-	ld a,(0c349h)		;7513
+lanza_el_boomerang:
+	ld a,(0c349h)		;7513   ; 0xC349: cuantos boomerangs hay en la mano
 	and a			;7516
 	ret z			;7517
-	call L_752F		;7518
+	call hay_algo_lanzado		;7518
 	ret nz			;751b
 	ld bc,0031ah		;751c
 	call L_755F		;751f
@@ -3225,13 +3232,13 @@ L_7513:
 L_752B:
 	ld c,01bh		;752b
 	jr L_7534		;752d
-L_752F:
-	ld a,(0c380h)		;752f
+hay_algo_lanzado:
+	ld a,(0c380h)		;752f   ; 0xC380: la ficha de lo que Mitchel lanza
 	and a			;7532
 	ret			;7533
 L_7534:
 	push bc			;7534
-	call L_752F		;7535
+	call hay_algo_lanzado		;7535
 	pop bc			;7538
 	ret nz			;7539
 	ld a,c			;753a
@@ -3390,7 +3397,7 @@ L_7631:
 	ld d,(ix+005h)		;7650
 	ld bc,0010ah		;7653
 	push ix		;7656
-	call L_7852		;7658
+	call pon_objeto		;7658
 	pop ix		;765b
 	call L_76C6		;765d
 	ld a,(0c349h)		;7660
@@ -3674,13 +3681,19 @@ L_784A:
 	ret c			;784d
 	ld a,001h		;784e
 	jr L_7853		;7850
-L_7852:
+
+; ----------------------------------------------------------------------
+; Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+; unidades (0 = 1): en la primera ficha libre de 0xC400 (cuatro de 16
+; bytes). Los numeros 0x27 en adelante no son objetos: p01:78A2.
+; ----------------------------------------------------------------------
+pon_objeto:
 	xor a			;7852
 L_7853:
 	ld (0c170h),a		;7853
 	ld a,c			;7856
-	sub 027h		;7857
-	jp nc,L_78A2		;7859
+	sub 027h		;7857   ; 0x27 en adelante: sucesos (p01:78A2)
+	jp nc,suceso_en_vez_de_objeto		;7859
 	ld a,b			;785c
 	and a			;785d
 	jr nz,L_7861		;785e
@@ -3712,12 +3725,12 @@ L_787E:
 	ld (hl),c			;7881
 	inc l			;7882
 	ld a,c			;7883
-	cp 00ah		;7884
+	cp 00ah		;7884   ; el boomerang (0x0A) y el oro (0x26) duran 0x78 cuadros en el suelo;
 	ld c,078h		;7886
 	jr z,L_7890		;7888
 	cp 026h		;788a
 	jr z,L_7890		;788c
-	ld c,0ffh		;788e
+	ld c,0ffh		;788e   ; los demas se quedan (0xFF)
 L_7890:
 	ld (hl),c			;7890
 	inc l			;7891
@@ -3733,7 +3746,12 @@ L_7890:
 	inc l			;789e
 	ld (hl),010h		;789f
 	ret			;78a1
-L_78A2:
+
+; ----------------------------------------------------------------------
+; 0x27 nada; 0x28 suceso 5 (8 en la pantalla 0x5D); 0x29 nada; 0x2A pinta
+; los dibujos 0xC0-0xC3 en (0x50, 0x30); 0x2B suceso 1; 0x2C suma B al MP.
+; ----------------------------------------------------------------------
+suceso_en_vez_de_objeto:
 	call 0425fh		;78a2
 
 ; ----------------------------------------------------------------------
@@ -3799,8 +3817,8 @@ DATA_78EA:
 ; ======================================================================
 
 
-L_78EE:
-	ld hl,0c12fh		;78ee
+suma_b_al_mp:
+	ld hl,0c12fh		;78ee   ; 0xC12F: el MP, en BCD, hasta 99
 	ld a,(hl)			;78f1
 	add a,b			;78f2
 	daa			;78f3
@@ -3866,12 +3884,12 @@ L_794E:
 L_795C:
 	call L_79BF		;795c
 	ld a,(ix+000h)		;795f
-L_7962:
-	cp 026h		;7962
+pinta_icono:
+	cp 026h		;7962   ; el 0x26 (oro) se pinta con el dibujo del 6 (la bolsa)
 	jr nz,L_7968		;7964
 	ld a,006h		;7966
 L_7968:
-	dec a			;7968
+	dec a			;7968   ; objeto n: dibujo n-1, en x = ((n-1) & 15)*16...
 	ld c,a			;7969
 	and 00fh		;796a
 	add a,a			;796c
@@ -3880,12 +3898,12 @@ L_7968:
 	add a,a			;796f
 	ld h,a			;7970
 	ld a,c			;7971
-	and 0f0h		;7972
+	and 0f0h		;7972   ; ...y = 0x70 + ((n-1) & 0xF0) de la pagina 1
 	add a,070h		;7974
 	ld l,a			;7976
 	ld bc,01010h		;7977
 	ld a,048h		;797a
-	jp 0481bh		;797c
+	jp 0481bh		;797c   ; 16x16 con transparencia
 L_797F:
 	ld (ix+000h),000h		;797f
 	call L_79BF		;7983
@@ -3927,25 +3945,32 @@ L_79BF:
 	ld d,a			;79cb
 	pop af			;79cc
 	ret			;79cd
-L_79CE:
-	ld b,001h		;79ce
-L_79D0:
-	cp 00fh		;79d0
+da_un_objeto:
+	ld b,001h		;79ce   ; una unidad
+
+; ----------------------------------------------------------------------
+; Da el objeto A, B unidades. 0xC33F + A lleva la cuenta en BCD (hasta 99);
+; si el bit 7 de p01:7A35 + A esta puesto el objeto no se cuenta y se
+; guarda 0xFF. Luego lo apunta en la lista de SHOT1 (0xC2A0) o en la de
+; SHOT2 (0xC2C0), si no estaba.
+; ----------------------------------------------------------------------
+da_objeto:
+	cp 00fh		;79d0   ; el 0x0F...
 	jr nz,L_79D9		;79d2
-	ld hl,0c144h		;79d4
+	ld hl,0c144h		;79d4   ; ...pone 0xC144
 	ld (hl),001h		;79d7
 L_79D9:
 	ld e,a			;79d9
 	ld (0e80eh),a		;79da
 	ld d,000h		;79dd
-	ld hl,0c33fh		;79df
+	ld hl,0c33fh		;79df   ; 0xC33F + objeto: cuantos hay
 	add hl,de			;79e2
 	ld de,l7a35h		;79e3
 	call 0425ah		;79e6
 	ld a,(de)			;79e9
-	add a,a			;79ea
+	add a,a			;79ea   ; bit 7 de p01:7A35 + objeto: sin cuenta
 	jr c,L_79F7		;79eb
-	ld a,b			;79ed
+	ld a,b			;79ed   ; suma B en BCD
 	add a,(hl)			;79ee
 	daa			;79ef
 	jr nc,L_79F4		;79f0
@@ -3954,11 +3979,11 @@ L_79F4:
 	ld (hl),a			;79f4
 	jr L_79F9		;79f5
 L_79F7:
-	ld (hl),0ffh		;79f7
+	ld (hl),0ffh		;79f7   ; sin cuenta: 0xFF
 L_79F9:
-	call L_7A1F		;79f9
+	call elige_lista		;79f9
 	ld a,(0e80eh)		;79fc
-	cp 01eh		;79ff
+	cp 01eh		;79ff   ; 0x1E, 0x23 y 0x20 no van a ninguna lista
 	ret z			;7a01
 	cp 023h		;7a02
 	ret z			;7a04
@@ -3972,7 +3997,7 @@ L_7A09:
 	inc l			;7a0d
 	inc l			;7a0e
 	djnz L_7A09		;7a0f
-	call L_7A1F		;7a11
+	call elige_lista		;7a11
 L_7A14:
 	ld a,(hl)			;7a14
 	and a			;7a15
@@ -3984,7 +4009,12 @@ L_7A14:
 L_7A1D:
 	ld (hl),c			;7a1d
 	ret			;7a1e
-L_7A1F:
+
+; ----------------------------------------------------------------------
+; La lista del objeto: la de SHOT1 (0xC2A0, 12 casillas) si el nibble
+; bajo de p01:7A35 + objeto es 0; si no, la de SHOT2 (0xC2C0, 21).
+; ----------------------------------------------------------------------
+elige_lista:
 	ld hl,0c2a0h		;7a1f
 	ld b,00ch		;7a22
 	ld a,(0e80eh)		;7a24
@@ -3999,11 +4029,14 @@ L_7A35:
 	ret			;7a35
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7a36..0x7a5a  (36 bytes)
-DATA_7A36:
-	defb 0f0h,0f0h,0f0h,0f0h,0f0h,0f0h,0f0h,000h,000h,000h,0f0h,0f1h,0f1h,0f1h,0f1h,001h	; 7a36  ................
-	defb 0f1h,0f1h,0f1h,0f1h,001h,0f1h,0f1h,0f1h,0f1h,0f1h,0f1h,0f1h,001h,001h,000h,0f1h	; 7a46  ................
-	defb 0f1h,0f1h,0f1h,001h	; 7a56
+; DATOS clase_de_cada_objeto: un byte por objeto (1-0x24): bit 7, sin cuenta;
+;   nibble bajo 0, lista de SHOT1; si no, de SHOT2 (p01:79E3 y p01:7A27 con
+;   0x7A35 + objeto); lo leen p01:79E3 (36 bytes)
+;   0x7a36..0x7a5a  (36 bytes)
+DATA_clase_de_cada_objeto:
+	defb 0f0h,0f0h,0f0h,0f0h,0f0h,0f0h,0f0h,000h,000h,000h,0f0h,0f1h	; 7a36  ............
+	defb 0f1h,0f1h,0f1h,001h,0f1h,0f1h,0f1h,0f1h,001h,0f1h,0f1h,0f1h	; 7a42  ............
+	defb 0f1h,0f1h,0f1h,0f1h,001h,001h,000h,0f1h,0f1h,0f1h,0f1h,001h	; 7a4e  ............
 
 ; ======================================================================
 ; CODIGO 0x7a5a..0x7abb  (97 bytes)
@@ -4029,7 +4062,7 @@ L_7A5A:
 	daa			;7a72
 	ld (hl),a			;7a73
 	jp L_6344		;7a74
-L_7A77:
+fin_del_suceso_de_shot2:
 	ld a,(0c141h)		;7a77
 	sub 00ch		;7a7a
 	jr z,L_7AA6		;7a7c
@@ -4217,7 +4250,7 @@ L_7BE0:
 	inc (ix+001h)		;7beb
 	inc (ix+006h)		;7bee
 	jr L_7BAA		;7bf1
-L_7BF3:
+usa_shot2:
 	ld a,(0c132h)		;7bf3
 	and a			;7bf6
 	ld a,(0c141h)		;7bf7
@@ -4266,37 +4299,37 @@ DATA_tabla_7C05:
 ; ======================================================================
 
 
-L_7C37:
-	ld a,(0c141h)		;7c37
+gasta_uno_de_shot2:
+	ld a,(0c141h)		;7c37   ; 0xC141: el objeto de SHOT2
 	ld hl,0c33fh		;7c3a
 	call 04255h		;7c3d
 	ld a,(hl)			;7c40
-	cp 0ffh		;7c41
+	cp 0ffh		;7c41   ; sin cuenta (0xFF): no se gasta
 	ret z			;7c43
 	sub 001h		;7c44
 	daa			;7c46
 	ld (hl),a			;7c47
 	ret nz			;7c48
-	ld (0c141h),a		;7c49
+	ld (0c141h),a		;7c49   ; el ultimo: SHOT2 vuelve a 0
 	jp L_62DE		;7c4c
-L_7C4F:
-	ld c,003h		;7c4f
+conjuro_0x0C:
+	ld c,003h		;7c4f   ; 3 de MP
 	jr L_7C59		;7c51
-L_7C53:
-	ld c,005h		;7c53
+conjuro_0x0D:
+	ld c,005h		;7c53   ; 5 de MP
 	jr L_7C59		;7c55
-L_7C57:
-	ld c,010h		;7c57
+conjuro_0x0E:
+	ld c,010h		;7c57   ; 10 de MP (BCD)
 L_7C59:
 	push bc			;7c59
-	call L_752F		;7c5a
+	call hay_algo_lanzado		;7c5a
 	pop bc			;7c5d
 	ret nz			;7c5e
-	ld hl,0c12fh		;7c5f
+	ld hl,0c12fh		;7c5f   ; 0xC12F: MP
 	ld a,(hl)			;7c62
 	sub c			;7c63
 	daa			;7c64
-	jr c,L_7C96		;7c65
+	jr c,no_hay_mp		;7c65   ; sin MP bastante: p01:7C96
 	ld (hl),a			;7c67
 	ld a,021h		;7c68
 	call 05488h		;7c6a
@@ -4316,11 +4349,11 @@ L_7C59:
 	call L_6D8B		;7c8d
 	call 050eah		;7c90
 	jp L_636C		;7c93
-L_7C96:
+no_hay_mp:
 	call L_6428		;7c96
 	ld a,03ch		;7c99
 	ld (0c162h),a		;7c9b
-	ld hl,07ca4h		;7c9e
+	ld hl,07ca4h		;7c9e   ; el aviso de p01:7CA4
 	jp 0490fh		;7ca1
 
 ; ----------------------------------------------------------------------
@@ -4334,19 +4367,19 @@ DATA_7CA4:
 ; ======================================================================
 
 
-L_7CB5:
-	call L_7C37		;7cb5
-	ld hl,0c146h		;7cb8
+usa_el_0x10:
+	call gasta_uno_de_shot2		;7cb5
+	ld hl,0c146h		;7cb8   ; 0xC146: la enfermedad; si la hay, la quita y nada mas
 	ld a,(hl)			;7cbb
 	and a			;7cbc
 	jr z,L_7CC5		;7cbd
 	ld (hl),000h		;7cbf
 L_7CC1:
 	ret			;7cc1
-L_7CC2:
-	call L_7C37		;7cc2
+come:
+	call gasta_uno_de_shot2		;7cc2
 L_7CC5:
-	ld hl,(0c129h)		;7cc5
+	ld hl,(0c129h)		;7cc5   ; LIFE (0xC129) + 10...
 	ld a,010h		;7cc8
 	add a,l			;7cca
 	daa			;7ccb
@@ -4355,7 +4388,7 @@ L_7CC5:
 	adc a,000h		;7cce
 	daa			;7cd0
 	ld d,a			;7cd1
-	ld a,(0c12eh)		;7cd2
+	ld a,(0c12eh)		;7cd2   ; ...hasta 30 + 16*LEVEL (0xC12E), en BCD; 999 como mucho
 	ld l,a			;7cd5
 	ld h,000h		;7cd6
 	add hl,hl			;7cd8
@@ -4379,8 +4412,8 @@ L_7CEB:
 L_7CEF:
 	ld (0c129h),hl		;7cef
 	jp L_634E		;7cf2
-L_7CF5:
-	ld a,(0c125h)		;7cf5
+usa_el_0x12:
+	ld a,(0c125h)		;7cf5   ; solo en la pantalla 0x68
 	cp 068h		;7cf8
 	ret nz			;7cfa
 	ld a,001h		;7cfb
@@ -4391,13 +4424,13 @@ L_7D00:
 	xor a			;7d05
 	ld (0c567h),a		;7d06
 	ret			;7d09
-L_7D0A:
-	ld a,(0c125h)		;7d0a
+usa_el_0x1B:
+	ld a,(0c125h)		;7d0a   ; solo en la pantalla 0x56
 	cp 056h		;7d0d
 	ret nz			;7d0f
 	ld a,009h		;7d10
 	jr L_7D21		;7d12
-L_7D14:
+usa_el_0x13:
 	ld a,(0c125h)		;7d14
 	ld c,a			;7d17
 	cp 034h		;7d18
@@ -4410,13 +4443,13 @@ L_7D21:
 	xor a			;7d24
 	ld (0c561h),a		;7d25
 	ret			;7d28
-L_7D29:
-	ld a,(0c125h)		;7d29
+usa_el_0x11:
+	ld a,(0c125h)		;7d29   ; solo en la pantalla 0x38
 	cp 038h		;7d2c
 	ret nz			;7d2e
 	ld a,005h		;7d2f
 	jr L_7D21		;7d31
-L_7D33:
+usa_el_0x17:
 	ld a,(0c132h)		;7d33
 	and a			;7d36
 	ret nz			;7d37
@@ -4436,8 +4469,8 @@ L_7D33:
 	xor a			;7d4f
 	ld (0c681h),a		;7d50
 	ret			;7d53
-L_7D54:
-	ld a,(0c125h)		;7d54
+usa_el_0x19:
+	ld a,(0c125h)		;7d54   ; solo en la pantalla 0x51, y reparado (0xC14E)
 	cp 051h		;7d57
 	ret nz			;7d59
 	ld a,(0c14eh)		;7d5a
@@ -4449,12 +4482,12 @@ L_7D54:
 	jr z,L_7D68		;7d65
 	inc a			;7d67
 L_7D68:
-	ld (0c14ah),a		;7d68
+	ld (0c14ah),a		;7d68   ; la conversacion 0x37, o la 0x38 si 0xC600 no es 0
 	ld a,001h		;7d6b
 	ld (0c149h),a		;7d6d
 	jp L_7EAB		;7d70
-L_7D73:
-	ld a,(0c125h)		;7d73
+usa_el_0x16:
+	ld a,(0c125h)		;7d73   ; solo en la pantalla 0x5E
 	cp 05eh		;7d76
 	ret nz			;7d78
 	ld hl,0c810h		;7d79
@@ -4469,7 +4502,7 @@ L_7D73:
 	call 04fabh		;7d87
 	ld a,023h		;7d8a
 	jp 05488h		;7d8c
-L_7D8F:
+usa_el_0x22:
 	ld a,(0c140h)		;7d8f
 	cp 00bh		;7d92
 	jr z,L_7DA4		;7d94
@@ -4479,17 +4512,17 @@ L_7D8F:
 	ld a,(hl)			;7d9c
 	sub 001h		;7d9d
 	daa			;7d9f
-	jp c,L_7C96		;7da0
+	jp c,no_hay_mp		;7da0
 	ld (hl),a			;7da3
 L_7DA4:
-	call L_7469		;7da4
+	call usa_shot1		;7da4
 	ld a,008h		;7da7
 	ld (0c300h),a		;7da9
 	xor a			;7dac
 	ld (0c316h),a		;7dad
 	jp L_636C		;7db0
-L_7DB3:
-	call L_7C37		;7db3
+usa_el_0x24:
+	call gasta_uno_de_shot2		;7db3   ; solo en las pantallas 0x0B, 0x0D, 0x2D, 0x2E, 0x6F, 0x77 y 0x7B
 	ld a,(0c125h)		;7db6
 	cp 00dh		;7db9
 	jr z,L_7DD4		;7dbb
@@ -4541,13 +4574,13 @@ DATA_7E01:
 ; ======================================================================
 
 
-L_7E1D:
+busca_quien_habla:
 	ld a,(0c300h)		;7e1d
 	cp 005h		;7e20
 	ret nc			;7e22
 	ld a,(0c125h)		;7e23
 	cp 060h		;7e26
-	jp z,L_7EBB		;7e28
+	jp z,conversacion_de_la_mesa		;7e28
 	sub 063h		;7e2b
 	cp 004h		;7e2d
 	jr nc,L_7E43		;7e2f
@@ -4572,7 +4605,7 @@ L_7E43:
 	and 007h		;7e54
 	ret nz			;7e56
 	ld a,(0c125h)		;7e57
-	ld hl,0a5feh		;7e5a
+	ld hl,0a5feh		;7e5a   ; p12:A5FE + pantalla: la conversacion (0 = nadie)
 	cp 072h		;7e5d
 	ret nc			;7e5f
 	call 04255h		;7e60
@@ -4628,7 +4661,7 @@ L_7EAB:
 	ld hl,04201h		;7eb4
 	ld (0c309h),hl		;7eb7
 	ret			;7eba
-L_7EBB:
+conversacion_de_la_mesa:
 	ld hl,0c15eh		;7ebb
 	ld a,(hl)			;7ebe
 	and a			;7ebf
@@ -4640,15 +4673,15 @@ L_7EBB:
 	and a			;7eca
 	ret nz			;7ecb
 	inc (hl)			;7ecc
-	ld a,02ch		;7ecd
+	ld a,02ch		;7ecd   ; la 0x2C, en la pantalla 0x60
 	ld (0c14ah),a		;7ecf
 	ld a,001h		;7ed2
 	ld (0c149h),a		;7ed4
 	jr L_7EAB		;7ed7
-L_7ED9:
+conversacion_de_la_pantalla:
 	ld a,(0c125h)		;7ed9
 	ld b,a			;7edc
-	ld hl,07ef5h		;7edd
+	ld hl,07ef5h		;7edd   ; parejas [pantalla][conversacion] de p01:7EF5 (0 acaba)
 L_7EE0:
 	ld a,(hl)			;7ee0
 	and a			;7ee1
@@ -4666,10 +4699,21 @@ L_7EEA:
 	jr L_7EAB		;7ef3
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x7ef5..0x7f08  (19 bytes)
-DATA_7EF5:
-	defb 010h,00eh,01ah,010h,012h,00dh,026h,022h,00bh,011h,03dh,029h,04fh,02ah,022h,035h	; 7ef5  ......&"..=)O*"5
-	defb 03ah,036h,000h	; 7f05
+; DATOS conversaciones_de_los_que_aparecen: [pantalla][conversacion] ... 0: la
+;   del objeto 0x25 (alguien que aparece al matar a un enemigo); p01:7EE0; lo
+;   leen p01:7EE0 (19 bytes)
+;   0x7ef5..0x7f08  (19 bytes)
+DATA_conversaciones_de_los_que_aparecen:
+	defb 010h,00eh	; 7ef5
+	defb 01ah,010h	; 7ef7
+	defb 012h,00dh	; 7ef9
+	defb 026h,022h	; 7efb
+	defb 00bh,011h	; 7efd
+	defb 03dh,029h	; 7eff
+	defb 04fh,02ah	; 7f01
+	defb 022h,035h	; 7f03
+	defb 03ah,036h	; 7f05
+	defb 000h	; 7f07
 
 ; ======================================================================
 ; CODIGO 0x7f08..0x7f1a  (18 bytes)

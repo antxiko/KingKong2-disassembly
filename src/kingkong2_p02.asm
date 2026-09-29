@@ -36,7 +36,7 @@ L_8012:
 	ret			;8016
 L_8017:
 	call 06428h		;8017
-	call L_80B0		;801a
+	call busca_la_linea		;801a
 	ld a,(0c14ch)		;801d
 	inc a			;8020
 	jr z,L_8045		;8021
@@ -77,7 +77,13 @@ L_8056:
 	ret z			;805f
 	ld (hl),000h		;8060
 	jp 07d00h		;8062
-L_8065:
+
+; ----------------------------------------------------------------------
+; Cada linea de una conversacion empieza por un byte de ACCION (0xC14C);
+; con la tabla de p02:806C se salta a una de las 34 rutinas de p12
+; (0xB500-0xB8FC), con los bancos 10-11-12.
+; ----------------------------------------------------------------------
+accion_de_la_linea:
 	ld a,(0c14ch)		;8065
 	dec a			;8068
 	call 0425fh		;8069
@@ -128,12 +134,12 @@ DATA_tabla_806C:
 ; ======================================================================
 
 
-L_80B0:
+busca_la_linea:
 	ld a,(0c14ah)		;80b0
-	ld de,0a66eh		;80b3
+	ld de,0a66eh		;80b3   ; p12:A66E + 2*conversacion: su lista de lineas...
 	call 042ffh		;80b6
 	ld a,(0c14dh)		;80b9
-	call 042ffh		;80bc
+	call 042ffh		;80bc   ; ...y la palabra de la linea 0xC14D; 0 = se acabo
 	ld a,e			;80bf
 	or d			;80c0
 	jr nz,L_80C9		;80c1
@@ -143,7 +149,7 @@ L_80B0:
 L_80C9:
 	ex de,hl			;80c9
 	ld a,(hl)			;80ca
-	ld (0c14ch),a		;80cb
+	ld (0c14ch),a		;80cb   ; el primer byte es la accion; luego el texto
 	inc hl			;80ce
 	ld de,008b0h		;80cf
 	ld (0c157h),hl		;80d2

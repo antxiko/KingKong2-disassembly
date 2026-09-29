@@ -1,5 +1,15 @@
 # Notas del banco 03: comentarios (C), etiquetas (L) y datos (D) anclados a direccion.
 
+# --- A MANO: comentarios, nombres y bloques (cada uno de lo que hace ESE codigo) ---
+L 0xB9E6 lo_que_suelta
+B 0xB9E6 Al morir un enemigo: p03:BA66 + tipo - 1 da el numero de rutina (0xFF =
+B 0xB9E6 nada) y p03:BA06 + 2*numero la rutina, con B = la pantalla (0xC125) y
+B 0xB9E6 DE = donde estaba. Las que miran el bit 2 de 0xC103 (un contador que
+B 0xB9E6 p01:65C2 sube cada cuadro) sueltan la mitad de las veces.
+C 0xB9E9 p03:BA66: tipo -> rutina
+C 0xB9F3 B = la pantalla
+C 0xB9F8 p03:BA06: las 47 rutinas
+
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA3EE 0xA3FA tabla_A3EE  6 destinos del despachador de 0x425F (call en p03:A3EB): 0xA3FA, 0xA442, 0xA48F, 0xA4F4, 0xA505, 0xA511; lo leen p03:A3EB (12 bytes)
 F 0xA3EE 2
@@ -31,6 +41,10 @@ D 0xB829 0xB82F tabla_B829  3 destinos del despachador de 0x425F (call en p03:B8
 F 0xB829 2
 D 0xB90C 0xB914 tabla_B90C  4 destinos del despachador de 0x425F (call en p03:B909): 0xB96B, 0xB961, 0xB94B, 0xB97F; lo leen p03:B909 (8 bytes)
 F 0xB90C 2
+D 0xBA06 0xBA66 rutinas_de_lo_que_sueltan  48 palabras: la rutina que suelta el objeto de cada enemigo (p03:BA66 usa las 47 primeras; la ultima, 0xBB18, no la pide ningun tipo); p03:B9FB salta con jp (hl); lo leen p03:B9FB (96 bytes)
+F 0xBA06 2
+D 0xBA66 0xBAAB lo_que_suelta_cada_enemigo  69 bytes, uno por tipo de enemigo (el 69, 0xFF, es de un tipo 0x45 que no hay): el numero de rutina de p03:BA06 (0xFF = no suelta nada); p03:B9E6 con 0xBA66 + tipo - 1; lo leen p03:B9ED (69 bytes)
+F 0xBA66 16
 D 0xBDC7 0xBDCB tabla_BDC7  2 destinos del despachador de 0x425F (call en p03:BDC4): 0xBDCB, 0xBDF5; lo leen p03:BDC4 (4 bytes)
 F 0xBDC7 2
 D 0xBE34 0xBE38 tabla_BE34  2 destinos del despachador de 0x425F (call en p03:BE31): 0xBE38, 0xBE7B; lo leen p03:BE31 (4 bytes)

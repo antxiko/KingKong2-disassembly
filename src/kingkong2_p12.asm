@@ -134,11 +134,11 @@ DATA_dibujos_A15E:
 	defb 001h,011h,011h,010h	; a17a
 
 ; ----------------------------------------------------------------------
-; DATOS volteados_A17E: 17 dibujos de 8x8 que p00:4A1B sube del reves (desde
-;   el 16): la mitad derecha de la estatua; se solapan 4 bloques
-;   (0xA17E-0xA39E, 0xA17E-0xA51E, 0xA35E-0xAF5E, 0xA4FE-0xA5FE); lo leen
-;   p00:48A6, p00:4A24 (3552 bytes)
-;   0xa17e..0xaf5e  (3552 bytes)
+; DATOS volteados_A17E: 16 dibujos de 8x8 que p00:4A1B sube del reves (desde
+;   el 17): la mitad derecha de la estatua; se solapan 4 bloques
+;   (0xA17E-0xA37E, 0xA17E-0xA51E, 0xA35E-0xA4BE, 0xA4FE-0xA5FE); lo leen
+;   p00:48A6, p00:4A24 (1152 bytes)
+;   0xa17e..0xa5fe  (1152 bytes)
 DATA_volteados_A17E:
 	defb 000h,000h,000h,000h	; a17e
 	defb 000h,000h,000h,000h	; a182
@@ -428,709 +428,1542 @@ DATA_volteados_A17E:
 	defb 066h,016h,015h,010h	; a5f2
 	defb 066h,011h,011h,000h	; a5f6
 	defb 011h,011h,010h,000h	; a5fa
-	defb 001h,005h,000h,000h	; a5fe
-	defb 002h,000h,000h,000h	; a602
-	defb 000h,000h,003h,000h	; a606
-	defb 004h,063h,012h,000h	; a60a
-	defb 00eh,006h,000h,000h	; a60e
-	defb 063h,00ah,000h,000h	; a612
-	defb 00bh,000h,010h,000h	; a616
-	defb 000h,000h,000h,000h	; a61a
-	defb 00fh,000h,000h,063h	; a61e
-	defb 000h,022h,000h,063h	; a622
-	defb 020h,000h,023h,000h	; a626
-	defb 019h,063h,063h,000h	; a62a
-	defb 000h,000h,000h,000h	; a62e
-	defb 000h,000h,000h,000h	; a632
-	defb 000h,000h,000h,000h	; a636
-	defb 000h,029h,063h,000h	; a63a
-	defb 000h,000h,000h,026h	; a63e
-	defb 000h,000h,027h,000h	; a642
-	defb 000h,000h,028h,000h	; a646
-	defb 000h,000h,000h,000h	; a64a
-	defb 02ah,02bh,000h,000h	; a64e
-	defb 000h,000h,000h,000h	; a652
-	defb 000h,000h,000h,000h	; a656
-	defb 000h,000h,000h,000h	; a65a
-	defb 02ch,000h,02dh,000h	; a65e
-	defb 000h,000h,02eh,000h	; a662
-	defb 02fh,000h,000h,000h	; a666
-	defb 000h,000h,000h,031h	; a66a
-	defb 032h,033h,0e0h,0a6h	; a66e
-	defb 0a2h,0a7h,07ah,0a8h	; a672
-	defb 0b0h,0a8h,0d3h,0a8h	; a676
-	defb 0f1h,0a8h,08fh,0a9h	; a67a
-	defb 0c5h,0a9h,01ah,0aah	; a67e
-	defb 04ah,0aah,0bch,0aah	; a682
-	defb 0e6h,0aah,0e6h,0aah	; a686
-	defb 008h,0abh,02fh,0abh	; a68a
-	defb 049h,0abh,067h,0abh	; a68e
-	defb 080h,0abh,0b6h,0abh	; a692
-	defb 0efh,0abh,0a2h,0ach	; a696
-	defb 0d3h,0ach,036h,0adh	; a69a
-	defb 07dh,0adh,0b0h,0adh	; a69e
-	defb 0c6h,0adh,0fch,0adh	; a6a2
-	defb 036h,0aeh,08ah,0aeh	; a6a6
-	defb 0cah,0aeh,0eeh,0aeh	; a6aa
-	defb 03eh,0afh,06ch,0afh	; a6ae
-	defb 06eh,0afh,08fh,0afh	; a6b2
-	defb 0afh,0afh,0f8h,0afh	; a6b6
-	defb 04ah,0b0h,0bah,0b0h	; a6ba
-	defb 0f2h,0b0h,01fh,0b1h	; a6be
-	defb 048h,0b1h,076h,0b1h	; a6c2
-	defb 0d0h,0b1h,0f9h,0b1h	; a6c6
-	defb 066h,0b2h,099h,0b2h	; a6ca
-	defb 0e5h,0b2h,00ah,0b3h	; a6ce
-	defb 04bh,0b3h,067h,0b3h	; a6d2
-	defb 099h,0b3h,0c0h,0b3h	; a6d6
-	defb 0d5h,0b3h,0f8h,0b3h	; a6da
-	defb 06eh,0b4h,0ech,0a6h	; a6de
-	defb 002h,0a7h,020h,0a7h	; a6e2
-	defb 04ch,0a7h,073h,0a7h	; a6e6
-	defb 000h,000h,000h,047h	; a6ea
-	defb 04fh,04ch,04eh,045h	; a6ee
-	defb 042h,04fh,06eh,05dh	; a6f2
-	defb 070h,000h,06fh,088h	; a6f6
-	defb 073h,080h,05dh,066h	; a6fa
-	defb 03ch,089h,03eh,0ffh	; a6fe
-	defb 000h,076h,07bh,000h	; a702
-	defb 076h,07bh,03eh,04bh	; a706
-	defb 04fh,04eh,047h,065h	; a70a
-	defb 079h,087h,000h,065h	; a70e
-	defb 060h,03ch,066h,070h	; a712
-	defb 000h,061h,06ah,073h	; a716
-	defb 066h,03ch,089h,06fh	; a71a
-	defb 03eh,0ffh,000h,06dh	; a71e
-	defb 03ch,088h,068h,06ch	; a722
-	defb 070h,080h,083h,06eh	; a726
-	defb 03fh,04bh,04fh,04eh	; a72a
-	defb 047h,065h,079h,074h	; a72e
-	defb 000h,064h,073h,066h	; a732
-	defb 079h,073h,000h,06eh	; a736
-	defb 03ch,064h,060h,070h	; a73a
-	defb 000h,064h,07dh,081h	; a73e
-	defb 084h,06dh,000h,05fh	; a742
-	defb 083h,081h,066h,05ch	; a746
-	defb 03eh,0ffh,000h,04bh	; a74a
-	defb 04fh,04eh,047h,065h	; a74e
-	defb 079h,070h,000h,05fh	; a752
-	defb 05bh,05ch,067h,083h	; a756
-	defb 070h,074h,000h,06dh	; a75a
-	defb 03ch,088h,068h,06ch	; a75e
-	defb 087h,000h,06eh,061h	; a762
-	defb 05bh,060h,065h,072h	; a766
-	defb 074h,03ch,000h,06fh	; a76a
-	defb 083h,079h,05ch,03eh	; a76e
-	defb 0ffh,000h,069h,05dh	; a772
-	defb 063h,03ch,088h,073h	; a776
-	defb 066h,03ch,05ch,065h	; a77a
-	defb 088h,070h,061h,063h	; a77e
-	defb 074h,03ch,03fh,06fh	; a782
-	defb 070h,060h,086h,060h	; a786
-	defb 083h,060h,07dh,066h	; a78a
-	defb 084h,088h,069h,03ch	; a78e
-	defb 03eh,0fdh,061h,087h	; a792
-	defb 06ch,063h,06dh,000h	; a796
-	defb 05fh,05ch,061h,06fh	; a79a
-	defb 065h,084h,03eh,0ffh	; a79e
-	defb 0b2h,0a7h,0d9h,0a7h	; a7a2
-	defb 008h,0a8h,011h,0a8h	; a7a6
-	defb 01fh,0a8h,04bh,0a8h	; a7aa
-	defb 05fh,0a8h,000h,000h	; a7ae
-	defb 000h,05fh,084h,06ah	; a7b2
-	defb 06bh,074h,000h,07ah	; a7b6
-	defb 06ch,082h,08bh,05dh	; a7ba
-	defb 066h,089h,06ah,03ch	; a7be
-	defb 03eh,000h,000h,000h	; a7c2
-	defb 000h,076h,03ch,061h	; a7c6
-	defb 087h,000h,05dh,08ch	; a7ca
-	defb 06dh,07eh,08ch,06dh	; a7ce
-	defb 07dh,05ch,05ch,069h	; a7d2
-	defb 03ch,03eh,0ffh,001h	; a7d6
-	defb 042h,049h,047h,053h	; a7da
-	defb 050h,049h,044h,045h	; a7de
-	defb 052h,087h,06ah,05fh	; a7e2
-	defb 067h,000h,06fh,05ch	; a7e6
-	defb 076h,0fdh,032h,030h	; a7ea
-	defb 030h,000h,047h,04fh	; a7ee
-	defb 04ch,044h,000h,06ah	; a7f2
-	defb 03ch,03eh,0fdh,03ah	; a7f6
-	defb 000h,031h,000h,060h	; a7fa
-	defb 05dh,000h,000h,032h	; a7fe
-	defb 000h,060h,086h,06fh	; a802
-	defb 05ch,0ffh,000h,05bh	; a806
-	defb 082h,060h,03ch,06eh	; a80a
-	defb 080h,03eh,0ffh,000h	; a80e
-	defb 060h,072h,060h,03ch	; a812
-	defb 000h,06ah,082h,072h	; a816
-	defb 05eh,069h,03ch,03eh	; a81a
-	defb 0ffh,002h,047h,052h	; a81e
-	defb 049h,05ah,05ah,04ch	; a822
-	defb 059h,087h,000h,06ah	; a826
-	defb 05fh,067h,000h,05fh	; a82a
-	defb 073h,0fdh,033h,030h	; a82e
-	defb 030h,000h,047h,04fh	; a832
-	defb 04ch,044h,06ah,03ch	; a836
-	defb 03eh,0fdh,03ah,000h	; a83a
-	defb 031h,000h,060h,05dh	; a83e
-	defb 000h,000h,032h,000h	; a842
-	defb 060h,086h,06fh,05ch	; a846
-	defb 0ffh,000h,067h,079h	; a84a
-	defb 072h,05eh,000h,05fh	; a84e
-	defb 073h,074h,000h,05dh	; a852
-	defb 082h,061h,084h,06bh	; a856
-	defb 079h,08ch,06ah,03eh	; a85a
-	defb 0ffh,000h,05fh,073h	; a85e
-	defb 074h,000h,06bh,060h	; a862
-	defb 081h,060h,03ch,000h	; a866
-	defb 06fh,05ch,06eh,000h	; a86a
-	defb 06ch,060h,05ch,064h	; a86e
-	defb 06fh,068h,06fh,05ch	; a872
-	defb 069h,03ch,03eh,0ffh	; a876
-	defb 07eh,0a8h,000h,000h	; a87a
-	defb 000h,061h,06eh,05dh	; a87e
-	defb 066h,073h,000h,064h	; a882
-	defb 07dh,081h,084h,06dh	; a886
-	defb 05ch,083h,000h,06bh	; a88a
-	defb 060h,066h,06ch,073h	; a88e
-	defb 060h,061h,03ch,074h	; a892
-	defb 000h,042h,049h,047h	; a896
-	defb 053h,050h,049h,044h	; a89a
-	defb 045h,052h,060h,03ch	; a89e
-	defb 000h,073h,07ah,064h	; a8a2
-	defb 088h,06ah,03ch,069h	; a8a6
-	defb 05dh,066h,03ch,089h	; a8aa
-	defb 03eh,0ffh,0b4h,0a8h	; a8ae
-	defb 000h,000h,000h,04bh	; a8b2
-	defb 04fh,04eh,047h,065h	; a8b6
-	defb 079h,074h,000h,075h	; a8ba
-	defb 03ch,08ch,062h,03ch	; a8be
-	defb 06eh,03ch,082h,05bh	; a8c2
-	defb 088h,060h,03ch,06ah	; a8c6
-	defb 03ch,05ch,067h,061h	; a8ca
-	defb 066h,03ch,089h,03eh	; a8ce
-	defb 0ffh,0d7h,0a8h,000h	; a8d2
-	defb 000h,000h,047h,052h	; a8d6
-	defb 041h,053h,053h,04fh	; a8da
-	defb 047h,052h,045h,074h	; a8de
-	defb 000h,05ch,066h,073h	; a8e2
-	defb 06ah,079h,070h,000h	; a8e6
-	defb 080h,086h,05ch,069h	; a8ea
-	defb 03ch,03eh,0ffh,0fdh	; a8ee
-	defb 0a8h,022h,0a9h,048h	; a8f2
-	defb 0a9h,06ah,0a9h,081h	; a8f6
-	defb 0a9h,000h,000h,000h	; a8fa
-	defb 06ah,088h,063h,088h	; a8fe
-	defb 06ah,05ch,060h,03ch	; a902
-	defb 000h,05fh,061h,073h	; a906
-	defb 000h,066h,079h,070h	; a90a
-	defb 000h,05ch,08ch,06ah	; a90e
-	defb 061h,082h,000h,07dh	; a912
-	defb 06eh,03ch,08ch,06dh	; a916
-	defb 064h,088h,073h,066h	; a91a
-	defb 03ch,089h,03eh,0ffh	; a91e
-	defb 000h,052h,045h,044h	; a922
-	defb 000h,046h,08dh,04dh	; a926
-	defb 041h,04eh,070h,000h	; a92a
-	defb 062h,086h,084h,06ah	; a92e
-	defb 088h,060h,073h,05dh	; a932
-	defb 03eh,05fh,079h,05eh	; a936
-	defb 065h,088h,07dh,000h	; a93a
-	defb 061h,05ch,06ch,063h	; a93e
-	defb 06fh,065h,084h,07eh	; a942
-	defb 03eh,0ffh,000h,05bh	; a946
-	defb 088h,075h,06eh,081h	; a94a
-	defb 074h,000h,06fh,088h	; a94e
-	defb 06ah,03ch,060h,000h	; a952
-	defb 086h,060h,081h,088h	; a956
-	defb 000h,061h,060h,05ch	; a95a
-	defb 087h,000h,07dh,08ch	; a95e
-	defb 06dh,05ch,08ch,06eh	; a962
-	defb 08ch,06ah,03eh,0ffh	; a966
-	defb 003h,069h,05ch,06ch	; a96a
-	defb 074h,000h,066h,089h	; a96e
-	defb 077h,03ch,083h,061h	; a972
-	defb 060h,05ch,000h,066h	; a976
-	defb 03ch,089h,08ch,06ah	; a97a
-	defb 080h,03eh,0ffh,000h	; a97e
-	defb 069h,084h,066h,03ch	; a982
-	defb 089h,000h,069h,084h	; a986
-	defb 066h,03ch,089h,03eh	; a98a
-	defb 0ffh,093h,0a9h,000h	; a98e
-	defb 000h,004h,064h,084h	; a992
-	defb 087h,000h,063h,07bh	; a996
-	defb 081h,088h,070h,05ch	; a99a
-	defb 083h,000h,05fh,066h	; a99e
-	defb 03ch,05ch,065h,088h	; a9a2
-	defb 070h,000h,06eh,06eh	; a9a6
-	defb 03ch,063h,06dh,062h	; a9aa
-	defb 06ah,03ch,065h,05ch	; a9ae
-	defb 03eh,0fdh,03ah,000h	; a9b2
-	defb 031h,000h,05dh,063h	; a9b6
-	defb 06eh,083h,000h,000h	; a9ba
-	defb 032h,000h,064h,06eh	; a9be
-	defb 086h,083h,0ffh,0cdh	; a9c2
-	defb 0a9h,0dah,0a9h,00ch	; a9c6
-	defb 0aah,000h,000h,000h	; a9ca
-	defb 06fh,070h,060h,000h	; a9ce
-	defb 06ah,077h,03ch,083h	; a9d2
-	defb 060h,05ch,03bh,0ffh	; a9d6
-	defb 005h,03ah,031h,000h	; a9da
-	defb 078h,03ch,05ch,083h	; a9de
-	defb 06eh,03ch,076h,06fh	; a9e2
-	defb 07bh,066h,000h,035h	; a9e6
-	defb 030h,047h,04fh,04ch	; a9ea
-	defb 044h,000h,032h,000h	; a9ee
-	defb 05ch,073h,066h,066h	; a9f2
-	defb 073h,070h,062h,000h	; a9f6
-	defb 000h,000h,031h,030h	; a9fa
-	defb 030h,047h,04fh,04ch	; a9fe
-	defb 044h,000h,033h,000h	; aa02
-	defb 06ah,077h,03ch,06fh	; aa06
-	defb 05ch,0ffh,000h,05fh	; aa0a
-	defb 060h,072h,060h,03ch	; aa0e
-	defb 000h,06ah,082h,079h	; aa12
-	defb 068h,088h,03eh,0ffh	; aa16
-	defb 020h,0aah,00ch,0aah	; aa1a
-	defb 000h,000h,006h,06eh	; aa1e
-	defb 079h,08ch,06dh,000h	; aa22
-	defb 05ch,062h,060h,05ch	; aa26
-	defb 03bh,0fdh,031h,035h	; aa2a
-	defb 030h,000h,047h,04fh	; aa2e
-	defb 04ch,044h,06ah,03ch	; aa32
-	defb 080h,03eh,0fdh,03ah	; aa36
-	defb 000h,031h,000h,06eh	; aa3a
-	defb 079h,083h,000h,000h	; aa3e
-	defb 032h,000h,06eh,079h	; aa42
-	defb 081h,06fh,05ch,0ffh	; aa46
-	defb 050h,0aah,089h,0aah	; aa4a
-	defb 000h,000h,000h,04bh	; aa4e
-	defb 04fh,04eh,047h,065h	; aa52
-	defb 079h,073h,06dh,03ch	; aa56
-	defb 088h,068h,06ch,070h	; aa5a
-	defb 000h,080h,083h,06eh	; aa5e
-	defb 03fh,04bh,04fh,04eh	; aa62
-	defb 047h,065h,079h,073h	; aa66
-	defb 000h,06ch,07ch,074h	; aa6a
-	defb 000h,052h,045h,044h	; aa6e
-	defb 000h,046h,08dh,04dh	; aa72
-	defb 041h,04eh,000h,060h	; aa76
-	defb 03ch,000h,073h,07ah	; aa7a
-	defb 064h,088h,06ah,03ch	; aa7e
-	defb 069h,05dh,066h,03ch	; aa82
-	defb 089h,03eh,0ffh,000h	; aa86
-	defb 04bh,04fh,04eh,047h	; aa8a
-	defb 065h,079h,073h,000h	; aa8e
-	defb 06ch,07ch,070h,000h	; aa92
-	defb 06ch,05ch,06dh,074h	; aa96
-	defb 000h,000h,000h,000h	; aa9a
-	defb 069h,05dh,063h,03ch	; aa9e
-	defb 088h,073h,000h,06bh	; aaa2
-	defb 060h,070h,000h,05ch	; aaa6
-	defb 063h,074h,03ch,000h	; aaaa
-	defb 000h,000h,000h,000h	; aaae
-	defb 086h,060h,083h,066h	; aab2
-	defb 03ch,089h,085h,05dh	; aab6
-	defb 03eh,0ffh,0c0h,0aah	; aaba
-	defb 000h,000h,007h,086h	; aabe
-	defb 066h,074h,000h,061h	; aac2
-	defb 06eh,05dh,066h,066h	; aac6
-	defb 03ch,089h,03eh,05fh	; aaca
-	defb 079h,05eh,070h,000h	; aace
-	defb 06dh,07bh,065h,073h	; aad2
-	defb 000h,066h,03ch,08ah	; aad6
-	defb 07dh,088h,087h,000h	; aada
-	defb 065h,067h,03ch,063h	; aade
-	defb 080h,05dh,03eh,0ffh	; aae2
-	defb 0eah,0aah,000h,000h	; aae6
-	defb 000h,071h,079h,06bh	; aaea
-	defb 070h,000h,074h,05ch	; aaee
-	defb 083h,070h,074h,000h	; aaf2
-	defb 07ah,067h,03ch,063h	; aaf6
-	defb 03ch,06ah,060h,03ch	; aafa
-	defb 000h,075h,06ch,080h	; aafe
-	defb 05dh,066h,03ch,089h	; ab02
-	defb 03eh,0ffh,00ch,0abh	; ab06
-	defb 000h,000h,000h,07ah	; ab0a
-	defb 067h,03ch,063h,03ch	; ab0e
-	defb 06ah,06ch,03ch,062h	; ab12
-	defb 082h,073h,000h,07ch	; ab16
-	defb 05ch,066h,03ch,088h	; ab1a
-	defb 074h,000h,07dh,082h	; ab1e
-	defb 073h,000h,06fh,060h	; ab22
-	defb 070h,067h,088h,06dh	; ab26
-	defb 03ch,05ch,083h,03eh	; ab2a
-	defb 0ffh,033h,0abh,000h	; ab2e
-	defb 000h,000h,06dh,07bh	; ab32
-	defb 065h,073h,000h,066h	; ab36
-	defb 03ch,08ah,07dh,088h	; ab3a
-	defb 06dh,03ch,000h,05ch	; ab3e
-	defb 086h,087h,000h,063h	; ab42
-	defb 068h,03eh,0ffh,04dh	; ab46
-	defb 0abh,000h,000h,000h	; ab4a
-	defb 046h,049h,052h,045h	; ab4e
-	defb 054h,04fh,054h,045h	; ab52
-	defb 04dh,074h,000h,076h	; ab56
-	defb 03ch,040h,07ch,081h	; ab5a
-	defb 088h,06dh,03ch,000h	; ab5e
-	defb 06ah,05fh,068h,03eh	; ab62
-	defb 0ffh,06bh,0abh,000h	; ab66
-	defb 000h,000h,043h,04ch	; ab6a
-	defb 055h,042h,04dh,041h	; ab6e
-	defb 04eh,074h,000h,052h	; ab72
-	defb 04fh,044h,06dh,03ch	; ab76
-	defb 000h,06ah,05fh,068h	; ab7a
-	defb 03eh,0ffh,088h,0abh	; ab7e
-	defb 08ah,0abh,097h,0abh	; ab82
-	defb 000h,000h,008h,0ffh	; ab86
-	defb 000h,061h,05ch,000h	; ab8a
-	defb 061h,05ch,000h,062h	; ab8e
-	defb 05dh,000h,061h,05ch	; ab92
-	defb 0ffh,000h,05fh,05ch	; ab96
-	defb 081h,073h,000h,078h	; ab9a
-	defb 03ch,067h,074h,000h	; ab9e
-	defb 075h,03ch,08ch,062h	; aba2
-	defb 03ch,06eh,03ch,082h	; aba6
-	defb 05bh,088h,087h,000h	; abaa
-	defb 07dh,08ch,06dh,05ch	; abae
-	defb 083h,080h,03eh,0ffh	; abb2
-	defb 0beh,0abh,08ah,0abh	; abb6
-	defb 0c0h,0abh,000h,000h	; abba
-	defb 01ch,0ffh,009h,075h	; abbe
-	defb 03ch,08bh,05dh,061h	; abc2
-	defb 087h,000h,06fh,05fh	; abc6
-	defb 066h,06dh,062h,084h	; abca
-	defb 06dh,000h,05bh,082h	; abce
-	defb 060h,03ch,06eh,05dh	; abd2
-	defb 03eh,05fh,084h,05ch	; abd6
-	defb 070h,000h,075h,03ch	; abda
-	defb 08ch,062h,03ch,06eh	; abde
-	defb 03ch,082h,05bh,088h	; abe2
-	defb 087h,000h,05bh,063h	; abe6
-	defb 03ch,080h,05dh,03eh	; abea
-	defb 0ffh,003h,0ach,08ah	; abee
-	defb 0abh,005h,0ach,01fh	; abf2
-	defb 0ach,045h,0ach,061h	; abf6
-	defb 0ach,06dh,0ach,07ch	; abfa
-	defb 0ach,085h,0ach,000h	; abfe
-	defb 000h,00ah,0ffh,000h	; ac02
-	defb 078h,03ch,067h,060h	; ac06
-	defb 03ch,000h,075h,03ch	; ac0a
-	defb 08bh,05dh,061h,070h	; ac0e
-	defb 000h,060h,060h,08ch	; ac12
-	defb 06dh,05ch,083h,073h	; ac16
-	defb 066h,03ch,089h,03eh	; ac1a
-	defb 0ffh,000h,05fh,079h	; ac1e
-	defb 05eh,065h,088h,073h	; ac22
-	defb 000h,07eh,062h,069h	; ac26
-	defb 05dh,087h,000h,035h	; ac2a
-	defb 06ch,062h,084h,06ah	; ac2e
-	defb 081h,000h,078h,03ch	; ac32
-	defb 067h,073h,000h,075h	; ac36
-	defb 03ch,08bh,05dh,061h	; ac3a
-	defb 060h,03ch,06fh,05fh	; ac3e
-	defb 083h,03eh,0ffh,01dh	; ac42
-	defb 03ah,000h,031h,000h	; ac46
-	defb 07eh,062h,069h,05dh	; ac4a
-	defb 087h,000h,035h,06ch	; ac4e
-	defb 000h,086h,06ah,067h	; ac52
-	defb 0fdh,000h,000h,032h	; ac56
-	defb 000h,086h,06ah,065h	; ac5a
-	defb 06fh,05ch,0ffh,000h	; ac5e
-	defb 065h,03ch,088h,072h	; ac62
-	defb 088h,066h,03ch,089h	; ac66
-	defb 06fh,03eh,0ffh,000h	; ac6a
-	defb 07eh,062h,069h,05dh	; ac6e
-	defb 060h,03ch,000h,06ah	; ac72
-	defb 082h,079h,068h,088h	; ac76
-	defb 03eh,0ffh,000h,05bh	; ac7a
-	defb 082h,060h,03ch,06eh	; ac7e
-	defb 05dh,03eh,0ffh,000h	; ac82
-	defb 05fh,079h,05eh,065h	; ac86
-	defb 088h,07dh,000h,075h	; ac8a
-	defb 03ch,08bh,05dh,061h	; ac8e
-	defb 070h,000h,060h,060h	; ac92
-	defb 08ch,06dh,05ch,083h	; ac96
-	defb 080h,05dh,066h,03ch	; ac9a
-	defb 089h,06fh,03eh,0ffh	; ac9e
-	defb 0a8h,0ach,00ch,0aah	; aca2
-	defb 000h,000h,00bh,078h	; aca6
-	defb 088h,087h,000h,060h	; acaa
-	defb 08ch,06dh,05ch,062h	; acae
-	defb 060h,05ch,03bh,0fdh	; acb2
-	defb 032h,030h,030h,000h	; acb6
-	defb 047h,04fh,04ch,044h	; acba
-	defb 06ah,03ch,03eh,0fdh	; acbe
-	defb 03ah,000h,031h,000h	; acc2
-	defb 060h,05dh,000h,000h	; acc6
-	defb 000h,000h,032h,000h	; acca
-	defb 060h,086h,06fh,05ch	; acce
-	defb 0ffh,0ddh,0ach,0feh	; acd2
-	defb 0ach,00ch,0aah,015h	; acd6
-	defb 0adh,000h,000h,000h	; acda
-	defb 07ah,067h,03ch,063h	; acde
-	defb 03ch,06ah,087h,000h	; ace2
-	defb 06ch,062h,08ch,06dh	; ace6
-	defb 07eh,085h,05dh,060h	; acea
-	defb 03bh,0fdh,031h,035h	; acee
-	defb 030h,000h,047h,04fh	; acf2
-	defb 04ch,044h,06dh,03ch	; acf6
-	defb 05ch,05ch,080h,0ffh	; acfa
-	defb 00ch,03ah,000h,031h	; acfe
-	defb 000h,06ch,062h,08ch	; ad02
-	defb 06dh,07dh,081h,05dh	; ad06
-	defb 0fdh,000h,000h,032h	; ad0a
-	defb 000h,06ch,062h,081h	; ad0e
-	defb 06fh,05ch,0ffh,000h	; ad12
-	defb 07ah,067h,03ch,063h	; ad16
-	defb 03ch,06ah,087h,000h	; ad1a
-	defb 06ch,062h,083h,070h	; ad1e
-	defb 074h,000h,065h,03ch	; ad22
-	defb 05ch,082h,08bh,05dh	; ad26
-	defb 000h,060h,03ch,000h	; ad2a
-	defb 075h,06ch,080h,05dh	; ad2e
-	defb 06ah,03ch,03eh,0ffh	; ad32
-	defb 042h,0adh,08ah,0abh	; ad36
-	defb 044h,0adh,05ah,0adh	; ad3a
-	defb 070h,0adh,000h,000h	; ad3e
-	defb 00dh,0ffh,000h,070h	; ad42
-	defb 062h,087h,000h,062h	; ad46
-	defb 084h,06ah,081h,000h	; ad4a
-	defb 06eh,05fh,066h,06dh	; ad4e
-	defb 000h,05bh,063h,03ch	; ad52
-	defb 083h,080h,03eh,0ffh	; ad56
-	defb 01eh,03ah,031h,000h	; ad5a
-	defb 070h,062h,087h,000h	; ad5e
-	defb 05bh,063h,03ch,083h	; ad62
-	defb 03eh,000h,032h,000h	; ad66
-	defb 05bh,063h,03ch,06fh	; ad6a
-	defb 05ch,0ffh,000h,070h	; ad6e
-	defb 062h,060h,03ch,000h	; ad72
-	defb 05bh,082h,079h,068h	; ad76
-	defb 088h,03eh,0ffh,081h	; ad7a
-	defb 0adh,000h,000h,000h	; ad7e
-	defb 078h,03ch,067h,074h	; ad82
-	defb 000h,075h,03ch,08bh	; ad86
-	defb 05dh,061h,06ah,03ch	; ad8a
-	defb 03eh,075h,03ch,08bh	; ad8e
-	defb 05dh,061h,087h,000h	; ad92
-	defb 06fh,05fh,067h,070h	; ad96
-	defb 074h,000h,07eh,062h	; ad9a
-	defb 069h,05dh,060h,03ch	; ad9e
-	defb 000h,06ah,062h,065h	; ada2
-	defb 088h,000h,075h,06ch	; ada6
-	defb 080h,05dh,06ah,03ch	; adaa
-	defb 03eh,0ffh,0b4h,0adh	; adae
-	defb 000h,000h,00eh,05bh	; adb2
-	defb 06fh,06ah,074h,000h	; adb6
-	defb 07bh,066h,070h,000h	; adba
-	defb 060h,079h,084h,079h	; adbe
-	defb 066h,06ah,03eh,0ffh	; adc2
-	defb 0d2h,0adh,08ah,0abh	; adc6
-	defb 0d4h,0adh,0e6h,0adh	; adca
-	defb 070h,0adh,000h,000h	; adce
-	defb 00fh,0ffh,000h,070h	; add2
-	defb 062h,087h,000h,062h	; add6
-	defb 084h,06ah,081h,000h	; adda
-	defb 06eh,07ch,06dh,07eh	; adde
-	defb 083h,080h,03eh,0ffh	; ade2
-	defb 01fh,03ah,031h,000h	; ade6
-	defb 070h,062h,087h,000h	; adea
-	defb 05bh,063h,03ch,083h	; adee
-	defb 03eh,000h,032h,000h	; adf2
-	defb 05bh,063h,03ch,06fh	; adf6
-	defb 05ch,0ffh,008h,0aeh	; adfa
-	defb 08ah,0abh,00ah,0aeh	; adfe
-	defb 020h,0aeh,070h,0adh	; ae02
-	defb 000h,000h,010h,0ffh	; ae06
-	defb 000h,070h,062h,087h	; ae0a
-	defb 000h,062h,084h,06ah	; ae0e
-	defb 081h,000h,060h,061h	; ae12
-	defb 03ch,087h,000h,05bh	; ae16
-	defb 063h,03ch,083h,080h	; ae1a
-	defb 03eh,0ffh,020h,03ah	; ae1e
-	defb 031h,000h,070h,062h	; ae22
-	defb 087h,000h,05bh,063h	; ae26
-	defb 03ch,083h,03eh,000h	; ae2a
-	defb 032h,000h,05bh,063h	; ae2e
-	defb 03ch,06fh,05ch,0ffh	; ae32
-	defb 03eh,0aeh,050h,0aeh	; ae36
-	defb 00ch,0aah,000h,000h	; ae3a
-	defb 000h,05ch,081h,08ch	; ae3e
-	defb 066h,089h,05ch,03eh	; ae42
-	defb 064h,03ch,06bh,08ah	; ae46
-	defb 05dh,07dh,088h,074h	; ae4a
-	defb 03bh,0ffh,011h,03ah	; ae4e
-	defb 031h,000h,07eh,079h	; ae52
-	defb 075h,083h,073h,000h	; ae56
-	defb 065h,066h,07ah,000h	; ae5a
-	defb 035h,030h,000h,047h	; ae5e
-	defb 04fh,04ch,044h,000h	; ae62
-	defb 032h,000h,078h,03ch	; ae66
-	defb 05ch,083h,06eh,03ch	; ae6a
-	defb 07eh,079h,07ah,07ah	; ae6e
-	defb 067h,03ch,0fdh,000h	; ae72
-	defb 000h,000h,000h,000h	; ae76
-	defb 000h,000h,000h,000h	; ae7a
-	defb 000h,000h,000h,031h	; ae7e
-	defb 030h,030h,000h,047h	; ae82
-	defb 04fh,04ch,044h,0ffh	; ae86
-	defb 090h,0aeh,0ach,0aeh	; ae8a
-	defb 000h,000h,000h,086h	; ae8e
-	defb 066h,081h,073h,000h	; ae92
-	defb 066h,08ah,05dh,06bh	; ae96
-	defb 08bh,05dh,087h,000h	; ae9a
-	defb 06ah,067h,063h,06ah	; ae9e
-	defb 03ch,066h,06dh,062h	; aea2
-	defb 06ah,03ch,065h,084h	; aea6
-	defb 03eh,0ffh,000h,066h	; aeaa
-	defb 08ah,06bh,08bh,05dh	; aeae
-	defb 074h,000h,06eh,03ch	; aeb2
-	defb 085h,073h,000h,060h	; aeb6
-	defb 07ch,088h,070h,000h	; aeba
-	defb 06ch,084h,065h,081h	; aebe
-	defb 084h,06ah,088h,066h	; aec2
-	defb 03ch,089h,03eh,0ffh	; aec6
-	defb 0ceh,0aeh,000h,000h	; aeca
-	defb 000h,054h,048h,045h	; aece
-	defb 000h,04eh,041h,053h	; aed2
-	defb 054h,059h,074h,000h	; aed6
-	defb 079h,060h,076h,03dh	; aeda
-	defb 081h,073h,000h,066h	; aede
-	defb 03ch,08ah,07dh,088h	; aee2
-	defb 06dh,03ch,000h,06ah	; aee6
-	defb 05fh,068h,03eh,0ffh	; aeea
-	defb 0f6h,0aeh,011h,0afh	; aeee
-	defb 02dh,0afh,000h,000h	; aef2
-	defb 000h,07ah,067h,03ch	; aef6
-	defb 063h,03ch,06ah,087h	; aefa
-	defb 000h,062h,084h,084h	; aefe
-	defb 074h,03ch,000h,06eh	; af02
-	defb 07ch,06dh,07eh,08ch	; af06
-	defb 06dh,07dh,05ch,05ch	; af0a
-	defb 080h,03eh,0ffh,012h	; af0e
-	defb 03ah,000h,031h,000h	; af12
-	defb 07ah,067h,03ch,063h	; af16
-	defb 03ch,06ah,087h,000h	; af1a
-	defb 05bh,063h,03ch,083h	; af1e
-	defb 0fdh,000h,000h,032h	; af22
-	defb 000h,05bh,063h,03ch	; af26
-	defb 06fh,05ch,0ffh,000h	; af2a
-	defb 07ah,067h,03ch,063h	; af2e
-	defb 03ch,06ah,060h,03ch	; af32
-	defb 000h,05bh,082h,079h	; af36
-	defb 068h,088h,03eh,0ffh	; af3a
-	defb 042h,0afh,000h,000h	; af3e
-	defb 013h,05fh,05fh,03fh	; af42
-	defb 04bh,04fh,04eh,047h	; af46
-	defb 065h,079h,073h,000h	; af4a
-	defb 05fh,06bh,060h,081h	; af4e
-	defb 073h,075h,06eh,06ch	; af52
-	defb 000h,04bh,04fh,04eh	; af56
-	defb 047h,065h,079h,073h	; af5a
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xaf5e..0xb500  (1442 bytes)
-DATA_AF5E:
-	defb 000h,061h,074h,03ch,087h,000h,065h,067h,03ch,063h,080h,05dh,03eh,0ffh,000h,000h	; af5e  .at<..eg<c.]>...
-	defb 072h,0afh,000h,000h,000h,04dh,055h,044h,041h,052h,04dh,04fh,052h,074h,000h,081h	; af6e  r....MUDARMORt..
-	defb 07ch,081h,073h,000h,066h,03ch,08ah,05eh,061h,06dh,03ch,000h,06ah,05fh,068h,03eh	; af7e  |.s.f<.^am<.j_h>
-	defb 0ffh,093h,0afh,000h,000h,000h,054h,057h,049h,04eh,04dh,049h,052h,045h,053h,074h	; af8e  ......TWINMIRESt
-	defb 000h,05bh,060h,05ch,05ch,086h,073h,000h,074h,03ch,088h,070h,088h,06fh,082h,03eh	; af9e  .[`\\.s.t<.p.o.>
-	defb 0ffh,0b5h,0afh,0d0h,0afh,000h,000h,000h,064h,073h,065h,061h,070h,000h,063h,07bh	; afae  ........dseap.c{
-	defb 081h,088h,06eh,000h,080h,074h,03ch,084h,083h,000h,066h,079h,060h,03ch,05bh,083h	; afbe  ..n..t<...fy`<[.
-	defb 03eh,0ffh,000h,063h,07bh,081h,088h,074h,000h,04bh,04fh,04eh,047h,065h,079h,073h	; afce  >..c{..t.KONGeys
-	defb 000h,06dh,03ch,088h,068h,06ch,000h,060h,03ch,000h,05ch,061h,06ch,03ch,05ch,06dh	; afde  .m<.hl.`<.\al<\m
-	defb 05ch,083h,000h,066h,079h,066h,03ch,089h,03eh,0ffh,000h,0b0h,018h,0b0h,00ch,0aah	; afee  \..fyf<.>.......
-	defb 000h,000h,000h,05dh,07ah,073h,05ch,05eh,070h,000h,080h,05dh,064h,069h,03eh,0fdh	; affe  ...]zs\^p..]di>.
-	defb 064h,03ch,06bh,08ah,05dh,07dh,088h,074h,03bh,0ffh,015h,03ah,031h,000h,06fh,07ch	; b00e  d<k.]}.t;..:1.o|
-	defb 062h,066h,03ch,073h,000h,066h,05fh,060h,081h,031h,030h,047h,04fh,04ch,044h,000h	; b01e  bf<s.f_`.10GOLD.
-	defb 032h,000h,076h,06fh,07bh,066h,073h,000h,07ah,069h,06ch,03ch,063h,035h,030h,047h	; b02e  2.vo{fs.zil<c50G
-	defb 04fh,04ch,044h,000h,033h,000h,06ah,077h,03ch,06fh,05ch,0ffh,054h,0b0h,056h,0b0h	; b03e  OLD.3.jw<o\.T.V.
-	defb 078h,0b0h,09eh,0b0h,000h,000h,016h,0ffh,000h,086h,066h,074h,000h,07bh,067h,064h	; b04e  x.........ft.{gd
-	defb 060h,081h,073h,000h,06dh,060h,03ch,07ah,087h,000h,067h,03ch,08ch,06eh,000h,079h	; b05e  `.s.m`<z..g<.n.y
-	defb 08ch,06dh,05fh,083h,088h,066h,03ch,089h,03eh,0ffh,000h,086h,065h,03ch,086h,065h	; b06e  .m_..f<.>...e<.e
-	defb 03ch,000h,06dh,060h,03ch,07ah,087h,000h,06eh,06eh,03ch,063h,06dh,062h,084h,06dh	; b07e  <.m`<z..nn<cmb.m
-	defb 000h,05bh,082h,060h,03ch,06eh,05dh,064h,03ch,065h,03ch,05ch,079h,067h,03eh,0ffh	; b08e  .[.`<n]d<e<\yg>.
+; DATOS sin identificar  0xa5fe..0xa5ff  (1 bytes)
+DATA_A5FE:
+	defb 001h	; a5fe
+
+; ----------------------------------------------------------------------
+; DATOS conversacion_de_cada_pantalla: 0x71 bytes, uno por pantalla (1-0x71):
+;   la conversacion que empieza al pararse alli (0 = nadie); p01:7E60 con
+;   0xA5FE + pantalla; lo leen p01:7E60 (113 bytes)
+;   0xa5ff..0xa670  (113 bytes)
+DATA_conversacion_de_cada_pantalla:
+	defb 005h,000h,000h,002h,000h,000h,000h,000h,000h,003h,000h,004h,063h,012h,000h,00eh	; a5ff  ............c...
+	defb 006h,000h,000h,063h,00ah,000h,000h,00bh,000h,010h,000h,000h,000h,000h,000h,00fh	; a60f  ...c............
+	defb 000h,000h,063h,000h,022h,000h,063h,020h,000h,023h,000h,019h,063h,063h,000h,000h	; a61f  ..c.".c .#..cc..
+	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,029h,063h,000h,000h	; a62f  ............)c..
+	defb 000h,000h,026h,000h,000h,027h,000h,000h,000h,028h,000h,000h,000h,000h,000h,02ah	; a63f  ..&..'...(.....*
+	defb 02bh,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,02ch	; a64f  +..............,
+	defb 000h,02dh,000h,000h,000h,02eh,000h,02fh,000h,000h,000h,000h,000h,000h,031h,032h	; a65f  .-...../......12
+	defb 033h	; a66f
+
+; ----------------------------------------------------------------------
+; DATOS conversaciones: 56 palabras: la lista de lineas de cada conversacion
+;   (desde la 1); p02:80B3 con 0xA66E + 2*conversacion; lo leen p02:80B6 (112
+;   bytes)
+;   0xa670..0xa6e0  (112 bytes)
+DATA_conversaciones:
+	defb 0e0h,0a6h	; a670
+	defb 0a2h,0a7h	; a672
+	defb 07ah,0a8h	; a674
+	defb 0b0h,0a8h	; a676
+	defb 0d3h,0a8h	; a678
+	defb 0f1h,0a8h	; a67a
+	defb 08fh,0a9h	; a67c
+	defb 0c5h,0a9h	; a67e
+	defb 01ah,0aah	; a680
+	defb 04ah,0aah	; a682
+	defb 0bch,0aah	; a684
+	defb 0e6h,0aah	; a686
+	defb 0e6h,0aah	; a688
+	defb 008h,0abh	; a68a
+	defb 02fh,0abh	; a68c
+	defb 049h,0abh	; a68e
+	defb 067h,0abh	; a690
+	defb 080h,0abh	; a692
+	defb 0b6h,0abh	; a694
+	defb 0efh,0abh	; a696
+	defb 0a2h,0ach	; a698
+	defb 0d3h,0ach	; a69a
+	defb 036h,0adh	; a69c
+	defb 07dh,0adh	; a69e
+	defb 0b0h,0adh	; a6a0
+	defb 0c6h,0adh	; a6a2
+	defb 0fch,0adh	; a6a4
+	defb 036h,0aeh	; a6a6
+	defb 08ah,0aeh	; a6a8
+	defb 0cah,0aeh	; a6aa
+	defb 0eeh,0aeh	; a6ac
+	defb 03eh,0afh	; a6ae
+	defb 06ch,0afh	; a6b0
+	defb 06eh,0afh	; a6b2
+	defb 08fh,0afh	; a6b4
+	defb 0afh,0afh	; a6b6
+	defb 0f8h,0afh	; a6b8
+	defb 04ah,0b0h	; a6ba
+	defb 0bah,0b0h	; a6bc
+	defb 0f2h,0b0h	; a6be
+	defb 01fh,0b1h	; a6c0
+	defb 048h,0b1h	; a6c2
+	defb 076h,0b1h	; a6c4
+	defb 0d0h,0b1h	; a6c6
+	defb 0f9h,0b1h	; a6c8
+	defb 066h,0b2h	; a6ca
+	defb 099h,0b2h	; a6cc
+	defb 0e5h,0b2h	; a6ce
+	defb 00ah,0b3h	; a6d0
+	defb 04bh,0b3h	; a6d2
+	defb 067h,0b3h	; a6d4
+	defb 099h,0b3h	; a6d6
+	defb 0c0h,0b3h	; a6d8
+	defb 0d5h,0b3h	; a6da
+	defb 0f8h,0b3h	; a6dc
+	defb 06eh,0b4h	; a6de
+
+; ----------------------------------------------------------------------
+; DATOS lineas_01: las 5 lineas de la conversacion 0x01 y un 0 de fin; lo leen
+;   p02:80BC (12 bytes)
+;   0xa6e0..0xa6ec  (12 bytes)
+DATA_lineas_01:
+	defb 0ech,0a6h	; a6e0
+	defb 002h,0a7h	; a6e2
+	defb 020h,0a7h	; a6e4
+	defb 04ch,0a7h	; a6e6
+	defb 073h,0a7h	; a6e8
+	defb 000h,000h	; a6ea
+
+; ----------------------------------------------------------------------
+; DATOS linea_A6EC: accion 0x00 y texto hasta 0xFF (conversacion 0x01); lo
+;   leen p02:80CA (22 bytes)
+;   0xa6ec..0xa702  (22 bytes)
+DATA_linea_A6EC:
+	defb 000h,047h,04fh,04ch,04eh,045h,042h,04fh,06eh,05dh,070h,000h,06fh,088h,073h,080h	; a6ec  .GOLNEBOn]p.o.s.
+	defb 05dh,066h,03ch,089h,03eh,0ffh	; a6fc
+
+; ----------------------------------------------------------------------
+; DATOS linea_A702: accion 0x00 y texto hasta 0xFF (conversacion 0x01); lo
+;   leen p02:80CA (30 bytes)
+;   0xa702..0xa720  (30 bytes)
+DATA_linea_A702:
+	defb 000h,076h,07bh,000h,076h,07bh,03eh,04bh,04fh,04eh,047h,065h,079h,087h,000h,065h	; a702  .v{.v{>KONGey..e
+	defb 060h,03ch,066h,070h,000h,061h,06ah,073h,066h,03ch,089h,06fh,03eh,0ffh	; a712  `<fp.ajsf<.o>.
+
+; ----------------------------------------------------------------------
+; DATOS linea_A720: accion 0x00 y texto hasta 0xFF (conversacion 0x01); lo
+;   leen p02:80CA (44 bytes)
+;   0xa720..0xa74c  (44 bytes)
+DATA_linea_A720:
+	defb 000h,06dh,03ch,088h,068h,06ch,070h,080h,083h,06eh,03fh,04bh,04fh,04eh,047h,065h	; a720  .m<.hlp..n?KONGe
+	defb 079h,074h,000h,064h,073h,066h,079h,073h,000h,06eh,03ch,064h,060h,070h,000h,064h	; a730  yt.dsfys.n<d`p.d
+	defb 07dh,081h,084h,06dh,000h,05fh,083h,081h,066h,05ch,03eh,0ffh	; a740  }..m._..f\>.
+
+; ----------------------------------------------------------------------
+; DATOS linea_A74C: accion 0x00 y texto hasta 0xFF (conversacion 0x01); lo
+;   leen p02:80CA (39 bytes)
+;   0xa74c..0xa773  (39 bytes)
+DATA_linea_A74C:
+	defb 000h,04bh,04fh,04eh,047h,065h,079h,070h,000h,05fh,05bh,05ch,067h,083h,070h,074h	; a74c  .KONGeyp._[\g.pt
+	defb 000h,06dh,03ch,088h,068h,06ch,087h,000h,06eh,061h,05bh,060h,065h,072h,074h,03ch	; a75c  .m<.hl..na[`ert<
+	defb 000h,06fh,083h,079h,05ch,03eh,0ffh	; a76c
+
+; ----------------------------------------------------------------------
+; DATOS linea_A773: accion 0x00 y texto hasta 0xFF (conversacion 0x01); lo
+;   leen p02:80CA (47 bytes)
+;   0xa773..0xa7a2  (47 bytes)
+DATA_linea_A773:
+	defb 000h,069h,05dh,063h,03ch,088h,073h,066h,03ch,05ch,065h,088h,070h,061h,063h,074h	; a773  .i]c<.sf<\e.pact
+	defb 03ch,03fh,06fh,070h,060h,086h,060h,083h,060h,07dh,066h,084h,088h,069h,03ch,03eh	; a783  <?op`.`.`}f..i<>
+	defb 0fdh,061h,087h,06ch,063h,06dh,000h,05fh,05ch,061h,06fh,065h,084h,03eh,0ffh	; a793  .a.lcm._\aoe.>.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_02: las 7 lineas de la conversacion 0x02 y un 0 de fin; lo leen
+;   p02:80BC (16 bytes)
+;   0xa7a2..0xa7b2  (16 bytes)
+DATA_lineas_02:
+	defb 0b2h,0a7h	; a7a2
+	defb 0d9h,0a7h	; a7a4
+	defb 008h,0a8h	; a7a6
+	defb 011h,0a8h	; a7a8
+	defb 01fh,0a8h	; a7aa
+	defb 04bh,0a8h	; a7ac
+	defb 05fh,0a8h	; a7ae
+	defb 000h,000h	; a7b0
+
+; ----------------------------------------------------------------------
+; DATOS linea_A7B2: accion 0x00 y texto hasta 0xFF (conversacion 0x02); lo
+;   leen p02:80CA (39 bytes)
+;   0xa7b2..0xa7d9  (39 bytes)
+DATA_linea_A7B2:
+	defb 000h,05fh,084h,06ah,06bh,074h,000h,07ah,06ch,082h,08bh,05dh,066h,089h,06ah,03ch	; a7b2  ._.jkt.zl..]f.j<
+	defb 03eh,000h,000h,000h,000h,076h,03ch,061h,087h,000h,05dh,08ch,06dh,07eh,08ch,06dh	; a7c2  >....v<a..].m~.m
+	defb 07dh,05ch,05ch,069h,03ch,03eh,0ffh	; a7d2
+
+; ----------------------------------------------------------------------
+; DATOS linea_A7D9: accion 0x01 y texto hasta 0xFF (conversacion 0x02); lo
+;   leen p02:80CA (47 bytes)
+;   0xa7d9..0xa808  (47 bytes)
+DATA_linea_A7D9:
+	defb 001h,042h,049h,047h,053h,050h,049h,044h,045h,052h,087h,06ah,05fh,067h,000h,06fh	; a7d9  .BIGSPIDER.j_g.o
+	defb 05ch,076h,0fdh,032h,030h,030h,000h,047h,04fh,04ch,044h,000h,06ah,03ch,03eh,0fdh	; a7e9  \v.200.GOLD.j<>.
+	defb 03ah,000h,031h,000h,060h,05dh,000h,000h,032h,000h,060h,086h,06fh,05ch,0ffh	; a7f9  :.1.`]..2.`.o\.
+
+; ----------------------------------------------------------------------
+; DATOS linea_A808: accion 0x00 y texto hasta 0xFF (conversacion 0x02); lo
+;   leen p02:80CA (9 bytes)
+;   0xa808..0xa811  (9 bytes)
+DATA_linea_A808:
+	defb 000h,05bh,082h,060h,03ch,06eh,080h,03eh,0ffh	; a808  .[.`<n.>.
+
+; ----------------------------------------------------------------------
+; DATOS linea_A811: accion 0x00 y texto hasta 0xFF (conversacion 0x02); lo
+;   leen p02:80CA (14 bytes)
+;   0xa811..0xa81f  (14 bytes)
+DATA_linea_A811:
+	defb 000h,060h,072h,060h,03ch,000h,06ah,082h,072h,05eh,069h,03ch,03eh,0ffh	; a811  .`r`<.j.r^i<>.
+
+; ----------------------------------------------------------------------
+; DATOS linea_A81F: accion 0x02 y texto hasta 0xFF (conversacion 0x02); lo
+;   leen p02:80CA (44 bytes)
+;   0xa81f..0xa84b  (44 bytes)
+DATA_linea_A81F:
+	defb 002h,047h,052h,049h,05ah,05ah,04ch,059h,087h,000h,06ah,05fh,067h,000h,05fh,073h	; a81f  .GRIZZLY..j_g._s
+	defb 0fdh,033h,030h,030h,000h,047h,04fh,04ch,044h,06ah,03ch,03eh,0fdh,03ah,000h,031h	; a82f  .300.GOLDj<>.:.1
+	defb 000h,060h,05dh,000h,000h,032h,000h,060h,086h,06fh,05ch,0ffh	; a83f  .`]..2.`.o\.
+
+; ----------------------------------------------------------------------
+; DATOS linea_A84B: accion 0x00 y texto hasta 0xFF (conversacion 0x02); lo
+;   leen p02:80CA (20 bytes)
+;   0xa84b..0xa85f  (20 bytes)
+DATA_linea_A84B:
+	defb 000h,067h,079h,072h,05eh,000h,05fh,073h,074h,000h,05dh,082h,061h,084h,06bh,079h	; a84b  .gyr^._st.].a.ky
+	defb 08ch,06ah,03eh,0ffh	; a85b
+
+; ----------------------------------------------------------------------
+; DATOS linea_A85F: accion 0x00 y texto hasta 0xFF (conversacion 0x02); lo
+;   leen p02:80CA (27 bytes)
+;   0xa85f..0xa87a  (27 bytes)
+DATA_linea_A85F:
+	defb 000h,05fh,073h,074h,000h,06bh,060h,081h,060h,03ch,000h,06fh,05ch,06eh,000h,06ch	; a85f  ._st.k`.`<.o\n.l
+	defb 060h,05ch,064h,06fh,068h,06fh,05ch,069h,03ch,03eh,0ffh	; a86f  `\doho\i<>.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_03: las 1 lineas de la conversacion 0x03 y un 0 de fin; lo leen
+;   p02:80BC (4 bytes)
+;   0xa87a..0xa87e  (4 bytes)
+DATA_lineas_03:
+	defb 07eh,0a8h	; a87a
+	defb 000h,000h	; a87c
+
+; ----------------------------------------------------------------------
+; DATOS linea_A87E: accion 0x00 y texto hasta 0xFF (conversacion 0x03); lo
+;   leen p02:80CA (50 bytes)
+;   0xa87e..0xa8b0  (50 bytes)
+DATA_linea_A87E:
+	defb 000h,061h,06eh,05dh,066h,073h,000h,064h,07dh,081h,084h,06dh,05ch,083h,000h,06bh	; a87e  .an]fs.d}..m\..k
+	defb 060h,066h,06ch,073h,060h,061h,03ch,074h,000h,042h,049h,047h,053h,050h,049h,044h	; a88e  `fls`a<t.BIGSPID
+	defb 045h,052h,060h,03ch,000h,073h,07ah,064h,088h,06ah,03ch,069h,05dh,066h,03ch,089h	; a89e  ER`<.szd.j<i]f<.
+	defb 03eh,0ffh	; a8ae
+
+; ----------------------------------------------------------------------
+; DATOS lineas_04: las 1 lineas de la conversacion 0x04 y un 0 de fin; lo leen
+;   p02:80BC (4 bytes)
+;   0xa8b0..0xa8b4  (4 bytes)
+DATA_lineas_04:
+	defb 0b4h,0a8h	; a8b0
+	defb 000h,000h	; a8b2
+
+; ----------------------------------------------------------------------
+; DATOS linea_A8B4: accion 0x00 y texto hasta 0xFF (conversacion 0x04); lo
+;   leen p02:80CA (31 bytes)
+;   0xa8b4..0xa8d3  (31 bytes)
+DATA_linea_A8B4:
+	defb 000h,04bh,04fh,04eh,047h,065h,079h,074h,000h,075h,03ch,08ch,062h,03ch,06eh,03ch	; a8b4  .KONGeyt.u<.b<n<
+	defb 082h,05bh,088h,060h,03ch,06ah,03ch,05ch,067h,061h,066h,03ch,089h,03eh,0ffh	; a8c4  .[.`<j<\gaf<.>.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_05: las 1 lineas de la conversacion 0x05 y un 0 de fin; lo leen
+;   p02:80BC (4 bytes)
+;   0xa8d3..0xa8d7  (4 bytes)
+DATA_lineas_05:
+	defb 0d7h,0a8h	; a8d3
+	defb 000h,000h	; a8d5
+
+; ----------------------------------------------------------------------
+; DATOS linea_A8D7: accion 0x00 y texto hasta 0xFF (conversacion 0x05); lo
+;   leen p02:80CA (26 bytes)
+;   0xa8d7..0xa8f1  (26 bytes)
+DATA_linea_A8D7:
+	defb 000h,047h,052h,041h,053h,053h,04fh,047h,052h,045h,074h,000h,05ch,066h,073h,06ah	; a8d7  .GRASSOGREt.\fsj
+	defb 079h,070h,000h,080h,086h,05ch,069h,03ch,03eh,0ffh	; a8e7  yp...\i<>.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_06: las 5 lineas de la conversacion 0x06 y un 0 de fin; lo leen
+;   p02:80BC (12 bytes)
+;   0xa8f1..0xa8fd  (12 bytes)
+DATA_lineas_06:
+	defb 0fdh,0a8h	; a8f1
+	defb 022h,0a9h	; a8f3
+	defb 048h,0a9h	; a8f5
+	defb 06ah,0a9h	; a8f7
+	defb 081h,0a9h	; a8f9
+	defb 000h,000h	; a8fb
+
+; ----------------------------------------------------------------------
+; DATOS linea_A8FD: accion 0x00 y texto hasta 0xFF (conversacion 0x06); lo
+;   leen p02:80CA (37 bytes)
+;   0xa8fd..0xa922  (37 bytes)
+DATA_linea_A8FD:
+	defb 000h,06ah,088h,063h,088h,06ah,05ch,060h,03ch,000h,05fh,061h,073h,000h,066h,079h	; a8fd  .j.c.j\`<._as.fy
+	defb 070h,000h,05ch,08ch,06ah,061h,082h,000h,07dh,06eh,03ch,08ch,06dh,064h,088h,073h	; a90d  p.\.ja..}n<.md.s
+	defb 066h,03ch,089h,03eh,0ffh	; a91d
+
+; ----------------------------------------------------------------------
+; DATOS linea_A922: accion 0x00 y texto hasta 0xFF (conversacion 0x06); lo
+;   leen p02:80CA (38 bytes)
+;   0xa922..0xa948  (38 bytes)
+DATA_linea_A922:
+	defb 000h,052h,045h,044h,000h,046h,08dh,04dh,041h,04eh,070h,000h,062h,086h,084h,06ah	; a922  .RED.F.MANp.b..j
+	defb 088h,060h,073h,05dh,03eh,05fh,079h,05eh,065h,088h,07dh,000h,061h,05ch,06ch,063h	; a932  .`s]>_y^e.}.a\lc
+	defb 06fh,065h,084h,07eh,03eh,0ffh	; a942
+
+; ----------------------------------------------------------------------
+; DATOS linea_A948: accion 0x00 y texto hasta 0xFF (conversacion 0x06); lo
+;   leen p02:80CA (34 bytes)
+;   0xa948..0xa96a  (34 bytes)
+DATA_linea_A948:
+	defb 000h,05bh,088h,075h,06eh,081h,074h,000h,06fh,088h,06ah,03ch,060h,000h,086h,060h	; a948  .[.un.t.o.j<`..`
+	defb 081h,088h,000h,061h,060h,05ch,087h,000h,07dh,08ch,06dh,05ch,08ch,06eh,08ch,06ah	; a958  ...a`\..}.m\.n.j
+	defb 03eh,0ffh	; a968
+
+; ----------------------------------------------------------------------
+; DATOS linea_A96A: accion 0x03 y texto hasta 0xFF (conversacion 0x06); lo
+;   leen p02:80CA (23 bytes)
+;   0xa96a..0xa981  (23 bytes)
+DATA_linea_A96A:
+	defb 003h,069h,05ch,06ch,074h,000h,066h,089h,077h,03ch,083h,061h,060h,05ch,000h,066h	; a96a  .i\lt.f.w<.a`\.f
+	defb 03ch,089h,08ch,06ah,080h,03eh,0ffh	; a97a
+
+; ----------------------------------------------------------------------
+; DATOS linea_A981: accion 0x00 y texto hasta 0xFF (conversacion 0x06); lo
+;   leen p02:80CA (14 bytes)
+;   0xa981..0xa98f  (14 bytes)
+DATA_linea_A981:
+	defb 000h,069h,084h,066h,03ch,089h,000h,069h,084h,066h,03ch,089h,03eh,0ffh	; a981  .i.f<..i.f<.>.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_07: las 1 lineas de la conversacion 0x07 y un 0 de fin; lo leen
+;   p02:80BC (4 bytes)
+;   0xa98f..0xa993  (4 bytes)
+DATA_lineas_07:
+	defb 093h,0a9h	; a98f
+	defb 000h,000h	; a991
+
+; ----------------------------------------------------------------------
+; DATOS linea_A993: accion 0x04 y texto hasta 0xFF (conversacion 0x07); lo
+;   leen p02:80CA (50 bytes)
+;   0xa993..0xa9c5  (50 bytes)
+DATA_linea_A993:
+	defb 004h,064h,084h,087h,000h,063h,07bh,081h,088h,070h,05ch,083h,000h,05fh,066h,03ch	; a993  .d...c{..p\.._f<
+	defb 05ch,065h,088h,070h,000h,06eh,06eh,03ch,063h,06dh,062h,06ah,03ch,065h,05ch,03eh	; a9a3  \e.p.nn<cmbj<e\>
+	defb 0fdh,03ah,000h,031h,000h,05dh,063h,06eh,083h,000h,000h,032h,000h,064h,06eh,086h	; a9b3  .:.1.]cn...2.dn.
+	defb 083h,0ffh	; a9c3
+
+; ----------------------------------------------------------------------
+; DATOS lineas_08: las 3 lineas de la conversacion 0x08 y un 0 de fin; lo leen
+;   p02:80BC (8 bytes)
+;   0xa9c5..0xa9cd  (8 bytes)
+DATA_lineas_08:
+	defb 0cdh,0a9h	; a9c5
+	defb 0dah,0a9h	; a9c7
+	defb 00ch,0aah	; a9c9
+	defb 000h,000h	; a9cb
+
+; ----------------------------------------------------------------------
+; DATOS linea_A9CD: accion 0x00 y texto hasta 0xFF (conversacion 0x08); lo
+;   leen p02:80CA (13 bytes)
+;   0xa9cd..0xa9da  (13 bytes)
+DATA_linea_A9CD:
+	defb 000h,06fh,070h,060h,000h,06ah,077h,03ch,083h,060h,05ch,03bh,0ffh	; a9cd  .op`.jw<.`\;.
+
+; ----------------------------------------------------------------------
+; DATOS linea_A9DA: accion 0x05 y texto hasta 0xFF (conversacion 0x08); lo
+;   leen p02:80CA (50 bytes)
+;   0xa9da..0xaa0c  (50 bytes)
+DATA_linea_A9DA:
+	defb 005h,03ah,031h,000h,078h,03ch,05ch,083h,06eh,03ch,076h,06fh,07bh,066h,000h,035h	; a9da  .:1.x<\.n<vo{f.5
+	defb 030h,047h,04fh,04ch,044h,000h,032h,000h,05ch,073h,066h,066h,073h,070h,062h,000h	; a9ea  0GOLD.2.\sffspb.
+	defb 000h,000h,031h,030h,030h,047h,04fh,04ch,044h,000h,033h,000h,06ah,077h,03ch,06fh	; a9fa  ..100GOLD.3.jw<o
+	defb 05ch,0ffh	; aa0a
+
+; ----------------------------------------------------------------------
+; DATOS linea_AA0C: accion 0x00 y texto hasta 0xFF (conversacion 0x08); lo
+;   leen p02:80CA (14 bytes)
+;   0xaa0c..0xaa1a  (14 bytes)
+DATA_linea_AA0C:
+	defb 000h,05fh,060h,072h,060h,03ch,000h,06ah,082h,079h,068h,088h,03eh,0ffh	; aa0c  ._`r`<.j.yh.>.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_09: las 2 lineas de la conversacion 0x09 y un 0 de fin; lo leen
+;   p02:80BC (6 bytes)
+;   0xaa1a..0xaa20  (6 bytes)
+DATA_lineas_09:
+	defb 020h,0aah	; aa1a
+	defb 00ch,0aah	; aa1c
+	defb 000h,000h	; aa1e
+
+; ----------------------------------------------------------------------
+; DATOS linea_AA20: accion 0x06 y texto hasta 0xFF (conversacion 0x09); lo
+;   leen p02:80CA (42 bytes)
+;   0xaa20..0xaa4a  (42 bytes)
+DATA_linea_AA20:
+	defb 006h,06eh,079h,08ch,06dh,000h,05ch,062h,060h,05ch,03bh,0fdh,031h,035h,030h,000h	; aa20  .ny.m.\b`\;.150.
+	defb 047h,04fh,04ch,044h,06ah,03ch,080h,03eh,0fdh,03ah,000h,031h,000h,06eh,079h,083h	; aa30  GOLDj<.>.:.1.ny.
+	defb 000h,000h,032h,000h,06eh,079h,081h,06fh,05ch,0ffh	; aa40  ..2.ny.o\.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_0A: las 2 lineas de la conversacion 0x0A y un 0 de fin; lo leen
+;   p02:80BC (6 bytes)
+;   0xaa4a..0xaa50  (6 bytes)
+DATA_lineas_0A:
+	defb 050h,0aah	; aa4a
+	defb 089h,0aah	; aa4c
+	defb 000h,000h	; aa4e
+
+; ----------------------------------------------------------------------
+; DATOS linea_AA50: accion 0x00 y texto hasta 0xFF (conversacion 0x0A); lo
+;   leen p02:80CA (57 bytes)
+;   0xaa50..0xaa89  (57 bytes)
+DATA_linea_AA50:
+	defb 000h,04bh,04fh,04eh,047h,065h,079h,073h,06dh,03ch,088h,068h,06ch,070h,000h,080h	; aa50  .KONGeysm<.hlp..
+	defb 083h,06eh,03fh,04bh,04fh,04eh,047h,065h,079h,073h,000h,06ch,07ch,074h,000h,052h	; aa60  .n?KONGeys.l|t.R
+	defb 045h,044h,000h,046h,08dh,04dh,041h,04eh,000h,060h,03ch,000h,073h,07ah,064h,088h	; aa70  ED.F.MAN.`<.szd.
+	defb 06ah,03ch,069h,05dh,066h,03ch,089h,03eh,0ffh	; aa80  j<i]f<.>.
+
+; ----------------------------------------------------------------------
+; DATOS linea_AA89: accion 0x00 y texto hasta 0xFF (conversacion 0x0A); lo
+;   leen p02:80CA (51 bytes)
+;   0xaa89..0xaabc  (51 bytes)
+DATA_linea_AA89:
+	defb 000h,04bh,04fh,04eh,047h,065h,079h,073h,000h,06ch,07ch,070h,000h,06ch,05ch,06dh	; aa89  .KONGeys.l|p.l\m
+	defb 074h,000h,000h,000h,000h,069h,05dh,063h,03ch,088h,073h,000h,06bh,060h,070h,000h	; aa99  t....i]c<.s.k`p.
+	defb 05ch,063h,074h,03ch,000h,000h,000h,000h,000h,086h,060h,083h,066h,03ch,089h,085h	; aaa9  \ct<......`.f<..
+	defb 05dh,03eh,0ffh	; aab9
+
+; ----------------------------------------------------------------------
+; DATOS lineas_0B: las 1 lineas de la conversacion 0x0B y un 0 de fin; lo leen
+;   p02:80BC (4 bytes)
+;   0xaabc..0xaac0  (4 bytes)
+DATA_lineas_0B:
+	defb 0c0h,0aah	; aabc
+	defb 000h,000h	; aabe
+
+; ----------------------------------------------------------------------
+; DATOS linea_AAC0: accion 0x07 y texto hasta 0xFF (conversacion 0x0B); lo
+;   leen p02:80CA (38 bytes)
+;   0xaac0..0xaae6  (38 bytes)
+DATA_linea_AAC0:
+	defb 007h,086h,066h,074h,000h,061h,06eh,05dh,066h,066h,03ch,089h,03eh,05fh,079h,05eh	; aac0  ..ft.an]ff<.>_y^
+	defb 070h,000h,06dh,07bh,065h,073h,000h,066h,03ch,08ah,07dh,088h,087h,000h,065h,067h	; aad0  p.m{es.f<.}...eg
+	defb 03ch,063h,080h,05dh,03eh,0ffh	; aae0
+
+; ----------------------------------------------------------------------
+; DATOS lineas_0C: las 1 lineas de la conversacion 0x0C y un 0 de fin; lo leen
+;   p02:80BC (4 bytes)
+;   0xaae6..0xaaea  (4 bytes)
+DATA_lineas_0C:
+	defb 0eah,0aah	; aae6
+	defb 000h,000h	; aae8
+
+; ----------------------------------------------------------------------
+; DATOS linea_AAEA: accion 0x00 y texto hasta 0xFF (conversacion 0x0C); lo
+;   leen p02:80CA (30 bytes)
+;   0xaaea..0xab08  (30 bytes)
+DATA_linea_AAEA:
+	defb 000h,071h,079h,06bh,070h,000h,074h,05ch,083h,070h,074h,000h,07ah,067h,03ch,063h	; aaea  .qykp.t\.pt.zg<c
+	defb 03ch,06ah,060h,03ch,000h,075h,06ch,080h,05dh,066h,03ch,089h,03eh,0ffh	; aafa  <j`<.ul.]f<.>.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_0E: las 1 lineas de la conversacion 0x0E y un 0 de fin; lo leen
+;   p02:80BC (4 bytes)
+;   0xab08..0xab0c  (4 bytes)
+DATA_lineas_0E:
+	defb 00ch,0abh	; ab08
+	defb 000h,000h	; ab0a
+
+; ----------------------------------------------------------------------
+; DATOS linea_AB0C: accion 0x00 y texto hasta 0xFF (conversacion 0x0E); lo
+;   leen p02:80CA (35 bytes)
+;   0xab0c..0xab2f  (35 bytes)
+DATA_linea_AB0C:
+	defb 000h,07ah,067h,03ch,063h,03ch,06ah,06ch,03ch,062h,082h,073h,000h,07ch,05ch,066h	; ab0c  .zg<c<jl<b.s.|\f
+	defb 03ch,088h,074h,000h,07dh,082h,073h,000h,06fh,060h,070h,067h,088h,06dh,03ch,05ch	; ab1c  <.t.}.s.o`pg.m<\
+	defb 083h,03eh,0ffh	; ab2c
+
+; ----------------------------------------------------------------------
+; DATOS lineas_0F: las 1 lineas de la conversacion 0x0F y un 0 de fin; lo leen
+;   p02:80BC (4 bytes)
+;   0xab2f..0xab33  (4 bytes)
+DATA_lineas_0F:
+	defb 033h,0abh	; ab2f
+	defb 000h,000h	; ab31
+
+; ----------------------------------------------------------------------
+; DATOS linea_AB33: accion 0x00 y texto hasta 0xFF (conversacion 0x0F); lo
+;   leen p02:80CA (22 bytes)
+;   0xab33..0xab49  (22 bytes)
+DATA_linea_AB33:
+	defb 000h,06dh,07bh,065h,073h,000h,066h,03ch,08ah,07dh,088h,06dh,03ch,000h,05ch,086h	; ab33  .m{es.f<.}.m<.\.
+	defb 087h,000h,063h,068h,03eh,0ffh	; ab43
+
+; ----------------------------------------------------------------------
+; DATOS lineas_10: las 1 lineas de la conversacion 0x10 y un 0 de fin; lo leen
+;   p02:80BC (4 bytes)
+;   0xab49..0xab4d  (4 bytes)
+DATA_lineas_10:
+	defb 04dh,0abh	; ab49
+	defb 000h,000h	; ab4b
+
+; ----------------------------------------------------------------------
+; DATOS linea_AB4D: accion 0x00 y texto hasta 0xFF (conversacion 0x10); lo
+;   leen p02:80CA (26 bytes)
+;   0xab4d..0xab67  (26 bytes)
+DATA_linea_AB4D:
+	defb 000h,046h,049h,052h,045h,054h,04fh,054h,045h,04dh,074h,000h,076h,03ch,040h,07ch	; ab4d  .FIRETOTEMt.v<@|
+	defb 081h,088h,06dh,03ch,000h,06ah,05fh,068h,03eh,0ffh	; ab5d  ..m<.j_h>.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_11: las 1 lineas de la conversacion 0x11 y un 0 de fin; lo leen
+;   p02:80BC (4 bytes)
+;   0xab67..0xab6b  (4 bytes)
+DATA_lineas_11:
+	defb 06bh,0abh	; ab67
+	defb 000h,000h	; ab69
+
+; ----------------------------------------------------------------------
+; DATOS linea_AB6B: accion 0x00 y texto hasta 0xFF (conversacion 0x11); lo
+;   leen p02:80CA (21 bytes)
+;   0xab6b..0xab80  (21 bytes)
+DATA_linea_AB6B:
+	defb 000h,043h,04ch,055h,042h,04dh,041h,04eh,074h,000h,052h,04fh,044h,06dh,03ch,000h	; ab6b  .CLUBMANt.RODm<.
+	defb 06ah,05fh,068h,03eh,0ffh	; ab7b
+
+; ----------------------------------------------------------------------
+; DATOS lineas_12: las 3 lineas de la conversacion 0x12 y un 0 de fin; lo leen
+;   p02:80BC (8 bytes)
+;   0xab80..0xab88  (8 bytes)
+DATA_lineas_12:
+	defb 088h,0abh	; ab80
+	defb 08ah,0abh	; ab82
+	defb 097h,0abh	; ab84
+	defb 000h,000h	; ab86
+
+; ----------------------------------------------------------------------
+; DATOS linea_AB88: accion 0x08 y texto hasta 0xFF (conversacion 0x12); lo
+;   leen p02:80CA (2 bytes)
+;   0xab88..0xab8a  (2 bytes)
+DATA_linea_AB88:
+	defb 008h,0ffh	; ab88
+
+; ----------------------------------------------------------------------
+; DATOS linea_AB8A: accion 0x00 y texto hasta 0xFF (conversacion 0x12); lo
+;   leen p02:80CA (13 bytes)
+;   0xab8a..0xab97  (13 bytes)
+DATA_linea_AB8A:
+	defb 000h,061h,05ch,000h,061h,05ch,000h,062h,05dh,000h,061h,05ch,0ffh	; ab8a  .a\.a\.b].a\.
+
+; ----------------------------------------------------------------------
+; DATOS linea_AB97: accion 0x00 y texto hasta 0xFF (conversacion 0x12); lo
+;   leen p02:80CA (31 bytes)
+;   0xab97..0xabb6  (31 bytes)
+DATA_linea_AB97:
+	defb 000h,05fh,05ch,081h,073h,000h,078h,03ch,067h,074h,000h,075h,03ch,08ch,062h,03ch	; ab97  ._\.s.x<gt.u<.b<
+	defb 06eh,03ch,082h,05bh,088h,087h,000h,07dh,08ch,06dh,05ch,083h,080h,03eh,0ffh	; aba7  n<.[...}.m\..>.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_13: las 3 lineas de la conversacion 0x13 y un 0 de fin; lo leen
+;   p02:80BC (8 bytes)
+;   0xabb6..0xabbe  (8 bytes)
+DATA_lineas_13:
+	defb 0beh,0abh	; abb6
+	defb 08ah,0abh	; abb8
+	defb 0c0h,0abh	; abba
+	defb 000h,000h	; abbc
+
+; ----------------------------------------------------------------------
+; DATOS linea_ABBE: accion 0x1C y texto hasta 0xFF (conversacion 0x13); lo
+;   leen p02:80CA (2 bytes)
+;   0xabbe..0xabc0  (2 bytes)
+DATA_linea_ABBE:
+	defb 01ch,0ffh	; abbe
+
+; ----------------------------------------------------------------------
+; DATOS linea_ABC0: accion 0x09 y texto hasta 0xFF (conversacion 0x13); lo
+;   leen p02:80CA (47 bytes)
+;   0xabc0..0xabef  (47 bytes)
+DATA_linea_ABC0:
+	defb 009h,075h,03ch,08bh,05dh,061h,087h,000h,06fh,05fh,066h,06dh,062h,084h,06dh,000h	; abc0  .u<.]a..o_fmb.m.
+	defb 05bh,082h,060h,03ch,06eh,05dh,03eh,05fh,084h,05ch,070h,000h,075h,03ch,08ch,062h	; abd0  [.`<n]>_.\p.u<.b
+	defb 03ch,06eh,03ch,082h,05bh,088h,087h,000h,05bh,063h,03ch,080h,05dh,03eh,0ffh	; abe0  <n<.[...[c<.]>.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_14: las 9 lineas de la conversacion 0x14 y un 0 de fin; lo leen
+;   p02:80BC (20 bytes)
+;   0xabef..0xac03  (20 bytes)
+DATA_lineas_14:
+	defb 003h,0ach	; abef
+	defb 08ah,0abh	; abf1
+	defb 005h,0ach	; abf3
+	defb 01fh,0ach	; abf5
+	defb 045h,0ach	; abf7
+	defb 061h,0ach	; abf9
+	defb 06dh,0ach	; abfb
+	defb 07ch,0ach	; abfd
+	defb 085h,0ach	; abff
+	defb 000h,000h	; ac01
+
+; ----------------------------------------------------------------------
+; DATOS linea_AC03: accion 0x0A y texto hasta 0xFF (conversacion 0x14); lo
+;   leen p02:80CA (2 bytes)
+;   0xac03..0xac05  (2 bytes)
+DATA_linea_AC03:
+	defb 00ah,0ffh	; ac03
+
+; ----------------------------------------------------------------------
+; DATOS linea_AC05: accion 0x00 y texto hasta 0xFF (conversacion 0x14); lo
+;   leen p02:80CA (26 bytes)
+;   0xac05..0xac1f  (26 bytes)
+DATA_linea_AC05:
+	defb 000h,078h,03ch,067h,060h,03ch,000h,075h,03ch,08bh,05dh,061h,070h,000h,060h,060h	; ac05  .x<g`<.u<.]ap.``
+	defb 08ch,06dh,05ch,083h,073h,066h,03ch,089h,03eh,0ffh	; ac15  .m\.sf<.>.
+
+; ----------------------------------------------------------------------
+; DATOS linea_AC1F: accion 0x00 y texto hasta 0xFF (conversacion 0x14); lo
+;   leen p02:80CA (38 bytes)
+;   0xac1f..0xac45  (38 bytes)
+DATA_linea_AC1F:
+	defb 000h,05fh,079h,05eh,065h,088h,073h,000h,07eh,062h,069h,05dh,087h,000h,035h,06ch	; ac1f  ._y^e.s.~bi]..5l
+	defb 062h,084h,06ah,081h,000h,078h,03ch,067h,073h,000h,075h,03ch,08bh,05dh,061h,060h	; ac2f  b.j..x<gs.u<.]a`
+	defb 03ch,06fh,05fh,083h,03eh,0ffh	; ac3f
+
+; ----------------------------------------------------------------------
+; DATOS linea_AC45: accion 0x1D y texto hasta 0xFF (conversacion 0x14); lo
+;   leen p02:80CA (28 bytes)
+;   0xac45..0xac61  (28 bytes)
+DATA_linea_AC45:
+	defb 01dh,03ah,000h,031h,000h,07eh,062h,069h,05dh,087h,000h,035h,06ch,000h,086h,06ah	; ac45  .:.1.~bi]..5l..j
+	defb 067h,0fdh,000h,000h,032h,000h,086h,06ah,065h,06fh,05ch,0ffh	; ac55  g...2..jeo\.
+
+; ----------------------------------------------------------------------
+; DATOS linea_AC61: accion 0x00 y texto hasta 0xFF (conversacion 0x14); lo
+;   leen p02:80CA (12 bytes)
+;   0xac61..0xac6d  (12 bytes)
+DATA_linea_AC61:
+	defb 000h,065h,03ch,088h,072h,088h,066h,03ch,089h,06fh,03eh,0ffh	; ac61  .e<.r.f<.o>.
+
+; ----------------------------------------------------------------------
+; DATOS linea_AC6D: accion 0x00 y texto hasta 0xFF (conversacion 0x14); lo
+;   leen p02:80CA (15 bytes)
+;   0xac6d..0xac7c  (15 bytes)
+DATA_linea_AC6D:
+	defb 000h,07eh,062h,069h,05dh,060h,03ch,000h,06ah,082h,079h,068h,088h,03eh,0ffh	; ac6d  .~bi]`<.j.yh.>.
+
+; ----------------------------------------------------------------------
+; DATOS linea_AC7C: accion 0x00 y texto hasta 0xFF (conversacion 0x14); lo
+;   leen p02:80CA (9 bytes)
+;   0xac7c..0xac85  (9 bytes)
+DATA_linea_AC7C:
+	defb 000h,05bh,082h,060h,03ch,06eh,05dh,03eh,0ffh	; ac7c  .[.`<n]>.
+
+; ----------------------------------------------------------------------
+; DATOS linea_AC85: accion 0x00 y texto hasta 0xFF (conversacion 0x14); lo
+;   leen p02:80CA (29 bytes)
+;   0xac85..0xaca2  (29 bytes)
+DATA_linea_AC85:
+	defb 000h,05fh,079h,05eh,065h,088h,07dh,000h,075h,03ch,08bh,05dh,061h,070h,000h,060h	; ac85  ._y^e.}.u<.]ap.`
+	defb 060h,08ch,06dh,05ch,083h,080h,05dh,066h,03ch,089h,06fh,03eh,0ffh	; ac95  `.m\..]f<.o>.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_15: las 2 lineas de la conversacion 0x15 y un 0 de fin; lo leen
+;   p02:80BC (6 bytes)
+;   0xaca2..0xaca8  (6 bytes)
+DATA_lineas_15:
+	defb 0a8h,0ach	; aca2
+	defb 00ch,0aah	; aca4
+	defb 000h,000h	; aca6
+
+; ----------------------------------------------------------------------
+; DATOS linea_ACA8: accion 0x0B y texto hasta 0xFF (conversacion 0x15); lo
+;   leen p02:80CA (43 bytes)
+;   0xaca8..0xacd3  (43 bytes)
+DATA_linea_ACA8:
+	defb 00bh,078h,088h,087h,000h,060h,08ch,06dh,05ch,062h,060h,05ch,03bh,0fdh,032h,030h	; aca8  .x...`.m\b`\;.20
+	defb 030h,000h,047h,04fh,04ch,044h,06ah,03ch,03eh,0fdh,03ah,000h,031h,000h,060h,05dh	; acb8  0.GOLDj<>.:.1.`]
+	defb 000h,000h,000h,000h,032h,000h,060h,086h,06fh,05ch,0ffh	; acc8  ....2.`.o\.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_16: las 4 lineas de la conversacion 0x16 y un 0 de fin; lo leen
+;   p02:80BC (10 bytes)
+;   0xacd3..0xacdd  (10 bytes)
+DATA_lineas_16:
+	defb 0ddh,0ach	; acd3
+	defb 0feh,0ach	; acd5
+	defb 00ch,0aah	; acd7
+	defb 015h,0adh	; acd9
+	defb 000h,000h	; acdb
+
+; ----------------------------------------------------------------------
+; DATOS linea_ACDD: accion 0x00 y texto hasta 0xFF (conversacion 0x16); lo
+;   leen p02:80CA (33 bytes)
+;   0xacdd..0xacfe  (33 bytes)
+DATA_linea_ACDD:
+	defb 000h,07ah,067h,03ch,063h,03ch,06ah,087h,000h,06ch,062h,08ch,06dh,07eh,085h,05dh	; acdd  .zg<c<j..lb.m~.]
+	defb 060h,03bh,0fdh,031h,035h,030h,000h,047h,04fh,04ch,044h,06dh,03ch,05ch,05ch,080h	; aced  `;.150.GOLDm<\\.
+	defb 0ffh	; acfd
+
+; ----------------------------------------------------------------------
+; DATOS linea_ACFE: accion 0x0C y texto hasta 0xFF (conversacion 0x16); lo
+;   leen p02:80CA (23 bytes)
+;   0xacfe..0xad15  (23 bytes)
+DATA_linea_ACFE:
+	defb 00ch,03ah,000h,031h,000h,06ch,062h,08ch,06dh,07dh,081h,05dh,0fdh,000h,000h,032h	; acfe  .:.1.lb.m}.]...2
+	defb 000h,06ch,062h,081h,06fh,05ch,0ffh	; ad0e
+
+; ----------------------------------------------------------------------
+; DATOS linea_AD15: accion 0x00 y texto hasta 0xFF (conversacion 0x16); lo
+;   leen p02:80CA (33 bytes)
+;   0xad15..0xad36  (33 bytes)
+DATA_linea_AD15:
+	defb 000h,07ah,067h,03ch,063h,03ch,06ah,087h,000h,06ch,062h,083h,070h,074h,000h,065h	; ad15  .zg<c<j..lb.pt.e
+	defb 03ch,05ch,082h,08bh,05dh,000h,060h,03ch,000h,075h,06ch,080h,05dh,06ah,03ch,03eh	; ad25  <\..].`<.ul.]j<>
+	defb 0ffh	; ad35
+
+; ----------------------------------------------------------------------
+; DATOS lineas_17: las 5 lineas de la conversacion 0x17 y un 0 de fin; lo leen
+;   p02:80BC (12 bytes)
+;   0xad36..0xad42  (12 bytes)
+DATA_lineas_17:
+	defb 042h,0adh	; ad36
+	defb 08ah,0abh	; ad38
+	defb 044h,0adh	; ad3a
+	defb 05ah,0adh	; ad3c
+	defb 070h,0adh	; ad3e
+	defb 000h,000h	; ad40
+
+; ----------------------------------------------------------------------
+; DATOS linea_AD42: accion 0x0D y texto hasta 0xFF (conversacion 0x17); lo
+;   leen p02:80CA (2 bytes)
+;   0xad42..0xad44  (2 bytes)
+DATA_linea_AD42:
+	defb 00dh,0ffh	; ad42
+
+; ----------------------------------------------------------------------
+; DATOS linea_AD44: accion 0x00 y texto hasta 0xFF (conversacion 0x17); lo
+;   leen p02:80CA (22 bytes)
+;   0xad44..0xad5a  (22 bytes)
+DATA_linea_AD44:
+	defb 000h,070h,062h,087h,000h,062h,084h,06ah,081h,000h,06eh,05fh,066h,06dh,000h,05bh	; ad44  .pb..b.j..n_fm.[
+	defb 063h,03ch,083h,080h,03eh,0ffh	; ad54
+
+; ----------------------------------------------------------------------
+; DATOS linea_AD5A: accion 0x1E y texto hasta 0xFF (conversacion 0x17); lo
+;   leen p02:80CA (22 bytes)
+;   0xad5a..0xad70  (22 bytes)
+DATA_linea_AD5A:
+	defb 01eh,03ah,031h,000h,070h,062h,087h,000h,05bh,063h,03ch,083h,03eh,000h,032h,000h	; ad5a  .:1.pb..[c<.>.2.
+	defb 05bh,063h,03ch,06fh,05ch,0ffh	; ad6a
+
+; ----------------------------------------------------------------------
+; DATOS linea_AD70: accion 0x00 y texto hasta 0xFF (conversacion 0x17); lo
+;   leen p02:80CA (13 bytes)
+;   0xad70..0xad7d  (13 bytes)
+DATA_linea_AD70:
+	defb 000h,070h,062h,060h,03ch,000h,05bh,082h,079h,068h,088h,03eh,0ffh	; ad70  .pb`<.[.yh.>.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_18: las 1 lineas de la conversacion 0x18 y un 0 de fin; lo leen
+;   p02:80BC (4 bytes)
+;   0xad7d..0xad81  (4 bytes)
+DATA_lineas_18:
+	defb 081h,0adh	; ad7d
+	defb 000h,000h	; ad7f
+
+; ----------------------------------------------------------------------
+; DATOS linea_AD81: accion 0x00 y texto hasta 0xFF (conversacion 0x18); lo
+;   leen p02:80CA (47 bytes)
+;   0xad81..0xadb0  (47 bytes)
+DATA_linea_AD81:
+	defb 000h,078h,03ch,067h,074h,000h,075h,03ch,08bh,05dh,061h,06ah,03ch,03eh,075h,03ch	; ad81  .x<gt.u<.]aj<>u<
+	defb 08bh,05dh,061h,087h,000h,06fh,05fh,067h,070h,074h,000h,07eh,062h,069h,05dh,060h	; ad91  .]a..o_gpt.~bi]`
+	defb 03ch,000h,06ah,062h,065h,088h,000h,075h,06ch,080h,05dh,06ah,03ch,03eh,0ffh	; ada1  <.jbe..ul.]j<>.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_19: las 1 lineas de la conversacion 0x19 y un 0 de fin; lo leen
+;   p02:80BC (4 bytes)
+;   0xadb0..0xadb4  (4 bytes)
+DATA_lineas_19:
+	defb 0b4h,0adh	; adb0
+	defb 000h,000h	; adb2
+
+; ----------------------------------------------------------------------
+; DATOS linea_ADB4: accion 0x0E y texto hasta 0xFF (conversacion 0x19); lo
+;   leen p02:80CA (18 bytes)
+;   0xadb4..0xadc6  (18 bytes)
+DATA_linea_ADB4:
+	defb 00eh,05bh,06fh,06ah,074h,000h,07bh,066h,070h,000h,060h,079h,084h,079h,066h,06ah	; adb4  .[ojt.{fp.`y.yfj
+	defb 03eh,0ffh	; adc4
+
+; ----------------------------------------------------------------------
+; DATOS lineas_1A: las 5 lineas de la conversacion 0x1A y un 0 de fin; lo leen
+;   p02:80BC (12 bytes)
+;   0xadc6..0xadd2  (12 bytes)
+DATA_lineas_1A:
+	defb 0d2h,0adh	; adc6
+	defb 08ah,0abh	; adc8
+	defb 0d4h,0adh	; adca
+	defb 0e6h,0adh	; adcc
+	defb 070h,0adh	; adce
+	defb 000h,000h	; add0
+
+; ----------------------------------------------------------------------
+; DATOS linea_ADD2: accion 0x0F y texto hasta 0xFF (conversacion 0x1A); lo
+;   leen p02:80CA (2 bytes)
+;   0xadd2..0xadd4  (2 bytes)
+DATA_linea_ADD2:
+	defb 00fh,0ffh	; add2
+
+; ----------------------------------------------------------------------
+; DATOS linea_ADD4: accion 0x00 y texto hasta 0xFF (conversacion 0x1A); lo
+;   leen p02:80CA (18 bytes)
+;   0xadd4..0xade6  (18 bytes)
+DATA_linea_ADD4:
+	defb 000h,070h,062h,087h,000h,062h,084h,06ah,081h,000h,06eh,07ch,06dh,07eh,083h,080h	; add4  .pb..b.j..n|m~..
+	defb 03eh,0ffh	; ade4
+
+; ----------------------------------------------------------------------
+; DATOS linea_ADE6: accion 0x1F y texto hasta 0xFF (conversacion 0x1A); lo
+;   leen p02:80CA (22 bytes)
+;   0xade6..0xadfc  (22 bytes)
+DATA_linea_ADE6:
+	defb 01fh,03ah,031h,000h,070h,062h,087h,000h,05bh,063h,03ch,083h,03eh,000h,032h,000h	; ade6  .:1.pb..[c<.>.2.
+	defb 05bh,063h,03ch,06fh,05ch,0ffh	; adf6
+
+; ----------------------------------------------------------------------
+; DATOS lineas_1B: las 5 lineas de la conversacion 0x1B y un 0 de fin; lo leen
+;   p02:80BC (12 bytes)
+;   0xadfc..0xae08  (12 bytes)
+DATA_lineas_1B:
+	defb 008h,0aeh	; adfc
+	defb 08ah,0abh	; adfe
+	defb 00ah,0aeh	; ae00
+	defb 020h,0aeh	; ae02
+	defb 070h,0adh	; ae04
+	defb 000h,000h	; ae06
+
+; ----------------------------------------------------------------------
+; DATOS linea_AE08: accion 0x10 y texto hasta 0xFF (conversacion 0x1B); lo
+;   leen p02:80CA (2 bytes)
+;   0xae08..0xae0a  (2 bytes)
+DATA_linea_AE08:
+	defb 010h,0ffh	; ae08
+
+; ----------------------------------------------------------------------
+; DATOS linea_AE0A: accion 0x00 y texto hasta 0xFF (conversacion 0x1B); lo
+;   leen p02:80CA (22 bytes)
+;   0xae0a..0xae20  (22 bytes)
+DATA_linea_AE0A:
+	defb 000h,070h,062h,087h,000h,062h,084h,06ah,081h,000h,060h,061h,03ch,087h,000h,05bh	; ae0a  .pb..b.j..`a<..[
+	defb 063h,03ch,083h,080h,03eh,0ffh	; ae1a
+
+; ----------------------------------------------------------------------
+; DATOS linea_AE20: accion 0x20 y texto hasta 0xFF (conversacion 0x1B); lo
+;   leen p02:80CA (22 bytes)
+;   0xae20..0xae36  (22 bytes)
+DATA_linea_AE20:
+	defb 020h,03ah,031h,000h,070h,062h,087h,000h,05bh,063h,03ch,083h,03eh,000h,032h,000h	; ae20   :1.pb..[c<.>.2.
+	defb 05bh,063h,03ch,06fh,05ch,0ffh	; ae30
+
+; ----------------------------------------------------------------------
+; DATOS lineas_1C: las 3 lineas de la conversacion 0x1C y un 0 de fin; lo leen
+;   p02:80BC (8 bytes)
+;   0xae36..0xae3e  (8 bytes)
+DATA_lineas_1C:
+	defb 03eh,0aeh	; ae36
+	defb 050h,0aeh	; ae38
+	defb 00ch,0aah	; ae3a
+	defb 000h,000h	; ae3c
+
+; ----------------------------------------------------------------------
+; DATOS linea_AE3E: accion 0x00 y texto hasta 0xFF (conversacion 0x1C); lo
+;   leen p02:80CA (18 bytes)
+;   0xae3e..0xae50  (18 bytes)
+DATA_linea_AE3E:
+	defb 000h,05ch,081h,08ch,066h,089h,05ch,03eh,064h,03ch,06bh,08ah,05dh,07dh,088h,074h	; ae3e  .\..f.\>d<k.]}.t
+	defb 03bh,0ffh	; ae4e
+
+; ----------------------------------------------------------------------
+; DATOS linea_AE50: accion 0x11 y texto hasta 0xFF (conversacion 0x1C); lo
+;   leen p02:80CA (58 bytes)
+;   0xae50..0xae8a  (58 bytes)
+DATA_linea_AE50:
+	defb 011h,03ah,031h,000h,07eh,079h,075h,083h,073h,000h,065h,066h,07ah,000h,035h,030h	; ae50  .:1.~yu.s.efz.50
+	defb 000h,047h,04fh,04ch,044h,000h,032h,000h,078h,03ch,05ch,083h,06eh,03ch,07eh,079h	; ae60  .GOLD.2.x<\.n<~y
+	defb 07ah,07ah,067h,03ch,0fdh,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h	; ae70  zzg<............
+	defb 000h,031h,030h,030h,000h,047h,04fh,04ch,044h,0ffh	; ae80  .100.GOLD.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_1D: las 2 lineas de la conversacion 0x1D y un 0 de fin; lo leen
+;   p02:80BC (6 bytes)
+;   0xae8a..0xae90  (6 bytes)
+DATA_lineas_1D:
+	defb 090h,0aeh	; ae8a
+	defb 0ach,0aeh	; ae8c
+	defb 000h,000h	; ae8e
+
+; ----------------------------------------------------------------------
+; DATOS linea_AE90: accion 0x00 y texto hasta 0xFF (conversacion 0x1D); lo
+;   leen p02:80CA (28 bytes)
+;   0xae90..0xaeac  (28 bytes)
+DATA_linea_AE90:
+	defb 000h,086h,066h,081h,073h,000h,066h,08ah,05dh,06bh,08bh,05dh,087h,000h,06ah,067h	; ae90  ..f.s.f.]k.]..jg
+	defb 063h,06ah,03ch,066h,06dh,062h,06ah,03ch,065h,084h,03eh,0ffh	; aea0  cj<fmbj<e.>.
+
+; ----------------------------------------------------------------------
+; DATOS linea_AEAC: accion 0x00 y texto hasta 0xFF (conversacion 0x1D); lo
+;   leen p02:80CA (30 bytes)
+;   0xaeac..0xaeca  (30 bytes)
+DATA_linea_AEAC:
+	defb 000h,066h,08ah,06bh,08bh,05dh,074h,000h,06eh,03ch,085h,073h,000h,060h,07ch,088h	; aeac  .f.k.]t.n<.s.`|.
+	defb 070h,000h,06ch,084h,065h,081h,084h,06ah,088h,066h,03ch,089h,03eh,0ffh	; aebc  p.l.e..j.f<.>.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_1E: las 1 lineas de la conversacion 0x1E y un 0 de fin; lo leen
+;   p02:80BC (4 bytes)
+;   0xaeca..0xaece  (4 bytes)
+DATA_lineas_1E:
+	defb 0ceh,0aeh	; aeca
+	defb 000h,000h	; aecc
+
+; ----------------------------------------------------------------------
+; DATOS linea_AECE: accion 0x00 y texto hasta 0xFF (conversacion 0x1E); lo
+;   leen p02:80CA (32 bytes)
+;   0xaece..0xaeee  (32 bytes)
+DATA_linea_AECE:
+	defb 000h,054h,048h,045h,000h,04eh,041h,053h,054h,059h,074h,000h,079h,060h,076h,03dh	; aece  .THE.NASTYt.y`v=
+	defb 081h,073h,000h,066h,03ch,08ah,07dh,088h,06dh,03ch,000h,06ah,05fh,068h,03eh,0ffh	; aede  .s.f<.}.m<.j_h>.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_1F: las 3 lineas de la conversacion 0x1F y un 0 de fin; lo leen
+;   p02:80BC (8 bytes)
+;   0xaeee..0xaef6  (8 bytes)
+DATA_lineas_1F:
+	defb 0f6h,0aeh	; aeee
+	defb 011h,0afh	; aef0
+	defb 02dh,0afh	; aef2
+	defb 000h,000h	; aef4
+
+; ----------------------------------------------------------------------
+; DATOS linea_AEF6: accion 0x00 y texto hasta 0xFF (conversacion 0x1F); lo
+;   leen p02:80CA (27 bytes)
+;   0xaef6..0xaf11  (27 bytes)
+DATA_linea_AEF6:
+	defb 000h,07ah,067h,03ch,063h,03ch,06ah,087h,000h,062h,084h,084h,074h,03ch,000h,06eh	; aef6  .zg<c<j..b..t<.n
+	defb 07ch,06dh,07eh,08ch,06dh,07dh,05ch,05ch,080h,03eh,0ffh	; af06  |m~.m}\\.>.
+
+; ----------------------------------------------------------------------
+; DATOS linea_AF11: accion 0x12 y texto hasta 0xFF (conversacion 0x1F); lo
+;   leen p02:80CA (28 bytes)
+;   0xaf11..0xaf2d  (28 bytes)
+DATA_linea_AF11:
+	defb 012h,03ah,000h,031h,000h,07ah,067h,03ch,063h,03ch,06ah,087h,000h,05bh,063h,03ch	; af11  .:.1.zg<c<j..[c<
+	defb 083h,0fdh,000h,000h,032h,000h,05bh,063h,03ch,06fh,05ch,0ffh	; af21  ....2.[c<o\.
+
+; ----------------------------------------------------------------------
+; DATOS linea_AF2D: accion 0x00 y texto hasta 0xFF (conversacion 0x1F); lo
+;   leen p02:80CA (17 bytes)
+;   0xaf2d..0xaf3e  (17 bytes)
+DATA_linea_AF2D:
+	defb 000h,07ah,067h,03ch,063h,03ch,06ah,060h,03ch,000h,05bh,082h,079h,068h,088h,03eh	; af2d  .zg<c<j`<.[.yh.>
+	defb 0ffh	; af3d
+
+; ----------------------------------------------------------------------
+; DATOS lineas_20: las 1 lineas de la conversacion 0x20 y un 0 de fin; lo leen
+;   p02:80BC (4 bytes)
+;   0xaf3e..0xaf42  (4 bytes)
+DATA_lineas_20:
+	defb 042h,0afh	; af3e
+	defb 000h,000h	; af40
+
+; ----------------------------------------------------------------------
+; DATOS linea_AF42: accion 0x13 y texto hasta 0xFF (conversacion 0x20); lo
+;   leen p02:80CA (42 bytes)
+;   0xaf42..0xaf6c  (42 bytes)
+DATA_linea_AF42:
+	defb 013h,05fh,05fh,03fh,04bh,04fh,04eh,047h,065h,079h,073h,000h,05fh,06bh,060h,081h	; af42  .__?KONGeys._k`.
+	defb 073h,075h,06eh,06ch,000h,04bh,04fh,04eh,047h,065h,079h,073h,000h,061h,074h,03ch	; af52  sunl.KONGeys.at<
+	defb 087h,000h,065h,067h,03ch,063h,080h,05dh,03eh,0ffh	; af62  ..eg<c.]>.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_21: las 0 lineas de la conversacion 0x21 y un 0 de fin; lo leen
+;   p02:80BC (2 bytes)
+;   0xaf6c..0xaf6e  (2 bytes)
+DATA_lineas_21:
+	defb 000h,000h	; af6c
+
+; ----------------------------------------------------------------------
+; DATOS lineas_22: las 1 lineas de la conversacion 0x22 y un 0 de fin; lo leen
+;   p02:80BC (4 bytes)
+;   0xaf6e..0xaf72  (4 bytes)
+DATA_lineas_22:
+	defb 072h,0afh	; af6e
+	defb 000h,000h	; af70
+
+; ----------------------------------------------------------------------
+; DATOS linea_AF72: accion 0x00 y texto hasta 0xFF (conversacion 0x22); lo
+;   leen p02:80CA (29 bytes)
+;   0xaf72..0xaf8f  (29 bytes)
+DATA_linea_AF72:
+	defb 000h,04dh,055h,044h,041h,052h,04dh,04fh,052h,074h,000h,081h,07ch,081h,073h,000h	; af72  .MUDARMORt..|.s.
+	defb 066h,03ch,08ah,05eh,061h,06dh,03ch,000h,06ah,05fh,068h,03eh,0ffh	; af82  f<.^am<.j_h>.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_23: las 1 lineas de la conversacion 0x23 y un 0 de fin; lo leen
+;   p02:80BC (4 bytes)
+;   0xaf8f..0xaf93  (4 bytes)
+DATA_lineas_23:
+	defb 093h,0afh	; af8f
+	defb 000h,000h	; af91
+
+; ----------------------------------------------------------------------
+; DATOS linea_AF93: accion 0x00 y texto hasta 0xFF (conversacion 0x23); lo
+;   leen p02:80CA (28 bytes)
+;   0xaf93..0xafaf  (28 bytes)
+DATA_linea_AF93:
+	defb 000h,054h,057h,049h,04eh,04dh,049h,052h,045h,053h,074h,000h,05bh,060h,05ch,05ch	; af93  .TWINMIRESt.[`\\
+	defb 086h,073h,000h,074h,03ch,088h,070h,088h,06fh,082h,03eh,0ffh	; afa3  .s.t<.p.o.>.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_24: las 2 lineas de la conversacion 0x24 y un 0 de fin; lo leen
+;   p02:80BC (6 bytes)
+;   0xafaf..0xafb5  (6 bytes)
+DATA_lineas_24:
+	defb 0b5h,0afh	; afaf
+	defb 0d0h,0afh	; afb1
+	defb 000h,000h	; afb3
+
+; ----------------------------------------------------------------------
+; DATOS linea_AFB5: accion 0x00 y texto hasta 0xFF (conversacion 0x24); lo
+;   leen p02:80CA (27 bytes)
+;   0xafb5..0xafd0  (27 bytes)
+DATA_linea_AFB5:
+	defb 000h,064h,073h,065h,061h,070h,000h,063h,07bh,081h,088h,06eh,000h,080h,074h,03ch	; afb5  .dseap.c{..n..t<
+	defb 084h,083h,000h,066h,079h,060h,03ch,05bh,083h,03eh,0ffh	; afc5  ...fy`<[.>.
+
+; ----------------------------------------------------------------------
+; DATOS linea_AFD0: accion 0x00 y texto hasta 0xFF (conversacion 0x24); lo
+;   leen p02:80CA (40 bytes)
+;   0xafd0..0xaff8  (40 bytes)
+DATA_linea_AFD0:
+	defb 000h,063h,07bh,081h,088h,074h,000h,04bh,04fh,04eh,047h,065h,079h,073h,000h,06dh	; afd0  .c{..t.KONGeys.m
+	defb 03ch,088h,068h,06ch,000h,060h,03ch,000h,05ch,061h,06ch,03ch,05ch,06dh,05ch,083h	; afe0  <.hl.`<.\al<\m\.
+	defb 000h,066h,079h,066h,03ch,089h,03eh,0ffh	; aff0  .fyf<.>.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_25: las 3 lineas de la conversacion 0x25 y un 0 de fin; lo leen
+;   p02:80BC (8 bytes)
+;   0xaff8..0xb000  (8 bytes)
+DATA_lineas_25:
+	defb 000h,0b0h	; aff8
+	defb 018h,0b0h	; affa
+	defb 00ch,0aah	; affc
+	defb 000h,000h	; affe
+
+; ----------------------------------------------------------------------
+; DATOS linea_B000: accion 0x00 y texto hasta 0xFF (conversacion 0x25); lo
+;   leen p02:80CA (24 bytes)
+;   0xb000..0xb018  (24 bytes)
+DATA_linea_B000:
+	defb 000h,05dh,07ah,073h,05ch,05eh,070h,000h,080h,05dh,064h,069h,03eh,0fdh,064h,03ch	; b000  .]zs\^p..]di>.d<
+	defb 06bh,08ah,05dh,07dh,088h,074h,03bh,0ffh	; b010  k.]}.t;.
+
+; ----------------------------------------------------------------------
+; DATOS linea_B018: accion 0x15 y texto hasta 0xFF (conversacion 0x25); lo
+;   leen p02:80CA (50 bytes)
+;   0xb018..0xb04a  (50 bytes)
+DATA_linea_B018:
+	defb 015h,03ah,031h,000h,06fh,07ch,062h,066h,03ch,073h,000h,066h,05fh,060h,081h,031h	; b018  .:1.o|bf<s.f_`.1
+	defb 030h,047h,04fh,04ch,044h,000h,032h,000h,076h,06fh,07bh,066h,073h,000h,07ah,069h	; b028  0GOLD.2.vo{fs.zi
+	defb 06ch,03ch,063h,035h,030h,047h,04fh,04ch,044h,000h,033h,000h,06ah,077h,03ch,06fh	; b038  l<c50GOLD.3.jw<o
+	defb 05ch,0ffh	; b048
+
+; ----------------------------------------------------------------------
+; DATOS lineas_26: las 4 lineas de la conversacion 0x26 y un 0 de fin; lo leen
+;   p02:80BC (10 bytes)
+;   0xb04a..0xb054  (10 bytes)
+DATA_lineas_26:
+	defb 054h,0b0h	; b04a
+	defb 056h,0b0h	; b04c
+	defb 078h,0b0h	; b04e
+	defb 09eh,0b0h	; b050
+	defb 000h,000h	; b052
+
+; ----------------------------------------------------------------------
+; DATOS linea_B054: accion 0x16 y texto hasta 0xFF (conversacion 0x26); lo
+;   leen p02:80CA (2 bytes)
+;   0xb054..0xb056  (2 bytes)
+DATA_linea_B054:
+	defb 016h,0ffh	; b054
+
+; ----------------------------------------------------------------------
+; DATOS linea_B056: accion 0x00 y texto hasta 0xFF (conversacion 0x26); lo
+;   leen p02:80CA (34 bytes)
+;   0xb056..0xb078  (34 bytes)
+DATA_linea_B056:
+	defb 000h,086h,066h,074h,000h,07bh,067h,064h,060h,081h,073h,000h,06dh,060h,03ch,07ah	; b056  ..ft.{gd`.s.m`<z
+	defb 087h,000h,067h,03ch,08ch,06eh,000h,079h,08ch,06dh,05fh,083h,088h,066h,03ch,089h	; b066  ..g<.n.y.m_..f<.
+	defb 03eh,0ffh	; b076
+
+; ----------------------------------------------------------------------
+; DATOS linea_B078: accion 0x00 y texto hasta 0xFF (conversacion 0x26); lo
+;   leen p02:80CA (38 bytes)
+;   0xb078..0xb09e  (38 bytes)
+DATA_linea_B078:
+	defb 000h,086h,065h,03ch,086h,065h,03ch,000h,06dh,060h,03ch,07ah,087h,000h,06eh,06eh	; b078  ..e<.e<.m`<z..nn
+	defb 03ch,063h,06dh,062h,084h,06dh,000h,05bh,082h,060h,03ch,06eh,05dh,064h,03ch,065h	; b088  <cmb.m.[.`<n]d<e
+	defb 03ch,05ch,079h,067h,03eh,0ffh	; b098
+
+; ----------------------------------------------------------------------
+; DATOS linea_B09E: accion 0x00 y texto hasta 0xFF (conversacion 0x26); lo
+;   leen p02:80CA (28 bytes)
+;   0xb09e..0xb0ba  (28 bytes)
+DATA_linea_B09E:
 	defb 000h,05fh,084h,05ch,070h,000h,04bh,04fh,04eh,047h,065h,079h,073h,000h,075h,06eh	; b09e  ._.\p.KONGeys.un
-	defb 07ah,087h,000h,065h,066h,05bh,063h,03ch,079h,067h,03eh,0ffh,0beh,0b0h,000h,000h	; b0ae  z..ef[c<yg>.....
+	defb 07ah,087h,000h,065h,066h,05bh,063h,03ch,079h,067h,03eh,0ffh	; b0ae  z..ef[c<yg>.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_27: las 1 lineas de la conversacion 0x27 y un 0 de fin; lo leen
+;   p02:80BC (4 bytes)
+;   0xb0ba..0xb0be  (4 bytes)
+DATA_lineas_27:
+	defb 0beh,0b0h	; b0ba
+	defb 000h,000h	; b0bc
+
+; ----------------------------------------------------------------------
+; DATOS linea_B0BE: accion 0x00 y texto hasta 0xFF (conversacion 0x27); lo
+;   leen p02:80CA (52 bytes)
+;   0xb0be..0xb0f2  (52 bytes)
+DATA_linea_B0BE:
 	defb 000h,06ah,088h,063h,088h,06ah,05ch,073h,000h,073h,064h,066h,06dh,05ch,08ch,06ah	; b0be  .j.c.j\s.sdfm\.j
 	defb 000h,06dh,088h,06eh,073h,06fh,060h,070h,000h,06fh,088h,06ah,03ch,060h,000h,086h	; b0ce  .m.nso`p.o.j<`..
 	defb 060h,081h,088h,000h,061h,060h,05ch,060h,03ch,000h,05bh,08ch,06ah,069h,05dh,066h	; b0de  `...a`\`<.[.ji]f
-	defb 03ch,089h,03eh,0ffh,0fah,0b0h,0fch,0b0h,00ah,0b1h,000h,000h,017h,0ffh,000h,07bh	; b0ee  <.>............{
-	defb 068h,088h,061h,060h,03ch,000h,05bh,082h,079h,067h,03eh,0ffh,000h,07bh,068h,088h	; b0fe  h.a`<.[.yg>..{h.
-	defb 061h,074h,000h,064h,086h,084h,06dh,05ch,083h,000h,080h,05dh,06dh,03ch,067h,03eh	; b10e  at.d..m\...]m<g>
-	defb 0ffh,023h,0b1h,000h,000h,000h,04bh,04fh,04eh,047h,073h,000h,065h,063h,075h,03ch	; b11e  .#....KONGs.ecu<
-	defb 087h,000h,06eh,083h,070h,074h,000h,081h,062h,06fh,000h,073h,000h,06ah,079h,060h	; b12e  ..n.pt..bo.s.jy`
-	defb 03ch,000h,075h,06ch,080h,05dh,06ah,03ch,03eh,0ffh,04ch,0b1h,000h,000h,000h,061h	; b13e  <.ul.]j<>.L....a
-	defb 05ch,085h,05ch,000h,05ch,086h,074h,000h,04bh,04fh,04eh,047h,065h,079h,073h,000h	; b14e  \.\.\.t.KONGeys.
-	defb 06bh,060h,081h,06dh,03ch,06fh,063h,084h,074h,03ch,000h,05fh,067h,064h,06eh,060h	; b15e  k`.m<oc.t<._gdn`
-	defb 03ch,06dh,03ch,061h,06fh,05ch,03eh,0ffh,080h,0b1h,0ach,0b1h,0cah,0b1h,011h,0a8h	; b16e  <m<ao\>.........
-	defb 000h,000h,000h,064h,086h,084h,06ah,07dh,073h,06fh,081h,000h,06fh,088h,06dh,03ch	; b17e  ...d..j}so..o.m<
-	defb 07dh,000h,066h,08ah,05dh,082h,067h,083h,068h,03ch,03eh,0fdh,075h,06eh,06ch,000h	; b18e  }.f.].g.h<>.unl.
-	defb 033h,035h,030h,000h,047h,04fh,04ch,044h,000h,06dh,03ch,06fh,03eh,0ffh,018h,03ah	; b19e  350.GOLD.m<o>..:
-	defb 000h,031h,08dh,053h,048h,04fh,054h,040h,031h,0fdh,000h,000h,032h,08dh,053h,048h	; b1ae  .1.SHOT@1...2.SH
-	defb 04fh,054h,040h,032h,000h,000h,033h,08dh,05fh,086h,082h,0ffh,000h,078h,060h,070h	; b1be  OT@2..3._....x`p
-	defb 074h,0ffh,0d4h,0b1h,000h,000h,019h,04bh,04fh,04eh,047h,065h,079h,070h,000h,065h	; b1ce  t......KONGeyp.e
-	defb 066h,05bh,063h,03ch,083h,07dh,073h,087h,000h,06dh,040h,076h,03ch,083h,073h,000h	; b1de  f[c<.}s..m@v<.s.
-	defb 05dh,05eh,070h,000h,05fh,061h,06fh,065h,05ch,03eh,0ffh,001h,0b2h,033h,0b2h,054h	; b1ee  ]^p._aoe\>...3.T
-	defb 0b2h,000h,000h,000h,04bh,04fh,04eh,047h,065h,079h,073h,000h,06dh,03ch,088h,068h	; b1fe  ....KONGeys.m<.h
-	defb 06ch,070h,000h,080h,083h,06eh,0fdh,06eh,03ch,05dh,062h,06ch,073h,000h,06fh,060h	; b20e  lp...n.n<]bls.o`
-	defb 070h,000h,065h,05ch,06dh,05ch,083h,000h,0fdh,061h,08bh,06ah,03ch,05ch,06fh,000h	; b21e  p.e\m\...a.j<\o.
-	defb 074h,06fh,074h,03fh,0ffh,000h,061h,05ch,085h,05ch,000h,05ch,066h,06dh,03ch,000h	; b22e  tot?..a\.\.\fm<.
-	defb 06fh,063h,084h,074h,03ch,000h,063h,067h,064h,06eh,060h,03ch,06dh,03ch,061h,06fh	; b23e  oc.t<.cgdn`<m<ao
-	defb 05ch,081h,066h,05ch,03eh,0ffh,000h,080h,062h,000h,05fh,078h,03ch,05eh,06dh,05fh	; b24e  \.f\>...b._x<^m_
-	defb 062h,060h,03ch,000h,080h,05ch,03eh,0ffh,06ah,0b2h,000h,000h,000h,06eh,03ch,05dh	; b25e  b`<..\>.j....n<]
-	defb 062h,06ch,073h,000h,06fh,060h,073h,000h,066h,03ch,086h,084h,087h,000h,05dh,07ch	; b26e  bls.o`s.f<....]|
-	defb 083h,070h,074h,000h,04bh,04fh,04eh,047h,065h,079h,073h,000h,06fh,07ah,06ah,03ch	; b27e  .pt.KONGeys.ozj<
-	defb 060h,03ch,075h,06ch,080h,05dh,066h,03ch,089h,03eh,0ffh,09fh,0b2h,0bbh,0b2h,000h	; b28e  `<ul.]f<.>......
-	defb 000h,000h,064h,073h,000h,06eh,075h,03ch,081h,074h,000h,066h,088h,068h,05ch,06fh	; b29e  ..ds.nu<.t.f.h\o
-	defb 083h,000h,05ch,073h,082h,073h,000h,06eh,075h,03ch,081h,03eh,0ffh,000h,04bh,04fh	; b2ae  ..\s.s.nu<.>..KO
-	defb 04eh,047h,065h,079h,073h,000h,061h,074h,03ch,060h,03ch,000h,06fh,063h,084h,074h	; b2be  NGeys.at<`<.oc.t
-	defb 03ch,000h,05ch,060h,06fh,083h,07dh,073h,07dh,000h,05bh,063h,083h,064h,06eh,074h	; b2ce  <.\`o.}s}.[c.dnt
-	defb 06dh,03ch,061h,06fh,05ch,03eh,0ffh,0e9h,0b2h,000h,000h,01ah,06eh,03ch,05dh,062h	; b2de  m<ao\>......n<]b
-	defb 06ch,073h,000h,069h,06eh,070h,000h,06dh,03ch,06ah,05ch,060h,03bh,0fdh,03ah,000h	; b2ee  ls.inp.m<j\`;.:.
-	defb 031h,000h,074h,05ch,000h,000h,032h,000h,05ch,05ch,05eh,0ffh,00eh,0b3h,000h,000h	; b2fe  1.t\..2.\\^.....
+	defb 03ch,089h,03eh,0ffh	; b0ee
+
+; ----------------------------------------------------------------------
+; DATOS lineas_28: las 3 lineas de la conversacion 0x28 y un 0 de fin; lo leen
+;   p02:80BC (8 bytes)
+;   0xb0f2..0xb0fa  (8 bytes)
+DATA_lineas_28:
+	defb 0fah,0b0h	; b0f2
+	defb 0fch,0b0h	; b0f4
+	defb 00ah,0b1h	; b0f6
+	defb 000h,000h	; b0f8
+
+; ----------------------------------------------------------------------
+; DATOS linea_B0FA: accion 0x17 y texto hasta 0xFF (conversacion 0x28); lo
+;   leen p02:80CA (2 bytes)
+;   0xb0fa..0xb0fc  (2 bytes)
+DATA_linea_B0FA:
+	defb 017h,0ffh	; b0fa
+
+; ----------------------------------------------------------------------
+; DATOS linea_B0FC: accion 0x00 y texto hasta 0xFF (conversacion 0x28); lo
+;   leen p02:80CA (14 bytes)
+;   0xb0fc..0xb10a  (14 bytes)
+DATA_linea_B0FC:
+	defb 000h,07bh,068h,088h,061h,060h,03ch,000h,05bh,082h,079h,067h,03eh,0ffh	; b0fc  .{h.a`<.[.yg>.
+
+; ----------------------------------------------------------------------
+; DATOS linea_B10A: accion 0x00 y texto hasta 0xFF (conversacion 0x28); lo
+;   leen p02:80CA (21 bytes)
+;   0xb10a..0xb11f  (21 bytes)
+DATA_linea_B10A:
+	defb 000h,07bh,068h,088h,061h,074h,000h,064h,086h,084h,06dh,05ch,083h,000h,080h,05dh	; b10a  .{h.at.d..m\...]
+	defb 06dh,03ch,067h,03eh,0ffh	; b11a
+
+; ----------------------------------------------------------------------
+; DATOS lineas_29: las 1 lineas de la conversacion 0x29 y un 0 de fin; lo leen
+;   p02:80BC (4 bytes)
+;   0xb11f..0xb123  (4 bytes)
+DATA_lineas_29:
+	defb 023h,0b1h	; b11f
+	defb 000h,000h	; b121
+
+; ----------------------------------------------------------------------
+; DATOS linea_B123: accion 0x00 y texto hasta 0xFF (conversacion 0x29); lo
+;   leen p02:80CA (37 bytes)
+;   0xb123..0xb148  (37 bytes)
+DATA_linea_B123:
+	defb 000h,04bh,04fh,04eh,047h,073h,000h,065h,063h,075h,03ch,087h,000h,06eh,083h,070h	; b123  .KONGs.ecu<..n.p
+	defb 074h,000h,081h,062h,06fh,000h,073h,000h,06ah,079h,060h,03ch,000h,075h,06ch,080h	; b133  t..bo.s.jy`<.ul.
+	defb 05dh,06ah,03ch,03eh,0ffh	; b143
+
+; ----------------------------------------------------------------------
+; DATOS lineas_2A: las 1 lineas de la conversacion 0x2A y un 0 de fin; lo leen
+;   p02:80BC (4 bytes)
+;   0xb148..0xb14c  (4 bytes)
+DATA_lineas_2A:
+	defb 04ch,0b1h	; b148
+	defb 000h,000h	; b14a
+
+; ----------------------------------------------------------------------
+; DATOS linea_B14C: accion 0x00 y texto hasta 0xFF (conversacion 0x2A); lo
+;   leen p02:80CA (42 bytes)
+;   0xb14c..0xb176  (42 bytes)
+DATA_linea_B14C:
+	defb 000h,061h,05ch,085h,05ch,000h,05ch,086h,074h,000h,04bh,04fh,04eh,047h,065h,079h	; b14c  .a\.\.\.t.KONGey
+	defb 073h,000h,06bh,060h,081h,06dh,03ch,06fh,063h,084h,074h,03ch,000h,05fh,067h,064h	; b15c  s.k`.m<oc.t<._gd
+	defb 06eh,060h,03ch,06dh,03ch,061h,06fh,05ch,03eh,0ffh	; b16c  n`<m<ao\>.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_2B: las 4 lineas de la conversacion 0x2B y un 0 de fin; lo leen
+;   p02:80BC (10 bytes)
+;   0xb176..0xb180  (10 bytes)
+DATA_lineas_2B:
+	defb 080h,0b1h	; b176
+	defb 0ach,0b1h	; b178
+	defb 0cah,0b1h	; b17a
+	defb 011h,0a8h	; b17c
+	defb 000h,000h	; b17e
+
+; ----------------------------------------------------------------------
+; DATOS linea_B180: accion 0x00 y texto hasta 0xFF (conversacion 0x2B); lo
+;   leen p02:80CA (44 bytes)
+;   0xb180..0xb1ac  (44 bytes)
+DATA_linea_B180:
+	defb 000h,064h,086h,084h,06ah,07dh,073h,06fh,081h,000h,06fh,088h,06dh,03ch,07dh,000h	; b180  .d..j}so..o.m<}.
+	defb 066h,08ah,05dh,082h,067h,083h,068h,03ch,03eh,0fdh,075h,06eh,06ch,000h,033h,035h	; b190  f.].g.h<>.unl.35
+	defb 030h,000h,047h,04fh,04ch,044h,000h,06dh,03ch,06fh,03eh,0ffh	; b1a0  0.GOLD.m<o>.
+
+; ----------------------------------------------------------------------
+; DATOS linea_B1AC: accion 0x18 y texto hasta 0xFF (conversacion 0x2B); lo
+;   leen p02:80CA (30 bytes)
+;   0xb1ac..0xb1ca  (30 bytes)
+DATA_linea_B1AC:
+	defb 018h,03ah,000h,031h,08dh,053h,048h,04fh,054h,040h,031h,0fdh,000h,000h,032h,08dh	; b1ac  .:.1.SHOT@1...2.
+	defb 053h,048h,04fh,054h,040h,032h,000h,000h,033h,08dh,05fh,086h,082h,0ffh	; b1bc  SHOT@2..3._...
+
+; ----------------------------------------------------------------------
+; DATOS linea_B1CA: accion 0x00 y texto hasta 0xFF (conversacion 0x2B); lo
+;   leen p02:80CA (6 bytes)
+;   0xb1ca..0xb1d0  (6 bytes)
+DATA_linea_B1CA:
+	defb 000h,078h,060h,070h,074h,0ffh	; b1ca
+
+; ----------------------------------------------------------------------
+; DATOS lineas_2C: las 1 lineas de la conversacion 0x2C y un 0 de fin; lo leen
+;   p02:80BC (4 bytes)
+;   0xb1d0..0xb1d4  (4 bytes)
+DATA_lineas_2C:
+	defb 0d4h,0b1h	; b1d0
+	defb 000h,000h	; b1d2
+
+; ----------------------------------------------------------------------
+; DATOS linea_B1D4: accion 0x19 y texto hasta 0xFF (conversacion 0x2C); lo
+;   leen p02:80CA (37 bytes)
+;   0xb1d4..0xb1f9  (37 bytes)
+DATA_linea_B1D4:
+	defb 019h,04bh,04fh,04eh,047h,065h,079h,070h,000h,065h,066h,05bh,063h,03ch,083h,07dh	; b1d4  .KONGeyp.ef[c<.}
+	defb 073h,087h,000h,06dh,040h,076h,03ch,083h,073h,000h,05dh,05eh,070h,000h,05fh,061h	; b1e4  s..m@v<.s.]^p._a
+	defb 06fh,065h,05ch,03eh,0ffh	; b1f4
+
+; ----------------------------------------------------------------------
+; DATOS lineas_2D: las 3 lineas de la conversacion 0x2D y un 0 de fin; lo leen
+;   p02:80BC (8 bytes)
+;   0xb1f9..0xb201  (8 bytes)
+DATA_lineas_2D:
+	defb 001h,0b2h	; b1f9
+	defb 033h,0b2h	; b1fb
+	defb 054h,0b2h	; b1fd
+	defb 000h,000h	; b1ff
+
+; ----------------------------------------------------------------------
+; DATOS linea_B201: accion 0x00 y texto hasta 0xFF (conversacion 0x2D); lo
+;   leen p02:80CA (50 bytes)
+;   0xb201..0xb233  (50 bytes)
+DATA_linea_B201:
+	defb 000h,04bh,04fh,04eh,047h,065h,079h,073h,000h,06dh,03ch,088h,068h,06ch,070h,000h	; b201  .KONGeys.m<.hlp.
+	defb 080h,083h,06eh,0fdh,06eh,03ch,05dh,062h,06ch,073h,000h,06fh,060h,070h,000h,065h	; b211  ..n.n<]bls.o`p.e
+	defb 05ch,06dh,05ch,083h,000h,0fdh,061h,08bh,06ah,03ch,05ch,06fh,000h,074h,06fh,074h	; b221  \m\...a.j<\o.tot
+	defb 03fh,0ffh	; b231
+
+; ----------------------------------------------------------------------
+; DATOS linea_B233: accion 0x00 y texto hasta 0xFF (conversacion 0x2D); lo
+;   leen p02:80CA (33 bytes)
+;   0xb233..0xb254  (33 bytes)
+DATA_linea_B233:
+	defb 000h,061h,05ch,085h,05ch,000h,05ch,066h,06dh,03ch,000h,06fh,063h,084h,074h,03ch	; b233  .a\.\.\fm<.oc.t<
+	defb 000h,063h,067h,064h,06eh,060h,03ch,06dh,03ch,061h,06fh,05ch,081h,066h,05ch,03eh	; b243  .cgdn`<m<ao\.f\>
+	defb 0ffh	; b253
+
+; ----------------------------------------------------------------------
+; DATOS linea_B254: accion 0x00 y texto hasta 0xFF (conversacion 0x2D); lo
+;   leen p02:80CA (18 bytes)
+;   0xb254..0xb266  (18 bytes)
+DATA_linea_B254:
+	defb 000h,080h,062h,000h,05fh,078h,03ch,05eh,06dh,05fh,062h,060h,03ch,000h,080h,05ch	; b254  ..b._x<^m_b`<..\
+	defb 03eh,0ffh	; b264
+
+; ----------------------------------------------------------------------
+; DATOS lineas_2E: las 1 lineas de la conversacion 0x2E y un 0 de fin; lo leen
+;   p02:80BC (4 bytes)
+;   0xb266..0xb26a  (4 bytes)
+DATA_lineas_2E:
+	defb 06ah,0b2h	; b266
+	defb 000h,000h	; b268
+
+; ----------------------------------------------------------------------
+; DATOS linea_B26A: accion 0x00 y texto hasta 0xFF (conversacion 0x2E); lo
+;   leen p02:80CA (47 bytes)
+;   0xb26a..0xb299  (47 bytes)
+DATA_linea_B26A:
+	defb 000h,06eh,03ch,05dh,062h,06ch,073h,000h,06fh,060h,073h,000h,066h,03ch,086h,084h	; b26a  .n<]bls.o`s.f<..
+	defb 087h,000h,05dh,07ch,083h,070h,074h,000h,04bh,04fh,04eh,047h,065h,079h,073h,000h	; b27a  ..]|.pt.KONGeys.
+	defb 06fh,07ah,06ah,03ch,060h,03ch,075h,06ch,080h,05dh,066h,03ch,089h,03eh,0ffh	; b28a  ozj<`<ul.]f<.>.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_2F: las 2 lineas de la conversacion 0x2F y un 0 de fin; lo leen
+;   p02:80BC (6 bytes)
+;   0xb299..0xb29f  (6 bytes)
+DATA_lineas_2F:
+	defb 09fh,0b2h	; b299
+	defb 0bbh,0b2h	; b29b
+	defb 000h,000h	; b29d
+
+; ----------------------------------------------------------------------
+; DATOS linea_B29F: accion 0x00 y texto hasta 0xFF (conversacion 0x2F); lo
+;   leen p02:80CA (28 bytes)
+;   0xb29f..0xb2bb  (28 bytes)
+DATA_linea_B29F:
+	defb 000h,064h,073h,000h,06eh,075h,03ch,081h,074h,000h,066h,088h,068h,05ch,06fh,083h	; b29f  .ds.nu<.t.f.h\o.
+	defb 000h,05ch,073h,082h,073h,000h,06eh,075h,03ch,081h,03eh,0ffh	; b2af  .\s.s.nu<.>.
+
+; ----------------------------------------------------------------------
+; DATOS linea_B2BB: accion 0x00 y texto hasta 0xFF (conversacion 0x2F); lo
+;   leen p02:80CA (42 bytes)
+;   0xb2bb..0xb2e5  (42 bytes)
+DATA_linea_B2BB:
+	defb 000h,04bh,04fh,04eh,047h,065h,079h,073h,000h,061h,074h,03ch,060h,03ch,000h,06fh	; b2bb  .KONGeys.at<`<.o
+	defb 063h,084h,074h,03ch,000h,05ch,060h,06fh,083h,07dh,073h,07dh,000h,05bh,063h,083h	; b2cb  c.t<.\`o.}s}.[c.
+	defb 064h,06eh,074h,06dh,03ch,061h,06fh,05ch,03eh,0ffh	; b2db  dntm<ao\>.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_30: las 1 lineas de la conversacion 0x30 y un 0 de fin; lo leen
+;   p02:80BC (4 bytes)
+;   0xb2e5..0xb2e9  (4 bytes)
+DATA_lineas_30:
+	defb 0e9h,0b2h	; b2e5
+	defb 000h,000h	; b2e7
+
+; ----------------------------------------------------------------------
+; DATOS linea_B2E9: accion 0x1A y texto hasta 0xFF (conversacion 0x30); lo
+;   leen p02:80CA (33 bytes)
+;   0xb2e9..0xb30a  (33 bytes)
+DATA_linea_B2E9:
+	defb 01ah,06eh,03ch,05dh,062h,06ch,073h,000h,069h,06eh,070h,000h,06dh,03ch,06ah,05ch	; b2e9  .n<]bls.inp.m<j\
+	defb 060h,03bh,0fdh,03ah,000h,031h,000h,074h,05ch,000h,000h,032h,000h,05ch,05ch,05eh	; b2f9  `;.:.1.t\..2.\\^
+	defb 0ffh	; b309
+
+; ----------------------------------------------------------------------
+; DATOS lineas_31: las 1 lineas de la conversacion 0x31 y un 0 de fin; lo leen
+;   p02:80BC (4 bytes)
+;   0xb30a..0xb30e  (4 bytes)
+DATA_lineas_31:
+	defb 00eh,0b3h	; b30a
+	defb 000h,000h	; b30c
+
+; ----------------------------------------------------------------------
+; DATOS linea_B30E: accion 0x1B y texto hasta 0xFF (conversacion 0x31); lo
+;   leen p02:80CA (61 bytes)
+;   0xb30e..0xb34b  (61 bytes)
+DATA_linea_B30E:
 	defb 01bh,086h,066h,074h,000h,066h,08ah,05dh,06bh,08bh,05dh,066h,03ch,089h,03eh,000h	; b30e  ..ft.f.]k.]f<.>.
 	defb 05bh,082h,060h,03ch,06eh,05dh,03fh,080h,062h,000h,06ah,067h,063h,06dh,062h,084h	; b31e  [.`<n]?.b.jgcmb.
 	defb 06ah,03eh,05fh,084h,05ch,070h,000h,079h,060h,076h,03dh,081h,073h,000h,066h,03ch	; b32e  j>_.\p.y`v=.s.f<
-	defb 08ah,07dh,088h,087h,000h,065h,067h,03ch,063h,080h,05dh,03eh,0ffh,04fh,0b3h,000h	; b33e  .}...eg<c.]>.O..
-	defb 000h,000h,066h,085h,05ch,063h,07dh,073h,074h,000h,075h,060h,082h,073h,000h,063h	; b34e  ..f.\c}st.u`.s.c
-	defb 088h,06dh,03ch,000h,06ah,05fh,068h,03eh,0ffh,06bh,0b3h,000h,000h,000h,04bh,04fh	; b35e  .m<.j_h>.k....KO
-	defb 04eh,047h,065h,079h,073h,000h,06ch,07ch,074h,000h,067h,077h,03ch,06dh,073h,000h	; b36e  NGeys.l|t.gw<ms.
-	defb 073h,085h,05ch,087h,000h,05dh,06bh,063h,067h,000h,06ah,06ah,03ch,000h,075h,06eh	; b37e  s.\..]kcg.jj<.un
-	defb 06ch,073h,000h,076h,03ch,061h,066h,03ch,089h,03eh,0ffh,09dh,0b3h,000h,000h,000h	; b38e  ls.v<af<.>......
-	defb 064h,073h,000h,074h,064h,087h,000h,05bh,063h,083h,070h,074h,000h,05bh,062h,03ch	; b39e  ds.td..[c.pt.[b<
-	defb 073h,067h,073h,000h,060h,061h,03ch,060h,03ch,000h,075h,06ch,080h,05dh,06fh,082h	; b3ae  sgs.`a<`<.ul.]o.
-	defb 03eh,0ffh,0c4h,0b3h,000h,000h,000h,060h,081h,067h,074h,000h,060h,06fh,081h,067h	; b3be  >......`.gt.`o.g
-	defb 03ch,000h,06ah,05fh,068h,03eh,0ffh,0d9h,0b3h,000h,000h,000h,066h,088h,06dh,03ch	; b3ce  <.j_h>......f.m<
-	defb 088h,070h,074h,000h,04bh,04fh,04eh,047h,073h,000h,065h,063h,075h,03ch,060h,03ch	; b3de  .pt.KONGs.ecu<`<
-	defb 000h,060h,062h,065h,084h,06dh,05ch,083h,03eh,0ffh,002h,0b4h,01fh,0b4h,031h,0b4h	; b3ee  .`be.m\.>.....1.
-	defb 04eh,0b4h,000h,000h,000h,05ch,079h,060h,081h,000h,048h,045h,04ch,049h,043h,04fh	; b3fe  N....\y`..HELICO
-	defb 050h,054h,045h,052h,000h,06eh,000h,06ch,05dh,066h,088h,000h,066h,079h,067h,03eh	; b40e  PTER.n.l]f..fyg>
-	defb 0ffh,000h,064h,06bh,081h,041h,052h,04dh,059h,000h,064h,06bh,081h,041h,052h,04dh	; b41e  ..dk.ARMY.dk.ARM
-	defb 059h,000h,0ffh,000h,079h,06ah,03ch,000h,04ch,041h,044h,059h,000h,04bh,04fh,04eh	; b42e  Y...yj<.LADY.KON
-	defb 047h,087h,000h,074h,08ch,063h,088h,000h,06dh,03ch,061h,06fh,05ch,073h,060h,0ffh	; b43e  G..t.c..m<ao\s`.
+	defb 08ah,07dh,088h,087h,000h,065h,067h,03ch,063h,080h,05dh,03eh,0ffh	; b33e  .}...eg<c.]>.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_32: las 1 lineas de la conversacion 0x32 y un 0 de fin; lo leen
+;   p02:80BC (4 bytes)
+;   0xb34b..0xb34f  (4 bytes)
+DATA_lineas_32:
+	defb 04fh,0b3h	; b34b
+	defb 000h,000h	; b34d
+
+; ----------------------------------------------------------------------
+; DATOS linea_B34F: accion 0x00 y texto hasta 0xFF (conversacion 0x32); lo
+;   leen p02:80CA (24 bytes)
+;   0xb34f..0xb367  (24 bytes)
+DATA_linea_B34F:
+	defb 000h,066h,085h,05ch,063h,07dh,073h,074h,000h,075h,060h,082h,073h,000h,063h,088h	; b34f  .f.\c}st.u`.s.c.
+	defb 06dh,03ch,000h,06ah,05fh,068h,03eh,0ffh	; b35f  m<.j_h>.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_33: las 1 lineas de la conversacion 0x33 y un 0 de fin; lo leen
+;   p02:80BC (4 bytes)
+;   0xb367..0xb36b  (4 bytes)
+DATA_lineas_33:
+	defb 06bh,0b3h	; b367
+	defb 000h,000h	; b369
+
+; ----------------------------------------------------------------------
+; DATOS linea_B36B: accion 0x00 y texto hasta 0xFF (conversacion 0x33); lo
+;   leen p02:80CA (46 bytes)
+;   0xb36b..0xb399  (46 bytes)
+DATA_linea_B36B:
+	defb 000h,04bh,04fh,04eh,047h,065h,079h,073h,000h,06ch,07ch,074h,000h,067h,077h,03ch	; b36b  .KONGeys.l|t.gw<
+	defb 06dh,073h,000h,073h,085h,05ch,087h,000h,05dh,06bh,063h,067h,000h,06ah,06ah,03ch	; b37b  ms.s.\..]kcg.jj<
+	defb 000h,075h,06eh,06ch,073h,000h,076h,03ch,061h,066h,03ch,089h,03eh,0ffh	; b38b  .unls.v<af<.>.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_34: las 1 lineas de la conversacion 0x34 y un 0 de fin; lo leen
+;   p02:80BC (4 bytes)
+;   0xb399..0xb39d  (4 bytes)
+DATA_lineas_34:
+	defb 09dh,0b3h	; b399
+	defb 000h,000h	; b39b
+
+; ----------------------------------------------------------------------
+; DATOS linea_B39D: accion 0x00 y texto hasta 0xFF (conversacion 0x34); lo
+;   leen p02:80CA (35 bytes)
+;   0xb39d..0xb3c0  (35 bytes)
+DATA_linea_B39D:
+	defb 000h,064h,073h,000h,074h,064h,087h,000h,05bh,063h,083h,070h,074h,000h,05bh,062h	; b39d  .ds.td..[c.pt.[b
+	defb 03ch,073h,067h,073h,000h,060h,061h,03ch,060h,03ch,000h,075h,06ch,080h,05dh,06fh	; b3ad  <sgs.`a<`<.ul.]o
+	defb 082h,03eh,0ffh	; b3bd
+
+; ----------------------------------------------------------------------
+; DATOS lineas_35: las 1 lineas de la conversacion 0x35 y un 0 de fin; lo leen
+;   p02:80BC (4 bytes)
+;   0xb3c0..0xb3c4  (4 bytes)
+DATA_lineas_35:
+	defb 0c4h,0b3h	; b3c0
+	defb 000h,000h	; b3c2
+
+; ----------------------------------------------------------------------
+; DATOS linea_B3C4: accion 0x00 y texto hasta 0xFF (conversacion 0x35); lo
+;   leen p02:80CA (17 bytes)
+;   0xb3c4..0xb3d5  (17 bytes)
+DATA_linea_B3C4:
+	defb 000h,060h,081h,067h,074h,000h,060h,06fh,081h,067h,03ch,000h,06ah,05fh,068h,03eh	; b3c4  .`.gt.`o.g<.j_h>
+	defb 0ffh	; b3d4
+
+; ----------------------------------------------------------------------
+; DATOS lineas_36: las 1 lineas de la conversacion 0x36 y un 0 de fin; lo leen
+;   p02:80BC (4 bytes)
+;   0xb3d5..0xb3d9  (4 bytes)
+DATA_lineas_36:
+	defb 0d9h,0b3h	; b3d5
+	defb 000h,000h	; b3d7
+
+; ----------------------------------------------------------------------
+; DATOS linea_B3D9: accion 0x00 y texto hasta 0xFF (conversacion 0x36); lo
+;   leen p02:80CA (31 bytes)
+;   0xb3d9..0xb3f8  (31 bytes)
+DATA_linea_B3D9:
+	defb 000h,066h,088h,06dh,03ch,088h,070h,074h,000h,04bh,04fh,04eh,047h,073h,000h,065h	; b3d9  .f.m<.pt.KONGs.e
+	defb 063h,075h,03ch,060h,03ch,000h,060h,062h,065h,084h,06dh,05ch,083h,03eh,0ffh	; b3e9  cu<`<.`be.m\.>.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_37: las 4 lineas de la conversacion 0x37 y un 0 de fin; lo leen
+;   p02:80BC (10 bytes)
+;   0xb3f8..0xb402  (10 bytes)
+DATA_lineas_37:
+	defb 002h,0b4h	; b3f8
+	defb 01fh,0b4h	; b3fa
+	defb 031h,0b4h	; b3fc
+	defb 04eh,0b4h	; b3fe
+	defb 000h,000h	; b400
+
+; ----------------------------------------------------------------------
+; DATOS linea_B402: accion 0x00 y texto hasta 0xFF (conversacion 0x37); lo
+;   leen p02:80CA (29 bytes)
+;   0xb402..0xb41f  (29 bytes)
+DATA_linea_B402:
+	defb 000h,05ch,079h,060h,081h,000h,048h,045h,04ch,049h,043h,04fh,050h,054h,045h,052h	; b402  .\y`..HELICOPTER
+	defb 000h,06eh,000h,06ch,05dh,066h,088h,000h,066h,079h,067h,03eh,0ffh	; b412  .n.l]f..fyg>.
+
+; ----------------------------------------------------------------------
+; DATOS linea_B41F: accion 0x00 y texto hasta 0xFF (conversacion 0x37); lo
+;   leen p02:80CA (18 bytes)
+;   0xb41f..0xb431  (18 bytes)
+DATA_linea_B41F:
+	defb 000h,064h,06bh,081h,041h,052h,04dh,059h,000h,064h,06bh,081h,041h,052h,04dh,059h	; b41f  .dk.ARMY.dk.ARMY
+	defb 000h,0ffh	; b42f
+
+; ----------------------------------------------------------------------
+; DATOS linea_B431: accion 0x00 y texto hasta 0xFF (conversacion 0x37); lo
+;   leen p02:80CA (29 bytes)
+;   0xb431..0xb44e  (29 bytes)
+DATA_linea_B431:
+	defb 000h,079h,06ah,03ch,000h,04ch,041h,044h,059h,000h,04bh,04fh,04eh,047h,087h,000h	; b431  .yj<.LADY.KONG..
+	defb 074h,08ch,063h,088h,000h,06dh,03ch,061h,06fh,05ch,073h,060h,0ffh	; b441  t.c..m<ao\s`.
+
+; ----------------------------------------------------------------------
+; DATOS linea_B44E: accion 0x00 y texto hasta 0xFF (conversacion 0x37); lo
+;   leen p02:80CA (32 bytes)
+;   0xb44e..0xb46e  (32 bytes)
+DATA_linea_B44E:
 	defb 000h,074h,07eh,062h,066h,06fh,05ch,06eh,000h,04bh,049h,04eh,047h,000h,04bh,04fh	; b44e  .t~bfo\n.KING.KO
 	defb 04eh,047h,060h,03ch,000h,066h,088h,06dh,03ch,066h,079h,05dh,069h,03ch,03eh,0ffh	; b45e  NG`<.f.m<fy]i<>.
-	defb 002h,0b4h,07ah,0b4h,093h,0b4h,0a3h,0b4h,0beh,0b4h,000h,000h,000h,064h,03ch,062h	; b46e  ..z..........d<b
-	defb 085h,05dh,000h,04dh,049h,054h,043h,048h,045h,04ch,03eh,0fdh,080h,062h,07eh,08ch	; b47e  .].MITCHEL>..b~.
-	defb 06ah,069h,03ch,03eh,0ffh,000h,067h,062h,03ch,070h,000h,069h,06bh,081h,070h,000h	; b48e  ji<>..gb<p.ik.p.
-	defb 07bh,060h,05dh,03eh,0ffh,021h,064h,084h,06dh,03ch,000h,04bh,049h,04eh,047h,000h	; b49e  {`]>.!d.m<.KING.
-	defb 04bh,04fh,04eh,047h,07dh,000h,06ah,067h,060h,083h,06ah,03ch,085h,05dh,03eh,0ffh	; b4ae  KONG}.jg`.j<.]>.
+
+; ----------------------------------------------------------------------
+; DATOS lineas_38: las 5 lineas de la conversacion 0x38 y un 0 de fin; lo leen
+;   p02:80BC (12 bytes)
+;   0xb46e..0xb47a  (12 bytes)
+DATA_lineas_38:
+	defb 002h,0b4h	; b46e
+	defb 07ah,0b4h	; b470
+	defb 093h,0b4h	; b472
+	defb 0a3h,0b4h	; b474
+	defb 0beh,0b4h	; b476
+	defb 000h,000h	; b478
+
+; ----------------------------------------------------------------------
+; DATOS linea_B47A: accion 0x00 y texto hasta 0xFF (conversacion 0x38); lo
+;   leen p02:80CA (25 bytes)
+;   0xb47a..0xb493  (25 bytes)
+DATA_linea_B47A:
+	defb 000h,064h,03ch,062h,085h,05dh,000h,04dh,049h,054h,043h,048h,045h,04ch,03eh,0fdh	; b47a  .d<b.].MITCHEL>.
+	defb 080h,062h,07eh,08ch,06ah,069h,03ch,03eh,0ffh	; b48a  .b~.ji<>.
+
+; ----------------------------------------------------------------------
+; DATOS linea_B493: accion 0x00 y texto hasta 0xFF (conversacion 0x38); lo
+;   leen p02:80CA (16 bytes)
+;   0xb493..0xb4a3  (16 bytes)
+DATA_linea_B493:
+	defb 000h,067h,062h,03ch,070h,000h,069h,06bh,081h,070h,000h,07bh,060h,05dh,03eh,0ffh	; b493  .gb<p.ik.p.{`]>.
+
+; ----------------------------------------------------------------------
+; DATOS linea_B4A3: accion 0x21 y texto hasta 0xFF (conversacion 0x38); lo
+;   leen p02:80CA (27 bytes)
+;   0xb4a3..0xb4be  (27 bytes)
+DATA_linea_B4A3:
+	defb 021h,064h,084h,06dh,03ch,000h,04bh,049h,04eh,047h,000h,04bh,04fh,04eh,047h,07dh	; b4a3  !d.m<.KING.KONG}
+	defb 000h,06ah,067h,060h,083h,06ah,03ch,085h,05dh,03eh,0ffh	; b4b3  .jg`.j<.]>.
+
+; ----------------------------------------------------------------------
+; DATOS linea_B4BE: accion 0x22 y texto hasta 0xFF (conversacion 0x38); lo
+;   leen p02:80CA (22 bytes)
+;   0xb4be..0xb4d4  (22 bytes)
+DATA_linea_B4BE:
 	defb 022h,048h,045h,04ch,049h,043h,04fh,050h,054h,045h,052h,060h,03ch,07eh,08ch,06dh	; b4be  "HELICOPTER`<~.m
-	defb 061h,079h,066h,06ah,03eh,0ffh,008h,0b0h,064h,084h,06ah,03ch,063h,06dh,03ch,074h	; b4ce  ayfj>...d.j<cm<t
-	defb 000h,079h,088h,069h,03ch,062h,06dh,03ch,061h,071h,03eh,0feh,008h,0b8h,05bh,05ch	; b4de  .y.i<bm<aq>...[\
-	defb 06dh,07bh,073h,000h,064h,05dh,082h,08bh,062h,07dh,000h,05ch,06ah,06ah,03ch,062h	; b4ee  m{s.d]..b}.\jj<b
-	defb 03eh,0ffh	; b4fe
+	defb 061h,079h,066h,06ah,03eh,0ffh	; b4ce
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0xb4d4..0xb500  (44 bytes)
+DATA_B4D4:
+	defb 008h,0b0h,064h,084h,06ah,03ch,063h,06dh,03ch,074h,000h,079h,088h,069h,03ch,062h	; b4d4  ..d.j<cm<t.y.i<b
+	defb 06dh,03ch,061h,071h,03eh,0feh,008h,0b8h,05bh,05ch,06dh,07bh,073h,000h,064h,05dh	; b4e4  m<aq>...[\m{s.d]
+	defb 082h,08bh,062h,07dh,000h,05ch,06ah,06ah,03ch,062h,03eh,0ffh	; b4f4  ..b}.\jj<b>.
 
 ; ======================================================================
 ; CODIGO 0xb500..0xb503  (3 bytes)
 ; ======================================================================
 
 
-L_B500:
-	call L_B9B3		;b500
+accion_01_el_cuchillo:
+	call elige_1_2_o_3		;b500
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B503: 3 destinos del despachador de 0xB9B3 (call en p12:B500):
@@ -1147,10 +1980,10 @@ DATA_tabla_B503:
 
 
 L_B509:
-	ld de,00200h		;b509
-	call L_B98F		;b50c
+	ld de,00200h		;b509   ; 200 GOLD
+	call cobra		;b50c
 	jr c,L_B529		;b50f
-	ld a,001h		;b511
+	ld a,001h		;b511   ; el objeto 1
 	call 04068h		;b513
 	ld a,002h		;b516
 	ld (0c14dh),a		;b518
@@ -1170,8 +2003,8 @@ L_B531:
 	ld (0c14bh),a		;b533
 L_B536:
 	ret			;b536
-L_B537:
-	call L_B9B3		;b537
+accion_02_el_hacha:
+	call elige_1_2_o_3		;b537
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B53A: 3 destinos del despachador de 0xB9B3 (call en p12:B537):
@@ -1191,24 +2024,24 @@ L_B540:
 	ld a,007h		;b540
 	ld (0c14dh),a		;b542
 	jp L_B531		;b545
-L_B548:
-	ld a,(0c136h)		;b548
+quiere_el_hacha:
+	ld a,(0c136h)		;b548   ; con 300 GOLD o mas (0xC136 >= 3), la linea siguiente: "agotada"
 	cp 003h		;b54b
 	jp nc,L_B531		;b54d
-	ld a,003h		;b550
+	ld a,003h		;b550   ; con menos, la 3: "no te llega"
 	ld (0c14dh),a		;b552
 	ld a,007h		;b555
 	ld (0c15dh),a		;b557
 	jp L_B531		;b55a
-L_B55D:
-	ld a,(0c358h)		;b55d
+accion_03_la_radio:
+	ld a,(0c358h)		;b55d   ; con el objeto 0x19 (0xC358) sigue la conversacion; sin el, se acaba
 	and a			;b560
 	jp nz,L_B7DA		;b561
 	ld a,005h		;b564
 	ld (0c14dh),a		;b566
 	jp L_B7DA		;b569
-L_B56C:
-	call L_B9B3		;b56c
+accion_04_la_carta:
+	call elige_1_2_o_3		;b56c
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B56F: 3 destinos del despachador de 0xB9B3 (call en p12:B56C):
@@ -1225,16 +2058,16 @@ DATA_tabla_B56F:
 
 
 L_B575:
-	ld a,020h		;b575
+	ld a,020h		;b575   ; aceptar: el objeto 0x20
 	call 04068h		;b577
 	jp L_B531		;b57a
-L_B57D:
-	xor a			;b57d
+rechaza_la_carta:
+	xor a			;b57d   ; rechazar: el MP se queda a 0
 	ld (0c12fh),a		;b57e
 	call 04062h		;b581
 	jp L_B531		;b584
-L_B587:
-	call L_B9B3		;b587
+accion_05_comida:
+	call elige_1_2_o_3		;b587
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B58A: 3 destinos del despachador de 0xB9B3 (call en p12:B587):
@@ -1251,18 +2084,18 @@ DATA_tabla_B58A:
 
 
 L_B590:
-	ld de,00050h		;b590
-	call L_B98F		;b593
+	ld de,00050h		;b590   ; la primera, 50 GOLD: no hace nada mas
+	call cobra		;b593
 	jr c,L_B5B7		;b596
 L_B598:
 	ld a,003h		;b598
 	ld (0c14dh),a		;b59a
 	jp L_B531		;b59d
 L_B5A0:
-	ld de,00100h		;b5a0
-	call L_B98F		;b5a3
+	ld de,00100h		;b5a0   ; la segunda, 100 GOLD: media vida
+	call cobra		;b5a3
 	jp c,L_B531		;b5a6
-	call L_B946		;b5a9
+	call media_vida		;b5a9
 	jp L_B598		;b5ac
 L_B5AF:
 	ld a,003h		;b5af
@@ -1272,8 +2105,8 @@ L_B5B7:
 	ld a,002h		;b5b7
 	ld (0c14dh),a		;b5b9
 	jp L_B531		;b5bc
-L_B5BF:
-	call L_B9B3		;b5bf
+accion_06_posada:
+	call elige_1_2_o_3		;b5bf
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B5C2: 3 destinos del despachador de 0xB9B3 (call en p12:B5BF):
@@ -1290,21 +2123,21 @@ DATA_tabla_B5C2:
 
 
 L_B5C8:
-	ld de,00150h		;b5c8
-	call L_B98F		;b5cb
+	ld de,00150h		;b5c8   ; 150 GOLD: vida llena y 20 de MP
+	call cobra		;b5cb
 	jp c,L_B531		;b5ce
-	call L_B913		;b5d1
-	call L_B937		;b5d4
+	call vida_llena		;b5d1
+	call mp_mas_20		;b5d4
 L_B5D7:
 	ld a,002h		;b5d7
 	ld (0c14dh),a		;b5d9
 	jp L_B531		;b5dc
-L_B5DF:
+accion_07_da_el_0x0C:
 	ld a,00ch		;b5df
 	call 04068h		;b5e1
 	jp L_B7DA		;b5e4
-L_B5E7:
-	ld a,(0c360h)		;b5e7
+accion_08_sin_libro:
+	ld a,(0c360h)		;b5e7   ; 0xC360: el objeto 0x21; sin el, solo "kii kii kuu kii"
 	and a			;b5ea
 	jr z,L_B5F5		;b5eb
 	ld a,002h		;b5ed
@@ -1316,11 +2149,11 @@ L_B5F5:
 	ld a,003h		;b5fa
 	ld (0c15dh),a		;b5fc
 	jp L_B531		;b5ff
-L_B602:
+accion_09_da_el_0x17:
 	ld a,017h		;b602
 	call 04068h		;b604
 	jp L_B7DA		;b607
-L_B60A:
+accion_0A_sin_libro:
 	ld a,(0c360h)		;b60a
 	and a			;b60d
 	jr z,L_B618		;b60e
@@ -1331,8 +2164,8 @@ L_B618:
 	ld a,009h		;b618
 	ld (0c15dh),a		;b61a
 	jp L_B531		;b61d
-L_B620:
-	call L_B9B3		;b620
+accion_1D_cinco_0x10:
+	call elige_1_2_o_3		;b620
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B623: 3 destinos del despachador de 0xB9B3 (call en p12:B620):
@@ -1349,7 +2182,7 @@ DATA_tabla_B623:
 
 
 L_B629:
-	ld hl,0c34fh		;b629
+	ld hl,0c34fh		;b629   ; gasta cinco 0x10 (0xC34F)
 	ld a,(hl)			;b62c
 	sub 005h		;b62d
 	daa			;b62f
@@ -1374,8 +2207,8 @@ L_B653:
 	ld a,005h		;b653
 	ld (0c14dh),a		;b655
 	jr L_B64B		;b658
-L_B65A:
-	call L_B9B3		;b65a
+accion_0B_el_libro:
+	call elige_1_2_o_3		;b65a
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B65D: 3 destinos del despachador de 0xB9B3 (call en p12:B65A):
@@ -1392,10 +2225,10 @@ DATA_tabla_B65D:
 
 
 L_B663:
-	ld de,00200h		;b663
-	call L_B98F		;b666
+	ld de,00200h		;b663   ; 200 GOLD
+	call cobra		;b666
 	jp c,L_B531		;b669
-	ld a,021h		;b66c
+	ld a,021h		;b66c   ; el objeto 0x21
 	call 04068h		;b66e
 	ld a,002h		;b671
 	ld (0c14dh),a		;b673
@@ -1404,8 +2237,8 @@ L_B679:
 	ld a,002h		;b679
 	ld (0c14dh),a		;b67b
 	jp L_B531		;b67e
-L_B681:
-	call L_B9B3		;b681
+accion_0C_los_zuecos:
+	call elige_1_2_o_3		;b681
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B684: 3 destinos del despachador de 0xB9B3 (call en p12:B681):
@@ -1422,18 +2255,18 @@ DATA_tabla_B684:
 
 
 L_B68A:
-	ld a,(0c35ch)		;b68a
+	ld a,(0c35ch)		;b68a   ; sin el objeto 0x1D (0xC35C) no hay zuecos
 	and a			;b68d
 	jr z,L_B6AD		;b68e
-	ld de,00150h		;b690
-	call L_B98F		;b693
+	ld de,00150h		;b690   ; 150 GOLD
+	call cobra		;b693
 	jr c,L_B6BD		;b696
-	ld hl,0c35ch		;b698
+	ld hl,0c35ch		;b698   ; gasta un 0x1D...
 	ld a,(hl)			;b69b
 	sub 001h		;b69c
 	daa			;b69e
 	ld (hl),a			;b69f
-	ld a,01eh		;b6a0
+	ld a,01eh		;b6a0   ; ...y da el 0x1E
 	call 04068h		;b6a2
 	ld a,004h		;b6a5
 	ld (0c14dh),a		;b6a7
@@ -1452,7 +2285,7 @@ L_B6BD:
 	ld a,004h		;b6c2
 	ld (0c15dh),a		;b6c4
 	jp L_B531		;b6c7
-L_B6CA:
+accion_0D_sin_libro:
 	ld a,(0c360h)		;b6ca
 	and a			;b6cd
 	jr z,L_B6D8		;b6ce
@@ -1465,8 +2298,8 @@ L_B6D8:
 	ld a,005h		;b6dd
 	ld (0c15dh),a		;b6df
 	jp L_B531		;b6e2
-L_B6E5:
-	call L_B9B3		;b6e5
+accion_1E_carne_para_pasar:
+	call elige_1_2_o_3		;b6e5
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B6E8: 3 destinos del despachador de 0xB9B3 (call en p12:B6E5):
@@ -1483,7 +2316,7 @@ DATA_tabla_B6E8:
 
 
 L_B6EE:
-	call L_B709		;b6ee
+	call gasta_un_0x15		;b6ee
 	jp c,L_B531		;b6f1
 	call 04050h		;b6f4
 	ld a,001h		;b6f7
@@ -1494,19 +2327,19 @@ L_B701:
 	ld a,005h		;b701
 	ld (0c14dh),a		;b703
 	jp L_B531		;b706
-L_B709:
-	ld hl,0c354h		;b709
+gasta_un_0x15:
+	ld hl,0c354h		;b709   ; 0xC354: el objeto 0x15
 	ld a,(hl)			;b70c
 	sub 001h		;b70d
 	daa			;b70f
 	ret c			;b710
 	ld (hl),a			;b711
 	ret			;b712
-L_B713:
-	ld a,001h		;b713
+accion_0E_la_picadura:
+	ld a,001h		;b713   ; 0xC146: la enfermedad
 	ld (0c146h),a		;b715
 	jp L_B7DA		;b718
-L_B71B:
+accion_0F_sin_libro:
 	ld a,(0c360h)		;b71b
 	and a			;b71e
 	jr z,L_B729		;b71f
@@ -1517,8 +2350,8 @@ L_B729:
 	ld a,005h		;b729
 	ld (0c15dh),a		;b72b
 	jp L_B531		;b72e
-L_B731:
-	call L_B9B3		;b731
+accion_1F_carne_por_posada:
+	call elige_1_2_o_3		;b731
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B734: 3 destinos del despachador de 0xB9B3 (call en p12:B731):
@@ -1535,9 +2368,9 @@ DATA_tabla_B734:
 
 
 L_B73A:
-	call L_B709		;b73a
+	call gasta_un_0x15		;b73a
 	jp c,L_B531		;b73d
-	call L_B913		;b740
+	call vida_llena		;b740
 	ld a,005h		;b743
 	ld (0c14dh),a		;b745
 	jp L_B531		;b748
@@ -1545,7 +2378,7 @@ L_B74B:
 	ld a,005h		;b74b
 	ld (0c14dh),a		;b74d
 	jp L_B531		;b750
-L_B753:
+accion_10_sin_libro:
 	ld a,(0c360h)		;b753
 	and a			;b756
 	jr z,L_B761		;b757
@@ -1556,8 +2389,8 @@ L_B761:
 	ld a,005h		;b761
 	ld (0c15dh),a		;b763
 	jp L_B531		;b766
-L_B769:
-	call L_B9B3		;b769
+accion_20_carne_por_llave:
+	call elige_1_2_o_3		;b769
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B76C: 3 destinos del despachador de 0xB9B3 (call en p12:B769):
@@ -1574,8 +2407,8 @@ DATA_tabla_B76C:
 
 
 L_B772:
-	call L_B709		;b772
-	ld a,024h		;b775
+	call gasta_un_0x15		;b772
+	ld a,024h		;b775   ; el objeto 0x24
 	call 04068h		;b777
 	ld a,001h		;b77a
 	ld (0c169h),a		;b77c
@@ -1583,8 +2416,8 @@ L_B77F:
 	ld a,005h		;b77f
 	ld (0c14dh),a		;b781
 	jp L_B531		;b784
-L_B787:
-	call L_B9B3		;b787
+accion_11_comida:
+	call elige_1_2_o_3		;b787
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B78A: 3 destinos del despachador de 0xB9B3 (call en p12:B787):
@@ -1602,7 +2435,7 @@ DATA_tabla_B78A:
 
 L_B790:
 	ld de,00050h		;b790
-	call L_B98F		;b793
+	call cobra		;b793
 	jp c,L_B531		;b796
 L_B799:
 	ld a,003h		;b799
@@ -1610,12 +2443,12 @@ L_B799:
 	jp L_B531		;b79e
 L_B7A1:
 	ld de,00100h		;b7a1
-	call L_B98F		;b7a4
+	call cobra		;b7a4
 	jp c,L_B531		;b7a7
-	call L_B946		;b7aa
+	call media_vida		;b7aa
 	jr L_B799		;b7ad
-L_B7AF:
-	call L_B9B3		;b7af
+accion_12_zuecos_por_posada:
+	call elige_1_2_o_3		;b7af
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B7B2: 3 destinos del despachador de 0xB9B3 (call en p12:B7AF):
@@ -1632,7 +2465,7 @@ DATA_tabla_B7B2:
 
 
 L_B7B8:
-	ld hl,0c35dh		;b7b8
+	ld hl,0c35dh		;b7b8   ; gasta un 0x1E (0xC35D)...
 	ld a,(hl)			;b7bb
 	sub 001h		;b7bc
 	daa			;b7be
@@ -1640,20 +2473,20 @@ L_B7B8:
 	ld (hl),a			;b7c2
 	xor a			;b7c3
 	ld (0c142h),a		;b7c4
-	call L_B913		;b7c7
-	call L_B937		;b7ca
+	call vida_llena		;b7c7   ; ...vida llena y 20 de MP
+	call mp_mas_20		;b7ca
 	ld a,003h		;b7cd
 	ld (0c14dh),a		;b7cf
 	jp L_B531		;b7d2
-L_B7D5:
+accion_13_da_el_0x12:
 	ld a,012h		;b7d5
 	call 04068h		;b7d7
 L_B7DA:
 	ld hl,0c14bh		;b7da
 	inc (hl)			;b7dd
 	ret			;b7de
-L_B7DF:
-	call L_B9B3		;b7df
+accion_14_sin_uso:
+	call elige_1_2_o_3		;b7df   ; ninguna linea lleva la accion 0x14
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B7E2: 3 destinos del despachador de 0xB9B3 (call en p12:B7DF):
@@ -1670,16 +2503,16 @@ DATA_tabla_B7E2:
 
 
 L_B7E8:
-	ld de,00300h		;b7e8
-	call L_B98F		;b7eb
+	ld de,00300h		;b7e8   ; 300 GOLD
+	call cobra		;b7eb
 	jp c,L_B531		;b7ee
 	ld a,001h		;b7f1
 	ld (0c144h),a		;b7f3
 	inc a			;b7f6
 	ld (0c15dh),a		;b7f7
 	jp L_B531		;b7fa
-L_B7FD:
-	call L_B9B3		;b7fd
+accion_15_comida:
+	call elige_1_2_o_3		;b7fd
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B800: 3 destinos del despachador de 0xB9B3 (call en p12:B7FD):
@@ -1696,10 +2529,10 @@ DATA_tabla_B800:
 
 
 L_B806:
-	ld de,00010h		;b806
-	call L_B98F		;b809
+	ld de,00010h		;b806   ; la primera, 10 GOLD...
+	call cobra		;b809
 	jp c,L_B531		;b80c
-	ld hl,0c12ah		;b80f
+	ld hl,0c12ah		;b80f   ; ...y quita vida (LIFE / 2, redondeando en BCD)
 	ld a,(hl)			;b812
 	dec hl			;b813
 	srl a		;b814
@@ -1728,13 +2561,13 @@ L_B825:
 	ld a,003h		;b832
 	ld (0c14dh),a		;b834
 	jp L_B7DA		;b837
-L_B83A:
-	ld a,(0c35fh)		;b83a
+accion_16_la_carta_llega:
+	ld a,(0c35fh)		;b83a   ; con el objeto 0x20 (0xC35F)...
 	and a			;b83d
 	jr z,L_B851		;b83e
 	ld a,002h		;b840
 	ld (0c14dh),a		;b842
-	ld a,01ah		;b845
+	ld a,01ah		;b845   ; ...da el 0x1A y se queda la carta
 	call 04068h		;b847
 	xor a			;b84a
 	ld (0c35fh),a		;b84b
@@ -1743,7 +2576,7 @@ L_B851:
 	ld a,004h		;b851
 	ld (0c15dh),a		;b853
 	jp L_B531		;b856
-L_B859:
+accion_17_da_el_0x19:
 	ld a,(0c358h)		;b859
 	and a			;b85c
 	jr z,L_B867		;b85d
@@ -1754,8 +2587,8 @@ L_B867:
 	ld a,019h		;b867
 	call 04068h		;b869
 	jp L_B531		;b86c
-L_B86F:
-	call L_B9B3		;b86f
+accion_18_repara:
+	call elige_1_2_o_3		;b86f
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B872: 3 destinos del despachador de 0xB9B3 (call en p12:B86F):
@@ -1772,18 +2605,18 @@ DATA_tabla_B872:
 
 
 L_B878:
-	ld de,00350h		;b878
-	call L_B98F		;b87b
+	ld de,00350h		;b878   ; SHOT1: 350 GOLD y nada mas
+	call cobra		;b87b
 	jr c,L_B8A6		;b87e
 L_B880:
 	ld a,001h		;b880
 	ld (0c15dh),a		;b882
 	jp L_B531		;b885
 L_B888:
-	ld de,00350h		;b888
-	call L_B98F		;b88b
+	ld de,00350h		;b888   ; SHOT2: 350 GOLD...
+	call cobra		;b88b
 	jr c,L_B8A6		;b88e
-	ld a,(0c141h)		;b890
+	ld a,(0c141h)		;b890   ; ...y si SHOT2 es el 0x19, queda reparado (0xC14E)
 	cp 019h		;b893
 	jr nz,L_B880		;b895
 	ld a,001h		;b897
@@ -1797,10 +2630,10 @@ L_B8A6:
 	ld a,003h		;b8a6
 	ld (0c14dh),a		;b8a8
 	jp L_B531		;b8ab
-L_B8AE:
+accion_19_la_mesa:
 	jp L_B7DA		;b8ae
-L_B8B1:
-	call L_B9B3		;b8b1
+accion_1A_salir_de_la_cueva:
+	call elige_1_2_o_3		;b8b1
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_B8B4: 3 destinos del despachador de 0xB9B3 (call en p12:B8B1):
@@ -1817,7 +2650,7 @@ DATA_tabla_B8B4:
 
 
 L_B8BA:
-	ld a,009h		;b8ba
+	ld a,009h		;b8ba   ; a la pantalla 9
 	ld (0c125h),a		;b8bc
 	ld a,001h		;b8bf
 	ld (0c201h),a		;b8c1
@@ -1825,11 +2658,11 @@ L_B8BA:
 	ld hl,03858h		;b8c7
 	ld (0c321h),hl		;b8ca
 	jp 04050h		;b8cd
-L_B8D0:
+accion_1B_da_el_0x0E:
 	ld a,00eh		;b8d0
 	call 04068h		;b8d2
 	jp L_B7DA		;b8d5
-L_B8D8:
+accion_1C_sin_libro:
 	ld a,(0c360h)		;b8d8
 	and a			;b8db
 	jr z,L_B8E6		;b8dc
@@ -1840,14 +2673,14 @@ L_B8E6:
 	ld a,003h		;b8e6
 	ld (0c15dh),a		;b8e8
 	jp L_B531		;b8eb
-L_B8EE:
+accion_21_espera:
 	ld a,(0c106h)		;b8ee
 	and 010h		;b8f1
 	ret z			;b8f3
 	ld a,0ffh		;b8f4
 	call 040e6h		;b8f6
 	jp L_B531		;b8f9
-L_B8FC:
+accion_22_el_final:
 	call 04212h		;b8fc
 	ret nz			;b8ff
 	ld a,08bh		;b900
@@ -1859,12 +2692,12 @@ L_B8FC:
 	xor a			;b90e
 	ld (0c682h),a		;b90f
 	ret			;b912
-L_B913:
-	call L_B91C		;b913
+vida_llena:
+	call vida_maxima		;b913
 	ld (0c129h),hl		;b916
 	jp 04062h		;b919
-L_B91C:
-	ld a,(0c12eh)		;b91c
+vida_maxima:
+	ld a,(0c12eh)		;b91c   ; 30 + 16*LEVEL en BCD; 999 como mucho
 	ld h,000h		;b91f
 	ld l,a			;b921
 	add hl,hl			;b922
@@ -1883,7 +2716,7 @@ L_B91C:
 	ret c			;b932
 	ld hl,00999h		;b933
 	ret			;b936
-L_B937:
+mp_mas_20:
 	ld hl,0c12fh		;b937
 	ld a,(hl)			;b93a
 	add a,020h		;b93b
@@ -1893,8 +2726,8 @@ L_B937:
 L_B942:
 	ld (hl),a			;b942
 	jp 04062h		;b943
-L_B946:
-	call L_B91C		;b946
+media_vida:
+	call vida_maxima		;b946   ; cura la mitad de lo que falta hasta la vida maxima
 	ld de,(0c129h)		;b949
 	ld a,l			;b94d
 	sub e			;b94e
@@ -1944,7 +2777,12 @@ L_B985:
 	res 3,a		;b98a
 	add a,005h		;b98c
 	ret			;b98e
-L_B98F:
+
+; ----------------------------------------------------------------------
+; Cobra DE (BCD) del oro 0xC135-0xC137. Acarreo = no hay bastante; con
+; 0xC137 distinto de 0 (10000 o mas) no se mira.
+; ----------------------------------------------------------------------
+cobra:
 	ld hl,0c137h		;b98f
 	ld a,(hl)			;b992
 	and a			;b993
@@ -1974,7 +2812,13 @@ L_B99E:
 	daa			;b9ae
 	ld (hl),a			;b9af
 	jp 04062h		;b9b0
-L_B9B3:
+
+; ----------------------------------------------------------------------
+; Detras del `call` van tres palabras: salta a la primera, la segunda o la
+; tercera segun la tecla 1, 2 o 3 (bits 3, 4 y 5 de 0xC112). Sin tecla,
+; vuelve al que llamo al que llamo, y la pregunta sigue en pantalla.
+; ----------------------------------------------------------------------
+elige_1_2_o_3:
 	pop hl			;b9b3
 	ld e,000h		;b9b4
 	ld a,(0c112h)		;b9b6

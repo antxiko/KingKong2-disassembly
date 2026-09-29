@@ -1,5 +1,106 @@
 # Notas del banco 01: comentarios (C), etiquetas (L) y datos (D) anclados a direccion.
 
+# --- A MANO: comentarios, nombres y bloques (cada uno de lo que hace ESE codigo) ---
+L 0x7852 pon_objeto
+B 0x7852 Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+B 0x7852 unidades (0 = 1): en la primera ficha libre de 0xC400 (cuatro de 16
+B 0x7852 bytes). Los numeros 0x27 en adelante no son objetos: p01:78A2.
+C 0x7857 0x27 en adelante: sucesos (p01:78A2)
+C 0x7884 el boomerang (0x0A) y el oro (0x26) duran 0x78 cuadros en el suelo;
+C 0x788E los demas se quedan (0xFF)
+L 0x78A2 suceso_en_vez_de_objeto
+B 0x78A2 0x27 nada; 0x28 suceso 5 (8 en la pantalla 0x5D); 0x29 nada; 0x2A pinta
+B 0x78A2 los dibujos 0xC0-0xC3 en (0x50, 0x30); 0x2B suceso 1; 0x2C suma B al MP.
+L 0x78EE suma_b_al_mp
+C 0x78EE 0xC12F: el MP, en BCD, hasta 99
+L 0x79CE da_un_objeto
+C 0x79CE una unidad
+L 0x79D0 da_objeto
+B 0x79D0 Da el objeto A, B unidades. 0xC33F + A lleva la cuenta en BCD (hasta 99);
+B 0x79D0 si el bit 7 de p01:7A35 + A esta puesto el objeto no se cuenta y se
+B 0x79D0 guarda 0xFF. Luego lo apunta en la lista de SHOT1 (0xC2A0) o en la de
+B 0x79D0 SHOT2 (0xC2C0), si no estaba.
+C 0x79D0 el 0x0F...
+C 0x79D4 ...pone 0xC144
+C 0x79DF 0xC33F + objeto: cuantos hay
+C 0x79EA bit 7 de p01:7A35 + objeto: sin cuenta
+C 0x79ED suma B en BCD
+C 0x79F7 sin cuenta: 0xFF
+C 0x79FF 0x1E, 0x23 y 0x20 no van a ninguna lista
+L 0x7A1F elige_lista
+B 0x7A1F La lista del objeto: la de SHOT1 (0xC2A0, 12 casillas) si el nibble
+B 0x7A1F bajo de p01:7A35 + objeto es 0; si no, la de SHOT2 (0xC2C0, 21).
+L 0x7962 pinta_icono
+C 0x7962 el 0x26 (oro) se pinta con el dibujo del 6 (la bolsa)
+C 0x7968 objeto n: dibujo n-1, en x = ((n-1) & 15)*16...
+C 0x7972 ...y = 0x70 + ((n-1) & 0xF0) de la pagina 1
+C 0x797C 16x16 con transparencia
+L 0x7469 usa_shot1
+B 0x7469 El arma de SHOT1 (0xC140): 0 el puno; 1-3 golpes 0x11-0x13; 4 solo en las
+B 0x7469 pantallas 0x63-0x89 (fuera, SHOT1 vuelve a 0); 5 solo con LEVEL (0xC12E)
+B 0x7469 5 o mas; 6 y 7 el golpe 0x17; 8 gasta uno de 0xC347; 9 uno de 0xC348;
+B 0x7469 0x0A uno de 0xC349; 0x0B el golpe 0x1B; 0x1F gasta uno de 0xC35E.
+C 0x7474 0x1F: p01:74D4
+L 0x7497 golpe_del_puno
+L 0x74AB golpe_del_4
+C 0x74AB solo en las pantallas 0x63-0x89
+C 0x74BB fuera: se suelta (SHOT1 = 0) y va el puno
+L 0x74C5 golpe_del_5
+C 0x74C5 0xC12E: LEVEL; hace falta 5
+L 0x74D0 golpe_del_6_y_7
+L 0x74D4 lanza_un_0x1F
+L 0x74DB lanza_un_8
+C 0x74E4 gasta uno; sin ninguno, nada
+C 0x74EA el ultimo: SHOT1 vuelve a 0
+L 0x74FA lanza_un_9
+L 0x7513 lanza_el_boomerang
+C 0x7513 0xC349: cuantos boomerangs hay en la mano
+L 0x752F hay_algo_lanzado
+C 0x752F 0xC380: la ficha de lo que Mitchel lanza
+L 0x7A77 fin_del_suceso_de_shot2
+L 0x7BF3 usa_shot2
+L 0x7C37 gasta_uno_de_shot2
+C 0x7C37 0xC141: el objeto de SHOT2
+C 0x7C41 sin cuenta (0xFF): no se gasta
+C 0x7C49 el ultimo: SHOT2 vuelve a 0
+L 0x7C4F conjuro_0x0C
+C 0x7C4F 3 de MP
+L 0x7C53 conjuro_0x0D
+C 0x7C53 5 de MP
+L 0x7C57 conjuro_0x0E
+C 0x7C57 10 de MP (BCD)
+C 0x7C5F 0xC12F: MP
+C 0x7C65 sin MP bastante: p01:7C96
+L 0x7C96 no_hay_mp
+C 0x7C9E el aviso de p01:7CA4
+L 0x7CB5 usa_el_0x10
+C 0x7CB8 0xC146: la enfermedad; si la hay, la quita y nada mas
+L 0x7CC2 come
+C 0x7CC5 LIFE (0xC129) + 10...
+C 0x7CD2 ...hasta 30 + 16*LEVEL (0xC12E), en BCD; 999 como mucho
+L 0x7CF5 usa_el_0x12
+C 0x7CF5 solo en la pantalla 0x68
+L 0x7D0A usa_el_0x1B
+C 0x7D0A solo en la pantalla 0x56
+L 0x7D14 usa_el_0x13
+L 0x7D29 usa_el_0x11
+C 0x7D29 solo en la pantalla 0x38
+L 0x7D33 usa_el_0x17
+L 0x7D54 usa_el_0x19
+C 0x7D54 solo en la pantalla 0x51, y reparado (0xC14E)
+C 0x7D68 la conversacion 0x37, o la 0x38 si 0xC600 no es 0
+L 0x7D73 usa_el_0x16
+C 0x7D73 solo en la pantalla 0x5E
+L 0x7D8F usa_el_0x22
+L 0x7DB3 usa_el_0x24
+C 0x7DB3 solo en las pantallas 0x0B, 0x0D, 0x2D, 0x2E, 0x6F, 0x77 y 0x7B
+L 0x7E1D busca_quien_habla
+C 0x7E5A p12:A5FE + pantalla: la conversacion (0 = nadie)
+L 0x7ED9 conversacion_de_la_pantalla
+C 0x7EDD parejas [pantalla][conversacion] de p01:7EF5 (0 acaba)
+L 0x7EBB conversacion_de_la_mesa
+C 0x7ECD la 0x2C, en la pantalla 0x60
+
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x611F 0x6143 salidas_especiales  12 salidas especiales (0xF0-0xFB): pantalla de llegada y punto (x, y) donde aparece Mitchel; p01:60FA con 0x611F + 3*(n-0xF0); lo leen p01:6109 (36 bytes)
 F 0x611F 3
@@ -23,8 +124,12 @@ D 0x7613 0x761B tabla_7613  4 destinos del despachador de 0x425F (call en p01:76
 F 0x7613 2
 D 0x78A5 0x78B1 tabla_78A5  6 destinos del despachador de 0x425F (call en p01:78A2): 0x78D9, 0x78B5, 0x78D9, 0x78DA, 0x78B1, 0x78EE; lo leen p01:78A2 (12 bytes)
 F 0x78A5 2
+D 0x7A36 0x7A5A clase_de_cada_objeto  un byte por objeto (1-0x24): bit 7, sin cuenta; nibble bajo 0, lista de SHOT1; si no, de SHOT2 (p01:79E3 y p01:7A27 con 0x7A35 + objeto); lo leen p01:79E3 (36 bytes)
+F 0x7A36 12
 D 0x7C05 0x7C37 tabla_7C05  25 destinos del despachador de 0x425F (call en p01:7C02): 0x7C4F, 0x7C53, 0x7C57, 0x7CC1, 0x7CB5, 0x7D29, 0x7CF5, 0x7D14 ...; lo leen p01:7C02 (50 bytes)
 F 0x7C05 2
+D 0x7EF5 0x7F08 conversaciones_de_los_que_aparecen  [pantalla][conversacion] ... 0: la del objeto 0x25 (alguien que aparece al matar a un enemigo); p01:7EE0; lo leen p01:7EE0 (19 bytes)
+F 0x7EF5 2
 D 0x7FFC 0x8000 tabla_7FFC  6 destinos del despachador de 0x425F (call en p01:7FF9): 0x8008, 0x8017, 0x8025, 0x8039, 0x8065, 0x8039; lo leen p01:7FF9 (4 bytes)
 F 0x7FFC 2
 # --- fin de los bloques de bloques.py ---

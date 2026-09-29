@@ -14,6 +14,14 @@
                     <dir>/titulo.vram|.pal (a los 16 s: la pagina 0 entera).
                     Puntos y los 16 colores.
 
+  objetos <dir>...  tools/objetos.py contra cada pNN.vram de los directorios:
+                    los 38 dibujos de 16x16 que p00:4AED deja desde 0xB800
+                    (4864 bytes), byte a byte. En 40 pantallas (0x3F-0x88,
+                    juego de dibujos 8) el juego pisa SIEMPRE la misma caja
+                    de la pagina 1, x 40-207 e y 112-135, con otra cosa: esos
+                    volcados se cuentan aparte, y cualquier diferencia fuera
+                    de la caja es un fallo. Quien la pisa esta por ver.
+
 Codigo de salida 1 si algo tiene diferencias sin explicar.
 """
 import glob
@@ -72,7 +80,38 @@ def coteja_titulo(d):
     return 1 if mal else 0
 
 
+def coteja_objetos(dirs):
+    import objetos as O
+    m = O.vram_iconos()
+    mal = n = 0
+    pisadas = []
+    for d in dirs:
+        for ruta in sorted(glob.glob(os.path.join(d, "p??.vram"))):
+            v = open(ruta, "rb").read()
+            fuera = dentro = 0
+            for a, b in m.items():
+                if v[a] != b:
+                    x, y = (a & 0x7F) * 2, (a - 0x8000) >> 7
+                    if 40 <= x < 208 and 112 <= y < 136:
+                        dentro += 1
+                    else:
+                        fuera += 1
+            n += 1
+            if fuera:
+                mal += 1
+                print("%s: %d bytes distintos fuera de la caja" % (ruta, fuera))
+            elif dentro:
+                pisadas.append(os.path.basename(ruta)[1:3])
+    print("objetos: %d bytes cotejados en %d volcados: %d a cero, %d con la caja "
+          "x 40-207 y 112-135 pisada (%s), %d con diferencias fuera"
+          % (len(m), n, n - mal - len(pisadas), len(pisadas),
+             " ".join(sorted(set(pisadas))), mal))
+    return 1 if mal or not n else 0
+
+
 def main(argv):
+    if len(argv) >= 3 and argv[1] == "objetos":
+        return coteja_objetos(argv[2:])
     if len(argv) >= 3 and argv[1] == "titulo":
         return coteja_titulo(argv[2])
     if len(argv) < 3 or argv[1] != "pantallas":

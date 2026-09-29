@@ -1,5 +1,90 @@
 # Notas del banco 12: comentarios (C), etiquetas (L) y datos (D) anclados a direccion.
 
+# --- A MANO: comentarios, nombres y bloques (cada uno de lo que hace ESE codigo) ---
+L 0xB98F cobra
+B 0xB98F Cobra DE (BCD) del oro 0xC135-0xC137. Acarreo = no hay bastante; con
+B 0xB98F 0xC137 distinto de 0 (10000 o mas) no se mira.
+L 0xB9B3 elige_1_2_o_3
+B 0xB9B3 Detras del `call` van tres palabras: salta a la primera, la segunda o la
+B 0xB9B3 tercera segun la tecla 1, 2 o 3 (bits 3, 4 y 5 de 0xC112). Sin tecla,
+B 0xB9B3 vuelve al que llamo al que llamo, y la pregunta sigue en pantalla.
+L 0xB913 vida_llena
+L 0xB91C vida_maxima
+C 0xB91C 30 + 16*LEVEL en BCD; 999 como mucho
+L 0xB937 mp_mas_20
+L 0xB946 media_vida
+C 0xB946 cura la mitad de lo que falta hasta la vida maxima
+L 0xB500 accion_01_el_cuchillo
+C 0xB509 200 GOLD
+C 0xB511 el objeto 1
+L 0xB537 accion_02_el_hacha
+L 0xB548 quiere_el_hacha
+C 0xB548 con 300 GOLD o mas (0xC136 >= 3), la linea siguiente: "agotada"
+C 0xB550 con menos, la 3: "no te llega"
+L 0xB55D accion_03_la_radio
+C 0xB55D con el objeto 0x19 (0xC358) sigue la conversacion; sin el, se acaba
+L 0xB56C accion_04_la_carta
+C 0xB575 aceptar: el objeto 0x20
+L 0xB57D rechaza_la_carta
+C 0xB57D rechazar: el MP se queda a 0
+L 0xB587 accion_05_comida
+C 0xB590 la primera, 50 GOLD: no hace nada mas
+C 0xB5A0 la segunda, 100 GOLD: media vida
+L 0xB5BF accion_06_posada
+C 0xB5C8 150 GOLD: vida llena y 20 de MP
+L 0xB5DF accion_07_da_el_0x0C
+L 0xB5E7 accion_08_sin_libro
+C 0xB5E7 0xC360: el objeto 0x21; sin el, solo "kii kii kuu kii"
+L 0xB602 accion_09_da_el_0x17
+L 0xB60A accion_0A_sin_libro
+L 0xB65A accion_0B_el_libro
+C 0xB663 200 GOLD
+C 0xB66C el objeto 0x21
+L 0xB681 accion_0C_los_zuecos
+C 0xB68A sin el objeto 0x1D (0xC35C) no hay zuecos
+C 0xB690 150 GOLD
+C 0xB698 gasta un 0x1D...
+C 0xB6A0 ...y da el 0x1E
+L 0xB6CA accion_0D_sin_libro
+L 0xB713 accion_0E_la_picadura
+C 0xB713 0xC146: la enfermedad
+L 0xB71B accion_0F_sin_libro
+L 0xB753 accion_10_sin_libro
+L 0xB787 accion_11_comida
+L 0xB7AF accion_12_zuecos_por_posada
+C 0xB7B8 gasta un 0x1E (0xC35D)...
+C 0xB7C7 ...vida llena y 20 de MP
+L 0xB7D5 accion_13_da_el_0x12
+L 0xB7DF accion_14_sin_uso
+C 0xB7DF ninguna linea lleva la accion 0x14
+C 0xB7E8 300 GOLD
+L 0xB7FD accion_15_comida
+C 0xB806 la primera, 10 GOLD...
+C 0xB80F ...y quita vida (LIFE / 2, redondeando en BCD)
+L 0xB83A accion_16_la_carta_llega
+C 0xB83A con el objeto 0x20 (0xC35F)...
+C 0xB845 ...da el 0x1A y se queda la carta
+L 0xB859 accion_17_da_el_0x19
+L 0xB86F accion_18_repara
+C 0xB878 SHOT1: 350 GOLD y nada mas
+C 0xB888 SHOT2: 350 GOLD...
+C 0xB890 ...y si SHOT2 es el 0x19, queda reparado (0xC14E)
+L 0xB8AE accion_19_la_mesa
+L 0xB8B1 accion_1A_salir_de_la_cueva
+C 0xB8BA a la pantalla 9
+L 0xB8D0 accion_1B_da_el_0x0E
+L 0xB8D8 accion_1C_sin_libro
+L 0xB620 accion_1D_cinco_0x10
+C 0xB629 gasta cinco 0x10 (0xC34F)
+L 0xB6E5 accion_1E_carne_para_pasar
+L 0xB709 gasta_un_0x15
+C 0xB709 0xC354: el objeto 0x15
+L 0xB731 accion_1F_carne_por_posada
+L 0xB769 accion_20_carne_por_llave
+C 0xB775 el objeto 0x24
+L 0xB8EE accion_21_espera
+L 0xB8FC accion_22_el_final
+
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA000 0xA09E dibujos_9F9E_cola  8 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 56); los sube p00:48A6 por la lista 0x55BD (sigue del banco anterior, 0x9F9E); lo leen p00:48A6 (158 bytes)
 F 0xA000 4
@@ -9,8 +94,346 @@ D 0xA11E 0xA15E dibujos_A11E  2 dibujos de 8x8 a 4 bits para la hoja de la pagin
 F 0xA11E 4
 D 0xA15E 0xA17E dibujos_A15E  1 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 34); los sube p00:48A6 por la lista 0x55BD; lo leen p00:48A6 (32 bytes)
 F 0xA15E 4
-D 0xA17E 0xAF5E volteados_A17E  17 dibujos de 8x8 que p00:4A1B sube del reves (desde el 16): la mitad derecha de la estatua; se solapan 4 bloques (0xA17E-0xA39E, 0xA17E-0xA51E, 0xA35E-0xAF5E, 0xA4FE-0xA5FE); lo leen p00:48A6, p00:4A24 (3552 bytes)
+D 0xA17E 0xA5FE volteados_A17E  16 dibujos de 8x8 que p00:4A1B sube del reves (desde el 17): la mitad derecha de la estatua; se solapan 4 bloques (0xA17E-0xA37E, 0xA17E-0xA51E, 0xA35E-0xA4BE, 0xA4FE-0xA5FE); lo leen p00:48A6, p00:4A24 (1152 bytes)
 F 0xA17E 4
+D 0xA5FF 0xA670 conversacion_de_cada_pantalla  0x71 bytes, uno por pantalla (1-0x71): la conversacion que empieza al pararse alli (0 = nadie); p01:7E60 con 0xA5FE + pantalla; lo leen p01:7E60 (113 bytes)
+F 0xA5FF 16
+D 0xA670 0xA6E0 conversaciones  56 palabras: la lista de lineas de cada conversacion (desde la 1); p02:80B3 con 0xA66E + 2*conversacion; lo leen p02:80B6 (112 bytes)
+F 0xA670 2
+D 0xA6E0 0xA6EC lineas_01  las 5 lineas de la conversacion 0x01 y un 0 de fin; lo leen p02:80BC (12 bytes)
+F 0xA6E0 2
+D 0xA6EC 0xA702 linea_A6EC  accion 0x00 y texto hasta 0xFF (conversacion 0x01); lo leen p02:80CA (22 bytes)
+F 0xA6EC 16
+D 0xA702 0xA720 linea_A702  accion 0x00 y texto hasta 0xFF (conversacion 0x01); lo leen p02:80CA (30 bytes)
+F 0xA702 16
+D 0xA720 0xA74C linea_A720  accion 0x00 y texto hasta 0xFF (conversacion 0x01); lo leen p02:80CA (44 bytes)
+F 0xA720 16
+D 0xA74C 0xA773 linea_A74C  accion 0x00 y texto hasta 0xFF (conversacion 0x01); lo leen p02:80CA (39 bytes)
+F 0xA74C 16
+D 0xA773 0xA7A2 linea_A773  accion 0x00 y texto hasta 0xFF (conversacion 0x01); lo leen p02:80CA (47 bytes)
+F 0xA773 16
+D 0xA7A2 0xA7B2 lineas_02  las 7 lineas de la conversacion 0x02 y un 0 de fin; lo leen p02:80BC (16 bytes)
+F 0xA7A2 2
+D 0xA7B2 0xA7D9 linea_A7B2  accion 0x00 y texto hasta 0xFF (conversacion 0x02); lo leen p02:80CA (39 bytes)
+F 0xA7B2 16
+D 0xA7D9 0xA808 linea_A7D9  accion 0x01 y texto hasta 0xFF (conversacion 0x02); lo leen p02:80CA (47 bytes)
+F 0xA7D9 16
+D 0xA808 0xA811 linea_A808  accion 0x00 y texto hasta 0xFF (conversacion 0x02); lo leen p02:80CA (9 bytes)
+F 0xA808 16
+D 0xA811 0xA81F linea_A811  accion 0x00 y texto hasta 0xFF (conversacion 0x02); lo leen p02:80CA (14 bytes)
+F 0xA811 16
+D 0xA81F 0xA84B linea_A81F  accion 0x02 y texto hasta 0xFF (conversacion 0x02); lo leen p02:80CA (44 bytes)
+F 0xA81F 16
+D 0xA84B 0xA85F linea_A84B  accion 0x00 y texto hasta 0xFF (conversacion 0x02); lo leen p02:80CA (20 bytes)
+F 0xA84B 16
+D 0xA85F 0xA87A linea_A85F  accion 0x00 y texto hasta 0xFF (conversacion 0x02); lo leen p02:80CA (27 bytes)
+F 0xA85F 16
+D 0xA87A 0xA87E lineas_03  las 1 lineas de la conversacion 0x03 y un 0 de fin; lo leen p02:80BC (4 bytes)
+F 0xA87A 2
+D 0xA87E 0xA8B0 linea_A87E  accion 0x00 y texto hasta 0xFF (conversacion 0x03); lo leen p02:80CA (50 bytes)
+F 0xA87E 16
+D 0xA8B0 0xA8B4 lineas_04  las 1 lineas de la conversacion 0x04 y un 0 de fin; lo leen p02:80BC (4 bytes)
+F 0xA8B0 2
+D 0xA8B4 0xA8D3 linea_A8B4  accion 0x00 y texto hasta 0xFF (conversacion 0x04); lo leen p02:80CA (31 bytes)
+F 0xA8B4 16
+D 0xA8D3 0xA8D7 lineas_05  las 1 lineas de la conversacion 0x05 y un 0 de fin; lo leen p02:80BC (4 bytes)
+F 0xA8D3 2
+D 0xA8D7 0xA8F1 linea_A8D7  accion 0x00 y texto hasta 0xFF (conversacion 0x05); lo leen p02:80CA (26 bytes)
+F 0xA8D7 16
+D 0xA8F1 0xA8FD lineas_06  las 5 lineas de la conversacion 0x06 y un 0 de fin; lo leen p02:80BC (12 bytes)
+F 0xA8F1 2
+D 0xA8FD 0xA922 linea_A8FD  accion 0x00 y texto hasta 0xFF (conversacion 0x06); lo leen p02:80CA (37 bytes)
+F 0xA8FD 16
+D 0xA922 0xA948 linea_A922  accion 0x00 y texto hasta 0xFF (conversacion 0x06); lo leen p02:80CA (38 bytes)
+F 0xA922 16
+D 0xA948 0xA96A linea_A948  accion 0x00 y texto hasta 0xFF (conversacion 0x06); lo leen p02:80CA (34 bytes)
+F 0xA948 16
+D 0xA96A 0xA981 linea_A96A  accion 0x03 y texto hasta 0xFF (conversacion 0x06); lo leen p02:80CA (23 bytes)
+F 0xA96A 16
+D 0xA981 0xA98F linea_A981  accion 0x00 y texto hasta 0xFF (conversacion 0x06); lo leen p02:80CA (14 bytes)
+F 0xA981 16
+D 0xA98F 0xA993 lineas_07  las 1 lineas de la conversacion 0x07 y un 0 de fin; lo leen p02:80BC (4 bytes)
+F 0xA98F 2
+D 0xA993 0xA9C5 linea_A993  accion 0x04 y texto hasta 0xFF (conversacion 0x07); lo leen p02:80CA (50 bytes)
+F 0xA993 16
+D 0xA9C5 0xA9CD lineas_08  las 3 lineas de la conversacion 0x08 y un 0 de fin; lo leen p02:80BC (8 bytes)
+F 0xA9C5 2
+D 0xA9CD 0xA9DA linea_A9CD  accion 0x00 y texto hasta 0xFF (conversacion 0x08); lo leen p02:80CA (13 bytes)
+F 0xA9CD 16
+D 0xA9DA 0xAA0C linea_A9DA  accion 0x05 y texto hasta 0xFF (conversacion 0x08); lo leen p02:80CA (50 bytes)
+F 0xA9DA 16
+D 0xAA0C 0xAA1A linea_AA0C  accion 0x00 y texto hasta 0xFF (conversacion 0x08); lo leen p02:80CA (14 bytes)
+F 0xAA0C 16
+D 0xAA1A 0xAA20 lineas_09  las 2 lineas de la conversacion 0x09 y un 0 de fin; lo leen p02:80BC (6 bytes)
+F 0xAA1A 2
+D 0xAA20 0xAA4A linea_AA20  accion 0x06 y texto hasta 0xFF (conversacion 0x09); lo leen p02:80CA (42 bytes)
+F 0xAA20 16
+D 0xAA4A 0xAA50 lineas_0A  las 2 lineas de la conversacion 0x0A y un 0 de fin; lo leen p02:80BC (6 bytes)
+F 0xAA4A 2
+D 0xAA50 0xAA89 linea_AA50  accion 0x00 y texto hasta 0xFF (conversacion 0x0A); lo leen p02:80CA (57 bytes)
+F 0xAA50 16
+D 0xAA89 0xAABC linea_AA89  accion 0x00 y texto hasta 0xFF (conversacion 0x0A); lo leen p02:80CA (51 bytes)
+F 0xAA89 16
+D 0xAABC 0xAAC0 lineas_0B  las 1 lineas de la conversacion 0x0B y un 0 de fin; lo leen p02:80BC (4 bytes)
+F 0xAABC 2
+D 0xAAC0 0xAAE6 linea_AAC0  accion 0x07 y texto hasta 0xFF (conversacion 0x0B); lo leen p02:80CA (38 bytes)
+F 0xAAC0 16
+D 0xAAE6 0xAAEA lineas_0C  las 1 lineas de la conversacion 0x0C y un 0 de fin; lo leen p02:80BC (4 bytes)
+F 0xAAE6 2
+D 0xAAEA 0xAB08 linea_AAEA  accion 0x00 y texto hasta 0xFF (conversacion 0x0C); lo leen p02:80CA (30 bytes)
+F 0xAAEA 16
+D 0xAB08 0xAB0C lineas_0E  las 1 lineas de la conversacion 0x0E y un 0 de fin; lo leen p02:80BC (4 bytes)
+F 0xAB08 2
+D 0xAB0C 0xAB2F linea_AB0C  accion 0x00 y texto hasta 0xFF (conversacion 0x0E); lo leen p02:80CA (35 bytes)
+F 0xAB0C 16
+D 0xAB2F 0xAB33 lineas_0F  las 1 lineas de la conversacion 0x0F y un 0 de fin; lo leen p02:80BC (4 bytes)
+F 0xAB2F 2
+D 0xAB33 0xAB49 linea_AB33  accion 0x00 y texto hasta 0xFF (conversacion 0x0F); lo leen p02:80CA (22 bytes)
+F 0xAB33 16
+D 0xAB49 0xAB4D lineas_10  las 1 lineas de la conversacion 0x10 y un 0 de fin; lo leen p02:80BC (4 bytes)
+F 0xAB49 2
+D 0xAB4D 0xAB67 linea_AB4D  accion 0x00 y texto hasta 0xFF (conversacion 0x10); lo leen p02:80CA (26 bytes)
+F 0xAB4D 16
+D 0xAB67 0xAB6B lineas_11  las 1 lineas de la conversacion 0x11 y un 0 de fin; lo leen p02:80BC (4 bytes)
+F 0xAB67 2
+D 0xAB6B 0xAB80 linea_AB6B  accion 0x00 y texto hasta 0xFF (conversacion 0x11); lo leen p02:80CA (21 bytes)
+F 0xAB6B 16
+D 0xAB80 0xAB88 lineas_12  las 3 lineas de la conversacion 0x12 y un 0 de fin; lo leen p02:80BC (8 bytes)
+F 0xAB80 2
+D 0xAB88 0xAB8A linea_AB88  accion 0x08 y texto hasta 0xFF (conversacion 0x12); lo leen p02:80CA (2 bytes)
+F 0xAB88 16
+D 0xAB8A 0xAB97 linea_AB8A  accion 0x00 y texto hasta 0xFF (conversacion 0x12); lo leen p02:80CA (13 bytes)
+F 0xAB8A 16
+D 0xAB97 0xABB6 linea_AB97  accion 0x00 y texto hasta 0xFF (conversacion 0x12); lo leen p02:80CA (31 bytes)
+F 0xAB97 16
+D 0xABB6 0xABBE lineas_13  las 3 lineas de la conversacion 0x13 y un 0 de fin; lo leen p02:80BC (8 bytes)
+F 0xABB6 2
+D 0xABBE 0xABC0 linea_ABBE  accion 0x1C y texto hasta 0xFF (conversacion 0x13); lo leen p02:80CA (2 bytes)
+F 0xABBE 16
+D 0xABC0 0xABEF linea_ABC0  accion 0x09 y texto hasta 0xFF (conversacion 0x13); lo leen p02:80CA (47 bytes)
+F 0xABC0 16
+D 0xABEF 0xAC03 lineas_14  las 9 lineas de la conversacion 0x14 y un 0 de fin; lo leen p02:80BC (20 bytes)
+F 0xABEF 2
+D 0xAC03 0xAC05 linea_AC03  accion 0x0A y texto hasta 0xFF (conversacion 0x14); lo leen p02:80CA (2 bytes)
+F 0xAC03 16
+D 0xAC05 0xAC1F linea_AC05  accion 0x00 y texto hasta 0xFF (conversacion 0x14); lo leen p02:80CA (26 bytes)
+F 0xAC05 16
+D 0xAC1F 0xAC45 linea_AC1F  accion 0x00 y texto hasta 0xFF (conversacion 0x14); lo leen p02:80CA (38 bytes)
+F 0xAC1F 16
+D 0xAC45 0xAC61 linea_AC45  accion 0x1D y texto hasta 0xFF (conversacion 0x14); lo leen p02:80CA (28 bytes)
+F 0xAC45 16
+D 0xAC61 0xAC6D linea_AC61  accion 0x00 y texto hasta 0xFF (conversacion 0x14); lo leen p02:80CA (12 bytes)
+F 0xAC61 16
+D 0xAC6D 0xAC7C linea_AC6D  accion 0x00 y texto hasta 0xFF (conversacion 0x14); lo leen p02:80CA (15 bytes)
+F 0xAC6D 16
+D 0xAC7C 0xAC85 linea_AC7C  accion 0x00 y texto hasta 0xFF (conversacion 0x14); lo leen p02:80CA (9 bytes)
+F 0xAC7C 16
+D 0xAC85 0xACA2 linea_AC85  accion 0x00 y texto hasta 0xFF (conversacion 0x14); lo leen p02:80CA (29 bytes)
+F 0xAC85 16
+D 0xACA2 0xACA8 lineas_15  las 2 lineas de la conversacion 0x15 y un 0 de fin; lo leen p02:80BC (6 bytes)
+F 0xACA2 2
+D 0xACA8 0xACD3 linea_ACA8  accion 0x0B y texto hasta 0xFF (conversacion 0x15); lo leen p02:80CA (43 bytes)
+F 0xACA8 16
+D 0xACD3 0xACDD lineas_16  las 4 lineas de la conversacion 0x16 y un 0 de fin; lo leen p02:80BC (10 bytes)
+F 0xACD3 2
+D 0xACDD 0xACFE linea_ACDD  accion 0x00 y texto hasta 0xFF (conversacion 0x16); lo leen p02:80CA (33 bytes)
+F 0xACDD 16
+D 0xACFE 0xAD15 linea_ACFE  accion 0x0C y texto hasta 0xFF (conversacion 0x16); lo leen p02:80CA (23 bytes)
+F 0xACFE 16
+D 0xAD15 0xAD36 linea_AD15  accion 0x00 y texto hasta 0xFF (conversacion 0x16); lo leen p02:80CA (33 bytes)
+F 0xAD15 16
+D 0xAD36 0xAD42 lineas_17  las 5 lineas de la conversacion 0x17 y un 0 de fin; lo leen p02:80BC (12 bytes)
+F 0xAD36 2
+D 0xAD42 0xAD44 linea_AD42  accion 0x0D y texto hasta 0xFF (conversacion 0x17); lo leen p02:80CA (2 bytes)
+F 0xAD42 16
+D 0xAD44 0xAD5A linea_AD44  accion 0x00 y texto hasta 0xFF (conversacion 0x17); lo leen p02:80CA (22 bytes)
+F 0xAD44 16
+D 0xAD5A 0xAD70 linea_AD5A  accion 0x1E y texto hasta 0xFF (conversacion 0x17); lo leen p02:80CA (22 bytes)
+F 0xAD5A 16
+D 0xAD70 0xAD7D linea_AD70  accion 0x00 y texto hasta 0xFF (conversacion 0x17); lo leen p02:80CA (13 bytes)
+F 0xAD70 16
+D 0xAD7D 0xAD81 lineas_18  las 1 lineas de la conversacion 0x18 y un 0 de fin; lo leen p02:80BC (4 bytes)
+F 0xAD7D 2
+D 0xAD81 0xADB0 linea_AD81  accion 0x00 y texto hasta 0xFF (conversacion 0x18); lo leen p02:80CA (47 bytes)
+F 0xAD81 16
+D 0xADB0 0xADB4 lineas_19  las 1 lineas de la conversacion 0x19 y un 0 de fin; lo leen p02:80BC (4 bytes)
+F 0xADB0 2
+D 0xADB4 0xADC6 linea_ADB4  accion 0x0E y texto hasta 0xFF (conversacion 0x19); lo leen p02:80CA (18 bytes)
+F 0xADB4 16
+D 0xADC6 0xADD2 lineas_1A  las 5 lineas de la conversacion 0x1A y un 0 de fin; lo leen p02:80BC (12 bytes)
+F 0xADC6 2
+D 0xADD2 0xADD4 linea_ADD2  accion 0x0F y texto hasta 0xFF (conversacion 0x1A); lo leen p02:80CA (2 bytes)
+F 0xADD2 16
+D 0xADD4 0xADE6 linea_ADD4  accion 0x00 y texto hasta 0xFF (conversacion 0x1A); lo leen p02:80CA (18 bytes)
+F 0xADD4 16
+D 0xADE6 0xADFC linea_ADE6  accion 0x1F y texto hasta 0xFF (conversacion 0x1A); lo leen p02:80CA (22 bytes)
+F 0xADE6 16
+D 0xADFC 0xAE08 lineas_1B  las 5 lineas de la conversacion 0x1B y un 0 de fin; lo leen p02:80BC (12 bytes)
+F 0xADFC 2
+D 0xAE08 0xAE0A linea_AE08  accion 0x10 y texto hasta 0xFF (conversacion 0x1B); lo leen p02:80CA (2 bytes)
+F 0xAE08 16
+D 0xAE0A 0xAE20 linea_AE0A  accion 0x00 y texto hasta 0xFF (conversacion 0x1B); lo leen p02:80CA (22 bytes)
+F 0xAE0A 16
+D 0xAE20 0xAE36 linea_AE20  accion 0x20 y texto hasta 0xFF (conversacion 0x1B); lo leen p02:80CA (22 bytes)
+F 0xAE20 16
+D 0xAE36 0xAE3E lineas_1C  las 3 lineas de la conversacion 0x1C y un 0 de fin; lo leen p02:80BC (8 bytes)
+F 0xAE36 2
+D 0xAE3E 0xAE50 linea_AE3E  accion 0x00 y texto hasta 0xFF (conversacion 0x1C); lo leen p02:80CA (18 bytes)
+F 0xAE3E 16
+D 0xAE50 0xAE8A linea_AE50  accion 0x11 y texto hasta 0xFF (conversacion 0x1C); lo leen p02:80CA (58 bytes)
+F 0xAE50 16
+D 0xAE8A 0xAE90 lineas_1D  las 2 lineas de la conversacion 0x1D y un 0 de fin; lo leen p02:80BC (6 bytes)
+F 0xAE8A 2
+D 0xAE90 0xAEAC linea_AE90  accion 0x00 y texto hasta 0xFF (conversacion 0x1D); lo leen p02:80CA (28 bytes)
+F 0xAE90 16
+D 0xAEAC 0xAECA linea_AEAC  accion 0x00 y texto hasta 0xFF (conversacion 0x1D); lo leen p02:80CA (30 bytes)
+F 0xAEAC 16
+D 0xAECA 0xAECE lineas_1E  las 1 lineas de la conversacion 0x1E y un 0 de fin; lo leen p02:80BC (4 bytes)
+F 0xAECA 2
+D 0xAECE 0xAEEE linea_AECE  accion 0x00 y texto hasta 0xFF (conversacion 0x1E); lo leen p02:80CA (32 bytes)
+F 0xAECE 16
+D 0xAEEE 0xAEF6 lineas_1F  las 3 lineas de la conversacion 0x1F y un 0 de fin; lo leen p02:80BC (8 bytes)
+F 0xAEEE 2
+D 0xAEF6 0xAF11 linea_AEF6  accion 0x00 y texto hasta 0xFF (conversacion 0x1F); lo leen p02:80CA (27 bytes)
+F 0xAEF6 16
+D 0xAF11 0xAF2D linea_AF11  accion 0x12 y texto hasta 0xFF (conversacion 0x1F); lo leen p02:80CA (28 bytes)
+F 0xAF11 16
+D 0xAF2D 0xAF3E linea_AF2D  accion 0x00 y texto hasta 0xFF (conversacion 0x1F); lo leen p02:80CA (17 bytes)
+F 0xAF2D 16
+D 0xAF3E 0xAF42 lineas_20  las 1 lineas de la conversacion 0x20 y un 0 de fin; lo leen p02:80BC (4 bytes)
+F 0xAF3E 2
+D 0xAF42 0xAF6C linea_AF42  accion 0x13 y texto hasta 0xFF (conversacion 0x20); lo leen p02:80CA (42 bytes)
+F 0xAF42 16
+D 0xAF6C 0xAF6E lineas_21  las 0 lineas de la conversacion 0x21 y un 0 de fin; lo leen p02:80BC (2 bytes)
+F 0xAF6C 2
+D 0xAF6E 0xAF72 lineas_22  las 1 lineas de la conversacion 0x22 y un 0 de fin; lo leen p02:80BC (4 bytes)
+F 0xAF6E 2
+D 0xAF72 0xAF8F linea_AF72  accion 0x00 y texto hasta 0xFF (conversacion 0x22); lo leen p02:80CA (29 bytes)
+F 0xAF72 16
+D 0xAF8F 0xAF93 lineas_23  las 1 lineas de la conversacion 0x23 y un 0 de fin; lo leen p02:80BC (4 bytes)
+F 0xAF8F 2
+D 0xAF93 0xAFAF linea_AF93  accion 0x00 y texto hasta 0xFF (conversacion 0x23); lo leen p02:80CA (28 bytes)
+F 0xAF93 16
+D 0xAFAF 0xAFB5 lineas_24  las 2 lineas de la conversacion 0x24 y un 0 de fin; lo leen p02:80BC (6 bytes)
+F 0xAFAF 2
+D 0xAFB5 0xAFD0 linea_AFB5  accion 0x00 y texto hasta 0xFF (conversacion 0x24); lo leen p02:80CA (27 bytes)
+F 0xAFB5 16
+D 0xAFD0 0xAFF8 linea_AFD0  accion 0x00 y texto hasta 0xFF (conversacion 0x24); lo leen p02:80CA (40 bytes)
+F 0xAFD0 16
+D 0xAFF8 0xB000 lineas_25  las 3 lineas de la conversacion 0x25 y un 0 de fin; lo leen p02:80BC (8 bytes)
+F 0xAFF8 2
+D 0xB000 0xB018 linea_B000  accion 0x00 y texto hasta 0xFF (conversacion 0x25); lo leen p02:80CA (24 bytes)
+F 0xB000 16
+D 0xB018 0xB04A linea_B018  accion 0x15 y texto hasta 0xFF (conversacion 0x25); lo leen p02:80CA (50 bytes)
+F 0xB018 16
+D 0xB04A 0xB054 lineas_26  las 4 lineas de la conversacion 0x26 y un 0 de fin; lo leen p02:80BC (10 bytes)
+F 0xB04A 2
+D 0xB054 0xB056 linea_B054  accion 0x16 y texto hasta 0xFF (conversacion 0x26); lo leen p02:80CA (2 bytes)
+F 0xB054 16
+D 0xB056 0xB078 linea_B056  accion 0x00 y texto hasta 0xFF (conversacion 0x26); lo leen p02:80CA (34 bytes)
+F 0xB056 16
+D 0xB078 0xB09E linea_B078  accion 0x00 y texto hasta 0xFF (conversacion 0x26); lo leen p02:80CA (38 bytes)
+F 0xB078 16
+D 0xB09E 0xB0BA linea_B09E  accion 0x00 y texto hasta 0xFF (conversacion 0x26); lo leen p02:80CA (28 bytes)
+F 0xB09E 16
+D 0xB0BA 0xB0BE lineas_27  las 1 lineas de la conversacion 0x27 y un 0 de fin; lo leen p02:80BC (4 bytes)
+F 0xB0BA 2
+D 0xB0BE 0xB0F2 linea_B0BE  accion 0x00 y texto hasta 0xFF (conversacion 0x27); lo leen p02:80CA (52 bytes)
+F 0xB0BE 16
+D 0xB0F2 0xB0FA lineas_28  las 3 lineas de la conversacion 0x28 y un 0 de fin; lo leen p02:80BC (8 bytes)
+F 0xB0F2 2
+D 0xB0FA 0xB0FC linea_B0FA  accion 0x17 y texto hasta 0xFF (conversacion 0x28); lo leen p02:80CA (2 bytes)
+F 0xB0FA 16
+D 0xB0FC 0xB10A linea_B0FC  accion 0x00 y texto hasta 0xFF (conversacion 0x28); lo leen p02:80CA (14 bytes)
+F 0xB0FC 16
+D 0xB10A 0xB11F linea_B10A  accion 0x00 y texto hasta 0xFF (conversacion 0x28); lo leen p02:80CA (21 bytes)
+F 0xB10A 16
+D 0xB11F 0xB123 lineas_29  las 1 lineas de la conversacion 0x29 y un 0 de fin; lo leen p02:80BC (4 bytes)
+F 0xB11F 2
+D 0xB123 0xB148 linea_B123  accion 0x00 y texto hasta 0xFF (conversacion 0x29); lo leen p02:80CA (37 bytes)
+F 0xB123 16
+D 0xB148 0xB14C lineas_2A  las 1 lineas de la conversacion 0x2A y un 0 de fin; lo leen p02:80BC (4 bytes)
+F 0xB148 2
+D 0xB14C 0xB176 linea_B14C  accion 0x00 y texto hasta 0xFF (conversacion 0x2A); lo leen p02:80CA (42 bytes)
+F 0xB14C 16
+D 0xB176 0xB180 lineas_2B  las 4 lineas de la conversacion 0x2B y un 0 de fin; lo leen p02:80BC (10 bytes)
+F 0xB176 2
+D 0xB180 0xB1AC linea_B180  accion 0x00 y texto hasta 0xFF (conversacion 0x2B); lo leen p02:80CA (44 bytes)
+F 0xB180 16
+D 0xB1AC 0xB1CA linea_B1AC  accion 0x18 y texto hasta 0xFF (conversacion 0x2B); lo leen p02:80CA (30 bytes)
+F 0xB1AC 16
+D 0xB1CA 0xB1D0 linea_B1CA  accion 0x00 y texto hasta 0xFF (conversacion 0x2B); lo leen p02:80CA (6 bytes)
+F 0xB1CA 16
+D 0xB1D0 0xB1D4 lineas_2C  las 1 lineas de la conversacion 0x2C y un 0 de fin; lo leen p02:80BC (4 bytes)
+F 0xB1D0 2
+D 0xB1D4 0xB1F9 linea_B1D4  accion 0x19 y texto hasta 0xFF (conversacion 0x2C); lo leen p02:80CA (37 bytes)
+F 0xB1D4 16
+D 0xB1F9 0xB201 lineas_2D  las 3 lineas de la conversacion 0x2D y un 0 de fin; lo leen p02:80BC (8 bytes)
+F 0xB1F9 2
+D 0xB201 0xB233 linea_B201  accion 0x00 y texto hasta 0xFF (conversacion 0x2D); lo leen p02:80CA (50 bytes)
+F 0xB201 16
+D 0xB233 0xB254 linea_B233  accion 0x00 y texto hasta 0xFF (conversacion 0x2D); lo leen p02:80CA (33 bytes)
+F 0xB233 16
+D 0xB254 0xB266 linea_B254  accion 0x00 y texto hasta 0xFF (conversacion 0x2D); lo leen p02:80CA (18 bytes)
+F 0xB254 16
+D 0xB266 0xB26A lineas_2E  las 1 lineas de la conversacion 0x2E y un 0 de fin; lo leen p02:80BC (4 bytes)
+F 0xB266 2
+D 0xB26A 0xB299 linea_B26A  accion 0x00 y texto hasta 0xFF (conversacion 0x2E); lo leen p02:80CA (47 bytes)
+F 0xB26A 16
+D 0xB299 0xB29F lineas_2F  las 2 lineas de la conversacion 0x2F y un 0 de fin; lo leen p02:80BC (6 bytes)
+F 0xB299 2
+D 0xB29F 0xB2BB linea_B29F  accion 0x00 y texto hasta 0xFF (conversacion 0x2F); lo leen p02:80CA (28 bytes)
+F 0xB29F 16
+D 0xB2BB 0xB2E5 linea_B2BB  accion 0x00 y texto hasta 0xFF (conversacion 0x2F); lo leen p02:80CA (42 bytes)
+F 0xB2BB 16
+D 0xB2E5 0xB2E9 lineas_30  las 1 lineas de la conversacion 0x30 y un 0 de fin; lo leen p02:80BC (4 bytes)
+F 0xB2E5 2
+D 0xB2E9 0xB30A linea_B2E9  accion 0x1A y texto hasta 0xFF (conversacion 0x30); lo leen p02:80CA (33 bytes)
+F 0xB2E9 16
+D 0xB30A 0xB30E lineas_31  las 1 lineas de la conversacion 0x31 y un 0 de fin; lo leen p02:80BC (4 bytes)
+F 0xB30A 2
+D 0xB30E 0xB34B linea_B30E  accion 0x1B y texto hasta 0xFF (conversacion 0x31); lo leen p02:80CA (61 bytes)
+F 0xB30E 16
+D 0xB34B 0xB34F lineas_32  las 1 lineas de la conversacion 0x32 y un 0 de fin; lo leen p02:80BC (4 bytes)
+F 0xB34B 2
+D 0xB34F 0xB367 linea_B34F  accion 0x00 y texto hasta 0xFF (conversacion 0x32); lo leen p02:80CA (24 bytes)
+F 0xB34F 16
+D 0xB367 0xB36B lineas_33  las 1 lineas de la conversacion 0x33 y un 0 de fin; lo leen p02:80BC (4 bytes)
+F 0xB367 2
+D 0xB36B 0xB399 linea_B36B  accion 0x00 y texto hasta 0xFF (conversacion 0x33); lo leen p02:80CA (46 bytes)
+F 0xB36B 16
+D 0xB399 0xB39D lineas_34  las 1 lineas de la conversacion 0x34 y un 0 de fin; lo leen p02:80BC (4 bytes)
+F 0xB399 2
+D 0xB39D 0xB3C0 linea_B39D  accion 0x00 y texto hasta 0xFF (conversacion 0x34); lo leen p02:80CA (35 bytes)
+F 0xB39D 16
+D 0xB3C0 0xB3C4 lineas_35  las 1 lineas de la conversacion 0x35 y un 0 de fin; lo leen p02:80BC (4 bytes)
+F 0xB3C0 2
+D 0xB3C4 0xB3D5 linea_B3C4  accion 0x00 y texto hasta 0xFF (conversacion 0x35); lo leen p02:80CA (17 bytes)
+F 0xB3C4 16
+D 0xB3D5 0xB3D9 lineas_36  las 1 lineas de la conversacion 0x36 y un 0 de fin; lo leen p02:80BC (4 bytes)
+F 0xB3D5 2
+D 0xB3D9 0xB3F8 linea_B3D9  accion 0x00 y texto hasta 0xFF (conversacion 0x36); lo leen p02:80CA (31 bytes)
+F 0xB3D9 16
+D 0xB3F8 0xB402 lineas_37  las 4 lineas de la conversacion 0x37 y un 0 de fin; lo leen p02:80BC (10 bytes)
+F 0xB3F8 2
+D 0xB402 0xB41F linea_B402  accion 0x00 y texto hasta 0xFF (conversacion 0x37); lo leen p02:80CA (29 bytes)
+F 0xB402 16
+D 0xB41F 0xB431 linea_B41F  accion 0x00 y texto hasta 0xFF (conversacion 0x37); lo leen p02:80CA (18 bytes)
+F 0xB41F 16
+D 0xB431 0xB44E linea_B431  accion 0x00 y texto hasta 0xFF (conversacion 0x37); lo leen p02:80CA (29 bytes)
+F 0xB431 16
+D 0xB44E 0xB46E linea_B44E  accion 0x00 y texto hasta 0xFF (conversacion 0x37); lo leen p02:80CA (32 bytes)
+F 0xB44E 16
+D 0xB46E 0xB47A lineas_38  las 5 lineas de la conversacion 0x38 y un 0 de fin; lo leen p02:80BC (12 bytes)
+F 0xB46E 2
+D 0xB47A 0xB493 linea_B47A  accion 0x00 y texto hasta 0xFF (conversacion 0x38); lo leen p02:80CA (25 bytes)
+F 0xB47A 16
+D 0xB493 0xB4A3 linea_B493  accion 0x00 y texto hasta 0xFF (conversacion 0x38); lo leen p02:80CA (16 bytes)
+F 0xB493 16
+D 0xB4A3 0xB4BE linea_B4A3  accion 0x21 y texto hasta 0xFF (conversacion 0x38); lo leen p02:80CA (27 bytes)
+F 0xB4A3 16
+D 0xB4BE 0xB4D4 linea_B4BE  accion 0x22 y texto hasta 0xFF (conversacion 0x38); lo leen p02:80CA (22 bytes)
+F 0xB4BE 16
 D 0xB503 0xB509 tabla_B503  3 destinos del despachador de 0xB9B3 (call en p12:B500): 0xB509, 0xB522, 0xB536; lo leen p12:B500 (6 bytes)
 F 0xB503 2
 D 0xB53A 0xB540 tabla_B53A  3 destinos del despachador de 0xB9B3 (call en p12:B537): 0xB548, 0xB540, 0xB536; lo leen p12:B537 (6 bytes)

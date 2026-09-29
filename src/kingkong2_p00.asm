@@ -56,8 +56,8 @@ DATA_405C:
 L_4062:
 	call 062c3h		;4062
 	jp L_4215		;4065
-L_4068:
-	call 079ceh		;4068
+puente_da_un_objeto:
+	call 079ceh		;4068   ; p01:79CE: da el objeto A, una unidad (lo usan las conversaciones de p12)
 	jp L_4215		;406b
 L_406E:
 	call L_462D		;406e
@@ -207,8 +207,8 @@ L_416A:
 L_4170:
 	call 07ed9h		;4170
 	jp L_4215		;4173
-L_4176:
-	call 079d0h		;4176
+puente_da_objeto_b:
+	call 079d0h		;4176   ; p01:79D0: da el objeto A, B unidades (al recogerlo del suelo, p09:BC03)
 	jp L_4215		;4179
 
 ; ----------------------------------------------------------------------
@@ -238,8 +238,8 @@ DATA_4194:
 ; ======================================================================
 
 
-L_419A:
-	call 07852h		;419a
+puente_pon_objeto:
+	call 07852h		;419a   ; p01:7852: pone el objeto C (B unidades) en (E, D) de la pantalla
 	jp L_4215		;419d
 L_41A0:
 	call 083a7h		;41a0
@@ -1460,12 +1460,12 @@ L_48BE:
 	djnz L_48BE		;48cc
 	pop de			;48ce
 	ret			;48cf
-L_48D0:
+sube_dibujos_de_16:
 	push bc			;48d0
 	call L_48BB		;48d1
-	ld a,008h		;48d4
+	ld a,008h		;48d4   ; el siguiente, 16 puntos (8 bytes) a la derecha
 	add a,e			;48d6
-	cp 080h		;48d7
+	cp 080h		;48d7   ; al llegar a 0x80 (256 puntos), 16 lineas mas abajo
 	jr nz,L_48E0		;48d9
 	ld a,008h		;48db
 	add a,d			;48dd
@@ -1474,7 +1474,7 @@ L_48D0:
 L_48E0:
 	ld e,a			;48e0
 	pop bc			;48e1
-	djnz L_48D0		;48e2
+	djnz sube_dibujos_de_16		;48e2
 	ret			;48e4
 L_48E5:
 	ld b,008h		;48e5
@@ -1813,15 +1813,21 @@ L_4AC8:
 	pop hl			;4ae1
 	inc hl			;4ae2
 	jr L_4AB9		;4ae3
-L_4AE5:
-	call L_4AED		;4ae5
+sube_iconos_y_hoja_comun:
+	call sube_los_38_iconos		;4ae5
 	ld hl,06050h		;4ae8
 	jr L_4AB9		;4aeb
-L_4AED:
+
+; ----------------------------------------------------------------------
+; Los 38 dibujos de los objetos, 16x16 a 4 bits (128 bytes cada uno), de
+; p07:630A a la VRAM 0xB800: la pagina 1 desde la linea 0x70, 16 por fila.
+; El objeto n es el dibujo n-1 (p01:7962).
+; ----------------------------------------------------------------------
+sube_los_38_iconos:
 	ld de,0b800h		;4aed
 	ld hl,0630ah		;4af0
-	ld b,026h		;4af3
-	jp L_48D0		;4af5
+	ld b,026h		;4af3   ; 38 dibujos
+	jp sube_dibujos_de_16		;4af5
 L_4AF8:
 	call L_425F		;4af8
 
@@ -3166,7 +3172,7 @@ L_543D:
 	call L_462D		;5445
 	call L_5FFA		;5448
 	call L_42DE		;544b
-	call L_4AE5		;544e
+	call sube_iconos_y_hoja_comun		;544e
 	call L_42BC		;5451
 	jp 063a7h		;5454
 L_5457:
