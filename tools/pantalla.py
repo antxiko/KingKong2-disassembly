@@ -140,10 +140,45 @@ def paleta(n, juego):
     return pal
 
 
+# Lo que p00:4E4D pinta ENCIMA al entrar en cuatro pantallas, con p00:4EB2:
+# bancos 13-14-15, una tabla de filas x columnas numeros de dibujo (0 = no
+# pinta) que 0x498D copia con transparencia (LMMM + TIMP), a partir del punto
+# (x, y) de la pantalla. (pantalla: [(x, y, tabla, columnas, filas)])
+ENCIMA = {
+    0x15: [(0x38, 0x20, 0xB9A5, 9, 9)],      # p00:4E76 (la estatua)
+    0x28: [(0x38, 0x20, 0xB9A5, 9, 9)],      # p00:4E76
+    0x89: [(0x38, 0x28, 0xB9A5, 9, 9)],      # p00:4EA9
+    0x60: [(0x38, 0x20, 0xB9A5, 9, 9),       # p00:4E5F
+           (0x28, 0x48, 0xB9F6, 3, 5),       # p00:4E65 y p00:4E6E
+           (0x78, 0x48, 0xB9F6, 3, 5)],      # p00:4E6B
+}
+B131415 = (13, 14, 15)
+
+# p00:49D8: en estas cuatro pantallas p00:4A1B sube ademas dibujos VOLTEADOS
+# (cada fila al reves y con los nibbles cambiados): la mitad derecha de la
+# estatua. Bancos 10-11-12. (fuente, primer dibujo, cuantos)
+VOLTEADOS = [(0xA17E, 17, 16), (0xA35E, 96, 11)]
+CON_VOLTEADOS = (0x15, 0x28, 0x60, 0x89)
+
+
+def sube_volteados(dib):
+    for src, t0, n in VOLTEADOS:
+        for k in range(n):
+            px = []
+            for f in range(8):
+                fila = [lee(src + f * 4 + c, B101112) for c in range(4)]
+                for x in reversed(fila):
+                    px += [x & 0x0F, x >> 4]
+            dib[t0 + k] = px
+            src += 32
+
+
 def pinta(n, cueva=0):
     """(indices 160x160, paleta) de la pantalla."""
     juego = juego_de_dibujos(n, cueva)
     dib = hoja(juego)
+    if not cueva and n in CON_VOLTEADOS:
+        sube_volteados(dib)
     bl = bloques_de(n, cueva)
     img = [[0] * 160 for _ in range(160)]
     for by in range(5):
@@ -155,6 +190,16 @@ def pinta(n, cueva=0):
                 y0 = by * 32 + (k >> 2) * 8
                 for i in range(64):
                     img[y0 + (i >> 3)][x0 + (i & 7)] = px[i]
+    if not cueva:
+        for x, y, tabla, cols, filas in ENCIMA.get(n, ()):
+            for f in range(filas):
+                for c in range(cols):
+                    t = lee(tabla + f * cols + c, B131415)
+                    if not t or dib[t] is None:
+                        continue
+                    for i in range(64):
+                        if dib[t][i]:            # TIMP: el color 0 no pinta
+                            img[y - 8 + f * 8 + (i >> 3)][x - 8 + c * 8 + (i & 7)] = dib[t][i]
     return img, paleta(n, juego)
 
 
