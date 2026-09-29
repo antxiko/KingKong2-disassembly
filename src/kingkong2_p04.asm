@@ -439,37 +439,37 @@ L_632F:
 	ld ix,0c042h		;632f
 toca_el_canal:
 	ld a,(0c07fh)		;6333   ; UN CANAL, CADA CUADRO: si es el C de la musica y suena un efecto, el efecto le quita el PSG (bit 5)
-	cp 002h		;6336
+	cp 002h		;6336   ; el canal 2 (el C de la musica)...
 	jr nz,L_6344		;6338
 	ld a,(0c080h)		;633a   ; lee el sonido que suena (para no pisarlo con uno menor)
-	or a			;633d
+	or a			;633d   ; ...con un efecto sonando
 	jr z,L_6344		;633e
 	set 5,(ix+002h)		;6340   ; pone a uno el bit 5 de las banderas del canal
 L_6344:
 	dec (ix+009h)		;6344   ; cuando se acaba la nota, lee la siguiente de la pista
-	jp z,L_6384		;6347
+	jp z,L_6384		;6347   ; nota acabada: la siguiente
 	bit 0,(ix+002h)		;634a   ; bit 0: volumen de la orden 0xF0-0xFD en vez de envolvente
 	jp z,L_636D		;634e
 	ld a,(ix+009h)		;6351   ; baja un punto al empezar la caida o al pasar el sostenido
-	cp (ix+00bh)		;6354
-	jr nc,L_635D		;6357
-	cp (ix+006h)		;6359
+	cp (ix+00bh)		;6354   ; compara con donde empieza la caida (la cuenta - la caida)
+	jr nc,L_635D		;6357   ; antes de la caida, nada...
+	cp (ix+006h)		;6359   ; ...y pasado el sostenido tampoco
 	ret nc			;635c
 L_635D:
 	ld e,(ix+00ah)		;635d   ; lee el volumen de ahora
-	dec e			;6360
+	dec e			;6360   ; un punto menos, sin bajar de 0
 	ret m			;6361
 	ld (ix+00ah),e		;6362   ; guarda el volumen de ahora
 	bit 5,(ix+002h)		;6365   ; mira el bit 5 de las banderas del canal
-	ret nz			;6369
+	ret nz			;6369   ; con el PSG cedido al efecto, no se escribe
 	jp pon_el_volumen		;636a   ; pon_el_volumen: el volumen E en el registro 8+canal
 L_636D:
 	bit 5,(ix+002h)		;636d   ; con envolvente: un paso de ella, y al acabar volumen 0
 	ret nz			;6371
 	bit 7,(ix+002h)		;6372   ; mira el bit 7 de las banderas del canal
-	ret nz			;6376
+	ret nz			;6376   ; envolvente ya acabada
 	call envolvente_del_cuadro		;6377   ; envolvente_del_cuadro: un paso cada ix+0x0F cuadros; acarreo al acabar
-	ret nc			;637a
+	ret nc			;637a   ; a mitad, nada; al acabar, volumen 0
 	set 7,(ix+002h)		;637b   ; pone a uno el bit 7 de las banderas del canal
 	ld e,000h		;637f
 	jp pon_el_volumen		;6381   ; pon_el_volumen: el volumen E en el registro 8+canal
@@ -479,7 +479,7 @@ L_6384:
 L_638A:
 	ld a,(hl)			;638a   ; LA PISTA: 0xD0 en adelante son ordenes
 	inc hl			;638b
-	ld c,a			;638c
+	ld c,a			;638c   ; c, el byte de la pista
 	cp 0d0h		;638d
 	jp nc,L_6497		;638f
 	ld (ix+000h),l		;6392   ; guarda la pista (baja)
@@ -488,26 +488,26 @@ L_638A:
 	jp nc,L_647C		;639a
 	and 00fh		;639d   ; NOTA: la duracion es (c & 15) + 1 veces el tempo
 	inc a			;639f
-	ld b,a			;63a0
+	ld b,a			;63a0   ; B = (c & 15) + 1...
 	ld e,(ix+003h)		;63a1   ; lee el tempo
 	xor a			;63a4
 L_63A5:
-	add a,e			;63a5
+	add a,e			;63a5   ; ...veces el tempo
 	djnz L_63A5		;63a6
 	ld (ix+009h),a		;63a8   ; guarda la cuenta de la nota
 	ld a,(0c07fh)		;63ab   ; si ya no suena el efecto, el canal C recupera el PSG
-	cp 002h		;63ae
+	cp 002h		;63ae   ; el canal 2...
 	jr nz,L_63BC		;63b0
 	ld a,(0c080h)		;63b2   ; lee el sonido que suena (para no pisarlo con uno menor)
-	or a			;63b5
+	or a			;63b5   ; ...sin efecto
 	jr nz,L_63BC		;63b6
 	res 5,(ix+002h)		;63b8   ; pone a cero el bit 5 de las banderas del canal
 L_63BC:
 	bit 0,(ix+002h)		;63bc   ; mira el bit 0 de las banderas del canal
 	jp z,L_640A		;63c0
 	ld a,(ix+009h)		;63c3   ; cuando empieza la caida
-	sub (ix+005h)		;63c6
-	ld (ix+00bh),a		;63c9
+	sub (ix+005h)		;63c6   ; le resta la caida (la orden 0xF0-0xFD)
+	ld (ix+00bh),a		;63c9   ; guarda donde empieza la caida (la cuenta - la caida)
 	bit 5,(ix+002h)		;63cc   ; mira el bit 5 de las banderas del canal
 	ret nz			;63d0
 	ld a,c			;63d1   ; la nota, c >> 4, en p04:6464...
@@ -540,10 +540,10 @@ L_63F3:
 	jp p,L_6400		;63fc
 	xor a			;63ff
 L_6400:
-	ld (ix+00ah),a		;6400   ; guarda el volumen de ahora
+	ld (ix+00ah),a		;6400   ; el volumen de ahora
 	ld e,a			;6403
-	call pon_el_volumen		;6404   ; pon_el_volumen: el volumen E en el registro 8+canal
-	jp mezclador_solo_tono		;6407
+	call pon_el_volumen		;6404   ; al PSG...
+	jp mezclador_solo_tono		;6407   ; ...y el mezclador con tono
 L_640A:
 	ld a,(ix+008h)		;640a   ; con envolvente: la tabla que diga ix+8 (0-6), una palabra por nota
 	cp 000h		;640d   ; 0-5, las tablas de p04:7ABD, 7AD5, 7AED, 7B05, 7B1D y 7B35; si no, la de p04:7B4D
@@ -568,7 +568,7 @@ L_642D:
 	rrca			;6430
 	rrca			;6431
 	rrca			;6432
-	add a,l			;6433
+	add a,l			;6433   ; la palabra de la nota en la tabla
 	ld l,a			;6434
 	jr nc,L_6438		;6435
 	inc h			;6437
@@ -578,8 +578,8 @@ L_6438:
 	inc hl			;643c
 	ld a,(hl)			;643d
 	ld (ix+00dh),a		;643e   ; guarda la envolvente que suena (alta)
-	res 7,(ix+002h)		;6441   ; pone a cero el bit 7 de las banderas del canal
-	ld a,001h		;6445
+	res 7,(ix+002h)		;6441   ; la envolvente desde el principio...
+	ld a,001h		;6445   ; ...un paso ya
 	ld (ix+00eh),a		;6447   ; guarda la cuenta de la envolvente
 	ret			;644a
 L_644B:
@@ -641,31 +641,31 @@ L_6497:
 	and 0f0h		;6497   ; LAS ORDENES: 0xD0-0xDF tempo, 0xE0-0xEF las de un byte
 	cp 0d0h		;6499
 	jp z,L_64F7		;649b
-	cp 0e0h		;649e
+	cp 0e0h		;649e   ; 0xE0-0xEF...
 	jp z,L_6500		;64a0
 	ld a,c			;64a3   ; 0xFF acaba el canal
-	and 00fh		;64a4
+	and 00fh		;64a4   ; ...y 0xF0-0xFF: por el nibble bajo
 	cp 00fh		;64a6
 	jp z,L_6572		;64a8
 	cp 00eh		;64ab   ; 0xFE [n][w]: repite n veces desde w
 	jp nz,L_64D0		;64ad
 	ld a,(ix+010h)		;64b0   ; lee las vueltas que quedan de la repeticion
-	dec a			;64b3
+	dec a			;64b3   ; la ultima vuelta: se sigue detras
 	jp z,L_64C7		;64b4
-	jp p,L_64BC		;64b7
+	jp p,L_64BC		;64b7   ; la primera vez (0): las vueltas de [n]
 	ld a,(hl)			;64ba
 	dec a			;64bb
 L_64BC:
 	inc hl			;64bc
 	ld (ix+010h),a		;64bd   ; guarda las vueltas que quedan de la repeticion
-	ld a,(hl)			;64c0
+	ld a,(hl)			;64c0   ; y a w
 	inc hl			;64c1
 	ld h,(hl)			;64c2
 	ld l,a			;64c3
 	jp L_638A		;64c4
 L_64C7:
 	ld (ix+010h),a		;64c7   ; acabadas las vueltas, sigue detras
-	inc hl			;64ca
+	inc hl			;64ca   ; salta [n][w]
 	inc hl			;64cb
 	inc hl			;64cc
 	jp L_638A		;64cd
@@ -688,12 +688,12 @@ L_64DF:
 	rrca			;64e5
 	rrca			;64e6
 	and 00fh		;64e7
-	ld (ix+005h),a		;64e9
+	ld (ix+005h),a		;64e9   ; guarda la caida (la orden 0xF0-0xFD)
 	ld a,(hl)			;64ec
 	inc hl			;64ed
 	and 00fh		;64ee
 	inc a			;64f0
-	ld (ix+006h),a		;64f1
+	ld (ix+006h),a		;64f1   ; guarda el sostenido
 	jp L_638A		;64f4
 L_64F7:
 	ld a,c			;64f7   ; 0xD0-0xDF: tempo c & 15
@@ -788,36 +788,36 @@ envolvente_del_cuadro:
 	ld h,(ix+00dh)		;65a1   ; lee la envolvente que suena (alta)
 L_65A4:
 	ld a,(hl)			;65a4   ; 0xFF acaba, 0xFE repite, 0x2X mezclador, 0x1X ruido
-	cp 0ffh		;65a5
+	cp 0ffh		;65a5   ; 0xFF: acabo
 	jp z,L_6684		;65a7
 	inc hl			;65aa
 	ld c,a			;65ab
-	cp 0feh		;65ac
+	cp 0feh		;65ac   ; 0xFE: repite
 	jp z,L_6611		;65ae
 	and 0f0h		;65b1
-	cp 020h		;65b3
+	cp 020h		;65b3   ; 0x2X: el mezclador
 	jp z,L_6630		;65b5
-	cp 010h		;65b8
+	cp 010h		;65b8   ; 0x1X: el ruido
 	jp nz,L_65CC		;65ba
 	ld a,c			;65bd   ; 0x1X: el ruido X*2 en el registro 6, y el byte siguiente como c
 	and 00fh		;65be
 	rlca			;65c0
 	ld e,a			;65c1
-	ld a,006h		;65c2
+	ld a,006h		;65c2   ; el registro 6 del PSG (el periodo del ruido)
 	call 00093h		;65c4   ; BIOS WRTPSG - Writes data to PSG-register
-	ld a,(hl)			;65c7
+	ld a,(hl)			;65c7   ; el byte siguiente, como c
 	inc hl			;65c8
 	ld c,a			;65c9
 	and 0f0h		;65ca
 L_65CC:
 	rrca			;65cc   ; el volumen c >> 4; con el bit 4 del volumen, la envolvente del PSG (registro 13)
-	rrca			;65cd
+	rrca			;65cd   ; el volumen, c >> 4
 	rrca			;65ce
 	rrca			;65cf
 	ld e,a			;65d0
 	bit 4,(ix+00ah)		;65d1   ; mira el bit 4 de el volumen de ahora
 	jr z,L_65DF		;65d5
-	ld a,00dh		;65d7
+	ld a,00dh		;65d7   ; el registro 13 (la forma de la envolvente del PSG)
 	call 00093h		;65d9   ; BIOS WRTPSG - Writes data to PSG-register
 	jp L_6602		;65dc
 L_65DF:
@@ -858,14 +858,14 @@ L_6611:
 	dec a			;661b
 L_661C:
 	inc hl			;661c   ; las vueltas que quedan en ix+0x11...
-	ld (ix+011h),a		;661d
+	ld (ix+011h),a		;661d   ; guarda las vueltas que quedan de la repeticion de la envolvente
 	ld a,(hl)			;6620   ; ...y a w
 	inc hl			;6621
 	ld h,(hl)			;6622
 	ld l,a			;6623
 	jp L_65A4		;6624
 L_6627:
-	ld (ix+011h),a		;6627
+	ld (ix+011h),a		;6627   ; guarda las vueltas que quedan de la repeticion de la envolvente
 	inc hl			;662a
 	inc hl			;662b
 	inc hl			;662c

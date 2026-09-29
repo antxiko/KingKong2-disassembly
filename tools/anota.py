@@ -183,6 +183,13 @@ CAMPOS = {
         0x1C: "cuantos quedan de su grupo",           # p00:5ED4
         0x1E: "los toques (bit 0: toca a Mitchel; bit 1: le han dado)",  # p09:BA15, p09:B857
         0x20: "cuantos sprites lleva",                # p00:5A94
+        0x21: "el hueco de su primer sprite",         # p00:5205: [hueco][y][x][patron][color]
+        0x22: "la y de su primer sprite",
+        0x23: "la x de su primer sprite",
+        0x24: "el patron de su primer sprite",
+        0x25: "el color de su primer sprite",
+        0x26: "el hueco de su segundo sprite",
+        0x2A: "el color de su segundo sprite",
         0x7D: "si ya no queda ninguno de su grupo",   # p00:5EFC
         0x7E: "el lado por el que le han dado",       # p09:B809
     },
@@ -210,15 +217,19 @@ CAMPOS = {
         0x02: "las banderas del canal",
         0x03: "el tempo",
         0x04: "el volumen",
+        0x05: "la caida (la orden 0xF0-0xFD)",        # p04:64E9
+        0x06: "el sostenido",                         # p04:64F1
         0x07: "la octava",
         0x08: "la envolvente",
         0x09: "la cuenta de la nota",
         0x0A: "el volumen de ahora",
+        0x0B: "donde empieza la caida (la cuenta - la caida)",  # p04:63C9
         0x0C: "la envolvente que suena (baja)",
         0x0D: "la envolvente que suena (alta)",
         0x0E: "la cuenta de la envolvente",
         0x0F: "cuanto dura cada paso de la envolvente",
         0x10: "las vueltas que quedan de la repeticion",
+        0x11: "las vueltas que quedan de la repeticion de la envolvente",  # p04:6611
         0x12: "la vuelta de la subrutina (baja)",
         0x13: "la vuelta de la subrutina (alta)",
     },
@@ -360,12 +371,17 @@ def num(txt):
 
 def clases_de_ix(b, filas):
     """Para cada instruccion, a que clase de ficha apunta IX (o None)."""
-    fuera, actual = {}, POR_DEFECTO.get(b)
+    fuera, actual, pila = {}, POR_DEFECTO.get(b), []
     for k, (a, t) in enumerate(filas):
         m = re.match(r"ld ix,0([0-9a-f]{4})h$", t)
         if m:
             actual = clase_de(int(m.group(1), 16))
-        elif t.startswith("pop ix") or t.startswith("ld ix,"):
+        elif t == "push ix":
+            pila.append(actual)
+        elif t == "pop ix":
+            # push ix / ... / pop ix: vuelve la IX de antes
+            actual = pila.pop() if pila else None
+        elif t.startswith("ld ix,"):
             actual = None
         for a0, a1, cl in TRAMOS.get(b, []):
             if a0 <= a < a1:
@@ -373,7 +389,7 @@ def clases_de_ix(b, filas):
         fuera[k] = actual
         if (t.startswith(("ret", "jp ")) and not re.match(r"(ret|jp) (nz|z|nc|c|po|pe|p|m)\b", t)) \
                 or t.startswith("jp (hl)"):
-            actual = POR_DEFECTO.get(b)
+            actual, pila = POR_DEFECTO.get(b), []
     return fuera
 
 
@@ -500,6 +516,9 @@ def comentario(b, filas, k, clases, rut, cruces, fuentes=None, datos=None, repar
         if mm:
             n = int(mm.group(1), 16)
             que = CAMPOS[cl].get(n)
+            for (bt, a0, a1), campos in CAMPOS_EN_TRAMO.items():
+                if not que and cl == "ficha" and bt == b and a0 <= a < a1:
+                    que = campos.get(n)
             if not que and cl == "ficha" and b in (2, 3):
                 qs = {CAMPOS_POR_ENTRADA.get(e, {}).get(n) for e in DUENOS.get(a, ())}
                 que = qs.pop() if len(qs) == 1 else None
@@ -569,9 +588,16 @@ RANAS = {0x12: "los saltos", 0x13: "la espera o el punto del salto",
 SALTARINES = {0x16: "la y de donde salto", 0x17: "la espera tras tirar",
               0x18: "el punto de la curva", 0x19: "su direccion", 0x1A: "los pasos",
               0x1B: "los pasos"}
-GUSANOS_LARGOS = {0x17: "la y minima del centro", 0x18: "la y maxima del centro",
+GUSANOS_LARGOS = {0x12: "el punto de la vuelta", 0x13: "su sitio en el rastro",
+                  0x14: "la y de la vuelta", 0x15: "la x del centro", 0x16: "la y del centro",
+                  0x17: "la y minima del centro", 0x18: "la y maxima del centro",
                   0x19: "la x minima del centro", 0x1A: "la x maxima del centro",
                   0x1B: "la velocidad de la vuelta"}
+# Tramos donde la misma ficha usa sus campos de otra manera.
+CAMPOS_EN_TRAMO = {
+    (3, 0xB629, 0xB659): {0x14: "la cabeza (baja)", 0x15: "la cabeza (alta)", 0x16: "su numero de parte",
+                          0x13: "su retraso en el rastro"},
+}
 CAMPOS_DE_GRUPO = {
     0x04: {0x14: "la cuenta de 8 cuadros"},
     0x05: {0x14: "la cuenta de 8 cuadros", 0x15: "su direccion"},
@@ -604,7 +630,7 @@ CAMPOS_DE_GRUPO = {
            0x14: "el paso al que vuelve", 0x15: "su diagonal de antes", 0x16: "su diagonal",
            0x17: "la y de Mitchel", 0x18: "la x de Mitchel", 0x19: "la y de partida",
            0x1A: "la x de partida", 0x1B: "la espera"},
-    0x1D: {0x12: "la cuenta de 0x96 cuadros", 0x14: "la espera parado",
+    0x1D: {0x13: "los pasos hasta parar (o el paso de antes)", 0x12: "la cuenta de 0x96 cuadros", 0x14: "la espera parado",
            0x15: "si esta vez va hacia Mitchel", 0x16: "su numero (tipo - 0x1D)",
            0x17: "los pasos de cada tramo", 0x18: "sus banderas (bit 0 grande, bit 1 sin parar)",
            0x19: "los pasos que quedan", 0x1A: "su direccion", 0x1B: "la espera de CAVERNBIG",

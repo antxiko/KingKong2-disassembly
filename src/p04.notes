@@ -122,6 +122,40 @@ C 0x6579 la mascara sin el bit del canal...
 C 0x657D ...fuera de los que suenan (0xC08D)
 C 0x661C las vueltas que quedan en ix+0x11...
 C 0x6620 ...y a w
+C 0x6336 el canal 2 (el C de la musica)...
+C 0x633D ...con un efecto sonando
+C 0x6347 nota acabada: la siguiente
+C 0x6357 antes de la caida, nada...
+C 0x6359 ...y pasado el sostenido tampoco
+C 0x6360 un punto menos, sin bajar de 0
+C 0x6369 con el PSG cedido al efecto, no se escribe
+C 0x6376 envolvente ya acabada
+C 0x637A a mitad, nada; al acabar, volumen 0
+C 0x638C c, el byte de la pista
+C 0x63A0 B = (c & 15) + 1...
+C 0x63A5 ...veces el tempo
+C 0x63AE el canal 2...
+C 0x63B5 ...sin efecto
+C 0x6400 el volumen de ahora
+C 0x6404 al PSG...
+C 0x6407 ...y el mezclador con tono
+C 0x6433 la palabra de la nota en la tabla
+C 0x6441 la envolvente desde el principio...
+C 0x6445 ...un paso ya
+C 0x649E 0xE0-0xEF...
+C 0x64A4 ...y 0xF0-0xFF: por el nibble bajo
+C 0x64B3 la ultima vuelta: se sigue detras
+C 0x64B7 la primera vez (0): las vueltas de [n]
+C 0x64C0 y a w
+C 0x64CA salta [n][w]
+C 0x65A5 0xFF: acabo
+C 0x65AC 0xFE: repite
+C 0x65B3 0x2X: el mezclador
+C 0x65B8 0x1X: el ruido
+C 0x65C2 el registro 6 del PSG (el periodo del ruido)
+C 0x65C7 el byte siguiente, como c
+C 0x65CD el volumen, c >> 4
+C 0x65D7 el registro 13 (la forma de la envolvente del PSG)
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x60BC 0x60D0 canal_en_reposo  20 bytes que p04:605D copia a cada canal al empezar una pieza o un efecto; lo leen p04:6060 (20 bytes)
@@ -434,6 +468,7 @@ C 0x6325 toca_el_canal: UN CANAL, CADA CUADRO: si es el C de la musica y suena u
 C 0x632C toca_el_canal: UN CANAL, CADA CUADRO: si es el C de la musica y suena un efecto, el efecto le quita el PSG (bit 5)
 C 0x633A lee el sonido que suena (para no pisarlo con uno menor)
 C 0x6340 pone a uno el bit 5 de las banderas del canal
+C 0x6354 compara con donde empieza la caida (la cuenta - la caida)
 C 0x635D lee el volumen de ahora
 C 0x6362 guarda el volumen de ahora
 C 0x6365 mira el bit 5 de las banderas del canal
@@ -451,16 +486,15 @@ C 0x63A8 guarda la cuenta de la nota
 C 0x63B2 lee el sonido que suena (para no pisarlo con uno menor)
 C 0x63B8 pone a cero el bit 5 de las banderas del canal
 C 0x63BC mira el bit 0 de las banderas del canal
+C 0x63C6 le resta la caida (la orden 0xF0-0xFD)
+C 0x63C9 guarda donde empieza la caida (la cuenta - la caida)
 C 0x63CC mira el bit 5 de las banderas del canal
 C 0x63D7 periodos_de_las_notas: 12 palabras: el periodo del PSG de cada semitono en la octava mas grave; p04:63E5 lo divide por 2 una vez por octava
 C 0x63F3 pon_el_tono: el periodo DE en los registros de tono del canal
 C 0x63F9 le suma el volumen
-C 0x6400 guarda el volumen de ahora
-C 0x6404 pon_el_volumen: el volumen E en el registro 8+canal
 C 0x642A envolventes: 7 tablas de 12 palabras (una por nota): la envolvente de volumen de cada nota segun 0xE8 n; p04:640A
 C 0x6439 guarda la envolvente que suena (baja)
 C 0x643E guarda la envolvente que suena (alta)
-C 0x6441 pone a cero el bit 7 de las banderas del canal
 C 0x6447 guarda la cuenta de la envolvente
 C 0x6480 lee el tempo
 C 0x6487 guarda la cuenta de la nota
@@ -470,6 +504,8 @@ C 0x6494 pon_el_volumen: el volumen E en el registro 8+canal
 C 0x64B0 lee las vueltas que quedan de la repeticion
 C 0x64BD guarda las vueltas que quedan de la repeticion
 C 0x64DF guarda el volumen
+C 0x64E9 guarda la caida (la orden 0xF0-0xFD)
+C 0x64F1 guarda el sostenido
 C 0x64FA guarda el tempo
 C 0x6521 pone a cero el bit 0 de las banderas del canal
 C 0x6527 guarda la envolvente
@@ -489,6 +525,8 @@ C 0x65FF pon_el_volumen: el volumen E en el registro 8+canal
 C 0x6608 guarda la envolvente que suena (baja)
 C 0x660B guarda la envolvente que suena (alta)
 C 0x660E pon_el_tono: el periodo DE en los registros de tono del canal
+C 0x661D guarda las vueltas que quedan de la repeticion de la envolvente
+C 0x6627 guarda las vueltas que quedan de la repeticion de la envolvente
 C 0x6652 guarda el volumen de ahora
 C 0x6656 pon_el_volumen: el volumen E en el registro 8+canal
 C 0x665B guarda la cuenta de la envolvente

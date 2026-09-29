@@ -2084,15 +2084,15 @@ lo_lanzado_da_a_la_ficha:
 L_B878:
 	push ix		;b878   ; el boomerang da una vez a cada enemigo (0xC398)
 	pop hl			;b87a
-	ld de,(0c398h)		;b87b
+	ld de,(0c398h)		;b87b   ; el ultimo al que dio (0xC398)...
 	rst 20h			;b87f
-	ret z			;b880
+	ret z			;b880   ; ...si es este, nada
 	ld (0c398h),a		;b881
 	ld a,01eh		;b884   ; el sonido 0x1E y la fuerza 0x18
 	call 040e6h		;b886   ; p00:puente_sonido_si_juega
 	ld e,018h		;b889
 	call golpea_a_la_ficha		;b88b   ; golpea_a_la_ficha: el dano: (LEVEL + 10) * la fuerza E, en BCD (p00:43D5); lo alto se resta de la vida (ix+0x0D) y lo bajo de ix+0x1D; a cero, muere (acarreo)
-	ret nc			;b88e
+	ret nc			;b88e   ; si no muere, nada mas
 	jr da_la_experiencia		;b88f
 L_B891:
 	ld a,01eh		;b891   ; la bola de fuego: fuerza 6
@@ -2106,7 +2106,7 @@ L_B89E:
 	call 040e6h		;b8a0   ; p00:puente_sonido_si_juega
 	ld e,015h		;b8a3
 	call golpea_a_la_ficha		;b8a5   ; golpea_a_la_ficha: el dano: (LEVEL + 10) * la fuerza E, en BCD (p00:43D5); lo alto se resta de la vida (ix+0x0D) y lo bajo de ix+0x1D; a cero, muere (acarreo)
-	ld hl,0c380h		;b8a8   ; apunta a lo que lanza Mitchel (su ficha)
+	ld hl,0c380h		;b8a8   ; la piedra se acaba
 	ld (hl),000h		;b8ab
 	ret nc			;b8ad
 da_la_experiencia:
@@ -2118,10 +2118,10 @@ da_la_experiencia:
 	ld hl,0b914h		;b8b7   ; p09:B915 + tipo - 1
 	add hl,bc			;b8ba
 	ld a,(0c12eh)		;b8bb   ; lee LEVEL, el nivel de Mitchel (BCD)
-	cp (hl)			;b8be
+	cp (hl)			;b8be   ; comparado con lo que pide
 	ld a,(hl)			;b8bf
 	ld c,a			;b8c0
-	jr c,L_B8CB		;b8c1
+	jr c,L_B8CB		;b8c1   ; LEVEL por debajo o igual: siempre
 	jr z,L_B8CB		;b8c3
 	ld a,r		;b8c5   ; LEVEL por encima: una de cada 16 (R)
 	and 00fh		;b8c7
@@ -2139,7 +2139,7 @@ L_B8CB:
 	adc a,000h		;b8da
 	daa			;b8dc
 	ld h,a			;b8dd
-	jr nc,L_B8E8		;b8de
+	jr nc,L_B8E8		;b8de   ; sin pasar de 9999
 	ld hl,09999h		;b8e0   ; ...hasta 9999
 	ld (0c12bh),hl		;b8e3   ; guarda EXP, la experiencia (BCD)
 	jr L_B90C		;b8e6
@@ -2152,7 +2152,7 @@ L_B8E8:
 	ld a,(hl)			;b8f4
 	add a,001h		;b8f5
 	daa			;b8f7
-	jr c,L_B90C		;b8f8
+	jr c,L_B90C		;b8f8   ; ya en 99, no sube
 	ld (hl),a			;b8fa
 	call 04146h		;b8fb   ; p00:puente_escribe_level
 	call 04050h		;b8fe   ; p00:puente_borra_la_ventana_de_texto: LOS PUENTES. De seis bytes, `call X / jp 0x4215`: se llaman desde cualquier
@@ -2187,7 +2187,7 @@ L_B959:
 	ld a,01fh		;b959   ; el sonido 0x1F del golpe sin efecto
 	call 040e6h		;b95b   ; p00:puente_sonido_si_juega
 	ld hl,0c380h		;b95e   ; apunta a lo que lanza Mitchel (su ficha)
-	ld a,(hl)			;b961   ; lo lanzado (piedra o bola) se acaba
+	ld a,(hl)			;b961   ; lo lanzado se acaba, salvo la bola de fuego (2) y el boomerang (3)
 	sub 002h		;b962
 	cp 002h		;b964
 	ret c			;b966
@@ -2196,7 +2196,7 @@ L_B959:
 efecto_sobre_lo_lanzado:
 	push ix		;b96a   ; lo que le hace el enemigo a lo lanzado (p00:4158)
 	push hl			;b96c
-	pop ix		;b96d
+	pop ix		;b96d   ; IX = lo lanzado
 	call 04158h		;b96f   ; p00:puente_rebota_lo_lanzado
 	pop ix		;b972
 	ret			;b974

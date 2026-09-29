@@ -510,6 +510,15 @@ C 0x9EAC gira a un lado: hasta +5...
 C 0x9EB6 ...un punto mas del circulo (36)
 C 0x9EC2 al otro: hasta -5...
 C 0x9ECC ...un punto menos
+C 0x8E05 0x0C por encima de su y
+C 0x8E08 0x18 de alto, desde y 0xA8...
+C 0x8E0C ...de la pagina 1
+C 0x8E1B sus casillas, 8 por encima
+C 0x8E21 2x2
+C 0x8E36 0xDFF5 = 0: ya no se cierra ninguna
+C 0x8E5A ix+0x0E = 1, que se pisa en seguida: queda a 0
+C 0x8E6B las 13 fichas
+C 0x8E77 la siguiente
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x8000 0x8008 tabla_7FFC_cola  6 destinos del despachador de 0x425F (call en p01:7FF9): 0x8008, 0x8017, 0x8025, 0x8039, 0x8065, 0x8039 (sigue del banco anterior, 0x7FFC); lo leen p01:7FF9 (8 bytes)
@@ -1302,6 +1311,7 @@ C 0x984D XOR con la cuenta de cuadros
 C 0x9858 guarda los pasos que quedan
 C 0x985B la cuenta de 0x96 cuadros = 0x96
 C 0x985F la espera parado = 0x14
+C 0x9864 guarda los pasos hasta parar (o el paso de antes)
 C 0x9867 guarda si esta vez va hacia Mitchel
 C 0x986A guarda la velocidad vertical (baja)
 C 0x986D guarda la velocidad horizontal (baja)
@@ -1344,7 +1354,9 @@ C 0x993E p00:despacha: Salta a la entrada A de la tabla de palabras que va pegad
 C 0x9952 lee si se mueve
 C 0x9957 guarda si se mueve
 C 0x995D lee sus banderas (bit 0 grande, bit 1 sin parar)
+C 0x9963 baja los pasos hasta parar (o el paso de antes)
 C 0x9968 lee el paso en que va
+C 0x996B guarda los pasos hasta parar (o el paso de antes)
 C 0x996E el paso en que va = 0x02
 C 0x9972 si se mueve = 0x00
 C 0x997D lee su direccion
@@ -1356,7 +1368,9 @@ C 0x999D lee si se mueve
 C 0x99A2 guarda si se mueve
 C 0x99A5 sigue_si_esta_en_casilla: si la ficha no esta alineada a 8 en x e y, vuelve al que llamo al que llamo
 C 0x99A8 lee sus banderas (bit 0 grande, bit 1 sin parar)
+C 0x99AE baja los pasos hasta parar (o el paso de antes)
 C 0x99B3 lee el paso en que va
+C 0x99B6 guarda los pasos hasta parar (o el paso de antes)
 C 0x99B9 el paso en que va = 0x02
 C 0x99BD baja si se mueve
 C 0x99C7 lee su direccion
@@ -1367,8 +1381,10 @@ C 0x99DC lee los pasos de cada tramo
 C 0x99DF guarda los pasos que quedan
 C 0x99E2 el paso en que va = 0x00
 C 0x99ED la espera parado = 0x1E
+C 0x99F1 lee los pasos hasta parar (o el paso de antes)
 C 0x99F4 guarda el paso en que va
 C 0x99F7 si se mueve = 0x01
+C 0x99FB los pasos hasta parar (o el paso de antes) = 0x08
 C 0x99FF lee sus banderas (bit 0 grande, bit 1 sin parar)
 C 0x9A05 lee su direccion
 C 0x9A08 p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
@@ -1382,6 +1398,7 @@ C 0x9A40 baja la espera de CAVERNBIG
 C 0x9A47 colores_a_4: cuatro parejas de colores B y C en los 8 sprites de la ficha
 C 0x9A4A el paso en que va = 0x00
 C 0x9A4E sube si se mueve
+C 0x9A55 los pasos hasta parar (o el paso de antes) = 0x08
 C 0x9A64 guarda su direccion
 C 0x9A67 cavernicolas_velocidad: las velocidades de la direccion A, de p02:9AB9
 C 0x9A6C lee sus banderas (bit 0 grande, bit 1 sin parar)
@@ -1433,6 +1450,8 @@ C 0x9BFD lee la x del enemigo
 C 0x9C17 p03:al_azar: A al azar: el registro R, con los nibbles cambiados, XOR el contador de cuadros
 C 0x9C1F p03:para_la_ficha: las dos velocidades a 0
 C 0x9C22 lee la x del enemigo
+C 0x9C31 guarda el color de su primer sprite
+C 0x9C34 guarda el color de su segundo sprite
 C 0x9C3E guarda si tiene el fondo guardado
 C 0x9C45 guarda cuantos quedan de su grupo
 C 0x9C57 lee la x del enemigo
@@ -1519,6 +1538,8 @@ C 0x9E80 sube el paso en que va
 C 0x9E86 sps_cuenta: IX = la parte ix+0x15 - 1
 C 0x9E89 lee la y a la que va
 C 0x9E8C lee la x a la que va
+C 0x9E91 guarda la y del enemigo
+C 0x9E94 guarda la x del enemigo
 C 0x9E9C p03:para_la_ficha: las dos velocidades a 0
 C 0x9EA2 p03:al_azar: A al azar: el registro R, con los nibbles cambiados, XOR el contador de cuadros
 C 0x9EA5 el retraso o la espera = 0x02

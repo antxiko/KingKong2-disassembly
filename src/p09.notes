@@ -88,7 +88,6 @@ C 0xB901 ...y "LEVEL が あがりました。" 0x80 cuadros
 C 0xB90C la EXP en el panel
 C 0xB90F y el enemigo muere
 C 0xB959 el sonido 0x1F del golpe sin efecto
-C 0xB961 lo lanzado (piedra o bola) se acaba
 C 0xB96A lo que le hace el enemigo a lo lanzado (p00:4158)
 C 0xB978 los tipos que no se dejan (acarreo: no se les hace nada)...
 C 0xB9C5 los demas, si
@@ -210,6 +209,16 @@ C 0xBFC7 la ficha siguiente
 C 0xBA7D E = la distancia en y (C = 1 si el enemigo esta por encima); la distancia en x (B = 1 si esta a la izquierda)...
 C 0xBA87 ...si la de x es menor, en vertical: 0 (arriba) o 1 (abajo) a 0xC164...
 C 0xBA91 ...si no, en horizontal: 3 o 2
+C 0xB961 lo lanzado se acaba, salvo la bola de fuego (2) y el boomerang (3)
+C 0xB87B el ultimo al que dio (0xC398)...
+C 0xB880 ...si es este, nada
+C 0xB88E si no muere, nada mas
+C 0xB8A8 la piedra se acaba
+C 0xB8BE comparado con lo que pide
+C 0xB8C1 LEVEL por debajo o igual: siempre
+C 0xB8DE sin pasar de 9999
+C 0xB8F8 ya en 99, no sube
+C 0xB96D IX = lo lanzado
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA000 0xA31B dibujos_9F5B_cola  30 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 96); los sube p00:48A6 por la lista 0x5506 (sigue del banco anterior, 0x9F5B); lo leen p00:48A6 (795 bytes)
@@ -392,7 +401,6 @@ C 0xB893 p00:puente_sonido_si_juega
 C 0xB898 golpea_a_la_ficha: el dano: (LEVEL + 10) * la fuerza E, en BCD (p00:43D5); lo alto se resta de la vida (ix+0x0D) y lo bajo de ix+0x1D; a cero, muere (acarreo)
 C 0xB8A0 p00:puente_sonido_si_juega
 C 0xB8A5 golpea_a_la_ficha: el dano: (LEVEL + 10) * la fuerza E, en BCD (p00:43D5); lo alto se resta de la vida (ix+0x0D) y lo bajo de ix+0x1D; a cero, muere (acarreo)
-C 0xB8A8 apunta a lo que lanza Mitchel (su ficha)
 C 0xB8BB lee LEVEL, el nivel de Mitchel (BCD)
 C 0xB8D3 lee EXP, la experiencia (BCD)
 C 0xB8E3 guarda EXP, la experiencia (BCD)

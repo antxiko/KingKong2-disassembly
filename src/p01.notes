@@ -390,9 +390,6 @@ C 0x651E ...y la fila 8 (los cursores y el espacio)
 C 0x6538 y los botones del mando
 C 0x653B la fila 6 del teclado...
 C 0x6551 ...y la 7
-C 0x6556 F4...
-C 0x655C ...F5...
-C 0x6562 ...y la tecla de 0xC11F
 C 0x656D la fila 0: 1, 2 y 3 a los bits 3, 4 y 5
 C 0x6578 LA MUSICA QUE TOCA: con algo en marcha, nada
 C 0x6580 las piezas 0x85, 0x81, 0x82 y 0x8C no se cortan
@@ -628,7 +625,6 @@ C 0x6F6B segun la direccion: si esta delante y cerca, no se pasa
 C 0x6FA2 abajo, en la pantalla de la estatua...
 C 0x6FA4 ...pasada la y 0x98 si se puede
 C 0x6FA9 no se pasa
-C 0x6FBD la casilla de lo de 0xC800...
 C 0x6FCD ...tampoco se puede pisar
 C 0x6FD7 el paso de p01:7026 segun la direccion C
 C 0x6FDC el punto de ahora (0xE808)...
@@ -993,18 +989,41 @@ C 0x6454 busca C en la lista (3 bytes por entrada, B entradas)
 C 0x6BE6 0x88-0x89
 C 0x6D04 y alineada a 8 (sin la parte baja)...
 C 0x6D0D ...y la x
-C 0x6F8F ...choca
-C 0x6FBB ...choca
 C 0x71D9 dy / 4 en los bits 3-5 (E)...
 C 0x71DE ...y dx, con su signo
 C 0x7AFF con el bit 0 de ix+0x15, rebota (p01:7B1B)
 C 0x7B07 sin velocidad horizontal
 C 0x7B77 pasos 1 (p01:7BA5) y 2 (p01:7BB5); el 0 sigue aqui
 C 0x7B80 paso 0: ix+0x12 cuadros y al paso 1
-C 0x6F83 E - L dentro de +-0x0A y D - H de 0 a 0x13...
-C 0x6FAF D - H dentro de +-0x0A y E - L de 0 a 0x13...
 C 0x6268 ya esta: Z
 C 0x626A la entrada siguiente
+C 0x6F75 derecha: a +-0x0A en y y lo que se empuja a menos de 0x14 a la derecha de Mitchel...
+C 0x6F81 ...esta delante
+C 0x6F83 izquierda: a +-0x0A en y y a menos de 0x14 a su izquierda...
+C 0x6F8F ...esta delante
+C 0x6F91 abajo: a +-0x0A en x y a menos de 0x14 por debajo...
+C 0x6FAF arriba: a +-0x0A en x y a menos de 0x14 por encima...
+C 0x6FBB ...esta delante
+C 0x6FBD DELANTE: si la casilla siguiente de lo que se empuja no se puede pisar, Mitchel no pasa
+C 0x6E8A solo arriba (bit 0) o solo abajo
+C 0x6EC1 los pasos de Mitchel a 0
+C 0x6ED3 (la x: 0xC304)
+C 0x6EF4 un paso mas, hasta B
+C 0x6EF8 a su coordenada (0xE800)
+C 0x6F2A alineada a 8?
+C 0x6F4B 0xC173 = 1 (se puede) salvo que se diga lo contrario
+C 0x6F63 H = su x, L = su y
+C 0x6517 SHIFT (fila 6, bit 0): SHOT2 (bit 5)
+C 0x6523 los cursores y el espacio, girados...
+C 0x6527 ...izquierda al bit 2...
+C 0x652F ...derecha al bit 3 y el espacio al 4 (SHOT1)...
+C 0x6535 ...arriba al 0 y abajo al 1
+C 0x650E los botones: bit 4 SHOT1, bit 5 SHOT2
+C 0x6541 F1 al bit 0, F2 al 1...
+C 0x6548 ...y F3 al 6
+C 0x6556 F5 (fila 7, bit 1): el bit 2...
+C 0x655C ...F4 (bit 0): el bit 7...
+C 0x6562 ...y TAB (bit 3): 0xC11F = 1 (el truco del nivel)
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x611F 0x6143 salidas_especiales  12 salidas especiales (0xF0-0xFB): pantalla de llegada y punto (x, y) donde aparece Mitchel; p01:60FA con 0x611F + 3*(n-0xF0); lo leen p01:6109 (36 bytes)
@@ -1358,7 +1377,6 @@ C 0x6F22 lee el estado de Mitchel
 C 0x6F26 niega_de: DE = -DE
 C 0x6F50 p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
 C 0x6F60 p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
-C 0x6F63 lee la y de lo que se empuja
 C 0x6F66 lee lo que se empuja ([hay][y][x][pasos])
 C 0x6F9D lee la PANTALLA
 C 0x6FA0 la pantalla 0x05?

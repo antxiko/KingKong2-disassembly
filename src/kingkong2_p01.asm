@@ -776,35 +776,35 @@ lee_el_mando:
 	di			;6509
 	call 00096h		;650a   ; BIOS RDPSG - Reads value from PSG-register
 	ei			;650d
-	cpl			;650e
+	cpl			;650e   ; los botones: bit 4 SHOT1, bit 5 SHOT2
 	and 03fh		;650f
 	push af			;6511
 	ld a,006h		;6512   ; la fila 6 del teclado...
 	call 00141h		;6514   ; BIOS SNSMAT - Returns the value of the specified line from the keyboard matrix
-	rra			;6517
+	rra			;6517   ; SHIFT (fila 6, bit 0): SHOT2 (bit 5)
 	ld e,000h		;6518
 	jr c,L_651E		;651a
 	ld e,020h		;651c
 L_651E:
 	ld a,008h		;651e   ; ...y la fila 8 (los cursores y el espacio)
 	call 00141h		;6520   ; BIOS SNSMAT - Returns the value of the specified line from the keyboard matrix
-	cpl			;6523
+	cpl			;6523   ; los cursores y el espacio, girados...
 	rrca			;6524
 	rrca			;6525
 	ld b,a			;6526
-	and 004h		;6527
+	and 004h		;6527   ; ...izquierda al bit 2...
 	or e			;6529
 	ld c,a			;652a
 	ld a,b			;652b
 	rrca			;652c
 	rrca			;652d
 	ld b,a			;652e
-	and 018h		;652f
+	and 018h		;652f   ; ...derecha al bit 3 y el espacio al 4 (SHOT1)...
 	or c			;6531
 	ld c,a			;6532
 	ld a,b			;6533
 	rrca			;6534
-	and 003h		;6535
+	and 003h		;6535   ; ...arriba al 0 y abajo al 1
 	or c			;6537
 	pop bc			;6538   ; y los botones del mando
 	or b			;6539
@@ -813,13 +813,13 @@ lee_el_teclado:
 	ld a,006h		;653b   ; la fila 6 del teclado...
 	call 00141h		;653d   ; BIOS SNSMAT - Returns the value of the specified line from the keyboard matrix
 	cpl			;6540
-	rlca			;6541
+	rlca			;6541   ; F1 al bit 0, F2 al 1...
 	rlca			;6542
 	rlca			;6543
 	ld c,a			;6544
 	and 003h		;6545
 	ld e,a			;6547
-	ld a,c			;6548
+	ld a,c			;6548   ; ...y F3 al 6
 	and 004h		;6549
 	rlca			;654b
 	rlca			;654c
@@ -829,15 +829,15 @@ lee_el_teclado:
 	ld e,a			;6550
 	ld a,007h		;6551   ; ...y la 7
 	call 00141h		;6553   ; BIOS SNSMAT - Returns the value of the specified line from the keyboard matrix
-	bit 1,a		;6556   ; F4...
+	bit 1,a		;6556   ; F5 (fila 7, bit 1): el bit 2...
 	jr nz,L_655C		;6558
 	set 2,e		;655a
 L_655C:
-	bit 0,a		;655c   ; ...F5...
+	bit 0,a		;655c   ; ...F4 (bit 0): el bit 7...
 	jr nz,L_6562		;655e
 	set 7,e		;6560
 L_6562:
-	bit 3,a		;6562   ; ...y la tecla de 0xC11F
+	bit 3,a		;6562   ; ...y TAB (bit 3): 0xC11F = 1 (el truco del nivel)
 	ld a,000h		;6564
 	jr nz,L_656A		;6566
 	ld a,001h		;6568
@@ -2286,7 +2286,7 @@ teclas_arriba_abajo:
 	and 003h		;6e86   ; arriba y abajo: igual
 	scf			;6e88
 	ret pe			;6e89
-	and 001h		;6e8a
+	and 001h		;6e8a   ; solo arriba (bit 0) o solo abajo
 	jr nz,anda_arriba		;6e8c
 	jr anda_abajo		;6e8e
 anda_arriba:
@@ -2318,7 +2318,7 @@ L_6EB5:
 	ld (ix+000h),a		;6eba
 	dec a			;6ebd   ; ...y la direccion
 	ld (0c306h),a		;6ebe   ; guarda hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
-	xor a			;6ec1
+	xor a			;6ec1   ; los pasos de Mitchel a 0
 	ld (0c311h),a		;6ec2   ; guarda la cuenta de los pasos de Mitchel
 	ld (0c327h),a		;6ec5   ; 0xC327 = 0
 	ret			;6ec8
@@ -2327,7 +2327,7 @@ L_6EC9:
 	cp 003h		;6ecc
 	ld hl,0c302h		;6ece
 	jr c,$+4		;6ed1
-	ld hl,00004h		;6ed3
+	ld hl,00004h		;6ed3   ; (la x: 0xC304)
 	ld (0e800h),hl		;6ed6
 	ld e,(hl)			;6ed9
 	inc hl			;6eda
@@ -2347,11 +2347,11 @@ L_6EEE:
 	and 007h		;6eef
 	or l			;6ef1
 	jr z,L_6EF7		;6ef2
-	add hl,de			;6ef4
+	add hl,de			;6ef4   ; un paso mas, hasta B
 	djnz L_6EEE		;6ef5
 L_6EF7:
 	ex de,hl			;6ef7   ; la posicion nueva
-	ld hl,(0e800h)		;6ef8
+	ld hl,(0e800h)		;6ef8   ; a su coordenada (0xE800)
 	ld (hl),e			;6efb
 	inc hl			;6efc
 	ld (hl),d			;6efd
@@ -2380,7 +2380,7 @@ cuantos_pasos:
 	call c,niega_de		;6f26   ; niega_de: DE = -DE
 L_6F29:
 	add hl,de			;6f29   ; hasta la casilla siguiente (multiplo de 8)
-	ld a,h			;6f2a
+	ld a,h			;6f2a   ; alineada a 8?
 	and 007h		;6f2b
 	or l			;6f2d
 	jr z,L_6F35		;6f2e
@@ -2407,7 +2407,7 @@ L_6F45:
 puede_andar_hacia:
 	ld c,a			;6f49   ; 0xC173 = 1
 	push bc			;6f4a
-	ld a,001h		;6f4b
+	ld a,001h		;6f4b   ; 0xC173 = 1 (se puede) salvo que se diga lo contrario
 	ld (0c173h),a		;6f4d
 	call 04308h		;6f50   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
 	call alineado		;6f53   ; solo en una casilla justa se mira el mapa...
@@ -2418,7 +2418,7 @@ puede_andar_hacia:
 	and a			;6f5e
 	ret z			;6f5f
 	call 04308h		;6f60   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
-	ld hl,(0c801h)		;6f63   ; lee la y de lo que se empuja
+	ld hl,(0c801h)		;6f63   ; H = su x, L = su y
 	ld a,(0c800h)		;6f66   ; lee lo que se empuja ([hay][y][x][pasos])
 	and a			;6f69
 	ret z			;6f6a
@@ -2429,7 +2429,7 @@ puede_andar_hacia:
 	jr z,L_6F91		;6f70
 	dec a			;6f72
 	jr z,L_6F83		;6f73
-	ld a,e			;6f75
+	ld a,e			;6f75   ; derecha: a +-0x0A en y y lo que se empuja a menos de 0x14 a la derecha de Mitchel...
 	sub l			;6f76
 	add a,00ah		;6f77
 	cp 014h		;6f79
@@ -2438,9 +2438,9 @@ puede_andar_hacia:
 	sub h			;6f7d
 	add a,014h		;6f7e
 	ret nc			;6f80
-	jr L_6FBD		;6f81
+	jr L_6FBD		;6f81   ; ...esta delante
 L_6F83:
-	ld a,e			;6f83   ; E - L dentro de +-0x0A y D - H de 0 a 0x13...
+	ld a,e			;6f83   ; izquierda: a +-0x0A en y y a menos de 0x14 a su izquierda...
 	sub l			;6f84
 	add a,00ah		;6f85
 	cp 014h		;6f87
@@ -2449,9 +2449,9 @@ L_6F83:
 	sub h			;6f8b
 	cp 014h		;6f8c
 	ret nc			;6f8e
-	jr L_6FBD		;6f8f   ; ...choca
+	jr L_6FBD		;6f8f   ; ...esta delante
 L_6F91:
-	ld a,d			;6f91
+	ld a,d			;6f91   ; abajo: a +-0x0A en x y a menos de 0x14 por debajo...
 	sub h			;6f92
 	add a,00ah		;6f93
 	cp 014h		;6f95
@@ -2472,7 +2472,7 @@ L_6FA9:
 	scf			;6fad
 	ret			;6fae
 L_6FAF:
-	ld a,d			;6faf   ; D - H dentro de +-0x0A y E - L de 0 a 0x13...
+	ld a,d			;6faf   ; arriba: a +-0x0A en x y a menos de 0x14 por encima...
 	sub h			;6fb0
 	add a,00ah		;6fb1
 	cp 014h		;6fb3
@@ -2481,9 +2481,9 @@ L_6FAF:
 	sub l			;6fb7
 	cp 014h		;6fb8
 	ret nc			;6fba
-	jr L_6FBD		;6fbb   ; ...choca
+	jr L_6FBD		;6fbb   ; ...esta delante
 L_6FBD:
-	ld de,(0c801h)		;6fbd   ; la casilla de lo de 0xC800...
+	ld de,(0c801h)		;6fbd   ; DELANTE: si la casilla siguiente de lo que se empuja no se puede pisar, Mitchel no pasa
 	ld a,e			;6fc1
 	add a,004h		;6fc2
 	and 0f8h		;6fc4

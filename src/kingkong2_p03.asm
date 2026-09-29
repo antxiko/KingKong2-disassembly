@@ -149,10 +149,10 @@ L_A0EB:
 	and a			;a10b
 	jp nz,para_la_ficha		;a10c   ; para_la_ficha: las dos velocidades a 0
 	ld a,(ix+000h)		;a10f   ; ...si no, REDSPIDER hacia la derecha o la izquierda (lo contrario del lado en que esta)
-	cp 00bh		;a112
+	cp 00bh		;a112   ; REDSPIDER (tipo 0x0B)?
 	jp nz,09ffch		;a114
 	ld b,003h		;a117
-	ld a,(ix+005h)		;a119
+	ld a,(ix+005h)		;a119   ; lee la x del enemigo
 	cp 080h		;a11c
 	jp nc,L_A123		;a11e
 	ld b,001h		;a121
@@ -295,21 +295,21 @@ L_A239:
 	push ix		;a255
 	call c,grounder_crea_otro		;a257   ; grounder_crea_otro: otro GROUNDER (0xDFB0 + 1) en el sitio del primero (0xDFB1, 0xDFB2)
 	pop ix		;a25a
-	ld a,(ix+015h)		;a25c
+	ld a,(ix+015h)		;a25c   ; lee su numero
 	cp 002h		;a25f
 	ret nc			;a261
 grounder_prueba_rumbo:
 	ld a,001h		;a262   ; si choca, p03:A2A9; si no, hacia Mitchel salvo si es dar media vuelta...
-	ld (ix+012h),a		;a264
+	ld (ix+012h),a		;a264   ; guarda si ya probo el rumbo
 	ld e,000h		;a267
-	ld a,(ix+013h)		;a269
+	ld a,(ix+013h)		;a269   ; lee su direccion
 	call 07303h		;a26c   ; p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 	jr c,L_A2A9		;a26f
 L_A271:
 	ld bc,00000h		;a271
 	call 0729eh		;a274   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	ld b,a			;a277
-	ld a,(ix+013h)		;a278
+	ld a,(ix+013h)		;a278   ; lee su direccion
 	xor 002h		;a27b
 	cp b			;a27d
 	jr z,L_A284		;a27e
@@ -406,19 +406,19 @@ L_A330:
 	jr nz,L_A329		;a334
 	ld a,(ix+014h)		;a336   ; ...tomando la direccion que el llevaba antes (su ix+0x14): van en fila
 	pop ix		;a339
-	ld b,(ix+013h)		;a33b
-	ld (ix+014h),b		;a33e
-	ld (ix+013h),a		;a341
+	ld b,(ix+013h)		;a33b   ; lee su direccion
+	ld (ix+014h),b		;a33e   ; guarda su direccion de antes
+	ld (ix+013h),a		;a341   ; guarda su direccion
 	jr L_A35C		;a344
 grounder_cuadro:
 	ld b,(ix+013h)		;a346   ; la direccion A en ix+0x13 (la de antes en ix+0x14), su cuadro de p03:A362 y sus velocidades de p03:BF42
-	ld (ix+014h),b		;a349
-	ld (ix+013h),a		;a34c
+	ld (ix+014h),b		;a349   ; guarda su direccion de antes
+	ld (ix+013h),a		;a34c   ; guarda su direccion
 	ld hl,0a362h		;a34f   ; cuadros_A362: 8 bytes: el cuadro (ix+0x0B) segun ix+0x13 (p03:A34F) o ix+0x1A (desde 0xA366, p03:A309)
 	call 04255h		;a352   ; p00:hl_mas_a
 	ld a,(hl)			;a355
-	ld (ix+00bh),a		;a356
-	ld a,(ix+013h)		;a359
+	ld (ix+00bh),a		;a356   ; guarda el cuadro del enemigo
+	ld a,(ix+013h)		;a359   ; lee su direccion
 L_A35C:
 	ld hl,0bf42h		;a35c
 	jp velocidad_de_la_tabla_4		;a35f   ; velocidad_de_la_tabla_4: las dos velocidades de las 4 bytes HL + 4*A: [vy alta][vy baja][vx alta][vx baja]
@@ -478,18 +478,18 @@ L_A3AC:
 	push ix		;a3c1
 	call 05a69h		;a3c3   ; p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
 	pop ix		;a3c6
-	ld (ix+001h),005h		;a3c8
-	ld (ix+006h),000h		;a3cc
-	ld (ix+017h),03ch		;a3d0
+	ld (ix+001h),005h		;a3c8   ; el paso en que va = 0x05
+	ld (ix+006h),000h		;a3cc   ; si se mueve = 0x00
+	ld (ix+017h),03ch		;a3d0   ; la espera tras tirar = 0x3C
 	jr L_A3E8		;a3d4
 L_A3D6:
 	ld a,(ix+01eh)		;a3d6   ; CLINGMAN: si toca a Mitchel (bit 0 de ix+0x1E), se le pega (paso 4)
 	and 001h		;a3d9
 	jr z,L_A3E8		;a3db
-	ld (ix+001h),004h		;a3dd
+	ld (ix+001h),004h		;a3dd   ; el paso en que va = 0x04
 	xor a			;a3e1
-	ld (ix+006h),a		;a3e2
-	ld (ix+019h),a		;a3e5
+	ld (ix+006h),a		;a3e2   ; guarda si se mueve
+	ld (ix+019h),a		;a3e5   ; guarda su direccion
 L_A3E8:
 	ld a,(ix+001h)		;a3e8   ; LOS QUE TIRAN Y SALTAN, por pasos: 0 (p03:A3FA), 1 (A442), 2 el salto (A48F), 3 espera (A4F4), 4 pegado (A505), 5 tras tirar (A511)
 	call 0425fh		;a3eb   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
@@ -515,12 +515,12 @@ DATA_tabla_A3EE:
 L_A3FA:
 	call saltarines_elige		;a3fa   ; PASO 0, alineado a 8: si choca, se aparta de Mitchel...
 	call 09a9fh		;a3fd   ; p02:sigue_si_esta_en_casilla: si la ficha no esta alineada a 8 en x e y, vuelve al que llamo al que llamo
-	ld a,(ix+019h)		;a400
+	ld a,(ix+019h)		;a400   ; lee su direccion
 	ld e,000h		;a403
 	call 07303h		;a405   ; p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 	jp c,L_A67F		;a408
 	ld a,(ix+000h)		;a40b   ; ...en la columna de Mitchel (salvo FALCONER, JUMPMAN y CLINGMAN) o en su fila, puede tirar o saltar...
-	cp 024h		;a40e
+	cp 024h		;a40e   ; FALCONER (tipo 0x24)?
 	jr z,L_A41A		;a410
 	sub 036h		;a412
 	jr z,L_A41A		;a414
@@ -530,9 +530,9 @@ L_A41A:
 	call saltarines_alineado_en_y		;a41a   ; saltarines_alineado_en_y: EN SU FILA: si Mitchel esta en la misma y y a menos de 0x30, se aparta...
 	dec (ix+01ah)		;a41d   ; ...y a los 8 pasos se aparta de Mitchel (paso 1), o hacia una esquina al azar si no puede
 	ret nz			;a420
-	ld (ix+001h),001h		;a421
-	ld (ix+01ah),008h		;a425
-	ld (ix+01bh),008h		;a429
+	ld (ix+001h),001h		;a421   ; el paso en que va = 0x01
+	ld (ix+01ah),008h		;a425   ; los pasos = 0x08
+	ld (ix+01bh),008h		;a429   ; los pasos = 0x08
 	ld bc,00000h		;a42d
 	call 0729eh		;a430   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	add a,002h		;a433
@@ -868,9 +868,9 @@ L_A6D8:
 L_A701:
 	ld hl,00806h		;a701   ; THE NASTY: suelta fichas del tipo 6 (GARGOYLE) 8 por debajo (0xE800-0xE801)...
 	ld (0e800h),hl		;a704
-	ld hl,0e0a8h		;a707
+	ld hl,0e0a8h		;a707   ; HL la boca cerrada (0xE0, 0xA8), DE la abierta (0xE0, 0xC8) de la pagina 1...
 	ld de,0e0c8h		;a70a
-	ld bc,0f020h		;a70d
+	ld bc,0f020h		;a70d   ; ...B = -0x10 en y, C = 0x20 de alto
 L_A710:
 	ld a,(ix+00ch)		;a710   ; ...ix+0x13 cuenta los cuadros de dos en dos...
 	and 001h		;a713
@@ -882,13 +882,13 @@ L_A71A:
 	push bc			;a71e
 	push de			;a71f
 	push hl			;a720
-	ld a,(ix+00bh)		;a721   ; lee el cuadro del enemigo
+	ld a,(ix+00bh)		;a721   ; abierta (cuadro 1) 0x20 cuadros; cerrada, 0x10
 	and a			;a724
 	ld b,020h		;a725
 	jr nz,L_A72B		;a727
 	ld b,010h		;a729
 L_A72B:
-	cpl			;a72b
+	cpl			;a72b   ; abre o cierra
 	and 001h		;a72c
 	ld (ix+00bh),a		;a72e   ; guarda el cuadro del enemigo
 	ld (ix+012h),b		;a731   ; guarda la espera
@@ -900,10 +900,10 @@ L_A72B:
 	ld a,(0dfa4h)		;a741   ; lee los GARGOYLE que quedan por soltar
 	and a			;a744
 	jr z,L_A768		;a745
-	ld a,(0e800h)		;a747
+	ld a,(0e800h)		;a747   ; C = el tipo que suelta (0xE800)...
 	ld c,a			;a74a
 	ld b,0ffh		;a74b
-	ld a,(0e801h)		;a74d
+	ld a,(0e801h)		;a74d   ; ...D = cuanto por debajo (0xE801)
 	ld d,a			;a750
 	ld a,(ix+003h)		;a751   ; lee la y del enemigo
 	add a,d			;a754
@@ -912,13 +912,13 @@ L_A72B:
 	push ix		;a759
 	call 05a69h		;a75b   ; p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
 	pop ix		;a75e
-	jr nc,L_A768		;a760
+	jr nc,L_A768		;a760   ; si no cabe (no hay ficha libre), se cierra
 	ld hl,0dfa4h		;a762   ; apunta a los GARGOYLE que quedan por soltar
 	dec (hl)			;a765
 	jr L_A770		;a766
 L_A768:
 	ld (ix+00bh),000h		;a768   ; ...si no, se queda cerrado 0x20 cuadros
-	ld (ix+012h),020h		;a76c
+	ld (ix+012h),020h		;a76c   ; la espera = 0x20
 L_A770:
 	pop hl			;a770
 	pop de			;a771
@@ -927,10 +927,10 @@ L_A770:
 	jr z,L_A77A		;a777
 	ex de,hl			;a779
 L_A77A:
-	ld a,(ix+003h)		;a77a
-	add a,b			;a77d
+	ld a,(ix+003h)		;a77a   ; lee la y del enemigo
+	add a,b			;a77d   ; la y + B...
 	ld e,a			;a77e
-	ld a,(ix+005h)		;a77f
+	ld a,(ix+005h)		;a77f   ; ...la x - 0x10, 0x20 de ancho, de la pagina 1 con TIMP
 	add a,0f0h		;a782
 	ld d,a			;a784
 	ld b,020h		;a785
@@ -944,14 +944,14 @@ L_A78C:
 L_A797:
 	ld hl,01008h		;a797   ; BADPRIEST: igual que THE NASTY, soltando fichas del tipo 8 (GARGOYLE) 0x10 por debajo; boca cerrada desde (0xD0, 0xD0), abierta desde (0xA0, 0xA8)
 	ld (0e800h),hl		;a79a
-	ld hl,0d0d0h		;a79d
+	ld hl,0d0d0h		;a79d   ; cerrada (0xD0, 0xD0), abierta (0xA0, 0xA8)
 	ld de,0a0a8h		;a7a0
-	ld bc,00818h		;a7a3
+	ld bc,00818h		;a7a3   ; B = 8 en y, C = 0x18 de alto
 	jp L_A710		;a7a6
 L_A7A9:
 	ld de,0a7fah		;a7a9   ; AL CREAR GARGOYLE (tipo 6, lo que suelta THE NASTY): cuadro 0x10, sus velocidades de p03:A7FA segun el contador de cuadros (bits 4-6)...
 	ld hl,0a81ah		;a7ac
-	ld bc,0dfa1h		;a7af
+	ld bc,0dfa1h		;a7af   ; DE las velocidades, HL las esperas y BC la cuenta (0xDFA1)
 L_A7B2:
 	push bc			;a7b2
 	push hl			;a7b3
@@ -959,14 +959,14 @@ L_A7B2:
 	ld (ix+00bh),010h		;a7b5   ; el cuadro del enemigo = 0x10
 	ld (ix+00eh),000h		;a7b9
 	ld a,(0c103h)		;a7bd   ; lee el contador de cuadros
-	and 070h		;a7c0
+	and 070h		;a7c0   ; el contador de cuadros (bits 4-6): 0-7...
 	rra			;a7c2
 	rra			;a7c3
 	rra			;a7c4
 	rra			;a7c5
 	pop hl			;a7c6
 	push af			;a7c7
-	add a,a			;a7c8
+	add a,a			;a7c8   ; ...4 bytes por entrada: [vy][vy alta][vx][vx alta]
 	add a,a			;a7c9
 	call 04255h		;a7ca   ; p00:hl_mas_a
 	ld e,(hl)			;a7cd
@@ -994,7 +994,7 @@ L_A7B2:
 	call 04255h		;a7f1   ; p00:hl_mas_a
 	ld a,(hl)			;a7f4
 	ld (ix+01ah),a		;a7f5   ; guarda su punto del guion
-	scf			;a7f8
+	scf			;a7f8   ; acarreo: creada
 	ret			;a7f9
 
 ; ----------------------------------------------------------------------
@@ -1044,8 +1044,8 @@ L_A844:
 	inc (ix+001h)		;a848   ; sube el paso en que va
 	ld (ix+006h),001h		;a84b   ; si se mueve = 0x01
 	ld (ix+00eh),003h		;a84f
-	ld (ix+025h),001h		;a853
-	ld (ix+02ah),044h		;a857
+	ld (ix+025h),001h		;a853   ; el color de su primer sprite = 0x01
+	ld (ix+02ah),044h		;a857   ; el color de su segundo sprite = 0x44
 	ld a,01ch		;a85b
 	jp 05488h		;a85d   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 L_A860:
@@ -2585,12 +2585,12 @@ L_B3C7:
 L_B3D1:
 	ld a,(0e803h)		;b3d1   ; ...LA CABEZA: su cuadro, 0xC0 en ix+0x12, su centro (ix+0x15 x, ix+0x16 y)...
 	ld (ix+00bh),a		;b3d4   ; guarda el cuadro del enemigo
-	ld (ix+012h),0c0h		;b3d7
-	ld (ix+013h),000h		;b3db
+	ld (ix+012h),0c0h		;b3d7   ; el punto de la vuelta = 0xC0
+	ld (ix+013h),000h		;b3db   ; su sitio en el rastro = 0x00
 	ld a,(ix+005h)		;b3df   ; lee la x del enemigo
-	ld (ix+015h),a		;b3e2
+	ld (ix+015h),a		;b3e2   ; guarda la x del centro
 	ld a,(ix+003h)		;b3e5   ; lee la y del enemigo
-	ld (ix+016h),a		;b3e8
+	ld (ix+016h),a		;b3e8   ; guarda la y del centro
 	ld a,(0e802h)		;b3eb
 	ld (ix+01ch),a		;b3ee   ; guarda cuantos quedan de su grupo
 	ld hl,0dd00h		;b3f1   ; ...y el rastro de 0xDD00 (128 sitios [y][x]) lleno con su sitio de ahora
@@ -2643,30 +2643,30 @@ L_B418:
 	ld (ix+00bh),a		;b45e   ; guarda el cuadro del enemigo
 	ld a,(0e807h)		;b461
 	ld (ix+00dh),a		;b464   ; guarda la vida del enemigo (BCD)
-	ld (ix+013h),c		;b467
-	ld (ix+014h),l		;b46a
-	ld (ix+015h),h		;b46d
+	ld (ix+013h),c		;b467   ; guarda su sitio en el rastro
+	ld (ix+014h),l		;b46a   ; guarda la y de la vuelta
+	ld (ix+015h),h		;b46d   ; guarda la x del centro
 	ld a,(0e801h)		;b470
-	ld (ix+016h),a		;b473
+	ld (ix+016h),a		;b473   ; guarda la y del centro
 	inc a			;b476
 	ld (0e801h),a		;b477
 	ld a,(0e802h)		;b47a
 	ld (ix+01ch),a		;b47d   ; guarda cuantos quedan de su grupo
 	ld (ix+020h),002h		;b480   ; ...2 sprites con sus colores, y sus huecos en la tabla de sprites (y 0xE1)
 	ld a,(0e805h)		;b484
-	ld (ix+025h),a		;b487
+	ld (ix+025h),a		;b487   ; guarda el color de su primer sprite
 	ld a,(0e806h)		;b48a
-	ld (ix+02ah),a		;b48d
+	ld (ix+02ah),a		;b48d   ; guarda el color de su segundo sprite
 	ld a,(0e800h)		;b490
-	ld (ix+021h),a		;b493
+	ld (ix+021h),a		;b493   ; guarda el hueco de su primer sprite
 	inc a			;b496
-	ld (ix+026h),a		;b497
+	ld (ix+026h),a		;b497   ; guarda el hueco de su segundo sprite
 	inc a			;b49a
 	ld (0e800h),a		;b49b
 	push bc			;b49e
 	push hl			;b49f
 	ld b,002h		;b4a0
-	ld c,(ix+021h)		;b4a2
+	ld c,(ix+021h)		;b4a2   ; lee el hueco de su primer sprite
 L_B4A5:
 	ld a,(0c132h)		;b4a5
 	and a			;b4a8
@@ -2679,7 +2679,7 @@ L_B4B1:
 	add a,a			;b4b3
 	call 04255h		;b4b4   ; p00:hl_mas_a
 	ld (hl),0e1h		;b4b7   ; ...y = 0xE1: el hueco, ocupado sin verse
-	ld c,(ix+026h)		;b4b9
+	ld c,(ix+026h)		;b4b9   ; lee el hueco de su segundo sprite
 	djnz L_B4A5		;b4bc
 	pop hl			;b4be
 	pop bc			;b4bf
@@ -2709,64 +2709,64 @@ L_B4D1:
 L_B4D4:
 	ld a,(ix+013h)		;b4d4   ; ...avanza en el rastro (ix+0x13, 0-0x7F)...
 	inc a			;b4d7
-	ld (ix+013h),a		;b4d8
+	ld (ix+013h),a		;b4d8   ; guarda su sitio en el rastro
 	sub 080h		;b4db
 	jr c,L_B4E3		;b4dd
-	ld (ix+013h),000h		;b4df
+	ld (ix+013h),000h		;b4df   ; su sitio en el rastro = 0x00
 L_B4E3:
 	ld a,(ix+00ch)		;b4e3   ; ...uno de cada dos cuadros el centro se acerca a Mitchel, sin salir de la caja...
 	rra			;b4e6
 	jr c,L_B549		;b4e7
 	ld a,(0c303h)		;b4e9   ; lee la Y de Mitchel
-	ld c,(ix+016h)		;b4ec
+	ld c,(ix+016h)		;b4ec   ; lee la y del centro
 	sub c			;b4ef
 	jr z,L_B519		;b4f0
 	jr nc,L_B507		;b4f2
-	dec (ix+016h)		;b4f4
-	ld a,(ix+016h)		;b4f7
+	dec (ix+016h)		;b4f4   ; baja la y del centro
+	ld a,(ix+016h)		;b4f7   ; lee la y del centro
 	cp (ix+017h)		;b4fa   ; compara con la y minima del centro
 	jr nc,L_B519		;b4fd
 	ld a,(ix+017h)		;b4ff   ; lee la y minima del centro
-	ld (ix+016h),a		;b502
+	ld (ix+016h),a		;b502   ; guarda la y del centro
 	jr L_B519		;b505
 L_B507:
 	inc (ix+016h)		;b507   ; hacia abajo, sin llegar a ix+0x18
-	ld a,(ix+016h)		;b50a
+	ld a,(ix+016h)		;b50a   ; lee la y del centro
 	cp (ix+018h)		;b50d   ; compara con la y maxima del centro
 	jr c,L_B519		;b510
 	ld a,(ix+018h)		;b512   ; lee la y maxima del centro
 	dec a			;b515
-	ld (ix+016h),a		;b516
+	ld (ix+016h),a		;b516   ; guarda la y del centro
 L_B519:
 	ld a,(0c305h)		;b519   ; la x del centro hacia Mitchel...
-	ld c,(ix+015h)		;b51c
+	ld c,(ix+015h)		;b51c   ; lee la x del centro
 	sub c			;b51f
 	jr z,L_B549		;b520
 	jr nc,L_B537		;b522
 	dec (ix+015h)		;b524   ; ...a la izquierda, sin bajar de ix+0x19
-	ld a,(ix+015h)		;b527
+	ld a,(ix+015h)		;b527   ; lee la x del centro
 	cp (ix+019h)		;b52a   ; compara con la x minima del centro
 	jr nc,L_B549		;b52d
 	ld a,(ix+019h)		;b52f   ; lee la x minima del centro
-	ld (ix+015h),a		;b532
+	ld (ix+015h),a		;b532   ; guarda la x del centro
 	jr L_B549		;b535
 L_B537:
 	inc (ix+015h)		;b537   ; hacia la derecha, sin llegar a ix+0x1A
-	ld a,(ix+015h)		;b53a
+	ld a,(ix+015h)		;b53a   ; lee la x del centro
 	cp (ix+01ah)		;b53d   ; compara con la x maxima del centro
 	jr c,L_B549		;b540
 	ld a,(ix+01ah)		;b542   ; lee la x maxima del centro
 	dec a			;b545
-	ld (ix+015h),a		;b546
+	ld (ix+015h),a		;b546   ; guarda la x del centro
 L_B549:
 	ld a,(ix+016h)		;b549   ; ...da la vuelta alrededor del centro, 0x10 por encima, con la curva de p03:B737...
 	sub 010h		;b54c
-	ld (ix+014h),a		;b54e
+	ld (ix+014h),a		;b54e   ; guarda la y de la vuelta
 	xor a			;b551
 	ld (0e800h),a		;b552
 	call gusanos_paso		;b555   ; gusanos_paso: LA VUELTA: con ix+0x12 (0-0xFF, sube ix+0x1B cada vez) y los 65 bytes de p03:B737...
 	ld hl,0dd00h		;b558   ; ...apunta su sitio en el rastro...
-	ld a,(ix+013h)		;b55b
+	ld a,(ix+013h)		;b55b   ; lee su sitio en el rastro
 	add a,a			;b55e
 	call 04255h		;b55f   ; p00:hl_mas_a
 	ld a,(ix+003h)		;b562   ; lee la y del enemigo
@@ -2784,64 +2784,64 @@ L_B575:
 L_B578:
 	ld a,(ix+013h)		;b578   ; el sitio en el rastro (0-0x7F)
 	inc a			;b57b
-	ld (ix+013h),a		;b57c
+	ld (ix+013h),a		;b57c   ; guarda su sitio en el rastro
 	sub 080h		;b57f
 	jr c,L_B587		;b581
-	ld (ix+013h),000h		;b583
+	ld (ix+013h),000h		;b583   ; su sitio en el rastro = 0x00
 L_B587:
 	ld a,(ix+00ch)		;b587   ; lee la cuenta de cuadros
 	rra			;b58a
 	jr c,L_B5ED		;b58b
 	ld a,(0c303h)		;b58d   ; lee la Y de Mitchel
-	ld c,(ix+016h)		;b590
+	ld c,(ix+016h)		;b590   ; lee la y del centro
 	sub c			;b593
 	jr z,L_B5BD		;b594
 	jr nc,L_B5AB		;b596
-	dec (ix+016h)		;b598
-	ld a,(ix+016h)		;b59b
+	dec (ix+016h)		;b598   ; baja la y del centro
+	ld a,(ix+016h)		;b59b   ; lee la y del centro
 	cp (ix+017h)		;b59e   ; compara con la y minima del centro
 	jr nc,L_B5BD		;b5a1
 	ld a,(ix+017h)		;b5a3   ; lee la y minima del centro
-	ld (ix+016h),a		;b5a6
+	ld (ix+016h),a		;b5a6   ; guarda la y del centro
 	jr L_B5BD		;b5a9
 L_B5AB:
 	inc (ix+016h)		;b5ab   ; hacia abajo, sin llegar a ix+0x18
-	ld a,(ix+016h)		;b5ae
+	ld a,(ix+016h)		;b5ae   ; lee la y del centro
 	cp (ix+018h)		;b5b1   ; compara con la y maxima del centro
 	jr c,L_B5BD		;b5b4
 	ld a,(ix+018h)		;b5b6   ; lee la y maxima del centro
 	dec a			;b5b9
-	ld (ix+016h),a		;b5ba
+	ld (ix+016h),a		;b5ba   ; guarda la y del centro
 L_B5BD:
 	ld a,(0c305h)		;b5bd   ; la x del centro hacia Mitchel...
-	ld c,(ix+015h)		;b5c0
+	ld c,(ix+015h)		;b5c0   ; lee la x del centro
 	sub c			;b5c3
 	jr z,L_B5ED		;b5c4
 	jr nc,L_B5DB		;b5c6
 	dec (ix+015h)		;b5c8   ; ...a la izquierda, sin bajar de ix+0x19
-	ld a,(ix+015h)		;b5cb
+	ld a,(ix+015h)		;b5cb   ; lee la x del centro
 	cp (ix+019h)		;b5ce   ; compara con la x minima del centro
 	jr nc,L_B5ED		;b5d1
 	ld a,(ix+019h)		;b5d3   ; lee la x minima del centro
-	ld (ix+015h),a		;b5d6
+	ld (ix+015h),a		;b5d6   ; guarda la x del centro
 	jr L_B5ED		;b5d9
 L_B5DB:
 	inc (ix+015h)		;b5db   ; hacia la derecha, sin llegar a ix+0x1A
-	ld a,(ix+015h)		;b5de
+	ld a,(ix+015h)		;b5de   ; lee la x del centro
 	cp (ix+01ah)		;b5e1   ; compara con la x maxima del centro
 	jr c,L_B5ED		;b5e4
 	ld a,(ix+01ah)		;b5e6   ; lee la x maxima del centro
 	dec a			;b5e9
-	ld (ix+015h),a		;b5ea
+	ld (ix+015h),a		;b5ea   ; guarda la x del centro
 L_B5ED:
-	ld a,(ix+016h)		;b5ed
+	ld a,(ix+016h)		;b5ed   ; lee la y del centro
 	add a,010h		;b5f0
-	ld (ix+014h),a		;b5f2
+	ld (ix+014h),a		;b5f2   ; guarda la y de la vuelta
 	ld a,001h		;b5f5
 	ld (0e800h),a		;b5f7
 	call gusanos_paso		;b5fa   ; gusanos_paso: LA VUELTA: con ix+0x12 (0-0xFF, sube ix+0x1B cada vez) y los 65 bytes de p03:B737...
 	ld hl,0dd00h		;b5fd
-	ld a,(ix+013h)		;b600
+	ld a,(ix+013h)		;b600   ; lee su sitio en el rastro
 	add a,a			;b603
 	call 04255h		;b604   ; p00:hl_mas_a
 	ld a,(ix+003h)		;b607   ; lee la y del enemigo
@@ -2849,14 +2849,14 @@ L_B5ED:
 	inc hl			;b60b
 	ld a,(ix+005h)		;b60c   ; lee la x del enemigo
 	ld (hl),a			;b60f
-	ld a,(ix+012h)		;b610
+	ld a,(ix+012h)		;b610   ; lee el punto de la vuelta
 	cp 0c0h		;b613
 	ret nz			;b615
 	dec (ix+001h)		;b616   ; baja el paso en que va
 	ret			;b619
 gusanos_color:
 	ld a,(ix+00ch)		;b61a   ; el cuadro 0x11 o 0x12, cambiando cada 16 cuadros
-	and 010h		;b61d
+	and 010h		;b61d   ; cada 16 cuadros
 	ld a,011h		;b61f
 	jr z,L_B625		;b621
 	ld a,012h		;b623
@@ -2865,22 +2865,22 @@ L_B625:
 	ret			;b628
 L_B629:
 	ld l,(ix+014h)		;b629   ; PASO 2 (cada parte): donde estuvo la cabeza hace ix+0x13 (+ p03:B659 segun su numero) pasos del rastro
-	ld h,(ix+015h)		;b62c
-	ld a,013h		;b62f
+	ld h,(ix+015h)		;b62c   ; lee la cabeza (alta)
+	ld a,013h		;b62f   ; el retraso de la cabeza (su ix+0x13)...
 	call 04255h		;b631   ; p00:hl_mas_a
 	ld c,(hl)			;b634
-	ld a,(ix+016h)		;b635
+	ld a,(ix+016h)		;b635   ; lee su numero de parte
 	dec a			;b638
 	ld hl,0b659h		;b639   ; sumas_B659: 5 bytes que p03:B639 suma a C segun ix+0x16 - 1
 	call 04255h		;b63c   ; p00:hl_mas_a
 	ld a,(hl)			;b63f
-	add a,c			;b640
+	add a,c			;b640   ; ...mas el suyo...
 	ld c,a			;b641
-	sub 080h		;b642
+	sub 080h		;b642   ; ...dando la vuelta a 0x80
 	jr c,L_B647		;b644
 	ld c,a			;b646
 L_B647:
-	ld hl,0dd00h		;b647
+	ld hl,0dd00h		;b647   ; el sitio del rastro: [y][x] en 0xDD00 + 2*sitio
 	ld a,c			;b64a
 	add a,a			;b64b
 	call 04255h		;b64c   ; p00:hl_mas_a
@@ -2905,44 +2905,44 @@ DATA_sumas_B659:
 gusanos_paso:
 	ld a,(ix+01bh)		;b65e   ; LA VUELTA: con ix+0x12 (0-0xFF, sube ix+0x1B cada vez) y los 65 bytes de p03:B737...
 	ld d,a			;b661
-	ld e,004h		;b662
+	ld e,004h		;b662   ; E = 4: la tabla dividida por 16
 	ld hl,0b737h		;b664   ; pasos_B737: 65 bytes que recorren p03:B664, p03:B6A7 y p03:B6F9 segun ix+0x12
 	ld a,(ix+012h)		;b667   ; ...la x alrededor del centro, a un lado u otro segun el cuarto de vuelta...
-	cp 040h		;b66a
+	cp 040h		;b66a   ; primer cuarto (0-0x3F): a la izquierda del centro...
 	ld c,001h		;b66c
 	jr c,L_B68B		;b66e
-	cp 080h		;b670
+	cp 080h		;b670   ; ...segundo (0x40-0x7F): 0x80 - A, a la derecha...
 	jr nc,L_B67C		;b672
 	sub 080h		;b674
 	neg		;b676
 	ld c,000h		;b678
 	jr L_B68B		;b67a
 L_B67C:
-	cp 0c0h		;b67c
+	cp 0c0h		;b67c   ; ...tercero: A - 0x80, a la derecha...
 	jr nc,L_B686		;b67e
 	ld c,000h		;b680
 	sub 080h		;b682
 	jr L_B68B		;b684
 L_B686:
-	ld c,001h		;b686
+	ld c,001h		;b686   ; ...cuarto: 0x100 - A, a la izquierda
 	ld b,a			;b688
 	xor a			;b689
 	sub b			;b68a
 L_B68B:
 	call gusanos_de_la_tabla		;b68b   ; gusanos_de_la_tabla: A = el byte de la tabla >> E, con el signo de C en el acarreo
-	jr c,L_B695		;b68e
-	add a,(ix+015h)		;b690
+	jr c,L_B695		;b68e   ; la x del centro mas o menos lo de la tabla
+	add a,(ix+015h)		;b690   ; le suma la x del centro
 	jr L_B69A		;b693
 L_B695:
 	ld b,a			;b695
-	ld a,(ix+015h)		;b696
+	ld a,(ix+015h)		;b696   ; lee la x del centro
 	sub b			;b699
 L_B69A:
 	ld (ix+005h),a		;b69a   ; guarda la x del enemigo
 	ld a,(0e800h)		;b69d   ; ...y la y, en un sentido (0xE800 = 0) o en el otro (p03:B6F6): un ocho
 	and a			;b6a0
 	jp nz,L_B6F6		;b6a1
-	ld a,(ix+012h)		;b6a4
+	ld a,(ix+012h)		;b6a4   ; lee el punto de la vuelta
 	ld hl,0b737h		;b6a7   ; pasos_B737: 65 bytes que recorren p03:B664, p03:B6A7 y p03:B6F9 segun ix+0x12
 	cp 040h		;b6aa
 	jr nc,L_B6B6		;b6ac
@@ -2971,18 +2971,18 @@ L_B6CC:
 L_B6D0:
 	call gusanos_de_la_tabla		;b6d0   ; gusanos_de_la_tabla: A = el byte de la tabla >> E, con el signo de C en el acarreo
 	jr c,L_B6DA		;b6d3
-	add a,(ix+014h)		;b6d5
+	add a,(ix+014h)		;b6d5   ; le suma la y de la vuelta
 	jr L_B6DF		;b6d8
 L_B6DA:
 	ld b,a			;b6da
-	ld a,(ix+014h)		;b6db
+	ld a,(ix+014h)		;b6db   ; lee la y de la vuelta
 	sub b			;b6de
 L_B6DF:
 	ld (ix+003h),a		;b6df   ; guarda la y del enemigo
 L_B6E2:
-	ld a,(ix+012h)		;b6e2
+	ld a,(ix+012h)		;b6e2   ; lee el punto de la vuelta
 	add a,d			;b6e5
-	ld (ix+012h),a		;b6e6
+	ld (ix+012h),a		;b6e6   ; guarda el punto de la vuelta
 	ret			;b6e9
 gusanos_de_la_tabla:
 	call 04255h		;b6ea   ; A = el byte de la tabla >> E, con el signo de C en el acarreo
@@ -2994,7 +2994,7 @@ L_B6EF:
 	rr c		;b6f3
 	ret			;b6f5
 L_B6F6:
-	ld a,(ix+012h)		;b6f6
+	ld a,(ix+012h)		;b6f6   ; lee el punto de la vuelta
 	ld hl,0b737h		;b6f9   ; pasos_B737: 65 bytes que recorren p03:B664, p03:B6A7 y p03:B6F9 segun ix+0x12
 	cp 040h		;b6fc
 	jr nc,L_B708		;b6fe
@@ -3023,11 +3023,11 @@ L_B71E:
 L_B722:
 	call gusanos_de_la_tabla		;b722   ; gusanos_de_la_tabla: A = el byte de la tabla >> E, con el signo de C en el acarreo
 	jr c,L_B72C		;b725
-	add a,(ix+014h)		;b727
+	add a,(ix+014h)		;b727   ; le suma la y de la vuelta
 	jr L_B731		;b72a
 L_B72C:
 	ld b,a			;b72c
-	ld a,(ix+014h)		;b72d
+	ld a,(ix+014h)		;b72d   ; lee la y de la vuelta
 	sub b			;b730
 L_B731:
 	ld (ix+003h),a		;b731   ; guarda la y del enemigo

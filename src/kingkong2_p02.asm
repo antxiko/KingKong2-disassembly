@@ -2129,22 +2129,22 @@ L_8DFC:
 L_8DFF:
 	ld a,(ix+003h)		;8dff   ; copia HMMM del trozo de pared (0x18 de alto, desde y 0xA8 de la pagina 1) en su sitio...
 	ld (ix+016h),a		;8e02   ; guarda su y
-	sub 00ch		;8e05
+	sub 00ch		;8e05   ; 0x0C por encima de su y
 	ld e,a			;8e07
-	ld c,018h		;8e08
+	ld c,018h		;8e08   ; 0x18 de alto, desde y 0xA8...
 	ld l,0a8h		;8e0a
-	ld a,001h		;8e0c
+	ld a,001h		;8e0c   ; ...de la pagina 1
 	call 047d7h		;8e0e   ; p00:hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
 	ld a,(ix+005h)		;8e11   ; ...y alineada a 8, sus 2x2 casillas pasan a ser de las que no se pisan (0xF0)
 	ld h,a			;8e14
 	and 007h		;8e15
 	ret nz			;8e17
 	ld a,(ix+003h)		;8e18   ; lee la y del enemigo
-	sub 008h		;8e1b
+	sub 008h		;8e1b   ; sus casillas, 8 por encima
 	ld l,a			;8e1d
 shut_all_casillas:
 	call 0431fh		;8e1e   ; p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
-	ld bc,00202h		;8e21
+	ld bc,00202h		;8e21   ; 2x2
 L_8E24:
 	ld (hl),0f0h		;8e24   ; dos casillas 0xF0...
 	inc hl			;8e26
@@ -2157,7 +2157,7 @@ L_8E24:
 	ret			;8e32
 L_8E33:
 	inc (ix+013h)		;8e33   ; cerrada: ix+0x13, 0xDFF5 = 0 y al paso siguiente
-	xor a			;8e36
+	xor a			;8e36   ; 0xDFF5 = 0: ya no se cierra ninguna
 	ld (0dff5h),a		;8e37   ; guarda si hay un SHUT ALL cerrandose (0: ninguno)
 	jp L_8910		;8e3a
 L_8E3D:
@@ -2172,21 +2172,21 @@ L_8E3D:
 	ld (ix+019h),a		;8e53   ; guarda la x de su sitio
 	cp 058h		;8e56
 	jr c,L_8E62		;8e58
-	ld (ix+00eh),001h		;8e5a
+	ld (ix+00eh),001h		;8e5a   ; ix+0x0E = 1, que se pisa en seguida: queda a 0
 	ld (ix+015h),001h		;8e5e   ; hacia donde cierra = 0x01
 L_8E62:
 	ld (ix+00eh),000h		;8e62
 	ret			;8e66
 L_8E67:
 	ld ix,0d000h		;8e67   ; AL REPINTAR LA PANTALLA: las paredes que se cierran, lo que llevan...
-	ld b,00dh		;8e6b
+	ld b,00dh		;8e6b   ; las 13 fichas
 L_8E6D:
 	ld a,(ix+000h)		;8e6d   ; lee el tipo del enemigo
 	cp 040h		;8e70   ; SHUT ALL (tipo 0x40)?
 	push bc			;8e72
 	call z,cuantos_segun_ix14		;8e73   ; cuantos_segun_ix14: los trozos que lleva ya (ix+0x14 / 4), de 0x10 en 0x10 desde su sitio (a la izquierda si esta a la derecha de 0x58)
 	pop bc			;8e76
-	ld de,00080h		;8e77
+	ld de,00080h		;8e77   ; la siguiente
 	add ix,de		;8e7a
 	djnz L_8E6D		;8e7c
 	ld de,00008h		;8e7e   ; ...y cada casilla 0xF1 del mapa de 0xCA20 (32x20), con su trozo
@@ -3509,7 +3509,7 @@ L_9855:
 	ld (ix+012h),096h		;985b   ; la cuenta de 0x96 cuadros = 0x96
 	ld (ix+014h),014h		;985f   ; la espera parado = 0x14
 	xor a			;9863
-	ld (ix+013h),a		;9864
+	ld (ix+013h),a		;9864   ; guarda los pasos hasta parar (o el paso de antes)
 	ld (ix+015h),a		;9867   ; guarda si esta vez va hacia Mitchel
 	ld (ix+007h),a		;986a   ; guarda la velocidad vertical (baja)
 	ld (ix+009h),a		;986d   ; guarda la velocidad horizontal (baja)
@@ -3642,10 +3642,10 @@ L_995A:
 	ld a,(ix+018h)		;995d   ; lee sus banderas (bit 0 grande, bit 1 sin parar)
 	rra			;9960
 	jr nc,L_9977		;9961
-	dec (ix+013h)		;9963
+	dec (ix+013h)		;9963   ; baja los pasos hasta parar (o el paso de antes)
 	jr nz,L_9977		;9966
 	ld a,(ix+001h)		;9968   ; lee el paso en que va
-	ld (ix+013h),a		;996b
+	ld (ix+013h),a		;996b   ; guarda los pasos hasta parar (o el paso de antes)
 	ld (ix+001h),002h		;996e   ; el paso en que va = 0x02
 	ld (ix+006h),000h		;9972   ; si se mueve = 0x00
 	ret			;9976
@@ -3675,10 +3675,10 @@ L_99A5:
 	ld a,(ix+018h)		;99a8   ; lee sus banderas (bit 0 grande, bit 1 sin parar)
 	rra			;99ab
 	jr nc,L_99C1		;99ac
-	dec (ix+013h)		;99ae
+	dec (ix+013h)		;99ae   ; baja los pasos hasta parar (o el paso de antes)
 	jr nz,L_99C1		;99b1
 	ld a,(ix+001h)		;99b3   ; lee el paso en que va
-	ld (ix+013h),a		;99b6
+	ld (ix+013h),a		;99b6   ; guarda los pasos hasta parar (o el paso de antes)
 	ld (ix+001h),002h		;99b9   ; el paso en que va = 0x02
 	dec (ix+006h)		;99bd   ; baja si se mueve
 	ret			;99c0
@@ -3703,10 +3703,10 @@ L_99E9:
 	dec (ix+014h)		;99e9   ; PASO 2 (parado): 0x1E cuadros; luego vuelve al paso de antes, 8 pasos hasta la parada siguiente
 	ret nz			;99ec
 	ld (ix+014h),01eh		;99ed   ; la espera parado = 0x1E
-	ld a,(ix+013h)		;99f1
+	ld a,(ix+013h)		;99f1   ; lee los pasos hasta parar (o el paso de antes)
 	ld (ix+001h),a		;99f4   ; guarda el paso en que va
 	ld (ix+006h),001h		;99f7   ; si se mueve = 0x01
-	ld (ix+013h),008h		;99fb
+	ld (ix+013h),008h		;99fb   ; los pasos hasta parar (o el paso de antes) = 0x08
 	ld a,(ix+018h)		;99ff   ; lee sus banderas (bit 0 grande, bit 1 sin parar)
 	and 001h		;9a02
 	ld e,a			;9a04
@@ -3743,7 +3743,7 @@ L_9A3D:
 	ld (ix+001h),000h		;9a4a   ; el paso en que va = 0x00
 	inc (ix+006h)		;9a4e   ; sube si se mueve
 	ld (ix+00eh),003h		;9a51
-	ld (ix+013h),008h		;9a55
+	ld (ix+013h),008h		;9a55   ; los pasos hasta parar (o el paso de antes) = 0x08
 	ret			;9a59
 L_9A5A:
 	ld a,(ix+01ah)		;9a5a   ; media vuelta
@@ -3949,8 +3949,8 @@ L_9C2A:
 	call 06979h		;9c2a   ; AL CREAR REVOLVER: hay jefe; 0xDFB1 = 1 (la parte que va), 0xDFB4 = 0 (el retraso)...
 	xor a			;9c2d
 	ld (ix+015h),a		;9c2e
-	ld (ix+025h),a		;9c31
-	ld (ix+02ah),a		;9c34
+	ld (ix+025h),a		;9c31   ; guarda el color de su primer sprite
+	ld (ix+02ah),a		;9c34   ; guarda el color de su segundo sprite
 	ld (0dfb4h),a		;9c37
 	inc a			;9c3a
 	ld (0dfb1h),a		;9c3b
@@ -4264,8 +4264,8 @@ L_9E84:
 	ld a,(ix+01ah)		;9e89   ; lee la y a la que va
 	ld b,(ix+01bh)		;9e8c   ; lee la x a la que va
 	pop ix		;9e8f
-	ld (ix+003h),a		;9e91
-	ld (ix+005h),b		;9e94
+	ld (ix+003h),a		;9e91   ; guarda la y del enemigo
+	ld (ix+005h),b		;9e94   ; guarda la x del enemigo
 	dec (ix+018h)		;9e97   ; ...y cada ix+0x18 cuadros gira su circulo un punto a un lado u otro al azar, sin pasar de +-5 (ix+0x16)
 	jr z,L_9EA2		;9e9a
 	call 0bf00h		;9e9c   ; p03:para_la_ficha: las dos velocidades a 0
