@@ -3,7 +3,14 @@
 
 Cada pantalla la dibuja tools/pantalla.py. Donde va cada una lo dicen sus
 vecinas, cuatro bytes por pantalla en p09:B1C5 (p01:616B los lee con el
-indice en C): izquierda, derecha, arriba y abajo; 0xFF es que no hay salida y
+indice en C): ARRIBA, ABAJO, IZQUIERDA y DERECHA. Lo decide p01:607C: con la
+palanca hacia arriba (bit 0 de 0xC107, que llena p01:6500) mira si 0xC303 -la
+y de Mitchel- es menor que 0x11 y usa el indice 0; abajo, 0xC303 >= 0xA0 y el
+1; izquierda y derecha miran 0xC305 -la x- con el 2 y el 3. Comprobado en
+openMSX sacando a Mitchel por los bordes (tools/omsx_salidas.tcl): 9 de 9.
+Colocar las vecinas en otro orden tambien da cero choques -el mapa girado o
+en espejo es igual de coherente-, asi que el orden no se puede deducir del
+montaje: sale del codigo y se comprueba jugando. 0xFF es que no hay salida y
 0xF0-0xFB son salidas especiales, que p01:60FA resuelve con la tabla de
 p01:611F (pantalla de llegada y punto donde aparece Mitchel).
 
@@ -27,7 +34,7 @@ sys.path.insert(0, AQUI)
 
 import pantalla as P                                   # noqa: E402
 
-DIRS = [(-1, 0), (1, 0), (0, -1), (0, 1)]              # izq, der, arriba, abajo
+DIRS = [(0, -1), (0, 1), (-1, 0), (1, 0)]              # arriba, abajo, izq, der
 PANTALLAS = range(0x8C)                                # 0x00-0x8B
 
 
