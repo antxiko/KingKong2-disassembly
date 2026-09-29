@@ -474,11 +474,11 @@ DATA_byte_0d_de_cada_enemigo:
 	defb 0ffh,030h,034h,001h,002h	; a2a5
 
 ; ----------------------------------------------------------------------
-; DATOS grupos_de_sprites: 12 punteros por ix+0 - 0xF0: grupos de sprites
-;   [dy][dx][patron][color] que p00:5E93 suma a la posicion; lo leen p00:5E87
-;   (24 bytes)
+; DATOS cuadros_de_explosion: 12 punteros por ix+0 - 0xF0 (las explosiones:
+;   p00:5E7F sube ix+0 cada vez): grupos de sprites [dy][dx][patron][color]
+;   que p00:5E93 suma a la posicion; lo leen p00:5E87 (24 bytes)
 ;   0xa2aa..0xa2c2  (24 bytes)
-DATA_grupos_de_sprites:
+DATA_cuadros_de_explosion:
 	defb 0c2h,0a2h	; a2aa
 	defb 0cah,0a2h	; a2ac
 	defb 0d2h,0a2h	; a2ae
@@ -613,10 +613,12 @@ DATA_grupo_A39A:
 	defb 0f4h,004h,03ch,048h	; a3c6
 
 ; ----------------------------------------------------------------------
-; DATOS tipo_al_aparecer: 68 bytes, uno por tipo: el que p00:5DCA pone en ix+0
-;   al aparecer el enemigo; lo leen p00:5DC9 (68 bytes)
+; DATOS explosion_de_cada_enemigo: 68 bytes, uno por tipo: la explosion (0xF0,
+;   0xF3, 0xF6 o 0xF9) en que se convierte al morir; p00:5DA8 guarda antes el
+;   tipo en ix+0x1F (el que mira p03:B9E6 para lo que suelta); lo leen
+;   p00:5DC9 (68 bytes)
 ;   0xa3ca..0xa40e  (68 bytes)
-DATA_tipo_al_aparecer:
+DATA_explosion_de_cada_enemigo:
 	defb 0f0h,0f0h,0f0h,0f6h,0f6h,0f0h,0f0h,0f0h,0f0h,0f0h,0f6h,0f6h,0f0h,0f0h,0f0h,0f0h	; a3ca  ................
 	defb 0f0h,0f0h,0f0h,0f0h,0f0h,0f6h,0f0h,0f0h,0f0h,0f6h,0f0h,0f0h,0f0h,0f6h,0f3h,0f0h	; a3da  ................
 	defb 0f3h,0f0h,0f6h,0f0h,0f0h,0f6h,0f6h,0f0h,0f0h,0f6h,0f9h,0f0h,0f0h,0f0h,0f0h,0f0h	; a3ea  ................

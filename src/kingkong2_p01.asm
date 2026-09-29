@@ -86,15 +86,15 @@ L_6043:
 L_607C:
 	ld a,(0c107h)		;607c
 	rra			;607f
-	call c,L_60C2		;6080
+	call c,sale_por_arriba		;6080
 	ret c			;6083
 	ld a,(0c107h)		;6084
 	bit 1,a		;6087
-	call nz,L_60B4		;6089
+	call nz,sale_por_abajo		;6089
 	ret c			;608c
 	ld a,(0c107h)		;608d
 	bit 2,a		;6090
-	call nz,L_60A8		;6092
+	call nz,sale_por_la_izquierda		;6092
 	ret c			;6095
 	ld a,(0c107h)		;6096
 	bit 3,a		;6099
@@ -104,13 +104,13 @@ L_607C:
 	jr c,L_60C0		;60a1
 	ld bc,00103h		;60a3
 	jr L_60CC		;60a6
-L_60A8:
+sale_por_la_izquierda:
 	ld a,(0c305h)		;60a8
 	cp 011h		;60ab
 	jr nc,L_60C0		;60ad
 	ld bc,00302h		;60af
 	jr L_60CC		;60b2
-L_60B4:
+sale_por_abajo:
 	ld a,(0c303h)		;60b4
 	cp 0a0h		;60b7
 	jr c,L_60C0		;60b9
@@ -119,14 +119,14 @@ L_60B4:
 L_60C0:
 	xor a			;60c0
 	ret			;60c1
-L_60C2:
+sale_por_arriba:
 	ld a,(0c303h)		;60c2
 	cp 011h		;60c5
 	jr nc,L_60C0		;60c7
 	ld bc,00000h		;60c9
 L_60CC:
 	ld a,b			;60cc
-	call L_616B		;60cd
+	call pantalla_vecina		;60cd
 	cp 0ffh		;60d0
 	ret z			;60d2
 	push af			;60d3
@@ -139,8 +139,8 @@ L_60CC:
 	call 04255h		;60e2
 	ld a,(hl)			;60e5
 	ld (0c130h),a		;60e6
-	call L_6143		;60e9
-	call L_60FA		;60ec
+	call donde_aparece_mitchel		;60e9
+	call salida_especial		;60ec
 	ld a,001h		;60ef
 	ld (0c201h),a		;60f1
 	scf			;60f4
@@ -158,8 +158,8 @@ DATA_lado_de_la_salida:
 ; ======================================================================
 
 
-L_60FA:
-	ld a,(0c125h)		;60fa
+salida_especial:
+	ld a,(0c125h)		;60fa   ; pantallas 0xF0-0xFB: la de llegada y el punto de p01:611F
 	sub 0f0h		;60fd
 	ret c			;60ff
 	ld c,a			;6100
@@ -204,8 +204,8 @@ DATA_salidas_especiales:
 ; ======================================================================
 
 
-L_6143:
-	ld a,(0c303h)		;6143
+donde_aparece_mitchel:
+	ld a,(0c303h)		;6143   ; el punto de entrada (0xC321) segun el lado C por el que se entra
 	ld l,a			;6146
 	ld a,(0c305h)		;6147
 	ld h,a			;614a
@@ -231,8 +231,8 @@ L_6163:
 	ld a,c			;6166
 	ld (0c323h),a		;6167
 	ret			;616a
-L_616B:
-	ld a,(0c125h)		;616b
+pantalla_vecina:
+	ld a,(0c125h)		;616b   ; p09:B1C5 + 4*pantalla + C: arriba, abajo, izquierda, derecha
 	ld l,a			;616e
 	ld h,000h		;616f
 	add hl,hl			;6171
@@ -261,7 +261,7 @@ DATA_banco_15_en_a000:
 
 
 L_6192:
-	call L_6230		;6192
+	call enemigos_del_panel		;6192
 	ld b,003h		;6195
 	ld hl,0c220h		;6197
 L_619A:
@@ -269,7 +269,7 @@ L_619A:
 	ld (0e800h),hl		;619b
 	ld a,(hl)			;619e
 	dec a			;619f
-	call p,L_61AF		;61a0
+	call p,enemigo_en_el_panel		;61a0
 	ld hl,(0e800h)		;61a3
 	inc hl			;61a6
 	inc hl			;61a7
@@ -277,13 +277,13 @@ L_619A:
 	pop bc			;61a9
 	djnz L_619A		;61aa
 	jp 042bch		;61ac
-L_61AF:
-	call L_61BD		;61af
-	call L_61D2		;61b2
-	call L_61ED		;61b5
-	call L_620B		;61b8
+enemigo_en_el_panel:
+	call sitio_del_enemigo_en_el_panel		;61af
+	call escribe_nombre_del_enemigo		;61b2
+	call escribe_life_y_str		;61b5
+	call escribe_valores_del_enemigo		;61b8
 	jr L_6219		;61bb
-L_61BD:
+sitio_del_enemigo_en_el_panel:
 	ld a,b			;61bd
 	sub 003h		;61be
 	neg		;61c0
@@ -298,8 +298,8 @@ L_61BD:
 	ld d,0b0h		;61cb
 	ld (0c204h),de		;61cd
 	ret			;61d1
-L_61D2:
-	di			;61d2
+escribe_nombre_del_enemigo:
+	di			;61d2   ; p15:BA76 + 2*tipo, con el banco 15 en 0xA000
 	ld a,00fh		;61d3
 	ld (0a000h),a		;61d5
 	ld (0f0f3h),a		;61d8
@@ -311,7 +311,7 @@ L_61D2:
 	ld de,(0c204h)		;61e4
 	ld c,0ffh		;61e8
 	jp 04919h		;61ea
-L_61ED:
+escribe_life_y_str:
 	ld de,(0c204h)		;61ed
 	ld a,e			;61f1
 	add a,008h		;61f2
@@ -327,7 +327,7 @@ L_61ED:
 	ld hl,06294h		;6203
 	ld c,080h		;6206
 	jp 04919h		;6208
-L_620B:
+escribe_valores_del_enemigo:
 	ld hl,(0e800h)		;620b
 	inc l			;620e
 	ld de,(0c204h)		;620f
@@ -348,8 +348,8 @@ L_6226:
 	add a,038h		;6227
 	ld d,a			;6229
 	ld bc,001ffh		;622a
-	jp L_637E		;622d
-L_6230:
+	jp escribe_numero_bcd		;622d
+enemigos_del_panel:
 	xor a			;6230
 	ld (0c220h),a		;6231
 	ld (0c223h),a		;6234
@@ -359,12 +359,12 @@ L_6230:
 L_6240:
 	ld a,(ix+000h)		;6240
 	dec a			;6243
-	call p,L_6251		;6244
+	call p,apunta_enemigo_en_el_panel		;6244
 	ld de,00080h		;6247
 	add ix,de		;624a
 	djnz L_6240		;624c
 	jp 042bch		;624e
-L_6251:
+apunta_enemigo_en_el_panel:
 	inc a			;6251
 	ld c,a			;6252
 	cp 02dh		;6253
@@ -420,8 +420,8 @@ DATA_life_y_str:
 ; ======================================================================
 
 
-L_6298:
-	ld hl,0c120h		;6298
+borra_la_ram_de_la_partida:
+	ld hl,0c120h		;6298   ; 0x2EE0 ceros desde 0xC120 y los tres bytes de p01:62C0
 	ld bc,02ee0h		;629b
 	ld d,h			;629e
 	ld e,l			;629f
@@ -456,20 +456,20 @@ L_62C3:
 	ld hl,0631ch		;62c3
 	call 0490bh		;62c6
 	call 04450h		;62c9
-	call L_6344		;62cc
-	call L_634E		;62cf
-	call L_6358		;62d2
-	call L_6362		;62d5
-	call L_636C		;62d8
-	call L_6376		;62db
+	call escribe_days		;62cc
+	call escribe_life		;62cf
+	call escribe_exp		;62d2
+	call escribe_level		;62d5
+	call escribe_mp		;62d8
+	call escribe_gold		;62db
 L_62DE:
 	ld hl,06302h		;62de
 	call 0490fh		;62e1
-	call L_62EF		;62e4
+	call icono_de_shot2		;62e4
 	ld a,(0c140h)		;62e7
 	ld de,0e058h		;62ea
 	jr L_62F5		;62ed
-L_62EF:
+icono_de_shot2:
 	ld a,(0c141h)		;62ef
 	ld de,0e068h		;62f2
 L_62F5:
@@ -503,36 +503,36 @@ DATA_rotulos_del_panel_2:
 ; ======================================================================
 
 
-L_6344:
+escribe_days:
 	ld b,002h		;6344
 	ld hl,0c128h		;6346
 	ld de,0d828h		;6349
-	jr L_637E		;634c
-L_634E:
+	jr escribe_numero_bcd		;634c
+escribe_life:
 	ld hl,0c12ah		;634e
 	ld b,002h		;6351
 	ld de,0d830h		;6353
-	jr L_637E		;6356
-L_6358:
+	jr escribe_numero_bcd		;6356
+escribe_exp:
 	ld hl,0c12dh		;6358
 	ld b,003h		;635b
 	ld de,0c838h		;635d
-	jr L_637E		;6360
-L_6362:
+	jr escribe_numero_bcd		;6360
+escribe_level:
 	ld hl,0c12eh		;6362
 	ld b,001h		;6365
 	ld de,0e840h		;6367
-	jr L_637E		;636a
-L_636C:
+	jr escribe_numero_bcd		;636a
+escribe_mp:
 	ld hl,0c12fh		;636c
 	ld b,001h		;636f
 	ld de,0e848h		;6371
-	jr L_637E		;6374
-L_6376:
+	jr escribe_numero_bcd		;6374
+escribe_gold:
 	ld hl,0c136h		;6376
 	ld b,002h		;6379
 	ld de,0d850h		;637b
-L_637E:
+escribe_numero_bcd:
 	ld c,000h		;637e
 L_6380:
 	dec b			;6380
@@ -545,13 +545,13 @@ L_6385:
 	rra			;6388
 	rra			;6389
 	rra			;638a
-	call L_6396		;638b
+	call escribe_cifra		;638b
 	ld a,(hl)			;638e
-	call L_6396		;638f
+	call escribe_cifra		;638f
 	dec hl			;6392
 	djnz L_6380		;6393
 	ret			;6395
-L_6396:
+escribe_cifra:
 	and 00fh		;6396
 	jr z,L_639C		;6398
 	ld c,0ffh		;639a
@@ -564,52 +564,52 @@ L_639C:
 	ld d,a			;63a5
 	ret			;63a6
 L_63A7:
-	call L_63B5		;63a7
-	call L_63E6		;63aa
-	call L_6407		;63ad
-	call L_6428		;63b0
+	call bordes_de_arriba_y_abajo		;63a7
+	call bordes_de_los_lados		;63aa
+	call borra_el_rotulo_del_panel		;63ad
+	call borra_la_ventana_de_texto		;63b0
 	jr L_6412		;63b3
-L_63B5:
+bordes_de_arriba_y_abajo:
 	ld de,00000h		;63b5
 	ld b,020h		;63b8
-	call L_63DA		;63ba
+	call fila_de_borde		;63ba
 	ld de,0b018h		;63bd
 	ld b,009h		;63c0
-	call L_63DA		;63c2
+	call fila_de_borde		;63c2
 	ld de,0b078h		;63c5
 	ld b,009h		;63c8
-	call L_63DA		;63ca
+	call fila_de_borde		;63ca
 	ld de,008a8h		;63cd
 	ld b,014h		;63d0
-	call L_63DA		;63d2
+	call fila_de_borde		;63d2
 	ld de,000c8h		;63d5
 	ld b,020h		;63d8
-L_63DA:
+fila_de_borde:
 	ld a,0f0h		;63da
 	call 0497bh		;63dc
 	ld a,d			;63df
 	add a,008h		;63e0
 	ld d,a			;63e2
-	djnz L_63DA		;63e3
+	djnz fila_de_borde		;63e3
 	ret			;63e5
-L_63E6:
+bordes_de_los_lados:
 	ld de,00008h		;63e6
 	ld b,019h		;63e9
-	call L_63FB		;63eb
+	call columna_de_borde		;63eb
 	ld de,0a808h		;63ee
 	ld b,018h		;63f1
-	call L_63FB		;63f3
+	call columna_de_borde		;63f3
 	ld de,0f800h		;63f6
 	ld b,019h		;63f9
-L_63FB:
+columna_de_borde:
 	ld a,0f1h		;63fb
 	call 0497bh		;63fd
 	ld a,e			;6400
 	add a,008h		;6401
 	ld e,a			;6403
-	djnz L_63FB		;6404
+	djnz columna_de_borde		;6404
 	ret			;6406
-L_6407:
+borra_el_rotulo_del_panel:
 	ld hl,0b008h		;6407
 	ld bc,04810h		;640a
 	xor a			;640d
@@ -627,8 +627,8 @@ L_641D:
 	xor a			;6423
 	ld d,a			;6424
 	jp 0479bh		;6425
-L_6428:
-	ld hl,008b0h		;6428
+borra_la_ventana_de_texto:
+	ld hl,008b0h		;6428   ; 160x24 puntos en (8, 0xB0): debajo del decorado
 	ld bc,0a018h		;642b
 	xor a			;642e
 	ld d,a			;642f
@@ -649,7 +649,7 @@ L_643E:
 	ld (hl),c			;6447
 	ld a,(0c206h)		;6448
 	and a			;644b
-	call nz,L_647E		;644c
+	call nz,raya_de_la_ventana		;644c
 	ld hl,0c220h		;644f
 	ld b,003h		;6452
 L_6454:
@@ -662,7 +662,7 @@ L_6454:
 	djnz L_6454		;645b
 	ret			;645d
 L_645E:
-	call L_61BD		;645e
+	call sitio_del_enemigo_en_el_panel		;645e
 	ld a,e			;6461
 	add a,008h		;6462
 	ld e,a			;6464
@@ -681,7 +681,7 @@ L_6476:
 	ret z			;647b
 	dec (hl)			;647c
 	ret nz			;647d
-L_647E:
+raya_de_la_ventana:
 	xor a			;647e
 	ld (0c208h),a		;647f
 	ld (0c206h),a		;6482
@@ -698,7 +698,7 @@ L_6492:
 	ld a,005h		;6498
 	call 0005fh		;649a   ; BIOS CHGMOD - Switches to given screen mode
 	call 0462dh		;649d
-	call L_64D0		;64a0
+	call borra_la_pagina_entera		;64a0
 	xor a			;64a3
 	ld h,a			;64a4
 	ld l,a			;64a5
@@ -735,7 +735,7 @@ DATA_registros_del_vdp:
 ; ======================================================================
 
 
-L_64D0:
+borra_la_pagina_entera:
 	xor a			;64d0
 	ld h,a			;64d1
 	ld l,a			;64d2
@@ -743,31 +743,31 @@ L_64D0:
 	ld c,a			;64d4
 	ld d,a			;64d5
 	jp 0479bh		;64d6
-L_64D9:
-	ld a,(0c102h)		;64d9
+teclas_del_cuadro:
+	ld a,(0c102h)		;64d9   ; sin el bit 6 de 0xC102 (la demostracion), las teclas salen del guion (p01:69D7)
 	and 040h		;64dc
-	jp z,L_69D7		;64de
+	jp z,teclas_de_la_demostracion		;64de
 	ld a,(0c139h)		;64e1
 	inc a			;64e4
 	jr z,L_64EA		;64e5
 	xor a			;64e7
-	jr L_64F6		;64e8
+	jr guarda_las_teclas		;64e8
 L_64EA:
-	call L_653B		;64ea
+	call lee_el_teclado		;64ea
 	ld hl,0c113h		;64ed
-	call L_64F9		;64f0
-	call L_6500		;64f3
-L_64F6:
+	call teclas_nuevas		;64f0
+	call lee_el_mando		;64f3
+guarda_las_teclas:
 	ld hl,0c107h		;64f6
-L_64F9:
-	ld c,(hl)			;64f9
+teclas_nuevas:
+	ld c,(hl)			;64f9   ; (HL) = las de ahora; (HL-1) = las que no estaban el cuadro anterior
 	ld (hl),a			;64fa
 	xor c			;64fb
 	and (hl)			;64fc
 	dec hl			;64fd
 	ld (hl),a			;64fe
 	ret			;64ff
-L_6500:
+lee_el_mando:
 	ld e,08fh		;6500
 	ld a,00fh		;6502
 	call 00093h		;6504   ; BIOS WRTPSG - Writes data to PSG-register
@@ -808,7 +808,7 @@ L_651E:
 	pop bc			;6538
 	or b			;6539
 	ret			;653a
-L_653B:
+lee_el_teclado:
 	ld a,006h		;653b
 	call 00141h		;653d   ; BIOS SNSMAT - Returns the value of the specified line from the keyboard matrix
 	cpl			;6540
@@ -965,7 +965,7 @@ L_6619:
 	jp L_6688		;6629
 L_662C:
 	djnz L_6644		;662c
-	call L_69D4		;662e
+	call salta_a_5C05		;662e
 	ld a,(0c123h)		;6631
 	or a			;6634
 	ret nz			;6635
@@ -979,7 +979,7 @@ L_663A:
 	jr L_6691		;6642
 L_6644:
 	call 04612h		;6644
-	call L_697F		;6647
+	call empieza_la_demostracion		;6647
 	ld a,020h		;664a
 L_664C:
 	ld (0c104h),a		;664c
@@ -996,7 +996,7 @@ L_6654:
 	ld hl,0c104h		;6661
 	dec (hl)			;6664
 	ret nz			;6665
-	call L_6298		;6666
+	call borra_la_ram_de_la_partida		;6666
 	jr L_6688		;6669
 L_666B:
 	ld a,085h		;666b
@@ -1047,7 +1047,7 @@ L_66BE:
 	call 00141h		;66c0   ; BIOS SNSMAT - Returns the value of the specified line from the keyboard matrix
 	bit 1,a		;66c3
 	jr z,L_66CC		;66c5
-	call L_67AF		;66c7
+	call ventana_de_pausa		;66c7
 	jr L_66D1		;66ca
 L_66CC:
 	ld a,002h		;66cc
@@ -1061,7 +1061,7 @@ L_66D6:
 	jr L_6688		;66db
 continuar:
 	djnz L_6736		;66dd
-	call L_64D9		;66df
+	call teclas_del_cuadro		;66df
 	ld hl,0c11ah		;66e2
 	ld a,(0c112h)		;66e5
 	bit 2,a		;66e8   ; F5 (bit 2 de 0xC112): CONTINUE
@@ -1125,7 +1125,7 @@ L_6746:
 	call 0a6cfh		;674c
 	jp 042bch		;674f
 L_6752:
-	call L_64D9		;6752
+	call teclas_del_cuadro		;6752
 	ld a,(0c112h)		;6755
 	rra			;6758
 	ret nc			;6759
@@ -1133,18 +1133,18 @@ L_6752:
 	ld a,(hl)			;675d
 	ld (hl),000h		;675e
 	dec a			;6760
-	call z,L_67D2		;6761
+	call z,quita_la_ventana_de_pausa		;6761
 	ld a,0feh		;6764
 	call 05488h		;6766
 	ld a,005h		;6769
 	jp L_663A		;676b
 L_676E:
-	call L_653B		;676e
+	call lee_el_teclado		;676e
 	ld hl,0c11ch		;6771
-	call L_64F9		;6774
-	call L_6500		;6777
+	call teclas_nuevas		;6774
+	call lee_el_mando		;6777
 	ld hl,0c111h		;677a
-	call L_64F9		;677d
+	call teclas_nuevas		;677d
 	or a			;6780
 	ret z			;6781
 	ld hl,0c104h		;6782
@@ -1154,7 +1154,7 @@ L_676E:
 	djnz L_679D		;678b
 	and 030h		;678d
 	ret z			;678f
-	call L_67F3		;6790
+	call valor_de_c11e		;6790
 	ld a,040h		;6793
 	ld (0c102h),a		;6795
 	ld (hl),003h		;6798
@@ -1169,7 +1169,7 @@ L_679D:
 	call 05d9ch		;67a6
 	call 0ba79h		;67a9
 	jp 042bch		;67ac
-L_67AF:
+ventana_de_pausa:
 	ld hl,05054h		;67af
 	ld bc,03010h		;67b2
 	ld de,0d090h		;67b5
@@ -1179,7 +1179,7 @@ L_67AF:
 	call 047d7h		;67bc
 	pop bc			;67bf
 	pop hl			;67c0
-	call L_67E0		;67c1
+	call marco_de_la_ventana		;67c1
 	ld hl,067cah		;67c4
 	jp 0490fh		;67c7
 
@@ -1195,17 +1195,17 @@ DATA_pausa:
 ; ======================================================================
 
 
-L_67D2:
+quita_la_ventana_de_pausa:
 	ld de,05054h		;67d2
 	ld bc,03010h		;67d5
 	ld hl,0d090h		;67d8
 	ld a,001h		;67db
 	jp 047d7h		;67dd
-L_67E0:
-	call L_67E8		;67e0
+marco_de_la_ventana:
+	call borra_la_ventana		;67e0
 	ld c,00eh		;67e3
 	jp 0476dh		;67e5
-L_67E8:
+borra_la_ventana:
 	xor a			;67e8
 	ld d,000h		;67e9
 	push bc			;67eb
@@ -1214,7 +1214,7 @@ L_67E8:
 	pop hl			;67f0
 	pop de			;67f1
 	ret			;67f2
-L_67F3:
+valor_de_c11e:
 	ld a,(0c11fh)		;67f3
 	and a			;67f6
 	jr z,L_681A		;67f7
@@ -1258,13 +1258,13 @@ L_6834:
 	and a			;6837
 	jr z,L_684B		;6838
 	push bc			;683a
-	call L_686A		;683b
+	call mueve_una_ficha		;683b
 	ld a,(0c147h)		;683e
 	and a			;6841
 	jr nz,L_6847		;6842
-	call L_690E		;6844
+	call se_mueve		;6844
 L_6847:
-	call L_693A		;6847
+	call fuera_de_la_pantalla		;6847
 	pop bc			;684a
 L_684B:
 	ld de,00080h		;684b
@@ -1284,8 +1284,8 @@ L_6859:
 	pop bc			;6866
 	djnz L_6859		;6867
 	ret			;6869
-L_686A:
-	ld a,(ix+000h)		;686a
+mueve_una_ficha:
+	ld a,(ix+000h)		;686a   ; las explosiones (0xF0 en adelante) a p00:5E4F; si no, por su tipo con la tabla de p01:6885
 	cp 0f0h		;686d
 	jp nc,05e4fh		;686f
 	ld c,a			;6872
@@ -1382,7 +1382,7 @@ DATA_tabla_6885:
 
 L_690D:
 	ret			;690d
-L_690E:
+se_mueve:
 	ld a,(ix+006h)		;690e
 	and a			;6911
 	ret z			;6912
@@ -1402,7 +1402,7 @@ L_6913:
 	ld (ix+004h),l		;6933
 	ld (ix+005h),h		;6936
 	ret			;6939
-L_693A:
+fuera_de_la_pantalla:
 	ld a,(ix+003h)		;693a
 	ld c,0b0h		;693d
 	cp c			;693f
@@ -1451,7 +1451,7 @@ L_6979:
 	ld a,001h		;6979
 	ld (0c151h),a		;697b
 	ret			;697e
-L_697F:
+empieza_la_demostracion:
 	ld hl,0c120h		;697f
 	ld bc,02ee0h		;6982
 	ld d,h			;6985
@@ -1503,9 +1503,9 @@ DATA_demostraciones:
 ; ======================================================================
 
 
-L_69D4:
+salta_a_5C05:
 	jp 05c05h		;69d4
-L_69D7:
+teclas_de_la_demostracion:
 	di			;69d7
 	ld a,006h		;69d8
 	call 05d9ch		;69da
@@ -1516,7 +1516,7 @@ L_69E3:
 	ld a,(0c10ah)		;69e3
 	cp 0ffh		;69e6
 	jr z,L_69F0		;69e8
-	call L_64F6		;69ea
+	call guarda_las_teclas		;69ea
 	jp 042bch		;69ed
 L_69F0:
 	xor a			;69f0
@@ -1587,7 +1587,7 @@ DATA_posiciones_6A4D:
 
 
 L_6A52:
-	call L_6B7D		;6a52
+	call mitchel_en_la_mitad_de_abajo		;6a52
 	or a			;6a55
 	ld a,(0c303h)		;6a56
 	jr nz,L_6A64		;6a59
@@ -1620,7 +1620,7 @@ L_6A7D:
 	ld de,0ff60h		;6a8d
 	jp 04311h		;6a90
 L_6A93:
-	call L_6B7D		;6a93
+	call mitchel_en_la_mitad_de_abajo		;6a93
 	or a			;6a96
 	ld a,(0c303h)		;6a97
 	jr z,L_6AA1		;6a9a
@@ -1671,7 +1671,7 @@ DATA_posiciones_6ACE:
 
 
 L_6AD3:
-	call L_6B7D		;6ad3
+	call mitchel_en_la_mitad_de_abajo		;6ad3
 	or a			;6ad6
 	ld a,(0c303h)		;6ad7
 	jr z,L_6AE1		;6ada
@@ -1742,7 +1742,7 @@ L_6B30:
 	call 08bc6h		;6b32
 	cp 003h		;6b35
 	ret nc			;6b37
-	call L_6B7D		;6b38
+	call mitchel_en_la_mitad_de_abajo		;6b38
 	or a			;6b3b
 	ld a,(0c303h)		;6b3c
 	jr nz,L_6B4A		;6b3f
@@ -1779,7 +1779,7 @@ L_6B78:
 	ld hl,0dff4h		;6b78
 	inc (hl)			;6b7b
 	ret			;6b7c
-L_6B7D:
+mitchel_en_la_mitad_de_abajo:
 	ld a,(0dff6h)		;6b7d
 	cp 058h		;6b80
 	ld a,000h		;6b82
@@ -1788,17 +1788,17 @@ L_6B7D:
 	ret			;6b86
 L_6B87:
 	ld ix,0c300h		;6b87
-	call L_6BA3		;6b8b
+	call mitchel_en_el_agua		;6b8b
 	ld a,(0c133h)		;6b8e
 	and a			;6b91
 	jr nz,L_6BED		;6b92
-	call L_6C35		;6b94
-	call L_6C41		;6b97
-	call L_6D26		;6b9a
-	call L_702E		;6b9d
+	call se_toca_una_tecla		;6b94
+	call dispara		;6b97
+	call mueve_a_mitchel		;6b9a
+	call parpadeo_de_mitchel		;6b9d
 	jp L_6C59		;6ba0
-L_6BA3:
-	xor a			;6ba3
+mitchel_en_el_agua:
+	xor a			;6ba3   ; 0xC160 = 1 si la casilla que pisa es agua (juegos de dibujos 0, 4 y 7): con ella p00:4FF0 usa las poses de 0x7DBD
 	ld (0c160h),a		;6ba4
 	call 04308h		;6ba7
 	ex de,hl			;6baa
@@ -1900,15 +1900,15 @@ DATA_pose_por_direccion:
 ; ======================================================================
 
 
-L_6C35:
+se_toca_una_tecla:
 	ld a,(0c106h)		;6c35
 	and 00fh		;6c38
 	ret z			;6c3a
 	ld a,001h		;6c3b
 	ld (0c327h),a		;6c3d
 	ret			;6c40
-L_6C41:
-	ld a,(0c300h)		;6c41
+dispara:
+	ld a,(0c300h)		;6c41   ; bit 5 de 0xC106: SHOT2; bit 4: SHOT1
 	cp 005h		;6c44
 	ret nc			;6c46
 	ld a,(0c106h)		;6c47
@@ -1936,11 +1936,11 @@ L_6C59:
 	sbc a,000h		;6c6d
 	ld (hl),a			;6c6f
 	jr c,L_6C7B		;6c70
-	jp nz,L_634E		;6c72
+	jp nz,escribe_life		;6c72
 	dec e			;6c75
 	ld a,(de)			;6c76
 	and a			;6c77
-	jp nz,L_634E		;6c78
+	jp nz,escribe_life		;6c78
 L_6C7B:
 	ld hl,04201h		;6c7b
 	ld (0c309h),hl		;6c7e
@@ -1955,8 +1955,8 @@ L_6C7B:
 	ld (0c311h),a		;6c90
 	ld a,00fh		;6c93
 	call 05488h		;6c95
-	jp L_634E		;6c98
-L_6C9B:
+	jp escribe_life		;6c98
+mitchel_resbala:
 	ld hl,0c163h		;6c9b
 	ld a,(hl)			;6c9e
 	and a			;6c9f
@@ -1965,7 +1965,7 @@ L_6C9B:
 	inc l			;6ca2
 	call 04308h		;6ca3
 	ld c,(hl)			;6ca6
-	call L_6FD3		;6ca7
+	call casilla_hacia		;6ca7
 	jr c,L_6D01		;6caa
 	ld a,(0c164h)		;6cac
 	ld de,06d1eh		;6caf
@@ -2043,8 +2043,8 @@ DATA_pasos_6D1E:
 ; ======================================================================
 
 
-L_6D26:
-	call L_6C9B		;6d26
+mueve_a_mitchel:
+	call mitchel_resbala		;6d26
 	ret c			;6d29
 	ld a,(0c161h)		;6d2a
 	and a			;6d2d
@@ -2079,7 +2079,7 @@ DATA_tabla_6D3C:
 
 
 L_6D4E:
-	call L_6D6E		;6d4e
+	call mira_a_los_lados		;6d4e
 	ld a,(0c300h)		;6d51
 	and a			;6d54
 	ret nz			;6d55
@@ -2100,25 +2100,25 @@ L_6D69:
 	ld a,c			;6d69
 	ld (0c306h),a		;6d6a
 	ret			;6d6d
-L_6D6E:
+mira_a_los_lados:
 	ld a,(0c306h)		;6d6e
 	cp 002h		;6d71
 	jr c,L_6D7F		;6d73
 L_6D75:
-	call L_6E83		;6d75
+	call teclas_arriba_abajo		;6d75
 	ret nc			;6d78
-	call L_6E76		;6d79
+	call teclas_izquierda_derecha		;6d79
 	ret nc			;6d7c
 	jr L_6D87		;6d7d
 L_6D7F:
-	call L_6E76		;6d7f
+	call teclas_izquierda_derecha		;6d7f
 	ret nc			;6d82
-	call L_6E83		;6d83
+	call teclas_arriba_abajo		;6d83
 	ret nc			;6d86
 L_6D87:
 	xor a			;6d87
 	ld (0c300h),a		;6d88
-L_6D8B:
+pose_quieto:
 	ld a,(0c306h)		;6d8b
 	ld hl,06d99h		;6d8e
 	call 04255h		;6d91
@@ -2139,21 +2139,21 @@ DATA_pose_de_cada_direccion:
 
 
 L_6D9D:
-	call L_6E58		;6d9d
+	call pose_andando		;6d9d
 	ld a,(0c107h)		;6da0
 	and 002h		;6da3
 	jr z,L_6DB1		;6da5
 	ld a,(0c327h)		;6da7
 	and a			;6daa
 	jr z,L_6DB1		;6dab
-	call L_6E99		;6dad
+	call anda_abajo		;6dad
 	ret nc			;6db0
 L_6DB1:
 	xor a			;6db1
-	call L_6F49		;6db2
+	call puede_andar_hacia		;6db2
 	jr c,$-46		;6db5
 	ld hl,(0c302h)		;6db7
-	call L_6F17		;6dba
+	call cuantos_pasos		;6dba
 	ld (0c302h),hl		;6dbd
 	ret nz			;6dc0
 	ld a,(0c327h)		;6dc1
@@ -2161,21 +2161,21 @@ L_6DB1:
 	jr z,$-80		;6dc5
 	jr $-72		;6dc7
 L_6DC9:
-	call L_6E58		;6dc9
+	call pose_andando		;6dc9
 	ld a,(0c107h)		;6dcc
 	and 001h		;6dcf
 	jr z,L_6DDD		;6dd1
 	ld a,(0c327h)		;6dd3
 	and a			;6dd6
 	jr z,L_6DDD		;6dd7
-	call L_6E90		;6dd9
+	call anda_arriba		;6dd9
 	ret nc			;6ddc
 L_6DDD:
 	ld a,001h		;6ddd
-	call L_6F49		;6ddf
+	call puede_andar_hacia		;6ddf
 	jr c,$-91		;6de2
 	ld hl,(0c302h)		;6de4
-	call L_6F17		;6de7
+	call cuantos_pasos		;6de7
 	ld (0c302h),hl		;6dea
 	ret nz			;6ded
 	ld a,(0c327h)		;6dee
@@ -2183,21 +2183,21 @@ L_6DDD:
 	jp z,L_6D75		;6df2
 	jp L_6D7F		;6df5
 L_6DF8:
-	call L_6E58		;6df8
+	call pose_andando		;6df8
 	ld a,(0c107h)		;6dfb
 	and 008h		;6dfe
 	jr z,L_6E0C		;6e00
 	ld a,(0c327h)		;6e02
 	and a			;6e05
 	jr z,L_6E0C		;6e06
-	call L_6EAD		;6e08
+	call anda_a_la_derecha		;6e08
 	ret nc			;6e0b
 L_6E0C:
 	ld a,002h		;6e0c
-	call L_6F49		;6e0e
+	call puede_andar_hacia		;6e0e
 	jp c,L_6D87		;6e11
 	ld hl,(0c304h)		;6e14
-	call L_6F17		;6e17
+	call cuantos_pasos		;6e17
 	ld (0c304h),hl		;6e1a
 	ret nz			;6e1d
 	ld a,(0c327h)		;6e1e
@@ -2205,28 +2205,28 @@ L_6E0C:
 	jp z,L_6D7F		;6e22
 	jp L_6D75		;6e25
 L_6E28:
-	call L_6E58		;6e28
+	call pose_andando		;6e28
 	ld a,(0c107h)		;6e2b
 	and 004h		;6e2e
 	jr z,L_6E3C		;6e30
 	ld a,(0c327h)		;6e32
 	and a			;6e35
 	jr z,L_6E3C		;6e36
-	call L_6EA3		;6e38
+	call anda_a_la_izquierda		;6e38
 	ret nc			;6e3b
 L_6E3C:
 	ld a,003h		;6e3c
-	call L_6F49		;6e3e
+	call puede_andar_hacia		;6e3e
 	jp c,L_6D87		;6e41
 	ld hl,(0c304h)		;6e44
-	call L_6F17		;6e47
+	call cuantos_pasos		;6e47
 	ld (0c304h),hl		;6e4a
 	ret nz			;6e4d
 	ld a,(0c327h)		;6e4e
 	and a			;6e51
 	jp z,L_6D7F		;6e52
 	jp L_6D75		;6e55
-L_6E58:
+pose_andando:
 	ld hl,0c311h		;6e58
 	inc (hl)			;6e5b
 	ld a,(hl)			;6e5c
@@ -2255,43 +2255,43 @@ DATA_paso_de_la_pose:
 ; ======================================================================
 
 
-L_6E76:
+teclas_izquierda_derecha:
 	ld a,(0c107h)		;6e76
 	and 00ch		;6e79
 	scf			;6e7b
 	ret pe			;6e7c
 	and 008h		;6e7d
-	jr nz,L_6EAD		;6e7f
-	jr L_6EA3		;6e81
-L_6E83:
+	jr nz,anda_a_la_derecha		;6e7f
+	jr anda_a_la_izquierda		;6e81
+teclas_arriba_abajo:
 	ld a,(0c107h)		;6e83
 	and 003h		;6e86
 	scf			;6e88
 	ret pe			;6e89
 	and 001h		;6e8a
-	jr nz,L_6E90		;6e8c
-	jr L_6E99		;6e8e
-L_6E90:
+	jr nz,anda_arriba		;6e8c
+	jr anda_abajo		;6e8e
+anda_arriba:
 	xor a			;6e90
-	call L_6F49		;6e91
+	call puede_andar_hacia		;6e91
 	ret c			;6e94
 	ld a,001h		;6e95
 	jr L_6EB5		;6e97
-L_6E99:
+anda_abajo:
 	ld a,001h		;6e99
-	call L_6F49		;6e9b
+	call puede_andar_hacia		;6e9b
 	ret c			;6e9e
 	ld a,002h		;6e9f
 	jr L_6EB5		;6ea1
-L_6EA3:
+anda_a_la_izquierda:
 	ld a,002h		;6ea3
-	call L_6F49		;6ea5
+	call puede_andar_hacia		;6ea5
 	ret c			;6ea8
 	ld a,003h		;6ea9
 	jr L_6EB5		;6eab
-L_6EAD:
+anda_a_la_derecha:
 	ld a,003h		;6ead
-	call L_6F49		;6eaf
+	call puede_andar_hacia		;6eaf
 	ret c			;6eb2
 	ld a,004h		;6eb3
 L_6EB5:
@@ -2318,7 +2318,7 @@ L_6EC9:
 	ld c,a			;6edd
 	ld de,(0c16bh)		;6ede
 	rr c		;6ee2
-	call c,L_71F8		;6ee4
+	call c,niega_de		;6ee4
 	ld a,(0c326h)		;6ee7
 	and a			;6eea
 	ld b,a			;6eeb
@@ -2339,8 +2339,8 @@ L_6EF7:
 	ld (hl),d			;6efd
 	xor a			;6efe
 	ret			;6eff
-L_6F00:
-	ld de,00040h		;6f00
+paso_de_mitchel:
+	ld de,00040h		;6f00   ; 0x40; la mitad (0x20) en el agua del juego de dibujos 4 sin los zuecos puestos (0xC142)
 	ld a,(0c160h)		;6f03
 	and a			;6f06
 	ret z			;6f07
@@ -2352,14 +2352,14 @@ L_6F00:
 	ret nz			;6f12
 	ld de,00020h		;6f13
 	ret			;6f16
-L_6F17:
+cuantos_pasos:
 	ld b,(ix+007h)		;6f17
 	inc b			;6f1a
-	call L_6F00		;6f1b
+	call paso_de_mitchel		;6f1b
 	ld (0c16bh),de		;6f1e
 	ld a,(0c300h)		;6f22
 	rra			;6f25
-	call c,L_71F8		;6f26
+	call c,niega_de		;6f26
 L_6F29:
 	add hl,de			;6f29
 	ld a,h			;6f2a
@@ -2375,7 +2375,7 @@ L_6F35:
 	ld (0c326h),a		;6f37
 	xor a			;6f3a
 	ret			;6f3b
-L_6F3C:
+alineado:
 	ld a,c			;6f3c
 	cp 002h		;6f3d
 	jr c,L_6F45		;6f3f
@@ -2386,14 +2386,14 @@ L_6F45:
 	ld a,e			;6f45
 	and 007h		;6f46
 	ret			;6f48
-L_6F49:
+puede_andar_hacia:
 	ld c,a			;6f49
 	push bc			;6f4a
 	ld a,001h		;6f4b
 	ld (0c173h),a		;6f4d
 	call 04308h		;6f50
-	call L_6F3C		;6f53
-	call z,L_6FD3		;6f56
+	call alineado		;6f53
+	call z,casilla_hacia		;6f56
 	pop bc			;6f59
 	ret c			;6f5a
 	ld a,(0c800h)		;6f5b
@@ -2474,10 +2474,10 @@ L_6FBD:
 	add a,004h		;6fc8
 	and 0f8h		;6fca
 	ld d,a			;6fcc
-	call L_6FD3		;6fcd
+	call casilla_hacia		;6fcd
 	ret nc			;6fd0
 	jr L_6FA9		;6fd1
-L_6FD3:
+casilla_hacia:
 	push de			;6fd3
 	ld de,07026h		;6fd4
 	ld a,c			;6fd7
@@ -2491,31 +2491,31 @@ L_6FD3:
 	add a,d			;6fe3
 	ld h,a			;6fe4
 	call 0431fh		;6fe5
-	call L_7011		;6fe8
+	call se_puede_pisar		;6fe8
 	ret c			;6feb
 	ld a,c			;6fec
 	cp 002h		;6fed
 	jr c,L_7005		;6fef
 	ld bc,00020h		;6ff1
 	add hl,bc			;6ff4
-	call L_7011		;6ff5
+	call se_puede_pisar		;6ff5
 	ret c			;6ff8
 	ld a,(0e808h)		;6ff9
 	and 007h		;6ffc
 	ret z			;6ffe
 	ld bc,00020h		;6fff
 	add hl,bc			;7002
-	jr L_7011		;7003
+	jr se_puede_pisar		;7003
 L_7005:
 	inc hl			;7005
-	call L_7011		;7006
+	call se_puede_pisar		;7006
 	ret c			;7009
 	ld a,(0e809h)		;700a
 	and 007h		;700d
 	ret z			;700f
 	inc hl			;7010
-L_7011:
-	ld a,(0c148h)		;7011
+se_puede_pisar:
+	ld a,(0c148h)		;7011   ; el dibujo de la casilla contra el limite del juego de dibujos (p01:73D0)
 	ld de,073d0h		;7014
 	call 0425ah		;7017
 	ld a,(hl)			;701a
@@ -2541,7 +2541,7 @@ DATA_pasos_7026:
 ; ======================================================================
 
 
-L_702E:
+parpadeo_de_mitchel:
 	ld hl,0c325h		;702e
 	ld a,(hl)			;7031
 	and a			;7032
@@ -2555,7 +2555,7 @@ L_702E:
 L_7041:
 	ld (0c309h),de		;7041
 	ret			;7045
-L_7046:
+mitchel_en_la_entrada:
 	ld hl,04201h		;7046
 	ld (0c309h),hl		;7049
 	xor a			;704c
@@ -2616,12 +2616,12 @@ L_709A:
 	ld (0e800h),a		;709b
 	ld (0e801h),de		;709e
 	push ix		;70a2
-	call L_70AD		;70a4
+	call recorre_las_fichas		;70a4
 	push ix		;70a7
 	pop hl			;70a9
 	pop ix		;70aa
 	ret			;70ac
-L_70AD:
+recorre_las_fichas:
 	ld hl,0d000h		;70ad
 	ld b,00dh		;70b0
 	xor a			;70b2
@@ -2747,7 +2747,7 @@ L_716C:
 	ret			;716c
 L_716D:
 	ld a,080h		;716d
-L_716F:
+rumbo_hacia_mitchel:
 	ld e,(ix+003h)		;716f
 	ld d,(ix+005h)		;7172
 	ld c,a			;7175
@@ -2757,7 +2757,7 @@ L_716F:
 	add a,a			;717b
 	add a,c			;717c
 	ld (0e80fh),a		;717d
-	call L_71BC		;7180
+	call mitchel_en_e800		;7180
 L_7183:
 	ld a,(0e815h)		;7183
 L_7186:
@@ -2776,20 +2776,20 @@ L_7186:
 	ld a,(hl)			;7197
 	ld (0e814h),a		;7198
 	ld e,c			;719b
-	call L_7200		;719c
+	call multiplica_e80f		;719c
 	ld a,(0e810h)		;719f
 	and a			;71a2
-	call nz,L_71F8		;71a3
+	call nz,niega_de		;71a3
 	ld (0e812h),de		;71a6
 	ld a,(0e814h)		;71aa
 	ld e,a			;71ad
-	call L_7200		;71ae
+	call multiplica_e80f		;71ae
 	ld a,(0e811h)		;71b1
 	and a			;71b4
-	call nz,L_71F8		;71b5
+	call nz,niega_de		;71b5
 	ld hl,(0e812h)		;71b8
 	ret			;71bb
-L_71BC:
+mitchel_en_e800:
 	ld a,(0c303h)		;71bc
 	ld (0e800h),a		;71bf
 	ld a,(0c305h)		;71c2
@@ -2825,7 +2825,7 @@ L_71E7:
 	ld a,(hl)			;71f3
 	ld (0e815h),a		;71f4
 	ret			;71f7
-L_71F8:
+niega_de:
 	ld a,d			;71f8
 	cpl			;71f9
 	ld d,a			;71fa
@@ -2834,10 +2834,10 @@ L_71F8:
 	ld e,a			;71fd
 	inc de			;71fe
 	ret			;71ff
-L_7200:
+multiplica_e80f:
 	ld a,(0e80fh)		;7200
 	ld h,a			;7203
-	call L_7212		;7204
+	call multiplica_8_bits		;7204
 	xor a			;7207
 	add hl,hl			;7208
 	adc a,a			;7209
@@ -2849,7 +2849,7 @@ L_7200:
 	ld h,a			;720f
 	ex de,hl			;7210
 	ret			;7211
-L_7212:
+multiplica_8_bits:
 	ld b,008h		;7212
 	ld l,000h		;7214
 	ld d,l			;7216
@@ -2885,7 +2885,7 @@ DATA_cuarto_de_seno:
 ; ======================================================================
 
 
-L_729E:
+apunta_a_mitchel:
 	ld a,c			;729e
 	ld (0e808h),a		;729f
 	bit 1,b		;72a2
@@ -2925,14 +2925,14 @@ L_72D5:
 	ld a,b			;72db
 L_72DC:
 	ld e,l			;72dc
-	call L_730C		;72dd
+	call choca_con_el_mapa		;72dd
 	ret nc			;72e0
 	ld b,a			;72e1
 	ld a,(0e808h)		;72e2
 	ld e,a			;72e5
 	ld a,c			;72e6
 	ld c,b			;72e7
-	call L_730C		;72e8
+	call choca_con_el_mapa		;72e8
 	jr nc,L_7301		;72eb
 	add a,002h		;72ed
 	and 003h		;72ef
@@ -2940,7 +2940,7 @@ L_72DC:
 	ld a,(0e808h)		;72f2
 	ld e,a			;72f5
 	ex af,af'			;72f6
-	call L_730C		;72f7
+	call choca_con_el_mapa		;72f7
 	jr nc,L_7301		;72fa
 	ld a,c			;72fc
 	add a,002h		;72fd
@@ -2953,7 +2953,7 @@ L_7303:
 	ld h,(ix+005h)		;7306
 L_7309:
 	ld (0e806h),hl		;7309
-L_730C:
+choca_con_el_mapa:
 	ld (0e805h),a		;730c
 	rra			;730f
 	jr c,L_731C		;7310
@@ -3086,10 +3086,10 @@ DATA_byte_por_juego_de_dibujos:
 
 
 L_73DD:
-	call L_73E4		;73dd
+	call ficha_contra_el_mapa		;73dd
 	jp c,L_7423		;73e0
 	ret			;73e3
-L_73E4:
+ficha_contra_el_mapa:
 	ld a,(0c148h)		;73e4
 	ld hl,073d0h		;73e7
 	call 04255h		;73ea
@@ -3276,15 +3276,15 @@ L_74E0:
 	ret c			;74e7
 	daa			;74e8
 	ld (hl),a			;74e9
-	jr nz,L_74F6		;74ea   ; el ultimo: SHOT1 vuelve a 0
-	call L_74F6		;74ec
+	jr nz,lanza_el_0x18		;74ea   ; el ultimo: SHOT1 vuelve a 0
+	call lanza_el_0x18		;74ec
 L_74EF:
 	xor a			;74ef
 	ld (0c140h),a		;74f0
 	jp L_62DE		;74f3
-L_74F6:
+lanza_el_0x18:
 	ld c,018h		;74f6
-	jr L_755F		;74f8
+	jr lanza		;74f8
 lanza_un_9:
 	call hay_algo_lanzado		;74fa
 	ret nz			;74fd
@@ -3294,12 +3294,12 @@ lanza_un_9:
 	ret c			;7504
 	daa			;7505
 	ld (hl),a			;7506
-	jr nz,L_750E		;7507
-	call L_750E		;7509
+	jr nz,lanza_el_0x19		;7507
+	call lanza_el_0x19		;7509
 	jr L_74EF		;750c
-L_750E:
+lanza_el_0x19:
 	ld bc,00219h		;750e
-	jr L_755F		;7511
+	jr lanza		;7511
 lanza_el_boomerang:
 	ld a,(0c349h)		;7513   ; 0xC349: cuantos boomerangs hay en la mano
 	and a			;7516
@@ -3307,7 +3307,7 @@ lanza_el_boomerang:
 	call hay_algo_lanzado		;7518
 	ret nz			;751b
 	ld bc,0031ah		;751c
-	call L_755F		;751f
+	call lanza		;751f
 	ld hl,0c349h		;7522
 	ld a,(hl)			;7525
 	sub 001h		;7526
@@ -3343,8 +3343,8 @@ L_7534:
 	ld (0c380h),a		;7559
 L_755C:
 	jp 05046h		;755c
-L_755F:
-	ld a,c			;755f
+lanza:
+	ld a,c			;755f   ; la ficha de lo lanzado (0xC380): el sonido C, B unidades, sale de Mitchel hacia donde mira
 	call 05490h		;7560
 	ld hl,0c300h		;7563
 	ld a,(hl)			;7566
@@ -3371,7 +3371,7 @@ L_755F:
 	ld (hl),a			;7589
 	inc l			;758a
 	ld (hl),001h		;758b
-	call L_75EE		;758d
+	call velocidad_de_lo_lanzado		;758d
 	inc l			;7590
 	ld (hl),e			;7591
 	inc l			;7592
@@ -3426,13 +3426,13 @@ DATA_fichas_de_lo_lanzado:
 ; ======================================================================
 
 
-L_75EE:
+velocidad_de_lo_lanzado:
 	push hl			;75ee
 	ld de,00300h		;75ef
 	ld a,(0c306h)		;75f2
 	ld c,a			;75f5
 	rra			;75f6
-	call nc,L_71F8		;75f7
+	call nc,niega_de		;75f7
 	ld a,c			;75fa
 	ld hl,00000h		;75fb
 	cp 002h		;75fe
@@ -3466,22 +3466,22 @@ DATA_tabla_7613:
 
 
 L_761B:
-	call L_76D0		;761b
-	jp c,L_76C6		;761e
+	call lo_lanzado_contra_el_mapa		;761b
+	jp c,borra_la_ficha		;761e
 	inc (ix+001h)		;7621
 	ld a,(ix+001h)		;7624
 	cp 010h		;7627
-	jp nc,L_76C6		;7629
-	call L_690E		;762c
-	jr L_76A0		;762f
+	jp nc,borra_la_ficha		;7629
+	call se_mueve		;762c
+	jr mueve_el_boomerang		;762f
 L_7631:
 	ld a,(0c209h)		;7631
 	and 003h		;7634
 	ld a,01ah		;7636
 	call z,05490h		;7638
-	call L_76D0		;763b
+	call lo_lanzado_contra_el_mapa		;763b
 	jr c,L_7668		;763e
-	call L_770F		;7640
+	call va_hacia_su_destino		;7640
 	inc (ix+001h)		;7643
 	ld a,(ix+001h)		;7646
 	cp 038h		;7649
@@ -3492,7 +3492,7 @@ L_7631:
 	push ix		;7656
 	call pon_objeto		;7658
 	pop ix		;765b
-	call L_76C6		;765d
+	call borra_la_ficha		;765d
 	ld a,(0c349h)		;7660
 	and a			;7663
 	ret nz			;7664
@@ -3506,22 +3506,22 @@ L_7668:
 	ld (ix+001h),a		;7673
 	ld e,(ix+007h)		;7676
 	ld d,(ix+008h)		;7679
-	call L_71F8		;767c
+	call niega_de		;767c
 	ld (ix+007h),e		;767f
 	ld (ix+008h),d		;7682
 	ld e,(ix+009h)		;7685
 	ld d,(ix+00ah)		;7688
-	call L_71F8		;768b
+	call niega_de		;768b
 	ld (ix+009h),e		;768e
 	ld (ix+00ah),d		;7691
 L_7694:
-	call L_690E		;7694
-	call L_76A0		;7697
+	call se_mueve		;7694
+	call mueve_el_boomerang		;7697
 	ret c			;769a
 	ld hl,0c349h		;769b
 	inc (hl)			;769e
 	ret			;769f
-L_76A0:
+mueve_el_boomerang:
 	ld a,(ix+001h)		;76a0
 	rra			;76a3
 	and 003h		;76a4
@@ -3534,12 +3534,12 @@ L_76A0:
 	ld a,(ix+003h)		;76b5
 	sub 008h		;76b8
 	cp 0a0h		;76ba
-	jr nc,L_76C6		;76bc
+	jr nc,borra_la_ficha		;76bc
 	ld a,(ix+005h)		;76be
 	sub 008h		;76c1
 	cp 0a0h		;76c3
 	ret c			;76c5
-L_76C6:
+borra_la_ficha:
 	ld (ix+000h),000h		;76c6
 	xor a			;76ca
 	ret			;76cb
@@ -3556,7 +3556,7 @@ DATA_cuadro_del_boomerang:
 ; ======================================================================
 
 
-L_76D0:
+lo_lanzado_contra_el_mapa:
 	ld l,(ix+003h)		;76d0
 	ld h,(ix+005h)		;76d3
 	ld a,(ix+007h)		;76d6
@@ -3593,20 +3593,20 @@ L_76F9:
 	ret z			;770c
 	cp (hl)			;770d
 	ret			;770e
-L_770F:
+va_hacia_su_destino:
 	ld a,(ix+010h)		;770f
 	ld e,(ix+007h)		;7712
 	ld d,(ix+008h)		;7715
 	sub (ix+003h)		;7718
-	call L_7733		;771b
+	call signo_a_h		;771b
 	call 04311h		;771e
 	ld a,(ix+011h)		;7721
 	ld e,(ix+009h)		;7724
 	ld d,(ix+00ah)		;7727
 	sub (ix+005h)		;772a
-	call L_7733		;772d
+	call signo_a_h		;772d
 	jp 04318h		;7730
-L_7733:
+signo_a_h:
 	ld h,000h		;7733
 	jp p,L_7739		;7735
 	dec h			;7738
@@ -3634,11 +3634,11 @@ L_774D:
 	cp 014h		;7756
 	jr z,$+65		;7758
 	and 003h		;775a
-	call z,L_7766		;775c
+	call z,da_la_vuelta		;775c
 	ld a,0ffh		;775f
 	ld (0c313h),a		;7761
 	jr $+19		;7764
-L_7766:
+da_la_vuelta:
 	ld hl,0c306h		;7766
 	ld a,(hl)			;7769
 	ld de,07773h		;776a
@@ -3663,8 +3663,8 @@ L_7777:
 	ld a,(0c301h)		;7777
 	and a			;777a
 	jr z,L_779F		;777b
-	call L_77AE		;777d
-	call L_77A5		;7780
+	call sitio_del_golpe		;777d
+	call pose_de_golpe		;7780
 	ld a,(0c301h)		;7783
 	ld de,077d5h		;7786
 	call 042ffh		;7789
@@ -3683,12 +3683,12 @@ L_779F:
 	ld hl,0c313h		;779f
 	dec (hl)			;77a2
 	jr z,L_7799		;77a3
-L_77A5:
+pose_de_golpe:
 	ld a,(0c306h)		;77a5
 	add a,00ch		;77a8
 	ld (0c310h),a		;77aa
 	ret			;77ad
-L_77AE:
+sitio_del_golpe:
 	ld a,(0c306h)		;77ae
 	ld c,a			;77b1
 	add a,a			;77b2
@@ -3933,20 +3933,20 @@ suma_b_al_mp:
 	ld a,099h		;78f6
 L_78F8:
 	ld (hl),a			;78f8
-	jp L_636C		;78f9
+	jp escribe_mp		;78f9
 L_78FC:
 	ld ix,0c400h		;78fc
 	ld b,004h		;7900
 L_7902:
 	ld a,(ix+000h)		;7902
 	and a			;7905
-	call nz,L_7911		;7906
+	call nz,guarda_las_casillas_del_objeto		;7906
 	ld de,00010h		;7909
 	add ix,de		;790c
 	djnz L_7902		;790e
 	ret			;7910
-L_7911:
-	call L_79BF		;7911
+guarda_las_casillas_del_objeto:
+	call esquina_de_la_ficha		;7911
 	ex de,hl			;7914
 	call 0431fh		;7915
 	ld a,(hl)			;7918
@@ -3967,13 +3967,13 @@ L_792F:
 	ld b,004h		;7933
 L_7935:
 	push bc			;7935
-	call L_7942		;7936
+	call pinta_los_objetos		;7936
 	ld de,00010h		;7939
 	add ix,de		;793c
 	pop bc			;793e
 	djnz L_7935		;793f
 	ret			;7941
-L_7942:
+pinta_los_objetos:
 	ld a,(ix+000h)		;7942
 	and a			;7945
 	ret z			;7946
@@ -3989,7 +3989,7 @@ L_794E:
 	dec (ix+001h)		;7957
 	jr z,L_797F		;795a
 L_795C:
-	call L_79BF		;795c
+	call esquina_de_la_ficha		;795c
 	ld a,(ix+000h)		;795f
 pinta_icono:
 	cp 026h		;7962   ; el 0x26 (oro) se pinta con el dibujo del 6 (la bolsa)
@@ -4013,36 +4013,36 @@ L_7968:
 	jp 0481bh		;797c   ; 16x16 con transparencia
 L_797F:
 	ld (ix+000h),000h		;797f
-	call L_79BF		;7983
+	call esquina_de_la_ficha		;7983
 	ld a,(ix+00ch)		;7986
-	call L_79B7		;7989
+	call casilla_especial		;7989
 	call nz,0497bh		;798c
 	ld a,008h		;798f
 	add a,d			;7991
 	ld d,a			;7992
 	ld a,(ix+00dh)		;7993
-	call L_79B7		;7996
+	call casilla_especial		;7996
 	call nz,0497bh		;7999
 	ld a,008h		;799c
 	add a,e			;799e
 	ld e,a			;799f
 	ld a,(ix+00fh)		;79a0
-	call L_79B7		;79a3
+	call casilla_especial		;79a3
 	call nz,0497bh		;79a6
 	ld a,d			;79a9
 	sub 008h		;79aa
 	ld d,a			;79ac
 	ld a,(ix+00eh)		;79ad
-	call L_79B7		;79b0
+	call casilla_especial		;79b0
 	jp nz,0497bh		;79b3
 	ret			;79b6
-L_79B7:
+casilla_especial:
 	cp 0f1h		;79b7
 	ret nz			;79b9
 	ld a,062h		;79ba
 	cp 0f0h		;79bc
 	ret			;79be
-L_79BF:
+esquina_de_la_ficha:
 	push af			;79bf
 	ld a,(ix+003h)		;79c0
 	sub 008h		;79c3
@@ -4168,7 +4168,7 @@ L_7A5A:
 	adc a,000h		;7a70
 	daa			;7a72
 	ld (hl),a			;7a73
-	jp L_6344		;7a74
+	jp escribe_days		;7a74
 fin_del_suceso_de_shot2:
 	ld a,(0c141h)		;7a77
 	sub 00ch		;7a7a
@@ -4228,7 +4228,7 @@ L_7AD0:
 	ld (ix+00bh),00dh		;7ad0
 	ld (ix+006h),001h		;7ad4
 	ld bc,00000h		;7ad8
-	call L_729E		;7adb
+	call apunta_a_mitchel		;7adb
 	ld (ix+015h),a		;7ade
 	ld hl,0bf62h		;7ae1
 	jp 0bf19h		;7ae4
@@ -4273,7 +4273,7 @@ L_7B2C:
 L_7B3C:
 	ld (ix+00bh),00ch		;7b3c
 	ld a,030h		;7b40
-	call L_716F		;7b42
+	call rumbo_hacia_mitchel		;7b42
 	jp 08bdch		;7b45
 L_7B48:
 	ld l,(ix+003h)		;7b48
@@ -4295,7 +4295,7 @@ L_7B58:
 L_7B6F:
 	dec (ix+013h)		;7b6f
 	jr nz,L_7B77		;7b72
-	call L_7BB9		;7b74
+	call paso_de_la_ficha_7BB9		;7b74
 L_7B77:
 	ld a,(ix+001h)		;7b77
 	dec a			;7b7a
@@ -4324,14 +4324,14 @@ L_7BA5:
 	inc (ix+001h)		;7ba5
 	ld a,020h		;7ba8
 L_7BAA:
-	call L_716F		;7baa
+	call rumbo_hacia_mitchel		;7baa
 	call 08bdch		;7bad
 	ld a,005h		;7bb0
 	jp 05488h		;7bb2
 L_7BB5:
 	dec (ix+013h)		;7bb5
 	ret nz			;7bb8
-L_7BB9:
+paso_de_la_ficha_7BB9:
 	ld (ix+013h),004h		;7bb9
 	ld a,(ix+014h)		;7bbd
 	xor 001h		;7bc0
@@ -4449,16 +4449,16 @@ L_7C59:
 	ld (0c313h),a		;7c78
 	ld a,0ffh		;7c7b
 	ld (0c380h),a		;7c7d
-	call L_77AE		;7c80
+	call sitio_del_golpe		;7c80
 	ld a,001h		;7c83
 	ld (0c38ch),a		;7c85
 	ld a,00eh		;7c88
 	ld (0c38eh),a		;7c8a
-	call L_6D8B		;7c8d
+	call pose_quieto		;7c8d
 	call 050eah		;7c90
-	jp L_636C		;7c93
+	jp escribe_mp		;7c93
 no_hay_mp:
-	call L_6428		;7c96
+	call borra_la_ventana_de_texto		;7c96
 	ld a,03ch		;7c99
 	ld (0c162h),a		;7c9b
 	ld hl,07ca4h		;7c9e   ; el aviso de p01:7CA4
@@ -4526,7 +4526,7 @@ L_7CEB:
 	ex de,hl			;7cee
 L_7CEF:
 	ld (0c129h),hl		;7cef
-	jp L_634E		;7cf2
+	jp escribe_life		;7cf2
 usa_el_0x12:
 	ld a,(0c125h)		;7cf5   ; solo en la pantalla 0x68
 	cp 068h		;7cf8
@@ -4635,7 +4635,7 @@ L_7DA4:
 	ld (0c300h),a		;7da9
 	xor a			;7dac
 	ld (0c316h),a		;7dad
-	jp L_636C		;7db0
+	jp escribe_mp		;7db0
 usa_el_0x24:
 	call gasta_uno_de_shot2		;7db3   ; solo en las pantallas 0x0B, 0x0D, 0x2D, 0x2E, 0x6F, 0x77 y 0x7B
 	ld a,(0c125h)		;7db6
@@ -4754,7 +4754,7 @@ L_7E75:
 	and a			;7e8d
 	ret nz			;7e8e
 L_7E8F:
-	call L_7F4E		;7e8f
+	call conversacion_por_el_sitio		;7e8f
 	ld a,c			;7e92
 	and a			;7e93
 	ret z			;7e94
@@ -4765,7 +4765,7 @@ L_7E9B:
 	ld (0c14ah),a		;7e9b
 	and a			;7e9e
 	ret z			;7e9f
-	call L_7F08		;7ea0
+	call ya_se_dio		;7ea0
 	ret c			;7ea3
 	xor a			;7ea4
 	ld (0c149h),a		;7ea5
@@ -4837,7 +4837,7 @@ DATA_conversaciones_de_los_que_aparecen:
 ; ======================================================================
 
 
-L_7F08:
+ya_se_dio:
 	ld a,(0c14ah)		;7f08
 	ld c,a			;7f0b
 	ld hl,07f23h		;7f0c
@@ -4887,8 +4887,8 @@ DATA_ya_se_dio:
 ; ======================================================================
 
 
-L_7F4E:
-	ld a,(0c303h)		;7f4e
+conversacion_por_el_sitio:
+	ld a,(0c303h)		;7f4e   ; en las pantallas 0x0D, 0x14, 0x23, 0x27, 0x2D, 0x2E y 0x3E la conversacion depende de donde este Mitchel
 	ld e,a			;7f51
 	ld a,(0c305h)		;7f52
 	ld d,a			;7f55

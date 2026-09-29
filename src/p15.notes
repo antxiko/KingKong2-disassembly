@@ -100,7 +100,7 @@ D 0xA25A 0xA265 colores_A25A  un color por sprite, que p00:5BBC copia a ix+0x25,
 F 0xA25A 8
 D 0xA265 0xA2AA byte_0d_de_cada_enemigo  69 bytes (el 0 no se usa): lo que p00:5B10 pone en ix+0x0D al crear un enemigo de ese tipo; lo leen p00:5B10 (69 bytes)
 F 0xA265 16
-D 0xA2AA 0xA2C2 grupos_de_sprites  12 punteros por ix+0 - 0xF0: grupos de sprites [dy][dx][patron][color] que p00:5E93 suma a la posicion; lo leen p00:5E87 (24 bytes)
+D 0xA2AA 0xA2C2 cuadros_de_explosion  12 punteros por ix+0 - 0xF0 (las explosiones: p00:5E7F sube ix+0 cada vez): grupos de sprites [dy][dx][patron][color] que p00:5E93 suma a la posicion; lo leen p00:5E87 (24 bytes)
 F 0xA2AA 2
 D 0xA2C2 0xA2CA grupo_A2C2  2 sprites [dy][dx][patron][color]; lo leen p00:5E96 (8 bytes)
 F 0xA2C2 4
@@ -120,7 +120,7 @@ D 0xA36A 0xA39A grupo_A36A  12 sprites [dy][dx][patron][color]; lo leen p00:5E96
 F 0xA36A 4
 D 0xA39A 0xA3CA grupo_A39A  12 sprites [dy][dx][patron][color]; lo leen p00:5E96 (48 bytes)
 F 0xA39A 4
-D 0xA3CA 0xA40E tipo_al_aparecer  68 bytes, uno por tipo: el que p00:5DCA pone en ix+0 al aparecer el enemigo; lo leen p00:5DC9 (68 bytes)
+D 0xA3CA 0xA40E explosion_de_cada_enemigo  68 bytes, uno por tipo: la explosion (0xF0, 0xF3, 0xF6 o 0xF9) en que se convierte al morir; p00:5DA8 guarda antes el tipo en ix+0x1F (el que mira p03:B9E6 para lo que suelta); lo leen p00:5DC9 (68 bytes)
 F 0xA3CA 16
 D 0xA40E 0xA5E4 sprites_A40E  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 10; lo leen p00:45EF (470 bytes)
 F 0xA40E 16

@@ -137,6 +137,119 @@ D 0x7CB1 0x7CB5 codigo_7CB1  codigo que no llama nadie: ld a,9 / jr 0x7D21 (como
 D 0x7E01 0x7E1D paleta_7E01  [color][RB][G] ... 0xFF (p00:46CF): los colores que p01:7DFB cambia en las pantallas 0x52, 0x53, 0x63-0x66 y 0x6B
 D 0x7F1A 0x7F1B ret_suelto  un ret al que no se llega (p01:7F14 salta por encima)
 D 0x7F23 0x7F4E ya_se_dio  [conversacion][direccion de RAM] ... 0: si el byte de RAM no es 0 (ya se tiene el objeto), p01:7F08 no deja empezar esa conversacion
+L 0x60A8 sale_por_la_izquierda
+L 0x60B4 sale_por_abajo
+L 0x60C2 sale_por_arriba
+L 0x60FA salida_especial
+C 0x60FA pantallas 0xF0-0xFB: la de llegada y el punto de p01:611F
+L 0x6143 donde_aparece_mitchel
+C 0x6143 el punto de entrada (0xC321) segun el lado C por el que se entra
+L 0x616B pantalla_vecina
+C 0x616B p09:B1C5 + 4*pantalla + C: arriba, abajo, izquierda, derecha
+L 0x61AF enemigo_en_el_panel
+L 0x61BD sitio_del_enemigo_en_el_panel
+L 0x61D2 escribe_nombre_del_enemigo
+C 0x61D2 p15:BA76 + 2*tipo, con el banco 15 en 0xA000
+L 0x61ED escribe_life_y_str
+L 0x620B escribe_valores_del_enemigo
+L 0x6230 enemigos_del_panel
+L 0x6251 apunta_enemigo_en_el_panel
+L 0x6298 borra_la_ram_de_la_partida
+C 0x6298 0x2EE0 ceros desde 0xC120 y los tres bytes de p01:62C0
+L 0x62EF icono_de_shot2
+L 0x6344 escribe_days
+L 0x634E escribe_life
+L 0x6358 escribe_exp
+L 0x6362 escribe_level
+L 0x636C escribe_mp
+L 0x6376 escribe_gold
+L 0x637E escribe_numero_bcd
+L 0x6396 escribe_cifra
+L 0x63B5 bordes_de_arriba_y_abajo
+L 0x63DA fila_de_borde
+L 0x63E6 bordes_de_los_lados
+L 0x63FB columna_de_borde
+L 0x6407 borra_el_rotulo_del_panel
+L 0x6428 borra_la_ventana_de_texto
+C 0x6428 160x24 puntos en (8, 0xB0): debajo del decorado
+L 0x647E raya_de_la_ventana
+L 0x64D0 borra_la_pagina_entera
+L 0x64D9 teclas_del_cuadro
+C 0x64D9 sin el bit 6 de 0xC102 (la demostracion), las teclas salen del guion (p01:69D7)
+L 0x64F6 guarda_las_teclas
+L 0x64F9 teclas_nuevas
+C 0x64F9 (HL) = las de ahora; (HL-1) = las que no estaban el cuadro anterior
+L 0x6500 lee_el_mando
+L 0x653B lee_el_teclado
+L 0x67AF ventana_de_pausa
+L 0x67D2 quita_la_ventana_de_pausa
+L 0x67E0 marco_de_la_ventana
+L 0x67E8 borra_la_ventana
+L 0x67F3 valor_de_c11e
+L 0x686A mueve_una_ficha
+C 0x686A las explosiones (0xF0 en adelante) a p00:5E4F; si no, por su tipo con la tabla de p01:6885
+L 0x690E se_mueve
+L 0x693A fuera_de_la_pantalla
+L 0x697F empieza_la_demostracion
+L 0x69D4 salta_a_5C05
+L 0x69D7 teclas_de_la_demostracion
+L 0x6B7D mitchel_en_la_mitad_de_abajo
+L 0x6BA3 mitchel_en_el_agua
+C 0x6BA3 0xC160 = 1 si la casilla que pisa es agua (juegos de dibujos 0, 4 y 7): con ella p00:4FF0 usa las poses de 0x7DBD
+L 0x6C35 se_toca_una_tecla
+L 0x6C41 dispara
+C 0x6C41 bit 5 de 0xC106: SHOT2; bit 4: SHOT1
+L 0x6C9B mitchel_resbala
+L 0x6D26 mueve_a_mitchel
+L 0x6D6E mira_a_los_lados
+L 0x6D8B pose_quieto
+L 0x6E58 pose_andando
+L 0x6E76 teclas_izquierda_derecha
+L 0x6E83 teclas_arriba_abajo
+L 0x6E90 anda_arriba
+L 0x6E99 anda_abajo
+L 0x6EA3 anda_a_la_izquierda
+L 0x6EAD anda_a_la_derecha
+L 0x6F00 paso_de_mitchel
+C 0x6F00 0x40; la mitad (0x20) en el agua del juego de dibujos 4 sin los zuecos puestos (0xC142)
+L 0x6F17 cuantos_pasos
+L 0x6F3C alineado
+L 0x6F49 puede_andar_hacia
+L 0x6FD3 casilla_hacia
+L 0x7011 se_puede_pisar
+C 0x7011 el dibujo de la casilla contra el limite del juego de dibujos (p01:73D0)
+L 0x702E parpadeo_de_mitchel
+L 0x7046 mitchel_en_la_entrada
+L 0x70AD recorre_las_fichas
+L 0x716F rumbo_hacia_mitchel
+L 0x71BC mitchel_en_e800
+L 0x71F8 niega_de
+L 0x7200 multiplica_e80f
+L 0x7212 multiplica_8_bits
+L 0x729E apunta_a_mitchel
+L 0x730C choca_con_el_mapa
+L 0x73E4 ficha_contra_el_mapa
+L 0x74F6 lanza_el_0x18
+L 0x750E lanza_el_0x19
+L 0x755F lanza
+C 0x755F la ficha de lo lanzado (0xC380): el sonido C, B unidades, sale de Mitchel hacia donde mira
+L 0x75EE velocidad_de_lo_lanzado
+L 0x76A0 mueve_el_boomerang
+L 0x76C6 borra_la_ficha
+L 0x76D0 lo_lanzado_contra_el_mapa
+L 0x770F va_hacia_su_destino
+L 0x7733 signo_a_h
+L 0x7766 da_la_vuelta
+L 0x77A5 pose_de_golpe
+L 0x77AE sitio_del_golpe
+L 0x7911 guarda_las_casillas_del_objeto
+L 0x7942 pinta_los_objetos
+L 0x79B7 casilla_especial
+L 0x79BF esquina_de_la_ficha
+L 0x7BB9 paso_de_la_ficha_7BB9
+L 0x7F08 ya_se_dio
+L 0x7F4E conversacion_por_el_sitio
+C 0x7F4E en las pantallas 0x0D, 0x14, 0x23, 0x27, 0x2D, 0x2E y 0x3E la conversacion depende de donde este Mitchel
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x611F 0x6143 salidas_especiales  12 salidas especiales (0xF0-0xFB): pantalla de llegada y punto (x, y) donde aparece Mitchel; p01:60FA con 0x611F + 3*(n-0xF0); lo leen p01:6109 (36 bytes)

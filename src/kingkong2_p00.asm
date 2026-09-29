@@ -44,7 +44,7 @@ L_4050:
 	call 06428h		;4050
 	jp L_4215		;4053
 L_4056:
-	call L_490F		;4056
+	call rotulo		;4056
 	jp L_4215		;4059
 
 ; ----------------------------------------------------------------------
@@ -65,31 +65,31 @@ puente_da_un_objeto:
 	call 079ceh		;4068   ; p01:79CE: da el objeto A, una unidad (lo usan las conversaciones de p12)
 	jp L_4215		;406b
 L_406E:
-	call L_462D		;406e
+	call apaga_la_pantalla		;406e
 	jp L_4215		;4071
 L_4074:
-	call L_4651		;4074
+	call oculta_los_sprites		;4074
 	jp L_4215		;4077
 L_407A:
-	call L_479B		;407a
+	call hmmv		;407a
 	jp L_4215		;407d
 L_4080:
-	call L_4586		;4080
+	call rellena_la_vram		;4080
 	jp L_4215		;4083
 L_4086:
-	call L_4620		;4086
+	call enciende_la_pantalla		;4086
 	jp L_4215		;4089
 L_408C:
-	call L_4255		;408c
+	call hl_mas_a		;408c
 	jp L_4215		;408f
 L_4092:
 	call 0637eh		;4092
 	jp L_4215		;4095
 L_4098:
-	call L_425A		;4098
+	call de_mas_a		;4098
 	jp L_4215		;409b
 L_409E:
-	call L_4612		;409e
+	call limpia_la_pantalla		;409e
 	jp L_4215		;40a1
 L_40A4:
 	call 063a7h		;40a4
@@ -113,70 +113,70 @@ L_40B6:
 	call 06192h		;40b6
 	jp L_4215		;40b9
 L_40BC:
-	call L_4DFF		;40bc
+	call monta_la_pantalla		;40bc
 	jp L_4215		;40bf
 L_40C2:
-	call L_4430		;40c2
+	call sitio_de_la_casilla		;40c2
 	jp L_4215		;40c5
 L_40C8:
 	call 07962h		;40c8
 	jp L_4215		;40cb
 L_40CE:
-	call L_440C		;40ce
+	call escribe_nombre_de_la_casilla		;40ce
 	jp L_4215		;40d1
 L_40D4:
-	call L_45AD		;40d4
+	call vram_para_escribir		;40d4
 	jp L_4215		;40d7
 L_40DA:
 	call 0813eh		;40da
 	jp L_4215		;40dd
 L_40E0:
-	call L_4308		;40e0
+	call posicion_de_mitchel		;40e0
 	jp L_4215		;40e3
 L_40E6:
-	call L_5488		;40e6
+	call sonido_si_juega		;40e6
 	jp L_4215		;40e9
 L_40EC:
 	call 0616bh		;40ec
 	jp L_4215		;40ef
 L_40F2:
-	call L_46CF		;40f2
+	call pon_paleta		;40f2
 	jp L_4215		;40f5
 L_40F8:
-	call L_4672		;40f8
+	call pon_un_color		;40f8
 	jp L_4215		;40fb
 L_40FE:
-	call L_4952		;40fe
+	call escribe_una_letra		;40fe
 	jp L_4215		;4101
 L_4104:
 	call 064f6h		;4104
 	jp L_4215		;4107
 L_410A:
-	call L_4EA4		;410a
+	call pinta_figura_BA05		;410a
 	jp L_4215		;410d
 L_4110:
-	call L_463A		;4110
+	call borra_la_parte_de_abajo		;4110
 	jp L_4215		;4113
 L_4116:
-	call L_46DD		;4116
+	call espera_al_vdp		;4116
 	jp L_4215		;4119
 L_411C:
-	call L_48A6		;411c
+	call sube_dibujos		;411c
 	jp L_4215		;411f
 L_4122:
-	call L_4E7B		;4122
+	call pinta_figura_BA15		;4122
 	jp L_4215		;4125
 L_4128:
-	call L_4E86		;4128
+	call pinta_figura_BA38		;4128
 	jp L_4215		;412b
 L_412E:
-	call L_4E91		;412e
+	call pinta_figura_BA4C		;412e
 	jp L_4215		;4131
 L_4134:
-	call L_4E99		;4134
+	call pinta_figura_BA68		;4134
 	jp L_4215		;4137
 L_413A:
-	call L_43D5		;413a
+	call multiplica_en_bcd		;413a
 	jp L_4215		;413d
 L_4140:
 	call 0643eh		;4140
@@ -188,7 +188,7 @@ L_414C:
 	call 06358h		;414c
 	jp L_4215		;414f
 L_4152:
-	call L_5DA8		;4152
+	call mata_la_ficha		;4152
 	jp L_4215		;4155
 L_4158:
 	call 07668h		;4158
@@ -209,16 +209,16 @@ puente_da_objeto_b:
 	call 079d0h		;4176   ; p01:79D0: da el objeto A, B unidades (al recogerlo del suelo, p09:BC03)
 	jp L_4215		;4179
 L_417C:
-	call L_476D		;417c
+	call marco		;417c
 	jp L_4215		;417f
 L_4182:
-	call L_481B		;4182
+	call lmmm		;4182
 	jp L_4215		;4185
 L_4188:
-	call L_469C		;4188
+	call paleta_inicial		;4188
 	jp L_4215		;418b
 L_418E:
-	call L_45E9		;418e
+	call rle_con_destino		;418e
 	jp L_4215		;4191
 
 ; ----------------------------------------------------------------------
@@ -242,13 +242,13 @@ L_41A6:
 	call 06c7bh		;41a6
 	jp L_4215		;41a9
 L_41AC:
-	call L_5FFA		;41ac
+	call modo_de_pantalla		;41ac
 	jp L_4215		;41af
 L_41B2:
-	call L_4867		;41b2
+	call sube_letras		;41b2
 	jp L_4215		;41b5
 L_41B8:
-	call L_4C92		;41b8
+	call sube_sprites_4C92		;41b8
 	jp L_4215		;41bb
 
 ; ----------------------------------------------------------------------
@@ -263,10 +263,10 @@ DATA_puente_41BE:
 
 
 L_41C4:
-	call L_4EB5		;41c4
+	call pinta_figura_sin_bancos		;41c4
 	jp L_4215		;41c7
 L_41CA:
-	call L_431F		;41ca
+	call casilla_en_ram		;41ca
 	jp L_4215		;41cd
 
 ; ----------------------------------------------------------------------
@@ -281,39 +281,39 @@ DATA_puente_41D0:
 
 
 L_41D6:
-	call L_5291		;41d6
+	call copia_lineas_a_la_pagina_1		;41d6
 	jp L_4215		;41d9
 L_41DC:
 	call 084c3h		;41dc
 	jp L_4215		;41df
 L_41E2:
-	call L_446E		;41e2
+	call guarda_el_fondo_del_jefe		;41e2
 	jp L_4215		;41e5
 L_41E8:
-	call L_44BA		;41e8
+	call repone_el_fondo_del_jefe		;41e8
 	jp L_4215		;41eb
 L_41EE:
 	call 07dd7h		;41ee
 	jp L_4215		;41f1
 L_41F4:
-	call L_47D7		;41f4
+	call hmmm		;41f4
 	jp L_4215		;41f7
 L_41FA:
-	call L_42F0		;41fa
+	call escribe_has_cogido		;41fa
 	jp L_4215		;41fd
 L_4200:
-	call L_4DD2		;4200
+	call pon_la_paleta_de_la_pantalla		;4200
 	jp L_4215		;4203
 L_4206:
-	call L_5331		;4206
+	call sube_los_colores_de_sprite		;4206
 	jp L_4215		;4209
 L_420C:
 	call 08456h		;420c
 	jp L_4215		;420f
 L_4212:
-	call L_54BD		;4212
+	call hay_musica		;4212
 L_4215:
-	call L_42BC		;4215
+	call bancos_1_2_3		;4215
 	push af			;4218
 	ld a,(0f0f6h)		;4219
 	and a			;421c
@@ -347,23 +347,27 @@ L_4229:
 L_4253:
 	ei			;4253
 	ret			;4254
-L_4255:
+hl_mas_a:
 	add a,l			;4255
 	ld l,a			;4256
 	ret nc			;4257
 	inc h			;4258
 	ret			;4259
-L_425A:
+de_mas_a:
 	add a,e			;425a
 	ld e,a			;425b
 	ret nc			;425c
 	inc d			;425d
 	ret			;425e
-L_425F:
+
+; ----------------------------------------------------------------------
+; Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+; ----------------------------------------------------------------------
+despacha:
 	pop hl			;425f
-L_4260:
+despacha_hl:
 	add a,a			;4260
-	call L_4255		;4261
+	call hl_mas_a		;4261
 	ld e,(hl)			;4264
 	inc hl			;4265
 	ld d,(hl)			;4266
@@ -398,7 +402,7 @@ L_4269:
 	ld bc,030efh		;4293
 	ld (hl),000h		;4296
 	ldir		;4298
-	call L_42BC		;429a
+	call bancos_1_2_3		;429a
 	xor a			;429d
 	ld hl,0f0f4h		;429e
 	ld (hl),a			;42a1
@@ -417,16 +421,16 @@ L_4269:
 	ei			;42b9
 L_42BA:
 	jr L_42BA		;42ba
-L_42BC:
+bancos_1_2_3:
 	di			;42bc
 	push af			;42bd
 	ld a,001h		;42be
-	jr L_42C6		;42c0
-L_42C2:
+	jr pon_tres_bancos		;42c0
+bancos_4_5_6:
 	di			;42c2
 	push af			;42c3
 	ld a,004h		;42c4
-L_42C6:
+pon_tres_bancos:
 	push hl			;42c6
 	ld hl,0f0f1h		;42c7
 	ld (06000h),a		;42ca
@@ -443,29 +447,29 @@ L_42C6:
 	pop af			;42db
 	ei			;42dc
 	ret			;42dd
-L_42DE:
+bancos_7_8_9:
 	di			;42de
 	push af			;42df
 	ld a,007h		;42e0
-	jr L_42C6		;42e2
-L_42E4:
+	jr pon_tres_bancos		;42e2
+bancos_10_11_12:
 	di			;42e4
 	push af			;42e5
 	ld a,00ah		;42e6
-	jr L_42C6		;42e8
-L_42EA:
+	jr pon_tres_bancos		;42e8
+bancos_13_14_15:
 	di			;42ea
 	push af			;42eb
 	ld a,00dh		;42ec
-	jr L_42C6		;42ee
-L_42F0:
-	ld hl,010b8h		;42f0
-	call L_441F		;42f3
+	jr pon_tres_bancos		;42ee
+escribe_has_cogido:
+	ld hl,010b8h		;42f0   ; el nombre del objeto A en (0x10, 0xB8) y "を とりました。" detras
+	call escribe_nombre_de_objeto		;42f3
 	ld hl,0a062h		;42f6
-	call L_4919		;42f9
-	jp L_42BC		;42fc
-L_42FF:
-	ld l,a			;42ff
+	call escribe_letras		;42f9
+	jp bancos_1_2_3		;42fc
+palabra_de_la_tabla:
+	ld l,a			;42ff   ; DE = la palabra A de la tabla de DE
 	ld h,000h		;4300
 	add hl,hl			;4302
 	add hl,de			;4303
@@ -473,8 +477,8 @@ L_42FF:
 	inc hl			;4305
 	ld d,(hl)			;4306
 	ret			;4307
-L_4308:
-	ld a,(0c303h)		;4308
+posicion_de_mitchel:
+	ld a,(0c303h)		;4308   ; E = la y de Mitchel, D = su x
 	ld e,a			;430b
 	ld a,(0c305h)		;430c
 	ld d,a			;430f
@@ -487,8 +491,8 @@ L_4318:
 	ld (ix+009h),e		;4318
 	ld (ix+00ah),d		;431b
 	ret			;431e
-L_431F:
-	ld a,l			;431f
+casilla_en_ram:
+	ld a,l			;431f   ; HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
 	rra			;4320
 	rra			;4321
 	rra			;4322
@@ -504,12 +508,12 @@ L_431F:
 	ld h,a			;4331
 	ret			;4332
 L_4333:
-	call L_4399		;4333
-	call L_431F		;4336
+	call esquina_de_la_ficha		;4333
+	call casilla_en_ram		;4336
 	push hl			;4339
 	ld de,04365h		;433a
 	ld a,(ix+00fh)		;433d
-	call L_42FF		;4340
+	call palabra_de_la_tabla		;4340
 	ld a,c			;4343
 	ld (de),a			;4344
 	inc de			;4345
@@ -529,7 +533,7 @@ L_434C:
 	pop hl			;4352
 	pop bc			;4353
 	ld a,020h		;4354
-	call L_4255		;4356
+	call hl_mas_a		;4356
 	dec c			;4359
 	jr nz,L_434A		;435a
 	ret			;435c
@@ -554,10 +558,10 @@ DATA_bufferes_4365:
 ; ======================================================================
 
 
-L_437F:
+repinta_el_fondo_de_la_ficha:
 	ld de,04365h		;437f
 	ld a,(ix+00fh)		;4382
-	call L_42FF		;4385
+	call palabra_de_la_tabla		;4385
 	ld a,(de)			;4388
 	ld c,a			;4389
 	inc de			;438a
@@ -566,21 +570,21 @@ L_437F:
 	inc de			;438d
 	push de			;438e
 	push bc			;438f
-	call L_4399		;4390
+	call esquina_de_la_ficha		;4390
 	pop bc			;4393
 	pop de			;4394
 	ex de,hl			;4395
-	jp L_4EB2		;4396
-L_4399:
+	jp pinta_figura		;4396
+esquina_de_la_ficha:
 	ld a,c			;4399
 	dec a			;439a
 	ld hl,0435dh		;439b
-	call L_4255		;439e
+	call hl_mas_a		;439e
 	ld e,(hl)			;43a1
 	ld a,b			;43a2
 	dec a			;43a3
 	ld hl,0435dh		;43a4
-	call L_4255		;43a7
+	call hl_mas_a		;43a7
 	ld d,(hl)			;43aa
 	ld a,(ix+003h)		;43ab
 	add a,e			;43ae
@@ -591,10 +595,10 @@ L_4399:
 	ret			;43b5
 L_43B6:
 	ld a,0f0h		;43b6
-L_43B8:
+casilla_de_la_ficha:
 	ld (0e800h),a		;43b8
-	call L_4399		;43bb
-	call L_431F		;43be
+	call esquina_de_la_ficha		;43bb
+	call casilla_en_ram		;43be
 L_43C1:
 	push bc			;43c1
 	push hl			;43c2
@@ -606,11 +610,11 @@ L_43C6:
 	pop hl			;43ca
 	pop bc			;43cb
 	ld a,020h		;43cc
-	call L_4255		;43ce
+	call hl_mas_a		;43ce
 	dec c			;43d1
 	jr nz,L_43C1		;43d2
 	ret			;43d4
-L_43D5:
+multiplica_en_bcd:
 	ld a,e			;43d5
 	exx			;43d6
 	ld l,a			;43d7
@@ -661,25 +665,25 @@ L_4408:
 	djnz L_43E1		;4408
 	ld h,c			;440a
 	ret			;440b
-L_440C:
+escribe_nombre_de_la_casilla:
 	ld hl,(0e80ah)		;440c
-	call L_4430		;440f
+	call sitio_de_la_casilla		;440f
 	ld a,018h		;4412
 	add a,h			;4414
 	ld h,a			;4415
 	ld a,(0e80ch)		;4416
-	call L_441F		;4419
-	jp L_42BC		;441c
-L_441F:
-	call L_42EA		;441f
+	call escribe_nombre_de_objeto		;4419
+	jp bancos_1_2_3		;441c
+escribe_nombre_de_objeto:
+	call bancos_13_14_15		;441f   ; el nombre del objeto A (p15:A069 + 2*A) en HL
 	push hl			;4422
 	ld de,0a069h		;4423
-	call L_42FF		;4426
+	call palabra_de_la_tabla		;4426
 	pop hl			;4429
 	ex de,hl			;442a
 	ld c,0ffh		;442b
-	jp L_4919		;442d
-L_4430:
+	jp escribe_letras		;442d
+sitio_de_la_casilla:
 	ld a,l			;4430
 	add a,a			;4431
 	add a,a			;4432
@@ -708,7 +712,7 @@ L_4450:
 	ld hl,0445ch		;4450
 	ld bc,00902h		;4453
 	ld de,0b008h		;4456
-	jp L_4EB2		;4459
+	jp pinta_figura		;4459
 
 ; ----------------------------------------------------------------------
 ; DATOS figura_445C: 9 columnas x 2 filas de numeros de dibujo (0xD0-0xE1) que
@@ -723,8 +727,8 @@ DATA_figura_445C:
 ; ======================================================================
 
 
-L_446E:
-	xor a			;446e
+guarda_el_fondo_del_jefe:
+	xor a			;446e   ; con un jefe (tipos 0x1A, 0x2A, 0x2B, 0x38, 0x39, 0x42) en pantalla, copia los 64x64 puntos de detras
 	ld (0dfe3h),a		;446f
 	ld ix,0d000h		;4472
 	ld b,00dh		;4476
@@ -753,7 +757,7 @@ L_4493:
 	ld de,06090h		;44a2
 	ld bc,04040h		;44a5
 	ld a,018h		;44a8
-	call L_481B		;44aa
+	call lmmm		;44aa
 	ld a,001h		;44ad
 	ld (0dfe3h),a		;44af
 L_44B2:
@@ -761,7 +765,7 @@ L_44B2:
 	add ix,de		;44b5
 	djnz L_4478		;44b7
 	ret			;44b9
-L_44BA:
+repone_el_fondo_del_jefe:
 	ld a,(0dfe3h)		;44ba
 	and a			;44bd
 	jp z,08e67h		;44be
@@ -769,7 +773,7 @@ L_44BA:
 	ld hl,06090h		;44c5
 	ld bc,04040h		;44c8
 	ld a,048h		;44cb
-	call L_481B		;44cd
+	call lmmm		;44cd
 	ld a,(0c125h)		;44d0
 	cp 057h		;44d3
 	ret nz			;44d5
@@ -779,7 +783,7 @@ L_44BA:
 	ld ix,0d000h		;44dc
 	ld bc,00403h		;44e0
 	jp L_43B6		;44e3
-L_44E6:
+indice_del_jefe:
 	ld a,c			;44e6
 	cp 004h		;44e7
 	ld l,000h		;44e9
@@ -837,13 +841,13 @@ L_454A:
 	and a			;454a
 	ret			;454b
 L_454C:
-	call L_42E4		;454c
+	call bancos_10_11_12		;454c
 	ld hl,0b4d4h		;454f
-	call L_490F		;4552
-	jp L_42BC		;4555
-L_4558:
-	call L_45CC		;4558
-	call L_456B		;455b
+	call rotulo		;4552
+	jp bancos_1_2_3		;4555
+lee_de_la_vram:
+	call vram_para_leer		;4558
+	call cuenta_para_otir		;455b
 	ex af,af'			;455e
 	ld a,(00006h)		;455f
 	ld c,a			;4562
@@ -854,7 +858,7 @@ L_4564:
 	jr nz,L_4564		;4567
 	ex de,hl			;4569
 	ret			;456a
-L_456B:
+cuenta_para_otir:
 	ex de,hl			;456b
 	ld a,c			;456c
 	or a			;456d
@@ -863,10 +867,10 @@ L_456B:
 	ret z			;4570
 	inc a			;4571
 	ret			;4572
-L_4573:
-	ex de,hl			;4573
-	call L_45AD		;4574
-	call L_456B		;4577
+copia_a_la_vram:
+	ex de,hl			;4573   ; BC bytes de HL a la VRAM de DE
+	call vram_para_escribir		;4574
+	call cuenta_para_otir		;4577
 	ex af,af'			;457a
 	ld a,(00007h)		;457b
 	ld c,a			;457e
@@ -876,10 +880,10 @@ L_4580:
 	dec a			;4582
 	jr nz,L_4580		;4583
 	ret			;4585
-L_4586:
-	push de			;4586
+rellena_la_vram:
+	push de			;4586   ; BC bytes con A desde la VRAM de HL
 	push af			;4587
-	call L_45AD		;4588
+	call vram_para_escribir		;4588
 	ld d,c			;458b
 	ld a,c			;458c
 	or a			;458d
@@ -909,8 +913,8 @@ DATA_codigo_459F:
 ; ======================================================================
 
 
-L_45AD:
-	push bc			;45ad
+vram_para_escribir:
+	push bc			;45ad   ; prepara el V9938 para escribir en la direccion de VRAM HL (R#14 y el puerto 1)
 	ld a,(00007h)		;45ae
 	inc a			;45b1
 	ld c,a			;45b2
@@ -931,7 +935,7 @@ L_45AD:
 	pop bc			;45c9
 	ei			;45ca
 	ret			;45cb
-L_45CC:
+vram_para_leer:
 	push bc			;45cc
 	ld a,(00007h)		;45cd
 	inc a			;45d0
@@ -952,15 +956,15 @@ L_45CC:
 	pop bc			;45e6
 	ei			;45e7
 	ret			;45e8
-L_45E9:
-	ex de,hl			;45e9
+rle_con_destino:
+	ex de,hl			;45e9   ; la palabra de DE es la direccion de VRAM; detras, el RLE
 	ld e,(hl)			;45ea
 	inc hl			;45eb
 	ld d,(hl)			;45ec
 	inc hl			;45ed
 	ex de,hl			;45ee
-L_45EF:
-	call L_45AD		;45ef
+rle_a_la_vram:
+	call vram_para_escribir		;45ef   ; el RLE de DE a la VRAM de HL (n con el bit 7: n bytes tal cual; sin el, repetir; 0 acaba)
 	ld a,(00007h)		;45f2
 	ld c,a			;45f5
 L_45F6:
@@ -973,7 +977,7 @@ L_45F6:
 	cp b			;45fd
 	jr z,L_460A		;45fe
 	and a			;4600
-	jr z,L_45E9		;4601
+	jr z,rle_con_destino		;4601
 	ex de,hl			;4603
 	ld b,a			;4604
 	otir		;4605
@@ -986,59 +990,59 @@ L_460C:
 	out (c),a		;460c
 	djnz L_460C		;460e
 	jr L_45F6		;4610
-L_4612:
-	call L_4651		;4612
+limpia_la_pantalla:
+	call oculta_los_sprites		;4612
 	ld bc,000d4h		;4615
 	push bc			;4618
-	call L_462D		;4619
+	call apaga_la_pantalla		;4619
 	pop bc			;461c
-	call L_4642		;461d
-L_4620:
-	ld a,(0f3e0h)		;4620
+	call borra_la_pagina_0		;461d
+enciende_la_pantalla:
+	ld a,(0f3e0h)		;4620   ; bit 6 del registro 1 del VDP a uno
 	or 040h		;4623
 	ld b,a			;4625
 	ld c,001h		;4626
 	call 00047h		;4628   ; BIOS WRTVDP - Writes data in the VDP-register
-	jr L_4667		;462b
-L_462D:
-	ld a,(0f3e0h)		;462d
+	jr enciende_los_sprites		;462b
+apaga_la_pantalla:
+	ld a,(0f3e0h)		;462d   ; bit 6 del registro 1 del VDP a cero
 	and 0bfh		;4630
 	ld b,a			;4632
 	ld c,001h		;4633
 	call 00047h		;4635   ; BIOS WRTVDP - Writes data in the VDP-register
-	jr L_465C		;4638
-L_463A:
+	jr apaga_los_sprites		;4638
+borra_la_parte_de_abajo:
 	ld hl,00098h		;463a
 	ld bc,0003ch		;463d
-	jr L_4645		;4640
-L_4642:
+	jr borra_y_sin_scroll		;4640
+borra_la_pagina_0:
 	ld hl,00000h		;4642
-L_4645:
+borra_y_sin_scroll:
 	xor a			;4645
 	ld d,a			;4646
-	call L_479B		;4647
+	call hmmv		;4647
 	ld b,000h		;464a
 	ld c,017h		;464c
 	jp 00047h		;464e   ; BIOS WRTVDP - Writes data in the VDP-register
-L_4651:
-	ld hl,0f600h		;4651
+oculta_los_sprites:
+	ld hl,0f600h		;4651   ; los 128 bytes de atributos de sprite (0xF600) a 0xE0
 	ld a,0e0h		;4654
 	ld bc,00080h		;4656
-	call L_4586		;4659
-L_465C:
-	ld a,(0ffe7h)		;465c
+	call rellena_la_vram		;4659
+apaga_los_sprites:
+	ld a,(0ffe7h)		;465c   ; bit 1 (SPD) del registro 8 del VDP a uno: no se ven los sprites
 	or 002h		;465f
 	ld b,a			;4661
 	ld c,008h		;4662
 	jp 00047h		;4664   ; BIOS WRTVDP - Writes data in the VDP-register
-L_4667:
+enciende_los_sprites:
 	ld a,(0ffe7h)		;4667
 	and 0fdh		;466a
 	ld b,a			;466c
 	ld c,008h		;466d
 	jp 00047h		;466f   ; BIOS WRTVDP - Writes data in the VDP-register
-L_4672:
-	push bc			;4672
+pon_un_color:
+	push bc			;4672   ; color A de la paleta = D (RB) y E (G)
 	push hl			;4673
 	ld b,a			;4674
 	ld a,(00007h)		;4675
@@ -1059,7 +1063,7 @@ L_4672:
 	add a,a			;468d
 	add a,l			;468e
 	ld l,a			;468f
-	call L_45AD		;4690
+	call vram_para_escribir		;4690
 	dec c			;4693
 	out (c),d		;4694
 	out (c),e		;4696
@@ -1067,8 +1071,8 @@ L_4672:
 	pop bc			;4699
 	ei			;469a
 	ret			;469b
-L_469C:
-	ld hl,046afh		;469c
+paleta_inicial:
+	ld hl,046afh		;469c   ; los 16 colores de p00:46AF
 	ld b,010h		;469f
 	xor a			;46a1
 L_46A2:
@@ -1077,7 +1081,7 @@ L_46A2:
 	ld e,(hl)			;46a4
 	inc hl			;46a5
 	push af			;46a6
-	call L_4672		;46a7
+	call pon_un_color		;46a7
 	pop af			;46aa
 	inc a			;46ab
 	djnz L_46A2		;46ac
@@ -1110,8 +1114,8 @@ DATA_paleta_inicial:
 ; ======================================================================
 
 
-L_46CF:
-	ld a,(hl)			;46cf
+pon_paleta:
+	ld a,(hl)			;46cf   ; lista [color][RB][G] ... 0xFF
 	inc hl			;46d0
 	inc a			;46d1
 	ret z			;46d2
@@ -1120,16 +1124,16 @@ L_46CF:
 	inc hl			;46d5
 	ld e,(hl)			;46d6
 	inc hl			;46d7
-	call L_4672		;46d8
-	jr L_46CF		;46db
-L_46DD:
-	ld a,002h		;46dd
-	call L_46E6		;46df
+	call pon_un_color		;46d8
+	jr pon_paleta		;46db
+espera_al_vdp:
+	ld a,002h		;46dd   ; espera a que el V9938 acabe la orden (bit 0 de S#2)
+	call lee_estado_del_vdp		;46df
 	rra			;46e2
-	jr c,L_46DD		;46e3
+	jr c,espera_al_vdp		;46e3
 	ret			;46e5
-L_46E6:
-	push bc			;46e6
+lee_estado_del_vdp:
+	push bc			;46e6   ; lee el registro de estado A del V9938
 	push hl			;46e7
 	ld hl,(00006h)		;46e8
 	inc h			;46eb
@@ -1152,8 +1156,8 @@ L_46E6:
 	pop bc			;4703
 	ei			;4704
 	ret			;4705
-L_4706:
-	call L_46DD		;4706
+raya_horizontal:
+	call espera_al_vdp		;4706   ; orden LINE del V9938 (MAJ = 0): de (H, L), B-1 puntos
 	push bc			;4709
 	ld a,(00007h)		;470a
 	inc a			;470d
@@ -1184,8 +1188,8 @@ L_4706:
 	out (c),a		;4735
 	ei			;4737
 	ret			;4738
-L_4739:
-	call L_46DD		;4739
+raya_vertical:
+	call espera_al_vdp		;4739   ; orden LINE con MAJ = 1: la raya va hacia abajo
 	push bc			;473c
 	ld a,(00007h)		;473d
 	inc a			;4740
@@ -1217,46 +1221,46 @@ L_4739:
 	out (c),a		;4769
 	ei			;476b
 	ret			;476c
-L_476D:
-	ld b,e			;476d
-	call L_4787		;476e
+marco:
+	ld b,e			;476d   ; cuatro rayas: un marco de E por D en HL
+	call raya_vertical_guardando		;476e
 	ld b,d			;4771
-	call L_4791		;4772
+	call raya_horizontal_guardando		;4772
 	push hl			;4775
 	ld a,l			;4776
 	dec a			;4777
 	add a,e			;4778
 	ld l,a			;4779
 	ld b,d			;477a
-	call L_4791		;477b
+	call raya_horizontal_guardando		;477b
 	pop hl			;477e
 	ld a,h			;477f
 	dec a			;4780
 	add a,d			;4781
 	ld h,a			;4782
 	ld b,e			;4783
-	jp L_4787		;4784
-L_4787:
+	jp raya_vertical_guardando		;4784
+raya_vertical_guardando:
 	push hl			;4787
 	push de			;4788
 	push bc			;4789
-	call L_4739		;478a
+	call raya_vertical		;478a
 	pop bc			;478d
 	pop de			;478e
 	pop hl			;478f
 	ret			;4790
-L_4791:
+raya_horizontal_guardando:
 	push hl			;4791
 	push de			;4792
 	push bc			;4793
-	call L_4706		;4794
+	call raya_horizontal		;4794
 	pop bc			;4797
 	pop de			;4798
 	pop hl			;4799
 	ret			;479a
-L_479B:
-	ex af,af'			;479b
-	call L_46DD		;479c
+hmmv:
+	ex af,af'			;479b   ; orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
+	call espera_al_vdp		;479c
 	push bc			;479f
 	ld a,(00007h)		;47a0
 	inc a			;47a3
@@ -1295,9 +1299,9 @@ L_47C9:
 	out (c),a		;47d3
 	ei			;47d5
 	ret			;47d6
-L_47D7:
-	ex af,af'			;47d7
-	call L_46DD		;47d8
+hmmm:
+	ex af,af'			;47d7   ; orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
+	call espera_al_vdp		;47d8
 	push bc			;47db
 	ld a,(00007h)		;47dc
 	inc a			;47df
@@ -1338,9 +1342,9 @@ L_47D7:
 	out (c),a		;4817
 	ei			;4819
 	ret			;481a
-L_481B:
-	ex af,af'			;481b
-	call L_46DD		;481c
+lmmm:
+	ex af,af'			;481b   ; orden LMMM del V9938: lo mismo con operacion logica (A: paginas y operacion; 8 = TIMP)
+	call espera_al_vdp		;481c
 	push bc			;481f
 	ld a,(00007h)		;4820
 	inc a			;4823
@@ -1388,17 +1392,17 @@ L_481B:
 	out (c),a		;4863
 	ei			;4865
 	ret			;4866
-L_4867:
-	call L_4870		;4867
-	call L_49CE		;486a
-	djnz L_4867		;486d
+sube_letras:
+	call sube_una_letra		;4867   ; B letras de 1 bit de HL, en color C, a la hoja de la pagina 1 desde (D, E)
+	call siguiente_sitio		;486a
+	djnz sube_letras		;486d
 	ret			;486f
-L_4870:
+sube_una_letra:
 	push bc			;4870
 	push de			;4871
 	push hl			;4872
 	push de			;4873
-	call L_48E5		;4874
+	call expande_letra		;4874
 	pop de			;4877
 	ld b,d			;4878
 	ld d,e			;4879
@@ -1409,20 +1413,20 @@ L_4870:
 	add a,080h		;4880
 	ld d,a			;4882
 	ld hl,0e800h		;4883
-	call L_4891		;4886
+	call sube_un_dibujo		;4886
 	pop hl			;4889
 	ld bc,00008h		;488a
 	add hl,bc			;488d
 	pop de			;488e
 	pop bc			;488f
 	ret			;4890
-L_4891:
-	push de			;4891
+sube_un_dibujo:
+	push de			;4891   ; un dibujo de 8x8 a 4 bits (32 bytes) de HL a la VRAM de DE
 	ld b,008h		;4892
 L_4894:
 	push bc			;4894
 	ld bc,00004h		;4895
-	call L_4573		;4898
+	call copia_a_la_vram		;4898
 	ex de,hl			;489b
 	ld bc,00080h		;489c
 	add hl,bc			;489f
@@ -1431,9 +1435,9 @@ L_4894:
 	djnz L_4894		;48a2
 	pop de			;48a4
 	ret			;48a5
-L_48A6:
-	push bc			;48a6
-	call L_4891		;48a7
+sube_dibujos:
+	push bc			;48a6   ; B dibujos de 8x8 a 4 bits de HL a la VRAM de DE
+	call sube_un_dibujo		;48a7
 	ld a,004h		;48aa
 	add a,e			;48ac
 	cp 080h		;48ad
@@ -1445,15 +1449,15 @@ L_48A6:
 L_48B6:
 	ld e,a			;48b6
 	pop bc			;48b7
-	djnz L_48A6		;48b8
+	djnz sube_dibujos		;48b8
 	ret			;48ba
-L_48BB:
+sube_un_dibujo_de_16:
 	push de			;48bb
 	ld b,010h		;48bc
 L_48BE:
 	push bc			;48be
 	ld bc,00008h		;48bf
-	call L_4573		;48c2
+	call copia_a_la_vram		;48c2
 	ex de,hl			;48c5
 	ld bc,00080h		;48c6
 	add hl,bc			;48c9
@@ -1464,7 +1468,7 @@ L_48BE:
 	ret			;48cf
 sube_dibujos_de_16:
 	push bc			;48d0
-	call L_48BB		;48d1
+	call sube_un_dibujo_de_16		;48d1
 	ld a,008h		;48d4   ; el siguiente, 16 puntos (8 bytes) a la derecha
 	add a,e			;48d6
 	cp 080h		;48d7   ; al llegar a 0x80 (256 puntos), 16 lineas mas abajo
@@ -1478,8 +1482,8 @@ L_48E0:
 	pop bc			;48e1
 	djnz sube_dibujos_de_16		;48e2
 	ret			;48e4
-L_48E5:
-	ld b,008h		;48e5
+expande_letra:
+	ld b,008h		;48e5   ; una letra de 1 bit a 4 bits, en 0xE800, con el color C
 	ld de,0e800h		;48e7
 L_48EA:
 	push bc			;48ea
@@ -1511,31 +1515,31 @@ L_48FF:
 	ret			;490a
 L_490B:
 	ld c,080h		;490b
-	jr L_4915		;490d
-L_490F:
-	ld c,0ffh		;490f
-	jr L_4915		;4911
+	jr rotulo_en_color		;490d
+rotulo:
+	ld c,0ffh		;490f   ; [x][y] letras, 0xFE [x][y] otro sitio, 0xFF acaba
+	jr rotulo_en_color		;4911
 L_4913:
 	ld c,000h		;4913
-L_4915:
+rotulo_en_color:
 	ld d,(hl)			;4915
 	inc hl			;4916
 	ld e,(hl)			;4917
 	inc hl			;4918
-L_4919:
+escribe_letras:
 	ld a,(hl)			;4919
 	inc hl			;491a
 	cp 0ffh		;491b
 	ret z			;491d
 	cp 0feh		;491e
-	jr z,L_4915		;4920
-	call L_4952		;4922
+	jr z,rotulo_en_color		;4920
+	call escribe_una_letra		;4922
 	ld a,d			;4925
 	add a,008h		;4926
 	ld d,a			;4928
-	jr L_4919		;4929
-L_492B:
-	push de			;492b
+	jr escribe_letras		;4929
+pinta_lista_de_dibujos:
+	push de			;492b   ; numeros de dibujo; 0xFE, otra fila; 0xFF acaba
 L_492C:
 	ld a,(hl)			;492c
 	inc hl			;492d
@@ -1548,7 +1552,7 @@ L_492C:
 	ld a,008h		;4936
 	add a,e			;4938
 	ld e,a			;4939
-	jr L_492B		;493a
+	jr pinta_lista_de_dibujos		;493a
 L_493C:
 	ld a,c			;493c
 	sla a		;493d
@@ -1557,14 +1561,14 @@ L_493C:
 	push hl			;4943
 	ld h,a			;4944
 	ld l,0a0h		;4945
-	call L_49B1		;4947
-	call L_49CE		;494a
+	call copia_8x8_en_la_hoja		;4947
+	call siguiente_sitio		;494a
 	pop hl			;494d
 	jr L_492C		;494e
 L_4950:
 	pop de			;4950
 	ret			;4951
-L_4952:
+escribe_una_letra:
 	push bc			;4952
 	push hl			;4953
 	push de			;4954
@@ -1575,7 +1579,7 @@ L_4952:
 	inc c			;495c
 	jr z,L_496F		;495d
 	add a,010h		;495f
-	call L_49C0		;4961
+	call sitio_del_dibujo		;4961
 	ld a,c			;4964
 	cp 080h		;4965
 	ld a,030h		;4967
@@ -1587,60 +1591,60 @@ L_496D:
 L_496F:
 	ld bc,00808h		;496f
 	ld a,001h		;4972
-	call L_47D7		;4974
+	call hmmm		;4974
 	pop de			;4977
 	pop hl			;4978
 	pop bc			;4979
 	ret			;497a
-L_497B:
-	push bc			;497b
+pon_dibujo:
+	push bc			;497b   ; el dibujo A de la hoja (pagina 1) en (D, E) de la pagina 0
 	push hl			;497c
 	push de			;497d
-	call L_49C0		;497e
+	call sitio_del_dibujo		;497e
 	ld bc,00808h		;4981
 	ld a,001h		;4984
-	call L_47D7		;4986
+	call hmmm		;4986
 	pop de			;4989
 	pop hl			;498a
 	pop bc			;498b
 	ret			;498c
-L_498D:
-	push bc			;498d
+pon_dibujo_transparente:
+	push bc			;498d   ; lo mismo con LMMM + TIMP: el color 0 no pinta
 	push hl			;498e
 	push de			;498f
-	call L_49C0		;4990
+	call sitio_del_dibujo		;4990
 	ld bc,00808h		;4993
 	ld a,048h		;4996
-	call L_481B		;4998
+	call lmmm		;4998
 	pop de			;499b
 	pop hl			;499c
 	pop bc			;499d
 	ret			;499e
-L_499F:
+copia_dibujo_en_la_hoja:
 	push bc			;499f
 	push hl			;49a0
 	push de			;49a1
-	call L_49C0		;49a2
+	call sitio_del_dibujo		;49a2
 	ld bc,00808h		;49a5
 	ld a,005h		;49a8
-	call L_47D7		;49aa
+	call hmmm		;49aa
 	pop de			;49ad
 	pop hl			;49ae
 	pop bc			;49af
 	ret			;49b0
-L_49B1:
+copia_8x8_en_la_hoja:
 	push bc			;49b1
 	push hl			;49b2
 	push de			;49b3
 	ld bc,00808h		;49b4
 	ld a,005h		;49b7
-	call L_47D7		;49b9
+	call hmmm		;49b9
 	pop de			;49bc
 	pop hl			;49bd
 	pop bc			;49be
 	ret			;49bf
-L_49C0:
-	ld b,a			;49c0
+sitio_del_dibujo:
+	ld b,a			;49c0   ; H = (A & 31)*8, L = (A >> 5)*8: donde esta el dibujo A en la hoja
 	and 01fh		;49c1
 	add a,a			;49c3
 	add a,a			;49c4
@@ -1652,8 +1656,8 @@ L_49C0:
 	rrca			;49cb
 	ld l,a			;49cc
 	ret			;49cd
-L_49CE:
-	ld a,d			;49ce
+siguiente_sitio:
+	ld a,d			;49ce   ; D + 8; al dar la vuelta, E + 8
 	add a,008h		;49cf
 	ld d,a			;49d1
 	ret nz			;49d2
@@ -1661,8 +1665,8 @@ L_49CE:
 	add a,008h		;49d4
 	ld e,a			;49d6
 	ret			;49d7
-L_49D8:
-	call L_4A7B		;49d8
+sube_la_hoja_de_la_pantalla:
+	call sube_la_hoja		;49d8
 	ld a,(0c125h)		;49db
 	cp 073h		;49de
 	jr z,L_4A51		;49e0
@@ -1679,19 +1683,19 @@ L_49D8:
 	cp 028h		;49f6
 	jr z,L_49FF		;49f8
 	cp 060h		;49fa
-	jp nz,L_42BC		;49fc
+	jp nz,bancos_1_2_3		;49fc
 L_49FF:
-	call L_42E4		;49ff
+	call bancos_10_11_12		;49ff
 	ld hl,0a17eh		;4a02
 	ld de,08044h		;4a05
 	ld b,010h		;4a08
-	call L_4A1B		;4a0a
+	call sube_dibujos_volteados		;4a0a
 	ld hl,0a35eh		;4a0d
 	ld de,08c00h		;4a10
 	ld b,00bh		;4a13
-	call L_4A1B		;4a15
-	jp L_42BC		;4a18
-L_4A1B:
+	call sube_dibujos_volteados		;4a15
+	jp bancos_1_2_3		;4a18
+sube_dibujos_volteados:
 	push bc			;4a1b
 	push de			;4a1c
 	ld de,0e803h		;4a1d
@@ -1709,13 +1713,13 @@ L_4A24:
 	dec de			;4a2b
 	djnz L_4A24		;4a2c
 	ld a,008h		;4a2e
-	call L_425A		;4a30
+	call de_mas_a		;4a30
 	dec c			;4a33
 	jr nz,L_4A22		;4a34
 	pop de			;4a36
 	push hl			;4a37
 	ld hl,0e800h		;4a38
-	call L_4891		;4a3b
+	call sube_un_dibujo		;4a3b
 	pop hl			;4a3e
 	ld a,e			;4a3f
 	add a,004h		;4a40
@@ -1728,26 +1732,26 @@ L_4A24:
 	ld d,a			;4a4c
 L_4A4D:
 	pop bc			;4a4d
-	djnz L_4A1B		;4a4e
+	djnz sube_dibujos_volteados		;4a4e
 	ret			;4a50
 L_4A51:
-	call L_42EA		;4a51
+	call bancos_13_14_15		;4a51
 	ld hl,09ec7h		;4a54
 	ld de,0d000h		;4a57
 	ld b,00ch		;4a5a
-	call L_48A6		;4a5c
+	call sube_dibujos		;4a5c
 	ld hl,0b785h		;4a5f
 	ld b,001h		;4a62
-	call L_48A6		;4a64
+	call sube_dibujos		;4a64
 	ld hl,0b725h		;4a67
 	ld b,001h		;4a6a
-	call L_48A6		;4a6c
+	call sube_dibujos		;4a6c
 	ld hl,0a047h		;4a6f
 	ld de,000a8h		;4a72
-	call L_492B		;4a75
-	jp L_42BC		;4a78
-L_4A7B:
-	call L_42DE		;4a7b
+	call pinta_lista_de_dibujos		;4a75
+	jp bancos_1_2_3		;4a78
+sube_la_hoja:
+	call bancos_7_8_9		;4a7b   ; el juego de dibujos de la pantalla (0xC148) y su lista de subida
 	ld a,(0c131h)		;4a7e
 	and a			;4a81
 	jr z,L_4A8A		;4a82
@@ -1760,7 +1764,7 @@ L_4A8A:
 L_4A90:
 	ld c,a			;4a90
 	srl a		;4a91
-	call L_4255		;4a93
+	call hl_mas_a		;4a93
 	ld a,(hl)			;4a96
 	bit 0,c		;4a97
 	jr nz,L_4A9F		;4a99
@@ -1773,22 +1777,22 @@ L_4A9F:
 	ld c,a			;4aa1
 	ld a,(0c148h)		;4aa2
 	cp c			;4aa5
-	jp z,L_42BC		;4aa6
+	jp z,bancos_1_2_3		;4aa6
 	ld a,c			;4aa9
 	ld (0c148h),a		;4aaa
 	push af			;4aad
-	call L_4AF8		;4aae
+	call pon_bancos_del_juego		;4aae
 	pop af			;4ab1
 	ld de,054ech		;4ab2
-	call L_42FF		;4ab5
+	call palabra_de_la_tabla		;4ab5
 	ex de,hl			;4ab8
 L_4AB9:
 	ld a,(hl)			;4ab9
 	cp 0ffh		;4aba
-	jp z,L_42BC		;4abc
+	jp z,bancos_1_2_3		;4abc
 	cp 0feh		;4abf
 	jr nz,L_4AC8		;4ac1
-	call L_42E4		;4ac3
+	call bancos_10_11_12		;4ac3
 	inc hl			;4ac6
 	ld a,(hl)			;4ac7
 L_4AC8:
@@ -1811,7 +1815,7 @@ L_4AC8:
 	push hl			;4adb
 	ld h,(hl)			;4adc
 	ld l,a			;4add
-	call L_48A6		;4ade
+	call sube_dibujos		;4ade
 	pop hl			;4ae1
 	inc hl			;4ae2
 	jr L_4AB9		;4ae3
@@ -1830,8 +1834,8 @@ sube_los_38_iconos:
 	ld hl,0630ah		;4af0
 	ld b,026h		;4af3   ; 38 dibujos
 	jp sube_dibujos_de_16		;4af5
-L_4AF8:
-	call L_425F		;4af8
+pon_bancos_del_juego:
+	call despacha		;4af8
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_4AFB: 13 destinos del despachador de 0x425F (call en p00:4AF8):
@@ -1858,11 +1862,11 @@ DATA_tabla_4AFB:
 ; ======================================================================
 
 
-L_4B15:
-	call L_42EA		;4b15
+sube_los_juegos_de_jefe:
+	call bancos_13_14_15		;4b15
 	ld a,(0c125h)		;4b18
 	ld hl,06620h		;4b1b
-	call L_4255		;4b1e
+	call hl_mas_a		;4b1e
 	ld a,(hl)			;4b21
 	and a			;4b22
 	jr z,L_4B5B		;4b23
@@ -1871,54 +1875,54 @@ L_4B15:
 	add a,a			;4b29
 	add a,a			;4b2a
 	add a,a			;4b2b
-	call L_4255		;4b2c
+	call hl_mas_a		;4b2c
 	ld de,0e800h		;4b2f
 	ld bc,00008h		;4b32
 	ldir		;4b35
 	ld hl,(0e800h)		;4b37
 	ld de,0e840h		;4b3a
-	call L_4B5E		;4b3d
+	call recompone_jefe		;4b3d
 	ld hl,(0e802h)		;4b40
 	ld de,0e940h		;4b43
-	call L_4B5E		;4b46
+	call recompone_jefe		;4b46
 	ld hl,(0e804h)		;4b49
 	ld de,0ea40h		;4b4c
-	call L_4B5E		;4b4f
+	call recompone_jefe		;4b4f
 	ld hl,(0e806h)		;4b52
 	ld de,0eb40h		;4b55
-	call L_4B5E		;4b58
+	call recompone_jefe		;4b58
 L_4B5B:
-	jp L_42BC		;4b5b
-L_4B5E:
+	jp bancos_1_2_3		;4b5b
+recompone_jefe:
 	push de			;4b5e
 	ld de,0ec40h		;4b5f
-	call L_4BB4		;4b62
+	call rle_a_la_ram		;4b62
 	pop de			;4b65
 	ld hl,0ec40h		;4b66
 	ld bc,00050h		;4b69
 	add hl,bc			;4b6c
-	call L_4B85		;4b6d
+	call recompone_cuartos		;4b6d
 	ld bc,0ffa0h		;4b70
 	add hl,bc			;4b73
-	call L_4B85		;4b74
+	call recompone_cuartos		;4b74
 	ld bc,000a0h		;4b77
 	add hl,bc			;4b7a
-	call L_4B85		;4b7b
+	call recompone_cuartos		;4b7b
 	ld bc,0ffa0h		;4b7e
 	add hl,bc			;4b81
-	jp L_4B85		;4b82
-L_4B85:
-	call L_4B9D		;4b85
+	jp recompone_cuartos		;4b82
+recompone_cuartos:
+	call invierte_16_bytes		;4b85
 	ld bc,0ffe0h		;4b88
 	add hl,bc			;4b8b
-	call L_4B9D		;4b8c
+	call invierte_16_bytes		;4b8c
 	ld bc,00020h		;4b8f
 	add hl,bc			;4b92
-	call L_4B9D		;4b93
+	call invierte_16_bytes		;4b93
 	ld bc,0ffe0h		;4b96
 	add hl,bc			;4b99
-	jp L_4B9D		;4b9a
-L_4B9D:
+	jp invierte_16_bytes		;4b9a
+invierte_16_bytes:
 	ld b,010h		;4b9d
 L_4B9F:
 	push bc			;4b9f
@@ -1940,8 +1944,8 @@ L_4BAF:
 	inc hl			;4bb1
 	ld d,(hl)			;4bb2
 	inc hl			;4bb3
-L_4BB4:
-	ld a,(hl)			;4bb4
+rle_a_la_ram:
+	ld a,(hl)			;4bb4   ; el RLE de HL a la RAM de DE
 	and a			;4bb5
 	ret z			;4bb6
 	inc hl			;4bb7
@@ -1954,7 +1958,7 @@ L_4BB4:
 	ld c,a			;4bc1
 	ld b,000h		;4bc2
 	ldir		;4bc4
-	jr L_4BB4		;4bc6
+	jr rle_a_la_ram		;4bc6
 L_4BC8:
 	ld a,(hl)			;4bc8
 	inc hl			;4bc9
@@ -1962,9 +1966,9 @@ L_4BCA:
 	ld (de),a			;4bca
 	inc de			;4bcb
 	djnz L_4BCA		;4bcc
-	jr L_4BB4		;4bce
-L_4BD0:
-	call L_42EA		;4bd0
+	jr rle_a_la_ram		;4bce
+figuras_a_pelo:
+	call bancos_13_14_15		;4bd0
 	ld a,(0c125h)		;4bd3
 	cp 029h		;4bd6
 	ld c,088h		;4bd8
@@ -2026,7 +2030,7 @@ L_4C29:
 L_4C3A:
 	push bc			;4c3a
 	push hl			;4c3b
-	call L_45AD		;4c3c
+	call vram_para_escribir		;4c3c
 	ld a,(00007h)		;4c3f
 	ld c,a			;4c42
 	ex de,hl			;4c43
@@ -2063,7 +2067,7 @@ L_4C6B:
 	push bc			;4c6b
 	push hl			;4c6c
 L_4C6D:
-	call L_45AD		;4c6d
+	call vram_para_escribir		;4c6d
 	ld a,(00007h)		;4c70
 	ld c,a			;4c73
 	ld a,(de)			;4c74
@@ -2087,40 +2091,40 @@ L_4C88:
 	ex de,hl			;4c8c
 	jr nz,L_4C29		;4c8d
 L_4C8F:
-	jp L_42BC		;4c8f
-L_4C92:
-	call L_42EA		;4c92
+	jp bancos_1_2_3		;4c8f
+sube_sprites_4C92:
+	call bancos_13_14_15		;4c92
 	ld de,0b069h		;4c95
 	ld hl,0f800h		;4c98
-	call L_45EF		;4c9b
+	call rle_a_la_vram		;4c9b
 	ld de,0b144h		;4c9e
 	ld hl,0f900h		;4ca1
-	call L_45EF		;4ca4
+	call rle_a_la_vram		;4ca4
 	ld de,0b3e5h		;4ca7
 	ld hl,0fa00h		;4caa
-	call L_45EF		;4cad
-	jp L_42BC		;4cb0
-L_4CB3:
-	call L_42DE		;4cb3
+	call rle_a_la_vram		;4cad
+	jp bancos_1_2_3		;4cb0
+sube_los_sprites_de_la_pantalla:
+	call bancos_7_8_9		;4cb3
 	ld de,0b000h		;4cb6
 	ld hl,0f940h		;4cb9
-	call L_45EF		;4cbc
+	call rle_a_la_vram		;4cbc
 	ld a,(0c125h)		;4cbf
 	ld hl,0b0b7h		;4cc2
-	call L_4255		;4cc5
+	call hl_mas_a		;4cc5
 	ld a,(hl)			;4cc8
 	ld de,05630h		;4cc9
-	call L_42FF		;4ccc
+	call palabra_de_la_tabla		;4ccc
 	push de			;4ccf
 	pop ix		;4cd0
 L_4CD2:
 	ld a,(ix+000h)		;4cd2
-	call L_4CEC		;4cd5
+	call bancos_del_nibble		;4cd5
 	ld a,(ix+000h)		;4cd8
 	and 00fh		;4cdb
 	dec a			;4cdd
-	jp m,L_42BC		;4cde
-	call L_425F		;4ce1
+	jp m,bancos_1_2_3		;4cde
+	call despacha		;4ce1
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_4CE4: 4 destinos del despachador de 0x425F (call en p00:4CE1):
@@ -2137,16 +2141,16 @@ DATA_tabla_4CE4:
 ; ======================================================================
 
 
-L_4CEC:
-	and 0f0h		;4cec
-	jp z,L_42BC		;4cee
+bancos_del_nibble:
+	and 0f0h		;4cec   ; el nibble alto de A elige el trio de bancos (0 1-2-3, 1 4-5-6, 2 7-8-9, 3 10-11-12, si no 13-14-15)
+	jp z,bancos_1_2_3		;4cee
 	cp 010h		;4cf1
-	jp z,L_42C2		;4cf3
+	jp z,bancos_4_5_6		;4cf3
 	cp 020h		;4cf6
-	jp z,L_42DE		;4cf8
+	jp z,bancos_7_8_9		;4cf8
 	cp 030h		;4cfb
-	jp z,L_42E4		;4cfd
-	jp L_42EA		;4d00
+	jp z,bancos_10_11_12		;4cfd
+	jp bancos_13_14_15		;4d00
 L_4D03:
 	ld l,(ix+001h)		;4d03
 	ld h,000h		;4d06
@@ -2157,42 +2161,42 @@ L_4D03:
 	add hl,de			;4d0e
 	ld e,(ix+002h)		;4d0f
 	ld d,(ix+003h)		;4d12
-	call L_45EF		;4d15
+	call rle_a_la_vram		;4d15
 L_4D18:
 	ld de,00004h		;4d18
 	add ix,de		;4d1b
 	jr $-75		;4d1d
 L_4D1F:
-	call L_4D43		;4d1f
-	call L_4D79		;4d22
-	call L_4D52		;4d25
+	call lee_patrones		;4d1f
+	call espejo_de_patrones		;4d22
+	call escribe_patrones		;4d25
 	jr L_4D18		;4d28
 L_4D2A:
-	call L_4D43		;4d2a
-	call L_4DA9		;4d2d
-	call L_4D52		;4d30
+	call lee_patrones		;4d2a
+	call volteo_de_patrones		;4d2d
+	call escribe_patrones		;4d30
 	jr L_4D18		;4d33
 L_4D35:
-	call L_4D43		;4d35
-	call L_4D79		;4d38
-	call L_4DA9		;4d3b
-	call L_4D52		;4d3e
+	call lee_patrones		;4d35
+	call espejo_de_patrones		;4d38
+	call volteo_de_patrones		;4d3b
+	call escribe_patrones		;4d3e
 	jr L_4D18		;4d41
-L_4D43:
-	call L_4D62		;4d43
+lee_patrones:
+	call bytes_de_los_patrones		;4d43
 	ld l,(ix+002h)		;4d46
-	call L_4D6F		;4d49
+	call direccion_del_patron		;4d49
 	ld de,0e800h		;4d4c
-	jp L_4558		;4d4f
-L_4D52:
-	call L_4D62		;4d52
+	jp lee_de_la_vram		;4d4f
+escribe_patrones:
+	call bytes_de_los_patrones		;4d52
 	ld l,(ix+001h)		;4d55
-	call L_4D6F		;4d58
+	call direccion_del_patron		;4d58
 	ex de,hl			;4d5b
 	ld hl,0e800h		;4d5c
-	jp L_4573		;4d5f
-L_4D62:
-	ld l,(ix+003h)		;4d62
+	jp copia_a_la_vram		;4d5f
+bytes_de_los_patrones:
+	ld l,(ix+003h)		;4d62   ; BC = ix+3 * 32
 	ld h,000h		;4d65
 	add hl,hl			;4d67
 	add hl,hl			;4d68
@@ -2202,15 +2206,15 @@ L_4D62:
 	ld c,l			;4d6c
 	ld b,h			;4d6d
 	ret			;4d6e
-L_4D6F:
-	ld h,000h		;4d6f
+direccion_del_patron:
+	ld h,000h		;4d6f   ; HL = 0xF800 + 8*L
 	add hl,hl			;4d71
 	add hl,hl			;4d72
 	add hl,hl			;4d73
 	ld de,0f800h		;4d74
 	add hl,de			;4d77
 	ret			;4d78
-L_4D79:
+espejo_de_patrones:
 	ld c,(ix+003h)		;4d79
 	ld iy,0e800h		;4d7c
 L_4D80:
@@ -2236,18 +2240,18 @@ L_4D8E:
 	dec c			;4da5
 	jr nz,L_4D80		;4da6
 	ret			;4da8
-L_4DA9:
+volteo_de_patrones:
 	ld b,(ix+003h)		;4da9
 	ld hl,0e800h		;4dac
 	ld de,0e80fh		;4daf
 L_4DB2:
 	push bc			;4db2
-	call L_4DBD		;4db3
-	call L_4DBD		;4db6
+	call da_la_vuelta_a_8_filas		;4db3
+	call da_la_vuelta_a_8_filas		;4db6
 	pop bc			;4db9
 	djnz L_4DB2		;4dba
 	ret			;4dbc
-L_4DBD:
+da_la_vuelta_a_8_filas:
 	ld b,008h		;4dbd
 L_4DBF:
 	ld c,(hl)			;4dbf
@@ -2259,39 +2263,39 @@ L_4DBF:
 	dec de			;4dc5
 	djnz L_4DBF		;4dc6
 	ld a,008h		;4dc8
-	call L_4255		;4dca
+	call hl_mas_a		;4dca
 	ld a,018h		;4dcd
-	jp L_425A		;4dcf
-L_4DD2:
-	call L_42DE		;4dd2
+	jp de_mas_a		;4dcf
+pon_la_paleta_de_la_pantalla:
+	call bancos_7_8_9		;4dd2   ; la comun (0x6128), la del juego de dibujos (0x6059) y la de la pantalla (0x61CF)
 	ld hl,06128h		;4dd5
-	call L_46CF		;4dd8
+	call pon_paleta		;4dd8
 	ld a,(0c148h)		;4ddb
 	ld de,06059h		;4dde
-	call L_42FF		;4de1
+	call palabra_de_la_tabla		;4de1
 	ex de,hl			;4de4
-	call L_46CF		;4de5
+	call pon_paleta		;4de5
 	ld a,(0c125h)		;4de8
 	ld hl,06141h		;4deb
-	call L_4255		;4dee
+	call hl_mas_a		;4dee
 	ld a,(hl)			;4df1
 	ld de,061cfh		;4df2
-	call L_42FF		;4df5
+	call palabra_de_la_tabla		;4df5
 	ex de,hl			;4df8
-	call L_46CF		;4df9
-	jp L_42BC		;4dfc
-L_4DFF:
-	call L_4E18		;4dff
+	call pon_paleta		;4df9
+	jp bancos_1_2_3		;4dfc
+monta_la_pantalla:
+	call pinta_el_decorado		;4dff
 	ld a,(0f0f6h)		;4e02
 	push af			;4e05
 	ld a,006h		;4e06
-	call L_5D9C		;4e08
+	call banco_en_a000		;4e08
 	call 0bb57h		;4e0b
 	pop af			;4e0e
 	ld (0f0f6h),a		;4e0f
-	call L_42BC		;4e12
-	jp L_4FAB		;4e15
-L_4E18:
+	call bancos_1_2_3		;4e12
+	jp suceso_de_la_pantalla_5E		;4e15
+pinta_el_decorado:
 	xor a			;4e18
 	ld (0e800h),a		;4e19
 L_4E1C:
@@ -2301,10 +2305,10 @@ L_4E20:
 	xor a			;4e20
 	ld (0e802h),a		;4e21
 L_4E24:
-	call L_4F0B		;4e24
-	call L_42DE		;4e27
-	call L_4F46		;4e2a
-	call L_4F7E		;4e2d
+	call pon_bancos_del_mapa		;4e24
+	call bancos_7_8_9		;4e27
+	call dibujos_del_bloque		;4e2a
+	call apunta_dibujo_en_el_mapa		;4e2d
 	ld hl,0e802h		;4e30
 	inc (hl)			;4e33
 	ld a,(hl)			;4e34
@@ -2320,8 +2324,8 @@ L_4E24:
 	ld a,(hl)			;4e42
 	cp 005h		;4e43
 	jr nz,L_4E1C		;4e45
-	call L_42BC		;4e47
-	call L_4EE7		;4e4a
+	call bancos_1_2_3		;4e47
+	call pinta_las_casillas		;4e4a
 	ld a,(0c125h)		;4e4d
 	cp 015h		;4e50
 	jr z,L_4E76		;4e52
@@ -2332,51 +2336,51 @@ L_4E24:
 	cp 060h		;4e5c
 	ret nz			;4e5e
 	ld de,03820h		;4e5f
-	call L_4EAC		;4e62
+	call pinta_la_estatua		;4e62
 	ld de,02848h		;4e65
-	call L_4E6E		;4e68
+	call pinta_figura_B9F6		;4e68
 	ld de,07848h		;4e6b
-L_4E6E:
+pinta_figura_B9F6:
 	ld hl,0b9f6h		;4e6e
 	ld bc,00305h		;4e71
-	jr L_4EB2		;4e74
+	jr pinta_figura		;4e74
 L_4E76:
 	ld de,03820h		;4e76
-	jr L_4EAC		;4e79
-L_4E7B:
+	jr pinta_la_estatua		;4e79
+pinta_figura_BA15:
 	ld hl,0ba15h		;4e7b
 	ld de,06440h		;4e7e
 	ld bc,00705h		;4e81
-	jr L_4EB2		;4e84
-L_4E86:
+	jr pinta_figura		;4e84
+pinta_figura_BA38:
 	ld hl,0ba38h		;4e86
 	ld de,07047h		;4e89
 	ld bc,00504h		;4e8c
-	jr L_4EB2		;4e8f
-L_4E91:
+	jr pinta_figura		;4e8f
+pinta_figura_BA4C:
 	ld hl,0ba4ch		;4e91
 	ld bc,00704h		;4e94
-	jr L_4EB2		;4e97
-L_4E99:
+	jr pinta_figura		;4e97
+pinta_figura_BA68:
 	ld hl,0ba68h		;4e99
 	ld de,0a860h		;4e9c
 	ld bc,00404h		;4e9f
-	jr L_4EB2		;4ea2
-L_4EA4:
+	jr pinta_figura		;4ea2
+pinta_figura_BA05:
 	ld hl,0ba05h		;4ea4
-	jr L_4EB2		;4ea7
+	jr pinta_figura		;4ea7
 L_4EA9:
 	ld de,03828h		;4ea9
-L_4EAC:
+pinta_la_estatua:
 	ld hl,0b9a5h		;4eac
 	ld bc,00909h		;4eaf
-L_4EB2:
-	call L_42EA		;4eb2
-L_4EB5:
+pinta_figura:
+	call bancos_13_14_15		;4eb2   ; B columnas x C filas de numeros de dibujo de HL, con transparencia, en DE
+pinta_figura_sin_bancos:
 	push de			;4eb5
 	exx			;4eb6
 	pop hl			;4eb7
-	call L_431F		;4eb8
+	call casilla_en_ram		;4eb8
 	exx			;4ebb
 L_4EBC:
 	push bc			;4ebc
@@ -2394,7 +2398,7 @@ L_4EC7:
 	inc hl			;4ec7
 	exx			;4ec8
 	inc hl			;4ec9
-	call L_498D		;4eca
+	call pon_dibujo_transparente		;4eca
 	ld a,d			;4ecd
 	add a,008h		;4ece
 	ld d,a			;4ed0
@@ -2402,7 +2406,7 @@ L_4EC7:
 	exx			;4ed3
 	pop hl			;4ed4
 	ld a,020h		;4ed5
-	call L_4255		;4ed7
+	call hl_mas_a		;4ed7
 	exx			;4eda
 	pop de			;4edb
 	ld a,e			;4edc
@@ -2411,9 +2415,9 @@ L_4EC7:
 	pop bc			;4ee0
 	dec c			;4ee1
 	jr nz,L_4EBC		;4ee2
-	jp L_42BC		;4ee4
-L_4EE7:
-	ld hl,0e021h		;4ee7
+	jp bancos_1_2_3		;4ee4
+pinta_las_casillas:
+	ld hl,0e021h		;4ee7   ; los 20x20 dibujos del mapa de 0xE021 en la pantalla desde (8, 8)
 	ld de,00808h		;4eea
 	ld c,014h		;4eed
 L_4EEF:
@@ -2421,13 +2425,13 @@ L_4EEF:
 L_4EF1:
 	ld a,(hl)			;4ef1
 	inc hl			;4ef2
-	call L_497B		;4ef3
+	call pon_dibujo		;4ef3
 	ld a,d			;4ef6
 	add a,008h		;4ef7
 	ld d,a			;4ef9
 	djnz L_4EF1		;4efa
 	ld a,00ch		;4efc
-	call L_4255		;4efe
+	call hl_mas_a		;4efe
 	ld d,008h		;4f01
 	ld a,e			;4f03
 	add a,008h		;4f04
@@ -2435,12 +2439,12 @@ L_4EF1:
 	dec c			;4f07
 	jr nz,L_4EEF		;4f08
 	ret			;4f0a
-L_4F0B:
-	call L_42C2		;4f0b
+pon_bancos_del_mapa:
+	call bancos_4_5_6		;4f0b
 	ld a,(0c131h)		;4f0e
 	sub 001h		;4f11
 	jr nc,L_4F1B		;4f13
-	call L_42E4		;4f15
+	call bancos_10_11_12		;4f15
 	ld a,(0c125h)		;4f18
 L_4F1B:
 	ld l,a			;4f1b
@@ -2470,14 +2474,14 @@ L_4F34:
 	ld c,a			;4f3c
 	ld a,(0e801h)		;4f3d
 	add a,c			;4f40
-	call L_4255		;4f41
+	call hl_mas_a		;4f41
 	ld a,(hl)			;4f44
 	ret			;4f45
-L_4F46:
+dibujos_del_bloque:
 	push af			;4f46
 	ld a,(0c148h)		;4f47
 	ld de,04f64h		;4f4a
-	call L_42FF		;4f4d
+	call palabra_de_la_tabla		;4f4d
 	pop af			;4f50
 	ld l,a			;4f51
 	ld h,000h		;4f52
@@ -2487,7 +2491,7 @@ L_4F46:
 	add hl,hl			;4f57
 	add hl,de			;4f58
 	ld a,(0e802h)		;4f59
-	call L_4255		;4f5c
+	call hl_mas_a		;4f5c
 	ld a,(hl)			;4f5f
 	ld (0e803h),a		;4f60
 	ret			;4f63
@@ -2516,8 +2520,8 @@ DATA_bloques_de_cada_juego:
 ; ======================================================================
 
 
-L_4F7E:
-	ld de,0e021h		;4f7e
+apunta_dibujo_en_el_mapa:
+	ld de,0e021h		;4f7e   ; el dibujo de 0xE803 en la casilla del bloque (0xE800, 0xE801) y su parte (0xE802) del mapa de 0xE021
 	ld a,(0e800h)		;4f81
 	ld h,a			;4f84
 	ld l,000h		;4f85
@@ -2527,7 +2531,7 @@ L_4F7E:
 	ld a,(0e801h)		;4f8c
 	add a,a			;4f8f
 	add a,a			;4f90
-	call L_4255		;4f91
+	call hl_mas_a		;4f91
 	ld a,(0e802h)		;4f94
 	ld b,a			;4f97
 	and 003h		;4f98
@@ -2539,11 +2543,11 @@ L_4F7E:
 	add a,a			;4fa0
 	add a,c			;4fa1
 	ld c,a			;4fa2
-	call L_4255		;4fa3
+	call hl_mas_a		;4fa3
 	ld a,(0e803h)		;4fa6
 	ld (hl),a			;4fa9
 	ret			;4faa
-L_4FAB:
+suceso_de_la_pantalla_5E:
 	ld a,(0c125h)		;4fab
 	cp 05eh		;4fae
 	ret nz			;4fb0
@@ -2557,7 +2561,7 @@ L_4FAB:
 	ld d,(hl)			;4fba
 	ld hl,04fc4h		;4fbb
 	ld bc,00403h		;4fbe
-	jp L_4EB2		;4fc1
+	jp pinta_figura		;4fc1
 
 ; ----------------------------------------------------------------------
 ; DATOS figura_4FC4: 4 columnas x 3 filas de numeros de dibujo (0xE2-0xEA) que
@@ -2571,19 +2575,19 @@ DATA_figura_4FC4:
 ; ======================================================================
 
 
-L_4FD0:
-	call L_5029		;4fd0
-	call L_4FDE		;4fd3
+sprites_de_mitchel:
+	call mitchel_en_su_sitio		;4fd0
+	call colores_de_mitchel		;4fd3
 	ld a,(0c600h)		;4fd6
 	and a			;4fd9
 	ret z			;4fda
-	jp L_50B8		;4fdb
-L_4FDE:
-	ld de,0e400h		;4fde
+	jp sube_la_que_sigue		;4fdb
+colores_de_mitchel:
+	ld de,0e400h		;4fde   ; 16 bytes del color de cada uno de sus dos sprites (0xC309 y 0xC30A) en 0xE400
 	ld hl,0c309h		;4fe1
-	call L_4FE8		;4fe4
+	call dieciseis_veces		;4fe4
 	inc hl			;4fe7
-L_4FE8:
+dieciseis_veces:
 	ld a,(hl)			;4fe8
 	ld b,010h		;4fe9
 L_4FEB:
@@ -2591,10 +2595,10 @@ L_4FEB:
 	inc e			;4fec
 	djnz L_4FEB		;4fed
 	ret			;4fef
-L_4FF0:
-	call L_42EA		;4ff0
+sube_la_pose_de_mitchel:
+	call bancos_13_14_15		;4ff0
 	ld hl,0f800h		;4ff3
-	call L_45AD		;4ff6
+	call vram_para_escribir		;4ff6
 	ld a,(0c160h)		;4ff9
 	ld de,07d9bh		;4ffc
 	and a			;4fff
@@ -2603,21 +2607,21 @@ L_4FF0:
 L_5005:
 	ld a,(0c310h)		;5005
 L_5008:
-	call L_42FF		;5008
+	call palabra_de_la_tabla		;5008
 	ex de,hl			;500b
 L_500C:
 	ld a,(00007h)		;500c
 	ld c,a			;500f
-L_5010:
+rle_de_la_pose:
 	ld a,(hl)			;5010
 	and 07fh		;5011
-	jp z,L_42BC		;5013
+	jp z,bancos_1_2_3		;5013
 	cp (hl)			;5016
 	jr z,L_501F		;5017
 	ld b,a			;5019
 	inc hl			;501a
 	otir		;501b
-	jr L_5010		;501d
+	jr rle_de_la_pose		;501d
 L_501F:
 	ld b,a			;501f
 	inc hl			;5020
@@ -2626,9 +2630,9 @@ L_501F:
 L_5023:
 	out (c),a		;5023
 	djnz L_5023		;5025
-	jr L_5010		;5027
-L_5029:
-	ld hl,0e600h		;5029
+	jr rle_de_la_pose		;5027
+mitchel_en_su_sitio:
+	ld hl,0e600h		;5029   ; los dos sprites de Mitchel (0xE600) en su y-8 y x-8
 	ld a,(0c303h)		;502c
 	sub 008h		;502f
 	ld c,a			;5031
@@ -2647,18 +2651,18 @@ L_5029:
 	inc l			;5042
 	ld (hl),004h		;5043
 	ret			;5045
-L_5046:
-	call L_42EA		;5046
+sube_el_arma:
+	call bancos_13_14_15		;5046
 	ld a,(0c140h)		;5049
 	dec a			;504c
-	jp m,L_42BC		;504d
+	jp m,bancos_1_2_3		;504d
 	cp 00bh		;5050
 	jr c,L_5056		;5052
 	ld a,007h		;5054
 L_5056:
 	push af			;5056
 	ld hl,0f840h		;5057
-	call L_45AD		;505a
+	call vram_para_escribir		;505a
 	pop af			;505d
 	ld de,05064h		;505e
 	jp L_5008		;5061
@@ -2686,7 +2690,7 @@ DATA_sprites_de_armas:
 ; ======================================================================
 
 
-L_507A:
+la_que_sigue_en_su_sitio:
 	ld a,(0c600h)		;507a
 	and a			;507d
 	ret z			;507e
@@ -2729,10 +2733,10 @@ L_50AF:
 	dec c			;50b4
 	jr nz,L_50AC		;50b5
 	ret			;50b7
-L_50B8:
+sube_la_que_sigue:
 	ld hl,0f840h		;50b8
-	call L_45AD		;50bb
-	call L_42EA		;50be
+	call vram_para_escribir		;50bb
+	call bancos_13_14_15		;50be
 	ld a,(0c606h)		;50c1
 	ld de,050dah		;50c4
 	jp L_5008		;50c7
@@ -2774,21 +2778,21 @@ DATA_cuadros_de_la_que_sigue:
 
 L_50EA:
 	ld hl,0f840h		;50ea
-	call L_45AD		;50ed
-	call L_42EA		;50f0
+	call vram_para_escribir		;50ed
+	call bancos_13_14_15		;50f0
 	ld hl,08804h		;50f3
 	jp L_500C		;50f6
-L_50F9:
+cuadro_de_la_ficha:
 	ld a,(ix+020h)		;50f9
 	or a			;50fc
 	ret z			;50fd
-	call L_42C2		;50fe
+	call bancos_4_5_6		;50fe
 	ld a,(ix+000h)		;5101
 	cp 0f0h		;5104
 	jr nc,L_5151		;5106
 	ld a,(ix+00bh)		;5108
 	ld de,09cc3h		;510b
-	call L_42FF		;510e
+	call palabra_de_la_tabla		;510e
 	push ix		;5111
 	pop hl			;5113
 	set 5,l		;5114
@@ -2837,7 +2841,7 @@ L_514C:
 	inc l			;514e
 	djnz L_5123		;514f
 L_5151:
-	jp L_42BC		;5151
+	jp bancos_1_2_3		;5151
 L_5154:
 	exx			;5154
 	ld hl,0519ah		;5155
@@ -2889,7 +2893,7 @@ L_517D:
 	inc l			;5193
 	inc l			;5194
 	djnz L_517D		;5195
-	jp L_42BC		;5197
+	jp bancos_1_2_3		;5197
 
 ; ----------------------------------------------------------------------
 ; DATOS plantilla_0: plantilla 0x80: 2 parejas [dy][dx], una por sprite; lo
@@ -2978,7 +2982,7 @@ DATA_plantilla_6:
 ; ======================================================================
 
 
-L_51EA:
+sprites_de_las_fichas:
 	ld hl,0d000h		;51ea
 	ld b,00dh		;51ed
 L_51EF:
@@ -2986,14 +2990,14 @@ L_51EF:
 	push hl			;51f0
 	ld a,(hl)			;51f1
 	and a			;51f2
-	call nz,L_51FF		;51f3
+	call nz,sprites_de_una_ficha		;51f3
 	pop hl			;51f6
 	pop bc			;51f7
 	ld de,00080h		;51f8
 	add hl,de			;51fb
 	djnz L_51EF		;51fc
 	ret			;51fe
-L_51FF:
+sprites_de_una_ficha:
 	set 5,l		;51ff
 	ld b,(hl)			;5201
 	ld a,b			;5202
@@ -3058,15 +3062,15 @@ L_524A:
 	inc l			;524f
 	djnz L_5206		;5250
 	ret			;5252
-L_5253:
+sube_el_grafico_de_jefe:
 	ld a,(0df94h)		;5253
 	and a			;5256
 	ret z			;5257
-	call L_42EA		;5258
+	call bancos_13_14_15		;5258
 	ld hl,066aah		;525b
 	ld a,(0df94h)		;525e
 	dec a			;5261
-	call L_4255		;5262
+	call hl_mas_a		;5262
 	ld c,(hl)			;5265
 	ld a,(0df94h)		;5266
 	dec a			;5269
@@ -3081,31 +3085,31 @@ L_5253:
 	ld hl,0ff00h		;5275
 	bit 0,c		;5278
 	jr nz,L_528B		;527a
-	call L_45AD		;527c
+	call vram_para_escribir		;527c
 	ld a,(00007h)		;527f
 	ld c,a			;5282
 	ex de,hl			;5283
 	ld b,000h		;5284
 	otir		;5286
-	jp L_42BC		;5288
+	jp bancos_1_2_3		;5288
 L_528B:
-	call L_45EF		;528b
-	jp L_42BC		;528e
-L_5291:
+	call rle_a_la_vram		;528b
+	jp bancos_1_2_3		;528e
+copia_lineas_a_la_pagina_1:
 	ld hl,000ech		;5291
 	ld d,h			;5294
 	ld e,l			;5295
 	ld bc,00001h		;5296
 	ld a,004h		;5299
-	call L_47D7		;529b
+	call hmmm		;529b
 	ld hl,000e8h		;529e
 	ld d,h			;52a1
 	ld e,l			;52a2
 	ld bc,00004h		;52a3
 	ld a,004h		;52a6
-	jp L_47D7		;52a8
-L_52AB:
-	ld hl,0c10fh		;52ab
+	jp hmmm		;52a8
+sube_los_sprites_girando:
+	ld hl,0c10fh		;52ab   ; 0xC10F avanza 0x68: el orden de los sprites da la vuelta cada cuadro, para que los que sobran en una linea parpadeen
 	ld a,(hl)			;52ae
 	add a,068h		;52af
 	and 078h		;52b1
@@ -3113,10 +3117,10 @@ L_52AB:
 	ld e,000h		;52b4
 	ld a,(00007h)		;52b6
 	ld c,a			;52b9
-	call L_52DE		;52ba
+	call colores_en_orden_girado		;52ba
 	ld hl,07600h		;52bd
-	call L_45AD		;52c0
-L_52C3:
+	call vram_para_escribir		;52c0
+atributos_en_orden_girado:
 	ld a,(0c10fh)		;52c3
 	ld d,010h		;52c6
 	ld h,0e6h		;52c8
@@ -3135,9 +3139,9 @@ L_52D6:
 	dec d			;52da
 	jr nz,L_52CA		;52db
 	ret			;52dd
-L_52DE:
+colores_en_orden_girado:
 	ld hl,07400h		;52de
-	call L_45AD		;52e1
+	call vram_para_escribir		;52e1
 L_52E4:
 	ld a,(0c10fh)		;52e4
 	ld d,010h		;52e7
@@ -3158,7 +3162,7 @@ L_52F9:
 	dec d			;52fb
 	jr nz,L_52EA		;52fc
 	ret			;52fe
-L_52FF:
+sube_los_sprites_de_mitchel_girando:
 	ld hl,0c10fh		;52ff
 	ld a,(hl)			;5302
 	add a,068h		;5303
@@ -3167,30 +3171,30 @@ L_52FF:
 	ld hl,0e600h		;5308
 	ld de,07600h		;530b
 	ld bc,00008h		;530e
-	call L_4573		;5311
+	call copia_a_la_vram		;5311
 	ld a,(00007h)		;5314
 	ld c,a			;5317
 	ld e,001h		;5318
-	call L_52C3		;531a
+	call atributos_en_orden_girado		;531a
 	ld hl,0e400h		;531d
 	ld de,07400h		;5320
 	ld bc,00020h		;5323
-	call L_4573		;5326
+	call copia_a_la_vram		;5326
 	ld a,(00007h)		;5329
 	ld c,a			;532c
 	ld e,001h		;532d
 	jr L_52E4		;532f
-L_5331:
+sube_los_colores_de_sprite:
 	ld hl,0e400h		;5331
 	ld de,07400h		;5334
 	ld bc,00280h		;5337
-	jp L_4573		;533a
-L_533D:
-	call L_4612		;533d
-	call L_42C2		;5340
+	jp copia_a_la_vram		;533a
+empieza_la_partida:
+	call limpia_la_pantalla		;533d
+	call bancos_4_5_6		;5340
 	call 0bf86h		;5343
-	call L_42BC		;5346
-	call L_543D		;5349
+	call bancos_1_2_3		;5346
+	call prepara_las_pantallas		;5349
 	ld hl,05890h		;534c
 	ld (0c321h),hl		;534f
 	xor a			;5352
@@ -3219,7 +3223,7 @@ L_537D:
 	ld (0c12eh),a		;5388
 	jr L_539E		;538b
 L_538D:
-	call L_543D		;538d
+	call prepara_las_pantallas		;538d
 	xor a			;5390
 	ld (0c163h),a		;5391
 	ld (0c325h),a		;5394
@@ -3227,11 +3231,11 @@ L_538D:
 	inc a			;539a
 	ld (0c13bh),a		;539b
 L_539E:
-	call L_545F		;539e
+	call quita_el_decorado_de_0xC171		;539e
 	call 06433h		;53a1
 	call 0641dh		;53a4
-	call L_4651		;53a7
-	call L_5432		;53aa
+	call oculta_los_sprites		;53a7
+	call borra_atributos_7600		;53aa
 	xor a			;53ad
 	ld (0c300h),a		;53ae
 	ld (0c200h),a		;53b1
@@ -3252,56 +3256,56 @@ L_539E:
 	ldir		;53dd
 	ld hl,0c400h		;53df
 	ld bc,0003fh		;53e2
-	call L_5457		;53e5
+	call rellena_con_ceros		;53e5
 	ld hl,0d000h		;53e8
 	ld bc,0067fh		;53eb
-	call L_5457		;53ee
+	call rellena_con_ceros		;53ee
 	call 07046h		;53f1
 	ld a,006h		;53f4
-	call L_5D9C		;53f6
+	call banco_en_a000		;53f6
 	call 0bec5h		;53f9
-	call L_5D9A		;53fc
+	call banco_12_en_a000		;53fc
 	call 0bde2h		;53ff
-	call L_42BC		;5402
-	call L_49D8		;5405
-	call L_4BD0		;5408
-	call L_4DD2		;540b
-	call L_4CB3		;540e
-	call L_4B15		;5411
+	call bancos_1_2_3		;5402
+	call sube_la_hoja_de_la_pantalla		;5405
+	call figuras_a_pelo		;5408
+	call pon_la_paleta_de_la_pantalla		;540b
+	call sube_los_sprites_de_la_pantalla		;540e
+	call sube_los_juegos_de_jefe		;5411
 	call 08323h		;5414
-	call L_42BC		;5417
-	call L_462D		;541a
+	call bancos_1_2_3		;5417
+	call apaga_la_pantalla		;541a
 	call 07dd7h		;541d
-	call L_4DFF		;5420
+	call monta_la_pantalla		;5420
 	call 0813eh		;5423
-	call L_5888		;5426
+	call empieza_la_pantalla		;5426
 	call 06192h		;5429
-	call L_4620		;542c
+	call enciende_la_pantalla		;542c
 	jp 062c3h		;542f
-L_5432:
+borra_atributos_7600:
 	ld hl,07600h		;5432
 	ld bc,00080h		;5435
 	ld a,0e0h		;5438
-	jp L_4586		;543a
-L_543D:
+	jp rellena_la_vram		;543a
+prepara_las_pantallas:
 	xor a			;543d
 	ld (0c133h),a		;543e
 	dec a			;5441
 	ld (0c148h),a		;5442
-	call L_462D		;5445
-	call L_5FFA		;5448
-	call L_42DE		;544b
+	call apaga_la_pantalla		;5445
+	call modo_de_pantalla		;5448
+	call bancos_7_8_9		;544b
 	call sube_iconos_y_hoja_comun		;544e
-	call L_42BC		;5451
+	call bancos_1_2_3		;5451
 	jp 063a7h		;5454
-L_5457:
-	ld e,l			;5457
+rellena_con_ceros:
+	ld e,l			;5457   ; BC+1 ceros desde HL
 	ld d,h			;5458
 	inc de			;5459
 	ld (hl),000h		;545a
 	ldir		;545c
 	ret			;545e
-L_545F:
+quita_el_decorado_de_0xC171:
 	ld hl,0c171h		;545f
 	ld a,(hl)			;5462
 	and a			;5463
@@ -3309,11 +3313,11 @@ L_545F:
 	ld c,a			;5465
 	ld (hl),000h		;5466
 	ld hl,0c500h		;5468
-	call L_5477		;546b
+	call quita_si_es_este		;546b
 	ld hl,0c520h		;546e
-	call L_5477		;5471
+	call quita_si_es_este		;5471
 	ld hl,0c540h		;5474
-L_5477:
+quita_si_es_este:
 	ld a,(hl)			;5477
 	cp c			;5478
 	ret nz			;5479
@@ -3322,18 +3326,18 @@ L_5477:
 	ld l,a			;547d
 	ld a,(hl)			;547e
 	ld de,0c580h		;547f
-	call L_425A		;5482
+	call de_mas_a		;5482
 	xor a			;5485
 	ld (de),a			;5486
 	ret			;5487
-L_5488:
-	push hl			;5488
+sonido_si_juega:
+	push hl			;5488   ; solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 	ld hl,0c102h		;5489
 	bit 6,(hl)		;548c
 	pop hl			;548e
 	ret z			;548f
-L_5490:
-	di			;5490
+sonido:
+	di			;5490   ; pone los bancos 4 y 5 y pide el sonido A a p04:6032
 	push hl			;5491
 	push de			;5492
 	push bc			;5493
@@ -3359,7 +3363,7 @@ L_5490:
 	pop hl			;54ba
 	ei			;54bb
 	ret			;54bc
-L_54BD:
+hay_musica:
 	ld a,(0c08bh)		;54bd
 	or a			;54c0
 	jr nz,L_54CB		;54c1
@@ -3381,9 +3385,9 @@ L_54DA:
 	ld a,(0c08fh)		;54df
 	ret			;54e2
 L_54E3:
-	call L_42C2		;54e3
+	call bancos_4_5_6		;54e3
 	call 06000h		;54e6
-	jp L_42BC		;54e9
+	jp bancos_1_2_3		;54e9
 
 ; ----------------------------------------------------------------------
 ; DATOS lista_de_cada_juego: 13 punteros, uno por juego de dibujos, a su lista
@@ -3940,7 +3944,7 @@ DATA_lista_de_sprites_27:
 ; ======================================================================
 
 
-L_5888:
+empieza_la_pantalla:
 	xor a			;5888
 	ld (0df94h),a		;5889
 	ld (0dff4h),a		;588c
@@ -3954,7 +3958,7 @@ L_5888:
 	ld h,b			;589f
 	inc hl			;58a0
 	ld (0dfa0h),hl		;58a1
-	call L_4308		;58a4
+	call posicion_de_mitchel		;58a4
 	ld hl,0dff6h		;58a7
 	ld (hl),e			;58aa
 	inc hl			;58ab
@@ -4085,19 +4089,19 @@ L_5992:
 	ld a,(0c125h)		;5996
 	cp 08ah		;5999
 	ret nc			;599b
-	call L_42EA		;599c
+	call bancos_13_14_15		;599c
 	ld de,06000h		;599f
 	ld a,(0c125h)		;59a2
-	call L_42FF		;59a5
+	call palabra_de_la_tabla		;59a5
 	ex de,hl			;59a8
 	ld a,(hl)			;59a9
 	or a			;59aa
-	jp z,L_42BC		;59ab
+	jp z,bancos_1_2_3		;59ab
 	inc hl			;59ae
 	ld b,000h		;59af
 	ld de,0df40h		;59b1
 L_59B4:
-	call L_42EA		;59b4
+	call bancos_13_14_15		;59b4
 	push af			;59b7
 	ld a,(0c125h)		;59b8
 	cp 062h		;59bb
@@ -4109,7 +4113,7 @@ L_59C4:
 	inc de			;59c5
 	or a			;59c6
 	jr z,L_59D1		;59c7
-	call L_42BC		;59c9
+	call bancos_1_2_3		;59c9
 	inc hl			;59cc
 	inc hl			;59cd
 	jp L_5A22		;59ce
@@ -4125,7 +4129,7 @@ L_59D1:
 L_59DE:
 	inc hl			;59de
 	inc hl			;59df
-	call L_42BC		;59e0
+	call bancos_1_2_3		;59e0
 	jp L_5A20		;59e3
 L_59E6:
 	ld a,c			;59e6
@@ -4138,7 +4142,7 @@ L_59EE:
 	ld e,(hl)			;59ef
 	inc hl			;59f0
 	ld d,(hl)			;59f1
-	call L_42BC		;59f2
+	call bancos_1_2_3		;59f2
 	ld a,c			;59f5
 	cp 015h		;59f6
 	jr nz,L_5A0A		;59f8
@@ -4154,17 +4158,17 @@ L_59EE:
 	ld e,a			;5a09
 L_5A0A:
 	push hl			;5a0a
-	call L_44E6		;5a0b
+	call indice_del_jefe		;5a0b
 	jr nc,L_5A1C		;5a0e
 	ld a,l			;5a10
 	ld hl,0de00h		;5a11
-	call L_4255		;5a14
+	call hl_mas_a		;5a14
 	inc hl			;5a17
 	ld a,(hl)			;5a18
 	and a			;5a19
 	jr z,L_5A1F		;5a1a
 L_5A1C:
-	call L_5A69		;5a1c
+	call crea_una_ficha		;5a1c
 L_5A1F:
 	pop hl			;5a1f
 L_5A20:
@@ -4208,8 +4212,8 @@ L_5A39:
 	cp 076h		;5a63
 	jp z,06b30h		;5a65
 	ret			;5a68
-L_5A69:
-	ld (0e800h),bc		;5a69
+crea_una_ficha:
+	ld (0e800h),bc		;5a69   ; una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
 	ld (0e802h),de		;5a6d
 	ld hl,0d000h		;5a71
 	ld b,00dh		;5a74
@@ -4226,14 +4230,14 @@ L_5A82:
 	ld (0e804h),hl		;5a82
 	push hl			;5a85
 	pop ix		;5a86
-	call L_42EA		;5a88
+	call bancos_13_14_15		;5a88
 	ld a,(0e800h)		;5a8b
 	ld hl,0a16dh		;5a8e
-	call L_4255		;5a91
+	call hl_mas_a		;5a91
 	ld a,(hl)			;5a94
 	ld (ix+020h),a		;5a95
 	ld c,a			;5a98
-	call L_42BC		;5a99
+	call bancos_1_2_3		;5a99
 	or a			;5a9c
 	jr z,L_5AC8		;5a9d
 	ld de,00000h		;5a9f
@@ -4249,7 +4253,7 @@ L_5AB2:
 	cp 0e0h		;5ab3
 	jr nz,L_5ABF		;5ab5
 	inc (hl)			;5ab7
-	call L_5BC6		;5ab8
+	call color_de_un_sprite		;5ab8
 	inc e			;5abb
 	dec c			;5abc
 	jr z,L_5AC8		;5abd
@@ -4289,18 +4293,18 @@ L_5AC8:
 	ld (ix+01dh),a		;5af5
 	ld (ix+01eh),a		;5af8
 	ld (ix+01fh),a		;5afb
-	call L_42EA		;5afe
+	call bancos_13_14_15		;5afe
 	ld de,0a1b0h		;5b01
-	call L_5BA7		;5b04
+	call colores_de_la_ficha		;5b04
 	ld a,(0e800h)		;5b07
 	ld de,0a265h		;5b0a
-	call L_425A		;5b0d
+	call de_mas_a		;5b0d
 	ld a,(de)			;5b10
 	ld (ix+00dh),a		;5b11
-	call L_42BC		;5b14
+	call bancos_1_2_3		;5b14
 	ld a,(ix+000h)		;5b17
 	dec a			;5b1a
-	call L_425F		;5b1b
+	call despacha		;5b1b
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_5B1E: 68 destinos del despachador de 0x425F (call en p00:5B1B):
@@ -4384,12 +4388,12 @@ DATA_tabla_5B1E:
 
 L_5BA6:
 	ret			;5ba6
-L_5BA7:
+colores_de_la_ficha:
 	ld a,(ix+020h)		;5ba7
 	and a			;5baa
 	ret z			;5bab
 	ld a,(ix+000h)		;5bac
-	call L_42FF		;5baf
+	call palabra_de_la_tabla		;5baf
 	ld hl,(0e804h)		;5bb2
 	set 5,l		;5bb5
 	ld b,(hl)			;5bb7
@@ -4405,7 +4409,7 @@ L_5BBC:
 	ld l,a			;5bc2
 	djnz L_5BBC		;5bc3
 	ret			;5bc5
-L_5BC6:
+color_de_un_sprite:
 	push hl			;5bc6
 	ld hl,(0e804h)		;5bc7
 	ld a,e			;5bca
@@ -4413,7 +4417,7 @@ L_5BC6:
 	add a,a			;5bcc
 	add a,e			;5bcd
 	add a,021h		;5bce
-	call L_4255		;5bd0
+	call hl_mas_a		;5bd0
 	ld (hl),d			;5bd3
 	pop hl			;5bd4
 	ret			;5bd5
@@ -4421,7 +4425,7 @@ L_5BD6:
 	ld a,(ix+00ch)		;5bd6
 	rra			;5bd9
 	ret nc			;5bda
-	call L_42DE		;5bdb
+	call bancos_7_8_9		;5bdb
 	dec (ix+014h)		;5bde
 	ld a,(ix+014h)		;5be1
 	inc a			;5be4
@@ -4431,7 +4435,7 @@ L_5BD6:
 L_5BEC:
 	add a,a			;5bec
 	ld hl,0b145h		;5bed
-	call L_4255		;5bf0
+	call hl_mas_a		;5bf0
 	ld c,058h		;5bf3
 	ld d,(hl)			;5bf5
 	inc hl			;5bf6
@@ -4442,7 +4446,7 @@ L_5BEC:
 	ld a,d			;5bfd
 	add a,c			;5bfe
 	ld (ix+005h),a		;5bff
-	jp L_42BC		;5c02
+	jp bancos_1_2_3		;5c02
 L_5C05:
 	ld hl,0c200h		;5c05
 	ld a,(hl)			;5c08
@@ -4450,7 +4454,7 @@ L_5C05:
 	jp nc,L_5CBC		;5c0a
 	ld a,(0c201h)		;5c0d
 	cp 002h		;5c10
-	call nz,L_5291		;5c12
+	call nz,copia_lineas_a_la_pagina_1		;5c12
 	ld hl,0c209h		;5c15
 	inc (hl)			;5c18
 	call 064d9h		;5c19
@@ -4459,14 +4463,14 @@ L_5C05:
 	jr z,L_5C33		;5c21
 	di			;5c23
 	ld a,006h		;5c24
-	call L_5D9C		;5c26
+	call banco_en_a000		;5c26
 	ld a,(0c139h)		;5c29
 	inc a			;5c2c
 	call nz,0a649h		;5c2d
-	call L_42BC		;5c30
+	call bancos_1_2_3		;5c30
 L_5C33:
 	ld a,(0c201h)		;5c33
-	call L_425F		;5c36
+	call despacha		;5c36
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_5C39: 8 destinos del despachador de 0x425F (call en p00:5C36):
@@ -4489,8 +4493,8 @@ DATA_tabla_5C39:
 
 
 L_5C49:
-	call L_4FF0		;5c49
-	call L_5253		;5c4c
+	call sube_la_pose_de_mitchel		;5c49
+	call sube_el_grafico_de_jefe		;5c4c
 	ld a,(0c133h)		;5c4f
 	and a			;5c52
 	jr nz,L_5C64		;5c53
@@ -4499,7 +4503,7 @@ L_5C49:
 	jr z,L_5C64		;5c5a
 	ld (0c11bh),a		;5c5c
 	ld a,0fdh		;5c5f
-	jp L_5488		;5c61
+	jp sonido_si_juega		;5c61
 L_5C64:
 	ld hl,0c16dh		;5c64
 	ld a,(hl)			;5c67
@@ -4509,8 +4513,8 @@ L_5C64:
 	ld (0c309h),de		;5c6e
 	dec (hl)			;5c72
 	jp z,06428h		;5c73
-	call L_4FD0		;5c76
-	jp L_52AB		;5c79
+	call sprites_de_mitchel		;5c76
+	jp sube_los_sprites_girando		;5c79
 L_5C7C:
 	ld hl,0c162h		;5c7c
 	ld a,(hl)			;5c7f
@@ -4531,9 +4535,9 @@ L_5C87:
 L_5C99:
 	call 06b87h		;5c99
 	call 0829ah		;5c9c
-	call L_5D9A		;5c9f
+	call banco_12_en_a000		;5c9f
 	call 0be68h		;5ca2
-	call L_42BC		;5ca5
+	call bancos_1_2_3		;5ca5
 	ld a,(0c300h)		;5ca8
 	cp 006h		;5cab
 	jp z,L_5D4E		;5cad
@@ -4545,47 +4549,47 @@ L_5CBC:
 	call 06476h		;5cbc
 	call 07a5ah		;5cbf
 	ld a,009h		;5cc2
-	call L_5D9C		;5cc4
+	call banco_en_a000		;5cc4
 	call 0bcc7h		;5cc7
-	call L_5D9A		;5cca
+	call banco_12_en_a000		;5cca
 	call 0bf9bh		;5ccd
 	ld a,006h		;5cd0
-	call L_5D9C		;5cd2
+	call banco_en_a000		;5cd2
 	call 0be62h		;5cd5
 	call 0bd64h		;5cd8
 	call 0bd49h		;5cdb
-	call L_42BC		;5cde
+	call bancos_1_2_3		;5cde
 	ld a,(0c133h)		;5ce1
 	and a			;5ce4
 	jr nz,L_5D17		;5ce5
-	call L_5D9A		;5ce7
+	call banco_12_en_a000		;5ce7
 	ld a,(0c201h)		;5cea
 	and a			;5ced
 	call z,07e1dh		;5cee
-	call L_42BC		;5cf1
+	call bancos_1_2_3		;5cf1
 	ld a,006h		;5cf4
-	call L_5D9C		;5cf6
+	call banco_en_a000		;5cf6
 	ld a,(0c201h)		;5cf9
 	and a			;5cfc
 	call z,0bd9dh		;5cfd
-	call L_42BC		;5d00
+	call bancos_1_2_3		;5d00
 	ld a,(0c201h)		;5d03
 	and a			;5d06
 	call z,06043h		;5d07
-	call L_5D9A		;5d0a
+	call banco_12_en_a000		;5d0a
 	ld a,(0c201h)		;5d0d
 	and a			;5d10
 	call z,0b9d0h		;5d11
-	call L_42BC		;5d14
+	call bancos_1_2_3		;5d14
 L_5D17:
-	call L_4FD0		;5d17
-	call L_5D9A		;5d1a
+	call sprites_de_mitchel		;5d17
+	call banco_12_en_a000		;5d1a
 	call 0bf37h		;5d1d
-	call L_42BC		;5d20
+	call bancos_1_2_3		;5d20
 	call 0792fh		;5d23
 	call 077f5h		;5d26
 	call 06853h		;5d29
-	call L_51EA		;5d2c
+	call sprites_de_las_fichas		;5d2c
 	ld a,(0c125h)		;5d2f
 	cp 07eh		;5d32
 	jr z,L_5D46		;5d34
@@ -4598,10 +4602,10 @@ L_5D17:
 	cp 084h		;5d42
 	jr nz,L_5D4B		;5d44
 L_5D46:
-	call L_52FF		;5d46
+	call sube_los_sprites_de_mitchel_girando		;5d46
 	jr L_5D4E		;5d49
 L_5D4B:
-	call L_52AB		;5d4b
+	call sube_los_sprites_girando		;5d4b
 L_5D4E:
 	ld hl,0c200h		;5d4e
 	inc (hl)			;5d51
@@ -4614,61 +4618,61 @@ L_5D53:
 	dec (hl)			;5d5c
 	ret nz			;5d5d
 	ld a,0ffh		;5d5e
-	call L_5488		;5d60
+	call sonido_si_juega		;5d60
 	ld hl,0c167h		;5d63
 	inc (hl)			;5d66
 	ret			;5d67
 L_5D68:
-	call L_54BD		;5d68
+	call hay_musica		;5d68
 	ret nz			;5d6b
 	ld a,001h		;5d6c
 	ld (0c124h),a		;5d6e
 	ret			;5d71
 L_5D72:
 	ld a,00fh		;5d72
-	call L_5D9C		;5d74
+	call banco_en_a000		;5d74
 	call 0be98h		;5d77
-	jp L_42BC		;5d7a
+	jp bancos_1_2_3		;5d7a
 L_5D7D:
 	ld a,00fh		;5d7d
-	call L_5D9C		;5d7f
+	call banco_en_a000		;5d7f
 	call 0bd3ah		;5d82
-	jp L_42BC		;5d85
+	jp bancos_1_2_3		;5d85
 L_5D88:
-	call L_5D9A		;5d88
+	call banco_12_en_a000		;5d88
 	call 07fe9h		;5d8b
-	jp L_42BC		;5d8e
+	jp bancos_1_2_3		;5d8e
 L_5D91:
-	call L_5D9A		;5d91
+	call banco_12_en_a000		;5d91
 	call 0b9e7h		;5d94
-	jp L_42BC		;5d97
-L_5D9A:
+	jp bancos_1_2_3		;5d97
+banco_12_en_a000:
 	ld a,00ch		;5d9a
-L_5D9C:
-	di			;5d9c
+banco_en_a000:
+	di			;5d9c   ; el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
 	ld (0f0f3h),a		;5d9d
 	ld (0a000h),a		;5da0
 	ld (0f0f6h),a		;5da3
 	ei			;5da6
 	ret			;5da7
-L_5DA8:
-	call L_5EB1		;5da8
-	call L_5F01		;5dab
+mata_la_ficha:
+	call cuenta_los_de_su_clase		;5da8   ; el enemigo muere: guarda su tipo en ix+0x1F y se convierte en la explosion de p15:A3CA
+	call suceso_al_morir_el_jefe		;5dab
 	ld a,(ix+000h)		;5dae
 	ld (ix+01fh),a		;5db1
 	xor a			;5db4
 	ld (ix+006h),a		;5db5
 	ld (ix+00eh),a		;5db8
-	call L_42EA		;5dbb
+	call bancos_13_14_15		;5dbb
 	ld a,(ix+000h)		;5dbe
 	ld c,a			;5dc1
 	dec a			;5dc2
 	ld hl,0a3cah		;5dc3
-	call L_4255		;5dc6
+	call hl_mas_a		;5dc6
 	ld a,(hl)			;5dc9
 	ld (ix+000h),a		;5dca
 	ld (ix+00eh),000h		;5dcd
-	call L_42BC		;5dd1
+	call bancos_1_2_3		;5dd1
 	ld a,(0c125h)		;5dd4
 	cp 062h		;5dd7
 	jr c,L_5DE0		;5dd9
@@ -4684,11 +4688,11 @@ L_5DE0:
 	add hl,de			;5dee
 	ld (hl),001h		;5def
 L_5DF1:
-	call L_44E6		;5df1
+	call indice_del_jefe		;5df1
 	jr nc,L_5E00		;5df4
 	ld a,l			;5df6
 	ld hl,0de00h		;5df7
-	call L_4255		;5dfa
+	call hl_mas_a		;5dfa
 	inc hl			;5dfd
 	ld (hl),000h		;5dfe
 L_5E00:
@@ -4705,17 +4709,17 @@ L_5E00:
 	ld (0c151h),a		;5e17
 	ld a,08ch		;5e1a
 L_5E1C:
-	call L_5488		;5e1c
+	call sonido_si_juega		;5e1c
 	ld a,(ix+011h)		;5e1f
 	and a			;5e22
 	ret z			;5e23
-	call L_437F		;5e24
+	call repinta_el_fondo_de_la_ficha		;5e24
 	ld a,(ix+01fh)		;5e27
 	cp 042h		;5e2a
 	ret nz			;5e2c
 	ld a,090h		;5e2d
 	ld bc,00606h		;5e2f
-	call L_43B8		;5e32
+	call casilla_de_la_ficha		;5e32
 	ld hl,0c1c0h		;5e35
 	ld (0e0ceh),hl		;5e38
 	ld hl,0c3c2h		;5e3b
@@ -4750,17 +4754,17 @@ L_5E73:
 L_5E77:
 	ld b,002h		;5e77
 L_5E79:
-	call L_42EA		;5e79
+	call bancos_13_14_15		;5e79
 	ld a,(ix+000h)		;5e7c
 	inc (ix+000h)		;5e7f
 	sub 0f0h		;5e82
 	ld de,0a2aah		;5e84
-	call L_42FF		;5e87
+	call palabra_de_la_tabla		;5e87
 	ex de,hl			;5e8a
 	push ix		;5e8b
 	pop de			;5e8d
 	ld a,022h		;5e8e
-	call L_425A		;5e90
+	call de_mas_a		;5e90
 L_5E93:
 	ld c,(ix+003h)		;5e93
 	ld a,(hl)			;5e96
@@ -4784,11 +4788,11 @@ L_5E93:
 	inc de			;5eaa
 	inc hl			;5eab
 	djnz L_5E93		;5eac
-	jp L_42BC		;5eae
-L_5EB1:
+	jp bancos_1_2_3		;5eae
+cuenta_los_de_su_clase:
 	ld a,(ix+000h)		;5eb1
 	cp 012h		;5eb4
-	jr c,L_5EFC		;5eb6
+	jr c,ya_no_quedan		;5eb6
 	cp 015h		;5eb8
 	jr c,L_5ED4		;5eba
 	cp 02ch		;5ebc
@@ -4800,7 +4804,7 @@ L_5EB1:
 	cp 038h		;5ec8
 	jr z,L_5ED0		;5eca
 	cp 039h		;5ecc
-	jr nz,L_5EFC		;5ece
+	jr nz,ya_no_quedan		;5ece
 L_5ED0:
 	ld hl,0dfb7h		;5ed0
 	dec (hl)			;5ed3
@@ -4820,19 +4824,19 @@ L_5EDE:
 	ld a,(hl)			;5eea
 	inc a			;5eeb
 	jr nz,L_5EF1		;5eec
-	call L_5EFC		;5eee
+	call ya_no_quedan		;5eee
 L_5EF1:
 	ld a,c			;5ef1
-	call L_4255		;5ef2
+	call hl_mas_a		;5ef2
 	ld a,c			;5ef5
-	call L_425A		;5ef6
+	call de_mas_a		;5ef6
 	djnz L_5EDE		;5ef9
 	ret			;5efb
-L_5EFC:
+ya_no_quedan:
 	ld (ix+07dh),001h		;5efc
 	ret			;5f00
-L_5F01:
-	ld c,028h		;5f01
+suceso_al_morir_el_jefe:
+	ld c,028h		;5f01   ; los tipos 4, 5, 0x0B, 0x2A, 0x2B y 0x39 (y 0x1A y 0x1E en su pantalla) dejan el suceso 0x28 (o 0x2B) con p01:784A
 	ld a,(ix+000h)		;5f03
 	cp 004h		;5f06
 	jr z,L_5F3C		;5f08
@@ -4864,11 +4868,11 @@ L_5F31:
 	ret nz			;5f3b
 L_5F3C:
 	jp 0784ah		;5f3c
-L_5F3F:
-	call L_462D		;5f3f
-	call L_469C		;5f42
+logotipo_de_konami:
+	call apaga_la_pantalla		;5f3f
+	call paleta_inicial		;5f42
 	ld hl,05fa7h		;5f45
-	call L_46CF		;5f48
+	call pon_paleta		;5f48
 	ld b,00fh		;5f4b
 	ld c,007h		;5f4d
 	call 00047h		;5f4f   ; BIOS WRTVDP - Writes data in the VDP-register
@@ -4876,7 +4880,7 @@ L_5F3F:
 	ld bc,0a848h		;5f55
 	xor a			;5f58
 	ld d,001h		;5f59
-	call L_479B		;5f5b
+	call hmmv		;5f5b
 	di			;5f5e
 	ld a,008h		;5f5f
 	ld (08000h),a		;5f61
@@ -4885,20 +4889,20 @@ L_5F3F:
 	ld hl,09c3bh		;5f68
 	ld de,00800h		;5f6b
 	ld bc,00d01h		;5f6e
-	call L_4867		;5f71
+	call sube_letras		;5f71
 	ld hl,09ca3h		;5f74
 	ld de,07000h		;5f77
 	ld bc,00d02h		;5f7a
-	call L_4867		;5f7d
+	call sube_letras		;5f7d
 	ld hl,09d0bh		;5f80
 	ld de,0d800h		;5f83
 	ld bc,01a03h		;5f86
-	call L_4867		;5f89
+	call sube_letras		;5f89
 	ld de,04040h		;5f8c
 	ld hl,09bfah		;5f8f
-	call L_5FDA		;5f92
-	call L_42BC		;5f95
-	call L_4620		;5f98
+	call compone_konami		;5f92
+	call bancos_1_2_3		;5f95
+	call enciende_la_pantalla		;5f98
 	ld hl,0c200h		;5f9b
 	ld (hl),03ch		;5f9e
 	inc hl			;5fa0
@@ -4943,8 +4947,8 @@ L_5FC9:
 	ld hl,02840h		;5fcf
 	ld de,02840h		;5fd2
 	ld a,001h		;5fd5
-	jp L_47D7		;5fd7
-L_5FDA:
+	jp hmmm		;5fd7
+compone_konami:
 	push de			;5fda
 L_5FDB:
 	ld a,(hl)			;5fdb
@@ -4962,16 +4966,16 @@ L_5FDB:
 	ld a,008h		;5fe9
 	add a,e			;5feb
 	ld e,a			;5fec
-	jr L_5FDA		;5fed
+	jr compone_konami		;5fed
 L_5FEF:
 	ld a,c			;5fef
-	call L_499F		;5ff0
-	call L_49CE		;5ff3
+	call copia_dibujo_en_la_hoja		;5ff0
+	call siguiente_sitio		;5ff3
 	jr L_5FDB		;5ff6
 L_5FF8:
 	pop de			;5ff8
 	ret			;5ff9
-L_5FFA:
+modo_de_pantalla:
 	ld a,001h		;5ffa
 	ld (0faf6h),a		;5ffc
 	di			;5fff

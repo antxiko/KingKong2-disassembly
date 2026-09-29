@@ -29,6 +29,211 @@ D 0x459F 0x45AD codigo_459F  codigo que no llama nadie: escribe A en la VRAM de 
 D 0x4FC4 0x4FD0 figura_4FC4  4 columnas x 3 filas de numeros de dibujo (0xE2-0xEA) que p00:4FBB pinta donde dice su ficha
 D 0x56F3 0x5704 lista_de_sprites_7  lista de patrones de sprite 7 de p00:5630: no la pide ninguna pantalla (p09:B0B7 no da el 7)
 D 0x580C 0x5811 lista_de_sprites_20  lista de patrones de sprite 20 de p00:5630: tampoco la pide ninguna pantalla
+L 0x4255 hl_mas_a
+L 0x425A de_mas_a
+L 0x425F despacha
+B 0x425F Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+L 0x4260 despacha_hl
+L 0x42BC bancos_1_2_3
+L 0x42C2 bancos_4_5_6
+L 0x42DE bancos_7_8_9
+L 0x42E4 bancos_10_11_12
+L 0x42EA bancos_13_14_15
+L 0x42C6 pon_tres_bancos
+L 0x42F0 escribe_has_cogido
+C 0x42F0 el nombre del objeto A en (0x10, 0xB8) y "を とりました。" detras
+L 0x42FF palabra_de_la_tabla
+C 0x42FF DE = la palabra A de la tabla de DE
+L 0x4308 posicion_de_mitchel
+C 0x4308 E = la y de Mitchel, D = su x
+L 0x431F casilla_en_ram
+C 0x431F HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
+L 0x4399 esquina_de_la_ficha
+L 0x43B8 casilla_de_la_ficha
+L 0x437F repinta_el_fondo_de_la_ficha
+L 0x441F escribe_nombre_de_objeto
+C 0x441F el nombre del objeto A (p15:A069 + 2*A) en HL
+L 0x440C escribe_nombre_de_la_casilla
+L 0x4430 sitio_de_la_casilla
+L 0x456B cuenta_para_otir
+L 0x4573 copia_a_la_vram
+C 0x4573 BC bytes de HL a la VRAM de DE
+L 0x4586 rellena_la_vram
+C 0x4586 BC bytes con A desde la VRAM de HL
+L 0x45AD vram_para_escribir
+C 0x45AD prepara el V9938 para escribir en la direccion de VRAM HL (R#14 y el puerto 1)
+L 0x45CC vram_para_leer
+L 0x4558 lee_de_la_vram
+L 0x45E9 rle_con_destino
+C 0x45E9 la palabra de DE es la direccion de VRAM; detras, el RLE
+L 0x45EF rle_a_la_vram
+C 0x45EF el RLE de DE a la VRAM de HL (n con el bit 7: n bytes tal cual; sin el, repetir; 0 acaba)
+L 0x4612 limpia_la_pantalla
+L 0x4620 enciende_la_pantalla
+C 0x4620 bit 6 del registro 1 del VDP a uno
+L 0x462D apaga_la_pantalla
+C 0x462D bit 6 del registro 1 del VDP a cero
+L 0x4651 oculta_los_sprites
+C 0x4651 los 128 bytes de atributos de sprite (0xF600) a 0xE0
+L 0x4672 pon_un_color
+C 0x4672 color A de la paleta = D (RB) y E (G)
+L 0x469C paleta_inicial
+C 0x469C los 16 colores de p00:46AF
+L 0x46CF pon_paleta
+C 0x46CF lista [color][RB][G] ... 0xFF
+L 0x46DD espera_al_vdp
+C 0x46DD espera a que el V9938 acabe la orden (bit 0 de S#2)
+L 0x46E6 lee_estado_del_vdp
+C 0x46E6 lee el registro de estado A del V9938
+L 0x476D marco
+C 0x476D cuatro rayas: un marco de E por D en HL
+L 0x479B hmmv
+C 0x479B orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
+L 0x47D7 hmmm
+C 0x47D7 orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
+L 0x481B lmmm
+C 0x481B orden LMMM del V9938: lo mismo con operacion logica (A: paginas y operacion; 8 = TIMP)
+L 0x4867 sube_letras
+C 0x4867 B letras de 1 bit de HL, en color C, a la hoja de la pagina 1 desde (D, E)
+L 0x4870 sube_una_letra
+L 0x4891 sube_un_dibujo
+C 0x4891 un dibujo de 8x8 a 4 bits (32 bytes) de HL a la VRAM de DE
+L 0x48A6 sube_dibujos
+C 0x48A6 B dibujos de 8x8 a 4 bits de HL a la VRAM de DE
+L 0x48BB sube_un_dibujo_de_16
+L 0x48E5 expande_letra
+C 0x48E5 una letra de 1 bit a 4 bits, en 0xE800, con el color C
+L 0x490F rotulo
+C 0x490F [x][y] letras, 0xFE [x][y] otro sitio, 0xFF acaba
+L 0x4915 rotulo_en_color
+L 0x4919 escribe_letras
+L 0x492B pinta_lista_de_dibujos
+C 0x492B numeros de dibujo; 0xFE, otra fila; 0xFF acaba
+L 0x4952 escribe_una_letra
+L 0x497B pon_dibujo
+C 0x497B el dibujo A de la hoja (pagina 1) en (D, E) de la pagina 0
+L 0x498D pon_dibujo_transparente
+C 0x498D lo mismo con LMMM + TIMP: el color 0 no pinta
+L 0x499F copia_dibujo_en_la_hoja
+L 0x49B1 copia_8x8_en_la_hoja
+L 0x49C0 sitio_del_dibujo
+C 0x49C0 H = (A & 31)*8, L = (A >> 5)*8: donde esta el dibujo A en la hoja
+L 0x49CE siguiente_sitio
+C 0x49CE D + 8; al dar la vuelta, E + 8
+L 0x49D8 sube_la_hoja_de_la_pantalla
+L 0x4A1B sube_dibujos_volteados
+L 0x4A7B sube_la_hoja
+C 0x4A7B el juego de dibujos de la pantalla (0xC148) y su lista de subida
+L 0x4AF8 pon_bancos_del_juego
+L 0x4B15 sube_los_juegos_de_jefe
+L 0x4B5E recompone_jefe
+L 0x4B85 recompone_cuartos
+L 0x4B9D invierte_16_bytes
+L 0x4BB4 rle_a_la_ram
+C 0x4BB4 el RLE de HL a la RAM de DE
+L 0x4BD0 figuras_a_pelo
+L 0x4C92 sube_sprites_4C92
+L 0x4CB3 sube_los_sprites_de_la_pantalla
+L 0x4CEC bancos_del_nibble
+C 0x4CEC el nibble alto de A elige el trio de bancos (0 1-2-3, 1 4-5-6, 2 7-8-9, 3 10-11-12, si no 13-14-15)
+L 0x4D43 lee_patrones
+L 0x4D52 escribe_patrones
+L 0x4D62 bytes_de_los_patrones
+C 0x4D62 BC = ix+3 * 32
+L 0x4D6F direccion_del_patron
+C 0x4D6F HL = 0xF800 + 8*L
+L 0x4D79 espejo_de_patrones
+L 0x4DA9 volteo_de_patrones
+L 0x4DD2 pon_la_paleta_de_la_pantalla
+C 0x4DD2 la comun (0x6128), la del juego de dibujos (0x6059) y la de la pantalla (0x61CF)
+L 0x4DFF monta_la_pantalla
+L 0x4E18 pinta_el_decorado
+L 0x4E6E pinta_figura_B9F6
+L 0x4E7B pinta_figura_BA15
+L 0x4E86 pinta_figura_BA38
+L 0x4E91 pinta_figura_BA4C
+L 0x4E99 pinta_figura_BA68
+L 0x4EA4 pinta_figura_BA05
+L 0x4EAC pinta_la_estatua
+L 0x4EB2 pinta_figura
+C 0x4EB2 B columnas x C filas de numeros de dibujo de HL, con transparencia, en DE
+L 0x4EE7 pinta_las_casillas
+C 0x4EE7 los 20x20 dibujos del mapa de 0xE021 en la pantalla desde (8, 8)
+L 0x4F0B pon_bancos_del_mapa
+L 0x4F46 dibujos_del_bloque
+L 0x4FF0 sube_la_pose_de_mitchel
+L 0x5010 rle_de_la_pose
+L 0x5029 mitchel_en_su_sitio
+C 0x5029 los dos sprites de Mitchel (0xE600) en su y-8 y x-8
+L 0x5046 sube_el_arma
+L 0x507A la_que_sigue_en_su_sitio
+L 0x50B8 sube_la_que_sigue
+L 0x50F9 cuadro_de_la_ficha
+L 0x5253 sube_el_grafico_de_jefe
+L 0x5457 rellena_con_ceros
+C 0x5457 BC+1 ceros desde HL
+L 0x545F quita_el_decorado_de_0xC171
+L 0x5477 quita_si_es_este
+L 0x5488 sonido_si_juega
+C 0x5488 solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
+L 0x5490 sonido
+C 0x5490 pone los bancos 4 y 5 y pide el sonido A a p04:6032
+L 0x54BD hay_musica
+L 0x5A69 crea_una_ficha
+C 0x5A69 una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
+L 0x5BA7 colores_de_la_ficha
+L 0x5BC6 color_de_un_sprite
+L 0x5D9A banco_12_en_a000
+L 0x5D9C banco_en_a000
+C 0x5D9C el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
+L 0x5FDA compone_konami
+L 0x5F3F logotipo_de_konami
+L 0x5DA8 mata_la_ficha
+C 0x5DA8 el enemigo muere: guarda su tipo en ix+0x1F y se convierte en la explosion de p15:A3CA
+L 0x43D5 multiplica_en_bcd
+L 0x446E guarda_el_fondo_del_jefe
+C 0x446E con un jefe (tipos 0x1A, 0x2A, 0x2B, 0x38, 0x39, 0x42) en pantalla, copia los 64x64 puntos de detras
+L 0x44BA repone_el_fondo_del_jefe
+L 0x44E6 indice_del_jefe
+L 0x463A borra_la_parte_de_abajo
+L 0x4642 borra_la_pagina_0
+L 0x4645 borra_y_sin_scroll
+L 0x4706 raya_horizontal
+C 0x4706 orden LINE del V9938 (MAJ = 0): de (H, L), B-1 puntos
+L 0x4739 raya_vertical
+C 0x4739 orden LINE con MAJ = 1: la raya va hacia abajo
+L 0x4787 raya_vertical_guardando
+L 0x4791 raya_horizontal_guardando
+L 0x4DBD da_la_vuelta_a_8_filas
+L 0x4F7E apunta_dibujo_en_el_mapa
+C 0x4F7E el dibujo de 0xE803 en la casilla del bloque (0xE800, 0xE801) y su parte (0xE802) del mapa de 0xE021
+L 0x4FAB suceso_de_la_pantalla_5E
+L 0x4FD0 sprites_de_mitchel
+L 0x4FDE colores_de_mitchel
+C 0x4FDE 16 bytes del color de cada uno de sus dos sprites (0xC309 y 0xC30A) en 0xE400
+L 0x4FE8 dieciseis_veces
+L 0x51EA sprites_de_las_fichas
+L 0x51FF sprites_de_una_ficha
+L 0x5291 copia_lineas_a_la_pagina_1
+L 0x52AB sube_los_sprites_girando
+C 0x52AB 0xC10F avanza 0x68: el orden de los sprites da la vuelta cada cuadro, para que los que sobran en una linea parpadeen
+L 0x52C3 atributos_en_orden_girado
+L 0x52DE colores_en_orden_girado
+L 0x52FF sube_los_sprites_de_mitchel_girando
+L 0x5331 sube_los_colores_de_sprite
+L 0x533D empieza_la_partida
+L 0x5432 borra_atributos_7600
+L 0x543D prepara_las_pantallas
+L 0x5888 empieza_la_pantalla
+L 0x5EB1 cuenta_los_de_su_clase
+L 0x5EFC ya_no_quedan
+L 0x5F01 suceso_al_morir_el_jefe
+C 0x5F01 los tipos 4, 5, 0x0B, 0x2A, 0x2B y 0x39 (y 0x1A y 0x1E en su pantalla) dejan el suceso 0x28 (o 0x2B) con p01:784A
+L 0x5FFA modo_de_pantalla
+L 0x465C apaga_los_sprites
+C 0x465C bit 1 (SPD) del registro 8 del VDP a uno: no se ven los sprites
+L 0x4667 enciende_los_sprites
+L 0x4EB5 pinta_figura_sin_bancos
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x4000 0x4010 cabecera_ab  la cabecera del cartucho: 'AB', INIT (0x4269) y STATEMENT, DEVICE y TEXT a cero; lo leen la BIOS (16 bytes)

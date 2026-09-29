@@ -458,9 +458,10 @@ def tablas_de_p15(t, bl):
     bl.anota(B131415, 0xA265, 0xA265 + 69, "byte_0d_de_cada_enemigo",
              "69 bytes (el 0 no se usa): lo que p00:5B10 pone en ix+0x0D al crear un "
              "enemigo de ese tipo", "p00:5B10", ancho=16)
-    bl.anota(B131415, 0xA2AA, 0xA2AA + 24, "grupos_de_sprites",
-             "12 punteros por ix+0 - 0xF0: grupos de sprites [dy][dx][patron][color] "
-             "que p00:5E93 suma a la posicion", "p00:5E87", ancho=2)
+    bl.anota(B131415, 0xA2AA, 0xA2AA + 24, "cuadros_de_explosion",
+             "12 punteros por ix+0 - 0xF0 (las explosiones: p00:5E7F sube ix+0 cada vez): "
+             "grupos de sprites [dy][dx][patron][color] que p00:5E93 suma a la posicion",
+             "p00:5E87", ancho=2)
     g = sorted(set(P.palabra(0xA2AA + 2 * i, B131415) for i in range(12)))
     for i, a in enumerate(g):
         fin = g[i + 1] if i + 1 < len(g) else 0xA3CA
@@ -475,9 +476,10 @@ def tablas_de_p15(t, bl):
         bl.anota(B131415, a, a + cols * filas, "figura_%04X" % a,
                  "%d columnas x %d filas de numeros de dibujo (0 = no pinta) que p00:4EB2 "
                  "copia con transparencia: %s" % (cols, filas, que), quien, ancho=cols)
-    bl.anota(B131415, 0xA3CA, 0xA3CA + 68, "tipo_al_aparecer",
-             "68 bytes, uno por tipo: el que p00:5DCA pone en ix+0 al aparecer el enemigo",
-             "p00:5DC9", ancho=16)
+    bl.anota(B131415, 0xA3CA, 0xA3CA + 68, "explosion_de_cada_enemigo",
+             "68 bytes, uno por tipo: la explosion (0xF0, 0xF3, 0xF6 o 0xF9) en que se "
+             "convierte al morir; p00:5DA8 guarda antes el tipo en ix+0x1F (el que mira "
+             "p03:B9E6 para lo que suelta)", "p00:5DC9", ancho=16)
 
 
 def decorado_que_cambia(t, bl):
