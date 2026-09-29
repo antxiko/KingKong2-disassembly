@@ -1399,8 +1399,8 @@ se_mueve:
 	ld a,(ix+006h)		;690e
 	and a			;6911
 	ret z			;6912
-L_6913:
-	ld e,(ix+007h)		;6913   ; la y (16 bits: ix+2 e ix+3) + la velocidad vertical...
+mueve_la_ficha:
+	ld e,(ix+007h)		;6913   ; un paso: la y (ix+2, ix+3) mas la velocidad vertical...
 	ld d,(ix+008h)		;6916
 	ld l,(ix+002h)		;6919
 	ld h,(ix+003h)		;691c

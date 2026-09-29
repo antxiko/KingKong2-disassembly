@@ -479,7 +479,6 @@ C 0x6873 con 0xC147 no hacen nada
 C 0x6878 la cuenta de cuadros
 C 0x687C con el bit 7 del tipo, p01:7072
 C 0x6881 por el tipo, con la tabla de p01:6885
-C 0x6913 la y (16 bits: ix+2 e ix+3) + la velocidad vertical...
 C 0x6926 ...y la x (ix+4 e ix+5) + la horizontal
 C 0x693A por abajo (0xB0)...
 C 0x6942 ...por la derecha (0xB0)...
@@ -970,6 +969,8 @@ L 0x694B quita_la_ficha
 L 0x716D rumbo_a_0x80
 C 0x716D rumbo hacia Mitchel a velocidad 0x80
 C 0x73E4 ACARREO si la casilla a D puntos por encima, a la derecha, por debajo o a la izquierda de la ficha es de las que no se pasan; B el lado (0-3)
+L 0x6913 mueve_la_ficha
+C 0x6913 un paso: la y (ix+2, ix+3) mas la velocidad vertical...
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x611F 0x6143 salidas_especiales  12 salidas especiales (0xF0-0xFB): pantalla de llegada y punto (x, y) donde aparece Mitchel; p01:60FA con 0x611F + 3*(n-0xF0); lo leen p01:6109 (36 bytes)

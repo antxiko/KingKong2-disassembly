@@ -786,7 +786,7 @@ L_8512:
 	ld (0c168h),a		;8514
 	ret			;8517
 L_8518:
-	ld (ix+011h),001h		;8518   ; ix+0x11 = 1; copia LMMM de 0x30x0x28 puntos desde (0xD0, 0xA8) a 0x14 arriba y a la izquierda de la ficha...
+	ld (ix+011h),001h		;8518   ; AL CREAR BIGFLOWER: ix+0x11 = 1; copia LMMM de 0x30x0x28 puntos desde (0xD0, 0xA8) a 0x14 arriba y a la izquierda...
 	ld a,(ix+003h)		;851c   ; lee la y del enemigo
 	add a,0ech		;851f
 	ld e,a			;8521
@@ -941,21 +941,21 @@ L_862C:
 L_8632:
 	jp L_8578		;8632
 L_8635:
-	ld de,00100h		;8635   ; AL CREARLO: hacia la derecha a 1, grafico 0x11...
+	ld de,00100h		;8635   ; AL CREAR MUDARMOR: hacia la derecha a 1, grafico 0x11...
 	call 04318h		;8638   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 	ld de,00000h		;863b
 	call 04311h		;863e   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	ld a,011h		;8641
 	jr L_8653		;8643
 L_8645:
-	ld de,00030h		;8645   ; ...o hacia la derecha a 0x30, grafico 9...
+	ld de,00030h		;8645   ; AL CREAR CLUBMAN: hacia la derecha a 0x30, grafico 9...
 	call 04318h		;8648   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 	ld de,00000h		;864b
 	call 04311h		;864e   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	ld a,009h		;8651   ; el grafico de jefe que hay subido = 0x09
 L_8653:
 	ld (0df94h),a		;8653   ; guarda el grafico de jefe que hay subido
-	inc (ix+006h)		;8656   ; ...en marcha, cuadro 0x3F, y hay jefe
+	inc (ix+006h)		;8656   ; ...los dos: en marcha, cuadro 0x3F, y hay jefe
 	ld (ix+00bh),03fh		;8659   ; el cuadro del enemigo = 0x3F
 	jp 06979h		;865d   ; p01:hay_jefe: 0xC151 = 1: hay jefe
 L_8660:
@@ -1154,7 +1154,7 @@ L_87D5:
 	ld (ix+00bh),a		;87d7   ; guarda el cuadro del enemigo
 	ret			;87da
 L_87DB:
-	ld b,000h		;87db   ; AL CREARLO: ix+0x19 = 1 si esta arriba (y < 0x20) o abajo (0x80 o mas): la otra tabla de pasos
+	ld b,000h		;87db   ; AL CREAR BATT: ix+0x19 = 1 si esta arriba (y < 0x20) o abajo (0x80 o mas): la otra tabla de pasos
 	ld a,(ix+003h)		;87dd   ; lee la y del enemigo
 	cp 020h		;87e0
 	jr c,L_87E8		;87e2
@@ -1298,7 +1298,7 @@ L_88B3:
 	or a			;88c1
 	jr z,L_88CD		;88c2
 L_88C4:
-	ld a,009h		;88c4   ; hacia la derecha, cuadro 9
+	ld a,009h		;88c4   ; hacia la derecha, cuadro 9 (tambien AL CREAR RATT)
 	ld b,001h		;88c6
 	ld de,00100h		;88c8
 	jr L_88D4		;88cb
@@ -1568,7 +1568,7 @@ alterna_el_cuadro:
 	ld (ix+00bh),a		;8a7e   ; guarda el cuadro del enemigo
 	ret			;8a81
 L_8A82:
-	ld (ix+00bh),000h		;8a82   ; AL CREARLO: cuadro 0, 0x90 cuadros, y su bola
+	ld (ix+00bh),000h		;8a82   ; AL CREAR BOWLER: cuadro 0, 0x90 cuadros, y su bola
 	ld (ix+015h),090h		;8a86
 	ld c,08ah		;8a8a
 	jr L_8A5D		;8a8c
@@ -1585,7 +1585,7 @@ L_8A8E:
 	ld c,084h		;8aa3
 	jp 0709ah		;8aa5   ; p01:crea_una_figura: CREA UNA FIGURA: el tipo C en DE
 L_8AA8:
-	call 06979h		;8aa8   ; AL CREARLO: hay jefe, ix+0x11 = 2, 0x20 cuadros...
+	call 06979h		;8aa8   ; AL CREAR TWINMIRES: hay jefe, ix+0x11 = 2, 0x20 cuadros...
 	ld (ix+011h),002h		;8aab
 	ld (ix+014h),020h		;8aaf
 	ld bc,00504h		;8ab3   ; ...guarda el fondo 5x4, cuadro 0x60...
@@ -1698,7 +1698,7 @@ L_8B53:
 	ld (ix+006h),000h		;8b58   ; si se mueve = 0x00
 	jp L_8910		;8b5c
 L_8B5F:
-	ld (ix+00bh),008h		;8b5f   ; AL CREARLO: cuadro 8; si ya hay 4 FALCONBAT o mas, fuera (y 0xE0)
+	ld (ix+00bh),008h		;8b5f   ; AL CREAR FALCONBAT: cuadro 8; si ya hay 4 FALCONBAT o mas, fuera (y 0xE0)
 	ld (ix+013h),001h		;8b63
 	ld a,028h		;8b67
 	call cuenta_las_fichas		;8b69   ; cuenta_las_fichas: A = cuantas fichas hay del tipo A
@@ -1914,7 +1914,7 @@ L_8C90:
 	ld (ix+015h),010h		;8c99
 	jp vuelve_al_paso_0		;8c9d
 L_8CA0:
-	ld (ix+015h),005h		;8ca0   ; AL CREARLO: 5 cuadros, cuadro 0x62, quieto
+	ld (ix+015h),005h		;8ca0   ; AL CREAR RED FMAN, B FMAN y D FMAN: 5 cuadros, cuadro 0x62, quieto
 	ld (ix+00bh),062h		;8ca4   ; el cuadro del enemigo = 0x62
 	inc (ix+006h)		;8ca8   ; sube si se mueve
 	ld de,00000h		;8cab
@@ -2047,7 +2047,7 @@ DATA_cuadro_8D68:
 
 
 L_8D6C:
-	ld (ix+00bh),004h		;8d6c   ; AL CREARLO: cuadro 4, hacia abajo a 1
+	ld (ix+00bh),004h		;8d6c   ; AL CREAR WHITEOGRE: cuadro 4, hacia abajo a 1
 	ld (ix+014h),002h		;8d70
 	ld de,00000h		;8d74
 	ld hl,00100h		;8d77
@@ -2161,7 +2161,7 @@ L_8E33:
 	ld (0dff5h),a		;8e37
 	jp L_8910		;8e3a
 L_8E3D:
-	inc (ix+011h)		;8e3d   ; AL CREARLA: su sitio en ix+0x18 (y) e ix+0x19 (x); a la derecha de 0x58 cierra hacia la izquierda (ix+0x15 = 1)
+	inc (ix+011h)		;8e3d   ; AL CREAR SHUT ALL: su sitio en ix+0x18 (y) e ix+0x19 (x); a la derecha de 0x58 cierra hacia la izquierda (ix+0x15 = 1)
 	xor a			;8e40
 	ld (ix+00eh),a		;8e41
 	ld (ix+014h),a		;8e44
@@ -2346,7 +2346,7 @@ L_8F70:
 L_8F73:
 	jp 04318h		;8f73   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_8F76:
-	ld a,(0c125h)		;8f76   ; AL CREARLO: en la pantalla 0x73 lleva 8 sprites...
+	ld a,(0c125h)		;8f76   ; AL CREAR ROCK ROCK: en la pantalla 0x73 lleva 8 sprites...
 	cp 073h		;8f79   ; la pantalla 0x73?
 	jr nz,L_8F81		;8f7b
 	ld (ix+020h),008h		;8f7d   ; cuantos sprites lleva = 0x08
@@ -2378,7 +2378,7 @@ L_8FA6:
 L_8FAF:
 	jp pon_velocidades		;8faf   ; pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
 L_8FB2:
-	ld (ix+006h),001h		;8fb2   ; AL CREARLO: entra en diagonal desde el borde en que esta, cerca de Mitchel (+-0x20 al azar)...
+	ld (ix+006h),001h		;8fb2   ; AL CREAR SEALOUSE: entra en diagonal desde el borde en que esta, cerca de Mitchel (+-0x20 al azar)...
 	ld (ix+016h),008h		;8fb6
 	ld (ix+017h),008h		;8fba
 	xor a			;8fbe
@@ -2597,7 +2597,7 @@ DATA_byte_1b_9148:
 
 
 L_914C:
-	ld a,(ix+00dh)		;914c   ; AL CREARLO: su vida en ix+0x14 (para saber si le han dado), 0xDFB5 = 0...
+	ld a,(ix+00dh)		;914c   ; AL CREAR THE NOT: su vida en ix+0x14 (para saber si le han dado), 0xDFB5 = 0...
 	ld (ix+014h),a		;914f
 	xor a			;9152
 	ld (0dfb5h),a		;9153
@@ -2693,7 +2693,7 @@ DATA_azar_9201:
 
 
 L_9211:
-	inc (ix+001h)		;9211   ; AL CREARLO: al paso 1, ix+0x18 = 2, 4, 6 u 8 al azar, 0x0F cuadros...
+	inc (ix+001h)		;9211   ; AL CREAR WILDBOAR: al paso 1, ix+0x18 = 2, 4, 6 u 8 al azar, 0x0F cuadros...
 	xor a			;9214
 	ld (ix+016h),a		;9215
 	ld a,r		;9218
@@ -2932,7 +2932,7 @@ DATA_cuadros_93E7:
 
 
 L_93F4:
-	ld (ix+00bh),00eh		;93f4   ; AL CREARLO: cuadro 0x0E, 6 cuadros por dibujo, en marcha
+	ld (ix+00bh),00eh		;93f4   ; AL CREAR ROCKMAN y STONEMAN: cuadro 0x0E, 6 cuadros por dibujo, en marcha
 	ld (ix+016h),006h		;93f8
 	ld (ix+017h),006h		;93fc
 	xor a			;9400
@@ -3119,7 +3119,7 @@ L_9570:
 	scf			;9573
 	ret			;9574
 L_9575:
-	ld (ix+00bh),00dh		;9575   ; AL CREARLO: cuadro 0x0D, en marcha, 3 hacia abajo; ix+0x15 la y alrededor de la que sube y baja
+	ld (ix+00bh),00dh		;9575   ; AL CREAR CROW: cuadro 0x0D, en marcha, 3 hacia abajo; ix+0x15 la y alrededor de la que sube y baja
 	ld (ix+013h),0ffh		;9579
 	ld (ix+014h),020h		;957d
 	xor a			;9581
@@ -3200,7 +3200,7 @@ DATA_cuadros_9610:
 
 
 L_9614:
-	inc (ix+006h)		;9614   ; AL CREARLO: en marcha, 0x0F cuadros; su diagonal (ix+0x16) segun el cuarto de pantalla en que esta...
+	inc (ix+006h)		;9614   ; AL CREAR WHITEFIRE: en marcha, 0x0F cuadros; su diagonal (ix+0x16) segun el cuarto de pantalla en que esta...
 	ld (ix+01bh),00fh		;9617
 	ld a,(ix+003h)		;961b   ; lee la y del enemigo
 	cp 058h		;961e
@@ -3807,7 +3807,7 @@ DATA_tablas_9AAE:
 
 
 L_9AFE:
-	ld (ix+00bh),018h		;9afe   ; AL CREARLO: cuadro 0x18, ix+0x1B al azar (0-15), en marcha, 8 cuadros por dibujo, parado
+	ld (ix+00bh),018h		;9afe   ; AL CREAR STONEOGRE: cuadro 0x18, ix+0x1B al azar (0-15), en marcha, 8 cuadros por dibujo, parado
 	call 0bf0eh		;9b02   ; p03:al_azar: A al azar: el registro R, con los nibbles cambiados, XOR el contador de cuadros
 	and 00fh		;9b05
 	ld (ix+01bh),a		;9b07
@@ -3946,7 +3946,7 @@ L_9C22:
 	jr z,L_9BDC		;9c26
 	jr L_9C01		;9c28
 L_9C2A:
-	call 06979h		;9c2a   ; AL CREARLO: hay jefe; 0xDFB1 = 1 (la parte que va), 0xDFB4 = 0 (el retraso)...
+	call 06979h		;9c2a   ; AL CREAR REVOLVER: hay jefe; 0xDFB1 = 1 (la parte que va), 0xDFB4 = 0 (el retraso)...
 	xor a			;9c2d
 	ld (ix+015h),a		;9c2e
 	ld (ix+025h),a		;9c31
@@ -4349,7 +4349,7 @@ DATA_circulo_9EFE:
 
 
 L_9F46:
-	ld a,(ix+000h)		;9f46   ; AL CREAR LAS ARANAS: 0xDFB5 = su tipo, cuadro 0x23, en marcha, 4 cuadros por dibujo, hay jefe
+	ld a,(ix+000h)		;9f46   ; AL CREAR REDSPIDER y BIGSPIDER: 0xDFB5 = su tipo, cuadro 0x23, en marcha, 4 cuadros por dibujo, hay jefe
 	ld (0dfb5h),a		;9f49
 	ld (ix+01ah),004h		;9f4c
 	ld (ix+013h),004h		;9f50

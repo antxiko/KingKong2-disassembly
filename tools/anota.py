@@ -519,6 +519,7 @@ def comentario(b, filas, k, clases, rut, cruces, fuentes=None, datos=None, repar
 
 
 TABLA_DE_TIPOS = 0x6885              # p01:6885: la entrada de cada tipo (1-68)
+TABLA_DE_CREACION = 0x5B1E           # p00:5B1E: lo que hace cada tipo al crearse
 
 
 def etiquetas_con_nombre(b):
@@ -620,7 +621,26 @@ def pasos_de_los_enemigos():
         return ns[0] if len(ns) == 1 else "%s y %s" % (", ".join(ns[:-1]), ns[-1]) if len(ns) <= 3             else "%s y %d mas" % (", ".join(ns[:2]), len(ns) - 2)
 
     fuera = {}
+    creacion = {}
+    for t in range(1, 69):
+        o = TABLA_DE_CREACION - 0x4000 + 2 * (t - 1)
+        c = rom[o] | rom[o + 1] << 8
+        if banco(c):
+            creacion.setdefault(c, []).append(t)
+    for c, ts in creacion.items():
+        if not any(nombre_enemigo(t) for t in ts):
+            fuera[(banco(c), c)] = "AL CREAR la ficha del tipo %s" % ", ".join("0x%02X" % t for t in ts)
+            continue
+        ns = list(dict.fromkeys(nombre_enemigo(t) or "tipo 0x%02X" % t for t in ts))
+        fuera[(banco(c), c)] = "AL CREAR %s (tipo%s %s)" % (
+            ns[0] if len(ns) == 1 else "%s y %s" % (", ".join(ns[:-1]), ns[-1]) if len(ns) <= 3
+            else "%s y %d mas" % (", ".join(ns[:2]), len(ns) - 2),
+            "s" if len(ts) > 1 else "", ", ".join("0x%02X" % t for t in ts))
     for e, ts in entradas.items():
+        if not any(nombre_enemigo(t) for t in ts):
+            fuera[(banco(e), e)] = "ENTRADA de la ficha del tipo %s, con ella en IX" % ", ".join(
+                "0x%02X" % t for t in ts)
+            continue
         fuera[(banco(e), e)] = "ENTRADA de %s (tipo%s %s), con su ficha en IX" % (
             quien(e), "s" if len(ts) > 1 else "", ", ".join("0x%02X" % t for t in ts))
     for (b, c), n in tablas.items():

@@ -182,7 +182,7 @@ L_A146:
 	ld (0dfb0h),a		;a14e
 	ret			;a151
 L_A152:
-	ld (ix+013h),014h		;a152   ; AL CREAR la ficha: 0x14 en ix+0x13, cuadro 8, en marcha, sonido 4, hacia Mitchel a 0x60
+	ld (ix+013h),014h		;a152   ; AL CREAR la ficha 0x0D: 0x14 en ix+0x13, cuadro 8, en marcha, sonido 4, hacia Mitchel a 0x60
 	ld (ix+00bh),008h		;a156   ; el cuadro del enemigo = 0x08
 	ld (ix+006h),001h		;a15a   ; si se mueve = 0x01
 	ld a,004h		;a15e
@@ -436,7 +436,7 @@ DATA_cuadros_A362:
 
 
 L_A36A:
-	ld (ix+001h),003h		;a36a   ; AL CREARLOS: paso 3 (esperando 0x0F cuadros), mirando abajo (2), 8 pasos
+	ld (ix+001h),003h		;a36a   ; AL CREAR POLEMAN, BOOMERANG, BLOWMIRE, FALCONER, JUMPMAN y CLINGMAN: paso 3 (esperando 0x0F cuadros), mirando abajo (2), 8 pasos
 	xor a			;a36e
 	ld (ix+007h),a		;a36f   ; guarda la velocidad vertical (baja)
 	ld (ix+009h),a		;a372   ; guarda la velocidad horizontal (baja)
@@ -843,11 +843,11 @@ DATA_tablas_A6A0:
 
 
 L_A6D0:
-	ld d,0f0h		;a6d0
+	ld d,0f0h		;a6d0   ; AL CREAR THE NASTY: su figura de 0x20x0x20 puntos desde (0xE0, 0xA8), 0x10 arriba y a la izquierda, y el fondo 4x4...
 	ld hl,0e0a8h		;a6d2
 	ld bc,02004h		;a6d5
 L_A6D8:
-	ld (ix+00bh),000h		;a6d8   ; el cuadro del enemigo = 0x00
+	ld (ix+00bh),000h		;a6d8   ; ...cuadro 0, ix+0x11 = 1, 0x10 cuadros; la figura con LMMM, el fondo guardado y hay jefe
 	ld (ix+011h),001h		;a6dc
 	ld (ix+012h),010h		;a6e0
 	ld (ix+013h),000h		;a6e4
@@ -866,18 +866,18 @@ L_A6D8:
 	call 04333h		;a6fb   ; p00:guarda_el_fondo: GUARDA EL FONDO: lo que hay debajo de la ficha, desde su esquina
 	jp 06979h		;a6fe   ; p01:hay_jefe: 0xC151 = 1: hay jefe
 L_A701:
-	ld hl,00806h		;a701   ; ENTRADA de THE NASTY (tipo 0x2A), con su ficha en IX
+	ld hl,00806h		;a701   ; THE NASTY: suelta fichas del tipo 6 (GARGOYLE) 8 por debajo (0xE800-0xE801)...
 	ld (0e800h),hl		;a704
 	ld hl,0e0a8h		;a707
 	ld de,0e0c8h		;a70a
 	ld bc,0f020h		;a70d
 L_A710:
-	ld a,(ix+00ch)		;a710   ; lee la cuenta de cuadros
+	ld a,(ix+00ch)		;a710   ; ...ix+0x13 cuenta los cuadros de dos en dos...
 	and 001h		;a713
 	jr nz,L_A71A		;a715
 	inc (ix+013h)		;a717
 L_A71A:
-	dec (ix+012h)		;a71a
+	dec (ix+012h)		;a71a   ; ...cada ix+0x12 cuadros abre o cierra (cuadro 1: 0x20 cuadros abierto; 0: 0x10 cerrado)...
 	ret nz			;a71d
 	push bc			;a71e
 	push de			;a71f
@@ -894,7 +894,7 @@ L_A72B:
 	ld (ix+012h),b		;a731
 	bit 0,(ix+00bh)		;a734   ; mira el bit 0 de el cuadro del enemigo
 	jr z,L_A770		;a738
-	ld a,(ix+013h)		;a73a
+	ld a,(ix+013h)		;a73a   ; ...al abrir, si ix+0x13 no ha llegado a 0x80 y quedan en 0xDFA4, crea una (y quedan una menos)...
 	cp 080h		;a73d
 	jr nc,L_A768		;a73f
 	ld a,(0dfa4h)		;a741
@@ -917,13 +917,13 @@ L_A72B:
 	dec (hl)			;a765
 	jr L_A770		;a766
 L_A768:
-	ld (ix+00bh),000h		;a768
+	ld (ix+00bh),000h		;a768   ; ...si no, se queda cerrado 0x20 cuadros
 	ld (ix+012h),020h		;a76c
 L_A770:
 	pop hl			;a770
 	pop de			;a771
 	pop bc			;a772
-	bit 0,(ix+00bh)		;a773
+	bit 0,(ix+00bh)		;a773   ; pinta la boca abierta (DE) o cerrada (HL) con LMMM
 	jr z,L_A77A		;a777
 	ex de,hl			;a779
 L_A77A:
@@ -937,19 +937,19 @@ L_A77A:
 	ld a,048h		;a787
 	jp 0481bh		;a789   ; p00:lmmm: orden LMMM del V9938: lo mismo con operacion logica (A: paginas y operacion; 8 = TIMP)
 L_A78C:
-	ld d,0e0h		;a78c
+	ld d,0e0h		;a78c   ; AL CREAR BADPRIEST: su figura de 0x40x0x40 puntos desde (0xC0, 0xA8), 0x20 arriba y a la izquierda, y el fondo 8x8
 	ld hl,0c0a8h		;a78e
 	ld bc,04008h		;a791
 	jp L_A6D8		;a794
 L_A797:
-	ld hl,01008h		;a797   ; ENTRADA de BADPRIEST (tipo 0x2B), con su ficha en IX
+	ld hl,01008h		;a797   ; BADPRIEST: igual que THE NASTY, soltando fichas del tipo 8 (GARGOYLE) 0x10 por debajo; boca cerrada desde (0xD0, 0xD0), abierta desde (0xA0, 0xA8)
 	ld (0e800h),hl		;a79a
 	ld hl,0d0d0h		;a79d
 	ld de,0a0a8h		;a7a0
 	ld bc,00818h		;a7a3
 	jp L_A710		;a7a6
 L_A7A9:
-	ld de,0a7fah		;a7a9   ; tablas_A7FA: 32 bytes desde 0xA7FA (DE) y 0xA81A (HL) que p03:A7A9 recorre con 0xDFA1; 0xA822, 8 bytes que p03:A7EE pone en ix+0x1A; p01:63EE entra por 0xA808
+	ld de,0a7fah		;a7a9   ; AL CREAR GARGOYLE (tipo 6, lo que suelta THE NASTY): cuadro 0x10, sus velocidades de p03:A7FA segun el contador de cuadros (bits 4-6)...
 	ld hl,0a81ah		;a7ac
 	ld bc,0dfa1h		;a7af
 L_A7B2:
@@ -981,12 +981,12 @@ L_A7B2:
 	ld d,b			;a7d8
 	call 04318h		;a7d9   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 	pop af			;a7dc
-	pop hl			;a7dd
+	pop hl			;a7dd   ; ...su espera de p03:A81A, 4 en ix+0x13...
 	call 04255h		;a7de   ; p00:hl_mas_a
 	ld a,(hl)			;a7e1
 	ld (ix+012h),a		;a7e2
 	ld (ix+013h),004h		;a7e5
-	pop hl			;a7e9
+	pop hl			;a7e9   ; ...y ix+0x1A de p03:A822 segun cuantos van (0xDFA1)
 	inc (hl)			;a7ea
 	ld a,(hl)			;a7eb
 	and 007h		;a7ec
@@ -1013,7 +1013,7 @@ DATA_tablas_A7FA:
 
 
 L_A82A:
-	ld a,(ix+001h)		;a82a   ; ENTRADA de GARGOYLE (tipo 0x06), con su ficha en IX
+	ld a,(ix+001h)		;a82a   ; LAS RANAS (GARGOYLE, POISNFROG, MIREFROG), por pasos (p03:A830)
 	call 0425fh		;a82d   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
@@ -1039,7 +1039,7 @@ DATA_tabla_A830:
 
 
 L_A844:
-	dec (ix+013h)		;a844
+	dec (ix+013h)		;a844   ; PASO 0: tras ix+0x13 cuadros, en marcha, con sus colores (1 y 0x44) y el sonido 0x1C
 	ret nz			;a847
 	inc (ix+001h)		;a848   ; sube el paso en que va
 	ld (ix+006h),001h		;a84b   ; si se mueve = 0x01
@@ -1049,7 +1049,7 @@ L_A844:
 	ld a,01ch		;a85b
 	jp 05488h		;a85d   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 L_A860:
-	dec (ix+012h)		;a860
+	dec (ix+012h)		;a860   ; PASO 1: tras ix+0x12 cuadros, sentada mirando abajo (cuadro 0x10), y apunta su sitio en ix+0x14-0x17
 	ret nz			;a863
 	inc (ix+001h)		;a864   ; sube el paso en que va
 	ld (ix+00bh),010h		;a867   ; el cuadro del enemigo = 0x10
@@ -1065,25 +1065,25 @@ L_A860:
 	ld (ix+017h),a		;a888
 	ret			;a88b
 L_A88C:
-	ld (ix+00bh),010h		;a88c   ; el cuadro del enemigo = 0x10
+	ld (ix+00bh),010h		;a88c   ; PASOS 2-5, SENTADA mirando abajo (2), a la izquierda (3), a la derecha (4) o arriba (5): tras ix+0x13 cuadros...
 L_A890:
 	dec (ix+013h)		;a890
 	ret nz			;a893
 	bit 0,(ix+019h)		;a894
 	jr nz,L_A8A1		;a898
-	call ranas_siguiente_movimiento		;a89a
+	call ranas_siguiente_movimiento		;a89a   ; ...el movimiento siguiente; si es hacia donde mira (o ya giro, ix+0x19), SALTA (paso 6)...
 	cp 002h		;a89d
 	jr nz,L_A8B8		;a89f
 L_A8A1:
-	ld (ix+001h),006h		;a8a1   ; el paso en que va = 0x06
-	call ranas_espera_segun_el_tipo		;a8a5
+	ld (ix+001h),006h		;a8a1   ; ...a 2 hacia abajo
+	call ranas_espera_segun_el_tipo		;a8a5   ; ranas_espera_segun_el_tipo: CUANTO DURA EL SALTO: GARGOYLE (6) 0x0C, POISNFROG y MIREFROG 8, GARGOYLE (8) 0x10...
 	ld (ix+019h),000h		;a8a8
 	ld de,00200h		;a8ac
 	call 04311h		;a8af   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	ld de,00000h		;a8b2
 	jp 04318h		;a8b5   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_A8B8:
-	call ranas_velocidad		;a8b8
+	call ranas_velocidad		;a8b8   ; ...si no, gira hacia alli
 	ld (ix+013h),00ch		;a8bb
 	ret			;a8bf
 L_A8C0:
@@ -1093,19 +1093,19 @@ L_A8C4:
 	ret nz			;a8c7
 	bit 0,(ix+019h)		;a8c8
 	jr nz,L_A8D5		;a8cc
-	call ranas_siguiente_movimiento		;a8ce
+	call ranas_siguiente_movimiento		;a8ce   ; ranas_siguiente_movimiento: EL MOVIMIENTO SIGUIENTE, del guion de 32 de p03:AAD8: 1 hacia un punto al azar, 2 hacia Mitchel...
 	cp 003h		;a8d1
 	jr nz,L_A8EC		;a8d3
 L_A8D5:
-	ld (ix+001h),007h		;a8d5   ; el paso en que va = 0x07
-	call ranas_espera_segun_el_tipo		;a8d9
+	ld (ix+001h),007h		;a8d5   ; salta a la izquierda (paso 7)
+	call ranas_espera_segun_el_tipo		;a8d9   ; ranas_espera_segun_el_tipo: CUANTO DURA EL SALTO: GARGOYLE (6) 0x0C, POISNFROG y MIREFROG 8, GARGOYLE (8) 0x10...
 	ld (ix+019h),000h		;a8dc
 	ld de,00000h		;a8e0
 	call 04311h		;a8e3   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	ld de,0fe00h		;a8e6
 	jp 04318h		;a8e9   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_A8EC:
-	call ranas_velocidad		;a8ec
+	call ranas_velocidad		;a8ec   ; ranas_velocidad: GIRA hacia A: arriba paso 5, derecha 4, abajo 2, izquierda 3; 0x0C cuadros y ix+0x19 = 1 (la proxima, salta)
 	ld (ix+013h),00ch		;a8ef
 	ret			;a8f3
 L_A8F4:
@@ -1115,19 +1115,19 @@ L_A8F8:
 	ret nz			;a8fb
 	bit 0,(ix+019h)		;a8fc
 	jr nz,L_A909		;a900
-	call ranas_siguiente_movimiento		;a902
+	call ranas_siguiente_movimiento		;a902   ; ranas_siguiente_movimiento: EL MOVIMIENTO SIGUIENTE, del guion de 32 de p03:AAD8: 1 hacia un punto al azar, 2 hacia Mitchel...
 	cp 001h		;a905
 	jr nz,L_A920		;a907
 L_A909:
-	ld (ix+001h),008h		;a909   ; el paso en que va = 0x08
-	call ranas_espera_segun_el_tipo		;a90d
+	ld (ix+001h),008h		;a909   ; salta a la derecha (paso 8)
+	call ranas_espera_segun_el_tipo		;a90d   ; ranas_espera_segun_el_tipo: CUANTO DURA EL SALTO: GARGOYLE (6) 0x0C, POISNFROG y MIREFROG 8, GARGOYLE (8) 0x10...
 	ld (ix+019h),000h		;a910
 	ld de,00000h		;a914
 	call 04311h		;a917   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	ld de,00200h		;a91a
 	jp 04318h		;a91d   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_A920:
-	call ranas_velocidad		;a920
+	call ranas_velocidad		;a920   ; ranas_velocidad: GIRA hacia A: arriba paso 5, derecha 4, abajo 2, izquierda 3; 0x0C cuadros y ix+0x19 = 1 (la proxima, salta)
 	ld (ix+013h),00ch		;a923
 	ret			;a927
 L_A928:
@@ -1137,31 +1137,31 @@ L_A92C:
 	ret nz			;a92f
 	bit 0,(ix+019h)		;a930
 	jr nz,L_A93C		;a934
-	call ranas_siguiente_movimiento		;a936
+	call ranas_siguiente_movimiento		;a936   ; ranas_siguiente_movimiento: EL MOVIMIENTO SIGUIENTE, del guion de 32 de p03:AAD8: 1 hacia un punto al azar, 2 hacia Mitchel...
 	and a			;a939
 	jr nz,L_A953		;a93a
 L_A93C:
-	ld (ix+001h),009h		;a93c   ; el paso en que va = 0x09
-	call ranas_espera_segun_el_tipo		;a940
+	ld (ix+001h),009h		;a93c   ; salta hacia arriba (paso 9)
+	call ranas_espera_segun_el_tipo		;a940   ; ranas_espera_segun_el_tipo: CUANTO DURA EL SALTO: GARGOYLE (6) 0x0C, POISNFROG y MIREFROG 8, GARGOYLE (8) 0x10...
 	ld (ix+019h),000h		;a943
 	ld de,0fe00h		;a947
 	call 04311h		;a94a   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	ld de,00000h		;a94d
 	jp 04318h		;a950   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_A953:
-	call ranas_velocidad		;a953
+	call ranas_velocidad		;a953   ; ranas_velocidad: GIRA hacia A: arriba paso 5, derecha 4, abajo 2, izquierda 3; 0x0C cuadros y ix+0x19 = 1 (la proxima, salta)
 	ld (ix+013h),00ch		;a956
 	ret			;a95a
 L_A95B:
-	ld (ix+00bh),011h		;a95b   ; el cuadro del enemigo = 0x11
+	ld (ix+00bh),011h		;a95b   ; PASOS 6-9, EL SALTO: su sitio en el suelo (ix+0x14-0x17) avanza con la velocidad...
 L_A95F:
 	dec (ix+013h)		;a95f
 	bit 0,(ix+018h)		;a962
 	jr nz,L_A96B		;a966
-	call ranas_suma_velocidad		;a968
+	call ranas_suma_velocidad		;a968   ; ranas_suma_velocidad: el sitio en el suelo (ix+0x14/15 y, ix+0x16/17 x) mas las velocidades
 L_A96B:
-	call ranas_recorrido_segun_el_tipo		;a96b
-	ld a,(ix+013h)		;a96e
+	call ranas_recorrido_segun_el_tipo		;a96b   ; ...y la altura del salto se le suma...
+	ld a,(ix+013h)		;a96e   ; ...cada 4 cuadros, si desde el suelo choca por ahi, deja de avanzar (ix+0x18 = 1)...
 	and 003h		;a971
 	jr nz,L_A988		;a973
 	ld l,(ix+015h)		;a975
@@ -1172,7 +1172,7 @@ L_A96B:
 	jr nc,L_A988		;a982
 	ld (ix+018h),001h		;a984
 L_A988:
-	ld a,(ix+013h)		;a988
+	ld a,(ix+013h)		;a988   ; ...y al acabar, sentada otra vez mirando hacia alli (0x0C cuadros) y un salto mas en ix+0x12
 	and a			;a98b
 	ret nz			;a98c
 	ld (ix+001h),002h		;a98d   ; el paso en que va = 0x02
@@ -1186,9 +1186,9 @@ L_A9A1:
 	dec (ix+013h)		;a9a1
 	bit 0,(ix+018h)		;a9a4
 	jr nz,L_A9AD		;a9a8
-	call ranas_suma_velocidad		;a9aa
+	call ranas_suma_velocidad		;a9aa   ; ranas_suma_velocidad: el sitio en el suelo (ix+0x14/15 y, ix+0x16/17 x) mas las velocidades
 L_A9AD:
-	call ranas_recorrido_segun_el_tipo		;a9ad
+	call ranas_recorrido_segun_el_tipo		;a9ad   ; ranas_recorrido_segun_el_tipo: LA ALTURA DEL SALTO: su tabla por tipo (GARGOYLE 6 p03:AB88, POISNFROG y MIREFROG p03:ABA4, GARGOYLE 8 p03:AB94; otro, p03:AB88 o, uno de cada 4, p03:ABAC)...
 	ld a,(ix+013h)		;a9b0
 	and 003h		;a9b3
 	jr nz,L_A9CA		;a9b5
@@ -1214,9 +1214,9 @@ L_A9E3:
 	dec (ix+013h)		;a9e3
 	bit 0,(ix+018h)		;a9e6
 	jr nz,L_A9EF		;a9ea
-	call ranas_suma_velocidad		;a9ec
+	call ranas_suma_velocidad		;a9ec   ; ranas_suma_velocidad: el sitio en el suelo (ix+0x14/15 y, ix+0x16/17 x) mas las velocidades
 L_A9EF:
-	call ranas_recorrido_segun_el_tipo		;a9ef
+	call ranas_recorrido_segun_el_tipo		;a9ef   ; ranas_recorrido_segun_el_tipo: LA ALTURA DEL SALTO: su tabla por tipo (GARGOYLE 6 p03:AB88, POISNFROG y MIREFROG p03:ABA4, GARGOYLE 8 p03:AB94; otro, p03:AB88 o, uno de cada 4, p03:ABAC)...
 	ld a,(ix+013h)		;a9f2
 	and 003h		;a9f5
 	jr nz,L_AA0C		;a9f7
@@ -1242,9 +1242,9 @@ L_AA25:
 	dec (ix+013h)		;aa25
 	bit 0,(ix+018h)		;aa28
 	jr nz,L_AA31		;aa2c
-	call ranas_suma_velocidad		;aa2e
+	call ranas_suma_velocidad		;aa2e   ; ranas_suma_velocidad: el sitio en el suelo (ix+0x14/15 y, ix+0x16/17 x) mas las velocidades
 L_AA31:
-	call ranas_recorrido_segun_el_tipo		;aa31
+	call ranas_recorrido_segun_el_tipo		;aa31   ; ranas_recorrido_segun_el_tipo: LA ALTURA DEL SALTO: su tabla por tipo (GARGOYLE 6 p03:AB88, POISNFROG y MIREFROG p03:ABA4, GARGOYLE 8 p03:AB94; otro, p03:AB88 o, uno de cada 4, p03:ABAC)...
 	ld a,(ix+013h)		;aa34
 	and 003h		;aa37
 	jr nz,L_AA4D		;aa39
@@ -1265,7 +1265,7 @@ L_AA4D:
 	inc (ix+012h)		;aa5e
 	ret			;aa61
 ranas_espera_segun_el_tipo:
-	ld a,(ix+000h)		;aa62   ; lee el tipo del enemigo
+	ld a,(ix+000h)		;aa62   ; CUANTO DURA EL SALTO: GARGOYLE (6) 0x0C, POISNFROG y MIREFROG 8, GARGOYLE (8) 0x10...
 	cp 006h		;aa65   ; GARGOYLE (tipo 0x06)?
 	ld c,00ch		;aa67
 	jr z,L_AA8B		;aa69
@@ -1277,7 +1277,7 @@ ranas_espera_segun_el_tipo:
 	cp 008h		;aa75   ; GARGOYLE (tipo 0x08)?
 	ld c,010h		;aa77
 	jr z,L_AA8B		;aa79
-	ld a,(ix+012h)		;aa7b
+	ld a,(ix+012h)		;aa7b   ; ...otro tipo: 0x0C, y uno de cada 4 saltos 0x18 con el sonido 0x0B
 	and 003h		;aa7e
 	ld c,00ch		;aa80
 	jr nz,L_AA8B		;aa82
@@ -1288,7 +1288,7 @@ L_AA8B:
 	ld (ix+013h),c		;aa8b
 	ret			;aa8e
 ranas_siguiente_movimiento:
-	inc (ix+01ah)		;aa8f
+	inc (ix+01ah)		;aa8f   ; EL MOVIMIENTO SIGUIENTE, del guion de 32 de p03:AAD8: 1 hacia un punto al azar, 2 hacia Mitchel...
 	ld a,(ix+01ah)		;aa92
 	and 01fh		;aa95
 	ld hl,0aad8h		;aa97
@@ -1314,7 +1314,7 @@ L_AAB6:
 	ld bc,00000h		;aab6
 	jp 0729eh		;aab9   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 L_AABC:
-	ld a,(ix+001h)		;aabc   ; lee el paso en que va
+	ld a,(ix+001h)		;aabc   ; ...otro: hacia donde mira (p03:AAD4), o al azar si choca
 	sub 002h		;aabf
 	ld hl,0aad4h		;aac1   ; tablas_AAD4: 4 bytes segun ix+1 - 2 (p03:AAC1) y 32 codigos segun ix+0x1A & 31 (1, 2 u otro; p03:AA97) desde 0xAAD8
 	call 04255h		;aac4   ; p00:hl_mas_a
@@ -1343,7 +1343,7 @@ DATA_tablas_AAD4:
 
 
 ranas_velocidad:
-	and a			;aaf8
+	and a			;aaf8   ; GIRA hacia A: arriba paso 5, derecha 4, abajo 2, izquierda 3; 0x0C cuadros y ix+0x19 = 1 (la proxima, salta)
 	ld c,005h		;aaf9
 	jr z,L_AB09		;aafb
 	dec a			;aafd
@@ -1359,7 +1359,7 @@ L_AB09:
 	ld (ix+019h),001h		;ab10
 	ret			;ab14
 ranas_suma_velocidad:
-	ld l,(ix+014h)		;ab15
+	ld l,(ix+014h)		;ab15   ; el sitio en el suelo (ix+0x14/15 y, ix+0x16/17 x) mas las velocidades
 	ld h,(ix+015h)		;ab18
 	ld e,(ix+007h)		;ab1b   ; lee la velocidad vertical (baja)
 	ld d,(ix+008h)		;ab1e   ; lee la velocidad vertical
@@ -1375,7 +1375,7 @@ ranas_suma_velocidad:
 	ld (ix+017h),h		;ab38
 	ret			;ab3b
 ranas_recorrido_segun_el_tipo:
-	ld a,(ix+000h)		;ab3c   ; lee el tipo del enemigo
+	ld a,(ix+000h)		;ab3c   ; LA ALTURA DEL SALTO: su tabla por tipo (GARGOYLE 6 p03:AB88, POISNFROG y MIREFROG p03:ABA4, GARGOYLE 8 p03:AB94; otro, p03:AB88 o, uno de cada 4, p03:ABAC)...
 	cp 006h		;ab3f   ; GARGOYLE (tipo 0x06)?
 	ld hl,0ab88h		;ab41   ; recorridos_AB88: pasos que elige p03:AB41 segun el tipo: 0xAB88 (tipos 6 y otros), 0xABA4 (7 y 0x3E), 0xAB94 (8) y 0xABAC
 	jr z,L_AB65		;ab44
@@ -1393,7 +1393,7 @@ ranas_recorrido_segun_el_tipo:
 	jr nz,L_AB65		;ab60
 	ld hl,0abach		;ab62
 L_AB65:
-	ld a,(ix+013h)		;ab65
+	ld a,(ix+013h)		;ab65   ; ...su byte ix+0x13 sumado a la y del suelo; la x, la del suelo
 	call 04255h		;ab68   ; p00:hl_mas_a
 	ld d,(hl)			;ab6b
 	ld e,000h		;ab6c
@@ -1424,7 +1424,7 @@ DATA_recorridos_AB88:
 
 
 L_ABC4:
-	ld de,0abd0h		;abc4   ; tablas_ABD0: 32 bytes desde 0xABD0 (DE) y 8 desde 0xABF0 (HL) que p03:ABC4 pasa a p03:A7B2 con 0xDFA2
+	ld de,0abd0h		;abc4   ; AL CREAR GARGOYLE (tipo 8, lo que suelta BADPRIEST): como p03:A7A9, con p03:ABD0, p03:ABF0 y 0xDFA2
 	ld hl,0abf0h		;abc7
 	ld bc,0dfa2h		;abca
 	jp L_A7B2		;abcd
@@ -1446,7 +1446,7 @@ DATA_tablas_ABD0:
 L_ABF8:
 	jp L_A82A		;abf8   ; ENTRADA de GARGOYLE (tipo 0x08), con su ficha en IX
 L_ABFB:
-	ld hl,0df92h		;abfb
+	ld hl,0df92h		;abfb   ; CADA 32 CUADROS (0xDF92), mientras quedan en 0xDF93, un POISNFROG (tipo 7) en (0x30, 0x28) o en (0x20, 0x40), alternando
 	dec (hl)			;abfe
 	ld a,(hl)			;abff
 	and 01fh		;ac00
@@ -1464,7 +1464,7 @@ L_AC14:
 	ld bc,0ff07h		;ac14
 	jp 05a69h		;ac17   ; p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
 L_AC1A:
-	ld (ix+00bh),000h		;ac1a   ; el cuadro del enemigo = 0x00
+	ld (ix+00bh),000h		;ac1a   ; AL CREAR POISNFROG: cuadro 0, 0x20 cuadros
 	ld (ix+00eh),000h		;ac1e
 	ld (ix+012h),020h		;ac22
 	ret			;ac26
@@ -1495,7 +1495,7 @@ DATA_tabla_AC2D:
 
 
 L_AC41:
-	bit 3,(ix+012h)		;ac41   ; POISNFROG, paso 0
+	bit 3,(ix+012h)		;ac41   ; PASO 0: parpadea (cuadro 0 o 1) ix+0x12 cuadros; luego sentada (cuadro 4), 8 cuadros, y apunta su sitio en el suelo
 	ld a,000h		;ac45
 	jr z,L_AC4B		;ac47
 	ld a,001h		;ac49
@@ -1520,7 +1520,7 @@ L_AC7A:
 	inc (ix+001h)		;ac7a   ; POISNFROG, paso 1
 	ret			;ac7d
 L_AC7E:
-	ld (ix+00bh),004h		;ac7e   ; POISNFROG, paso 2
+	ld (ix+00bh),004h		;ac7e   ; los pasos de las ranas (p03:A88C y siguientes), con sus cuadros
 	jp L_A890		;ac82
 L_AC85:
 	ld (ix+00bh),007h		;ac85   ; POISNFROG, paso 3
@@ -1544,7 +1544,7 @@ L_ACAF:
 	ld (ix+00bh),005h		;acaf   ; POISNFROG, paso 9
 	jp L_AA25		;acb3
 L_ACB6:
-	ld a,(0c125h)		;acb6   ; lee la PANTALLA
+	ld a,(0c125h)		;acb6   ; LOS MIREFROG: en la pantalla 6 solo en su plano alterno; cada 32 cuadros, mientras quedan en 0xDF93...
 	cp 006h		;acb9   ; la pantalla 0x06?
 	jr nz,L_ACC2		;acbb
 	ld a,(0c131h)		;acbd   ; lee el plano de la pantalla (0, el exterior)
@@ -1561,7 +1561,7 @@ L_ACC2:
 	and a			;acce
 	ret z			;accf
 	dec (hl)			;acd0
-	ld a,(0c125h)		;acd1   ; lee la PANTALLA
+	ld a,(0c125h)		;acd1   ; ...uno (tipo 0x3E) en uno de los sitios de p03:ACEA (2 en la pantalla 6, 4 en las demas)
 	cp 006h		;acd4   ; la pantalla 0x06?
 	ld c,001h		;acd6
 	jr z,L_ACDC		;acd8
@@ -1586,7 +1586,7 @@ DATA_dibujos_ACEA:
 
 
 L_ACF2:
-	ld (ix+00bh),003h		;acf2   ; el cuadro del enemigo = 0x03
+	ld (ix+00bh),003h		;acf2   ; AL CREAR MIREFROG: cuadro 3, 0x20 cuadros
 	ld (ix+00eh),000h		;acf6
 	ld (ix+012h),020h		;acfa
 	ret			;acfe
@@ -1617,7 +1617,7 @@ DATA_tabla_AD05:
 
 
 L_AD19:
-	bit 3,(ix+012h)		;ad19   ; MIREFROG, paso 0
+	bit 3,(ix+012h)		;ad19   ; PASO 0: parpadea (cuadro 3 o 4) ix+0x12 cuadros; luego sentada (cuadro 7) y apunta su sitio en el suelo
 	ld a,003h		;ad1d
 	jr z,L_AD23		;ad1f
 	ld a,004h		;ad21
@@ -1642,7 +1642,7 @@ L_AD52:
 	inc (ix+001h)		;ad52   ; MIREFROG, paso 1
 	ret			;ad55
 L_AD56:
-	ld (ix+00bh),007h		;ad56   ; MIREFROG, paso 2
+	ld (ix+00bh),007h		;ad56   ; los pasos de las ranas, con sus cuadros
 	jp L_A890		;ad5a
 L_AD5D:
 	ld (ix+00bh),00ah		;ad5d   ; MIREFROG, paso 3
@@ -1666,7 +1666,7 @@ L_AD87:
 	ld (ix+00bh),008h		;ad87   ; MIREFROG, paso 9
 	jp L_AA25		;ad8b
 L_AD8E:
-	ld a,(0c303h)		;ad8e   ; lee la Y de Mitchel
+	ld a,(0c303h)		;ad8e   ; AL CREAR DUNGROLL: mirando arriba (cuadro 0x11) si Mitchel esta por encima de y 0x60, si no abajo (0x10)...
 	cp 060h		;ad91
 	ld a,001h		;ad93
 	ld (ix+00bh),011h		;ad95   ; el cuadro del enemigo = 0x11
@@ -1676,7 +1676,7 @@ L_AD8E:
 L_ADA0:
 	ld (ix+015h),a		;ada0
 	ld (ix+006h),001h		;ada3   ; si se mueve = 0x01
-	ld hl,0dfa5h		;ada7
+	ld hl,0dfa5h		;ada7   ; ...cada cuantos cuadros para (ix+0x12) de p03:ADC1 segun cuantos van (0xDFA5), y hacia la izquierda a 1
 	inc (hl)			;adaa
 	ld a,(hl)			;adab
 	and 007h		;adac
@@ -1700,8 +1700,8 @@ DATA_byte_12_ADC1:
 
 
 L_ADC9:
-	dec (ix+012h)		;adc9   ; ENTRADA de DUNGROLL (tipo 0x15), con su ficha en IX
-	call z,dungroll_empieza_a_rodar		;adcc
+	dec (ix+012h)		;adc9   ; cada ix+0x12 cuadros se para a empujar (paso 2)
+	call z,dungroll_empieza_a_rodar		;adcc   ; dungroll_empieza_a_rodar: A EMPUJAR: el paso de ahora a ix+0x13, 0x18 cuadros en el paso 2, parado
 	ld a,(ix+001h)		;adcf   ; lee el paso en que va
 	call 0425fh		;add2   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
@@ -1720,7 +1720,7 @@ DATA_tabla_ADD5:
 
 
 L_ADDB:
-	call dungroll_cuadro		;addb   ; DUNGROLL, paso 0
+	call dungroll_cuadro		;addb   ; PASO 0: hacia la izquierda hasta chocar (alineado a 8); luego a la derecha (paso 1)
 	ld a,(ix+005h)		;adde   ; lee la x del enemigo
 	and 007h		;ade1
 	ld a,003h		;ade3
@@ -1731,7 +1731,7 @@ L_ADDB:
 	ld de,00100h		;adee
 	jp 04318h		;adf1   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_ADF4:
-	call dungroll_cuadro		;adf4   ; DUNGROLL, paso 1
+	call dungroll_cuadro		;adf4   ; PASO 1: hacia la derecha hasta chocar; luego a la izquierda (paso 0)
 	ld a,(ix+005h)		;adf7   ; lee la x del enemigo
 	and 007h		;adfa
 	ld a,001h		;adfc
@@ -1742,7 +1742,7 @@ L_ADF4:
 	ld de,0ff00h		;ae07
 	jp 04318h		;ae0a   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_AE0D:
-	dec (ix+014h)		;ae0d   ; DUNGROLL, paso 2
+	dec (ix+014h)		;ae0d   ; PASO 2, 0x18 cuadros: a los 0x10 empuja...
 	ld a,(ix+014h)		;ae10
 	cp 010h		;ae13
 	jr z,L_AE43		;ae15
@@ -1750,7 +1750,7 @@ L_AE0D:
 	cp 008h		;ae19
 	ret nc			;ae1b
 L_AE1C:
-	dec a			;ae1c
+	dec a			;ae1c   ; ...al acabar, sigue con el paso y el lado de antes, y 0x50 cuadros para la parada siguiente
 	jr z,L_AE2D		;ae1d
 	bit 0,(ix+015h)		;ae1f
 	ld (ix+00bh),010h		;ae23   ; el cuadro del enemigo = 0x10
@@ -1769,7 +1769,7 @@ L_AE3B:
 	ld (ix+012h),050h		;ae3e
 	ret			;ae42
 L_AE43:
-	bit 0,(ix+015h)		;ae43
+	bit 0,(ix+015h)		;ae43   ; EMPUJA: si por debajo no choca, la figura 0x85, 8 por debajo (o por encima si mira arriba), con su cuadro en 0xE806
 	ld (ix+00bh),010h		;ae47   ; el cuadro del enemigo = 0x10
 	jr z,L_AE51		;ae4b
 	ld (ix+00bh),011h		;ae4d   ; el cuadro del enemigo = 0x11
@@ -1792,7 +1792,7 @@ L_AE6E:
 	ld e,a			;ae72
 	jp 0709ah		;ae73   ; p01:crea_una_figura: CREA UNA FIGURA: el tipo C en DE
 dungroll_cuadro:
-	ld a,(ix+00ch)		;ae76   ; lee la cuenta de cuadros
+	ld a,(ix+00ch)		;ae76   ; el cuadro de p03:AE92 (mirando abajo) o p03:AE94 (arriba), cambiando cada 8 cuadros
 	and 008h		;ae79
 	rra			;ae7b
 	rra			;ae7c
@@ -1820,7 +1820,7 @@ DATA_cuadros_AE92:
 
 
 dungroll_empieza_a_rodar:
-	ld (ix+012h),0ffh		;ae96
+	ld (ix+012h),0ffh		;ae96   ; A EMPUJAR: el paso de ahora a ix+0x13, 0x18 cuadros en el paso 2, parado
 	ld (ix+014h),018h		;ae9a
 	ld a,(ix+001h)		;ae9e   ; lee el paso en que va
 	ld (ix+013h),a		;aea1
@@ -1828,7 +1828,7 @@ dungroll_empieza_a_rodar:
 	ld de,00000h		;aea8
 	jp 04318h		;aeab   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_AEAE:
-	ld a,(ix+003h)		;aeae   ; lee la y del enemigo
+	ld a,(ix+003h)		;aeae   ; AL CREAR FIRETOTEM: su franja de y (0-3: 0x30, 0x50, 0x80)...
 	cp 030h		;aeb1
 	ld c,000h		;aeb3
 	jr c,L_AEC5		;aeb5
@@ -1840,7 +1840,7 @@ L_AEAE:
 	jr c,L_AEC5		;aec1
 	ld c,006h		;aec3
 L_AEC5:
-	ld a,(ix+005h)		;aec5   ; lee la x del enemigo
+	ld a,(ix+005h)		;aec5   ; ...a la izquierda de 0x58 empieza hacia la derecha (paso 3); a la derecha, hacia la izquierda (paso 0)...
 	cp 058h		;aec8
 	ld b,003h		;aeca
 	ld d,000h		;aecc
@@ -1851,14 +1851,14 @@ L_AEC5:
 L_AED4:
 	ld (ix+001h),b		;aed4   ; guarda el paso en que va
 	ld (ix+015h),d		;aed7
-	ld a,(0c125h)		;aeda   ; lee la PANTALLA
+	ld a,(0c125h)		;aeda   ; ...en la pantalla 0x20, otras parejas...
 	cp 020h		;aedd   ; la pantalla 0x20?
 	jr nz,L_AEE5		;aedf
 	ld a,c			;aee1
 	add a,004h		;aee2
 	ld c,a			;aee4
 L_AEE5:
-	ld a,c			;aee5
+	ld a,c			;aee5   ; ...cuantos saltos da hacia cada lado (ix+0x12) y hacia donde (ix+0x19), de p03:AF0F; cuadro 0x10, 0x20 cuadros, y su y en el suelo
 	add a,a			;aee6
 	ld hl,0af0fh		;aee7   ; parejas_AF0F: 12 parejas que p03:AEE7 pone en ix+0x12 e ix+0x19 segun C
 	call 04255h		;aeea   ; p00:hl_mas_a
@@ -1912,12 +1912,12 @@ DATA_tabla_AF2D:
 
 
 L_AF39:
-	ld hl,00001h		;af39   ; FIRETOTEM, paso 0
+	ld hl,00001h		;af39   ; PASO 0 (hacia la izquierda): 0xE800 el paso del salto, 0xE801 la velocidad en x (-1), 0xE803 el paso al cambiar de lado...
 	ld (0e800h),hl		;af3c
 	ld hl,003ffh		;af3f
 	ld (0e802h),hl		;af42
 L_AF45:
-	ld a,(ix+018h)		;af45
+	ld a,(ix+018h)		;af45   ; ...parado ix+0x14 cuadros (cuadro 0x11 si va a lanzar); a 8 del final, LANZA...
 	and a			;af48
 	ld a,011h		;af49
 	jr nz,L_AF4F		;af4b
@@ -1931,10 +1931,10 @@ L_AF4F:
 	ret nz			;af5c
 	ld a,(ix+018h)		;af5d
 	and a			;af60
-	call nz,firetotem_lanza		;af61
+	call nz,firetotem_lanza		;af61   ; firetotem_lanza: la figura 0x8C en su sitio
 	ret			;af64
 L_AF65:
-	ld (ix+018h),000h		;af65
+	ld (ix+018h),000h		;af65   ; ...luego otro salto, arriba o abajo segun el bit 0 de ix+0x19, 0x0E cuadros...
 	inc (ix+013h)		;af69
 	ld a,(ix+013h)		;af6c
 	cp (ix+012h)		;af6f
@@ -1952,7 +1952,7 @@ L_AF84:
 	ld de,(0e801h)		;af8e
 	jp 04318h		;af92   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_AF95:
-	ld (ix+013h),000h		;af95
+	ld (ix+013h),000h		;af95   ; ...y al dar ix+0x12 saltos, cambia de lado (bit 1 de ix+0x19) con 8 cuadros de espera
 	ld a,(0e803h)		;af99
 	ld (ix+001h),a		;af9c   ; guarda el paso en que va
 	ld (ix+014h),008h		;af9f
@@ -1961,24 +1961,24 @@ L_AF95:
 	ld (ix+019h),a		;afa8
 	ret			;afab
 L_AFAC:
-	xor a			;afac   ; FIRETOTEM, paso 1
+	xor a			;afac   ; PASO 1 (y 2, 4): EL SALTO, cada cuadro su dibujo, su sitio en el suelo y su altura...
 L_AFAD:
 	push af			;afad
-	call firetotem_cuadro		;afae
-	call firetotem_suma_velocidad		;afb1
-	call firetotem_altura		;afb4
+	call firetotem_cuadro		;afae   ; firetotem_cuadro: el cuadro de p03:B040 segun ix+0x14
+	call firetotem_suma_velocidad		;afb1   ; firetotem_suma_velocidad: la y del suelo (ix+0x16/17) mas la velocidad vertical; la x, con la horizontal
+	call firetotem_altura		;afb4   ; firetotem_altura: la y: la del suelo mas p03:AFFC segun ix+0x14
 	pop af			;afb7
-	dec (ix+014h)		;afb8
+	dec (ix+014h)		;afb8   ; ...y al acabar, al paso de espera con 0x10 cuadros, un salto mas contado y el otro sentido en y
 	ret nz			;afbb
 	ld (ix+001h),a		;afbc   ; guarda el paso en que va
 	ld (ix+014h),010h		;afbf
-	call firetotem_cuenta		;afc3
+	call firetotem_cuenta		;afc3   ; firetotem_cuenta: cada 4 saltos, ix+0x18 = 1: en la espera siguiente lanza
 	ld a,(ix+019h)		;afc6
 	xor 001h		;afc9
 	ld (ix+019h),a		;afcb
 	ret			;afce
 L_AFCF:
-	ld hl,00004h		;afcf   ; FIRETOTEM, paso 3
+	ld hl,00004h		;afcf   ; PASO 3: como el 0 hacia la derecha (+1), volviendo al paso 0 al cambiar de lado
 	ld (0e800h),hl		;afd2
 	ld hl,00001h		;afd5
 	ld (0e802h),hl		;afd8
@@ -1987,7 +1987,7 @@ L_AFDE:
 	ld a,003h		;afde   ; FIRETOTEM, paso 4
 	jr L_AFAD		;afe0
 firetotem_altura:
-	ld hl,0affch		;afe2   ; alturas_AFFC: 15 bytes: lo que p03:AFE2 suma a la palabra ix+0x16 segun ix+0x14
+	ld hl,0affch		;afe2   ; la y: la del suelo mas p03:AFFC segun ix+0x14
 	ld a,(ix+014h)		;afe5
 	call 04255h		;afe8   ; p00:hl_mas_a
 	ld e,000h		;afeb
@@ -2012,7 +2012,7 @@ DATA_alturas_AFFC:
 
 
 firetotem_suma_velocidad:
-	ld l,(ix+016h)		;b00b
+	ld l,(ix+016h)		;b00b   ; la y del suelo (ix+0x16/17) mas la velocidad vertical; la x, con la horizontal
 	ld h,(ix+017h)		;b00e
 	ld e,(ix+007h)		;b011   ; lee la velocidad vertical (baja)
 	ld d,(ix+008h)		;b014   ; lee la velocidad vertical
@@ -2028,7 +2028,7 @@ firetotem_suma_velocidad:
 	ld (ix+005h),h		;b02e   ; guarda la x del enemigo
 	ret			;b031
 firetotem_cuadro:
-	ld hl,0b040h		;b032   ; cuadros_B040: 15 bytes: el cuadro (ix+0x0B) segun ix+0x14 (p03:B032)
+	ld hl,0b040h		;b032   ; el cuadro de p03:B040 segun ix+0x14
 	ld a,(ix+014h)		;b035
 	call 04255h		;b038   ; p00:hl_mas_a
 	ld a,(hl)			;b03b
@@ -2047,19 +2047,19 @@ DATA_cuadros_B040:
 
 
 firetotem_cuenta:
-	inc (ix+015h)		;b04f
+	inc (ix+015h)		;b04f   ; cada 4 saltos, ix+0x18 = 1: en la espera siguiente lanza
 	ld a,(ix+015h)		;b052
 	and 003h		;b055
 	ret nz			;b057
 	ld (ix+018h),001h		;b058
 	ret			;b05c
 firetotem_lanza:
-	ld c,08ch		;b05d
+	ld c,08ch		;b05d   ; la figura 0x8C en su sitio
 	ld e,(ix+003h)		;b05f   ; lee la y del enemigo
 	ld d,(ix+005h)		;b062   ; lee la x del enemigo
 	jp 0709ah		;b065   ; p01:crea_una_figura: CREA UNA FIGURA: el tipo C en DE
 L_B068:
-	ld (ix+00bh),009h		;b068   ; el cuadro del enemigo = 0x09
+	ld (ix+00bh),009h		;b068   ; AL CREAR HUMPEDMAN: cuadro 9, 0x0C cuadros, y apunta su sitio en ix+0x14-0x17
 	ld (ix+012h),000h		;b06c
 	ld (ix+013h),00ch		;b070
 	ld a,(ix+002h)		;b074
@@ -2112,10 +2112,10 @@ DATA_tabla_B0AD:
 
 
 L_B0C1:
-	inc (ix+001h)		;b0c1   ; HUMPEDMAN, paso 0
+	inc (ix+001h)		;b0c1   ; al paso 1 (el de las ranas, p03:A860)
 	ret			;b0c4
 L_B0C5:
-	ld (ix+00bh),009h		;b0c5   ; HUMPEDMAN, paso 2
+	ld (ix+00bh),009h		;b0c5   ; los pasos de las ranas (p03:A88C y siguientes), con sus cuadros
 	jp L_A890		;b0c9
 L_B0CC:
 	ld (ix+00bh),00dh		;b0cc   ; HUMPEDMAN, paso 3
@@ -2139,7 +2139,7 @@ L_B0F6:
 	ld (ix+00bh),00ch		;b0f6   ; HUMPEDMAN, paso 9
 	jp L_AA25		;b0fa
 L_B0FD:
-	ld hl,0df95h		;b0fd
+	ld hl,0df95h		;b0fd   ; AL CREAR PIGWORM: cuadro 0, y su punto de partida en el guion (ix+0x15) de p03:B11D segun cuantos van (0xDF95)...
 L_B100:
 	ld (ix+00bh),000h		;b100   ; el cuadro del enemigo = 0x00
 L_B104:
@@ -2151,7 +2151,7 @@ L_B104:
 	call 04255h		;b10f   ; p00:hl_mas_a
 	ld a,(hl)			;b112
 	ld (ix+015h),a		;b113
-	rra			;b116
+	rra			;b116   ; ...y la espera, ese valor / 4 + 1
 	rra			;b117
 	inc a			;b118
 	ld (ix+013h),a		;b119
@@ -2189,13 +2189,13 @@ DATA_tabla_B12B:
 
 
 L_B135:
-	dec (ix+013h)		;b135   ; PIGWORM, paso 0
+	dec (ix+013h)		;b135   ; PASO 0: tras ix+0x13 cuadros, 8 pasos y a elegir rumbo
 	ret nz			;b138
 	ld (ix+012h),008h		;b139
 	ld (ix+013h),001h		;b13d
 	jr L_B16B		;b141
 L_B143:
-	ld c,002h		;b143   ; PIGWORM, paso 1
+	ld c,002h		;b143   ; PASOS 1-4, abajo, izquierda, derecha y arriba (C el lado): cada ix+0x13 cuadros...
 L_B145:
 	ld a,(ix+013h)		;b145
 	and a			;b148
@@ -2203,8 +2203,8 @@ L_B145:
 	dec (ix+013h)		;b14b
 	ret			;b14e
 L_B14F:
-	call gusanos_cuadro		;b14f
-	call 06913h		;b152
+	call gusanos_cuadro		;b14f   ; ...su cuadro y un paso; a los 8, espera 8 cuadros y elige rumbo
+	call 06913h		;b152   ; p01:mueve_la_ficha: un paso: la y (ix+2, ix+3) mas la velocidad vertical...
 	dec (ix+012h)		;b155
 	ret nz			;b158
 	ld (ix+013h),008h		;b159
@@ -2219,7 +2219,7 @@ L_B167:
 	ld c,000h		;b167   ; PIGWORM, paso 4
 	jr L_B145		;b169
 L_B16B:
-	ld a,0ffh		;b16b
+	ld a,0ffh		;b16b   ; ELIGE RUMBO, con el guion de 32 codigos de p03:B20F (ix+0x15)...
 L_B16D:
 	ld (0e800h),a		;b16d
 	inc (ix+015h)		;b170
@@ -2239,7 +2239,7 @@ L_B16D:
 	jr nz,L_B1C6		;b18c
 	jr L_B1AC		;b18e
 L_B190:
-	ld a,(0c107h)		;b190   ; lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+	ld a,(0c107h)		;b190   ; ...0: si el jugador pulsa alguna tecla, al reves de hacia donde mira Mitchel (p03:B1FB)...
 	and 00fh		;b193
 	jr z,L_B1AC		;b195
 	ld a,(0c306h)		;b197   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
@@ -2254,7 +2254,7 @@ L_B190:
 	ld a,b			;b1a9
 	jr nc,L_B1DB		;b1aa
 L_B1AC:
-	ld a,r		;b1ac
+	ld a,r		;b1ac   ; ...1: hacia un punto al azar...
 	rla			;b1ae
 	rla			;b1af
 	ld e,a			;b1b0
@@ -2266,11 +2266,11 @@ L_B1AC:
 	call 0729eh		;b1b9   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	jr L_B1DB		;b1bc
 L_B1BE:
-	ld bc,00000h		;b1be
+	ld bc,00000h		;b1be   ; ...2: hacia Mitchel...
 	call 0729eh		;b1c1   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	jr L_B1DB		;b1c4
 L_B1C6:
-	ld hl,0e800h		;b1c6
+	ld hl,0e800h		;b1c6   ; ...0xFF: recto (p03:B1FF, desde el paso + 0xE800), o al azar si choca
 	add a,(hl)			;b1c9
 	ld hl,0b1ffh		;b1ca
 	call 04255h		;b1cd   ; p00:hl_mas_a
@@ -2282,7 +2282,7 @@ L_B1C6:
 	jr c,L_B1AC		;b1d8
 	ld a,b			;b1da
 L_B1DB:
-	ld hl,0b203h		;b1db
+	ld hl,0b203h		;b1db   ; de p03:B203 [vy][vx][paso] de la direccion, y 8 pasos
 	ld c,a			;b1de
 	add a,a			;b1df
 	add a,c			;b1e0
@@ -2317,7 +2317,7 @@ DATA_tablas_B1FB:
 
 
 gusanos_cuadro:
-	ld a,(ix+012h)		;b22f
+	ld a,(ix+012h)		;b22f   ; el cuadro de p03:B23E segun el paso que va dando (ix+0x12)
 	dec a			;b232
 	ld hl,0b23eh		;b233   ; cuadros_B23E: 9 bytes: el cuadro (ix+0x0B) segun ix+0x12 - 1 (p03:B233)
 	call 04255h		;b236   ; p00:hl_mas_a
@@ -2338,7 +2338,7 @@ DATA_cuadros_B23E:
 
 
 L_B247:
-	ld (ix+00bh),026h		;b247   ; el cuadro del enemigo = 0x26
+	ld (ix+00bh),026h		;b247   ; AL CREAR BUCKLER: cuadro 0x26, con 0xDF96
 	ld hl,0df96h		;b24b
 	jp L_B104		;b24e
 L_B251:
@@ -2367,11 +2367,11 @@ DATA_tabla_B257:
 
 
 L_B269:
-	ld (ix+07fh),002h		;b269   ; BUCKLER, paso 1
+	ld (ix+07fh),002h		;b269   ; PASOS 1-4, QUIETO mirando abajo (cuadro 0x26), a la izquierda (0x2C), a la derecha (0x28) o arriba (0x27), con el lado en ix+0x7F...
 	ld (ix+00bh),026h		;b26d   ; el cuadro del enemigo = 0x26
 	ld a,005h		;b271
 L_B273:
-	dec (ix+012h)		;b273
+	dec (ix+012h)		;b273   ; ...ix+0x12 cuadros; luego en marcha por ese lado (pasos 5-8), 0x30 cuadros
 	ret nz			;b276
 	ld (ix+001h),a		;b277   ; guarda el paso en que va
 	ld (ix+012h),030h		;b27a
@@ -2392,12 +2392,12 @@ L_B297:
 	ld a,008h		;b29f
 	jr L_B273		;b2a1
 L_B2A3:
-	ld c,000h		;b2a3   ; BUCKLER, paso 5
-	call buckler_cuadros		;b2a5
+	ld c,000h		;b2a3   ; PASOS 5-8, EN MARCHA: su cuadro y un paso cada cuadro...
+	call buckler_cuadros		;b2a5   ; buckler_cuadros: los cuadros de p03:B2E9
 	ld c,002h		;b2a8
 L_B2AA:
-	call 06913h		;b2aa
-	dec (ix+012h)		;b2ad
+	call 06913h		;b2aa   ; p01:mueve_la_ficha: un paso: la y (ix+2, ix+3) mas la velocidad vertical...
+	dec (ix+012h)		;b2ad   ; ...y al acabar o chocar (mirado cada 8), elige rumbo (con 0xE800 = -5: pasos 5-8)
 	jp z,L_B2DE		;b2b0
 	ld a,(ix+012h)		;b2b3
 	and 007h		;b2b6
@@ -2409,24 +2409,24 @@ L_B2AA:
 	jp L_B2DE		;b2c0
 L_B2C3:
 	ld c,001h		;b2c3   ; BUCKLER, paso 6
-	call buckler_cuadros		;b2c5
+	call buckler_cuadros		;b2c5   ; buckler_cuadros: los cuadros de p03:B2E9
 	ld c,003h		;b2c8
 	jr L_B2AA		;b2ca
 L_B2CC:
 	ld c,002h		;b2cc   ; BUCKLER, paso 7
-	call buckler_cuadros		;b2ce
+	call buckler_cuadros		;b2ce   ; buckler_cuadros: los cuadros de p03:B2E9
 	ld c,001h		;b2d1
 	jr L_B2AA		;b2d3
 L_B2D5:
 	ld c,003h		;b2d5   ; BUCKLER, paso 8
-	call buckler_cuadros		;b2d7
+	call buckler_cuadros		;b2d7   ; buckler_cuadros: los cuadros de p03:B2E9
 	ld c,000h		;b2da
 	jr L_B2AA		;b2dc
 L_B2DE:
 	ld a,0fbh		;b2de
 	jp L_B16D		;b2e0
 buckler_cuadros:
-	ld hl,0b2e9h		;b2e3   ; cuadros_B2E9: 8 cuadros que p03:B34B elige segun el bit 3 de ix+0x0C y C (entrada p03:B2E3)
+	ld hl,0b2e9h		;b2e3   ; los cuadros de p03:B2E9
 	jp L_B34B		;b2e6
 
 ; ----------------------------------------------------------------------
@@ -2442,7 +2442,7 @@ DATA_cuadros_B2E9:
 
 
 L_B2F1:
-	ld (ix+00bh),000h		;b2f1   ; el cuadro del enemigo = 0x00
+	ld (ix+00bh),000h		;b2f1   ; AL CREAR GRASSOGRE: cuadro 0, con 0xDF97
 	ld hl,0df97h		;b2f5
 	jp L_B104		;b2f8
 L_B2FB:
@@ -2466,12 +2466,12 @@ DATA_tabla_B301:
 
 
 L_B30B:
-	ld c,000h		;b30b   ; GRASSOGRE, paso 1
-	call grassogre_cuadros		;b30d
+	ld c,000h		;b30b   ; PASOS 1-4, EN MARCHA abajo, izquierda, derecha o arriba: su cuadro y un paso cada cuadro...
+	call grassogre_cuadros		;b30d   ; grassogre_cuadros: los cuadros de p03:B35F...
 	ld c,002h		;b310
 L_B312:
-	call 06913h		;b312
-	dec (ix+012h)		;b315
+	call 06913h		;b312   ; p01:mueve_la_ficha: un paso: la y (ix+2, ix+3) mas la velocidad vertical...
+	dec (ix+012h)		;b315   ; ...y al acabar o chocar (mirado cada 8), elige rumbo
 	jp z,L_B16B		;b318
 	ld a,(ix+012h)		;b31b
 	and 007h		;b31e
@@ -2483,23 +2483,23 @@ L_B312:
 	jp L_B16B		;b328
 L_B32B:
 	ld c,001h		;b32b   ; GRASSOGRE, paso 2
-	call grassogre_cuadros		;b32d
+	call grassogre_cuadros		;b32d   ; grassogre_cuadros: los cuadros de p03:B35F...
 	ld c,003h		;b330
 	jr L_B312		;b332
 L_B334:
 	ld c,002h		;b334   ; GRASSOGRE, paso 3
-	call grassogre_cuadros		;b336
+	call grassogre_cuadros		;b336   ; grassogre_cuadros: los cuadros de p03:B35F...
 	ld c,001h		;b339
 	jp L_B312		;b33b
 L_B33E:
 	ld c,003h		;b33e   ; GRASSOGRE, paso 4
-	call grassogre_cuadros		;b340
+	call grassogre_cuadros		;b340   ; grassogre_cuadros: los cuadros de p03:B35F...
 	ld c,000h		;b343
 	jp L_B312		;b345
 grassogre_cuadros:
-	ld hl,0b35fh		;b348   ; cuadros_B35F: lo mismo para p03:B348
+	ld hl,0b35fh		;b348   ; los cuadros de p03:B35F...
 L_B34B:
-	bit 3,(ix+00ch)		;b34b   ; mira el bit 3 de la cuenta de cuadros
+	bit 3,(ix+00ch)		;b34b   ; ...el de la direccion C (C*2) y el siguiente, alternando cada 8 cuadros
 	ld b,000h		;b34f
 	jr nz,L_B354		;b351
 	inc b			;b353
@@ -2524,10 +2524,10 @@ DATA_cuadros_B35F:
 
 
 L_B367:
-	ld hl,0df98h		;b367
+	ld hl,0df98h		;b367   ; AL CREAR SLIPSLIME: cuadro 0, con 0xDF98
 	jp L_B100		;b36a
 L_B36D:
-	ld a,(ix+01eh)		;b36d   ; ENTRADA de SLIPSLIME (tipo 0x02), con su ficha en IX
+	ld a,(ix+01eh)		;b36d   ; SLIPSLIME (y WOODWORM): si toca a Mitchel (bit 0 de ix+0x1E), se le pega (paso 5)
 	and 001h		;b370
 	jr z,L_B378		;b372
 	ld (ix+001h),005h		;b374   ; el paso en que va = 0x05
@@ -2554,7 +2554,7 @@ DATA_tabla_B37E:
 
 
 L_B38A:
-	ld hl,(0c302h)		;b38a
+	ld hl,(0c302h)		;b38a   ; PEGADO: en el sitio de Mitchel (0xC302-0xC305, con los bajos)
 	ld (ix+002h),l		;b38d
 	ld (ix+003h),h		;b390   ; guarda la y del enemigo
 	ld hl,(0c304h)		;b393
@@ -2562,12 +2562,12 @@ L_B38A:
 	ld (ix+005h),h		;b399   ; guarda la x del enemigo
 	ret			;b39c
 L_B39D:
-	ld hl,0df99h		;b39d
+	ld hl,0df99h		;b39d   ; AL CREAR WOODWORM: cuadro 0, con 0xDF99
 	jp L_B100		;b3a0
 L_B3A3:
 	jp L_B36D		;b3a3   ; ENTRADA de WOODWORM (tipo 0x03), con su ficha en IX
 L_B3A6:
-	ld (ix+017h),040h		;b3a6
+	ld (ix+017h),040h		;b3a6   ; AL CREAR GRASSWORM: su caja (ix+0x17-0x1A: y 0x40-0x80, x 0x20-0x90), velocidad 3, vida 0x10, colores 1/0x44, 3 partes...
 	ld (ix+018h),081h		;b3aa
 	ld (ix+019h),020h		;b3ae
 	ld (ix+01ah),091h		;b3b2
@@ -2578,12 +2578,12 @@ L_B3A6:
 	ld (0e805h),hl		;b3c2
 	ld a,003h		;b3c5
 L_B3C7:
-	ld c,a			;b3c7
+	ld c,a			;b3c7   ; ...cuadro 0x11 la cabeza y 0x10 el cuerpo...
 	ld (0e802h),a		;b3c8
 	ld hl,01011h		;b3cb
 	ld (0e803h),hl		;b3ce
 L_B3D1:
-	ld a,(0e803h)		;b3d1
+	ld a,(0e803h)		;b3d1   ; ...LA CABEZA: su cuadro, 0xC0 en ix+0x12, su centro (ix+0x15 x, ix+0x16 y)...
 	ld (ix+00bh),a		;b3d4   ; guarda el cuadro del enemigo
 	ld (ix+012h),0c0h		;b3d7
 	ld (ix+013h),000h		;b3db
@@ -2593,7 +2593,7 @@ L_B3D1:
 	ld (ix+016h),a		;b3e8
 	ld a,(0e802h)		;b3eb
 	ld (ix+01ch),a		;b3ee
-	ld hl,0dd00h		;b3f1
+	ld hl,0dd00h		;b3f1   ; ...y el rastro de 0xDD00 (128 sitios [y][x]) lleno con su sitio de ahora
 	ld b,080h		;b3f4
 	ld e,(ix+003h)		;b3f6   ; lee la y del enemigo
 	ld d,(ix+005h)		;b3f9   ; lee la x del enemigo
@@ -2603,7 +2603,7 @@ L_B3FC:
 	ld (hl),d			;b3fe
 	inc hl			;b3ff
 	djnz L_B3FC		;b400
-	push ix		;b402
+	push ix		;b402   ; LAS PARTES, en las fichas siguientes: el mismo tipo en el paso 2, en su sitio, quietas...
 	pop iy		;b404
 	push iy		;b406
 	pop hl			;b408
@@ -2639,7 +2639,7 @@ L_B418:
 	ld (ix+011h),a		;b452
 	ld (ix+01dh),a		;b455
 	ld (ix+01eh),a		;b458
-	ld a,(0e804h)		;b45b
+	ld a,(0e804h)		;b45b   ; ...su cuadro, su vida, su retraso en el rastro (ix+0x13, 0x40 menos cada una), la cabeza en ix+0x14/15, su numero en ix+0x16...
 	ld (ix+00bh),a		;b45e   ; guarda el cuadro del enemigo
 	ld a,(0e807h)		;b461
 	ld (ix+00dh),a		;b464   ; guarda la vida del enemigo (BCD)
@@ -2652,7 +2652,7 @@ L_B418:
 	ld (0e801h),a		;b477
 	ld a,(0e802h)		;b47a
 	ld (ix+01ch),a		;b47d
-	ld (ix+020h),002h		;b480   ; cuantos sprites lleva = 0x02
+	ld (ix+020h),002h		;b480   ; ...2 sprites con sus colores, y sus huecos en la tabla de sprites (y 0xE1)
 	ld a,(0e805h)		;b484
 	ld (ix+025h),a		;b487
 	ld a,(0e806h)		;b48a
@@ -2705,16 +2705,16 @@ DATA_tabla_B4CB:
 
 
 L_B4D1:
-	call gusanos_color		;b4d1
+	call gusanos_color		;b4d1   ; PASO 0 (la cabeza, vuelta de arriba): su cuadro...
 L_B4D4:
-	ld a,(ix+013h)		;b4d4
+	ld a,(ix+013h)		;b4d4   ; ...avanza en el rastro (ix+0x13, 0-0x7F)...
 	inc a			;b4d7
 	ld (ix+013h),a		;b4d8
 	sub 080h		;b4db
 	jr c,L_B4E3		;b4dd
 	ld (ix+013h),000h		;b4df
 L_B4E3:
-	ld a,(ix+00ch)		;b4e3   ; lee la cuenta de cuadros
+	ld a,(ix+00ch)		;b4e3   ; ...uno de cada dos cuadros el centro se acerca a Mitchel, sin salir de la caja...
 	rra			;b4e6
 	jr c,L_B549		;b4e7
 	ld a,(0c303h)		;b4e9   ; lee la Y de Mitchel
@@ -2759,13 +2759,13 @@ L_B537:
 	dec a			;b545
 	ld (ix+015h),a		;b546
 L_B549:
-	ld a,(ix+016h)		;b549
+	ld a,(ix+016h)		;b549   ; ...da la vuelta alrededor del centro, 0x10 por encima, con la curva de p03:B737...
 	sub 010h		;b54c
 	ld (ix+014h),a		;b54e
 	xor a			;b551
 	ld (0e800h),a		;b552
-	call gusanos_paso		;b555
-	ld hl,0dd00h		;b558
+	call gusanos_paso		;b555   ; gusanos_paso: LA VUELTA: con ix+0x12 (0-0xFF, sube ix+0x1B cada vez) y los 65 bytes de p03:B737...
+	ld hl,0dd00h		;b558   ; ...apunta su sitio en el rastro...
 	ld a,(ix+013h)		;b55b
 	add a,a			;b55e
 	call 04255h		;b55f   ; p00:hl_mas_a
@@ -2774,13 +2774,13 @@ L_B549:
 	inc hl			;b566
 	ld a,(ix+005h)		;b567   ; lee la x del enemigo
 	ld (hl),a			;b56a
-	ld a,(ix+012h)		;b56b
+	ld a,(ix+012h)		;b56b   ; ...y al acabar la vuelta (ix+0x12 = 0xC0), la de abajo (paso 1)
 	cp 0c0h		;b56e
 	ret nz			;b570
 	inc (ix+001h)		;b571   ; sube el paso en que va
 	ret			;b574
 L_B575:
-	call gusanos_color		;b575
+	call gusanos_color		;b575   ; PASO 1 (vuelta de abajo): lo mismo, 0x10 por debajo del centro; al acabar, al paso 0
 L_B578:
 	ld a,(ix+013h)		;b578
 	inc a			;b57b
@@ -2839,7 +2839,7 @@ L_B5ED:
 	ld (ix+014h),a		;b5f2
 	ld a,001h		;b5f5
 	ld (0e800h),a		;b5f7
-	call gusanos_paso		;b5fa
+	call gusanos_paso		;b5fa   ; gusanos_paso: LA VUELTA: con ix+0x12 (0-0xFF, sube ix+0x1B cada vez) y los 65 bytes de p03:B737...
 	ld hl,0dd00h		;b5fd
 	ld a,(ix+013h)		;b600
 	add a,a			;b603
@@ -2855,7 +2855,7 @@ L_B5ED:
 	dec (ix+001h)		;b616   ; baja el paso en que va
 	ret			;b619
 gusanos_color:
-	ld a,(ix+00ch)		;b61a   ; lee la cuenta de cuadros
+	ld a,(ix+00ch)		;b61a   ; el cuadro 0x11 o 0x12, cambiando cada 16 cuadros
 	and 010h		;b61d
 	ld a,011h		;b61f
 	jr z,L_B625		;b621
@@ -2864,7 +2864,7 @@ L_B625:
 	ld (ix+00bh),a		;b625   ; guarda el cuadro del enemigo
 	ret			;b628
 L_B629:
-	ld l,(ix+014h)		;b629
+	ld l,(ix+014h)		;b629   ; PASO 2 (cada parte): donde estuvo la cabeza hace ix+0x13 (+ p03:B659 segun su numero) pasos del rastro
 	ld h,(ix+015h)		;b62c
 	ld a,013h		;b62f
 	call 04255h		;b631   ; p00:hl_mas_a
@@ -2903,11 +2903,11 @@ DATA_sumas_B659:
 
 
 gusanos_paso:
-	ld a,(ix+01bh)		;b65e
+	ld a,(ix+01bh)		;b65e   ; LA VUELTA: con ix+0x12 (0-0xFF, sube ix+0x1B cada vez) y los 65 bytes de p03:B737...
 	ld d,a			;b661
 	ld e,004h		;b662
 	ld hl,0b737h		;b664   ; pasos_B737: 65 bytes que recorren p03:B664, p03:B6A7 y p03:B6F9 segun ix+0x12
-	ld a,(ix+012h)		;b667
+	ld a,(ix+012h)		;b667   ; ...la x alrededor del centro, a un lado u otro segun el cuarto de vuelta...
 	cp 040h		;b66a
 	ld c,001h		;b66c
 	jr c,L_B68B		;b66e
@@ -2929,7 +2929,7 @@ L_B686:
 	xor a			;b689
 	sub b			;b68a
 L_B68B:
-	call gusanos_de_la_tabla		;b68b
+	call gusanos_de_la_tabla		;b68b   ; gusanos_de_la_tabla: A = el byte de la tabla >> E, con el signo de C en el acarreo
 	jr c,L_B695		;b68e
 	add a,(ix+015h)		;b690
 	jr L_B69A		;b693
@@ -2939,7 +2939,7 @@ L_B695:
 	sub b			;b699
 L_B69A:
 	ld (ix+005h),a		;b69a   ; guarda la x del enemigo
-	ld a,(0e800h)		;b69d
+	ld a,(0e800h)		;b69d   ; ...y la y, en un sentido (0xE800 = 0) o en el otro (p03:B6F6): un ocho
 	and a			;b6a0
 	jp nz,L_B6F6		;b6a1
 	ld a,(ix+012h)		;b6a4
@@ -2969,7 +2969,7 @@ L_B6CC:
 	ld c,000h		;b6cc
 	sub 0c0h		;b6ce
 L_B6D0:
-	call gusanos_de_la_tabla		;b6d0
+	call gusanos_de_la_tabla		;b6d0   ; gusanos_de_la_tabla: A = el byte de la tabla >> E, con el signo de C en el acarreo
 	jr c,L_B6DA		;b6d3
 	add a,(ix+014h)		;b6d5
 	jr L_B6DF		;b6d8
@@ -2985,7 +2985,7 @@ L_B6E2:
 	ld (ix+012h),a		;b6e6
 	ret			;b6e9
 gusanos_de_la_tabla:
-	call 04255h		;b6ea   ; p00:hl_mas_a
+	call 04255h		;b6ea   ; A = el byte de la tabla >> E, con el signo de C en el acarreo
 	ld a,(hl)			;b6ed
 	ld b,e			;b6ee
 L_B6EF:
@@ -3021,7 +3021,7 @@ L_B71E:
 	ld c,001h		;b71e
 	sub 0c0h		;b720
 L_B722:
-	call gusanos_de_la_tabla		;b722
+	call gusanos_de_la_tabla		;b722   ; gusanos_de_la_tabla: A = el byte de la tabla >> E, con el signo de C en el acarreo
 	jr c,L_B72C		;b725
 	add a,(ix+014h)		;b727
 	jr L_B731		;b72a
@@ -3050,7 +3050,7 @@ DATA_pasos_B737:
 
 
 L_B778:
-	ld (ix+017h),040h		;b778
+	ld (ix+017h),040h		;b778   ; AL CREAR MIREWORM: la misma caja, vida 0x20, colores 1/0x46, 5 partes
 	ld (ix+018h),081h		;b77c
 	ld (ix+019h),020h		;b780
 	ld (ix+01ah),091h		;b784
@@ -3062,9 +3062,9 @@ L_B778:
 	ld a,005h		;b797
 	jp L_B3C7		;b799
 L_B79C:
-	jp L_B4C5		;b79c   ; ENTRADA de MIREWORM (tipo 0x2E), con su ficha en IX
+	jp L_B4C5		;b79c   ; MIREWORM usa lo de GRASSWORM
 L_B79F:
-	ld (ix+017h),030h		;b79f
+	ld (ix+017h),030h		;b79f   ; AL CREAR CENTIPEDE: caja y 0x30-0x70, x 0x30-0x90, vida 0x15, 3 partes, cuadros 0x10 y 0x12, colores 1/0x46
 	ld (ix+018h),071h		;b7a3
 	ld (ix+019h),030h		;b7a7
 	ld (ix+01ah),091h		;b7ab
@@ -3123,7 +3123,7 @@ L_B801:
 	ld (ix+00bh),a		;b801   ; guarda el cuadro del enemigo
 	ret			;b804
 L_B805:
-	ld (ix+017h),040h		;b805
+	ld (ix+017h),040h		;b805   ; AL CREAR CENTIPEDE (tipo 0x14)
 	ld (ix+018h),071h		;b809
 	ld (ix+019h),020h		;b80d
 	ld (ix+01ah),091h		;b811
@@ -3861,7 +3861,7 @@ L_BD1F:
 	ld b,002h		;bd25
 	jp L_BC89		;bd27
 L_BD2A:
-	ld (ix+00bh),065h		;bd2a   ; el cuadro del enemigo = 0x65
+	ld (ix+00bh),065h		;bd2a   ; AL CREAR la ficha del tipo 0x3D
 	ld (ix+00eh),001h		;bd2e
 	ld (ix+006h),001h		;bd32   ; si se mueve = 0x01
 	ld a,(0c125h)		;bd36   ; lee la PANTALLA
@@ -3931,7 +3931,7 @@ DATA_velocidades_BDB9:
 
 
 L_BDC1:
-	ld a,(ix+001h)		;bdc1   ; ENTRADA de tipo 0x3D (tipo 0x3D), con su ficha en IX
+	ld a,(ix+001h)		;bdc1   ; ENTRADA de la ficha del tipo 0x3D, con ella en IX
 	call 0425fh		;bdc4   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
@@ -3988,7 +3988,7 @@ L_BE18:
 	jp z,04311h		;be1f   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	jp 04318h		;be22   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_BE25:
-	ld (ix+00bh),007h		;be25   ; el cuadro del enemigo = 0x07
+	ld (ix+00bh),007h		;be25   ; AL CREAR RUINSBAT (tipo 0x3F)
 	ld (ix+012h),010h		;be29
 	ret			;be2d
 L_BE2E:
@@ -4040,7 +4040,7 @@ L_BE59:
 	ret			;be7a
 L_BE7B:
 	call ruinsbat_anima		;be7b   ; RUINSBAT, paso 1
-	call 06913h		;be7e
+	call 06913h		;be7e   ; p01:mueve_la_ficha: un paso: la y (ix+2, ix+3) mas la velocidad vertical...
 	ld e,(ix+003h)		;be81   ; lee la y del enemigo
 	ld d,(ix+005h)		;be84   ; lee la x del enemigo
 	ld l,000h		;be87
