@@ -85,7 +85,7 @@ def lineas(c):
 def donde():
     """{conversacion: [pantallas]} por p12:A5FE y las parejas de p01:7EF5."""
     d = {}
-    for n in range(1, 0x72):
+    for n in range(0, 0x72):
         c = P.lee(TABLA_PANTALLA + n, B)
         if c:
             d.setdefault(c, []).append(n)

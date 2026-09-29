@@ -1,5 +1,9 @@
 # Notas del banco 08: comentarios (C), etiquetas (L) y datos (D) anclados a direccion.
 
+# --- A MANO: comentarios, nombres y bloques (cada uno de lo que hace ESE codigo) ---
+D 0x84CA 0x84DA bloque_vacio_juego_3  un bloque mas del juego de dibujos 3, todo dibujo 0: ninguna pantalla lo usa (la tabla del juego 4 empieza detras)
+D 0x8D4A 0x8D5A bloque_vacio_juego_7  un bloque mas del juego de dibujos 7, todo dibujo 0: ninguna pantalla lo usa
+
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x8000 0x82BA bloques_juego_2_cola  los 64 bloques del juego de dibujos 2: 16 numeros de dibujo cada uno (4 filas de 4); hasta el mas alto que usa una pantalla (sigue del banco anterior, 0x7EBA); lo leen p00:4F5F (698 bytes)
 F 0x8000 16

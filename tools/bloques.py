@@ -629,8 +629,8 @@ def sprites_de_enemigos(t, bl):
                 for i, j in tramos:
                     bl.anota(s, i, j, "sprites_%04X" % i,
                              "RLE de patrones de sprite (n con el bit 7 = n bytes tal "
-                             "cual; sin el, repetir el siguiente; 0x80 [palabra] sigue "
-                             "en otra direccion; 0 acaba); lista %d" % k, "p00:45EF")
+                             "cual; sin el, repetir el siguiente; 0 acaba); lista %d" % k,
+                             "p00:45EF")
             a += 4
         bl.anota(B123, ini, a + 1, "lista_de_sprites_%d" % k,
                  "entradas [bancos | accion][destino][fuente]: 1 RLE, 2 espejo, 3 "
@@ -698,8 +698,8 @@ def conversaciones(t, bl):
     """tools/dialogos.py: quien habla en cada pantalla, la lista de lineas de
     cada conversacion y sus textos."""
     import dialogos as D
-    bl.anota(B101112, D.TABLA_PANTALLA + 1, D.TABLA_PANTALLA + 0x72, "conversacion_de_cada_pantalla",
-             "0x71 bytes, uno por pantalla (1-0x71): la conversacion que empieza al "
+    bl.anota(B101112, D.TABLA_PANTALLA, D.TABLA_PANTALLA + 0x72, "conversacion_de_cada_pantalla",
+             "0x72 bytes, uno por pantalla (0-0x71): la conversacion que empieza al "
              "pararse alli (0 = nadie); p01:7E60 con 0xA5FE + pantalla", "p01:7E60", ancho=16)
     bl.anota(B123, D.PAREJAS, D.PAREJAS + 19, "conversaciones_de_los_que_aparecen",
              "[pantalla][conversacion] ... 0: la del objeto 0x25 (alguien que aparece al "

@@ -101,8 +101,10 @@ DATA_bloques_juego_3:
 	defb 074h,061h,001h,064h,062h,063h,002h,065h,005h,006h,00bh,064h,068h,069h,068h,06fh	; 84ba  ta.dbc.e...dhiho
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x84ca..0x84da  (16 bytes)
-DATA_84CA:
+; DATOS bloque_vacio_juego_3: un bloque mas del juego de dibujos 3, todo
+;   dibujo 0: ninguna pantalla lo usa (la tabla del juego 4 empieza detras)
+;   0x84ca..0x84da  (16 bytes)
+DATA_bloque_vacio_juego_3:
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h	; 84ca  ................
 
 ; ----------------------------------------------------------------------
@@ -269,8 +271,10 @@ DATA_bloques_juego_7:
 	defb 066h,003h,079h,061h,007h,00bh,07ah,063h,075h,076h,060h,061h,062h,063h,062h,063h	; 8d3a  f.ya..zcuv`abcbc
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8d4a..0x8d5a  (16 bytes)
-DATA_8D4A:
+; DATOS bloque_vacio_juego_7: un bloque mas del juego de dibujos 7, todo
+;   dibujo 0: ninguna pantalla lo usa
+;   0x8d4a..0x8d5a  (16 bytes)
+DATA_bloque_vacio_juego_7:
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h	; 8d4a  ................
 
 ; ----------------------------------------------------------------------

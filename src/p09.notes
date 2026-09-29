@@ -7,6 +7,18 @@ C 0xBBD2 0x26: oro (p09:BC1C)
 C 0xBBF5 con cuatro boomerangs (0xC349) no se coge otro
 L 0xBC1C recoge_oro
 C 0xBC21 GOLD (0xC135-0xC136, BCD) + B; 9999 como mucho
+D 0xB145 0xB1C5 circulo_B145  64 parejas [dy][dx]: un circulo de radio 0x40; p00:5BED da una vuelta con ix+0x14 (de 0x3F a 0)
+D 0xB83B 0xB84B tabla_B83B  4x4 bytes: lo que p09:B82D devuelve segun 4*A + ix+0x7F
+D 0xB915 0xB959 level_de_cada_enemigo  68 bytes, uno por tipo de enemigo (BCD): el LEVEL (0xC12E) que pide p09:B8BE; por debajo, el golpe solo sigue si R & 15 es 0 (uno de cada 16)
+D 0xBAE4 0xBAE8 byte_7e_BAE4  4 bytes: lo que p09:BAB0 pone en ix+0x7E segun la direccion de Mitchel (0xC306)
+D 0xBB90 0xBB97 codigo_BB90  codigo que no llama nadie: acarreo si C es 3 (como p09:BBA4 con el 4)
+D 0xBC93 0xBCA7 sobra_BC93  20 bytes detras de la fuerza de cada enemigo que no lee nadie
+D 0xBCA7 0xBCB3 fuerza_de_cada_arma  12 bytes (BCD), uno por arma de SHOT1 (0xC140, 0 el puno): lo que p09:BAD6 pasa a p09:B7D6 al golpear
+D 0xBCB3 0xBCC7 subes_de_nivel  [x][y] "LEVEL が あがりました。" 0xFF: lo que p09:B901 escribe al subir de nivel
+D 0xBD0E 0xBD96 caja_de_cada_enemigo  68 parejas [ancho][alto], una por tipo de enemigo: su caja de choque; p09:BCF0 con 0xBD0C + 2*tipo
+D 0xBEC4 0xBEC8 figura_BEC4  2x2 dibujos 0x62 que p09:BEB2 pinta en (0x28, 0x78) antes de poner alli el objeto 0x13
+D 0xBFE6 0xBFEE pasos_BFE6  4 parejas [dx][dy] segun la direccion de Mitchel (p09:BFD8)
+D 0xBFEE 0xC000 relleno_p09  0xFF hasta el final del banco
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA000 0xA31B dibujos_9F5B_cola  30 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 96); los sube p00:48A6 por la lista 0x5506 (sigue del banco anterior, 0x9F5B); lo leen p00:48A6 (795 bytes)
@@ -29,9 +41,9 @@ D 0xACDB 0xAD9B dibujos_ACDB  6 dibujos de 8x8 a 4 bits para la hoja de la pagin
 F 0xACDB 4
 D 0xAD9B 0xAF3B dibujos_AD9B  13 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 121); los sube p00:48A6 por la lista 0x5546; lo leen p00:48A6 (416 bytes)
 F 0xAD9B 4
-D 0xAF3B 0xAFBE sprites_AF3B  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 15; lo leen p00:45EF (131 bytes)
+D 0xAF3B 0xAFBE sprites_AF3B  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 15; lo leen p00:45EF (131 bytes)
 F 0xAF3B 16
-D 0xAFBE 0xB000 sprites_AFBE  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 10; lo leen p00:45EF (66 bytes)
+D 0xAFBE 0xB000 sprites_AFBE  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 10; lo leen p00:45EF (66 bytes)
 F 0xAFBE 16
 D 0xB000 0xB0B7 sprites_comunes  RLE de los 192 bytes de patrones de sprite que p00:4CB6 sube a la VRAM 0xF940 (patrones 0x28-0x3F) al entrar en cada pantalla; lo leen p00:4CBC (183 bytes)
 F 0xB000 16

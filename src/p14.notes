@@ -1,5 +1,8 @@
 # Notas del banco 14: comentarios (C), etiquetas (L) y datos (D) anclados a direccion.
 
+# --- A MANO: comentarios, nombres y bloques (cada uno de lo que hace ESE codigo) ---
+D 0x9EC7 0xA000 sobra_9EC7  313 bytes detras de la figura a pelo de 0x9BA2 que no lee nadie: p00:4BD0 solo copia una estructura para las pantallas 0x31 y 0x34 (0xE804 = 1)
+
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x8000 0x8007 pose_7FCA_cola  la pose 8 de Mitchel (0xC160 = 0): RLE de los dos patrones de 16x16 (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba) (sigue del banco anterior, 0x7FCA); lo leen p00:5010 (7 bytes)
 F 0x8000 16

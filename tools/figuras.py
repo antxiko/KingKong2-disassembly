@@ -67,8 +67,11 @@ TRIO_NIBBLE = {0x10: (4, 5, 6), 0x20: (7, 8, 9), 0x30: (10, 11, 12)}
 
 def rle_con_saltos(a, s):
     """p00:45EF (y p00:4BB4): n con el bit 7 = n bytes tal cual; sin el,
-    repetir el siguiente n veces; 0x80 [palabra] sigue leyendo en otra
-    direccion; 0 acaba. Devuelve (bytes, [(ini, fin) de cada tramo leido])."""
+    repetir el siguiente n veces; 0 acaba. 0x80 [palabra] cambia de sitio:
+    p00:45E9 lo toma como otra direccion de VRAM de destino; aqui se sigue
+    leyendo en la palabra, pero ninguna pista del cartucho lo usa (123 de 123
+    sin un 0x80), asi que no cambia nada. Devuelve (bytes, [(ini, fin) de
+    cada tramo leido])."""
     fuera, tramos, ini = [], [], a
     while True:
         b = P.lee(a, s)

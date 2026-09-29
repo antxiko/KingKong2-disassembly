@@ -27,6 +27,24 @@ C 0xAAEE 0xFF: se acabo (0xCF36 = 1)
 C 0xAAF1 0xFE [x]: renglon siguiente, en x
 L 0xAC07 fin_de_la_escena
 C 0xAC19 0xC137 = 3: acabada
+D 0xA658 0xA664 tabla_A658  6 palabras: a donde salta p06:A649 segun 0xC139 (p06:A664, A674, A683, A699, A6A0 y A6AC)
+D 0xA6BF 0xA6CF saltito_A6BF  16 bytes que p06:A68C suma a la y de Mitchel (0xC303) segun 0xC13A: un saltito arriba y abajo
+D 0xA8B9 0xA8BF finales  3 palabras: la escena de cada final (0xC137 = 0, 1 o 2) que reparte p06:A8AA
+D 0xA8C7 0xA8DF pasos_del_final_0  12 palabras: los pasos (0xC138) del final 0, que reparte p06:A8B0
+D 0xA965 0xA97F pasos_del_final_1  13 palabras: los pasos del final 1
+D 0xAA78 0xAA98 pasos_del_final_2  16 palabras: los pasos del final 2 (los doce primeros, los del final 1)
+D 0xB8E1 0xB8E8 sobra_B8E1  7 bytes entre los dibujos del final y las figuras del titulo que no lee nadie
+D 0xBC05 0xBC09 figura_BC05  2x2 numeros de dibujo que p06:BBF9 pinta en (0x28, 0x78) mientras no se tiene el objeto 0x13 (0xC352)
+D 0xBC09 0xBC2B colores_de_los_especiales  17 punteros segun ix+0 - 0x80 (1-17): la lista de colores de los sprites de cada figura especial; p01:7126 con 0xBC07 (la palabra 0 son dos bytes de la figura de 0xBC05)
+D 0xBC2B 0xBC31 listas_de_colores_especiales  tres listas de dos colores (0xBC2B, 0xBC2D, 0xBC2F) que p01:7136 copia a los sprites
+D 0xBC31 0xBCB3 demostracion_1  la primera demostracion (p01:69CC): parejas [cuadros][teclas] que p01:69F7 va poniendo en 0xC109 y 0xC10A; la tecla 0xFF acaba
+D 0xBCB3 0xBCB7 demostracion_sin_uso  dos parejas mas, [1][0] [3][0xFF], que no pide ninguna demostracion
+D 0xBCB7 0xBD49 demostracion_2  la segunda demostracion, igual (0xC10C alterna entre las dos)
+D 0xBDFF 0xBE16 codigo_BDFF  codigo al que no se llega (p06:BDFC acaba en un jp): mira la x de Mitchel y salta atras con otra pantalla
+D 0xBE16 0xBE62 pasadizos  15 fichas [pantalla][a donde][x][y][C] y un 0: p06:BDD0 busca la pantalla y manda alli a Mitchel (0xC201 = 1, sonido 0x24)
+D 0xBEB1 0xBEC5 zonas_BEB1  4 fichas [direccion][x min][x max][y min][y max]: donde tiene que estar Mitchel, y mirando a donde, para lo de p06:BE87
+D 0xBFDA 0xBFF6 contadores_iniciales  28 bytes que p06:BF86 copia a 0xDE00 al empezar la partida
+D 0xBFF6 0xC000 relleno_p06  0xFF hasta el final del banco
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA000 0xA299 fuente_cola  96 letras de 1 bit (desde el '0', 0x30): la fuente; p01:6010 la sube dos veces (color 14 y color 3) (sigue del banco anterior, 0x9F99); lo leen p00:48ED (665 bytes)

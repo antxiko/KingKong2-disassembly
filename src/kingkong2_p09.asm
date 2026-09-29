@@ -1056,8 +1056,8 @@ DATA_dibujos_AD9B:
 
 ; ----------------------------------------------------------------------
 ; DATOS sprites_AF3B: RLE de patrones de sprite (n con el bit 7 = n bytes tal
-;   cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra
-;   direccion; 0 acaba); lista 15; lo leen p00:45EF (131 bytes)
+;   cual; sin el, repetir el siguiente; 0 acaba); lista 15; lo leen p00:45EF
+;   (131 bytes)
 ;   0xaf3b..0xafbe  (131 bytes)
 DATA_sprites_AF3B:
 	defb 0ffh,01fh,030h,02fh,02fh,05fh,04bh,046h,084h,0b3h,0b9h,0bah,0d5h,075h,072h,039h	; af3b  ..0//_KF.....ur9
@@ -1072,8 +1072,8 @@ DATA_sprites_AF3B:
 
 ; ----------------------------------------------------------------------
 ; DATOS sprites_AFBE: RLE de patrones de sprite (n con el bit 7 = n bytes tal
-;   cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra
-;   direccion; 0 acaba); lista 10; lo leen p00:45EF (66 bytes)
+;   cual; sin el, repetir el siguiente; 0 acaba); lista 10; lo leen p00:45EF
+;   (66 bytes)
 ;   0xafbe..0xb000  (66 bytes)
 DATA_sprites_AFBE:
 	defb 099h,001h,011h,012h,013h,017h,05fh,03fh,03eh,03ch,038h,018h,01ch,04dh,027h,003h	; afbe  ......_?><8..M'.
@@ -1118,8 +1118,10 @@ DATA_lista_de_sprites_de_cada_pantalla:
 	defb 000h,000h,008h,008h,008h,000h,000h,000h,000h,000h,000h,000h,000h,000h	; b137  ..............
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xb145..0xb1c5  (128 bytes)
-DATA_B145:
+; DATOS circulo_B145: 64 parejas [dy][dx]: un circulo de radio 0x40; p00:5BED
+;   da una vuelta con ix+0x14 (de 0x3F a 0)
+;   0xb145..0xb1c5  (128 bytes)
+DATA_circulo_B145:
 	defb 040h,000h,03eh,0f8h,03ch,0f1h,03bh,0ebh,038h,0e5h,036h,0e0h,033h,0dch,030h,0d7h	; b145  @.>.<.;.8.6.3.0.
 	defb 02dh,0d3h,028h,0cfh,022h,0cbh,01ch,0c8h,017h,0c6h,012h,0c4h,00ch,0c2h,006h,0c1h	; b155  -.(."...........
 	defb 000h,0c0h,0fah,0c1h,0f4h,0c2h,0eeh,0c4h,0e9h,0c6h,0e4h,0c8h,0deh,0cbh,0d8h,0cfh	; b165  ................
@@ -2015,8 +2017,9 @@ L_B82D:
 	ret			;b83a
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xb83b..0xb84b  (16 bytes)
-DATA_B83B:
+; DATOS tabla_B83B: 4x4 bytes: lo que p09:B82D devuelve segun 4*A + ix+0x7F
+;   0xb83b..0xb84b  (16 bytes)
+DATA_tabla_B83B:
 	defb 000h,002h,001h,002h,001h,002h,000h,002h,002h,001h,002h,000h,002h,000h,002h,001h	; b83b  ................
 
 ; ======================================================================
@@ -2130,8 +2133,11 @@ L_B90F:
 	jp 04152h		;b912
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xb915..0xb959  (68 bytes)
-DATA_B915:
+; DATOS level_de_cada_enemigo: 68 bytes, uno por tipo de enemigo (BCD): el
+;   LEVEL (0xC12E) que pide p09:B8BE; por debajo, el golpe solo sigue si R &
+;   15 es 0 (uno de cada 16)
+;   0xb915..0xb959  (68 bytes)
+DATA_level_de_cada_enemigo:
 	defb 001h,010h,008h,008h,020h,018h,001h,088h,005h,001h,015h,006h,002h,013h,014h,071h	; b915  .... ..........q
 	defb 002h,008h,015h,018h,012h,031h,004h,012h,025h,028h,005h,014h,010h,010h,030h,010h	; b925  .....1..%(....0.
 	defb 078h,074h,080h,009h,026h,030h,065h,010h,014h,027h,095h,012h,001h,023h,028h,026h	; b935  xt..&0e..'...#(&
@@ -2380,8 +2386,10 @@ L_BA9F:
 	jp L_B8AE		;bae1
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xbae4..0xbae8  (4 bytes)
-DATA_BAE4:
+; DATOS byte_7e_BAE4: 4 bytes: lo que p09:BAB0 pone en ix+0x7E segun la
+;   direccion de Mitchel (0xC306)
+;   0xbae4..0xbae8  (4 bytes)
+DATA_byte_7e_BAE4:
 	defb 002h,000h,001h,003h	; bae4
 
 ; ======================================================================
@@ -2500,8 +2508,10 @@ L_BB89:
 	ret			;bb8f
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xbb90..0xbb97  (7 bytes)
-DATA_BB90:
+; DATOS codigo_BB90: codigo que no llama nadie: acarreo si C es 3 (como
+;   p09:BBA4 con el 4)
+;   0xbb90..0xbb97  (7 bytes)
+DATA_codigo_BB90:
 	defb 079h,0feh,003h,037h,0c8h,0afh,0c9h	; bb90
 
 ; ======================================================================
@@ -2638,10 +2648,25 @@ DATA_fuerza_de_cada_enemigo:
 	defb 000h,040h,001h,002h	; bc8f
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xbc93..0xbcc7  (52 bytes)
-DATA_BC93:
+; DATOS sobra_BC93: 20 bytes detras de la fuerza de cada enemigo que no lee
+;   nadie
+;   0xbc93..0xbca7  (20 bytes)
+DATA_sobra_BC93:
 	defb 001h,018h,001h,005h,002h,001h,001h,002h,003h,001h,001h,001h,004h,018h,016h,003h	; bc93  ................
-	defb 003h,001h,001h,001h,010h,015h,012h,018h,020h,025h,030h,020h,015h,020h,018h,020h	; bca3  ........ %0 . .
+	defb 003h,001h,001h,001h	; bca3
+
+; ----------------------------------------------------------------------
+; DATOS fuerza_de_cada_arma: 12 bytes (BCD), uno por arma de SHOT1 (0xC140, 0
+;   el puno): lo que p09:BAD6 pasa a p09:B7D6 al golpear
+;   0xbca7..0xbcb3  (12 bytes)
+DATA_fuerza_de_cada_arma:
+	defb 010h,015h,012h,018h,020h,025h,030h,020h,015h,020h,018h,020h	; bca7  .... %0 . .
+
+; ----------------------------------------------------------------------
+; DATOS subes_de_nivel: [x][y] "LEVEL が あがりました。" 0xFF: lo que p09:B901 escribe
+;   al subir de nivel
+;   0xbcb3..0xbcc7  (20 bytes)
+DATA_subes_de_nivel:
 	defb 018h,0b8h,04ch,045h,056h,045h,04ch,000h,060h,03ch,000h,05bh,060h,03ch,082h,079h	; bcb3  ..LEVEL.`<.[`<.y
 	defb 066h,06ah,03eh,0ffh	; bcc3
 
@@ -2692,8 +2717,10 @@ L_BD01:
 	ret			;bd0d
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xbd0e..0xbd96  (136 bytes)
-DATA_BD0E:
+; DATOS caja_de_cada_enemigo: 68 parejas [ancho][alto], una por tipo de
+;   enemigo: su caja de choque; p09:BCF0 con 0xBD0C + 2*tipo
+;   0xbd0e..0xbd96  (136 bytes)
+DATA_caja_de_cada_enemigo:
 	defb 006h,006h,006h,006h,006h,006h,00eh,00eh,00eh,00eh,006h,006h,006h,006h,006h,006h	; bd0e  ................
 	defb 006h,006h,006h,006h,00eh,00eh,00eh,00eh,006h,006h,006h,006h,006h,006h,006h,006h	; bd1e  ................
 	defb 006h,006h,006h,006h,006h,006h,006h,006h,006h,006h,00eh,00eh,006h,006h,006h,006h	; bd2e  ................
@@ -2889,8 +2916,10 @@ L_BE92:
 	jp 0419ah		;bec1
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xbec4..0xbec8  (4 bytes)
-DATA_BEC4:
+; DATOS figura_BEC4: 2x2 dibujos 0x62 que p09:BEB2 pinta en (0x28, 0x78) antes
+;   de poner alli el objeto 0x13
+;   0xbec4..0xbec8  (4 bytes)
+DATA_figura_BEC4:
 	defb 062h,062h,062h,062h	; bec4
 
 ; ======================================================================
@@ -3063,7 +3092,15 @@ L_BFD1:
 	ret			;bfe5
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xbfe6..0xc000  (26 bytes)
-DATA_BFE6:
-	defb 0f7h,000h,009h,000h,000h,0f7h,000h,009h,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh	; bfe6  ................
-	defb 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh	; bff6  ..........
+; DATOS pasos_BFE6: 4 parejas [dx][dy] segun la direccion de Mitchel
+;   (p09:BFD8)
+;   0xbfe6..0xbfee  (8 bytes)
+DATA_pasos_BFE6:
+	defb 0f7h,000h,009h,000h,000h,0f7h,000h,009h	; bfe6  ........
+
+; ----------------------------------------------------------------------
+; DATOS relleno_p09: 0xFF hasta el final del banco
+;   0xbfee..0xc000  (18 bytes)
+DATA_relleno_p09:
+	defb 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh	; bfee  ................
+	defb 0ffh,0ffh	; bffe

@@ -1,61 +1,61 @@
 # Notas del banco 05: comentarios (C), etiquetas (L) y datos (D) anclados a direccion.
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
-D 0x8000 0x800D sprites_7FD4_cola  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 13 (sigue del banco anterior, 0x7FD4); lo leen p00:45EF (13 bytes)
+D 0x8000 0x800D sprites_7FD4_cola  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 13 (sigue del banco anterior, 0x7FD4); lo leen p00:45EF (13 bytes)
 F 0x8000 16
-D 0x800D 0x80CB sprites_800D  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 3; lo leen p00:45EF (190 bytes)
+D 0x800D 0x80CB sprites_800D  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 3; lo leen p00:45EF (190 bytes)
 F 0x800D 16
-D 0x80CB 0x811E sprites_80CB  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 3; lo leen p00:45EF (83 bytes)
+D 0x80CB 0x811E sprites_80CB  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 3; lo leen p00:45EF (83 bytes)
 F 0x80CB 16
-D 0x811E 0x819F sprites_811E  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 9; lo leen p00:45EF (129 bytes)
+D 0x811E 0x819F sprites_811E  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 9; lo leen p00:45EF (129 bytes)
 F 0x811E 16
-D 0x819F 0x830D sprites_819F  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 0; lo leen p00:45EF (366 bytes)
+D 0x819F 0x830D sprites_819F  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 0; lo leen p00:45EF (366 bytes)
 F 0x819F 16
-D 0x830D 0x843A sprites_830D  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 10; lo leen p00:45EF (301 bytes)
+D 0x830D 0x843A sprites_830D  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 10; lo leen p00:45EF (301 bytes)
 F 0x830D 16
-D 0x843A 0x853D sprites_843A  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 1; lo leen p00:45EF (259 bytes)
+D 0x843A 0x853D sprites_843A  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 1; lo leen p00:45EF (259 bytes)
 F 0x843A 16
-D 0x853D 0x8674 sprites_853D  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 19; lo leen p00:45EF (311 bytes)
+D 0x853D 0x8674 sprites_853D  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 19; lo leen p00:45EF (311 bytes)
 F 0x853D 16
-D 0x8674 0x876E sprites_8674  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 6; lo leen p00:45EF (250 bytes)
+D 0x8674 0x876E sprites_8674  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 6; lo leen p00:45EF (250 bytes)
 F 0x8674 16
-D 0x876E 0x87EF sprites_876E  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 17; lo leen p00:45EF (129 bytes)
+D 0x876E 0x87EF sprites_876E  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 17; lo leen p00:45EF (129 bytes)
 F 0x876E 16
-D 0x87EF 0x8868 sprites_87EF  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 17; lo leen p00:45EF (121 bytes)
+D 0x87EF 0x8868 sprites_87EF  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 17; lo leen p00:45EF (121 bytes)
 F 0x87EF 16
-D 0x8868 0x893C sprites_8868  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 17; lo leen p00:45EF (212 bytes)
+D 0x8868 0x893C sprites_8868  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 17; lo leen p00:45EF (212 bytes)
 F 0x8868 16
-D 0x893C 0x8AB6 sprites_893C  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 8; lo leen p00:45EF (378 bytes)
+D 0x893C 0x8AB6 sprites_893C  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 8; lo leen p00:45EF (378 bytes)
 F 0x893C 16
-D 0x8AB6 0x8C25 sprites_8AB6  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 2; lo leen p00:45EF (367 bytes)
+D 0x8AB6 0x8C25 sprites_8AB6  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 2; lo leen p00:45EF (367 bytes)
 F 0x8AB6 16
-D 0x8C25 0x8CE4 sprites_8C25  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 26; lo leen p00:45EF (191 bytes)
+D 0x8C25 0x8CE4 sprites_8C25  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 26; lo leen p00:45EF (191 bytes)
 F 0x8C25 16
-D 0x8CE4 0x8D66 sprites_8CE4  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 14; lo leen p00:45EF (130 bytes)
+D 0x8CE4 0x8D66 sprites_8CE4  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 14; lo leen p00:45EF (130 bytes)
 F 0x8CE4 16
-D 0x8D66 0x8DDF sprites_8D66  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 5; lo leen p00:45EF (121 bytes)
+D 0x8D66 0x8DDF sprites_8D66  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 5; lo leen p00:45EF (121 bytes)
 F 0x8D66 16
-D 0x8DDF 0x8E85 sprites_8DDF  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 5; lo leen p00:45EF (166 bytes)
+D 0x8DDF 0x8E85 sprites_8DDF  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 5; lo leen p00:45EF (166 bytes)
 F 0x8DDF 16
-D 0x8E85 0x9044 sprites_8E85  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 0; lo leen p00:45EF (447 bytes)
+D 0x8E85 0x9044 sprites_8E85  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 0; lo leen p00:45EF (447 bytes)
 F 0x8E85 16
-D 0x9044 0x90E8 sprites_9044  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 16; lo leen p00:45EF (164 bytes)
+D 0x9044 0x90E8 sprites_9044  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 16; lo leen p00:45EF (164 bytes)
 F 0x9044 16
-D 0x90E8 0x9129 sprites_90E8  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 15; lo leen p00:45EF (65 bytes)
+D 0x90E8 0x9129 sprites_90E8  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 15; lo leen p00:45EF (65 bytes)
 F 0x90E8 16
-D 0x9129 0x91E7 sprites_9129  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 15; lo leen p00:45EF (190 bytes)
+D 0x9129 0x91E7 sprites_9129  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 15; lo leen p00:45EF (190 bytes)
 F 0x9129 16
-D 0x91E7 0x92A3 sprites_91E7  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 15; lo leen p00:45EF (188 bytes)
+D 0x91E7 0x92A3 sprites_91E7  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 15; lo leen p00:45EF (188 bytes)
 F 0x91E7 16
-D 0x92A3 0x92F0 sprites_92A3  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 15; lo leen p00:45EF (77 bytes)
+D 0x92A3 0x92F0 sprites_92A3  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 15; lo leen p00:45EF (77 bytes)
 F 0x92A3 16
-D 0x92F0 0x93D5 sprites_92F0  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 16; lo leen p00:45EF (229 bytes)
+D 0x92F0 0x93D5 sprites_92F0  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 16; lo leen p00:45EF (229 bytes)
 F 0x92F0 16
-D 0x93D5 0x948C sprites_93D5  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 1; lo leen p00:45EF (183 bytes)
+D 0x93D5 0x948C sprites_93D5  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 1; lo leen p00:45EF (183 bytes)
 F 0x93D5 16
-D 0x948C 0x953F sprites_948C  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 0; lo leen p00:45EF (179 bytes)
+D 0x948C 0x953F sprites_948C  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 0; lo leen p00:45EF (179 bytes)
 F 0x948C 16
-D 0x953F 0x9643 sprites_953F  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 1; lo leen p00:45EF (260 bytes)
+D 0x953F 0x9643 sprites_953F  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 1; lo leen p00:45EF (260 bytes)
 F 0x953F 16
 D 0x9643 0x97C3 dibujos_9643  12 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 1); los sube p00:48A6 por la lista 0x5530; lo leen p00:48A6 (384 bytes)
 F 0x9643 4

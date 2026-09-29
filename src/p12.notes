@@ -84,6 +84,13 @@ L 0xB769 accion_20_carne_por_llave
 C 0xB775 el objeto 0x24
 L 0xB8EE accion_21_espera
 L 0xB8FC accion_22_el_final
+D 0xB4D4 0xB500 ya_no_basta  [x][y] "これだけでは まんぞくできぬ。" 0xFE [x][y] "あいてむの こうりょくも いただく。" 0xFF: lo que escribe p00:454C
+D 0xB974 0xB985 codigo_B974  codigo que no llama nadie: si LEVEL (0xC12E) pasa del MP (0xC12F), sube el MP la mitad de la diferencia
+D 0xBA93 0xBAAE rotulos_de_la_ventana  [x][y] "SHOT 2", "MITCHEL" y "SPEED" (0xFE entre uno y otro, 0xFF acaba): la ventana de p12:BA20 (p12:BA7B)
+D 0xBAAE 0xBAB7 rotulo_shot1  [x][y] "SHOT 1" 0xFF (p12:BA81 y p12:BC14)
+D 0xBD84 0xBD8D rotulo_mizugeta  [x][y] "みずげた" 0xFF: lo que p12:BD73 escribe si se tienen los zuecos (0xC35D)
+D 0xBF6F 0xBF9B patrones_de_la_ventana  [VRAM 0xF800] y un RLE de p00:45EF: los patrones de sprite que p12:BA75 sube para la ventana
+D 0xBFF3 0xC000 relleno_p12  0xFF hasta el final del banco
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA000 0xA09E dibujos_9F9E_cola  8 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 56); los sube p00:48A6 por la lista 0x55BD (sigue del banco anterior, 0x9F9E); lo leen p00:48A6 (158 bytes)
@@ -96,8 +103,8 @@ D 0xA15E 0xA17E dibujos_A15E  1 dibujos de 8x8 a 4 bits para la hoja de la pagin
 F 0xA15E 4
 D 0xA17E 0xA5FE volteados_A17E  16 dibujos de 8x8 que p00:4A1B sube del reves (desde el 17): la mitad derecha de la estatua; se solapan 4 bloques (0xA17E-0xA37E, 0xA17E-0xA51E, 0xA35E-0xA4BE, 0xA4FE-0xA5FE); lo leen p00:48A6, p00:4A24 (1152 bytes)
 F 0xA17E 4
-D 0xA5FF 0xA670 conversacion_de_cada_pantalla  0x71 bytes, uno por pantalla (1-0x71): la conversacion que empieza al pararse alli (0 = nadie); p01:7E60 con 0xA5FE + pantalla; lo leen p01:7E60 (113 bytes)
-F 0xA5FF 16
+D 0xA5FE 0xA670 conversacion_de_cada_pantalla  0x72 bytes, uno por pantalla (0-0x71): la conversacion que empieza al pararse alli (0 = nadie); p01:7E60 con 0xA5FE + pantalla; lo leen p01:7E60 (114 bytes)
+F 0xA5FE 16
 D 0xA670 0xA6E0 conversaciones  56 palabras: la lista de lineas de cada conversacion (desde la 1); p02:80B3 con 0xA66E + 2*conversacion; lo leen p02:80B6 (112 bytes)
 F 0xA670 2
 D 0xA6E0 0xA6EC lineas_01  las 5 lineas de la conversacion 0x01 y un 0 de fin; lo leen p02:80BC (12 bytes)

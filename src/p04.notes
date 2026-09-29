@@ -251,6 +251,6 @@ D 0x7CCC 0x7E76 sonido_7CCC  envolvente o efecto: [volumen|tono alto][tono bajo]
 F 0x7CCC 16
 D 0x7E76 0x7FD4 planos_alternos  14 planos de 25 bloques: la parte que se ve de las pantallas partidas (0xC131 = 1-14, que pone p06:BEC5); p00:4F0B los lee desde 0x7E76 + 25*(0xC131-1); lo leen p00:4F1B (350 bytes)
 F 0x7E76 25
-D 0x7FD4 0x8000 sprites_7FD4  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 3; lo leen p00:45EF (44 bytes)
+D 0x7FD4 0x8000 sprites_7FD4  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 3; lo leen p00:45EF (44 bytes)
 F 0x7FD4 16
 # --- fin de los bloques de bloques.py ---

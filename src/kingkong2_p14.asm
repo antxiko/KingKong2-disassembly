@@ -830,8 +830,11 @@ DATA_figura_9BA2:
 	defb 001h,000h,010h,001h,000h	; 9ec2
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9ec7..0xa000  (313 bytes)
-DATA_9EC7:
+; DATOS sobra_9EC7: 313 bytes detras de la figura a pelo de 0x9BA2 que no lee
+;   nadie: p00:4BD0 solo copia una estructura para las pantallas 0x31 y 0x34
+;   (0xE804 = 1)
+;   0x9ec7..0xa000  (313 bytes)
+DATA_sobra_9EC7:
 	defb 0a5h,055h,055h,055h,054h,04ah,0a4h,044h,044h,0a1h,01ah,044h,044h,015h,051h,044h	; 9ec7  .UUUTJ.DD..DD.QD
 	defb 044h,014h,041h,044h,044h,01ah,0a1h,0aah,044h,051h,015h,011h,044h,041h,054h,055h	; 9ed7  D.ADD...DQ..DATU
 	defb 055h,055h,055h,05ah,044h,044h,044h,044h,044h,044h,044h,04ah,044h,044h,0aah,04ah	; 9ee7  UUUZDDDDDDDJDD.J

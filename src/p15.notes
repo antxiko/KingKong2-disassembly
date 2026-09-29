@@ -1,5 +1,10 @@
 # Notas del banco 15: comentarios (C), etiquetas (L) y datos (D) anclados a direccion.
 
+# --- A MANO: comentarios, nombres y bloques (cada uno de lo que hace ESE codigo) ---
+D 0xA000 0xA047 nibbles_A000  71 bytes, dos nibbles cada uno: uno por pantalla (0x8E); no se ha visto quien los lee, ni en el codigo ni en los volcados
+D 0xBE8E 0xBE98 codigo_BE8E  codigo que no llama nadie: 0xC201 = 5 y 0xC567 = 0 (lo mismo que hace p01:7D00)
+D 0xBFF3 0xC000 relleno_p15  0xFF hasta el final del banco
+
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA047 0xA062 rotulo_del_panel  numeros de dibujo, 0xFE otra fila, 0xFF acaba: el rotulo del panel que p00:4A6F pinta con p00:492B en (0xA8, 0); lo leen p00:4A6F (27 bytes)
 F 0xA047 9
@@ -117,19 +122,19 @@ D 0xA39A 0xA3CA grupo_A39A  12 sprites [dy][dx][patron][color]; lo leen p00:5E96
 F 0xA39A 4
 D 0xA3CA 0xA40E tipo_al_aparecer  68 bytes, uno por tipo: el que p00:5DCA pone en ix+0 al aparecer el enemigo; lo leen p00:5DC9 (68 bytes)
 F 0xA3CA 16
-D 0xA40E 0xA5E4 sprites_A40E  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 10; lo leen p00:45EF (470 bytes)
+D 0xA40E 0xA5E4 sprites_A40E  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 10; lo leen p00:45EF (470 bytes)
 F 0xA40E 16
-D 0xA5E4 0xA6E3 sprites_A5E4  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 22; lo leen p00:45EF (255 bytes)
+D 0xA5E4 0xA6E3 sprites_A5E4  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 22; lo leen p00:45EF (255 bytes)
 F 0xA5E4 16
-D 0xA6E3 0xA7DC sprites_A6E3  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 11; lo leen p00:45EF (249 bytes)
+D 0xA6E3 0xA7DC sprites_A6E3  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 11; lo leen p00:45EF (249 bytes)
 F 0xA6E3 16
-D 0xA7DC 0xA9DE sprites_A7DC  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 4; lo leen p00:45EF (514 bytes)
+D 0xA7DC 0xA9DE sprites_A7DC  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 4; lo leen p00:45EF (514 bytes)
 F 0xA7DC 16
-D 0xA9DE 0xAAE0 sprites_A9DE  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 9; lo leen p00:45EF (258 bytes)
+D 0xA9DE 0xAAE0 sprites_A9DE  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 9; lo leen p00:45EF (258 bytes)
 F 0xA9DE 16
-D 0xAAE0 0xABE4 sprites_AAE0  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 14; lo leen p00:45EF (260 bytes)
+D 0xAAE0 0xABE4 sprites_AAE0  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 14; lo leen p00:45EF (260 bytes)
 F 0xAAE0 16
-D 0xABE4 0xACC1 sprites_ABE4  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 23; lo leen p00:45EF (221 bytes)
+D 0xABE4 0xACC1 sprites_ABE4  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 23; lo leen p00:45EF (221 bytes)
 F 0xABE4 16
 D 0xACC1 0xADAB la_que_sigue_ACC1  el cuadro 0 de la figura que sigue a Mitchel: RLE como el de las poses; lo leen p00:5010 (234 bytes)
 F 0xACC1 16
@@ -149,7 +154,7 @@ D 0xB302 0xB3E5 la_que_sigue_B302  el cuadro 7 de la figura que sigue a Mitchel:
 F 0xB302 16
 D 0xB3E5 0xB465 sprites_B3E5  RLE (p00:45EF) que p00:4C92 sube a la VRAM 0xFA00; lo leen p00:4C9B (128 bytes)
 F 0xB3E5 16
-D 0xB465 0xB525 sprites_B465  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 21; lo leen p00:45EF (192 bytes)
+D 0xB465 0xB525 sprites_B465  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lista 21; lo leen p00:45EF (192 bytes)
 F 0xB465 16
 D 0xB525 0xB625 dibujos_B525  8 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 1); los sube p00:48A6 por la lista 0x5612; lo leen p00:48A6 (256 bytes)
 F 0xB525 4

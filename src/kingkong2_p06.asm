@@ -259,8 +259,10 @@ L_A649:
 	jp (hl)			;a657
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xa658..0xa664  (12 bytes)
-DATA_A658:
+; DATOS tabla_A658: 6 palabras: a donde salta p06:A649 segun 0xC139 (p06:A664,
+;   A674, A683, A699, A6A0 y A6AC)
+;   0xa658..0xa664  (12 bytes)
+DATA_tabla_A658:
 	defb 064h,0a6h,074h,0a6h,083h,0a6h,099h,0a6h,0a0h,0a6h,0ach,0a6h	; a658  d.t.........
 
 ; ======================================================================
@@ -321,8 +323,10 @@ L_A6AC:
 	ret			;a6be
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xa6bf..0xa6cf  (16 bytes)
-DATA_A6BF:
+; DATOS saltito_A6BF: 16 bytes que p06:A68C suma a la y de Mitchel (0xC303)
+;   segun 0xC13A: un saltito arriba y abajo
+;   0xa6bf..0xa6cf  (16 bytes)
+DATA_saltito_A6BF:
 	defb 003h,003h,002h,001h,001h,000h,000h,0ffh,0ffh,0ffh,0feh,0fch,0fah,0fch,0feh,0ffh	; a6bf  ................
 
 ; ======================================================================
@@ -620,8 +624,10 @@ salta_por_la_tabla:
 	jp (hl)			;a8b8
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xa8b9..0xa8bf  (6 bytes)
-DATA_A8B9:
+; DATOS finales: 3 palabras: la escena de cada final (0xC137 = 0, 1 o 2) que
+;   reparte p06:A8AA
+;   0xa8b9..0xa8bf  (6 bytes)
+DATA_finales:
 	defb 0bfh,0a8h,05ch,0a9h,06fh,0aah	; a8b9
 
 ; ======================================================================
@@ -635,8 +641,10 @@ final_0:
 	jr $-21		;a8c5
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xa8c7..0xa8df  (24 bytes)
-DATA_A8C7:
+; DATOS pasos_del_final_0: 12 palabras: los pasos (0xC138) del final 0, que
+;   reparte p06:A8B0
+;   0xa8c7..0xa8df  (24 bytes)
+DATA_pasos_del_final_0:
 	defb 0dfh,0a8h,0ebh,0a8h,0eeh,0a8h,0f1h,0a8h,004h,0a9h,007h,0a9h,00ah,0a9h,021h,0a9h	; a8c7  ..............!.
 	defb 030h,0a9h,033h,0a9h,04eh,0a9h,051h,0a9h	; a8d7  0.3.N.Q.
 
@@ -713,8 +721,9 @@ final_1:
 	jp salta_por_la_tabla		;a962
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xa965..0xa97f  (26 bytes)
-DATA_A965:
+; DATOS pasos_del_final_1: 13 palabras: los pasos del final 1
+;   0xa965..0xa97f  (26 bytes)
+DATA_pasos_del_final_1:
 	defb 07fh,0a9h,08ah,0a9h,08dh,0a9h,090h,0a9h,09bh,0a9h,0dfh,0a9h,0e2h,0a9h,0e5h,0a9h	; a965  ................
 	defb 032h,0aah,035h,0aah,038h,0aah,059h,0aah,06ch,0aah	; a975  2.5.8.Y.l.
 
@@ -845,8 +854,10 @@ final_2:
 	jp salta_por_la_tabla		;aa75
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xaa78..0xaa98  (32 bytes)
-DATA_AA78:
+; DATOS pasos_del_final_2: 16 palabras: los pasos del final 2 (los doce
+;   primeros, los del final 1)
+;   0xaa78..0xaa98  (32 bytes)
+DATA_pasos_del_final_2:
 	defb 07fh,0a9h,08ah,0a9h,08dh,0a9h,090h,0a9h,09bh,0a9h,0dfh,0a9h,0e2h,0a9h,0e5h,0a9h	; aa78  ................
 	defb 032h,0aah,035h,0aah,038h,0aah,059h,0aah,098h,0aah,09bh,0aah,0b9h,0aah,0c9h,0aah	; aa88  2.5.8.Y.........
 
@@ -1955,8 +1966,10 @@ DATA_dibujos_del_final:
 	defb 010h,000h,000h,000h	; b8dd
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xb8e1..0xb8e8  (7 bytes)
-DATA_B8E1:
+; DATOS sobra_B8E1: 7 bytes entre los dibujos del final y las figuras del
+;   titulo que no lee nadie
+;   0xb8e1..0xb8e8  (7 bytes)
+DATA_sobra_B8E1:
 	defb 000h,0fah,07fh,0ffh,041h,0ffh,000h	; b8e1
 
 ; ----------------------------------------------------------------------
@@ -2329,29 +2342,67 @@ L_BBEF:
 	jp 041c4h		;bc02
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xbc05..0xbd49  (324 bytes)
-DATA_BC05:
-	defb 018h,019h,01ah,01bh,02bh,0bch,02fh,0bch,02bh,0bch,02bh,0bch,02dh,0bch,02dh,0bch	; bc05  ....+./.+.+.-.-.
-	defb 02dh,0bch,02bh,0bch,02bh,0bch,02bh,0bch,02dh,0bch,02fh,0bch,02bh,0bch,02bh,0bch	; bc15  -.+.+.+.-./.+.+.
-	defb 02fh,0bch,02bh,0bch,02bh,0bch,001h,046h,001h,044h,001h,048h,027h,000h,00dh,001h	; bc25  /.+.+..F.D.H'...
-	defb 021h,009h,002h,001h,001h,005h,002h,001h,005h,005h,002h,015h,004h,011h,003h,001h	; bc35  !...............
-	defb 002h,000h,002h,010h,003h,000h,002h,010h,009h,000h,014h,002h,013h,000h,00ch,001h	; bc45  ................
-	defb 003h,010h,002h,000h,002h,010h,002h,000h,002h,010h,002h,000h,002h,010h,002h,000h	; bc55  ................
-	defb 002h,010h,00bh,000h,004h,002h,044h,004h,001h,000h,00ch,008h,001h,018h,005h,010h	; bc65  ......D.........
-	defb 003h,000h,003h,010h,001h,000h,003h,010h,00dh,000h,003h,001h,00dh,000h,007h,002h	; bc75  ................
-	defb 043h,008h,001h,009h,032h,001h,004h,005h,00ch,004h,003h,000h,00ch,001h,008h,000h	; bc85  C...2...........
-	defb 007h,002h,004h,000h,004h,010h,00ch,000h,001h,002h,001h,000h,003h,010h,009h,000h	; bc95  ................
-	defb 00eh,002h,001h,000h,009h,004h,002h,005h,026h,001h,03bh,000h,017h,0ffh,001h,000h	; bca5  ........&.;.....
-	defb 003h,0ffh,031h,000h,013h,001h,005h,000h,009h,002h,00eh,000h,023h,001h,001h,000h	; bcb5  ..1.........#...
-	defb 004h,010h,001h,012h,002h,002h,004h,012h,002h,002h,001h,000h,003h,002h,003h,000h	; bcc5  ................
-	defb 009h,002h,002h,000h,005h,002h,002h,012h,001h,010h,002h,000h,002h,010h,002h,000h	; bcd5  ................
-	defb 002h,010h,001h,000h,002h,010h,003h,000h,002h,010h,002h,000h,002h,010h,006h,001h	; bce5  ................
-	defb 001h,011h,002h,001h,002h,011h,002h,001h,002h,011h,02ah,001h,00ch,000h,003h,010h	; bcf5  ..........*.....
-	defb 002h,000h,002h,012h,002h,002h,002h,012h,001h,002h,002h,012h,002h,002h,002h,012h	; bd05  ................
-	defb 002h,002h,002h,012h,002h,002h,003h,012h,001h,002h,003h,012h,001h,002h,003h,012h	; bd15  ................
-	defb 003h,002h,004h,012h,010h,002h,007h,000h,003h,002h,003h,000h,007h,002h,003h,012h	; bd25  ................
-	defb 002h,002h,002h,012h,002h,002h,002h,012h,003h,002h,001h,012h,002h,002h,001h,012h	; bd35  ................
-	defb 004h,002h,000h,0ffh	; bd45
+; DATOS figura_BC05: 2x2 numeros de dibujo que p06:BBF9 pinta en (0x28, 0x78)
+;   mientras no se tiene el objeto 0x13 (0xC352)
+;   0xbc05..0xbc09  (4 bytes)
+DATA_figura_BC05:
+	defb 018h,019h,01ah,01bh	; bc05
+
+; ----------------------------------------------------------------------
+; DATOS colores_de_los_especiales: 17 punteros segun ix+0 - 0x80 (1-17): la
+;   lista de colores de los sprites de cada figura especial; p01:7126 con
+;   0xBC07 (la palabra 0 son dos bytes de la figura de 0xBC05)
+;   0xbc09..0xbc2b  (34 bytes)
+DATA_colores_de_los_especiales:
+	defb 02bh,0bch,02fh,0bch,02bh,0bch,02bh,0bch,02dh,0bch,02dh,0bch,02dh,0bch,02bh,0bch	; bc09  +./.+.+.-.-.-.+.
+	defb 02bh,0bch,02bh,0bch,02dh,0bch,02fh,0bch,02bh,0bch,02bh,0bch,02fh,0bch,02bh,0bch	; bc19  +.+.-./.+.+./.+.
+	defb 02bh,0bch	; bc29
+
+; ----------------------------------------------------------------------
+; DATOS listas_de_colores_especiales: tres listas de dos colores (0xBC2B,
+;   0xBC2D, 0xBC2F) que p01:7136 copia a los sprites
+;   0xbc2b..0xbc31  (6 bytes)
+DATA_listas_de_colores_especiales:
+	defb 001h,046h,001h,044h,001h,048h	; bc2b
+
+; ----------------------------------------------------------------------
+; DATOS demostracion_1: la primera demostracion (p01:69CC): parejas
+;   [cuadros][teclas] que p01:69F7 va poniendo en 0xC109 y 0xC10A; la tecla
+;   0xFF acaba
+;   0xbc31..0xbcb3  (130 bytes)
+DATA_demostracion_1:
+	defb 027h,000h,00dh,001h,021h,009h,002h,001h,001h,005h,002h,001h,005h,005h,002h,015h	; bc31  '...!...........
+	defb 004h,011h,003h,001h,002h,000h,002h,010h,003h,000h,002h,010h,009h,000h,014h,002h	; bc41  ................
+	defb 013h,000h,00ch,001h,003h,010h,002h,000h,002h,010h,002h,000h,002h,010h,002h,000h	; bc51  ................
+	defb 002h,010h,002h,000h,002h,010h,00bh,000h,004h,002h,044h,004h,001h,000h,00ch,008h	; bc61  ..........D.....
+	defb 001h,018h,005h,010h,003h,000h,003h,010h,001h,000h,003h,010h,00dh,000h,003h,001h	; bc71  ................
+	defb 00dh,000h,007h,002h,043h,008h,001h,009h,032h,001h,004h,005h,00ch,004h,003h,000h	; bc81  ....C...2.......
+	defb 00ch,001h,008h,000h,007h,002h,004h,000h,004h,010h,00ch,000h,001h,002h,001h,000h	; bc91  ................
+	defb 003h,010h,009h,000h,00eh,002h,001h,000h,009h,004h,002h,005h,026h,001h,03bh,000h	; bca1  ............&.;.
+	defb 017h,0ffh	; bcb1
+
+; ----------------------------------------------------------------------
+; DATOS demostracion_sin_uso: dos parejas mas, [1][0] [3][0xFF], que no pide
+;   ninguna demostracion
+;   0xbcb3..0xbcb7  (4 bytes)
+DATA_demostracion_sin_uso:
+	defb 001h,000h,003h,0ffh	; bcb3
+
+; ----------------------------------------------------------------------
+; DATOS demostracion_2: la segunda demostracion, igual (0xC10C alterna entre
+;   las dos)
+;   0xbcb7..0xbd49  (146 bytes)
+DATA_demostracion_2:
+	defb 031h,000h,013h,001h,005h,000h,009h,002h,00eh,000h,023h,001h,001h,000h,004h,010h	; bcb7  1.........#.....
+	defb 001h,012h,002h,002h,004h,012h,002h,002h,001h,000h,003h,002h,003h,000h,009h,002h	; bcc7  ................
+	defb 002h,000h,005h,002h,002h,012h,001h,010h,002h,000h,002h,010h,002h,000h,002h,010h	; bcd7  ................
+	defb 001h,000h,002h,010h,003h,000h,002h,010h,002h,000h,002h,010h,006h,001h,001h,011h	; bce7  ................
+	defb 002h,001h,002h,011h,002h,001h,002h,011h,02ah,001h,00ch,000h,003h,010h,002h,000h	; bcf7  ........*.......
+	defb 002h,012h,002h,002h,002h,012h,001h,002h,002h,012h,002h,002h,002h,012h,002h,002h	; bd07  ................
+	defb 002h,012h,002h,002h,003h,012h,001h,002h,003h,012h,001h,002h,003h,012h,003h,002h	; bd17  ................
+	defb 004h,012h,010h,002h,007h,000h,003h,002h,003h,000h,007h,002h,003h,012h,002h,002h	; bd27  ................
+	defb 002h,012h,002h,002h,002h,012h,003h,002h,001h,012h,002h,002h,001h,012h,004h,002h	; bd37  ................
+	defb 000h,0ffh	; bd47
 
 ; ======================================================================
 ; CODIGO 0xbd49..0xbdff  (182 bytes)
@@ -2477,15 +2528,23 @@ L_BDE7:
 	jp 040e6h		;bdfc
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xbdff..0xbe62  (99 bytes)
-DATA_BDFF:
+; DATOS codigo_BDFF: codigo al que no se llega (p06:BDFC acaba en un jp): mira
+;   la x de Mitchel y salta atras con otra pantalla
+;   0xbdff..0xbe16  (23 bytes)
+DATA_codigo_BDFF:
 	defb 00eh,001h,03ah,003h,0c3h,0feh,058h,038h,007h,011h,010h,058h,03eh,06ah,018h,0d8h	; bdff  ..:...X8...X>j..
-	defb 011h,010h,058h,03eh,071h,018h,0d1h,006h,071h,018h,058h,001h,016h,06ah,018h,058h	; be0f  ..X>q...q.X..j.X
-	defb 001h,009h,062h,018h,058h,001h,00dh,070h,018h,058h,001h,00eh,067h,018h,058h,001h	; be1f  ..b.X..p.X..g.X.
-	defb 030h,06ch,058h,0a0h,002h,08dh,072h,018h,058h,001h,046h,069h,018h,058h,001h,057h	; be2f  0lX...r.X.Fi.X.W
-	defb 05ah,058h,038h,003h,05ah,057h,038h,078h,002h,06eh,06fh,058h,010h,003h,077h,078h	; be3f  ZX8.ZW8x.noX..wx
-	defb 018h,058h,001h,07bh,07eh,018h,058h,001h,085h,086h,078h,058h,003h,086h,085h,078h	; be4f  .X.{~.X...xX...x
-	defb 058h,002h,000h	; be5f
+	defb 011h,010h,058h,03eh,071h,018h,0d1h	; be0f
+
+; ----------------------------------------------------------------------
+; DATOS pasadizos: 15 fichas [pantalla][a donde][x][y][C] y un 0: p06:BDD0
+;   busca la pantalla y manda alli a Mitchel (0xC201 = 1, sonido 0x24)
+;   0xbe16..0xbe62  (76 bytes)
+DATA_pasadizos:
+	defb 006h,071h,018h,058h,001h,016h,06ah,018h,058h,001h,009h,062h,018h,058h,001h,00dh	; be16  .q.X..j.X..b.X..
+	defb 070h,018h,058h,001h,00eh,067h,018h,058h,001h,030h,06ch,058h,0a0h,002h,08dh,072h	; be26  p.X..g.X.0lX...r
+	defb 018h,058h,001h,046h,069h,018h,058h,001h,057h,05ah,058h,038h,003h,05ah,057h,038h	; be36  .X.Fi.X.WZX8.ZW8
+	defb 078h,002h,06eh,06fh,058h,010h,003h,077h,078h,018h,058h,001h,07bh,07eh,018h,058h	; be46  x.noX..wx.X.{~.X
+	defb 001h,085h,086h,078h,058h,003h,086h,085h,078h,058h,002h,000h	; be56  ...xX...xX..
 
 ; ======================================================================
 ; CODIGO 0xbe62..0xbeb1  (79 bytes)
@@ -2543,8 +2602,10 @@ L_BE87:
 	ret			;beb0
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xbeb1..0xbec5  (20 bytes)
-DATA_BEB1:
+; DATOS zonas_BEB1: 4 fichas [direccion][x min][x max][y min][y max]: donde
+;   tiene que estar Mitchel, y mirando a donde, para lo de p06:BE87
+;   0xbeb1..0xbec5  (20 bytes)
+DATA_zonas_BEB1:
 	defb 001h,090h,091h,040h,061h,002h,028h,039h,030h,031h,002h,079h,099h,020h,021h,001h	; beb1  ...@a.(901.y. !.
 	defb 090h,091h,020h,041h	; bec1
 
@@ -2719,8 +2780,15 @@ L_BF86:
 	ret			;bfd9
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xbfda..0xc000  (38 bytes)
-DATA_BFDA:
+; DATOS contadores_iniciales: 28 bytes que p06:BF86 copia a 0xDE00 al empezar
+;   la partida
+;   0xbfda..0xbff6  (28 bytes)
+DATA_contadores_iniciales:
 	defb 001h,001h,02ah,001h,005h,001h,031h,001h,034h,001h,01ah,001h,01fh,001h,029h,001h	; bfda  ..*...1.4.....).
-	defb 05ch,001h,05dh,001h,057h,001h,06fh,001h,077h,001h,07ch,001h,0ffh,0ffh,0ffh,0ffh	; bfea  \.].W.o.w.|.....
-	defb 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh	; bffa
+	defb 05ch,001h,05dh,001h,057h,001h,06fh,001h,077h,001h,07ch,001h	; bfea  \.].W.o.w.|.
+
+; ----------------------------------------------------------------------
+; DATOS relleno_p06: 0xFF hasta el final del banco
+;   0xbff6..0xc000  (10 bytes)
+DATA_relleno_p06:
+	defb 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh	; bff6  ..........

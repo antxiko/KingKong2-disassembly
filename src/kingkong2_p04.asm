@@ -2347,8 +2347,8 @@ DATA_planos_alternos:
 
 ; ----------------------------------------------------------------------
 ; DATOS sprites_7FD4: RLE de patrones de sprite (n con el bit 7 = n bytes tal
-;   cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra
-;   direccion; 0 acaba); lista 3; lo leen p00:45EF (44 bytes)
+;   cual; sin el, repetir el siguiente; 0 acaba); lista 3; lo leen p00:45EF
+;   (44 bytes)
 ;   0x7fd4..0x8000  (44 bytes)
 DATA_sprites_7FD4:
 	defb 0a0h,00fh,01fh,03fh,03fh,01fh,03fh,05fh,0bfh,0f8h,0ffh,0bfh,0ffh,07bh,03eh,022h	; 7fd4  ...??.?_.....{>"

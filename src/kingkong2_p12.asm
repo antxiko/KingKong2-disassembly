@@ -430,24 +430,19 @@ DATA_volteados_A17E:
 	defb 011h,011h,010h,000h	; a5fa
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xa5fe..0xa5ff  (1 bytes)
-DATA_A5FE:
-	defb 001h	; a5fe
-
-; ----------------------------------------------------------------------
-; DATOS conversacion_de_cada_pantalla: 0x71 bytes, uno por pantalla (1-0x71):
+; DATOS conversacion_de_cada_pantalla: 0x72 bytes, uno por pantalla (0-0x71):
 ;   la conversacion que empieza al pararse alli (0 = nadie); p01:7E60 con
-;   0xA5FE + pantalla; lo leen p01:7E60 (113 bytes)
-;   0xa5ff..0xa670  (113 bytes)
+;   0xA5FE + pantalla; lo leen p01:7E60 (114 bytes)
+;   0xa5fe..0xa670  (114 bytes)
 DATA_conversacion_de_cada_pantalla:
-	defb 005h,000h,000h,002h,000h,000h,000h,000h,000h,003h,000h,004h,063h,012h,000h,00eh	; a5ff  ............c...
-	defb 006h,000h,000h,063h,00ah,000h,000h,00bh,000h,010h,000h,000h,000h,000h,000h,00fh	; a60f  ...c............
-	defb 000h,000h,063h,000h,022h,000h,063h,020h,000h,023h,000h,019h,063h,063h,000h,000h	; a61f  ..c.".c .#..cc..
-	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,029h,063h,000h,000h	; a62f  ............)c..
-	defb 000h,000h,026h,000h,000h,027h,000h,000h,000h,028h,000h,000h,000h,000h,000h,02ah	; a63f  ..&..'...(.....*
-	defb 02bh,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,02ch	; a64f  +..............,
-	defb 000h,02dh,000h,000h,000h,02eh,000h,02fh,000h,000h,000h,000h,000h,000h,031h,032h	; a65f  .-...../......12
-	defb 033h	; a66f
+	defb 001h,005h,000h,000h,002h,000h,000h,000h,000h,000h,003h,000h,004h,063h,012h,000h	; a5fe  .............c..
+	defb 00eh,006h,000h,000h,063h,00ah,000h,000h,00bh,000h,010h,000h,000h,000h,000h,000h	; a60e  ....c...........
+	defb 00fh,000h,000h,063h,000h,022h,000h,063h,020h,000h,023h,000h,019h,063h,063h,000h	; a61e  ...c.".c .#..cc.
+	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,029h,063h,000h	; a62e  .............)c.
+	defb 000h,000h,000h,026h,000h,000h,027h,000h,000h,000h,028h,000h,000h,000h,000h,000h	; a63e  ...&..'...(.....
+	defb 02ah,02bh,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h	; a64e  *+..............
+	defb 02ch,000h,02dh,000h,000h,000h,02eh,000h,02fh,000h,000h,000h,000h,000h,000h,031h	; a65e  ,.-...../......1
+	defb 032h,033h	; a66e
 
 ; ----------------------------------------------------------------------
 ; DATOS conversaciones: 56 palabras: la lista de lineas de cada conversacion
@@ -1951,8 +1946,10 @@ DATA_linea_B4BE:
 	defb 061h,079h,066h,06ah,03eh,0ffh	; b4ce
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xb4d4..0xb500  (44 bytes)
-DATA_B4D4:
+; DATOS ya_no_basta: [x][y] "これだけでは まんぞくできぬ。" 0xFE [x][y] "あいてむの こうりょくも いただく。"
+;   0xFF: lo que escribe p00:454C
+;   0xb4d4..0xb500  (44 bytes)
+DATA_ya_no_basta:
 	defb 008h,0b0h,064h,084h,06ah,03ch,063h,06dh,03ch,074h,000h,079h,088h,069h,03ch,062h	; b4d4  ..d.j<cm<t.y.i<b
 	defb 06dh,03ch,061h,071h,03eh,0feh,008h,0b8h,05bh,05ch,06dh,07bh,073h,000h,064h,05dh	; b4e4  m<aq>...[\m{s.d]
 	defb 082h,08bh,062h,07dh,000h,05ch,06ah,06ah,03ch,062h,03eh,0ffh	; b4f4  ..b}.\jj<b>.
@@ -2760,8 +2757,10 @@ L_B960:
 	jp 04062h		;b971
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xb974..0xb985  (17 bytes)
-DATA_B974:
+; DATOS codigo_B974: codigo que no llama nadie: si LEVEL (0xC12E) pasa del MP
+;   (0xC12F), sube el MP la mitad de la diferencia
+;   0xb974..0xb985  (17 bytes)
+DATA_codigo_B974:
 	defb 021h,02fh,0c1h,03ah,02eh,0c1h,096h,027h,0d8h,0cdh,085h,0b9h,086h,0c3h,062h,040h	; b974  !/.:...'......b@
 	defb 0c9h	; b984
 
@@ -2926,11 +2925,18 @@ L_BA43:
 	jp 04086h		;ba90
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xba93..0xbab7  (36 bytes)
-DATA_BA93:
+; DATOS rotulos_de_la_ventana: [x][y] "SHOT 2", "MITCHEL" y "SPEED" (0xFE
+;   entre uno y otro, 0xFF acaba): la ventana de p12:BA20 (p12:BA7B)
+;   0xba93..0xbaae  (27 bytes)
+DATA_rotulos_de_la_ventana:
 	defb 060h,05ch,053h,048h,04fh,054h,000h,032h,0feh,060h,0dch,04dh,049h,054h,043h,048h	; ba93  `\SHOT.2.`.MITCH
-	defb 045h,04ch,0feh,018h,0e8h,053h,050h,045h,045h,044h,0ffh,060h,004h,053h,048h,04fh	; baa3  EL...SPEED.`.SHO
-	defb 054h,000h,031h,0ffh	; bab3
+	defb 045h,04ch,0feh,018h,0e8h,053h,050h,045h,045h,044h,0ffh	; baa3  EL...SPEED.
+
+; ----------------------------------------------------------------------
+; DATOS rotulo_shot1: [x][y] "SHOT 1" 0xFF (p12:BA81 y p12:BC14)
+;   0xbaae..0xbab7  (9 bytes)
+DATA_rotulo_shot1:
+	defb 060h,004h,053h,048h,04fh,054h,000h,031h,0ffh	; baae  `.SHOT.1.
 
 ; ======================================================================
 ; CODIGO 0xbab7..0xbd84  (717 bytes)
@@ -3376,8 +3382,10 @@ L_BD63:
 	jp 04092h		;bd81
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xbd84..0xbd8d  (9 bytes)
-DATA_BD84:
+; DATOS rotulo_mizugeta: [x][y] "みずげた" 0xFF: lo que p12:BD73 escribe si se
+;   tienen los zuecos (0xC35D)
+;   0xbd84..0xbd8d  (9 bytes)
+DATA_rotulo_mizugeta:
 	defb 080h,0e8h,07ah,067h,03ch,063h,03ch,06ah,0ffh	; bd84  ..zg<c<j.
 
 ; ======================================================================
@@ -3664,8 +3672,10 @@ L_BF6A:
 	ret			;bf6e
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xbf6f..0xbf9b  (44 bytes)
-DATA_BF6F:
+; DATOS patrones_de_la_ventana: [VRAM 0xF800] y un RLE de p00:45EF: los
+;   patrones de sprite que p12:BA75 sube para la ventana
+;   0xbf6f..0xbf9b  (44 bytes)
+DATA_patrones_de_la_ventana:
 	defb 000h,0f8h,004h,000h,089h,010h,018h,0fch,0feh,0ffh,0feh,0fch,018h,010h,013h,000h	; bf6f  ................
 	defb 085h,007h,018h,020h,040h,040h,006h,080h,002h,040h,088h,020h,018h,007h,0e0h,018h	; bf7f  ... @@...@. ....
 	defb 004h,002h,002h,006h,001h,002h,002h,083h,004h,018h,0e0h,000h	; bf8f  ............
@@ -3724,6 +3734,7 @@ L_BFEA:
 	jp 0420ch		;bff0
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xbff3..0xc000  (13 bytes)
-DATA_BFF3:
+; DATOS relleno_p12: 0xFF hasta el final del banco
+;   0xbff3..0xc000  (13 bytes)
+DATA_relleno_p12:
 	defb 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh	; bff3  .............

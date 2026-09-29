@@ -10,8 +10,10 @@
 
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xa000..0xa047  (71 bytes)
-DATA_A000:
+; DATOS nibbles_A000: 71 bytes, dos nibbles cada uno: uno por pantalla (0x8E);
+;   no se ha visto quien los lee, ni en el codigo ni en los volcados
+;   0xa000..0xa047  (71 bytes)
+DATA_nibbles_A000:
 	defb 011h,011h,01ah,011h,011h,011h,011h,0aah,011h,011h,011h,011h,011h,011h,011h,011h	; a000  ................
 	defb 011h,011h,011h,014h,01ah,011h,011h,011h,011h,011h,011h,041h,0a4h,0a1h,011h,011h	; a010  ...........A....
 	defb 0aah,0a1h,011h,011h,011h,011h,011h,011h,011h,011h,011h,011h,011h,011h,011h,011h	; a020  ................
@@ -623,8 +625,8 @@ DATA_tipo_al_aparecer:
 
 ; ----------------------------------------------------------------------
 ; DATOS sprites_A40E: RLE de patrones de sprite (n con el bit 7 = n bytes tal
-;   cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra
-;   direccion; 0 acaba); lista 10; lo leen p00:45EF (470 bytes)
+;   cual; sin el, repetir el siguiente; 0 acaba); lista 10; lo leen p00:45EF
+;   (470 bytes)
 ;   0xa40e..0xa5e4  (470 bytes)
 DATA_sprites_A40E:
 	defb 0bdh,00fh,01fh,03fh,06eh,0efh,0ffh,0bfh,08fh,05fh,03fh,03ch,03fh,01bh,03eh,022h	; a40e  ...?n...._?<?.>"
@@ -660,8 +662,8 @@ DATA_sprites_A40E:
 
 ; ----------------------------------------------------------------------
 ; DATOS sprites_A5E4: RLE de patrones de sprite (n con el bit 7 = n bytes tal
-;   cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra
-;   direccion; 0 acaba); lista 22; lo leen p00:45EF (255 bytes)
+;   cual; sin el, repetir el siguiente; 0 acaba); lista 22; lo leen p00:45EF
+;   (255 bytes)
 ;   0xa5e4..0xa6e3  (255 bytes)
 DATA_sprites_A5E4:
 	defb 0ffh,000h,005h,01ah,02fh,05fh,06fh,057h,09ah,0afh,0b7h,098h,04fh,067h,027h,017h	; a5e4  ..../_oW....Og'.
@@ -683,8 +685,8 @@ DATA_sprites_A5E4:
 
 ; ----------------------------------------------------------------------
 ; DATOS sprites_A6E3: RLE de patrones de sprite (n con el bit 7 = n bytes tal
-;   cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra
-;   direccion; 0 acaba); lista 11; lo leen p00:45EF (249 bytes)
+;   cual; sin el, repetir el siguiente; 0 acaba); lista 11; lo leen p00:45EF
+;   (249 bytes)
 ;   0xa6e3..0xa7dc  (249 bytes)
 DATA_sprites_A6E3:
 	defb 0aeh,003h,005h,063h,0d3h,07fh,077h,03bh,019h,036h,077h,049h,076h,029h,07ch,07bh	; a6e3  ...c..w;.6wIv)|{
@@ -706,8 +708,8 @@ DATA_sprites_A6E3:
 
 ; ----------------------------------------------------------------------
 ; DATOS sprites_A7DC: RLE de patrones de sprite (n con el bit 7 = n bytes tal
-;   cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra
-;   direccion; 0 acaba); lista 4; lo leen p00:45EF (514 bytes)
+;   cual; sin el, repetir el siguiente; 0 acaba); lista 4; lo leen p00:45EF
+;   (514 bytes)
 ;   0xa7dc..0xa9de  (514 bytes)
 DATA_sprites_A7DC:
 	defb 006h,000h,09ah,001h,003h,002h,00eh,034h,06ch,05ch,0f4h,0a6h,042h,000h,000h,007h	; a7dc  .......4l\..B...
@@ -746,8 +748,8 @@ DATA_sprites_A7DC:
 
 ; ----------------------------------------------------------------------
 ; DATOS sprites_A9DE: RLE de patrones de sprite (n con el bit 7 = n bytes tal
-;   cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra
-;   direccion; 0 acaba); lista 9; lo leen p00:45EF (258 bytes)
+;   cual; sin el, repetir el siguiente; 0 acaba); lista 9; lo leen p00:45EF
+;   (258 bytes)
 ;   0xa9de..0xaae0  (258 bytes)
 DATA_sprites_A9DE:
 	defb 0aeh,003h,007h,00bh,00bh,009h,01ch,037h,062h,077h,05fh,03dh,01ch,012h,023h,03dh	; a9de  .......7bw_=..#=
@@ -770,8 +772,8 @@ DATA_sprites_A9DE:
 
 ; ----------------------------------------------------------------------
 ; DATOS sprites_AAE0: RLE de patrones de sprite (n con el bit 7 = n bytes tal
-;   cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra
-;   direccion; 0 acaba); lista 14; lo leen p00:45EF (260 bytes)
+;   cual; sin el, repetir el siguiente; 0 acaba); lista 14; lo leen p00:45EF
+;   (260 bytes)
 ;   0xaae0..0xabe4  (260 bytes)
 DATA_sprites_AAE0:
 	defb 0ffh,003h,00dh,014h,02ah,051h,0bah,0bbh,0b7h,0b7h,0bah,0b9h,052h,02dh,014h,00eh	; aae0  ....*Q......R-..
@@ -794,8 +796,8 @@ DATA_sprites_AAE0:
 
 ; ----------------------------------------------------------------------
 ; DATOS sprites_ABE4: RLE de patrones de sprite (n con el bit 7 = n bytes tal
-;   cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra
-;   direccion; 0 acaba); lista 23; lo leen p00:45EF (221 bytes)
+;   cual; sin el, repetir el siguiente; 0 acaba); lista 23; lo leen p00:45EF
+;   (221 bytes)
 ;   0xabe4..0xacc1  (221 bytes)
 DATA_sprites_ABE4:
 	defb 002h,06fh,086h,07ah,07eh,06fh,03bh,00ah,007h,008h,000h,002h,0fbh,086h,0afh,0bfh	; abe4  .o.z~o;.........
@@ -995,8 +997,8 @@ DATA_sprites_B3E5:
 
 ; ----------------------------------------------------------------------
 ; DATOS sprites_B465: RLE de patrones de sprite (n con el bit 7 = n bytes tal
-;   cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra
-;   direccion; 0 acaba); lista 21; lo leen p00:45EF (192 bytes)
+;   cual; sin el, repetir el siguiente; 0 acaba); lista 21; lo leen p00:45EF
+;   (192 bytes)
 ;   0xb465..0xb525  (192 bytes)
 DATA_sprites_B465:
 	defb 002h,000h,09eh,003h,00ch,00bh,014h,02eh,029h,02fh,035h,034h,07eh,057h,07ah,063h	; b465  ........)/54~Wzc
@@ -2129,8 +2131,10 @@ L_BE8B:
 	ret			;be8d
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xbe8e..0xbe98  (10 bytes)
-DATA_BE8E:
+; DATOS codigo_BE8E: codigo que no llama nadie: 0xC201 = 5 y 0xC567 = 0 (lo
+;   mismo que hace p01:7D00)
+;   0xbe8e..0xbe98  (10 bytes)
+DATA_codigo_BE8E:
 	defb 03eh,005h,032h,001h,0c2h,0afh,032h,067h,0c5h,0c9h	; be8e  >.2...2g..
 
 ; ======================================================================
@@ -2334,6 +2338,7 @@ L_BFEF:
 	ret			;bff2
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xbff3..0xc000  (13 bytes)
-DATA_BFF3:
+; DATOS relleno_p15: 0xFF hasta el final del banco
+;   0xbff3..0xc000  (13 bytes)
+DATA_relleno_p15:
 	defb 0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh,0ffh	; bff3  .............
