@@ -10,7 +10,7 @@
 
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x6000..0x8000  (8192 bytes)
+; DATOS sin identificar  0x6000..0x7d9b  (7579 bytes)
 DATA_6000:
 	defb 014h,061h,015h,061h,028h,061h,038h,061h,045h,061h,05bh,061h,065h,061h,069h,061h	; 6000  .a.a(a8aEa[aeaia
 	defb 079h,061h,083h,061h,09fh,061h,0b2h,061h,0b6h,061h,0bah,061h,0c7h,061h,0d1h,061h	; 6010  ya.a.a.a.a.a.a.a
@@ -485,42 +485,149 @@ DATA_6000:
 	defb 06bh,0aah,06ch,071h,06dh,052h,06eh,022h,06fh,0dch,06fh,0a3h,070h,07fh,071h,048h	; 7d60  k.lqmRn"o.o.p.qH
 	defb 072h,0fbh,072h,0c3h,073h,0a3h,074h,069h,075h,01bh,076h,0e3h,076h,040h,0e8h,0c7h	; 7d70  r.r.s.tiu.v.v@..
 	defb 077h,040h,0e9h,0a8h,078h,07eh,079h,040h,0eah,040h,0ebh,036h,07ah,040h,0e8h,00fh	; 7d80  w@..x~y@.@.6z@..
-	defb 07bh,040h,0e9h,0d3h,07bh,098h,07ch,040h,0eah,040h,0ebh,0dfh,07dh,019h,07eh,058h	; 7d90  {@..{.|@.@..}.~X
-	defb 07eh,093h,07eh,0cfh,07eh,00fh,07fh,04dh,07fh,08bh,07fh,0cah,07fh,007h,080h,046h	; 7da0  ~.~.~..M.......F
-	defb 080h,086h,080h,0c4h,080h,003h,081h,044h,081h,085h,081h,0c7h,081h,0efh,088h,02dh	; 7db0  .......D.......-
-	defb 089h,06eh,089h,0abh,089h,0ebh,089h,02ch,08ah,06bh,08ah,0aah,08ah,0eah,08ah,028h	; 7dc0  .n.....,.k.....(
-	defb 08bh,067h,08bh,0a5h,08bh,0e3h,08bh,023h,08ch,065h,08ch,0a7h,08ch,0e8h,08ch,08dh	; 7dd0  .g.....#.e......
-	defb 007h,00fh,00fh,01fh,01fh,00dh,014h,02ch,07dh,07fh,075h,02ch,019h,003h,01eh,08eh	; 7de0  .......,}.u,....
-	defb 0e0h,0f0h,0f0h,0e8h,0f8h,090h,018h,008h,048h,0f0h,048h,088h,078h,030h,006h,000h	; 7df0  ........H.H.x0..
-	defb 089h,008h,002h,00fh,01bh,002h,035h,02ah,007h,00eh,006h,000h,002h,010h,087h,060h	; 7e00  ......5*.......`
-	defb 0f0h,0f0h,0b0h,040h,0b0h,070h,004h,000h,000h,0a0h,007h,00fh,00fh,01fh,01fh,00bh	; 7e10  ...@.p..........
-	defb 00bh,018h,028h,032h,037h,03ah,018h,009h,01fh,01eh,0e0h,0f0h,0f0h,0e8h,0f8h,0d0h	; 7e20  ..(27:..........
-	defb 0d8h,00ch,014h,0aeh,0feh,03ch,088h,048h,064h,03ch,004h,000h,08ah,008h,004h,005h	; 7e30  .....<.Hd<......
-	defb 00fh,017h,01dh,00ah,015h,007h,006h,005h,000h,002h,010h,08bh,020h,070h,0f8h,0e8h	; 7e40  ............ p..
-	defb 054h,0ach,0c8h,070h,030h,018h,000h,000h,09dh,007h,00fh,00fh,017h,01fh,009h,018h	; 7e50  T..p0...........
-	defb 010h,012h,00fh,012h,011h,01eh,00ch,000h,000h,0e0h,0f0h,0f0h,0f8h,0f8h,0b0h,028h	; 7e60  ...............(
-	defb 034h,0beh,0feh,0aeh,034h,098h,003h,078h,003h,000h,002h,008h,087h,006h,00fh,00fh	; 7e70  4...4..x........
-	defb 00dh,002h,00dh,00eh,008h,000h,089h,010h,040h,0f0h,0d8h,040h,0ach,054h,0e0h,070h	; 7e80  ........@..@.T.p
-	defb 003h,000h,000h,09eh,007h,00fh,00fh,01eh,01fh,00fh,01fh,03bh,03eh,05fh,02ah,019h	; 7e90  ...........;>_*.
-	defb 015h,016h,01eh,03eh,0e0h,0f0h,0f0h,0f8h,0f8h,0d8h,0a4h,0c4h,0aeh,0fch,0b8h,048h	; 7ea0  ...>...........H
-	defb 078h,030h,005h,000h,08bh,001h,00dh,007h,00bh,004h,019h,03ah,015h,006h,00eh,00ch	; 7eb0  x0.........:....
-	defb 005h,000h,089h,050h,070h,0e0h,0d8h,038h,054h,0a8h,040h,030h,004h,000h,000h,0a0h	; 7ec0  ...Pp..8T.@0....
-	defb 007h,00fh,00fh,01ah,01fh,00fh,00fh,01bh,030h,026h,077h,07ah,038h,019h,01fh,01eh	; 7ed0  ........0&wz8...
-	defb 0e0h,0f0h,0f0h,0f8h,0f8h,0d0h,0b8h,0cch,004h,0aeh,0feh,0bch,088h,048h,064h,03ch	; 7ee0  .............Hd<
-	defb 003h,000h,08bh,005h,00dh,007h,003h,00ch,01fh,019h,02ah,035h,017h,006h,005h,000h	; 7ef0  ..........*5....
-	defb 08dh,050h,070h,0e0h,0d0h,038h,0f8h,054h,0ach,048h,070h,030h,018h,000h,000h,0a0h	; 7f00  .Pp..8.T.Hp0....
-	defb 007h,00fh,00fh,01eh,01fh,01fh,027h,023h,075h,03fh,01dh,012h,01eh,00ch,000h,000h	; 7f10  ......'#u?......
-	defb 0e0h,0f0h,0f0h,0f8h,0f8h,0d0h,0b8h,0dch,07ch,0fah,054h,098h,0a8h,068h,078h,07ch	; 7f20  ........|.T..hx|
-	defb 003h,000h,089h,001h,00dh,007h,01bh,01ch,02ah,015h,002h,00ch,007h,000h,08dh,050h	; 7f30  ........*......P
-	defb 070h,0e0h,0d0h,020h,098h,05ch,0a8h,060h,070h,030h,000h,000h,000h,092h,01fh,03fh	; 7f40  p.. .\.`p0.....?
-	defb 0ffh,0dfh,07fh,0fdh,07ah,03ch,010h,020h,075h,04fh,035h,022h,034h,07ch,000h,080h	; 7f50  ....z<. uO5"4|..
-	defb 003h,0c0h,09ah,0e0h,0a0h,050h,090h,0f0h,0d0h,0f8h,0cch,08ch,05ch,038h,000h,000h	; 7f60  .....P......\8..
-	defb 004h,02dh,02fh,07eh,03dh,003h,00fh,01fh,02ah,034h,00ah,01ch,008h,007h,000h,08ah	; 7f70  .-/~=...*4......
-	defb 0c0h,0e0h,060h,000h,0e0h,0d0h,038h,070h,020h,000h,000h,091h,03fh,0ffh,0dfh,07fh	; 7f80  ..`...8p ...?...
-	defb 0fdh,07ah,03ch,008h,015h,013h,015h,00fh,00eh,008h,006h,00fh,080h,003h,0c0h,09bh	; 7f90  .z<.............
-	defb 0e0h,0c0h,0a0h,020h,0d0h,0d0h,0f0h,050h,0a0h,040h,0c0h,0c0h,000h,004h,02dh,02fh	; 7fa0  ... ...P.@....-/
-	defb 07eh,03dh,003h,007h,00ah,00dh,00bh,004h,003h,007h,003h,006h,000h,08bh,080h,0c0h	; 7fb0  ~=..............
-	defb 0c0h,020h,0a0h,0c0h,0a0h,040h,080h,000h,000h,000h,092h,01fh,07fh,0ffh,05fh,07fh	; 7fc0  . ...@........_.
-	defb 0fdh,07ah,03ch,008h,032h,075h,07fh,03eh,00dh,01fh,03eh,000h,080h,003h,0c0h,099h	; 7fd0  .z<.2u.>..>.....
-	defb 0e0h,020h,090h,050h,0f0h,0f0h,0e0h,0d0h,030h,0f0h,060h,000h,000h,004h,02dh,02fh	; 7fe0  . .P....0.`...-/
-	defb 07eh,03dh,003h,007h,00dh,02ah,034h,003h,006h,008h,000h,08ah,0c0h,0e0h,0e0h,000h	; 7ff0  ~=...*4.........
+	defb 07bh,040h,0e9h,0d3h,07bh,098h,07ch,040h,0eah,040h,0ebh	; 7d90  {@..{.|@.@.
+
+; ----------------------------------------------------------------------
+; DATOS poses_7D9B: 17 punteros, uno por pose de Mitchel (0xC310), cuando
+;   0xC160 = 0; lo leen p00:5008 (34 bytes)
+;   0x7d9b..0x7dbd  (34 bytes)
+DATA_poses_7D9B:
+	defb 0dfh,07dh	; 7d9b
+	defb 019h,07eh	; 7d9d
+	defb 058h,07eh	; 7d9f
+	defb 093h,07eh	; 7da1
+	defb 0cfh,07eh	; 7da3
+	defb 00fh,07fh	; 7da5
+	defb 04dh,07fh	; 7da7
+	defb 08bh,07fh	; 7da9
+	defb 0cah,07fh	; 7dab
+	defb 007h,080h	; 7dad
+	defb 046h,080h	; 7daf
+	defb 086h,080h	; 7db1
+	defb 0c4h,080h	; 7db3
+	defb 003h,081h	; 7db5
+	defb 044h,081h	; 7db7
+	defb 085h,081h	; 7db9
+	defb 0c7h,081h	; 7dbb
+
+; ----------------------------------------------------------------------
+; DATOS poses_7DBD: 17 punteros, uno por pose de Mitchel (0xC310), cuando
+;   0xC160 distinto de 0; lo leen p00:5008 (34 bytes)
+;   0x7dbd..0x7ddf  (34 bytes)
+DATA_poses_7DBD:
+	defb 0efh,088h	; 7dbd
+	defb 02dh,089h	; 7dbf
+	defb 06eh,089h	; 7dc1
+	defb 0abh,089h	; 7dc3
+	defb 0ebh,089h	; 7dc5
+	defb 02ch,08ah	; 7dc7
+	defb 06bh,08ah	; 7dc9
+	defb 0aah,08ah	; 7dcb
+	defb 0eah,08ah	; 7dcd
+	defb 028h,08bh	; 7dcf
+	defb 067h,08bh	; 7dd1
+	defb 0a5h,08bh	; 7dd3
+	defb 0e3h,08bh	; 7dd5
+	defb 023h,08ch	; 7dd7
+	defb 065h,08ch	; 7dd9
+	defb 0a7h,08ch	; 7ddb
+	defb 0e8h,08ch	; 7ddd
+
+; ----------------------------------------------------------------------
+; DATOS pose_7DDF: la pose 0 de Mitchel (0xC160 = 0): RLE de los dos patrones
+;   de 16x16 (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente;
+;   0 acaba); lo leen p00:5010 (58 bytes)
+;   0x7ddf..0x7e19  (58 bytes)
+DATA_pose_7DDF:
+	defb 08dh,007h,00fh,00fh,01fh,01fh,00dh,014h,02ch,07dh,07fh,075h,02ch,019h,003h,01eh	; 7ddf  ........,}.u,...
+	defb 08eh,0e0h,0f0h,0f0h,0e8h,0f8h,090h,018h,008h,048h,0f0h,048h,088h,078h,030h,006h	; 7def  .........H.H.x0.
+	defb 000h,089h,008h,002h,00fh,01bh,002h,035h,02ah,007h,00eh,006h,000h,002h,010h,087h	; 7dff  .......5*.......
+	defb 060h,0f0h,0f0h,0b0h,040h,0b0h,070h,004h,000h,000h	; 7e0f  `...@.p...
+
+; ----------------------------------------------------------------------
+; DATOS pose_7E19: la pose 1 de Mitchel (0xC160 = 0): RLE de los dos patrones
+;   de 16x16 (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente;
+;   0 acaba); lo leen p00:5010 (63 bytes)
+;   0x7e19..0x7e58  (63 bytes)
+DATA_pose_7E19:
+	defb 0a0h,007h,00fh,00fh,01fh,01fh,00bh,00bh,018h,028h,032h,037h,03ah,018h,009h,01fh	; 7e19  .........(27:...
+	defb 01eh,0e0h,0f0h,0f0h,0e8h,0f8h,0d0h,0d8h,00ch,014h,0aeh,0feh,03ch,088h,048h,064h	; 7e29  ............<.Hd
+	defb 03ch,004h,000h,08ah,008h,004h,005h,00fh,017h,01dh,00ah,015h,007h,006h,005h,000h	; 7e39  <...............
+	defb 002h,010h,08bh,020h,070h,0f8h,0e8h,054h,0ach,0c8h,070h,030h,018h,000h,000h	; 7e49  ... p..T..p0...
+
+; ----------------------------------------------------------------------
+; DATOS pose_7E58: la pose 2 de Mitchel (0xC160 = 0): RLE de los dos patrones
+;   de 16x16 (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente;
+;   0 acaba); lo leen p00:5010 (59 bytes)
+;   0x7e58..0x7e93  (59 bytes)
+DATA_pose_7E58:
+	defb 09dh,007h,00fh,00fh,017h,01fh,009h,018h,010h,012h,00fh,012h,011h,01eh,00ch,000h	; 7e58  ................
+	defb 000h,0e0h,0f0h,0f0h,0f8h,0f8h,0b0h,028h,034h,0beh,0feh,0aeh,034h,098h,003h,078h	; 7e68  .......(4...4..x
+	defb 003h,000h,002h,008h,087h,006h,00fh,00fh,00dh,002h,00dh,00eh,008h,000h,089h,010h	; 7e78  ................
+	defb 040h,0f0h,0d8h,040h,0ach,054h,0e0h,070h,003h,000h,000h	; 7e88  @..@.T.p...
+
+; ----------------------------------------------------------------------
+; DATOS pose_7E93: la pose 3 de Mitchel (0xC160 = 0): RLE de los dos patrones
+;   de 16x16 (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente;
+;   0 acaba); lo leen p00:5010 (60 bytes)
+;   0x7e93..0x7ecf  (60 bytes)
+DATA_pose_7E93:
+	defb 09eh,007h,00fh,00fh,01eh,01fh,00fh,01fh,03bh,03eh,05fh,02ah,019h,015h,016h,01eh	; 7e93  ........;>_*....
+	defb 03eh,0e0h,0f0h,0f0h,0f8h,0f8h,0d8h,0a4h,0c4h,0aeh,0fch,0b8h,048h,078h,030h,005h	; 7ea3  >...........Hx0.
+	defb 000h,08bh,001h,00dh,007h,00bh,004h,019h,03ah,015h,006h,00eh,00ch,005h,000h,089h	; 7eb3  ........:.......
+	defb 050h,070h,0e0h,0d8h,038h,054h,0a8h,040h,030h,004h,000h,000h	; 7ec3  Pp..8T.@0...
+
+; ----------------------------------------------------------------------
+; DATOS pose_7ECF: la pose 4 de Mitchel (0xC160 = 0): RLE de los dos patrones
+;   de 16x16 (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente;
+;   0 acaba); lo leen p00:5010 (64 bytes)
+;   0x7ecf..0x7f0f  (64 bytes)
+DATA_pose_7ECF:
+	defb 0a0h,007h,00fh,00fh,01ah,01fh,00fh,00fh,01bh,030h,026h,077h,07ah,038h,019h,01fh	; 7ecf  .........0&wz8..
+	defb 01eh,0e0h,0f0h,0f0h,0f8h,0f8h,0d0h,0b8h,0cch,004h,0aeh,0feh,0bch,088h,048h,064h	; 7edf  ..............Hd
+	defb 03ch,003h,000h,08bh,005h,00dh,007h,003h,00ch,01fh,019h,02ah,035h,017h,006h,005h	; 7eef  <..........*5...
+	defb 000h,08dh,050h,070h,0e0h,0d0h,038h,0f8h,054h,0ach,048h,070h,030h,018h,000h,000h	; 7eff  ..Pp..8.T.Hp0...
+
+; ----------------------------------------------------------------------
+; DATOS pose_7F0F: la pose 5 de Mitchel (0xC160 = 0): RLE de los dos patrones
+;   de 16x16 (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente;
+;   0 acaba); lo leen p00:5010 (62 bytes)
+;   0x7f0f..0x7f4d  (62 bytes)
+DATA_pose_7F0F:
+	defb 0a0h,007h,00fh,00fh,01eh,01fh,01fh,027h,023h,075h,03fh,01dh,012h,01eh,00ch,000h	; 7f0f  .......'#u?.....
+	defb 000h,0e0h,0f0h,0f0h,0f8h,0f8h,0d0h,0b8h,0dch,07ch,0fah,054h,098h,0a8h,068h,078h	; 7f1f  .........|.T..hx
+	defb 07ch,003h,000h,089h,001h,00dh,007h,01bh,01ch,02ah,015h,002h,00ch,007h,000h,08dh	; 7f2f  |........*......
+	defb 050h,070h,0e0h,0d0h,020h,098h,05ch,0a8h,060h,070h,030h,000h,000h,000h	; 7f3f  Pp.. .\.`p0...
+
+; ----------------------------------------------------------------------
+; DATOS pose_7F4D: la pose 6 de Mitchel (0xC160 = 0): RLE de los dos patrones
+;   de 16x16 (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente;
+;   0 acaba); lo leen p00:5010 (62 bytes)
+;   0x7f4d..0x7f8b  (62 bytes)
+DATA_pose_7F4D:
+	defb 092h,01fh,03fh,0ffh,0dfh,07fh,0fdh,07ah,03ch,010h,020h,075h,04fh,035h,022h,034h	; 7f4d  ..?....z<. uO5"4
+	defb 07ch,000h,080h,003h,0c0h,09ah,0e0h,0a0h,050h,090h,0f0h,0d0h,0f8h,0cch,08ch,05ch	; 7f5d  |.......P......\
+	defb 038h,000h,000h,004h,02dh,02fh,07eh,03dh,003h,00fh,01fh,02ah,034h,00ah,01ch,008h	; 7f6d  8...-/~=...*4...
+	defb 007h,000h,08ah,0c0h,0e0h,060h,000h,0e0h,0d0h,038h,070h,020h,000h,000h	; 7f7d  .....`...8p ..
+
+; ----------------------------------------------------------------------
+; DATOS pose_7F8B: la pose 7 de Mitchel (0xC160 = 0): RLE de los dos patrones
+;   de 16x16 (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente;
+;   0 acaba); lo leen p00:5010 (63 bytes)
+;   0x7f8b..0x7fca  (63 bytes)
+DATA_pose_7F8B:
+	defb 091h,03fh,0ffh,0dfh,07fh,0fdh,07ah,03ch,008h,015h,013h,015h,00fh,00eh,008h,006h	; 7f8b  .?....z<........
+	defb 00fh,080h,003h,0c0h,09bh,0e0h,0c0h,0a0h,020h,0d0h,0d0h,0f0h,050h,0a0h,040h,0c0h	; 7f9b  ........ ...P.@.
+	defb 0c0h,000h,004h,02dh,02fh,07eh,03dh,003h,007h,00ah,00dh,00bh,004h,003h,007h,003h	; 7fab  ...-/~=.........
+	defb 006h,000h,08bh,080h,0c0h,0c0h,020h,0a0h,0c0h,0a0h,040h,080h,000h,000h,000h	; 7fbb  ...... ...@....
+
+; ----------------------------------------------------------------------
+; DATOS pose_7FCA: la pose 8 de Mitchel (0xC160 = 0): RLE de los dos patrones
+;   de 16x16 (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente;
+;   0 acaba); lo leen p00:5010 (54 bytes)
+;   0x7fca..0x8000  (54 bytes)
+DATA_pose_7FCA:
+	defb 092h,01fh,07fh,0ffh,05fh,07fh,0fdh,07ah,03ch,008h,032h,075h,07fh,03eh,00dh,01fh	; 7fca  ...._..z<.2u.>..
+	defb 03eh,000h,080h,003h,0c0h,099h,0e0h,020h,090h,050h,0f0h,0f0h,0e0h,0d0h,030h,0f0h	; 7fda  >...... .P....0.
+	defb 060h,000h,000h,004h,02dh,02fh,07eh,03dh,003h,007h,00dh,02ah,034h,003h,006h,008h	; 7fea  `...-/~=...*4...
+	defb 000h,08ah,0c0h,0e0h,0e0h,000h	; 7ffa

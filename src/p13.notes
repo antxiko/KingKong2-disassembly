@@ -1,1 +1,26 @@
 # Notas del banco 13: comentarios (C), etiquetas (L) y datos (D) anclados a direccion.
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x7D9B 0x7DBD poses_7D9B  17 punteros, uno por pose de Mitchel (0xC310), cuando 0xC160 = 0; lo leen p00:5008 (34 bytes)
+F 0x7D9B 2
+D 0x7DBD 0x7DDF poses_7DBD  17 punteros, uno por pose de Mitchel (0xC310), cuando 0xC160 distinto de 0; lo leen p00:5008 (34 bytes)
+F 0x7DBD 2
+D 0x7DDF 0x7E19 pose_7DDF  la pose 0 de Mitchel (0xC160 = 0): RLE de los dos patrones de 16x16 (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lo leen p00:5010 (58 bytes)
+F 0x7DDF 16
+D 0x7E19 0x7E58 pose_7E19  la pose 1 de Mitchel (0xC160 = 0): RLE de los dos patrones de 16x16 (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lo leen p00:5010 (63 bytes)
+F 0x7E19 16
+D 0x7E58 0x7E93 pose_7E58  la pose 2 de Mitchel (0xC160 = 0): RLE de los dos patrones de 16x16 (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lo leen p00:5010 (59 bytes)
+F 0x7E58 16
+D 0x7E93 0x7ECF pose_7E93  la pose 3 de Mitchel (0xC160 = 0): RLE de los dos patrones de 16x16 (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lo leen p00:5010 (60 bytes)
+F 0x7E93 16
+D 0x7ECF 0x7F0F pose_7ECF  la pose 4 de Mitchel (0xC160 = 0): RLE de los dos patrones de 16x16 (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lo leen p00:5010 (64 bytes)
+F 0x7ECF 16
+D 0x7F0F 0x7F4D pose_7F0F  la pose 5 de Mitchel (0xC160 = 0): RLE de los dos patrones de 16x16 (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lo leen p00:5010 (62 bytes)
+F 0x7F0F 16
+D 0x7F4D 0x7F8B pose_7F4D  la pose 6 de Mitchel (0xC160 = 0): RLE de los dos patrones de 16x16 (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lo leen p00:5010 (62 bytes)
+F 0x7F4D 16
+D 0x7F8B 0x7FCA pose_7F8B  la pose 7 de Mitchel (0xC160 = 0): RLE de los dos patrones de 16x16 (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lo leen p00:5010 (63 bytes)
+F 0x7F8B 16
+D 0x7FCA 0x8000 pose_7FCA  la pose 8 de Mitchel (0xC160 = 0): RLE de los dos patrones de 16x16 (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lo leen p00:5010 (54 bytes)
+F 0x7FCA 16
+# --- fin de los bloques de bloques.py ---

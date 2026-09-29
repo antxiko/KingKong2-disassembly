@@ -696,7 +696,7 @@ DATA_figura_de_la_60:
 	defb 0cch,0cdh,0ceh	; ba02
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xba05..0xbd3a  (821 bytes)
+; DATOS sin identificar  0xba05..0xba78  (115 bytes)
 DATA_BA05:
 	defb 007h,07ch,07dh,008h,033h,090h,091h,034h,035h,03bh,03ch,036h,037h,038h,039h,03ah	; ba05  .|}.3..45;<6789:
 	defb 003h,004h,005h,006h,007h,008h,000h,009h,00ah,00bh,00ch,00dh,00eh,00fh,010h,011h	; ba15  ................
@@ -705,51 +705,530 @@ DATA_BA05:
 	defb 02ch,02dh,02eh,02fh,030h,031h,000h,000h,000h,03bh,000h,000h,000h,000h,039h,03ah	; ba45  ,-./01...;....9:
 	defb 03ch,03dh,03eh,03fh,040h,041h,042h,043h,044h,045h,046h,047h,036h,037h,038h,036h	; ba55  <=>?@ABCDEFG6786
 	defb 037h,038h,036h,000h,000h,03bh,000h,039h,03ah,03ch,03dh,041h,042h,043h,044h,036h	; ba65  786..;.9:<=ABCD6
-	defb 037h,038h,036h,000h,0bbh,008h,0bbh,012h,0bbh,01bh,0bbh,023h,0bbh,02ch,0bbh,035h	; ba75  786........#.,.5
-	defb 0bbh,03fh,0bbh,049h,0bbh,051h,0bbh,05ah,0bbh,064h,0bbh,039h,0bdh,06eh,0bbh,076h	; ba85  .?.I.Q.Z.d.9.n.v
-	defb 0bbh,080h,0bbh,085h,0bbh,08ah,0bbh,094h,0bbh,094h,0bbh,09eh,0bbh,0a7h,0bbh,0b1h	; ba95  ................
-	defb 0bbh,0b9h,0bbh,0c3h,0bbh,0cch,0bbh,0d6h,0bbh,0dfh,0bbh,0e6h,0bbh,0f0h,0bbh,0f8h	; baa5  ................
-	defb 0bbh,001h,0bch,009h,0bch,013h,0bch,01bh,0bch,025h,0bch,02eh,0bch,037h,0bch,040h	; bab5  .........%...7.@
-	defb 0bch,047h,0bch,051h,0bch,05bh,0bch,065h,0bch,06fh,0bch,078h,0bch,07eh,0bch,087h	; bac5  .G.Q.[.e.o.x.~..
-	defb 0bch,08fh,0bch,099h,0bch,0a2h,0bch,0a7h,0bch,0b1h,0bch,0b9h,0bch,0c1h,0bch,0c9h	; bad5  ................
-	defb 0bch,0d2h,0bch,0d2h,0bch,0dbh,0bch,0e5h,0bch,0efh,0bch,039h,0bdh,0f9h,0bch,002h	; bae5  ...........9....
-	defb 0bdh,00bh,0bdh,014h,0bdh,01eh,0bdh,028h,0bdh,032h,0bdh,050h,049h,047h,057h,04fh	; baf5  .......(.2.PIGWO
-	defb 052h,04dh,0ffh,053h,04ch,049h,050h,053h,04ch,049h,04dh,045h,0ffh,057h,04fh,04fh	; bb05  RM.SLIPSLIME.WOO
-	defb 044h,057h,04fh,052h,04dh,0ffh,043h,04ch,055h,042h,04dh,041h,04eh,0ffh,04dh,055h	; bb15  DWORM.CLUBMAN.MU
-	defb 044h,041h,052h,04dh,04fh,052h,0ffh,047h,041h,052h,047h,04fh,059h,04ch,045h,0ffh	; bb25  DARMOR.GARGOYLE.
-	defb 050h,04fh,049h,053h,04eh,046h,052h,04fh,047h,0ffh,047h,041h,052h,047h,04fh,059h	; bb35  POISNFROG.GARGOY
-	defb 04ch,045h,032h,0ffh,052h,04fh,043h,04bh,04dh,041h,04eh,0ffh,057h,049h,04ch,044h	; bb45  LE2.ROCKMAN.WILD
-	defb 042h,04fh,041h,052h,0ffh,052h,045h,044h,053h,050h,049h,044h,045h,052h,0ffh,042h	; bb55  BOAR.REDSPIDER.B
-	defb 049h,047h,053h,050h,049h,044h,045h,052h,0ffh,04dh,055h,044h,04dh,041h,053h,04bh	; bb65  IGSPIDER.MUDMASK
-	defb 0ffh,042h,04fh,047h,047h,045h,044h,04dh,041h,04eh,0ffh,042h,041h,054h,054h,0ffh	; bb75  .BOGGEDMAN.BATT.
-	defb 052h,041h,054h,054h,0ffh,047h,052h,041h,053h,053h,057h,04fh,052h,04dh,0ffh,043h	; bb85  RATT.GRASSWORM.C
-	defb 045h,04eh,054h,049h,050h,045h,044h,045h,0ffh,044h,055h,04eh,047h,052h,04fh,04ch	; bb95  ENTIPEDE.DUNGROL
-	defb 04ch,0ffh,042h,04ch,04fh,057h,050h,049h,050h,045h,052h,0ffh,050h,04fh,04ch,045h	; bba5  L.BLOWPIPER.POLE
-	defb 04dh,041h,04eh,0ffh,042h,04fh,04fh,04dh,045h,052h,041h,04eh,047h,0ffh,042h,04ch	; bbb5  MAN.BOOMERANG.BL
-	defb 04fh,057h,04dh,049h,052h,045h,0ffh,054h,057h,049h,04eh,04dh,049h,052h,045h,053h	; bbc5  OWMIRE.TWINMIRES
-	defb 0ffh,053h,045h,041h,04ch,04fh,055h,053h,045h,0ffh,042h,04fh,057h,04ch,045h,052h	; bbd5  .SEALOUSE.BOWLER
-	defb 0ffh,054h,048h,049h,043h,04bh,053h,04bh,049h,04eh,0ffh,047h,052h,049h,05ah,05ah	; bbe5  .THICKSKIN.GRIZZ
-	defb 04ch,059h,0ffh,04dh,052h,08dh,052h,055h,049h,04eh,053h,0ffh,043h,041h,056h,045h	; bbf5  LY.MR.RUINS.CAVE
-	defb 04dh,041h,04eh,0ffh,043h,041h,056h,045h,052h,04eh,04dh,041h,04eh,0ffh,050h,052h	; bc05  MAN.CAVERNMAN.PR
-	defb 04fh,057h,04ch,045h,052h,0ffh,043h,041h,056h,045h,052h,04eh,042h,049h,047h,0ffh	; bc15  OWLER.CAVERNBIG.
-	defb 046h,041h,04ch,043h,04fh,04eh,045h,052h,0ffh,057h,041h,054h,043h,048h,04dh,041h	; bc25  FALCONER.WATCHMA
-	defb 04eh,0ffh,042h,049h,047h,047h,055h,041h,052h,044h,0ffh,053h,041h,056h,041h,047h	; bc35  N.BIGGUARD.SAVAG
-	defb 045h,0ffh,046h,041h,04ch,043h,04fh,04eh,042h,041h,054h,0ffh,046h,049h,052h,045h	; bc45  E.FALCONBAT.FIRE
-	defb 054h,04fh,054h,045h,04dh,0ffh,054h,048h,045h,000h,04eh,041h,053h,054h,059h,0ffh	; bc55  TOTEM.THE.NASTY.
-	defb 042h,041h,044h,050h,052h,049h,045h,053h,054h,0ffh,047h,052h,04fh,055h,04eh,044h	; bc65  BADPRIEST.GROUND
-	defb 045h,052h,0ffh,053h,08dh,050h,08dh,053h,0ffh,04dh,049h,052h,045h,057h,04fh,052h	; bc75  ER.S.P.S.MIREWOR
-	defb 04dh,0ffh,054h,048h,045h,000h,04eh,04fh,054h,0ffh,048h,055h,04dh,050h,045h,044h	; bc85  M.THE.NOT.HUMPED
-	defb 04dh,041h,04eh,0ffh,053h,054h,04fh,04eh,045h,04dh,041h,04eh,0ffh,043h,052h,04fh	; bc95  MAN.STONEMAN.CRO
-	defb 057h,0ffh,052h,045h,044h,000h,046h,08dh,04dh,041h,04eh,0ffh,042h,000h,046h,08dh	; bca5  W.RED.F.MAN.B.F.
-	defb 04dh,041h,04eh,0ffh,044h,000h,046h,08dh,04dh,041h,04eh,0ffh,04ah,055h,04dh,050h	; bcb5  MAN.D.F.MAN.JUMP
-	defb 04dh,041h,04eh,0ffh,043h,04ch,049h,04eh,047h,04dh,041h,04eh,0ffh,052h,045h,056h	; bcc5  MAN.CLINGMAN.REV
-	defb 04fh,04ch,056h,045h,052h,0ffh,057h,048h,049h,054h,045h,046h,049h,052h,045h,0ffh	; bcd5  OLVER.WHITEFIRE.
-	defb 057h,048h,049h,054h,045h,04fh,047h,052h,045h,0ffh,053h,054h,04fh,04eh,045h,04fh	; bce5  WHITEOGRE.STONEO
-	defb 047h,052h,045h,0ffh,04dh,049h,052h,045h,046h,052h,04fh,047h,0ffh,052h,055h,049h	; bcf5  GRE.MIREFROG.RUI
-	defb 04eh,053h,042h,041h,054h,0ffh,053h,048h,055h,054h,000h,041h,04ch,04ch,0ffh,052h	; bd05  NSBAT.SHUT.ALL.R
-	defb 04fh,043h,04bh,000h,052h,04fh,043h,04bh,0ffh,042h,049h,047h,046h,04ch,04fh,057h	; bd15  OCK.ROCK.BIGFLOW
-	defb 045h,052h,0ffh,047h,052h,041h,053h,053h,04fh,047h,052h,045h,0ffh,042h,055h,043h	; bd25  ER.GRASSOGRE.BUC
-	defb 04bh,04ch,045h,052h,0ffh	; bd35
+	defb 037h,038h,036h	; ba75
+
+; ----------------------------------------------------------------------
+; DATOS nombres_de_enemigos: 68 punteros, uno por tipo de enemigo (1-68), a su
+;   nombre; p01:61DD los lee con 0xBA76 + 2*tipo; lo leen p00:4304 (136 bytes)
+;   0xba78..0xbb00  (136 bytes)
+DATA_nombres_de_enemigos:
+	defb 000h,0bbh	; ba78
+	defb 008h,0bbh	; ba7a
+	defb 012h,0bbh	; ba7c
+	defb 01bh,0bbh	; ba7e
+	defb 023h,0bbh	; ba80
+	defb 02ch,0bbh	; ba82
+	defb 035h,0bbh	; ba84
+	defb 03fh,0bbh	; ba86
+	defb 049h,0bbh	; ba88
+	defb 051h,0bbh	; ba8a
+	defb 05ah,0bbh	; ba8c
+	defb 064h,0bbh	; ba8e
+	defb 039h,0bdh	; ba90
+	defb 06eh,0bbh	; ba92
+	defb 076h,0bbh	; ba94
+	defb 080h,0bbh	; ba96
+	defb 085h,0bbh	; ba98
+	defb 08ah,0bbh	; ba9a
+	defb 094h,0bbh	; ba9c
+	defb 094h,0bbh	; ba9e
+	defb 09eh,0bbh	; baa0
+	defb 0a7h,0bbh	; baa2
+	defb 0b1h,0bbh	; baa4
+	defb 0b9h,0bbh	; baa6
+	defb 0c3h,0bbh	; baa8
+	defb 0cch,0bbh	; baaa
+	defb 0d6h,0bbh	; baac
+	defb 0dfh,0bbh	; baae
+	defb 0e6h,0bbh	; bab0
+	defb 0f0h,0bbh	; bab2
+	defb 0f8h,0bbh	; bab4
+	defb 001h,0bch	; bab6
+	defb 009h,0bch	; bab8
+	defb 013h,0bch	; baba
+	defb 01bh,0bch	; babc
+	defb 025h,0bch	; babe
+	defb 02eh,0bch	; bac0
+	defb 037h,0bch	; bac2
+	defb 040h,0bch	; bac4
+	defb 047h,0bch	; bac6
+	defb 051h,0bch	; bac8
+	defb 05bh,0bch	; baca
+	defb 065h,0bch	; bacc
+	defb 06fh,0bch	; bace
+	defb 078h,0bch	; bad0
+	defb 07eh,0bch	; bad2
+	defb 087h,0bch	; bad4
+	defb 08fh,0bch	; bad6
+	defb 099h,0bch	; bad8
+	defb 0a2h,0bch	; bada
+	defb 0a7h,0bch	; badc
+	defb 0b1h,0bch	; bade
+	defb 0b9h,0bch	; bae0
+	defb 0c1h,0bch	; bae2
+	defb 0c9h,0bch	; bae4
+	defb 0d2h,0bch	; bae6
+	defb 0d2h,0bch	; bae8
+	defb 0dbh,0bch	; baea
+	defb 0e5h,0bch	; baec
+	defb 0efh,0bch	; baee
+	defb 039h,0bdh	; baf0
+	defb 0f9h,0bch	; baf2
+	defb 002h,0bdh	; baf4
+	defb 00bh,0bdh	; baf6
+	defb 014h,0bdh	; baf8
+	defb 01eh,0bdh	; bafa
+	defb 028h,0bdh	; bafc
+	defb 032h,0bdh	; bafe
+
+; ----------------------------------------------------------------------
+; DATOS nombre_1: el nombre del enemigo 1 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (8 bytes)
+;   0xbb00..0xbb08  (8 bytes)
+DATA_nombre_1:
+	defb 050h,049h,047h,057h,04fh,052h,04dh,0ffh	; bb00  PIGWORM.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_2: el nombre del enemigo 2 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (10 bytes)
+;   0xbb08..0xbb12  (10 bytes)
+DATA_nombre_2:
+	defb 053h,04ch,049h,050h,053h,04ch,049h,04dh,045h,0ffh	; bb08  SLIPSLIME.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_3: el nombre del enemigo 3 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (9 bytes)
+;   0xbb12..0xbb1b  (9 bytes)
+DATA_nombre_3:
+	defb 057h,04fh,04fh,044h,057h,04fh,052h,04dh,0ffh	; bb12  WOODWORM.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_4: el nombre del enemigo 4 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (8 bytes)
+;   0xbb1b..0xbb23  (8 bytes)
+DATA_nombre_4:
+	defb 043h,04ch,055h,042h,04dh,041h,04eh,0ffh	; bb1b  CLUBMAN.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_5: el nombre del enemigo 5 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (9 bytes)
+;   0xbb23..0xbb2c  (9 bytes)
+DATA_nombre_5:
+	defb 04dh,055h,044h,041h,052h,04dh,04fh,052h,0ffh	; bb23  MUDARMOR.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_6: el nombre del enemigo 6 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (9 bytes)
+;   0xbb2c..0xbb35  (9 bytes)
+DATA_nombre_6:
+	defb 047h,041h,052h,047h,04fh,059h,04ch,045h,0ffh	; bb2c  GARGOYLE.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_7: el nombre del enemigo 7 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (10 bytes)
+;   0xbb35..0xbb3f  (10 bytes)
+DATA_nombre_7:
+	defb 050h,04fh,049h,053h,04eh,046h,052h,04fh,047h,0ffh	; bb35  POISNFROG.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_8: el nombre del enemigo 8 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (10 bytes)
+;   0xbb3f..0xbb49  (10 bytes)
+DATA_nombre_8:
+	defb 047h,041h,052h,047h,04fh,059h,04ch,045h,032h,0ffh	; bb3f  GARGOYLE2.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_9: el nombre del enemigo 9 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (8 bytes)
+;   0xbb49..0xbb51  (8 bytes)
+DATA_nombre_9:
+	defb 052h,04fh,043h,04bh,04dh,041h,04eh,0ffh	; bb49  ROCKMAN.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_10: el nombre del enemigo 10 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (9 bytes)
+;   0xbb51..0xbb5a  (9 bytes)
+DATA_nombre_10:
+	defb 057h,049h,04ch,044h,042h,04fh,041h,052h,0ffh	; bb51  WILDBOAR.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_11: el nombre del enemigo 11 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (10 bytes)
+;   0xbb5a..0xbb64  (10 bytes)
+DATA_nombre_11:
+	defb 052h,045h,044h,053h,050h,049h,044h,045h,052h,0ffh	; bb5a  REDSPIDER.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_12: el nombre del enemigo 12 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (10 bytes)
+;   0xbb64..0xbb6e  (10 bytes)
+DATA_nombre_12:
+	defb 042h,049h,047h,053h,050h,049h,044h,045h,052h,0ffh	; bb64  BIGSPIDER.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_14: el nombre del enemigo 14 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (8 bytes)
+;   0xbb6e..0xbb76  (8 bytes)
+DATA_nombre_14:
+	defb 04dh,055h,044h,04dh,041h,053h,04bh,0ffh	; bb6e  MUDMASK.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_15: el nombre del enemigo 15 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (10 bytes)
+;   0xbb76..0xbb80  (10 bytes)
+DATA_nombre_15:
+	defb 042h,04fh,047h,047h,045h,044h,04dh,041h,04eh,0ffh	; bb76  BOGGEDMAN.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_16: el nombre del enemigo 16 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (5 bytes)
+;   0xbb80..0xbb85  (5 bytes)
+DATA_nombre_16:
+	defb 042h,041h,054h,054h,0ffh	; bb80
+
+; ----------------------------------------------------------------------
+; DATOS nombre_17: el nombre del enemigo 17 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (5 bytes)
+;   0xbb85..0xbb8a  (5 bytes)
+DATA_nombre_17:
+	defb 052h,041h,054h,054h,0ffh	; bb85
+
+; ----------------------------------------------------------------------
+; DATOS nombre_18: el nombre del enemigo 18 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (10 bytes)
+;   0xbb8a..0xbb94  (10 bytes)
+DATA_nombre_18:
+	defb 047h,052h,041h,053h,053h,057h,04fh,052h,04dh,0ffh	; bb8a  GRASSWORM.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_19: el nombre del enemigo 19 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (10 bytes)
+;   0xbb94..0xbb9e  (10 bytes)
+DATA_nombre_19:
+	defb 043h,045h,04eh,054h,049h,050h,045h,044h,045h,0ffh	; bb94  CENTIPEDE.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_21: el nombre del enemigo 21 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (9 bytes)
+;   0xbb9e..0xbba7  (9 bytes)
+DATA_nombre_21:
+	defb 044h,055h,04eh,047h,052h,04fh,04ch,04ch,0ffh	; bb9e  DUNGROLL.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_22: el nombre del enemigo 22 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (10 bytes)
+;   0xbba7..0xbbb1  (10 bytes)
+DATA_nombre_22:
+	defb 042h,04ch,04fh,057h,050h,049h,050h,045h,052h,0ffh	; bba7  BLOWPIPER.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_23: el nombre del enemigo 23 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (8 bytes)
+;   0xbbb1..0xbbb9  (8 bytes)
+DATA_nombre_23:
+	defb 050h,04fh,04ch,045h,04dh,041h,04eh,0ffh	; bbb1  POLEMAN.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_24: el nombre del enemigo 24 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (10 bytes)
+;   0xbbb9..0xbbc3  (10 bytes)
+DATA_nombre_24:
+	defb 042h,04fh,04fh,04dh,045h,052h,041h,04eh,047h,0ffh	; bbb9  BOOMERANG.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_25: el nombre del enemigo 25 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (9 bytes)
+;   0xbbc3..0xbbcc  (9 bytes)
+DATA_nombre_25:
+	defb 042h,04ch,04fh,057h,04dh,049h,052h,045h,0ffh	; bbc3  BLOWMIRE.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_26: el nombre del enemigo 26 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (10 bytes)
+;   0xbbcc..0xbbd6  (10 bytes)
+DATA_nombre_26:
+	defb 054h,057h,049h,04eh,04dh,049h,052h,045h,053h,0ffh	; bbcc  TWINMIRES.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_27: el nombre del enemigo 27 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (9 bytes)
+;   0xbbd6..0xbbdf  (9 bytes)
+DATA_nombre_27:
+	defb 053h,045h,041h,04ch,04fh,055h,053h,045h,0ffh	; bbd6  SEALOUSE.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_28: el nombre del enemigo 28 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (7 bytes)
+;   0xbbdf..0xbbe6  (7 bytes)
+DATA_nombre_28:
+	defb 042h,04fh,057h,04ch,045h,052h,0ffh	; bbdf
+
+; ----------------------------------------------------------------------
+; DATOS nombre_29: el nombre del enemigo 29 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (10 bytes)
+;   0xbbe6..0xbbf0  (10 bytes)
+DATA_nombre_29:
+	defb 054h,048h,049h,043h,04bh,053h,04bh,049h,04eh,0ffh	; bbe6  THICKSKIN.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_30: el nombre del enemigo 30 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (8 bytes)
+;   0xbbf0..0xbbf8  (8 bytes)
+DATA_nombre_30:
+	defb 047h,052h,049h,05ah,05ah,04ch,059h,0ffh	; bbf0  GRIZZLY.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_31: el nombre del enemigo 31 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (9 bytes)
+;   0xbbf8..0xbc01  (9 bytes)
+DATA_nombre_31:
+	defb 04dh,052h,08dh,052h,055h,049h,04eh,053h,0ffh	; bbf8  MR.RUINS.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_32: el nombre del enemigo 32 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (8 bytes)
+;   0xbc01..0xbc09  (8 bytes)
+DATA_nombre_32:
+	defb 043h,041h,056h,045h,04dh,041h,04eh,0ffh	; bc01  CAVEMAN.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_33: el nombre del enemigo 33 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (10 bytes)
+;   0xbc09..0xbc13  (10 bytes)
+DATA_nombre_33:
+	defb 043h,041h,056h,045h,052h,04eh,04dh,041h,04eh,0ffh	; bc09  CAVERNMAN.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_34: el nombre del enemigo 34 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (8 bytes)
+;   0xbc13..0xbc1b  (8 bytes)
+DATA_nombre_34:
+	defb 050h,052h,04fh,057h,04ch,045h,052h,0ffh	; bc13  PROWLER.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_35: el nombre del enemigo 35 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (10 bytes)
+;   0xbc1b..0xbc25  (10 bytes)
+DATA_nombre_35:
+	defb 043h,041h,056h,045h,052h,04eh,042h,049h,047h,0ffh	; bc1b  CAVERNBIG.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_36: el nombre del enemigo 36 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (9 bytes)
+;   0xbc25..0xbc2e  (9 bytes)
+DATA_nombre_36:
+	defb 046h,041h,04ch,043h,04fh,04eh,045h,052h,0ffh	; bc25  FALCONER.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_37: el nombre del enemigo 37 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (9 bytes)
+;   0xbc2e..0xbc37  (9 bytes)
+DATA_nombre_37:
+	defb 057h,041h,054h,043h,048h,04dh,041h,04eh,0ffh	; bc2e  WATCHMAN.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_38: el nombre del enemigo 38 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (9 bytes)
+;   0xbc37..0xbc40  (9 bytes)
+DATA_nombre_38:
+	defb 042h,049h,047h,047h,055h,041h,052h,044h,0ffh	; bc37  BIGGUARD.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_39: el nombre del enemigo 39 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (7 bytes)
+;   0xbc40..0xbc47  (7 bytes)
+DATA_nombre_39:
+	defb 053h,041h,056h,041h,047h,045h,0ffh	; bc40
+
+; ----------------------------------------------------------------------
+; DATOS nombre_40: el nombre del enemigo 40 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (10 bytes)
+;   0xbc47..0xbc51  (10 bytes)
+DATA_nombre_40:
+	defb 046h,041h,04ch,043h,04fh,04eh,042h,041h,054h,0ffh	; bc47  FALCONBAT.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_41: el nombre del enemigo 41 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (10 bytes)
+;   0xbc51..0xbc5b  (10 bytes)
+DATA_nombre_41:
+	defb 046h,049h,052h,045h,054h,04fh,054h,045h,04dh,0ffh	; bc51  FIRETOTEM.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_42: el nombre del enemigo 42 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (10 bytes)
+;   0xbc5b..0xbc65  (10 bytes)
+DATA_nombre_42:
+	defb 054h,048h,045h,000h,04eh,041h,053h,054h,059h,0ffh	; bc5b  THE.NASTY.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_43: el nombre del enemigo 43 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (10 bytes)
+;   0xbc65..0xbc6f  (10 bytes)
+DATA_nombre_43:
+	defb 042h,041h,044h,050h,052h,049h,045h,053h,054h,0ffh	; bc65  BADPRIEST.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_44: el nombre del enemigo 44 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (9 bytes)
+;   0xbc6f..0xbc78  (9 bytes)
+DATA_nombre_44:
+	defb 047h,052h,04fh,055h,04eh,044h,045h,052h,0ffh	; bc6f  GROUNDER.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_45: el nombre del enemigo 45 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (6 bytes)
+;   0xbc78..0xbc7e  (6 bytes)
+DATA_nombre_45:
+	defb 053h,08dh,050h,08dh,053h,0ffh	; bc78
+
+; ----------------------------------------------------------------------
+; DATOS nombre_46: el nombre del enemigo 46 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (9 bytes)
+;   0xbc7e..0xbc87  (9 bytes)
+DATA_nombre_46:
+	defb 04dh,049h,052h,045h,057h,04fh,052h,04dh,0ffh	; bc7e  MIREWORM.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_47: el nombre del enemigo 47 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (8 bytes)
+;   0xbc87..0xbc8f  (8 bytes)
+DATA_nombre_47:
+	defb 054h,048h,045h,000h,04eh,04fh,054h,0ffh	; bc87  THE.NOT.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_48: el nombre del enemigo 48 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (10 bytes)
+;   0xbc8f..0xbc99  (10 bytes)
+DATA_nombre_48:
+	defb 048h,055h,04dh,050h,045h,044h,04dh,041h,04eh,0ffh	; bc8f  HUMPEDMAN.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_49: el nombre del enemigo 49 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (9 bytes)
+;   0xbc99..0xbca2  (9 bytes)
+DATA_nombre_49:
+	defb 053h,054h,04fh,04eh,045h,04dh,041h,04eh,0ffh	; bc99  STONEMAN.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_50: el nombre del enemigo 50 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (5 bytes)
+;   0xbca2..0xbca7  (5 bytes)
+DATA_nombre_50:
+	defb 043h,052h,04fh,057h,0ffh	; bca2
+
+; ----------------------------------------------------------------------
+; DATOS nombre_51: el nombre del enemigo 51 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (10 bytes)
+;   0xbca7..0xbcb1  (10 bytes)
+DATA_nombre_51:
+	defb 052h,045h,044h,000h,046h,08dh,04dh,041h,04eh,0ffh	; bca7  RED.F.MAN.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_52: el nombre del enemigo 52 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (8 bytes)
+;   0xbcb1..0xbcb9  (8 bytes)
+DATA_nombre_52:
+	defb 042h,000h,046h,08dh,04dh,041h,04eh,0ffh	; bcb1  B.F.MAN.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_53: el nombre del enemigo 53 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (8 bytes)
+;   0xbcb9..0xbcc1  (8 bytes)
+DATA_nombre_53:
+	defb 044h,000h,046h,08dh,04dh,041h,04eh,0ffh	; bcb9  D.F.MAN.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_54: el nombre del enemigo 54 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (8 bytes)
+;   0xbcc1..0xbcc9  (8 bytes)
+DATA_nombre_54:
+	defb 04ah,055h,04dh,050h,04dh,041h,04eh,0ffh	; bcc1  JUMPMAN.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_55: el nombre del enemigo 55 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (9 bytes)
+;   0xbcc9..0xbcd2  (9 bytes)
+DATA_nombre_55:
+	defb 043h,04ch,049h,04eh,047h,04dh,041h,04eh,0ffh	; bcc9  CLINGMAN.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_56: el nombre del enemigo 56 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (9 bytes)
+;   0xbcd2..0xbcdb  (9 bytes)
+DATA_nombre_56:
+	defb 052h,045h,056h,04fh,04ch,056h,045h,052h,0ffh	; bcd2  REVOLVER.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_58: el nombre del enemigo 58 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (10 bytes)
+;   0xbcdb..0xbce5  (10 bytes)
+DATA_nombre_58:
+	defb 057h,048h,049h,054h,045h,046h,049h,052h,045h,0ffh	; bcdb  WHITEFIRE.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_59: el nombre del enemigo 59 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (10 bytes)
+;   0xbce5..0xbcef  (10 bytes)
+DATA_nombre_59:
+	defb 057h,048h,049h,054h,045h,04fh,047h,052h,045h,0ffh	; bce5  WHITEOGRE.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_60: el nombre del enemigo 60 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (10 bytes)
+;   0xbcef..0xbcf9  (10 bytes)
+DATA_nombre_60:
+	defb 053h,054h,04fh,04eh,045h,04fh,047h,052h,045h,0ffh	; bcef  STONEOGRE.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_62: el nombre del enemigo 62 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (9 bytes)
+;   0xbcf9..0xbd02  (9 bytes)
+DATA_nombre_62:
+	defb 04dh,049h,052h,045h,046h,052h,04fh,047h,0ffh	; bcf9  MIREFROG.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_63: el nombre del enemigo 63 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (9 bytes)
+;   0xbd02..0xbd0b  (9 bytes)
+DATA_nombre_63:
+	defb 052h,055h,049h,04eh,053h,042h,041h,054h,0ffh	; bd02  RUINSBAT.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_64: el nombre del enemigo 64 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (9 bytes)
+;   0xbd0b..0xbd14  (9 bytes)
+DATA_nombre_64:
+	defb 053h,048h,055h,054h,000h,041h,04ch,04ch,0ffh	; bd0b  SHUT.ALL.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_65: el nombre del enemigo 65 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (10 bytes)
+;   0xbd14..0xbd1e  (10 bytes)
+DATA_nombre_65:
+	defb 052h,04fh,043h,04bh,000h,052h,04fh,043h,04bh,0ffh	; bd14  ROCK.ROCK.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_66: el nombre del enemigo 66 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (10 bytes)
+;   0xbd1e..0xbd28  (10 bytes)
+DATA_nombre_66:
+	defb 042h,049h,047h,046h,04ch,04fh,057h,045h,052h,0ffh	; bd1e  BIGFLOWER.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_67: el nombre del enemigo 67 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); lo leen p00:4919 (10 bytes)
+;   0xbd28..0xbd32  (10 bytes)
+DATA_nombre_67:
+	defb 047h,052h,041h,053h,053h,04fh,047h,052h,045h,0ffh	; bd28  GRASSOGRE.
+
+; ----------------------------------------------------------------------
+; DATOS nombre_68: el nombre del enemigo 68 (0x00 es espacio, 0x8D el punto;
+;   0xFF acaba); se solapan 2 bloques (0xBD32-0xBD3A, 0xBD39-0xBD3A); lo leen
+;   p00:4919 (8 bytes)
+;   0xbd32..0xbd3a  (8 bytes)
+DATA_nombre_68:
+	defb 042h,055h,043h,04bh,04ch,045h,052h,0ffh	; bd32  BUCKLER.
 
 ; ======================================================================
 ; CODIGO 0xbd3a..0xbe8e  (340 bytes)

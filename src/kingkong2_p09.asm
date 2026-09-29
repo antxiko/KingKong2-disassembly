@@ -1992,16 +1992,24 @@ L_BC3F:
 	jp 04170h		;bc4c
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xbc4f..0xbcc7  (120 bytes)
-DATA_BC4F:
+; DATOS fuerza_de_cada_enemigo: 68 bytes, uno por tipo de enemigo: la fuerza
+;   (STR) que se ve en el panel; p01:6287 con 0xBC4F + tipo - 1; lo leen
+;   p01:628A (68 bytes)
+;   0xbc4f..0xbc93  (68 bytes)
+DATA_fuerza_de_cada_enemigo:
 	defb 001h,010h,008h,004h,015h,010h,001h,038h,004h,001h,015h,003h,002h,013h,014h,024h	; bc4f  .......8.......$
 	defb 002h,003h,005h,006h,010h,022h,004h,010h,018h,028h,005h,006h,007h,010h,032h,023h	; bc5f  ....."...(....2#
 	defb 048h,012h,042h,009h,059h,048h,044h,009h,008h,020h,040h,012h,024h,022h,030h,018h	; bc6f  H.B.YHD.. @.$"0.
 	defb 022h,020h,008h,024h,030h,025h,025h,029h,045h,012h,009h,028h,025h,025h,025h,000h	; bc7f  " .$0%%)E..(%%%.
-	defb 000h,040h,001h,002h,001h,018h,001h,005h,002h,001h,001h,002h,003h,001h,001h,001h	; bc8f  .@..............
-	defb 004h,018h,016h,003h,003h,001h,001h,001h,010h,015h,012h,018h,020h,025h,030h,020h	; bc9f  ............ %0
-	defb 015h,020h,018h,020h,018h,0b8h,04ch,045h,056h,045h,04ch,000h,060h,03ch,000h,05bh	; bcaf  . . ..LEVEL.`<.[
-	defb 060h,03ch,082h,079h,066h,06ah,03eh,0ffh	; bcbf  `<.yfj>.
+	defb 000h,040h,001h,002h	; bc8f
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0xbc93..0xbcc7  (52 bytes)
+DATA_BC93:
+	defb 001h,018h,001h,005h,002h,001h,001h,002h,003h,001h,001h,001h,004h,018h,016h,003h	; bc93  ................
+	defb 003h,001h,001h,001h,010h,015h,012h,018h,020h,025h,030h,020h,015h,020h,018h,020h	; bca3  ........ %0 . .
+	defb 018h,0b8h,04ch,045h,056h,045h,04ch,000h,060h,03ch,000h,05bh,060h,03ch,082h,079h	; bcb3  ..LEVEL.`<.[`<.y
+	defb 066h,06ah,03eh,0ffh	; bcc3
 
 ; ======================================================================
 ; CODIGO 0xbcc7..0xbd0e  (71 bytes)

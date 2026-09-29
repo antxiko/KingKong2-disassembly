@@ -23,4 +23,6 @@ D 0xAD9B 0xAF3B dibujos_AD9B  13 dibujos de 8x8 a 4 bits para la hoja de la pagi
 F 0xAD9B 4
 D 0xB1C5 0xB3FD vecinas  la pantalla a la que se sale por arriba, abajo, izquierda y derecha (0xFF no hay salida, 0xF0-0xFB especial); p01:6173 con 0xB1C5 + 4*pantalla + lado; lo leen p01:6183 (568 bytes)
 F 0xB1C5 4
+D 0xBC4F 0xBC93 fuerza_de_cada_enemigo  68 bytes, uno por tipo de enemigo: la fuerza (STR) que se ve en el panel; p01:6287 con 0xBC4F + tipo - 1; lo leen p01:628A (68 bytes)
+F 0xBC4F 16
 # --- fin de los bloques de bloques.py ---

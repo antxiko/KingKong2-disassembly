@@ -311,7 +311,47 @@ def portadas(t, bl):
              "la 0x3A", "p00:48ED", ancho=8)
 
 
-RECORRIDOS = [cabecera, tablas_del_despachador, pantallas, vecinas, juegos_de_dibujos,
+def mitchel(t, bl):
+    """p00:4FF0 (cada cuadro, desde p00:5C49): con los bancos 13-14-15, las
+    poses de Mitchel (tools/figuras.py): dos tablas de 17 palabras y un RLE
+    por pose que p00:5010 escribe en los patrones de sprite."""
+    import figuras as F
+    for tabla, que in ((0x7D9B, "0xC160 = 0"), (0x7DBD, "0xC160 distinto de 0")):
+        bl.anota(B131415, tabla, tabla + 2 * F.POSES, "poses_%04X" % tabla,
+                 "17 punteros, uno por pose de Mitchel (0xC310), cuando %s" % que,
+                 "p00:5008", ancho=2)
+        for n in range(F.POSES):
+            a = P.palabra(tabla + 2 * n, B131415)
+            _, fin = F.rle(a)
+            bl.anota(B131415, a, fin, "pose_%04X" % a,
+                     "la pose %d de Mitchel (%s): RLE de los dos patrones de 16x16 "
+                     "(n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; "
+                     "0 acaba)" % (n, que), "p00:5010")
+
+
+def nombres_de_enemigos(t, bl):
+    """p01:61D2: con el banco 15 en 0xA000, el nombre del tipo de enemigo t
+    es la cadena (0xFF acaba) a la que apunta 0xBA76 + 2*t (t = 1..68; el 0
+    no se usa); p00:4919 la escribe. p01:6283: con el banco 9, su fuerza
+    (STR del panel) es el byte 0xBC4F + t - 1."""
+    s = (1, 2, 15)
+    bl.anota(s, 0xBA78, 0xBA78 + 2 * 68, "nombres_de_enemigos",
+             "68 punteros, uno por tipo de enemigo (1-68), a su nombre; p01:61DD los lee "
+             "con 0xBA76 + 2*tipo", "p00:4304", ancho=2)
+    for k in range(1, 69):
+        a = P.palabra(0xBA76 + 2 * k, s)
+        f = a
+        while P.lee(f, s) != 0xFF:
+            f += 1
+        bl.anota(s, a, f + 1, "nombre_%d" % k,
+                 "el nombre del enemigo %d (0x00 es espacio, 0x8D el punto; 0xFF acaba)" % k,
+                 "p00:4919")
+    bl.anota((1, 2, 9), 0xBC4F, 0xBC4F + 68, "fuerza_de_cada_enemigo",
+             "68 bytes, uno por tipo de enemigo: la fuerza (STR) que se ve en el panel; "
+             "p01:6287 con 0xBC4F + tipo - 1", "p01:628A")
+
+
+RECORRIDOS = [nombres_de_enemigos, mitchel, cabecera, tablas_del_despachador, pantallas, vecinas, juegos_de_dibujos,
               bloques_de_cada_juego, paletas, figuras_fijas, portadas]
 
 

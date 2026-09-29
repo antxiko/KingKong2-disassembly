@@ -13,4 +13,134 @@ D 0xB9A5 0xB9F6 figura_estatua  9x9 numeros de dibujo de la estatua de King Kong
 F 0xB9A5 9
 D 0xB9F6 0xBA05 figura_de_la_60  3 columnas x 5 filas de dibujos: las dos piezas de la pantalla 0x60; lo leen p00:4EC1 (15 bytes)
 F 0xB9F6 3
+D 0xBA78 0xBB00 nombres_de_enemigos  68 punteros, uno por tipo de enemigo (1-68), a su nombre; p01:61DD los lee con 0xBA76 + 2*tipo; lo leen p00:4304 (136 bytes)
+F 0xBA78 2
+D 0xBB00 0xBB08 nombre_1  el nombre del enemigo 1 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (8 bytes)
+F 0xBB00 16
+D 0xBB08 0xBB12 nombre_2  el nombre del enemigo 2 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (10 bytes)
+F 0xBB08 16
+D 0xBB12 0xBB1B nombre_3  el nombre del enemigo 3 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (9 bytes)
+F 0xBB12 16
+D 0xBB1B 0xBB23 nombre_4  el nombre del enemigo 4 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (8 bytes)
+F 0xBB1B 16
+D 0xBB23 0xBB2C nombre_5  el nombre del enemigo 5 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (9 bytes)
+F 0xBB23 16
+D 0xBB2C 0xBB35 nombre_6  el nombre del enemigo 6 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (9 bytes)
+F 0xBB2C 16
+D 0xBB35 0xBB3F nombre_7  el nombre del enemigo 7 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (10 bytes)
+F 0xBB35 16
+D 0xBB3F 0xBB49 nombre_8  el nombre del enemigo 8 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (10 bytes)
+F 0xBB3F 16
+D 0xBB49 0xBB51 nombre_9  el nombre del enemigo 9 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (8 bytes)
+F 0xBB49 16
+D 0xBB51 0xBB5A nombre_10  el nombre del enemigo 10 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (9 bytes)
+F 0xBB51 16
+D 0xBB5A 0xBB64 nombre_11  el nombre del enemigo 11 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (10 bytes)
+F 0xBB5A 16
+D 0xBB64 0xBB6E nombre_12  el nombre del enemigo 12 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (10 bytes)
+F 0xBB64 16
+D 0xBB6E 0xBB76 nombre_14  el nombre del enemigo 14 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (8 bytes)
+F 0xBB6E 16
+D 0xBB76 0xBB80 nombre_15  el nombre del enemigo 15 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (10 bytes)
+F 0xBB76 16
+D 0xBB80 0xBB85 nombre_16  el nombre del enemigo 16 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (5 bytes)
+F 0xBB80 16
+D 0xBB85 0xBB8A nombre_17  el nombre del enemigo 17 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (5 bytes)
+F 0xBB85 16
+D 0xBB8A 0xBB94 nombre_18  el nombre del enemigo 18 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (10 bytes)
+F 0xBB8A 16
+D 0xBB94 0xBB9E nombre_19  el nombre del enemigo 19 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (10 bytes)
+F 0xBB94 16
+D 0xBB9E 0xBBA7 nombre_21  el nombre del enemigo 21 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (9 bytes)
+F 0xBB9E 16
+D 0xBBA7 0xBBB1 nombre_22  el nombre del enemigo 22 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (10 bytes)
+F 0xBBA7 16
+D 0xBBB1 0xBBB9 nombre_23  el nombre del enemigo 23 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (8 bytes)
+F 0xBBB1 16
+D 0xBBB9 0xBBC3 nombre_24  el nombre del enemigo 24 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (10 bytes)
+F 0xBBB9 16
+D 0xBBC3 0xBBCC nombre_25  el nombre del enemigo 25 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (9 bytes)
+F 0xBBC3 16
+D 0xBBCC 0xBBD6 nombre_26  el nombre del enemigo 26 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (10 bytes)
+F 0xBBCC 16
+D 0xBBD6 0xBBDF nombre_27  el nombre del enemigo 27 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (9 bytes)
+F 0xBBD6 16
+D 0xBBDF 0xBBE6 nombre_28  el nombre del enemigo 28 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (7 bytes)
+F 0xBBDF 16
+D 0xBBE6 0xBBF0 nombre_29  el nombre del enemigo 29 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (10 bytes)
+F 0xBBE6 16
+D 0xBBF0 0xBBF8 nombre_30  el nombre del enemigo 30 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (8 bytes)
+F 0xBBF0 16
+D 0xBBF8 0xBC01 nombre_31  el nombre del enemigo 31 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (9 bytes)
+F 0xBBF8 16
+D 0xBC01 0xBC09 nombre_32  el nombre del enemigo 32 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (8 bytes)
+F 0xBC01 16
+D 0xBC09 0xBC13 nombre_33  el nombre del enemigo 33 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (10 bytes)
+F 0xBC09 16
+D 0xBC13 0xBC1B nombre_34  el nombre del enemigo 34 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (8 bytes)
+F 0xBC13 16
+D 0xBC1B 0xBC25 nombre_35  el nombre del enemigo 35 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (10 bytes)
+F 0xBC1B 16
+D 0xBC25 0xBC2E nombre_36  el nombre del enemigo 36 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (9 bytes)
+F 0xBC25 16
+D 0xBC2E 0xBC37 nombre_37  el nombre del enemigo 37 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (9 bytes)
+F 0xBC2E 16
+D 0xBC37 0xBC40 nombre_38  el nombre del enemigo 38 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (9 bytes)
+F 0xBC37 16
+D 0xBC40 0xBC47 nombre_39  el nombre del enemigo 39 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (7 bytes)
+F 0xBC40 16
+D 0xBC47 0xBC51 nombre_40  el nombre del enemigo 40 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (10 bytes)
+F 0xBC47 16
+D 0xBC51 0xBC5B nombre_41  el nombre del enemigo 41 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (10 bytes)
+F 0xBC51 16
+D 0xBC5B 0xBC65 nombre_42  el nombre del enemigo 42 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (10 bytes)
+F 0xBC5B 16
+D 0xBC65 0xBC6F nombre_43  el nombre del enemigo 43 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (10 bytes)
+F 0xBC65 16
+D 0xBC6F 0xBC78 nombre_44  el nombre del enemigo 44 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (9 bytes)
+F 0xBC6F 16
+D 0xBC78 0xBC7E nombre_45  el nombre del enemigo 45 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (6 bytes)
+F 0xBC78 16
+D 0xBC7E 0xBC87 nombre_46  el nombre del enemigo 46 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (9 bytes)
+F 0xBC7E 16
+D 0xBC87 0xBC8F nombre_47  el nombre del enemigo 47 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (8 bytes)
+F 0xBC87 16
+D 0xBC8F 0xBC99 nombre_48  el nombre del enemigo 48 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (10 bytes)
+F 0xBC8F 16
+D 0xBC99 0xBCA2 nombre_49  el nombre del enemigo 49 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (9 bytes)
+F 0xBC99 16
+D 0xBCA2 0xBCA7 nombre_50  el nombre del enemigo 50 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (5 bytes)
+F 0xBCA2 16
+D 0xBCA7 0xBCB1 nombre_51  el nombre del enemigo 51 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (10 bytes)
+F 0xBCA7 16
+D 0xBCB1 0xBCB9 nombre_52  el nombre del enemigo 52 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (8 bytes)
+F 0xBCB1 16
+D 0xBCB9 0xBCC1 nombre_53  el nombre del enemigo 53 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (8 bytes)
+F 0xBCB9 16
+D 0xBCC1 0xBCC9 nombre_54  el nombre del enemigo 54 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (8 bytes)
+F 0xBCC1 16
+D 0xBCC9 0xBCD2 nombre_55  el nombre del enemigo 55 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (9 bytes)
+F 0xBCC9 16
+D 0xBCD2 0xBCDB nombre_56  el nombre del enemigo 56 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (9 bytes)
+F 0xBCD2 16
+D 0xBCDB 0xBCE5 nombre_58  el nombre del enemigo 58 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (10 bytes)
+F 0xBCDB 16
+D 0xBCE5 0xBCEF nombre_59  el nombre del enemigo 59 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (10 bytes)
+F 0xBCE5 16
+D 0xBCEF 0xBCF9 nombre_60  el nombre del enemigo 60 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (10 bytes)
+F 0xBCEF 16
+D 0xBCF9 0xBD02 nombre_62  el nombre del enemigo 62 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (9 bytes)
+F 0xBCF9 16
+D 0xBD02 0xBD0B nombre_63  el nombre del enemigo 63 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (9 bytes)
+F 0xBD02 16
+D 0xBD0B 0xBD14 nombre_64  el nombre del enemigo 64 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (9 bytes)
+F 0xBD0B 16
+D 0xBD14 0xBD1E nombre_65  el nombre del enemigo 65 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (10 bytes)
+F 0xBD14 16
+D 0xBD1E 0xBD28 nombre_66  el nombre del enemigo 66 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (10 bytes)
+F 0xBD1E 16
+D 0xBD28 0xBD32 nombre_67  el nombre del enemigo 67 (0x00 es espacio, 0x8D el punto; 0xFF acaba); lo leen p00:4919 (10 bytes)
+F 0xBD28 16
+D 0xBD32 0xBD3A nombre_68  el nombre del enemigo 68 (0x00 es espacio, 0x8D el punto; 0xFF acaba); se solapan 2 bloques (0xBD32-0xBD3A, 0xBD39-0xBD3A); lo leen p00:4919 (8 bytes)
+F 0xBD32 16
 # --- fin de los bloques de bloques.py ---
