@@ -1,6 +1,216 @@
 # Notas del banco 13: comentarios (C), etiquetas (L) y datos (D) anclados a direccion.
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x6000 0x6114 enemigos_de_cada_pantalla  0x8A punteros, uno por pantalla (0x00-0x89), a su lista de enemigos; lo leen p00:59A5 (276 bytes)
+F 0x6000 2
+D 0x6114 0x6115 enemigos_6114  0 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (1 bytes)
+F 0x6114 3
+D 0x6115 0x6128 enemigos_6115  6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (19 bytes)
+F 0x6115 3
+D 0x6128 0x6138 enemigos_6128  5 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (16 bytes)
+F 0x6128 3
+D 0x6138 0x6145 enemigos_6138  4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (13 bytes)
+F 0x6138 3
+D 0x6145 0x615B enemigos_6145  7 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (22 bytes)
+F 0x6145 3
+D 0x615B 0x6165 enemigos_615B  3 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (10 bytes)
+F 0x615B 3
+D 0x6165 0x6169 enemigos_6165  1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (4 bytes)
+F 0x6165 3
+D 0x6169 0x6179 enemigos_6169  5 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (16 bytes)
+F 0x6169 3
+D 0x6179 0x6183 enemigos_6179  3 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (10 bytes)
+F 0x6179 3
+D 0x6183 0x619F enemigos_6183  9 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (28 bytes)
+F 0x6183 3
+D 0x619F 0x61B2 enemigos_619F  6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (19 bytes)
+F 0x619F 3
+D 0x61B2 0x61B6 enemigos_61B2  1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (4 bytes)
+F 0x61B2 3
+D 0x61B6 0x61BA enemigos_61B6  1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (4 bytes)
+F 0x61B6 3
+D 0x61BA 0x61C7 enemigos_61BA  4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (13 bytes)
+F 0x61BA 3
+D 0x61C7 0x61D1 enemigos_61C7  3 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (10 bytes)
+F 0x61C7 3
+D 0x61D1 0x61E4 enemigos_61D1  6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (19 bytes)
+F 0x61D1 3
+D 0x61E4 0x61E8 enemigos_61E4  1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (4 bytes)
+F 0x61E4 3
+D 0x61E8 0x61EC enemigos_61E8  1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (4 bytes)
+F 0x61E8 3
+D 0x61EC 0x61F0 enemigos_61EC  1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (4 bytes)
+F 0x61EC 3
+D 0x61F0 0x61FA enemigos_61F0  3 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (10 bytes)
+F 0x61F0 3
+D 0x61FA 0x6204 enemigos_61FA  3 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (10 bytes)
+F 0x61FA 3
+D 0x6204 0x6211 enemigos_6204  4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (13 bytes)
+F 0x6204 3
+D 0x6211 0x6221 enemigos_6211  5 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (16 bytes)
+F 0x6211 3
+D 0x6221 0x622E enemigos_6221  4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (13 bytes)
+F 0x6221 3
+D 0x622E 0x6238 enemigos_622E  3 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (10 bytes)
+F 0x622E 3
+D 0x6238 0x6245 enemigos_6238  4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (13 bytes)
+F 0x6238 3
+D 0x6245 0x6249 enemigos_6245  1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (4 bytes)
+F 0x6245 3
+D 0x6249 0x6259 enemigos_6249  5 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (16 bytes)
+F 0x6249 3
+D 0x6259 0x625D enemigos_6259  1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (4 bytes)
+F 0x6259 3
+D 0x625D 0x626A enemigos_625D  4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (13 bytes)
+F 0x625D 3
+D 0x626A 0x6277 enemigos_626A  4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (13 bytes)
+F 0x626A 3
+D 0x6277 0x6287 enemigos_6277  5 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (16 bytes)
+F 0x6277 3
+D 0x6287 0x6297 enemigos_6287  5 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (16 bytes)
+F 0x6287 3
+D 0x6297 0x62A7 enemigos_6297  5 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (16 bytes)
+F 0x6297 3
+D 0x62A7 0x62AB enemigos_62A7  1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (4 bytes)
+F 0x62A7 3
+D 0x62AB 0x62AF enemigos_62AB  1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (4 bytes)
+F 0x62AB 3
+D 0x62AF 0x62B3 enemigos_62AF  1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (4 bytes)
+F 0x62AF 3
+D 0x62B3 0x62C3 enemigos_62B3  5 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (16 bytes)
+F 0x62B3 3
+D 0x62C3 0x62D0 enemigos_62C3  4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (13 bytes)
+F 0x62C3 3
+D 0x62D0 0x62E9 enemigos_62D0  8 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (25 bytes)
+F 0x62D0 3
+D 0x62E9 0x62F3 enemigos_62E9  3 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (10 bytes)
+F 0x62E9 3
+D 0x62F3 0x62FA enemigos_62F3  2 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (7 bytes)
+F 0x62F3 3
+D 0x62FA 0x6301 enemigos_62FA  2 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (7 bytes)
+F 0x62FA 3
+D 0x6301 0x630B enemigos_6301  3 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (10 bytes)
+F 0x6301 3
+D 0x630B 0x631B enemigos_630B  5 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (16 bytes)
+F 0x630B 3
+D 0x631B 0x632E enemigos_631B  6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (19 bytes)
+F 0x631B 3
+D 0x632E 0x6332 enemigos_632E  1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (4 bytes)
+F 0x632E 3
+D 0x6332 0x6345 enemigos_6332  6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (19 bytes)
+F 0x6332 3
+D 0x6345 0x6352 enemigos_6345  4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (13 bytes)
+F 0x6345 3
+D 0x6352 0x635F enemigos_6352  4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (13 bytes)
+F 0x6352 3
+D 0x635F 0x636C enemigos_635F  4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (13 bytes)
+F 0x635F 3
+D 0x636C 0x6379 enemigos_636C  4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (13 bytes)
+F 0x636C 3
+D 0x6379 0x6380 enemigos_6379  2 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (7 bytes)
+F 0x6379 3
+D 0x6380 0x6384 enemigos_6380  1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (4 bytes)
+F 0x6380 3
+D 0x6384 0x6388 enemigos_6384  1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (4 bytes)
+F 0x6384 3
+D 0x6388 0x638C enemigos_6388  1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (4 bytes)
+F 0x6388 3
+D 0x638C 0x6390 enemigos_638C  1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (4 bytes)
+F 0x638C 3
+D 0x6390 0x6394 enemigos_6390  1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (4 bytes)
+F 0x6390 3
+D 0x6394 0x6398 enemigos_6394  1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (4 bytes)
+F 0x6394 3
+D 0x6398 0x639C enemigos_6398  1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (4 bytes)
+F 0x6398 3
+D 0x639C 0x63A0 enemigos_639C  1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (4 bytes)
+F 0x639C 3
+D 0x63A0 0x63AA enemigos_63A0  3 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (10 bytes)
+F 0x63A0 3
+D 0x63AA 0x63C0 enemigos_63AA  7 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (22 bytes)
+F 0x63AA 3
+D 0x63C0 0x63D6 enemigos_63C0  7 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (22 bytes)
+F 0x63C0 3
+D 0x63D6 0x63E9 enemigos_63D6  6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (19 bytes)
+F 0x63D6 3
+D 0x63E9 0x63FC enemigos_63E9  6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (19 bytes)
+F 0x63E9 3
+D 0x63FC 0x641B enemigos_63FC  10 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (31 bytes)
+F 0x63FC 3
+D 0x641B 0x641F enemigos_641B  1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (4 bytes)
+F 0x641B 3
+D 0x641F 0x6432 enemigos_641F  6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (19 bytes)
+F 0x641F 3
+D 0x6432 0x6445 enemigos_6432  6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (19 bytes)
+F 0x6432 3
+D 0x6445 0x6455 enemigos_6445  5 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (16 bytes)
+F 0x6445 3
+D 0x6455 0x646B enemigos_6455  7 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (22 bytes)
+F 0x6455 3
+D 0x646B 0x6472 enemigos_646B  2 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (7 bytes)
+F 0x646B 3
+D 0x6472 0x6491 enemigos_6472  10 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (31 bytes)
+F 0x6472 3
+D 0x6491 0x64B0 enemigos_6491  10 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (31 bytes)
+F 0x6491 3
+D 0x64B0 0x64B4 enemigos_64B0  1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (4 bytes)
+F 0x64B0 3
+D 0x64B4 0x64B8 enemigos_64B4  1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (4 bytes)
+F 0x64B4 3
+D 0x64B8 0x64CB enemigos_64B8  6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (19 bytes)
+F 0x64B8 3
+D 0x64CB 0x64DB enemigos_64CB  5 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (16 bytes)
+F 0x64CB 3
+D 0x64DB 0x64E8 enemigos_64DB  4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (13 bytes)
+F 0x64DB 3
+D 0x64E8 0x64F8 enemigos_64E8  5 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (16 bytes)
+F 0x64E8 3
+D 0x64F8 0x6508 enemigos_64F8  5 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (16 bytes)
+F 0x64F8 3
+D 0x6508 0x651B enemigos_6508  6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (19 bytes)
+F 0x6508 3
+D 0x651B 0x652E enemigos_651B  6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (19 bytes)
+F 0x651B 3
+D 0x652E 0x6541 enemigos_652E  6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (19 bytes)
+F 0x652E 3
+D 0x6541 0x6554 enemigos_6541  6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (19 bytes)
+F 0x6541 3
+D 0x6554 0x6567 enemigos_6554  6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (19 bytes)
+F 0x6554 3
+D 0x6567 0x656B enemigos_6567  1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (4 bytes)
+F 0x6567 3
+D 0x656B 0x657B enemigos_656B  5 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (16 bytes)
+F 0x656B 3
+D 0x657B 0x6585 enemigos_657B  3 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (10 bytes)
+F 0x657B 3
+D 0x6585 0x658C enemigos_6585  2 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (7 bytes)
+F 0x6585 3
+D 0x658C 0x6593 enemigos_658C  2 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (7 bytes)
+F 0x658C 3
+D 0x6593 0x659D enemigos_6593  3 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (10 bytes)
+F 0x6593 3
+D 0x659D 0x65A4 enemigos_659D  2 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (7 bytes)
+F 0x659D 3
+D 0x65A4 0x65B1 enemigos_65A4  4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (13 bytes)
+F 0x65A4 3
+D 0x65B1 0x65BE enemigos_65B1  4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (13 bytes)
+F 0x65B1 3
+D 0x65BE 0x65CB enemigos_65BE  4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (13 bytes)
+F 0x65BE 3
+D 0x65CB 0x65D8 enemigos_65CB  4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (13 bytes)
+F 0x65CB 3
+D 0x65D8 0x65DF enemigos_65D8  2 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (7 bytes)
+F 0x65D8 3
+D 0x65DF 0x65EC enemigos_65DF  4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (13 bytes)
+F 0x65DF 3
+D 0x65EC 0x65F9 enemigos_65EC  4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (13 bytes)
+F 0x65EC 3
+D 0x65F9 0x6606 enemigos_65F9  4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (13 bytes)
+F 0x65F9 3
+D 0x6606 0x6613 enemigos_6606  4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (13 bytes)
+F 0x6606 3
+D 0x6613 0x6620 enemigos_6613  4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno); lo leen p00:59A9 (13 bytes)
+F 0x6613 3
 D 0x7D9B 0x7DBD poses_7D9B  17 punteros, uno por pose de Mitchel (0xC310), cuando 0xC160 = 0; lo leen p00:5008 (34 bytes)
 F 0x7D9B 2
 D 0x7DBD 0x7DDF poses_7DBD  17 punteros, uno por pose de Mitchel (0xC310), cuando 0xC160 distinto de 0; lo leen p00:5008 (34 bytes)

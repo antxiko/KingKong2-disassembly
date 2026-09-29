@@ -247,7 +247,7 @@ def main():
         eq += [f"{names[a]}:\tequ {a:#07x}" for a in faltan]
         out = out[:HDR] + eq + out[HDR:]
     texto = "\n".join(out) + "\n"
-    open(outpath, "w", encoding="utf-8").write(texto)
+    open(outpath, "w", encoding="utf-8", newline="\n").write(texto)
     ncode = sum(b - a for k, a, b in tr["blocks"] if k == "c")
     # Las lineas se cuentan sobre el fichero escrito, no sobre `out`: algunas
     # entradas de `out` son marcos de varias lineas, y contar entradas daba dos

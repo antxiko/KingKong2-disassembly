@@ -5,12 +5,14 @@
 # p06:A649: `ld a,(0xC139) / ld hl,0xA658 / add a,a / call 0x408C / ld e,(hl) /
 # inc hl / ld d,(hl) / ex de,hl / jp (hl)`. Seis palabras: acaba en 0xA664,
 # que es su primer destino.
-p06 0xA664 1 2 6  # a mano: tabla de p06:A658, entrada 0 (despachador de p06:A649, por 0xC139)
-p06 0xA674 1 2 6  # a mano: tabla de p06:A658, entrada 1 (despachador de p06:A649, por 0xC139)
-p06 0xA683 1 2 6  # a mano: tabla de p06:A658, entrada 2 (despachador de p06:A649, por 0xC139)
-p06 0xA699 1 2 6  # a mano: tabla de p06:A658, entrada 3 (despachador de p06:A649, por 0xC139)
-p06 0xA6A0 1 2 6  # a mano: tabla de p06:A658, entrada 4 (despachador de p06:A649, por 0xC139)
-p06 0xA6AC 1 2 6  # a mano: tabla de p06:A658, entrada 5 (despachador de p06:A649, por 0xC139)
+# Se llega por p00:5C2D con el banco 6 puesto por p00:5D9C (p00:5C26), que
+# lo deja tambien de reserva en 0xF0F6: r6.
+p06 0xA664 1 2 6 r6  # a mano: tabla de p06:A658, entrada 0 (despachador de p06:A649, por 0xC139)
+p06 0xA674 1 2 6 r6  # a mano: tabla de p06:A658, entrada 1 (despachador de p06:A649, por 0xC139)
+p06 0xA683 1 2 6 r6  # a mano: tabla de p06:A658, entrada 2 (despachador de p06:A649, por 0xC139)
+p06 0xA699 1 2 6 r6  # a mano: tabla de p06:A658, entrada 3 (despachador de p06:A649, por 0xC139)
+p06 0xA6A0 1 2 6 r6  # a mano: tabla de p06:A658, entrada 4 (despachador de p06:A649, por 0xC139)
+p06 0xA6AC 1 2 6 r6  # a mano: tabla de p06:A658, entrada 5 (despachador de p06:A649, por 0xC139)
 #
 # p06:A8AA: lo mismo con 0xC137 y la tabla de 0xA8B9, de tres palabras (acaba en
 # 0xA8BF, su primer destino).

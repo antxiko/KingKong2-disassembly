@@ -11,9 +11,10 @@
 # encuentra tools/z80trace.py solo, siguiendo el flujo.
 #
 # Este fichero lo regenera `make semillas` (tools/bancos.py escribe).
-0x4050   # p09:B8FE call
+0x4050   # p12:B6F4 call
 0x4056   # p12:BA7E call
-0x4062   # p12:BBC9 call
+0x4062   # p12:B919 jp
+0x4068   # p12:B777 call
 0x406E   # p12:B9F0 call
 0x4074   # p12:BA52 call
 0x407A   # p12:BA5C call
@@ -73,6 +74,7 @@
 0x4200   # p12:B9FE call
 0x4206   # p06:A6D8 call
 0x420C   # p12:BFF0 jp
+0x4212   # p12:B8FC call
 0x4229   # gancho de interrupcion H.TIMI: INIT escribe 0xC3 en 0xFD9F y esta direccion en 0xFDA0 (p00:42AA-p00:42B2)
 0x425A   # p01:6287 call
 0x425F   # p01:78A2 call

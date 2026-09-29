@@ -115,6 +115,12 @@ ED_TOCA_HL |= set(range(0xA0, 0xC0))         # ldir, cpir, ...
 # El despachador de Konami: `pop hl / add a,a / hl+=a / ld e,(hl) / inc hl /
 # ld d,(hl) / ex de,hl / jp (hl)`.
 DESPACHADOR = 0x425F
+# Los otros despachadores con la tabla pegada detras del `call`, de tamano
+# fijo: (banco, direccion) -> palabras. p12:B9B3 (las respuestas de las
+# conversaciones): `pop hl` y salta a la palabra 0, 1 o 2 segun se pulse la
+# tecla 1, 2 o 3 (bits 3, 4 y 5 de 0xC112); sin tecla, `ret nc` vuelve al que
+# llamo al que llamo.
+ELECCIONES = {(12, 0xB9B3): 3}
 # Las copias en RAM de los registros del mapper: 0xF0F1/0xF0F2/0xF0F3, una por
 # ranura, que p00:42C6 escribe junto con el registro. 0xF0F4 y 0xF0F5 solo los
 # pone a cero INIT (p00:429E); 0xF0F6 es el banco de reserva de 0xA000 (lo
@@ -261,6 +267,7 @@ class TrazadorDeBancos:
         self.sin_resolver = set()              # (banco, addr, registro)
         self.cambios = set()                   # (banco, addr, registro, valor)
         self.tablas = {}                       # (banco, call) -> (tab, n, destinos)
+        self.lector = {}                       # (banco, call) -> a quien se llama
         self.tam_tablas = dict(tam_tablas or {})
         self.sin_tablas = sin_tablas
         self.configs = set()                   # repartos de banco vistos
@@ -348,16 +355,19 @@ class TrazadorDeBancos:
 
     # ---------------------------------------------------------------- trazado
     def traza(self, semillas):
-        """semillas: lista de (addr, (b6000, b8000, bA000), justificacion)."""
+        """semillas: lista de (addr, (b6000, b8000, bA000), justificacion
+        [, banco de reserva de 0xA000])."""
         pila = []
-        for addr, s, just in semillas:
+        for semilla in semillas:
+            addr, s, just = semilla[:3]
+            reserva = semilla[3] if len(semilla) > 3 else None
             s = tuple(s)
             b = self.c.banco(addr, s)
             if b is not None:
                 self.entradas[b].add(addr)
                 self.porque.setdefault((b, addr), just)
             # la segunda sombra arranca sin valor: solo la escribe p00:4151
-            pila.append((addr, s, tuple(s) + (None, None, None), None, None, None))
+            pila.append((addr, s, tuple(s) + (None, None, reserva), None, None, None))
         while pila:
             pc, s, sombra, a, hl, de = pila.pop()
             while True:
@@ -471,6 +481,10 @@ class TrazadorDeBancos:
                     if t == DESPACHADOR:
                         self._despacha(b, pc, nxt, s, sombra, pila)
                         para = True
+                    elif (self.c.banco(t, s), t) in ELECCIONES:
+                        self._despacha(b, pc, nxt, s, sombra, pila,
+                                       ELECCIONES[(self.c.banco(t, s), t)], t)
+                        para = True
                     elif t in CAMBIA_BANCOS:
                         s, sombra = pone_bancos(t, s, sombra, a)
                 elif op in CALL_CC:
@@ -518,9 +532,13 @@ class TrazadorDeBancos:
                             "frontera de banco)" % (nombre(b), pc))
                 pc, a, hl, de = nxt, nueva_a, nuevo_hl, nuevo_de
 
-    def _despacha(self, b, pc_call, tab, s, sombra, pila):
-        """La tabla de palabras pegada detras de un `call 0x425F`."""
-        n = self.tam_tablas.get((b, pc_call), 0)
+    def _despacha(self, b, pc_call, tab, s, sombra, pila, n=None,
+                  quien=DESPACHADOR):
+        """La tabla de palabras pegada detras de un `call 0x425F` (o de uno
+        de ELECCIONES, que dan su tamano)."""
+        if n is None:
+            n = self.tam_tablas.get((b, pc_call), 0)
+        self.lector[(b, pc_call)] = quien
         destinos = []
         for k in range(n):
             w = self.word(tab + 2 * k, s)
@@ -532,8 +550,8 @@ class TrazadorDeBancos:
             return
         for i, w in enumerate(destinos):
             self._ir(w, s, sombra, pila, b, pc_call,
-                     "entrada %d de la tabla de 0x%04X (call 0x425F en 0x%04X)"
-                     % (i, tab, pc_call))
+                     "entrada %d de la tabla de 0x%04X (call 0x%04X en 0x%04X)"
+                     % (i, tab, quien, pc_call))
 
     def _ir(self, destino, s, sombra, pila, b, pc, clase):
         if destino is None:
@@ -639,7 +657,11 @@ def carga_tablas(ruta):
 
 
 def carga_extra(ruta):
-    """Semillas a mano: 'pNN 0xADDR b6000 b8000 bA000  # por que'."""
+    """Semillas a mano: 'pNN 0xADDR b6000 b8000 bA000 [rNN]  # por que'.
+
+    rNN es el banco de reserva de 0xA000 (0xF0F6) con el que se llega: el que
+    vuelve a poner la salida comun p00:4215 tras un puente. Sin el, detras del
+    primer puente el trazador seguiria en el banco 3."""
     fuera = []
     if not ruta or not os.path.exists(ruta):
         return fuera
@@ -647,9 +669,10 @@ def carga_extra(ruta):
         crudo, _, coment = ln.partition("#")
         p = crudo.split()
         if len(p) >= 5:
+            reserva = int(p[5][1:], 10) if len(p) >= 6 and p[5].startswith("r") else None
             fuera.append((int(p[1], 0),
                           (int(p[2], 0), int(p[3], 0), int(p[4], 0)),
-                          coment.strip() or "a mano"))
+                          coment.strip() or "a mano", reserva))
     return fuera
 
 
@@ -728,7 +751,7 @@ def escribe_ficheros(t, src):
 
     for p in range(N_PAGINAS):
         ruta = os.path.join(src, nombre(p) + ".entries")
-        with open(ruta, "w", encoding="utf-8") as f:
+        with open(ruta, "w", encoding="utf-8", newline="\n") as f:
             f.write(CAB_ENTRIES % (p, ORG[p]))
             if not propias[p]:
                 f.write("#\n# Este banco no lleva ni un byte de codigo al que\n"
@@ -743,26 +766,27 @@ def escribe_ficheros(t, src):
             continue
         fin = tab + 2 * n
         frontera = (tab & 0xE000) + TAM_PAGINA
+        q = t.lector.get((b, pc), DESPACHADOR)
         if fin <= frontera:
-            por_pagina[b].append((tab, fin, pc, n))
+            por_pagina[b].append((tab, fin, pc, n, q))
         else:
             # la tabla cruza al banco que haya en la ranura siguiente
             # (p00:5FC9): cada trozo va al .nocode de SU banco
-            por_pagina[b].append((tab, frontera, pc, n))
+            por_pagina[b].append((tab, frontera, pc, n, q))
             otro = Cartucho.banco(frontera, ss)
-            por_pagina[otro].append((frontera, fin, pc, n))
+            por_pagina[otro].append((frontera, fin, pc, n, q))
     for p in range(N_PAGINAS):
         ruta = os.path.join(src, nombre(p) + ".nocode")
-        with open(ruta, "w", encoding="utf-8") as f:
+        with open(ruta, "w", encoding="utf-8", newline="\n") as f:
             f.write(CAB_NOCODE)
             if p in t.bancos_datos:
                 f.write("#\n# BANCO DE DATOS entero, declarado en"
                         " src/datos.txt:\n# %s\n" % t.bancos_datos[p])
                 f.write("0x%04X 0x%04X   el banco entero es datos\n"
                         % (ORG[p], ORG[p] + TAM_PAGINA))
-            for tab, fin, pc, n in sorted(por_pagina.get(p, [])):
+            for tab, fin, pc, n, q in sorted(por_pagina.get(p, [])):
                 f.write("0x%04X 0x%04X   tabla de %d palabras del despachador "
-                        "(call 0x425F en 0x%04X)\n" % (tab, fin, n, pc))
+                        "(call 0x%04X en 0x%04X)\n" % (tab, fin, n, q, pc))
         print("%s: %d tablas" % (ruta, len(por_pagina.get(p, []))))
 
 
@@ -807,8 +831,9 @@ def main():
                                                    for b, a in orig)))
     elif modo == "tablas":
         for (b, pc), (tab, n, dest, s) in sorted(t.tablas.items()):
-            print("%s call 0x425F en %04X: tabla %04X..%04X, %d palabras "
-                  "(bancos %s)" % (nombre(b), pc, tab, tab + 2 * n - 1, n, s))
+            print("%s call 0x%04X en %04X: tabla %04X..%04X, %d palabras "
+                  "(bancos %s)" % (nombre(b), t.lector.get((b, pc), DESPACHADOR),
+                                   pc, tab, tab + 2 * n - 1, n, s))
             for i, w in enumerate(dest):
                 print("        [%2d] %04X" % (i, w))
     elif modo == "entradas":

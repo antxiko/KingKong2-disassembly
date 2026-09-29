@@ -17,4 +17,4 @@
 0x7613 0x761B   tabla de 4 palabras del despachador (call 0x425F en 0x7610)
 0x78A5 0x78B1   tabla de 6 palabras del despachador (call 0x425F en 0x78A2)
 0x7C05 0x7C37   tabla de 25 palabras del despachador (call 0x425F en 0x7C02)
-0x7FFC 0x8000   tabla de 2 palabras del despachador (call 0x425F en 0x7FF9)
+0x7FFC 0x8000   tabla de 6 palabras del despachador (call 0x425F en 0x7FF9)

@@ -6,3 +6,20 @@
 # de este cartucho.
 #
 # Este fichero lo regenera `make semillas` (tools/bancos.py escribe).
+0xB503 0xB509   tabla de 3 palabras del despachador (call 0xB9B3 en 0xB500)
+0xB53A 0xB540   tabla de 3 palabras del despachador (call 0xB9B3 en 0xB537)
+0xB56F 0xB575   tabla de 3 palabras del despachador (call 0xB9B3 en 0xB56C)
+0xB58A 0xB590   tabla de 3 palabras del despachador (call 0xB9B3 en 0xB587)
+0xB5C2 0xB5C8   tabla de 3 palabras del despachador (call 0xB9B3 en 0xB5BF)
+0xB623 0xB629   tabla de 3 palabras del despachador (call 0xB9B3 en 0xB620)
+0xB65D 0xB663   tabla de 3 palabras del despachador (call 0xB9B3 en 0xB65A)
+0xB684 0xB68A   tabla de 3 palabras del despachador (call 0xB9B3 en 0xB681)
+0xB6E8 0xB6EE   tabla de 3 palabras del despachador (call 0xB9B3 en 0xB6E5)
+0xB734 0xB73A   tabla de 3 palabras del despachador (call 0xB9B3 en 0xB731)
+0xB76C 0xB772   tabla de 3 palabras del despachador (call 0xB9B3 en 0xB769)
+0xB78A 0xB790   tabla de 3 palabras del despachador (call 0xB9B3 en 0xB787)
+0xB7B2 0xB7B8   tabla de 3 palabras del despachador (call 0xB9B3 en 0xB7AF)
+0xB7E2 0xB7E8   tabla de 3 palabras del despachador (call 0xB9B3 en 0xB7DF)
+0xB800 0xB806   tabla de 3 palabras del despachador (call 0xB9B3 en 0xB7FD)
+0xB872 0xB878   tabla de 3 palabras del despachador (call 0xB9B3 en 0xB86F)
+0xB8B4 0xB8BA   tabla de 3 palabras del despachador (call 0xB9B3 en 0xB8B1)

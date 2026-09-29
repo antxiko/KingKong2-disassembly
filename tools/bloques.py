@@ -140,8 +140,8 @@ def tablas_del_despachador(t, bl):
     for (b, pc), (tab, n, dest, ss) in sorted(t.tablas.items()):
         if n:
             bl.anota(ss, tab, tab + 2 * n, "tabla_%04X" % tab,
-                     "%d destinos del despachador de 0x425F (call en %s:%04X): %s"
-                     % (n, nombre(b), pc, ", ".join("0x%04X" % w for w in dest[:8])
+                     "%d destinos del despachador de 0x%04X (call en %s:%04X): %s"
+                     % (n, t.lector.get((b, pc), 0x425F), nombre(b), pc, ", ".join("0x%04X" % w for w in dest[:8])
                         + (" ..." if n > 8 else "")),
                      "%s:%04X" % (nombre(b), pc), ancho=2)
 

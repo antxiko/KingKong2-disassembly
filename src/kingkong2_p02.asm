@@ -10,12 +10,18 @@
 
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8000..0x8008  (8 bytes)
-DATA_8000:
-	defb 025h,080h,039h,080h,065h,080h,039h,080h	; 8000  %.9.e.9.
+; DATOS tabla_7FFC_cola: 6 destinos del despachador de 0x425F (call en
+;   p01:7FF9): 0x8008, 0x8017, 0x8025, 0x8039, 0x8065, 0x8039 (sigue del banco
+;   anterior, 0x7FFC); lo leen p01:7FF9 (8 bytes)
+;   0x8000..0x8008  (8 bytes)
+DATA_tabla_7FFC_cola:
+	defb 025h,080h	; 8000
+	defb 039h,080h	; 8002
+	defb 065h,080h	; 8004
+	defb 039h,080h	; 8006
 
 ; ======================================================================
-; CODIGO 0x8008..0x8025  (29 bytes)
+; CODIGO 0x8008..0x806c  (100 bytes)
 ; ======================================================================
 
 
@@ -33,20 +39,26 @@ L_8017:
 	call L_80B0		;801a
 	ld a,(0c14ch)		;801d
 	inc a			;8020
-	jr z,$+36		;8021
+	jr z,L_8045		;8021
 	jr L_8012		;8023
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8025..0x8045  (32 bytes)
-DATA_8025:
-	defb 0cdh,0e7h,080h,03ah,055h,0c1h,0a7h,0c8h,03ah,04ch,0c1h,0a7h,028h,0dfh,03eh,004h	; 8025  ...:U...:L..(.>.
-	defb 032h,04bh,0c1h,0c9h,03ah,006h,0c1h,0cbh,067h,0c8h,03eh,001h,032h,04bh,0c1h,0c9h	; 8035  2K..:...g.>.2K..
-
-; ======================================================================
-; CODIGO 0x8045..0x8065  (32 bytes)
-; ======================================================================
-
-
+L_8025:
+	call L_80E7		;8025
+	ld a,(0c155h)		;8028
+	and a			;802b
+	ret z			;802c
+	ld a,(0c14ch)		;802d
+	and a			;8030
+	jr z,L_8012		;8031
+	ld a,004h		;8033
+	ld (0c14bh),a		;8035
+	ret			;8038
+L_8039:
+	ld a,(0c106h)		;8039
+	bit 4,a		;803c
+	ret z			;803e
+	ld a,001h		;803f
+	ld (0c14bh),a		;8041
+	ret			;8044
 L_8045:
 	call 06428h		;8045
 	ld a,(0c149h)		;8048
@@ -65,18 +77,54 @@ L_8056:
 	ret z			;805f
 	ld (hl),000h		;8060
 	jp 07d00h		;8062
+L_8065:
+	ld a,(0c14ch)		;8065
+	dec a			;8068
+	call 0425fh		;8069
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8065..0x80b0  (75 bytes)
-DATA_8065:
-	defb 03ah,04ch,0c1h,03dh,0cdh,05fh,042h,000h,0b5h,037h,0b5h,05dh,0b5h,06ch,0b5h,087h	; 8065  :L.=._B..7.].l..
-	defb 0b5h,0bfh,0b5h,0dfh,0b5h,0e7h,0b5h,002h,0b6h,00ah,0b6h,05ah,0b6h,081h,0b6h,0cah	; 8075  ...........Z....
-	defb 0b6h,013h,0b7h,01bh,0b7h,053h,0b7h,087h,0b7h,0afh,0b7h,0d5h,0b7h,0dfh,0b7h,0fdh	; 8085  .....S..........
-	defb 0b7h,03ah,0b8h,059h,0b8h,06fh,0b8h,0aeh,0b8h,0b1h,0b8h,0d0h,0b8h,0d8h,0b8h,020h	; 8095  .:.Y.o.........
-	defb 0b6h,0e5h,0b6h,031h,0b7h,069h,0b7h,0eeh,0b8h,0fch,0b8h	; 80a5  ...1.i.....
+; DATOS tabla_806C: 34 destinos del despachador de 0x425F (call en p02:8069):
+;   0xB500, 0xB537, 0xB55D, 0xB56C, 0xB587, 0xB5BF, 0xB5DF, 0xB5E7 ...; lo
+;   leen p02:8069 (68 bytes)
+;   0x806c..0x80b0  (68 bytes)
+DATA_tabla_806C:
+	defb 000h,0b5h	; 806c
+	defb 037h,0b5h	; 806e
+	defb 05dh,0b5h	; 8070
+	defb 06ch,0b5h	; 8072
+	defb 087h,0b5h	; 8074
+	defb 0bfh,0b5h	; 8076
+	defb 0dfh,0b5h	; 8078
+	defb 0e7h,0b5h	; 807a
+	defb 002h,0b6h	; 807c
+	defb 00ah,0b6h	; 807e
+	defb 05ah,0b6h	; 8080
+	defb 081h,0b6h	; 8082
+	defb 0cah,0b6h	; 8084
+	defb 013h,0b7h	; 8086
+	defb 01bh,0b7h	; 8088
+	defb 053h,0b7h	; 808a
+	defb 087h,0b7h	; 808c
+	defb 0afh,0b7h	; 808e
+	defb 0d5h,0b7h	; 8090
+	defb 0dfh,0b7h	; 8092
+	defb 0fdh,0b7h	; 8094
+	defb 03ah,0b8h	; 8096
+	defb 059h,0b8h	; 8098
+	defb 06fh,0b8h	; 809a
+	defb 0aeh,0b8h	; 809c
+	defb 0b1h,0b8h	; 809e
+	defb 0d0h,0b8h	; 80a0
+	defb 0d8h,0b8h	; 80a2
+	defb 020h,0b6h	; 80a4
+	defb 0e5h,0b6h	; 80a6
+	defb 031h,0b7h	; 80a8
+	defb 069h,0b7h	; 80aa
+	defb 0eeh,0b8h	; 80ac
+	defb 0fch,0b8h	; 80ae
 
 ; ======================================================================
-; CODIGO 0x80b0..0x80e7  (55 bytes)
+; CODIGO 0x80b0..0x823a  (394 bytes)
 ; ======================================================================
 
 
@@ -106,22 +154,55 @@ L_80C9:
 	xor a			;80e2
 	ld (0c155h),a		;80e3
 	ret			;80e6
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x80e7..0x813e  (87 bytes)
-DATA_80E7:
-	defb 021h,056h,0c1h,035h,0c0h,036h,005h,03eh,001h,0cdh,088h,054h,0edh,05bh,059h,0c1h	; 80e7  !V.5.6.>...T.[Y.
-	defb 02ah,057h,0c1h,07eh,023h,022h,057h,0c1h,0feh,0fdh,028h,01dh,0feh,0ffh,028h,023h	; 80f7  *W.~#"W...(...(#
-	defb 0cdh,052h,049h,07ah,0c6h,008h,057h,0feh,0a8h,038h,009h,016h,008h,07bh,082h,05fh	; 8107  .RIz..W..8...{._
-	defb 0edh,053h,05bh,0c1h,0edh,053h,059h,0c1h,0c9h,0edh,05bh,05bh,0c1h,07bh,0c6h,008h	; 8117  .S[..SY...[[.{..
-	defb 05fh,018h,0edh,021h,04dh,0c1h,034h,021h,055h,0c1h,034h,021h,05dh,0c1h,07eh,036h	; 8127  _..!M.4!U.4!].~6
-	defb 000h,0a7h,0c8h,032h,04dh,0c1h,0c9h	; 8137
-
-; ======================================================================
-; CODIGO 0x813e..0x823a  (252 bytes)
-; ======================================================================
-
-
+L_80E7:
+	ld hl,0c156h		;80e7
+	dec (hl)			;80ea
+	ret nz			;80eb
+	ld (hl),005h		;80ec
+	ld a,001h		;80ee
+	call 05488h		;80f0
+	ld de,(0c159h)		;80f3
+	ld hl,(0c157h)		;80f7
+	ld a,(hl)			;80fa
+	inc hl			;80fb
+	ld (0c157h),hl		;80fc
+	cp 0fdh		;80ff
+	jr z,L_8120		;8101
+	cp 0ffh		;8103
+	jr z,L_812A		;8105
+	call 04952h		;8107
+	ld a,d			;810a
+	add a,008h		;810b
+	ld d,a			;810d
+	cp 0a8h		;810e
+	jr c,L_811B		;8110
+	ld d,008h		;8112
+	ld a,e			;8114
+	add a,d			;8115
+	ld e,a			;8116
+L_8117:
+	ld (0c15bh),de		;8117
+L_811B:
+	ld (0c159h),de		;811b
+	ret			;811f
+L_8120:
+	ld de,(0c15bh)		;8120
+	ld a,e			;8124
+	add a,008h		;8125
+	ld e,a			;8127
+	jr L_8117		;8128
+L_812A:
+	ld hl,0c14dh		;812a
+	inc (hl)			;812d
+	ld hl,0c155h		;812e
+	inc (hl)			;8131
+	ld hl,0c15dh		;8132
+	ld a,(hl)			;8135
+	ld (hl),000h		;8136
+	and a			;8138
+	ret z			;8139
+	ld (0c14dh),a		;813a
+	ret			;813d
 L_813E:
 	ld a,(0c125h)		;813e
 	dec a			;8141

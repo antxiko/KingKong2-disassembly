@@ -11,4 +11,38 @@ D 0xA15E 0xA17E dibujos_A15E  1 dibujos de 8x8 a 4 bits para la hoja de la pagin
 F 0xA15E 4
 D 0xA17E 0xAF5E volteados_A17E  17 dibujos de 8x8 que p00:4A1B sube del reves (desde el 16): la mitad derecha de la estatua; se solapan 4 bloques (0xA17E-0xA39E, 0xA17E-0xA51E, 0xA35E-0xAF5E, 0xA4FE-0xA5FE); lo leen p00:48A6, p00:4A24 (3552 bytes)
 F 0xA17E 4
+D 0xB503 0xB509 tabla_B503  3 destinos del despachador de 0xB9B3 (call en p12:B500): 0xB509, 0xB522, 0xB536; lo leen p12:B500 (6 bytes)
+F 0xB503 2
+D 0xB53A 0xB540 tabla_B53A  3 destinos del despachador de 0xB9B3 (call en p12:B537): 0xB548, 0xB540, 0xB536; lo leen p12:B537 (6 bytes)
+F 0xB53A 2
+D 0xB56F 0xB575 tabla_B56F  3 destinos del despachador de 0xB9B3 (call en p12:B56C): 0xB575, 0xB57D, 0xB536; lo leen p12:B56C (6 bytes)
+F 0xB56F 2
+D 0xB58A 0xB590 tabla_B58A  3 destinos del despachador de 0xB9B3 (call en p12:B587): 0xB590, 0xB5A0, 0xB5AF; lo leen p12:B587 (6 bytes)
+F 0xB58A 2
+D 0xB5C2 0xB5C8 tabla_B5C2  3 destinos del despachador de 0xB9B3 (call en p12:B5BF): 0xB5C8, 0xB5D7, 0xB536; lo leen p12:B5BF (6 bytes)
+F 0xB5C2 2
+D 0xB623 0xB629 tabla_B623  3 destinos del despachador de 0xB9B3 (call en p12:B620): 0xB629, 0xB653, 0xB536; lo leen p12:B620 (6 bytes)
+F 0xB623 2
+D 0xB65D 0xB663 tabla_B65D  3 destinos del despachador de 0xB9B3 (call en p12:B65A): 0xB663, 0xB679, 0xB536; lo leen p12:B65A (6 bytes)
+F 0xB65D 2
+D 0xB684 0xB68A tabla_B684  3 destinos del despachador de 0xB9B3 (call en p12:B681): 0xB68A, 0xB6B5, 0xB536; lo leen p12:B681 (6 bytes)
+F 0xB684 2
+D 0xB6E8 0xB6EE tabla_B6E8  3 destinos del despachador de 0xB9B3 (call en p12:B6E5): 0xB6EE, 0xB701, 0xB536; lo leen p12:B6E5 (6 bytes)
+F 0xB6E8 2
+D 0xB734 0xB73A tabla_B734  3 destinos del despachador de 0xB9B3 (call en p12:B731): 0xB73A, 0xB74B, 0xB536; lo leen p12:B731 (6 bytes)
+F 0xB734 2
+D 0xB76C 0xB772 tabla_B76C  3 destinos del despachador de 0xB9B3 (call en p12:B769): 0xB772, 0xB77F, 0xB536; lo leen p12:B769 (6 bytes)
+F 0xB76C 2
+D 0xB78A 0xB790 tabla_B78A  3 destinos del despachador de 0xB9B3 (call en p12:B787): 0xB790, 0xB7A1, 0xB536; lo leen p12:B787 (6 bytes)
+F 0xB78A 2
+D 0xB7B2 0xB7B8 tabla_B7B2  3 destinos del despachador de 0xB9B3 (call en p12:B7AF): 0xB7B8, 0xB531, 0xB536; lo leen p12:B7AF (6 bytes)
+F 0xB7B2 2
+D 0xB7E2 0xB7E8 tabla_B7E2  3 destinos del despachador de 0xB9B3 (call en p12:B7DF): 0xB7E8, 0xB531, 0xB536; lo leen p12:B7DF (6 bytes)
+F 0xB7E2 2
+D 0xB800 0xB806 tabla_B800  3 destinos del despachador de 0xB9B3 (call en p12:B7FD): 0xB806, 0xB590, 0xB531; lo leen p12:B7FD (6 bytes)
+F 0xB800 2
+D 0xB872 0xB878 tabla_B872  3 destinos del despachador de 0xB9B3 (call en p12:B86F): 0xB878, 0xB888, 0xB89E; lo leen p12:B86F (6 bytes)
+F 0xB872 2
+D 0xB8B4 0xB8BA tabla_B8B4  3 destinos del despachador de 0xB9B3 (call en p12:B8B1): 0xB8BA, 0xB531, 0xB536; lo leen p12:B8B1 (6 bytes)
+F 0xB8B4 2
 # --- fin de los bloques de bloques.py ---

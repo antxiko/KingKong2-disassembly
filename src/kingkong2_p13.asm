@@ -10,106 +10,1276 @@
 
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x6000..0x7d9b  (7579 bytes)
-DATA_6000:
-	defb 014h,061h,015h,061h,028h,061h,038h,061h,045h,061h,05bh,061h,065h,061h,069h,061h	; 6000  .a.a(a8aEa[aeaia
-	defb 079h,061h,083h,061h,09fh,061h,0b2h,061h,0b6h,061h,0bah,061h,0c7h,061h,0d1h,061h	; 6010  ya.a.a.a.a.a.a.a
-	defb 0e4h,061h,0e8h,061h,0ech,061h,0f0h,061h,014h,061h,014h,061h,0fah,061h,004h,062h	; 6020  .a.a.a.a.a.a.a.b
-	defb 014h,061h,011h,062h,021h,062h,02eh,062h,038h,062h,045h,062h,049h,062h,059h,062h	; 6030  .a.b!b.b8bEbIbYb
-	defb 05dh,062h,06ah,062h,077h,062h,014h,061h,087h,062h,097h,062h,0a7h,062h,014h,061h	; 6040  ]bjbwb.a.b.b.b.a
-	defb 014h,061h,0abh,062h,0afh,062h,0b3h,062h,014h,061h,014h,061h,014h,061h,0c3h,062h	; 6050  .a.b.b.b.a.a.a.b
-	defb 0d0h,062h,0e9h,062h,0f3h,062h,0fah,062h,001h,063h,00bh,063h,01bh,063h,02eh,063h	; 6060  .b.b.b.b.c.c.c.c
-	defb 032h,063h,045h,063h,052h,063h,05fh,063h,06ch,063h,079h,063h,080h,063h,084h,063h	; 6070  2cEcRc_clcyc.c.c
-	defb 084h,063h,084h,063h,084h,063h,088h,063h,08ch,063h,08ch,063h,090h,063h,094h,063h	; 6080  .c.c.c.c.c.c.c.c
-	defb 094h,063h,094h,063h,098h,063h,09ch,063h,0a0h,063h,0aah,063h,0c0h,063h,0d6h,063h	; 6090  .c.c.c.c.c.c.c.c
-	defb 0e9h,063h,014h,061h,0fch,063h,01bh,064h,01fh,064h,032h,064h,045h,064h,055h,064h	; 60a0  .c.a.c.d.d2dEdUd
-	defb 06bh,064h,072h,064h,014h,061h,091h,064h,0b0h,064h,0b4h,064h,0b8h,064h,014h,061h	; 60b0  kdrd.a.d.d.d.d.a
-	defb 014h,061h,014h,061h,014h,061h,0cbh,064h,0dbh,064h,0e8h,064h,0f8h,064h,008h,065h	; 60c0  .a.a.a.d.d.d.d.e
-	defb 014h,061h,014h,061h,01bh,065h,014h,061h,02eh,065h,041h,065h,054h,065h,067h,065h	; 60d0  .a.a.e.a.eAeTege
-	defb 014h,061h,014h,061h,06bh,065h,07bh,065h,085h,065h,08ch,065h,093h,065h,09dh,065h	; 60e0  .a.ake{e.e.e.e.e
-	defb 0a4h,065h,0b1h,065h,0beh,065h,0cbh,065h,0d8h,065h,014h,061h,0dfh,065h,0ech,065h	; 60f0  .e.e.e.e.e.a.e.e
-	defb 014h,061h,014h,061h,0f9h,065h,006h,066h,013h,066h,014h,061h,014h,061h,014h,061h	; 6100  .a.a.e.f.f.a.a.a
-	defb 014h,061h,014h,061h,000h,006h,001h,080h,030h,001h,070h,040h,001h,070h,070h,001h	; 6110  .a.a....0.p@.pp.
-	defb 080h,090h,001h,090h,060h,084h,030h,078h,005h,00ah,030h,030h,00ah,080h,030h,00ah	; 6120  ....`.0x..00..0.
-	defb 060h,050h,00ah,030h,080h,00ah,080h,080h,004h,00ah,050h,060h,00ah,070h,030h,00ah	; 6130  `P.0......P`.p0.
-	defb 070h,080h,007h,0efh,000h,007h,001h,060h,020h,001h,070h,040h,001h,090h,030h,089h	; 6140  p......` .p@..0.
-	defb 030h,090h,089h,040h,070h,089h,070h,090h,089h,080h,070h,003h,00ah,030h,020h,00ah	; 6150  0..@p.p...p..0 .
-	defb 050h,040h,08bh,048h,080h,001h,0beh,0efh,000h,005h,044h,030h,030h,044h,030h,080h	; 6160  P@.H......D00D0.
-	defb 044h,050h,050h,044h,080h,030h,044h,080h,080h,003h,043h,050h,030h,043h,070h,070h	; 6170  DPPD.0D...CP0Cpp
-	defb 043h,090h,050h,009h,011h,020h,020h,011h,020h,050h,011h,020h,080h,001h,040h,010h	; 6180  C.P..  . P. ..@.
-	defb 001h,040h,070h,001h,060h,090h,001h,080h,030h,001h,070h,060h,001h,090h,090h,006h	; 6190  .@p.`...0.p`....
-	defb 043h,070h,070h,043h,030h,070h,043h,050h,050h,043h,080h,030h,043h,090h,050h,043h	; 61a0  CppC0pCPPC.0C.PC
-	defb 090h,080h,001h,012h,050h,040h,001h,00ch,055h,055h,004h,043h,020h,090h,043h,050h	; 61b0  ....P@..UU.C .CP
-	defb 080h,043h,070h,090h,043h,090h,080h,003h,044h,030h,070h,044h,060h,098h,044h,090h	; 61c0  .Cp.C...D0pD`.D.
-	defb 090h,006h,017h,020h,070h,017h,030h,030h,017h,040h,090h,017h,050h,060h,017h,070h	; 61d0  ... p.00.@..P`.p
-	defb 040h,017h,080h,080h,001h,013h,050h,060h,001h,01bh,0efh,000h,001h,014h,040h,040h	; 61e0  @.....P`......@@
-	defb 003h,009h,040h,030h,009h,080h,040h,009h,060h,060h,003h,01ch,040h,040h,01ch,070h	; 61f0  ..@0..@.``..@@.p
-	defb 070h,01ch,090h,030h,004h,01ch,030h,040h,01ch,060h,080h,01ch,090h,060h,01ch,070h	; 6200  p..0..0@.`...`.p
-	defb 020h,005h,01dh,030h,040h,01dh,050h,060h,01dh,050h,080h,01dh,070h,040h,01dh,080h	; 6210   ..0@.P`.P..p@..
-	defb 070h,004h,01eh,088h,078h,003h,050h,040h,003h,030h,020h,003h,080h,020h,003h,024h	; 6220  p...x.P@.0 .. .$
-	defb 030h,040h,024h,070h,070h,028h,0efh,000h,004h,024h,030h,040h,024h,050h,080h,024h	; 6230  0@$pp(...$0@$P.$
-	defb 080h,050h,028h,0efh,000h,001h,02ch,060h,010h,005h,018h,030h,040h,018h,030h,070h	; 6240  .P(...,`...0@.0p
-	defb 018h,050h,060h,018h,080h,040h,018h,080h,070h,001h,01eh,078h,028h,004h,029h,020h	; 6250  .P`..@..p..x(.)
-	defb 030h,029h,040h,090h,0a9h,070h,050h,0a9h,090h,090h,004h,029h,020h,020h,029h,040h	; 6260  0)@..pP....)  )@
-	defb 090h,098h,070h,030h,098h,090h,090h,005h,01ch,030h,030h,01ch,030h,080h,01ch,050h	; 6270  ..p0.....00.0..P
-	defb 060h,01ch,080h,040h,01ch,080h,080h,005h,002h,020h,050h,002h,050h,050h,002h,060h	; 6280  `..@..... P.PP.`
-	defb 080h,002h,070h,030h,03eh,0efh,000h,005h,002h,020h,050h,002h,050h,050h,002h,060h	; 6290  ..p0>.... P.PP.`
-	defb 080h,002h,070h,030h,03eh,0efh,000h,001h,02eh,050h,040h,001h,02ah,030h,058h,001h	; 62a0  ..p0>....P@.*0X.
-	defb 005h,048h,078h,005h,015h,010h,020h,015h,010h,070h,015h,020h,040h,015h,020h,090h	; 62b0  .Hx... ..p. @. .
-	defb 015h,030h,060h,004h,019h,030h,040h,019h,050h,060h,019h,080h,030h,019h,080h,080h	; 62c0  .0`..0@.P`..0...
-	defb 008h,002h,020h,060h,002h,050h,060h,002h,080h,020h,019h,030h,040h,019h,030h,080h	; 62d0  .. `.P`.. .0@.0.
-	defb 019h,060h,030h,019h,070h,080h,019h,090h,050h,003h,01ah,028h,058h,002h,060h,020h	; 62e0  .`0.p...P..(X.`
-	defb 002h,070h,090h,002h,002h,020h,010h,002h,090h,040h,002h,002h,020h,040h,002h,090h	; 62f0  .p... ...@.. @..
-	defb 020h,003h,002h,060h,020h,002h,050h,090h,01ah,058h,058h,005h,02fh,020h,050h,02fh	; 6300   ..` .P..XX./ P/
-	defb 060h,040h,02fh,080h,050h,031h,040h,080h,031h,060h,090h,006h,02fh,020h,050h,02fh	; 6310  `@/.P1@.1`../ P/
-	defb 030h,080h,02fh,050h,040h,02fh,070h,050h,031h,080h,090h,031h,090h,078h,001h,01fh	; 6320  0./P@/pP1..1.x..
-	defb 028h,088h,006h,02fh,050h,070h,02fh,060h,090h,02fh,080h,080h,02fh,090h,040h,031h	; 6330  (../Pp/`./../.@1
-	defb 040h,020h,031h,040h,050h,004h,01fh,028h,038h,02fh,030h,070h,02fh,050h,050h,02fh	; 6340  @ 1@P..(8/0p/PP/
-	defb 040h,090h,004h,01fh,048h,058h,030h,060h,060h,030h,070h,040h,030h,080h,060h,004h	; 6350  @...HX0``0p@0.`.
-	defb 030h,050h,090h,030h,080h,050h,030h,090h,030h,030h,090h,080h,004h,01fh,028h,068h	; 6360  0P.0.P0.00....(h
-	defb 02fh,030h,040h,02fh,040h,080h,02fh,080h,080h,002h,032h,030h,060h,032h,050h,080h	; 6370  /0@/@./...20`2P.
-	defb 001h,01bh,0efh,000h,001h,034h,058h,058h,001h,01bh,0efh,000h,001h,034h,058h,058h	; 6380  .....4XX.....4XX
-	defb 001h,01bh,0efh,000h,001h,035h,058h,058h,001h,01bh,0efh,000h,001h,033h,058h,058h	; 6390  .....5XX.....3XX
-	defb 003h,037h,040h,030h,037h,050h,070h,037h,070h,050h,007h,036h,020h,060h,036h,030h	; 63a0  .7@07Pp7pP.6 `60
-	defb 030h,036h,040h,070h,036h,060h,050h,036h,070h,020h,036h,080h,080h,036h,090h,050h	; 63b0  06@p6`P6p 6..6.P
-	defb 007h,036h,020h,070h,036h,040h,030h,036h,050h,080h,036h,060h,050h,036h,070h,060h	; 63c0  .6 p6@06P.6`P6p`
-	defb 036h,090h,030h,036h,090h,080h,006h,037h,040h,040h,037h,040h,090h,037h,060h,070h	; 63d0  6.06...7@@7@.7`p
-	defb 037h,080h,050h,037h,080h,090h,037h,090h,020h,006h,036h,030h,020h,036h,020h,050h	; 63e0  7.P7..7. .60 6 P
-	defb 036h,050h,040h,036h,050h,070h,036h,070h,060h,036h,080h,030h,00ah,020h,020h,060h	; 63f0  6P@6Pp6p`6.0.  `
-	defb 020h,030h,030h,020h,030h,080h,020h,060h,030h,020h,060h,050h,020h,050h,090h,020h	; 6400   00 0. `0 `P P.
-	defb 070h,090h,020h,080h,020h,020h,090h,050h,020h,090h,080h,001h,038h,068h,048h,006h	; 6410  p. .  .P ...8hH.
-	defb 010h,030h,020h,010h,030h,090h,010h,050h,020h,010h,050h,090h,010h,070h,020h,010h	; 6420  .0 .0..P .P..p .
-	defb 070h,090h,006h,021h,078h,058h,022h,080h,030h,022h,080h,080h,0a1h,038h,058h,0a2h	; 6430  p..!xX".0"...8X.
-	defb 030h,030h,0a2h,030h,080h,005h,022h,020h,030h,022h,030h,070h,022h,050h,030h,022h	; 6440  00.0.." 0"0p"P0"
-	defb 080h,030h,0a1h,088h,088h,007h,042h,030h,078h,022h,020h,020h,022h,050h,030h,022h	; 6450  .0....B0x"  "P0"
-	defb 060h,090h,022h,070h,080h,022h,090h,020h,022h,090h,060h,002h,021h,048h,038h,0a3h	; 6460  `."p.". ".`.!H8.
-	defb 058h,088h,00ah,022h,040h,020h,022h,080h,030h,022h,020h,040h,022h,060h,040h,022h	; 6470  X.."@ ".0" @"`@"
-	defb 090h,050h,022h,030h,070h,022h,080h,070h,022h,060h,080h,022h,040h,090h,022h,090h	; 6480  .P"0p".p"`."@.".
-	defb 090h,00ah,022h,020h,080h,022h,030h,050h,022h,050h,030h,022h,050h,090h,022h,060h	; 6490  .." ."0P"P0"P."`
-	defb 050h,022h,060h,070h,022h,070h,020h,022h,080h,030h,022h,080h,070h,022h,090h,040h	; 64a0  P"`p"p ".0".p".@
-	defb 001h,02bh,038h,058h,001h,039h,068h,058h,006h,010h,010h,020h,010h,010h,050h,010h	; 64b0  .+8X.9hX... ..P.
-	defb 010h,080h,010h,0a0h,030h,010h,0a0h,070h,010h,0a0h,090h,005h,03bh,020h,060h,03bh	; 64c0  ....0..p....; `;
-	defb 050h,090h,03bh,050h,030h,03bh,070h,050h,03bh,080h,070h,004h,03bh,030h,090h,03bh	; 64d0  P.;P0;pP;.p.;0.;
-	defb 050h,040h,03bh,080h,020h,03bh,090h,080h,005h,03bh,030h,030h,03bh,040h,090h,03bh	; 64e0  P@;. ;...;00;@.;
-	defb 060h,060h,03bh,080h,040h,03bh,090h,090h,005h,03bh,020h,040h,03bh,030h,090h,03bh	; 64f0  ``;.@;...; @;0.;
-	defb 060h,060h,03bh,060h,020h,03bh,090h,050h,006h,03ah,020h,020h,03ah,020h,090h,03ah	; 6500  ``;` ;.P.:  : .:
-	defb 050h,090h,03ah,060h,020h,03ah,090h,020h,03ah,090h,090h,006h,03ah,020h,020h,03ah	; 6510  P.:` :. :...:  :
-	defb 020h,090h,03ah,040h,040h,03ah,070h,070h,03ah,090h,020h,03ah,090h,090h,006h,025h	; 6520   .:@@:pp:. :...%
-	defb 020h,030h,025h,030h,050h,025h,040h,078h,025h,060h,040h,025h,070h,070h,025h,080h	; 6530   0%0P%@x%`@%pp%.
-	defb 030h,006h,025h,030h,030h,025h,040h,060h,025h,060h,080h,025h,080h,040h,025h,080h	; 6540  0.%00%@`%`.%.@%.
-	defb 090h,025h,090h,060h,006h,025h,060h,020h,025h,040h,030h,025h,080h,040h,025h,030h	; 6550  .%.`.%` %@0%.@%0
-	defb 060h,025h,050h,070h,025h,070h,060h,001h,026h,038h,058h,005h,030h,040h,030h,030h	; 6560  `%Pp%p`.&8X.0@00
-	defb 040h,080h,030h,070h,060h,030h,090h,030h,030h,090h,090h,003h,041h,068h,028h,041h	; 6570  @.0p`0.00...Ah(A
-	defb 088h,088h,040h,0efh,000h,002h,03fh,058h,058h,040h,0efh,000h,002h,03fh,058h,058h	; 6580  ..@...?XX@...?XX
-	defb 040h,0efh,000h,003h,041h,040h,088h,041h,080h,028h,040h,0efh,000h,002h,027h,058h	; 6590  @...A@.A.(@...'X
-	defb 058h,03fh,058h,058h,004h,03ch,040h,030h,03ch,040h,080h,03ch,080h,030h,03ch,080h	; 65a0  X?XX.<@0<@.<.0<.
-	defb 080h,004h,03ch,050h,030h,03ch,070h,030h,03ch,050h,070h,03ch,070h,070h,004h,03ch	; 65b0  ..<P0<p0<Pp<pp.<
-	defb 090h,050h,03ch,040h,030h,03ch,040h,080h,03ch,050h,050h,004h,03ch,030h,030h,03ch	; 65c0  .P<@0<@.<PP.<00<
-	defb 060h,020h,03ch,060h,050h,03ch,090h,040h,002h,027h,048h,058h,03fh,058h,058h,004h	; 65d0  ` <`P<.@.'HX?XX.
-	defb 03fh,058h,058h,03dh,048h,068h,03dh,068h,028h,03dh,068h,068h,004h,03fh,058h,058h	; 65e0  ?XX=Hh=h(=hh.?XX
-	defb 03dh,030h,058h,03dh,038h,030h,03dh,050h,078h,004h,03fh,058h,058h,03dh,038h,048h	; 65f0  =0X=80=Px.?XX=8H
-	defb 03dh,058h,058h,03dh,068h,028h,004h,03fh,058h,058h,03dh,078h,028h,03dh,038h,058h	; 6600  =XX=h(.?XX=x(=8X
-	defb 03dh,088h,088h,004h,03fh,058h,058h,03dh,048h,088h,03dh,028h,050h,03dh,088h,038h	; 6610  =...?XX=H.=(P=.8
+; DATOS enemigos_de_cada_pantalla: 0x8A punteros, uno por pantalla
+;   (0x00-0x89), a su lista de enemigos; lo leen p00:59A5 (276 bytes)
+;   0x6000..0x6114  (276 bytes)
+DATA_enemigos_de_cada_pantalla:
+	defb 014h,061h	; 6000
+	defb 015h,061h	; 6002
+	defb 028h,061h	; 6004
+	defb 038h,061h	; 6006
+	defb 045h,061h	; 6008
+	defb 05bh,061h	; 600a
+	defb 065h,061h	; 600c
+	defb 069h,061h	; 600e
+	defb 079h,061h	; 6010
+	defb 083h,061h	; 6012
+	defb 09fh,061h	; 6014
+	defb 0b2h,061h	; 6016
+	defb 0b6h,061h	; 6018
+	defb 0bah,061h	; 601a
+	defb 0c7h,061h	; 601c
+	defb 0d1h,061h	; 601e
+	defb 0e4h,061h	; 6020
+	defb 0e8h,061h	; 6022
+	defb 0ech,061h	; 6024
+	defb 0f0h,061h	; 6026
+	defb 014h,061h	; 6028
+	defb 014h,061h	; 602a
+	defb 0fah,061h	; 602c
+	defb 004h,062h	; 602e
+	defb 014h,061h	; 6030
+	defb 011h,062h	; 6032
+	defb 021h,062h	; 6034
+	defb 02eh,062h	; 6036
+	defb 038h,062h	; 6038
+	defb 045h,062h	; 603a
+	defb 049h,062h	; 603c
+	defb 059h,062h	; 603e
+	defb 05dh,062h	; 6040
+	defb 06ah,062h	; 6042
+	defb 077h,062h	; 6044
+	defb 014h,061h	; 6046
+	defb 087h,062h	; 6048
+	defb 097h,062h	; 604a
+	defb 0a7h,062h	; 604c
+	defb 014h,061h	; 604e
+	defb 014h,061h	; 6050
+	defb 0abh,062h	; 6052
+	defb 0afh,062h	; 6054
+	defb 0b3h,062h	; 6056
+	defb 014h,061h	; 6058
+	defb 014h,061h	; 605a
+	defb 014h,061h	; 605c
+	defb 0c3h,062h	; 605e
+	defb 0d0h,062h	; 6060
+	defb 0e9h,062h	; 6062
+	defb 0f3h,062h	; 6064
+	defb 0fah,062h	; 6066
+	defb 001h,063h	; 6068
+	defb 00bh,063h	; 606a
+	defb 01bh,063h	; 606c
+	defb 02eh,063h	; 606e
+	defb 032h,063h	; 6070
+	defb 045h,063h	; 6072
+	defb 052h,063h	; 6074
+	defb 05fh,063h	; 6076
+	defb 06ch,063h	; 6078
+	defb 079h,063h	; 607a
+	defb 080h,063h	; 607c
+	defb 084h,063h	; 607e
+	defb 084h,063h	; 6080
+	defb 084h,063h	; 6082
+	defb 084h,063h	; 6084
+	defb 088h,063h	; 6086
+	defb 08ch,063h	; 6088
+	defb 08ch,063h	; 608a
+	defb 090h,063h	; 608c
+	defb 094h,063h	; 608e
+	defb 094h,063h	; 6090
+	defb 094h,063h	; 6092
+	defb 098h,063h	; 6094
+	defb 09ch,063h	; 6096
+	defb 0a0h,063h	; 6098
+	defb 0aah,063h	; 609a
+	defb 0c0h,063h	; 609c
+	defb 0d6h,063h	; 609e
+	defb 0e9h,063h	; 60a0
+	defb 014h,061h	; 60a2
+	defb 0fch,063h	; 60a4
+	defb 01bh,064h	; 60a6
+	defb 01fh,064h	; 60a8
+	defb 032h,064h	; 60aa
+	defb 045h,064h	; 60ac
+	defb 055h,064h	; 60ae
+	defb 06bh,064h	; 60b0
+	defb 072h,064h	; 60b2
+	defb 014h,061h	; 60b4
+	defb 091h,064h	; 60b6
+	defb 0b0h,064h	; 60b8
+	defb 0b4h,064h	; 60ba
+	defb 0b8h,064h	; 60bc
+	defb 014h,061h	; 60be
+	defb 014h,061h	; 60c0
+	defb 014h,061h	; 60c2
+	defb 014h,061h	; 60c4
+	defb 0cbh,064h	; 60c6
+	defb 0dbh,064h	; 60c8
+	defb 0e8h,064h	; 60ca
+	defb 0f8h,064h	; 60cc
+	defb 008h,065h	; 60ce
+	defb 014h,061h	; 60d0
+	defb 014h,061h	; 60d2
+	defb 01bh,065h	; 60d4
+	defb 014h,061h	; 60d6
+	defb 02eh,065h	; 60d8
+	defb 041h,065h	; 60da
+	defb 054h,065h	; 60dc
+	defb 067h,065h	; 60de
+	defb 014h,061h	; 60e0
+	defb 014h,061h	; 60e2
+	defb 06bh,065h	; 60e4
+	defb 07bh,065h	; 60e6
+	defb 085h,065h	; 60e8
+	defb 08ch,065h	; 60ea
+	defb 093h,065h	; 60ec
+	defb 09dh,065h	; 60ee
+	defb 0a4h,065h	; 60f0
+	defb 0b1h,065h	; 60f2
+	defb 0beh,065h	; 60f4
+	defb 0cbh,065h	; 60f6
+	defb 0d8h,065h	; 60f8
+	defb 014h,061h	; 60fa
+	defb 0dfh,065h	; 60fc
+	defb 0ech,065h	; 60fe
+	defb 014h,061h	; 6100
+	defb 014h,061h	; 6102
+	defb 0f9h,065h	; 6104
+	defb 006h,066h	; 6106
+	defb 013h,066h	; 6108
+	defb 014h,061h	; 610a
+	defb 014h,061h	; 610c
+	defb 014h,061h	; 610e
+	defb 014h,061h	; 6110
+	defb 014h,061h	; 6112
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6114: 0 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (1 bytes)
+;   0x6114..0x6115  (1 bytes)
+DATA_enemigos_6114:
+	defb 000h	; 6114
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6115: 6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (19 bytes)
+;   0x6115..0x6128  (19 bytes)
+DATA_enemigos_6115:
+	defb 006h,001h,080h	; 6115
+	defb 030h,001h,070h	; 6118
+	defb 040h,001h,070h	; 611b
+	defb 070h,001h,080h	; 611e
+	defb 090h,001h,090h	; 6121
+	defb 060h,084h,030h	; 6124
+	defb 078h	; 6127
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6128: 5 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (16 bytes)
+;   0x6128..0x6138  (16 bytes)
+DATA_enemigos_6128:
+	defb 005h,00ah,030h	; 6128
+	defb 030h,00ah,080h	; 612b
+	defb 030h,00ah,060h	; 612e
+	defb 050h,00ah,030h	; 6131
+	defb 080h,00ah,080h	; 6134
+	defb 080h	; 6137
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6138: 4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (13 bytes)
+;   0x6138..0x6145  (13 bytes)
+DATA_enemigos_6138:
+	defb 004h,00ah,050h	; 6138
+	defb 060h,00ah,070h	; 613b
+	defb 030h,00ah,070h	; 613e
+	defb 080h,007h,0efh	; 6141
+	defb 000h	; 6144
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6145: 7 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (22 bytes)
+;   0x6145..0x615b  (22 bytes)
+DATA_enemigos_6145:
+	defb 007h,001h,060h	; 6145
+	defb 020h,001h,070h	; 6148
+	defb 040h,001h,090h	; 614b
+	defb 030h,089h,030h	; 614e
+	defb 090h,089h,040h	; 6151
+	defb 070h,089h,070h	; 6154
+	defb 090h,089h,080h	; 6157
+	defb 070h	; 615a
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_615B: 3 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (10 bytes)
+;   0x615b..0x6165  (10 bytes)
+DATA_enemigos_615B:
+	defb 003h,00ah,030h	; 615b
+	defb 020h,00ah,050h	; 615e
+	defb 040h,08bh,048h	; 6161
+	defb 080h	; 6164
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6165: 1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (4 bytes)
+;   0x6165..0x6169  (4 bytes)
+DATA_enemigos_6165:
+	defb 001h,0beh,0efh	; 6165
+	defb 000h	; 6168
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6169: 5 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (16 bytes)
+;   0x6169..0x6179  (16 bytes)
+DATA_enemigos_6169:
+	defb 005h,044h,030h	; 6169
+	defb 030h,044h,030h	; 616c
+	defb 080h,044h,050h	; 616f
+	defb 050h,044h,080h	; 6172
+	defb 030h,044h,080h	; 6175
+	defb 080h	; 6178
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6179: 3 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (10 bytes)
+;   0x6179..0x6183  (10 bytes)
+DATA_enemigos_6179:
+	defb 003h,043h,050h	; 6179
+	defb 030h,043h,070h	; 617c
+	defb 070h,043h,090h	; 617f
+	defb 050h	; 6182
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6183: 9 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (28 bytes)
+;   0x6183..0x619f  (28 bytes)
+DATA_enemigos_6183:
+	defb 009h,011h,020h	; 6183
+	defb 020h,011h,020h	; 6186
+	defb 050h,011h,020h	; 6189
+	defb 080h,001h,040h	; 618c
+	defb 010h,001h,040h	; 618f
+	defb 070h,001h,060h	; 6192
+	defb 090h,001h,080h	; 6195
+	defb 030h,001h,070h	; 6198
+	defb 060h,001h,090h	; 619b
+	defb 090h	; 619e
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_619F: 6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (19 bytes)
+;   0x619f..0x61b2  (19 bytes)
+DATA_enemigos_619F:
+	defb 006h,043h,070h	; 619f
+	defb 070h,043h,030h	; 61a2
+	defb 070h,043h,050h	; 61a5
+	defb 050h,043h,080h	; 61a8
+	defb 030h,043h,090h	; 61ab
+	defb 050h,043h,090h	; 61ae
+	defb 080h	; 61b1
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_61B2: 1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (4 bytes)
+;   0x61b2..0x61b6  (4 bytes)
+DATA_enemigos_61B2:
+	defb 001h,012h,050h	; 61b2
+	defb 040h	; 61b5
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_61B6: 1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (4 bytes)
+;   0x61b6..0x61ba  (4 bytes)
+DATA_enemigos_61B6:
+	defb 001h,00ch,055h	; 61b6
+	defb 055h	; 61b9
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_61BA: 4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (13 bytes)
+;   0x61ba..0x61c7  (13 bytes)
+DATA_enemigos_61BA:
+	defb 004h,043h,020h	; 61ba
+	defb 090h,043h,050h	; 61bd
+	defb 080h,043h,070h	; 61c0
+	defb 090h,043h,090h	; 61c3
+	defb 080h	; 61c6
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_61C7: 3 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (10 bytes)
+;   0x61c7..0x61d1  (10 bytes)
+DATA_enemigos_61C7:
+	defb 003h,044h,030h	; 61c7
+	defb 070h,044h,060h	; 61ca
+	defb 098h,044h,090h	; 61cd
+	defb 090h	; 61d0
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_61D1: 6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (19 bytes)
+;   0x61d1..0x61e4  (19 bytes)
+DATA_enemigos_61D1:
+	defb 006h,017h,020h	; 61d1
+	defb 070h,017h,030h	; 61d4
+	defb 030h,017h,040h	; 61d7
+	defb 090h,017h,050h	; 61da
+	defb 060h,017h,070h	; 61dd
+	defb 040h,017h,080h	; 61e0
+	defb 080h	; 61e3
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_61E4: 1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (4 bytes)
+;   0x61e4..0x61e8  (4 bytes)
+DATA_enemigos_61E4:
+	defb 001h,013h,050h	; 61e4
+	defb 060h	; 61e7
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_61E8: 1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (4 bytes)
+;   0x61e8..0x61ec  (4 bytes)
+DATA_enemigos_61E8:
+	defb 001h,01bh,0efh	; 61e8
+	defb 000h	; 61eb
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_61EC: 1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (4 bytes)
+;   0x61ec..0x61f0  (4 bytes)
+DATA_enemigos_61EC:
+	defb 001h,014h,040h	; 61ec
+	defb 040h	; 61ef
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_61F0: 3 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (10 bytes)
+;   0x61f0..0x61fa  (10 bytes)
+DATA_enemigos_61F0:
+	defb 003h,009h,040h	; 61f0
+	defb 030h,009h,080h	; 61f3
+	defb 040h,009h,060h	; 61f6
+	defb 060h	; 61f9
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_61FA: 3 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (10 bytes)
+;   0x61fa..0x6204  (10 bytes)
+DATA_enemigos_61FA:
+	defb 003h,01ch,040h	; 61fa
+	defb 040h,01ch,070h	; 61fd
+	defb 070h,01ch,090h	; 6200
+	defb 030h	; 6203
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6204: 4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (13 bytes)
+;   0x6204..0x6211  (13 bytes)
+DATA_enemigos_6204:
+	defb 004h,01ch,030h	; 6204
+	defb 040h,01ch,060h	; 6207
+	defb 080h,01ch,090h	; 620a
+	defb 060h,01ch,070h	; 620d
+	defb 020h	; 6210
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6211: 5 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (16 bytes)
+;   0x6211..0x6221  (16 bytes)
+DATA_enemigos_6211:
+	defb 005h,01dh,030h	; 6211
+	defb 040h,01dh,050h	; 6214
+	defb 060h,01dh,050h	; 6217
+	defb 080h,01dh,070h	; 621a
+	defb 040h,01dh,080h	; 621d
+	defb 070h	; 6220
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6221: 4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (13 bytes)
+;   0x6221..0x622e  (13 bytes)
+DATA_enemigos_6221:
+	defb 004h,01eh,088h	; 6221
+	defb 078h,003h,050h	; 6224
+	defb 040h,003h,030h	; 6227
+	defb 020h,003h,080h	; 622a
+	defb 020h	; 622d
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_622E: 3 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (10 bytes)
+;   0x622e..0x6238  (10 bytes)
+DATA_enemigos_622E:
+	defb 003h,024h,030h	; 622e
+	defb 040h,024h,070h	; 6231
+	defb 070h,028h,0efh	; 6234
+	defb 000h	; 6237
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6238: 4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (13 bytes)
+;   0x6238..0x6245  (13 bytes)
+DATA_enemigos_6238:
+	defb 004h,024h,030h	; 6238
+	defb 040h,024h,050h	; 623b
+	defb 080h,024h,080h	; 623e
+	defb 050h,028h,0efh	; 6241
+	defb 000h	; 6244
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6245: 1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (4 bytes)
+;   0x6245..0x6249  (4 bytes)
+DATA_enemigos_6245:
+	defb 001h,02ch,060h	; 6245
+	defb 010h	; 6248
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6249: 5 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (16 bytes)
+;   0x6249..0x6259  (16 bytes)
+DATA_enemigos_6249:
+	defb 005h,018h,030h	; 6249
+	defb 040h,018h,030h	; 624c
+	defb 070h,018h,050h	; 624f
+	defb 060h,018h,080h	; 6252
+	defb 040h,018h,080h	; 6255
+	defb 070h	; 6258
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6259: 1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (4 bytes)
+;   0x6259..0x625d  (4 bytes)
+DATA_enemigos_6259:
+	defb 001h,01eh,078h	; 6259
+	defb 028h	; 625c
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_625D: 4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (13 bytes)
+;   0x625d..0x626a  (13 bytes)
+DATA_enemigos_625D:
+	defb 004h,029h,020h	; 625d
+	defb 030h,029h,040h	; 6260
+	defb 090h,0a9h,070h	; 6263
+	defb 050h,0a9h,090h	; 6266
+	defb 090h	; 6269
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_626A: 4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (13 bytes)
+;   0x626a..0x6277  (13 bytes)
+DATA_enemigos_626A:
+	defb 004h,029h,020h	; 626a
+	defb 020h,029h,040h	; 626d
+	defb 090h,098h,070h	; 6270
+	defb 030h,098h,090h	; 6273
+	defb 090h	; 6276
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6277: 5 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (16 bytes)
+;   0x6277..0x6287  (16 bytes)
+DATA_enemigos_6277:
+	defb 005h,01ch,030h	; 6277
+	defb 030h,01ch,030h	; 627a
+	defb 080h,01ch,050h	; 627d
+	defb 060h,01ch,080h	; 6280
+	defb 040h,01ch,080h	; 6283
+	defb 080h	; 6286
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6287: 5 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (16 bytes)
+;   0x6287..0x6297  (16 bytes)
+DATA_enemigos_6287:
+	defb 005h,002h,020h	; 6287
+	defb 050h,002h,050h	; 628a
+	defb 050h,002h,060h	; 628d
+	defb 080h,002h,070h	; 6290
+	defb 030h,03eh,0efh	; 6293
+	defb 000h	; 6296
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6297: 5 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (16 bytes)
+;   0x6297..0x62a7  (16 bytes)
+DATA_enemigos_6297:
+	defb 005h,002h,020h	; 6297
+	defb 050h,002h,050h	; 629a
+	defb 050h,002h,060h	; 629d
+	defb 080h,002h,070h	; 62a0
+	defb 030h,03eh,0efh	; 62a3
+	defb 000h	; 62a6
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_62A7: 1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (4 bytes)
+;   0x62a7..0x62ab  (4 bytes)
+DATA_enemigos_62A7:
+	defb 001h,02eh,050h	; 62a7
+	defb 040h	; 62aa
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_62AB: 1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (4 bytes)
+;   0x62ab..0x62af  (4 bytes)
+DATA_enemigos_62AB:
+	defb 001h,02ah,030h	; 62ab
+	defb 058h	; 62ae
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_62AF: 1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (4 bytes)
+;   0x62af..0x62b3  (4 bytes)
+DATA_enemigos_62AF:
+	defb 001h,005h,048h	; 62af
+	defb 078h	; 62b2
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_62B3: 5 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (16 bytes)
+;   0x62b3..0x62c3  (16 bytes)
+DATA_enemigos_62B3:
+	defb 005h,015h,010h	; 62b3
+	defb 020h,015h,010h	; 62b6
+	defb 070h,015h,020h	; 62b9
+	defb 040h,015h,020h	; 62bc
+	defb 090h,015h,030h	; 62bf
+	defb 060h	; 62c2
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_62C3: 4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (13 bytes)
+;   0x62c3..0x62d0  (13 bytes)
+DATA_enemigos_62C3:
+	defb 004h,019h,030h	; 62c3
+	defb 040h,019h,050h	; 62c6
+	defb 060h,019h,080h	; 62c9
+	defb 030h,019h,080h	; 62cc
+	defb 080h	; 62cf
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_62D0: 8 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (25 bytes)
+;   0x62d0..0x62e9  (25 bytes)
+DATA_enemigos_62D0:
+	defb 008h,002h,020h	; 62d0
+	defb 060h,002h,050h	; 62d3
+	defb 060h,002h,080h	; 62d6
+	defb 020h,019h,030h	; 62d9
+	defb 040h,019h,030h	; 62dc
+	defb 080h,019h,060h	; 62df
+	defb 030h,019h,070h	; 62e2
+	defb 080h,019h,090h	; 62e5
+	defb 050h	; 62e8
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_62E9: 3 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (10 bytes)
+;   0x62e9..0x62f3  (10 bytes)
+DATA_enemigos_62E9:
+	defb 003h,01ah,028h	; 62e9
+	defb 058h,002h,060h	; 62ec
+	defb 020h,002h,070h	; 62ef
+	defb 090h	; 62f2
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_62F3: 2 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (7 bytes)
+;   0x62f3..0x62fa  (7 bytes)
+DATA_enemigos_62F3:
+	defb 002h,002h,020h	; 62f3
+	defb 010h,002h,090h	; 62f6
+	defb 040h	; 62f9
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_62FA: 2 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (7 bytes)
+;   0x62fa..0x6301  (7 bytes)
+DATA_enemigos_62FA:
+	defb 002h,002h,020h	; 62fa
+	defb 040h,002h,090h	; 62fd
+	defb 020h	; 6300
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6301: 3 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (10 bytes)
+;   0x6301..0x630b  (10 bytes)
+DATA_enemigos_6301:
+	defb 003h,002h,060h	; 6301
+	defb 020h,002h,050h	; 6304
+	defb 090h,01ah,058h	; 6307
+	defb 058h	; 630a
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_630B: 5 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (16 bytes)
+;   0x630b..0x631b  (16 bytes)
+DATA_enemigos_630B:
+	defb 005h,02fh,020h	; 630b
+	defb 050h,02fh,060h	; 630e
+	defb 040h,02fh,080h	; 6311
+	defb 050h,031h,040h	; 6314
+	defb 080h,031h,060h	; 6317
+	defb 090h	; 631a
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_631B: 6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (19 bytes)
+;   0x631b..0x632e  (19 bytes)
+DATA_enemigos_631B:
+	defb 006h,02fh,020h	; 631b
+	defb 050h,02fh,030h	; 631e
+	defb 080h,02fh,050h	; 6321
+	defb 040h,02fh,070h	; 6324
+	defb 050h,031h,080h	; 6327
+	defb 090h,031h,090h	; 632a
+	defb 078h	; 632d
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_632E: 1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (4 bytes)
+;   0x632e..0x6332  (4 bytes)
+DATA_enemigos_632E:
+	defb 001h,01fh,028h	; 632e
+	defb 088h	; 6331
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6332: 6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (19 bytes)
+;   0x6332..0x6345  (19 bytes)
+DATA_enemigos_6332:
+	defb 006h,02fh,050h	; 6332
+	defb 070h,02fh,060h	; 6335
+	defb 090h,02fh,080h	; 6338
+	defb 080h,02fh,090h	; 633b
+	defb 040h,031h,040h	; 633e
+	defb 020h,031h,040h	; 6341
+	defb 050h	; 6344
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6345: 4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (13 bytes)
+;   0x6345..0x6352  (13 bytes)
+DATA_enemigos_6345:
+	defb 004h,01fh,028h	; 6345
+	defb 038h,02fh,030h	; 6348
+	defb 070h,02fh,050h	; 634b
+	defb 050h,02fh,040h	; 634e
+	defb 090h	; 6351
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6352: 4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (13 bytes)
+;   0x6352..0x635f  (13 bytes)
+DATA_enemigos_6352:
+	defb 004h,01fh,048h	; 6352
+	defb 058h,030h,060h	; 6355
+	defb 060h,030h,070h	; 6358
+	defb 040h,030h,080h	; 635b
+	defb 060h	; 635e
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_635F: 4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (13 bytes)
+;   0x635f..0x636c  (13 bytes)
+DATA_enemigos_635F:
+	defb 004h,030h,050h	; 635f
+	defb 090h,030h,080h	; 6362
+	defb 050h,030h,090h	; 6365
+	defb 030h,030h,090h	; 6368
+	defb 080h	; 636b
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_636C: 4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (13 bytes)
+;   0x636c..0x6379  (13 bytes)
+DATA_enemigos_636C:
+	defb 004h,01fh,028h	; 636c
+	defb 068h,02fh,030h	; 636f
+	defb 040h,02fh,040h	; 6372
+	defb 080h,02fh,080h	; 6375
+	defb 080h	; 6378
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6379: 2 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (7 bytes)
+;   0x6379..0x6380  (7 bytes)
+DATA_enemigos_6379:
+	defb 002h,032h,030h	; 6379
+	defb 060h,032h,050h	; 637c
+	defb 080h	; 637f
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6380: 1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (4 bytes)
+;   0x6380..0x6384  (4 bytes)
+DATA_enemigos_6380:
+	defb 001h,01bh,0efh	; 6380
+	defb 000h	; 6383
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6384: 1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (4 bytes)
+;   0x6384..0x6388  (4 bytes)
+DATA_enemigos_6384:
+	defb 001h,034h,058h	; 6384
+	defb 058h	; 6387
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6388: 1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (4 bytes)
+;   0x6388..0x638c  (4 bytes)
+DATA_enemigos_6388:
+	defb 001h,01bh,0efh	; 6388
+	defb 000h	; 638b
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_638C: 1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (4 bytes)
+;   0x638c..0x6390  (4 bytes)
+DATA_enemigos_638C:
+	defb 001h,034h,058h	; 638c
+	defb 058h	; 638f
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6390: 1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (4 bytes)
+;   0x6390..0x6394  (4 bytes)
+DATA_enemigos_6390:
+	defb 001h,01bh,0efh	; 6390
+	defb 000h	; 6393
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6394: 1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (4 bytes)
+;   0x6394..0x6398  (4 bytes)
+DATA_enemigos_6394:
+	defb 001h,035h,058h	; 6394
+	defb 058h	; 6397
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6398: 1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (4 bytes)
+;   0x6398..0x639c  (4 bytes)
+DATA_enemigos_6398:
+	defb 001h,01bh,0efh	; 6398
+	defb 000h	; 639b
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_639C: 1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (4 bytes)
+;   0x639c..0x63a0  (4 bytes)
+DATA_enemigos_639C:
+	defb 001h,033h,058h	; 639c
+	defb 058h	; 639f
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_63A0: 3 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (10 bytes)
+;   0x63a0..0x63aa  (10 bytes)
+DATA_enemigos_63A0:
+	defb 003h,037h,040h	; 63a0
+	defb 030h,037h,050h	; 63a3
+	defb 070h,037h,070h	; 63a6
+	defb 050h	; 63a9
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_63AA: 7 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (22 bytes)
+;   0x63aa..0x63c0  (22 bytes)
+DATA_enemigos_63AA:
+	defb 007h,036h,020h	; 63aa
+	defb 060h,036h,030h	; 63ad
+	defb 030h,036h,040h	; 63b0
+	defb 070h,036h,060h	; 63b3
+	defb 050h,036h,070h	; 63b6
+	defb 020h,036h,080h	; 63b9
+	defb 080h,036h,090h	; 63bc
+	defb 050h	; 63bf
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_63C0: 7 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (22 bytes)
+;   0x63c0..0x63d6  (22 bytes)
+DATA_enemigos_63C0:
+	defb 007h,036h,020h	; 63c0
+	defb 070h,036h,040h	; 63c3
+	defb 030h,036h,050h	; 63c6
+	defb 080h,036h,060h	; 63c9
+	defb 050h,036h,070h	; 63cc
+	defb 060h,036h,090h	; 63cf
+	defb 030h,036h,090h	; 63d2
+	defb 080h	; 63d5
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_63D6: 6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (19 bytes)
+;   0x63d6..0x63e9  (19 bytes)
+DATA_enemigos_63D6:
+	defb 006h,037h,040h	; 63d6
+	defb 040h,037h,040h	; 63d9
+	defb 090h,037h,060h	; 63dc
+	defb 070h,037h,080h	; 63df
+	defb 050h,037h,080h	; 63e2
+	defb 090h,037h,090h	; 63e5
+	defb 020h	; 63e8
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_63E9: 6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (19 bytes)
+;   0x63e9..0x63fc  (19 bytes)
+DATA_enemigos_63E9:
+	defb 006h,036h,030h	; 63e9
+	defb 020h,036h,020h	; 63ec
+	defb 050h,036h,050h	; 63ef
+	defb 040h,036h,050h	; 63f2
+	defb 070h,036h,070h	; 63f5
+	defb 060h,036h,080h	; 63f8
+	defb 030h	; 63fb
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_63FC: 10 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (31 bytes)
+;   0x63fc..0x641b  (31 bytes)
+DATA_enemigos_63FC:
+	defb 00ah,020h,020h	; 63fc
+	defb 060h,020h,030h	; 63ff
+	defb 030h,020h,030h	; 6402
+	defb 080h,020h,060h	; 6405
+	defb 030h,020h,060h	; 6408
+	defb 050h,020h,050h	; 640b
+	defb 090h,020h,070h	; 640e
+	defb 090h,020h,080h	; 6411
+	defb 020h,020h,090h	; 6414
+	defb 050h,020h,090h	; 6417
+	defb 080h	; 641a
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_641B: 1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (4 bytes)
+;   0x641b..0x641f  (4 bytes)
+DATA_enemigos_641B:
+	defb 001h,038h,068h	; 641b
+	defb 048h	; 641e
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_641F: 6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (19 bytes)
+;   0x641f..0x6432  (19 bytes)
+DATA_enemigos_641F:
+	defb 006h,010h,030h	; 641f
+	defb 020h,010h,030h	; 6422
+	defb 090h,010h,050h	; 6425
+	defb 020h,010h,050h	; 6428
+	defb 090h,010h,070h	; 642b
+	defb 020h,010h,070h	; 642e
+	defb 090h	; 6431
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6432: 6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (19 bytes)
+;   0x6432..0x6445  (19 bytes)
+DATA_enemigos_6432:
+	defb 006h,021h,078h	; 6432
+	defb 058h,022h,080h	; 6435
+	defb 030h,022h,080h	; 6438
+	defb 080h,0a1h,038h	; 643b
+	defb 058h,0a2h,030h	; 643e
+	defb 030h,0a2h,030h	; 6441
+	defb 080h	; 6444
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6445: 5 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (16 bytes)
+;   0x6445..0x6455  (16 bytes)
+DATA_enemigos_6445:
+	defb 005h,022h,020h	; 6445
+	defb 030h,022h,030h	; 6448
+	defb 070h,022h,050h	; 644b
+	defb 030h,022h,080h	; 644e
+	defb 030h,0a1h,088h	; 6451
+	defb 088h	; 6454
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6455: 7 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (22 bytes)
+;   0x6455..0x646b  (22 bytes)
+DATA_enemigos_6455:
+	defb 007h,042h,030h	; 6455
+	defb 078h,022h,020h	; 6458
+	defb 020h,022h,050h	; 645b
+	defb 030h,022h,060h	; 645e
+	defb 090h,022h,070h	; 6461
+	defb 080h,022h,090h	; 6464
+	defb 020h,022h,090h	; 6467
+	defb 060h	; 646a
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_646B: 2 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (7 bytes)
+;   0x646b..0x6472  (7 bytes)
+DATA_enemigos_646B:
+	defb 002h,021h,048h	; 646b
+	defb 038h,0a3h,058h	; 646e
+	defb 088h	; 6471
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6472: 10 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (31 bytes)
+;   0x6472..0x6491  (31 bytes)
+DATA_enemigos_6472:
+	defb 00ah,022h,040h	; 6472
+	defb 020h,022h,080h	; 6475
+	defb 030h,022h,020h	; 6478
+	defb 040h,022h,060h	; 647b
+	defb 040h,022h,090h	; 647e
+	defb 050h,022h,030h	; 6481
+	defb 070h,022h,080h	; 6484
+	defb 070h,022h,060h	; 6487
+	defb 080h,022h,040h	; 648a
+	defb 090h,022h,090h	; 648d
+	defb 090h	; 6490
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6491: 10 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (31 bytes)
+;   0x6491..0x64b0  (31 bytes)
+DATA_enemigos_6491:
+	defb 00ah,022h,020h	; 6491
+	defb 080h,022h,030h	; 6494
+	defb 050h,022h,050h	; 6497
+	defb 030h,022h,050h	; 649a
+	defb 090h,022h,060h	; 649d
+	defb 050h,022h,060h	; 64a0
+	defb 070h,022h,070h	; 64a3
+	defb 020h,022h,080h	; 64a6
+	defb 030h,022h,080h	; 64a9
+	defb 070h,022h,090h	; 64ac
+	defb 040h	; 64af
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_64B0: 1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (4 bytes)
+;   0x64b0..0x64b4  (4 bytes)
+DATA_enemigos_64B0:
+	defb 001h,02bh,038h	; 64b0
+	defb 058h	; 64b3
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_64B4: 1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (4 bytes)
+;   0x64b4..0x64b8  (4 bytes)
+DATA_enemigos_64B4:
+	defb 001h,039h,068h	; 64b4
+	defb 058h	; 64b7
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_64B8: 6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (19 bytes)
+;   0x64b8..0x64cb  (19 bytes)
+DATA_enemigos_64B8:
+	defb 006h,010h,010h	; 64b8
+	defb 020h,010h,010h	; 64bb
+	defb 050h,010h,010h	; 64be
+	defb 080h,010h,0a0h	; 64c1
+	defb 030h,010h,0a0h	; 64c4
+	defb 070h,010h,0a0h	; 64c7
+	defb 090h	; 64ca
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_64CB: 5 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (16 bytes)
+;   0x64cb..0x64db  (16 bytes)
+DATA_enemigos_64CB:
+	defb 005h,03bh,020h	; 64cb
+	defb 060h,03bh,050h	; 64ce
+	defb 090h,03bh,050h	; 64d1
+	defb 030h,03bh,070h	; 64d4
+	defb 050h,03bh,080h	; 64d7
+	defb 070h	; 64da
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_64DB: 4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (13 bytes)
+;   0x64db..0x64e8  (13 bytes)
+DATA_enemigos_64DB:
+	defb 004h,03bh,030h	; 64db
+	defb 090h,03bh,050h	; 64de
+	defb 040h,03bh,080h	; 64e1
+	defb 020h,03bh,090h	; 64e4
+	defb 080h	; 64e7
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_64E8: 5 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (16 bytes)
+;   0x64e8..0x64f8  (16 bytes)
+DATA_enemigos_64E8:
+	defb 005h,03bh,030h	; 64e8
+	defb 030h,03bh,040h	; 64eb
+	defb 090h,03bh,060h	; 64ee
+	defb 060h,03bh,080h	; 64f1
+	defb 040h,03bh,090h	; 64f4
+	defb 090h	; 64f7
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_64F8: 5 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (16 bytes)
+;   0x64f8..0x6508  (16 bytes)
+DATA_enemigos_64F8:
+	defb 005h,03bh,020h	; 64f8
+	defb 040h,03bh,030h	; 64fb
+	defb 090h,03bh,060h	; 64fe
+	defb 060h,03bh,060h	; 6501
+	defb 020h,03bh,090h	; 6504
+	defb 050h	; 6507
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6508: 6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (19 bytes)
+;   0x6508..0x651b  (19 bytes)
+DATA_enemigos_6508:
+	defb 006h,03ah,020h	; 6508
+	defb 020h,03ah,020h	; 650b
+	defb 090h,03ah,050h	; 650e
+	defb 090h,03ah,060h	; 6511
+	defb 020h,03ah,090h	; 6514
+	defb 020h,03ah,090h	; 6517
+	defb 090h	; 651a
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_651B: 6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (19 bytes)
+;   0x651b..0x652e  (19 bytes)
+DATA_enemigos_651B:
+	defb 006h,03ah,020h	; 651b
+	defb 020h,03ah,020h	; 651e
+	defb 090h,03ah,040h	; 6521
+	defb 040h,03ah,070h	; 6524
+	defb 070h,03ah,090h	; 6527
+	defb 020h,03ah,090h	; 652a
+	defb 090h	; 652d
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_652E: 6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (19 bytes)
+;   0x652e..0x6541  (19 bytes)
+DATA_enemigos_652E:
+	defb 006h,025h,020h	; 652e
+	defb 030h,025h,030h	; 6531
+	defb 050h,025h,040h	; 6534
+	defb 078h,025h,060h	; 6537
+	defb 040h,025h,070h	; 653a
+	defb 070h,025h,080h	; 653d
+	defb 030h	; 6540
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6541: 6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (19 bytes)
+;   0x6541..0x6554  (19 bytes)
+DATA_enemigos_6541:
+	defb 006h,025h,030h	; 6541
+	defb 030h,025h,040h	; 6544
+	defb 060h,025h,060h	; 6547
+	defb 080h,025h,080h	; 654a
+	defb 040h,025h,080h	; 654d
+	defb 090h,025h,090h	; 6550
+	defb 060h	; 6553
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6554: 6 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (19 bytes)
+;   0x6554..0x6567  (19 bytes)
+DATA_enemigos_6554:
+	defb 006h,025h,060h	; 6554
+	defb 020h,025h,040h	; 6557
+	defb 030h,025h,080h	; 655a
+	defb 040h,025h,030h	; 655d
+	defb 060h,025h,050h	; 6560
+	defb 070h,025h,070h	; 6563
+	defb 060h	; 6566
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6567: 1 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (4 bytes)
+;   0x6567..0x656b  (4 bytes)
+DATA_enemigos_6567:
+	defb 001h,026h,038h	; 6567
+	defb 058h	; 656a
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_656B: 5 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (16 bytes)
+;   0x656b..0x657b  (16 bytes)
+DATA_enemigos_656B:
+	defb 005h,030h,040h	; 656b
+	defb 030h,030h,040h	; 656e
+	defb 080h,030h,070h	; 6571
+	defb 060h,030h,090h	; 6574
+	defb 030h,030h,090h	; 6577
+	defb 090h	; 657a
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_657B: 3 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (10 bytes)
+;   0x657b..0x6585  (10 bytes)
+DATA_enemigos_657B:
+	defb 003h,041h,068h	; 657b
+	defb 028h,041h,088h	; 657e
+	defb 088h,040h,0efh	; 6581
+	defb 000h	; 6584
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6585: 2 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (7 bytes)
+;   0x6585..0x658c  (7 bytes)
+DATA_enemigos_6585:
+	defb 002h,03fh,058h	; 6585
+	defb 058h,040h,0efh	; 6588
+	defb 000h	; 658b
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_658C: 2 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (7 bytes)
+;   0x658c..0x6593  (7 bytes)
+DATA_enemigos_658C:
+	defb 002h,03fh,058h	; 658c
+	defb 058h,040h,0efh	; 658f
+	defb 000h	; 6592
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6593: 3 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (10 bytes)
+;   0x6593..0x659d  (10 bytes)
+DATA_enemigos_6593:
+	defb 003h,041h,040h	; 6593
+	defb 088h,041h,080h	; 6596
+	defb 028h,040h,0efh	; 6599
+	defb 000h	; 659c
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_659D: 2 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (7 bytes)
+;   0x659d..0x65a4  (7 bytes)
+DATA_enemigos_659D:
+	defb 002h,027h,058h	; 659d
+	defb 058h,03fh,058h	; 65a0
+	defb 058h	; 65a3
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_65A4: 4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (13 bytes)
+;   0x65a4..0x65b1  (13 bytes)
+DATA_enemigos_65A4:
+	defb 004h,03ch,040h	; 65a4
+	defb 030h,03ch,040h	; 65a7
+	defb 080h,03ch,080h	; 65aa
+	defb 030h,03ch,080h	; 65ad
+	defb 080h	; 65b0
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_65B1: 4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (13 bytes)
+;   0x65b1..0x65be  (13 bytes)
+DATA_enemigos_65B1:
+	defb 004h,03ch,050h	; 65b1
+	defb 030h,03ch,070h	; 65b4
+	defb 030h,03ch,050h	; 65b7
+	defb 070h,03ch,070h	; 65ba
+	defb 070h	; 65bd
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_65BE: 4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (13 bytes)
+;   0x65be..0x65cb  (13 bytes)
+DATA_enemigos_65BE:
+	defb 004h,03ch,090h	; 65be
+	defb 050h,03ch,040h	; 65c1
+	defb 030h,03ch,040h	; 65c4
+	defb 080h,03ch,050h	; 65c7
+	defb 050h	; 65ca
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_65CB: 4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (13 bytes)
+;   0x65cb..0x65d8  (13 bytes)
+DATA_enemigos_65CB:
+	defb 004h,03ch,030h	; 65cb
+	defb 030h,03ch,060h	; 65ce
+	defb 020h,03ch,060h	; 65d1
+	defb 050h,03ch,090h	; 65d4
+	defb 040h	; 65d7
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_65D8: 2 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (7 bytes)
+;   0x65d8..0x65df  (7 bytes)
+DATA_enemigos_65D8:
+	defb 002h,027h,048h	; 65d8
+	defb 058h,03fh,058h	; 65db
+	defb 058h	; 65de
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_65DF: 4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (13 bytes)
+;   0x65df..0x65ec  (13 bytes)
+DATA_enemigos_65DF:
+	defb 004h,03fh,058h	; 65df
+	defb 058h,03dh,048h	; 65e2
+	defb 068h,03dh,068h	; 65e5
+	defb 028h,03dh,068h	; 65e8
+	defb 068h	; 65eb
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_65EC: 4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (13 bytes)
+;   0x65ec..0x65f9  (13 bytes)
+DATA_enemigos_65EC:
+	defb 004h,03fh,058h	; 65ec
+	defb 058h,03dh,030h	; 65ef
+	defb 058h,03dh,038h	; 65f2
+	defb 030h,03dh,050h	; 65f5
+	defb 078h	; 65f8
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_65F9: 4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (13 bytes)
+;   0x65f9..0x6606  (13 bytes)
+DATA_enemigos_65F9:
+	defb 004h,03fh,058h	; 65f9
+	defb 058h,03dh,038h	; 65fc
+	defb 048h,03dh,058h	; 65ff
+	defb 058h,03dh,068h	; 6602
+	defb 028h	; 6605
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6606: 4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (13 bytes)
+;   0x6606..0x6613  (13 bytes)
+DATA_enemigos_6606:
+	defb 004h,03fh,058h	; 6606
+	defb 058h,03dh,078h	; 6609
+	defb 028h,03dh,038h	; 660c
+	defb 058h,03dh,088h	; 660f
+	defb 088h	; 6612
+
+; ----------------------------------------------------------------------
+; DATOS enemigos_6613: 4 enemigos: [tipo][x][y] (bit 7 del tipo: solo en el
+;   plano alterno); lo leen p00:59A9 (13 bytes)
+;   0x6613..0x6620  (13 bytes)
+DATA_enemigos_6613:
+	defb 004h,03fh,058h	; 6613
+	defb 058h,03dh,048h	; 6616
+	defb 088h,03dh,028h	; 6619
+	defb 050h,03dh,088h	; 661c
+	defb 038h	; 661f
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x6620..0x7d9b  (6011 bytes)
+DATA_6620:
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h	; 6620  ................
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,003h,000h,000h,000h,000h,003h	; 6630  ................
 	defb 000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h,000h	; 6640  ................

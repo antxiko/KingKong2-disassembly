@@ -1,0 +1,7 @@
+# Tamanos de tabla del despachador 0x425F puestos a mano: 'pNN 0xCALL n  # por que'.
+# Solo cuando el calculo de tools/bancos.py no puede verlos.
+#
+# p01:7FF9 reparte por 0xC14B (el paso de la conversacion). Su tabla empieza en
+# 0x7FFC y CRUZA a 0x8000, donde esta el banco 2: 0x8008, 0x8017 y luego
+# 0x8025, 0x8039, 0x8065, 0x8039. calcula_tam la corta al final de la ranura.
+p01 0x7FF9 6  # p02:8012 sube 0xC14B de uno en uno hasta el 5 (p02:803D pone 4)

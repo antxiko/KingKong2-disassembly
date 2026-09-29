@@ -6,6 +6,8 @@
 # de este cartucho.
 #
 # Este fichero lo regenera `make semillas` (tools/bancos.py escribe).
+0x8000 0x8008   tabla de 6 palabras del despachador (call 0x425F en 0x7FF9)
+0x806C 0x80B0   tabla de 34 palabras del despachador (call 0x425F en 0x8069)
 0x823A 0x8240   tabla de 3 palabras del despachador (call 0x425F en 0x8237)
 0x8839 0x883F   tabla de 3 palabras del despachador (call 0x425F en 0x8836)
 0x88FF 0x8907   tabla de 4 palabras del despachador (call 0x425F en 0x88FC)

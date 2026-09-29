@@ -61,8 +61,8 @@
 0x7183   # p03:BE6B call
 0x7186   # p03:B8D6 call
 0x71C8   # p03:BE68 call
-0x729E   # p03:A532 call
-0x7303   # p03:A697 call
+0x729E   # p03:A1BE call
+0x7303   # p02:9F80 call
 0x7309   # p03:AA44 call
 0x734D   # p01:7342 entrada 0 de la tabla de 0x7345 (call 0x425F en 0x7342)
 0x737C   # p01:7342 entrada 2 de la tabla de 0x7345 (call 0x425F en 0x7342)
@@ -101,6 +101,7 @@
 0x78EE   # p01:78A2 entrada 5 de la tabla de 0x78A5 (call 0x425F en 0x78A2)
 0x78FC   # p00:5CB6 call
 0x792F   # p02:8248 call
+0x79CE   # p00:4068 call
 0x79D0   # p00:4176 call
 0x7A5A   # p00:5CBF call
 0x7A77   # p01:6D39 entrada 6 de la tabla de 0x6D3C (call 0x425F en 0x6D39)
