@@ -89,7 +89,7 @@ puente_hl_mas_a:
 	call hl_mas_a		;408c
 	jp L_4215		;408f
 puente_escribe_numero_bcd:
-	call 0637eh		;4092   ; p01:escribe_numero_bcd
+	call 0637eh		;4092   ; p01:escribe_numero_bcd: los ceros de la izquierda no se escriben...
 	jp L_4215		;4095
 puente_de_mas_a:
 	call de_mas_a		;4098
@@ -113,10 +113,10 @@ DATA_puente_40AA:
 
 
 puente_borra_el_hueco_de_la_derecha:
-	call 0641dh		;40b0   ; p01:borra_el_hueco_de_la_derecha
+	call 0641dh		;40b0   ; p01:borra_el_hueco_de_la_derecha: 72x72 puntos en (0xB0, 0x80): los enemigos del panel
 	jp L_4215		;40b3
 puente_enemigos_en_el_panel:
-	call 06192h		;40b6   ; p01:enemigos_en_el_panel
+	call 06192h		;40b6   ; p01:enemigos_en_el_panel: los enemigos del panel: hasta tres (0xC220, 3 bytes cada uno)
 	jp L_4215		;40b9
 puente_monta_la_pantalla:
 	call monta_la_pantalla		;40bc   ; monta_la_pantalla: MONTA LA PANTALLA: el decorado...
@@ -185,13 +185,13 @@ puente_multiplica_en_bcd:
 	call multiplica_en_bcd		;413a   ; multiplica_en_bcd: A*E en BCD: los ocho bits de H, de uno en uno
 	jp L_4215		;413d
 puente_cambia_el_enemigo_del_panel:
-	call 0643eh		;4140   ; p01:cambia_el_enemigo_del_panel
+	call 0643eh		;4140   ; p01:cambia_el_enemigo_del_panel: el enemigo C golpeado: en el panel se subraya un rato
 	jp L_4215		;4143
 puente_escribe_level:
 	call 06362h		;4146   ; p01:escribe_level
 	jp L_4215		;4149
 puente_escribe_exp:
-	call 06358h		;414c   ; p01:escribe_exp
+	call 06358h		;414c   ; p01:escribe_exp: EXP: 3 bytes en (0x38, 0xC8)
 	jp L_4215		;414f
 puente_mata_la_ficha:
 	call mata_la_ficha		;4152   ; mata_la_ficha: el enemigo muere: guarda su tipo en ix+0x1F y se convierte en la explosion de p15:A3CA
@@ -200,13 +200,13 @@ puente_rebota_lo_lanzado:
 	call 07668h		;4158   ; p01:rebota_lo_lanzado
 	jp L_4215		;415b
 puente_escribe_life:
-	call 0634eh		;415e   ; p01:escribe_life
+	call 0634eh		;415e   ; p01:escribe_life: LIFE: 2 bytes en (0x30, 0xD8)
 	jp L_4215		;4161
 puente_quita_un_objeto_del_suelo:
 	call 0797fh		;4164   ; p01:quita_un_objeto_del_suelo
 	jp L_4215		;4167
 puente_escribe_gold:
-	call 06376h		;416a   ; p01:escribe_gold
+	call 06376h		;416a   ; p01:escribe_gold: GOLD: 2 bytes en (0x50, 0xD8)
 	jp L_4215		;416d
 puente_conversacion_de_la_pantalla:
 	call 07ed9h		;4170   ; p01:conversacion_de_la_pantalla
@@ -245,7 +245,7 @@ puente_persigue_a_mitchel_83A7:
 	call 083a7h		;41a0   ; p02:persigue_a_mitchel_83A7
 	jp L_4215		;41a3
 puente_mitchel_muere:
-	call 06c7bh		;41a6   ; p01:mitchel_muere: LIFE a cero, lo lanzado se borra y 0x50 cuadros de espera
+	call 06c7bh		;41a6   ; p01:mitchel_muere: los colores de Mitchel otra vez los de siempre
 	jp L_4215		;41a9
 puente_modo_de_pantalla:
 	call modo_de_pantalla		;41ac   ; modo_de_pantalla: 0xFAF6 = 1...
@@ -3239,7 +3239,7 @@ L_538D:
 L_539E:
 	call quita_el_decorado_de_0xC171		;539e   ; el decorado que haya que dar por quitado
 	call 06433h		;53a1   ; p01:6433 y el hueco de la derecha del panel
-	call 0641dh		;53a4   ; p01:borra_el_hueco_de_la_derecha
+	call 0641dh		;53a4   ; p01:borra_el_hueco_de_la_derecha: 72x72 puntos en (0xB0, 0x80): los enemigos del panel
 	call oculta_los_sprites		;53a7   ; sin sprites
 	call borra_atributos_7600		;53aa   ; borra_atributos_7600: los 128 atributos de sprite de 0x7600 a 0xE0 (no se ven)
 	xor a			;53ad   ; a cero lo de la pantalla anterior: 0xC200...
@@ -3266,7 +3266,7 @@ L_539E:
 	ld hl,0d000h		;53e8   ; apunta a las fichas de los enemigos (13 de 0x80)
 	ld bc,0067fh		;53eb   ; ...y las 13 fichas de enemigos (0x680 bytes de 0xD000)
 	call rellena_con_ceros		;53ee   ; rellena_con_ceros: BC+1 ceros desde HL
-	call 07046h		;53f1   ; p01:mitchel_en_la_entrada
+	call 07046h		;53f1   ; p01:mitchel_en_la_entrada: MITCHEL ENTRA: colores de siempre...
 	ld a,006h		;53f4   ; con el banco 6, p06:BEC5 (los planos)
 	call banco_en_a000		;53f6   ; banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
 	call 0bec5h		;53f9
@@ -4027,13 +4027,13 @@ L_58FB:
 ; mueva por las vecinas.
 ; ----------------------------------------------------------------------
 L_590B:
-	ld a,(0c130h)		;590b   ; el lado por el que se ha salido (0xC130)
+	ld a,(0c130h)		;590b   ; el lado por el que se ha salido (0xC130: 0 arriba, 1 derecha, 2 abajo, 3 izquierda)
 	or a			;590e
 	jr z,L_593A		;590f   ; arriba...
 	dec a			;5911
-	jr z,L_594A		;5912   ; ...abajo...
+	jr z,L_594A		;5912   ; ...derecha...
 	dec a			;5914
-	jr z,L_597D		;5915   ; ...izquierda; y si no, derecha:
+	jr z,L_597D		;5915   ; ...abajo; y si no, izquierda:
 	ld de,0df2fh		;5917   ; cada fila de tres, una tira a la derecha
 	ld hl,0df1fh		;591a
 	ld bc,00020h		;591d
@@ -4057,7 +4057,7 @@ L_593A:
 	ld hl,0df00h		;5945   ; ...y a cero la fila de arriba
 	jr L_598B		;5948
 L_594A:
-	ld de,0df00h		;594a   ; izquierda: cada fila, una tira a la izquierda...
+	ld de,0df00h		;594a   ; derecha: cada fila, una tira a la izquierda...
 	ld hl,0df10h		;594d
 	ld bc,00020h		;5950
 	ld a,c			;5953
@@ -4161,7 +4161,7 @@ L_59EE:
 	ld a,c			;59f5   ; el tipo 0x15 (DUNGROLL) con 0xC130 = 2 sale 0x58 mas abajo
 	cp 015h		;59f6
 	jr nz,L_5A0A		;59f8
-	ld a,(0c130h)		;59fa   ; lee el lado por el que se entra en una salida especial
+	ld a,(0c130h)		;59fa   ; lee el lado por el que se ha salido (0 arriba, 1 derecha, 2 abajo, 3 izquierda)
 	and a			;59fd
 	jr z,L_5A0A		;59fe
 	dec a			;5a00

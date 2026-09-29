@@ -189,7 +189,7 @@ L_A152:
 	call 05488h		;a160   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 	ld a,060h		;a163
 L_A165:
-	call 0716fh		;a165   ; p01:rumbo_hacia_mitchel
+	call 0716fh		;a165   ; p01:rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
 L_A168:
 	call 04318h		;a168
 	ex de,hl			;a16b
@@ -234,7 +234,7 @@ L_A1A1:
 	ld (0dfb5h),a		;a1b8
 L_A1BB:
 	ld bc,00000h		;a1bb
-	call 0729eh		;a1be   ; p01:apunta_a_mitchel
+	call 0729eh		;a1be   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	ld (ix+013h),a		;a1c1
 	call grounder_cuadro		;a1c4
 	ld a,(ix+003h)		;a1c7   ; lee la y del enemigo
@@ -307,7 +307,7 @@ grounder_prueba_rumbo:
 	jr c,L_A2A9		;a26f
 L_A271:
 	ld bc,00000h		;a271
-	call 0729eh		;a274   ; p01:apunta_a_mitchel
+	call 0729eh		;a274   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	ld b,a			;a277
 	ld a,(ix+013h)		;a278
 	xor 002h		;a27b
@@ -348,7 +348,7 @@ L_A2BE:
 	ld a,001h		;a2be
 	ld (0dfb5h),a		;a2c0
 	ld bc,00000h		;a2c3
-	call 0729eh		;a2c6   ; p01:apunta_a_mitchel
+	call 0729eh		;a2c6   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	jp grounder_cuadro		;a2c9
 grounder_crea_otro:
 	ld a,(0dfb0h)		;a2cc
@@ -534,7 +534,7 @@ L_A41A:
 	ld (ix+01ah),008h		;a425
 	ld (ix+01bh),008h		;a429
 	ld bc,00000h		;a42d
-	call 0729eh		;a430   ; p01:apunta_a_mitchel
+	call 0729eh		;a430   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	add a,002h		;a433
 	and 003h		;a435
 	ld e,000h		;a437
@@ -549,7 +549,7 @@ L_A442:
 	call 07303h		;a44d
 	jr nc,L_A45B		;a450
 	ld bc,00000h		;a452
-	call 0729eh		;a455   ; p01:apunta_a_mitchel
+	call 0729eh		;a455   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	jp L_A535		;a458
 L_A45B:
 	ld a,(ix+000h)		;a45b   ; lee el tipo del enemigo
@@ -651,7 +651,7 @@ L_A51D:
 	inc hl			;a52f
 	ld a,(hl)			;a530
 	ld e,a			;a531
-	call 0729eh		;a532   ; p01:apunta_a_mitchel
+	call 0729eh		;a532   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 L_A535:
 	ld (ix+019h),a		;a535
 	ld hl,09ab9h		;a538
@@ -723,7 +723,7 @@ L_A5A2:
 	ld a,007h		;a5ae
 	jr z,L_A5BD		;a5b0
 	ld bc,00000h		;a5b2
-	call 0729eh		;a5b5   ; p01:apunta_a_mitchel
+	call 0729eh		;a5b5   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	ld (ix+019h),a		;a5b8
 	ld b,a			;a5bb
 	add a,a			;a5bc
@@ -819,7 +819,7 @@ L_A67F:
 	xor 001h		;a686
 	ld (ix+001h),a		;a688   ; guarda el paso en que va
 	ld bc,00000h		;a68b
-	call 0729eh		;a68e   ; p01:apunta_a_mitchel
+	call 0729eh		;a68e   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	add a,002h		;a691
 	and 003h		;a693
 	ld e,000h		;a695
@@ -1309,10 +1309,10 @@ L_AAA6:
 	rla			;aaae
 	ld d,a			;aaaf
 	ld bc,00200h		;aab0
-	jp 0729eh		;aab3   ; p01:apunta_a_mitchel
+	jp 0729eh		;aab3   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 L_AAB6:
 	ld bc,00000h		;aab6
-	jp 0729eh		;aab9   ; p01:apunta_a_mitchel
+	jp 0729eh		;aab9   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 L_AABC:
 	ld a,(ix+001h)		;aabc   ; lee el paso en que va
 	sub 002h		;aabf
@@ -2263,11 +2263,11 @@ L_B1AC:
 	rla			;b1b4
 	ld d,a			;b1b5
 	ld bc,00200h		;b1b6
-	call 0729eh		;b1b9   ; p01:apunta_a_mitchel
+	call 0729eh		;b1b9   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	jr L_B1DB		;b1bc
 L_B1BE:
 	ld bc,00000h		;b1be
-	call 0729eh		;b1c1   ; p01:apunta_a_mitchel
+	call 0729eh		;b1c1   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	jr L_B1DB		;b1c4
 L_B1C6:
 	ld hl,0e800h		;b1c6
@@ -3158,7 +3158,7 @@ L_B835:
 	jp L_B7E5		;b835
 L_B838:
 	ld a,020h		;b838
-	call 0716fh		;b83a   ; p01:rumbo_hacia_mitchel
+	call 0716fh		;b83a   ; p01:rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
 	call 08bdch		;b83d   ; p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
 	ld (ix+00bh),012h		;b840   ; el cuadro del enemigo = 0x12
 	ld a,005h		;b844
@@ -3231,7 +3231,7 @@ DATA_cuadros_B8B2:
 
 L_B8B6:
 	ld a,040h		;b8b6
-	call 0716fh		;b8b8   ; p01:rumbo_hacia_mitchel
+	call 0716fh		;b8b8   ; p01:rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
 	call para_y_cuadro_8		;b8bb
 	ld d,(ix+005h)		;b8be   ; lee la x del enemigo
 	ld e,(ix+003h)		;b8c1   ; lee la y del enemigo
@@ -3983,7 +3983,7 @@ L_BDF5:
 	ld e,(ix+009h)		;be12   ; lee la velocidad horizontal (baja)
 	ld d,(ix+00ah)		;be15   ; lee la velocidad horizontal
 L_BE18:
-	call 071f8h		;be18   ; p01:niega_de
+	call 071f8h		;be18   ; p01:niega_de: DE = -DE
 	bit 1,(ix+012h)		;be1b
 	jp z,04311h		;be1f
 	jp 04318h		;be22
@@ -4112,7 +4112,7 @@ L_BEE0:
 L_BEF4:
 	ld (ix+00bh),008h		;bef4   ; el cuadro del enemigo = 0x08
 	ld a,040h		;bef8
-	call 0716fh		;befa   ; p01:rumbo_hacia_mitchel
+	call 0716fh		;befa   ; p01:rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
 	jp 08bdch		;befd   ; p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
 L_BF00:
 	xor a			;bf00

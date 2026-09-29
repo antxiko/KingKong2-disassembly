@@ -400,7 +400,7 @@ L_8271:
 	ld hl,04810h		;827a
 	ld (0c321h),hl		;827d   ; guarda el punto de entrada (y, x)
 	ld a,002h		;8280
-	ld (0c130h),a		;8282   ; guarda el lado por el que se entra en una salida especial
+	ld (0c130h),a		;8282   ; guarda el lado por el que se ha salido (0 arriba, 1 derecha, 2 abajo, 3 izquierda)
 	dec a			;8285
 	ld (0c323h),a		;8286
 	ld (0c132h),a		;8289
@@ -550,7 +550,7 @@ L_8381:
 	xor a			;8381
 	ret			;8382
 L_8383:
-	ld a,(0c130h)		;8383   ; lee el lado por el que se entra en una salida especial
+	ld a,(0c130h)		;8383   ; lee el lado por el que se ha salido (0 arriba, 1 derecha, 2 abajo, 3 izquierda)
 	cp 002h		;8386
 	jr nz,L_8381		;8388
 L_838A:
@@ -568,7 +568,7 @@ L_839A:
 	ld a,(0c580h)		;839a   ; lee las banderas del decorado ya quitado
 	and a			;839d
 	ret z			;839e
-	ld a,(0c130h)		;839f   ; lee el lado por el que se entra en una salida especial
+	ld a,(0c130h)		;839f   ; lee el lado por el que se ha salido (0 arriba, 1 derecha, 2 abajo, 3 izquierda)
 	dec a			;83a2
 	jr z,L_838A		;83a3
 	xor a			;83a5
@@ -681,7 +681,7 @@ mitchel_contra_el_decorado:
 	call 0425ah		;846b   ; p00:de_mas_a
 	ex de,hl			;846e
 	call choca_con_el_decorado		;846f
-	jp c,06c7bh		;8472   ; p01:mitchel_muere: LIFE a cero, lo lanzado se borra y 0x50 cuadros de espera
+	jp c,06c7bh		;8472   ; p01:mitchel_muere: los colores de Mitchel otra vez los de siempre
 	ret			;8475
 choca_con_el_decorado:
 	call casilla_libre_para_la_ficha		;8476
@@ -816,7 +816,7 @@ L_8554:
 	call 04318h		;8554
 L_8557:
 	ld bc,00001h		;8557
-	call 0729eh		;855a   ; p01:apunta_a_mitchel
+	call 0729eh		;855a   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	add a,a			;855d
 	add a,009h		;855e
 	ld hl,0df94h		;8560   ; apunta a el grafico de jefe que hay subido
@@ -899,11 +899,11 @@ L_85D9:
 	jr nz,L_8632		;85dd
 L_85DF:
 	ld bc,00000h		;85df
-	call 0729eh		;85e2   ; p01:apunta_a_mitchel
+	call 0729eh		;85e2   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	cp (ix+015h)		;85e5
 	jr z,L_8632		;85e8
 	ld bc,00001h		;85ea
-	call 0729eh		;85ed   ; p01:apunta_a_mitchel
+	call 0729eh		;85ed   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	ld b,a			;85f0
 	or a			;85f1
 	jr z,L_8604		;85f2
@@ -1378,7 +1378,7 @@ L_8928:
 	ld d,a			;893b
 	ld b,002h		;893c
 L_893E:
-	call 0729eh		;893e   ; p01:apunta_a_mitchel
+	call 0729eh		;893e   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	jr nc,L_8948		;8941
 	ld (ix+006h),000h		;8943   ; si se mueve = 0x00
 	ret			;8947
@@ -1492,7 +1492,7 @@ L_89F6:
 	ret nz			;89fa
 L_89FB:
 	ld bc,00000h		;89fb
-	call 0729eh		;89fe   ; p01:apunta_a_mitchel
+	call 0729eh		;89fe   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	add a,002h		;8a01
 	and 003h		;8a03
 	ld e,000h		;8a05
@@ -1823,7 +1823,7 @@ DATA_codigo_8C00:
 
 L_8C08:
 	ld a,c			;8c08
-	call 0716fh		;8c09   ; p01:rumbo_hacia_mitchel
+	call 0716fh		;8c09   ; p01:rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
 	inc (ix+006h)		;8c0c   ; sube si se mueve
 	call 04318h		;8c0f
 	ex de,hl			;8c12
@@ -1974,7 +1974,7 @@ L_8CFC:
 	ret nz			;8d00
 L_8D01:
 	ld bc,00000h		;8d01
-	call 0729eh		;8d04   ; p01:apunta_a_mitchel
+	call 0729eh		;8d04   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	jr nc,L_8D20		;8d07
 	ld c,003h		;8d09
 L_8D0B:
@@ -2658,7 +2658,7 @@ L_91B4:
 	jr L_91D3		;91cb
 L_91CD:
 	ld bc,00000h		;91cd
-	call 0729eh		;91d0   ; p01:apunta_a_mitchel
+	call 0729eh		;91d0   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 L_91D3:
 	ld (ix+019h),a		;91d3
 	ld hl,0bf42h		;91d6
@@ -2702,7 +2702,7 @@ L_9211:
 	ld (ix+018h),a		;921e
 	ld (ix+019h),00fh		;9221
 	ld bc,00000h		;9225
-	call 0729eh		;9228   ; p01:apunta_a_mitchel
+	call 0729eh		;9228   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	ld (ix+01bh),a		;922b
 	call wildboar_en_la_pantalla_3		;922e
 	ld a,(ix+01bh)		;9231
@@ -2786,7 +2786,7 @@ wildboar_elige_rumbo:
 	ld a,(ix+016h)		;92cb
 	xor 001h		;92ce
 	ld (ix+016h),a		;92d0
-	jp z,0729eh		;92d3   ; p01:apunta_a_mitchel
+	jp z,0729eh		;92d3   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	ld b,002h		;92d6
 	ld a,r		;92d8
 	add a,(ix+018h)		;92da
@@ -2798,10 +2798,10 @@ wildboar_elige_rumbo:
 	inc hl			;92e7
 	ld a,(hl)			;92e8
 	ld d,a			;92e9
-	jp 0729eh		;92ea   ; p01:apunta_a_mitchel
+	jp 0729eh		;92ea   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 L_92ED:
 	ld bc,00000h		;92ed
-	call 0729eh		;92f0   ; p01:apunta_a_mitchel
+	call 0729eh		;92f0   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	ld (ix+01bh),a		;92f3
 	call wildboar_en_la_pantalla_3		;92f6
 	ld a,(ix+01bh)		;92f9
@@ -2877,7 +2877,7 @@ L_938D:
 	ld (ix+006h),000h		;9391   ; si se mueve = 0x00
 	ld (ix+019h),018h		;9395
 	ld bc,00000h		;9399
-	call 0729eh		;939c   ; p01:apunta_a_mitchel
+	call 0729eh		;939c   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	ld (ix+01bh),a		;939f
 	call wildboar_en_la_pantalla_3		;93a2
 	ld a,(ix+01bh)		;93a5
@@ -2981,7 +2981,7 @@ L_9454:
 	jr L_944B		;945b
 L_945D:
 	ld bc,00000h		;945d
-	call 0729eh		;9460   ; p01:apunta_a_mitchel
+	call 0729eh		;9460   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 L_9463:
 	ld (ix+019h),a		;9463
 	ld hl,0bf42h		;9466
@@ -3050,7 +3050,7 @@ L_94C6:
 	ld a,003h		;94ee
 	call 05488h		;94f0   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 	ld bc,00000h		;94f3
-	call 0729eh		;94f6   ; p01:apunta_a_mitchel
+	call 0729eh		;94f6   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	ld hl,0950dh		;94f9   ; cuadros_950D: 4 bytes: el cuadro (ix+0x0B) segun A (p02:94F9)
 	call 04255h		;94fc   ; p00:hl_mas_a
 	ld a,(hl)			;94ff
@@ -3106,7 +3106,7 @@ L_9555:
 	ld d,(ix+01ah)		;9555
 	ld e,(ix+01bh)		;9558
 	ld bc,00200h		;955b
-	call 0729eh		;955e   ; p01:apunta_a_mitchel
+	call 0729eh		;955e   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	jp L_9463		;9561
 rockman_coordenada:
 	ld a,(ix+003h)		;9564   ; lee la y del enemigo
@@ -3164,7 +3164,7 @@ L_95DA:
 	cp 010h		;95da
 	ret nc			;95dc
 	ld a,090h		;95dd
-	call 0716fh		;95df   ; p01:rumbo_hacia_mitchel
+	call 0716fh		;95df   ; p01:rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
 	call 04318h		;95e2
 	ex de,hl			;95e5
 	call 04311h		;95e6
@@ -3693,7 +3693,7 @@ L_99C1:
 	ld a,(ix+018h)		;99d2
 	and 001h		;99d5
 	ld c,a			;99d7
-	call 0729eh		;99d8   ; p01:apunta_a_mitchel
+	call 0729eh		;99d8   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	ret c			;99db
 	ld b,(ix+017h)		;99dc
 	ld (ix+019h),b		;99df
@@ -3761,11 +3761,11 @@ cavernicolas_elige_rumbo:
 	ld a,(ix+017h)		;9a72
 	cp 006h		;9a75
 	ld (ix+019h),a		;9a77
-	jp z,0729eh		;9a7a   ; p01:apunta_a_mitchel
+	jp z,0729eh		;9a7a   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	ld a,(ix+015h)		;9a7d
 	xor 001h		;9a80
 	ld (ix+015h),a		;9a82
-	jp z,0729eh		;9a85   ; p01:apunta_a_mitchel
+	jp z,0729eh		;9a85   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 	ld b,002h		;9a88
 	ld a,r		;9a8a
 	xor (ix+00ch)		;9a8c   ; XOR con la cuenta de cuadros
@@ -3777,7 +3777,7 @@ cavernicolas_elige_rumbo:
 	inc hl			;9a99
 	ld a,(hl)			;9a9a
 	ld e,a			;9a9b
-	jp 0729eh		;9a9c   ; p01:apunta_a_mitchel
+	jp 0729eh		;9a9c   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
 sigue_si_esta_en_casilla:
 	pop hl			;9a9f   ; si la ficha no esta alineada a 8 en x e y, vuelve al que llamo al que llamo
 	ld a,(ix+003h)		;9aa0   ; lee la y del enemigo

@@ -69,7 +69,7 @@ RAM = {
     0xC12B: ("EXP, la experiencia (BCD)", "p01:6358"),
     0xC12E: ("LEVEL, el nivel de Mitchel (BCD)", "p01:6362; p09:B8BE lo compara con el de cada enemigo"),
     0xC12F: ("MP, la magia (BCD, hasta 99)", "p01:636C; p01:7C5F la gasta"),
-    0xC130: ("el lado por el que se entra en una salida especial", "p01:60E5"),
+    0xC130: ("el lado por el que se ha salido (0 arriba, 1 derecha, 2 abajo, 3 izquierda)", "p01:60E6 con p01:60F6"),
     0xC131: ("el plano de la pantalla (0, el exterior)", "p00:4F0B y p00:4A7B"),
     0xC135: ("GOLD, el oro (tres bytes BCD)", "p01:6376 lo escribe; p12:B98F cobra de el"),
     0xC137: ("en el final, cual de los tres (0, 1 o 2; 3 acabado)", "p06:A86C y p06:AC19"),

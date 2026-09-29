@@ -29,126 +29,127 @@ l7a35h:	equ 0x07a35
 
 
 L_6000:
-	ld a,005h		;6000
+	ld a,005h		;6000   ; LA FUENTE: con los bancos 5 y 6...
 	ld (08000h),a		;6002   ; el mapper: el banco de A en 0x8000
 	ld (0f0f2h),a		;6005   ; guarda la copia del banco de 0x8000
 	inc a			;6008
 	ld (0a000h),a		;6009   ; el mapper: el banco de A en 0xA000
 	ld (0f0f3h),a		;600c   ; guarda la copia del banco de 0xA000
 	ei			;600f
-	ld de,00040h		;6010
+	ld de,00040h		;6010   ; ...96 letras de p05:9F99 en color 14 en (0, 0x40) de la hoja...
 	ld hl,09f99h		;6013   ; p05:fuente: 96 letras de 1 bit (desde el '0', 0x30): la fuente; p01:6010 la sube dos veces (color 14 y color 3)
 	ld bc,0600eh		;6016
 	call 04867h		;6019   ; p00:sube_letras: B letras de 1 bit de HL, en color C, a la hoja de la pagina 1 desde (D, E)
-	ld de,00058h		;601c
+	ld de,00058h		;601c   ; ...y otra vez en color 3 en (0, 0x58)
 	ld hl,09f99h		;601f   ; p05:fuente: 96 letras de 1 bit (desde el '0', 0x30): la fuente; p01:6010 la sube dos veces (color 14 y color 3)
 	ld bc,06003h		;6022
 	call 04867h		;6025   ; p00:sube_letras: B letras de 1 bit de HL, en color C, a la hoja de la pagina 1 desde (D, E)
-	ld a,(0c102h)		;6028   ; lee las banderas de la partida (bit 6: de verdad, no la demostracion)
+	ld a,(0c102h)		;6028   ; al encender (sin el bit 6 de 0xC102)...
 	and 040h		;602b
 	jr nz,L_603B		;602d
-	ld hl,0a299h		;602f   ; p06:letra_copyright: el (c) de los creditos: una letra de 1 bit que p01:602F pone en el sitio de la 0x3A
+	ld hl,0a299h		;602f   ; ...el (c) de los creditos encima de la letra 0x3A
 	ld bc,0010eh		;6032
 	ld de,05040h		;6035
 	call 04867h		;6038   ; p00:sube_letras: B letras de 1 bit de HL, en color C, a la hoja de la pagina 1 desde (D, E)
 L_603B:
 	call 042bch		;603b   ; p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
-	xor a			;603e
+	xor a			;603e   ; 0xFAF6 = 0
 	ld (0faf6h),a		;603f
 	ret			;6042
 L_6043:
-	ld a,(0c133h)		;6043
+	ld a,(0c133h)		;6043   ; LAS SALIDAS: con algo en marcha (0xC133), ninguna
 	and a			;6046
 	ret nz			;6047
 	ld a,(0c125h)		;6048   ; lee la PANTALLA
 	cp 061h		;604b   ; la pantalla 0x61?
 	jr nz,L_607C		;604d
-	ld a,(0c306h)		;604f   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+	ld a,(0c306h)		;604f   ; en la pantalla 0x61, mirando arriba...
 	and a			;6052
 	jr nz,L_607C		;6053
-	ld a,(0c303h)		;6055   ; lee la Y de Mitchel
+	ld a,(0c303h)		;6055   ; ...por encima de la y 0x61...
 	cp 061h		;6058
 	jr nc,L_607C		;605a
-	ld a,(0c305h)		;605c   ; lee la X de Mitchel
+	ld a,(0c305h)		;605c   ; ...y con la x entre 0x40 y 0x6F...
 	sub 040h		;605f
 	cp 030h		;6061
 	jr nc,L_607C		;6063
-	ld a,089h		;6065
+	ld a,089h		;6065   ; ...se entra en la pantalla 0x89 (la estatua), en (0xA0, 0x58)
 	ld (0c125h),a		;6067   ; guarda la PANTALLA
 	ld hl,058a0h		;606a
 	ld (0c321h),hl		;606d   ; guarda el punto de entrada (y, x)
 	xor a			;6070
-	ld (0c130h),a		;6071   ; guarda el lado por el que se entra en una salida especial
+	ld (0c130h),a		;6071   ; guarda el lado por el que se ha salido (0 arriba, 1 derecha, 2 abajo, 3 izquierda)
 	ld (0c323h),a		;6074
-	inc a			;6077
+	inc a			;6077   ; salida hecha
 	ld (0c201h),a		;6078   ; guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
 	ret			;607b
 L_607C:
-	ld a,(0c107h)		;607c   ; lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+	ld a,(0c107h)		;607c   ; las teclas que se tienen pulsadas: bit 0 arriba...
 	rra			;607f
 	call c,sale_por_arriba		;6080
 	ret c			;6083
 	ld a,(0c107h)		;6084   ; lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
-	bit 1,a		;6087
+	bit 1,a		;6087   ; ...bit 1 abajo...
 	call nz,sale_por_abajo		;6089
 	ret c			;608c
 	ld a,(0c107h)		;608d   ; lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
-	bit 2,a		;6090
+	bit 2,a		;6090   ; ...bit 2 izquierda...
 	call nz,sale_por_la_izquierda		;6092
 	ret c			;6095
 	ld a,(0c107h)		;6096   ; lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
-	bit 3,a		;6099
+	bit 3,a		;6099   ; ...bit 3 derecha
 	ret z			;609b
 	ld a,(0c305h)		;609c   ; lee la X de Mitchel
-	cp 0a0h		;609f
+	cp 0a0h		;609f   ; la x de Mitchel pasa de 0xA0: sale por la derecha
 	jr c,L_60C0		;60a1
-	ld bc,00103h		;60a3
+	ld bc,00103h		;60a3   ; C = 3: la vecina de la derecha (p09:B1C5 + 4*pantalla + 3)
 	jr L_60CC		;60a6
 sale_por_la_izquierda:
 	ld a,(0c305h)		;60a8   ; lee la X de Mitchel
-	cp 011h		;60ab
+	cp 011h		;60ab   ; la x baja de 0x11: sale por la izquierda
 	jr nc,L_60C0		;60ad
 	ld bc,00302h		;60af
 	jr L_60CC		;60b2
 sale_por_abajo:
 	ld a,(0c303h)		;60b4   ; lee la Y de Mitchel
-	cp 0a0h		;60b7
+	cp 0a0h		;60b7   ; la y pasa de 0xA0: sale por abajo
 	jr c,L_60C0		;60b9
 	ld bc,00201h		;60bb
 	jr L_60CC		;60be
 L_60C0:
-	xor a			;60c0
+	xor a			;60c0   ; no sale
 	ret			;60c1
 sale_por_arriba:
 	ld a,(0c303h)		;60c2   ; lee la Y de Mitchel
-	cp 011h		;60c5
+	cp 011h		;60c5   ; la y baja de 0x11: sale por arriba
 	jr nc,L_60C0		;60c7
 	ld bc,00000h		;60c9
 L_60CC:
-	ld a,b			;60cc
+	ld a,b			;60cc   ; la pantalla vecina por ese lado (p09:B1C5)...
 	call pantalla_vecina		;60cd   ; pantalla_vecina: p09:B1C5 + 4*pantalla + C: arriba, abajo, izquierda, derecha
-	cp 0ffh		;60d0
+	cp 0ffh		;60d0   ; ...0xFF: por ahi no se sale
 	ret z			;60d2
 	push af			;60d3
 	ld a,(0c125h)		;60d4   ; lee la PANTALLA
-	ld (0c134h),a		;60d7
+	ld (0c134h),a		;60d7   ; la pantalla de antes (0xC134)
 	pop af			;60da
 	ld (0c125h),a		;60db   ; guarda la PANTALLA
-	ld a,c			;60de
-	ld hl,060f6h		;60df   ; lado_de_la_salida: 4 bytes: lo que p01:60E5 pone en 0xC130 segun la salida especial por la que se entra (C, 0-3)
+	ld a,c			;60de   ; el lado por el que se sale...
+	ld hl,060f6h		;60df   ; lado_de_la_salida: 4 bytes: lo que p01:60E5 pone en 0xC130 segun el lado por el que se sale (C: 0 arriba, 1 abajo, 2 izquierda, 3 derecha): 0, 2, 3, 1
 	call 04255h		;60e2   ; p00:hl_mas_a
-	ld a,(hl)			;60e5
-	ld (0c130h),a		;60e6   ; guarda el lado por el que se entra en una salida especial
-	call donde_aparece_mitchel		;60e9   ; donde_aparece_mitchel: el punto de entrada (0xC321) segun el lado C por el que se entra
+	ld a,(hl)			;60e5   ; ...en el orden de 0xC130 (p01:60F6)
+	ld (0c130h),a		;60e6   ; guarda el lado por el que se ha salido (0 arriba, 1 derecha, 2 abajo, 3 izquierda)
+	call donde_aparece_mitchel		;60e9   ; el punto de entrada
 	call salida_especial		;60ec   ; salida_especial: pantallas 0xF0-0xFB: la de llegada y el punto de p01:611F
-	ld a,001h		;60ef
+	ld a,001h		;60ef   ; 0xC201 = 1: cambio de pantalla
 	ld (0c201h),a		;60f1   ; guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
 	scf			;60f4
 	ret			;60f5
 
 ; ----------------------------------------------------------------------
-; DATOS lado_de_la_salida: 4 bytes: lo que p01:60E5 pone en 0xC130 segun la
-;   salida especial por la que se entra (C, 0-3)
+; DATOS lado_de_la_salida: 4 bytes: lo que p01:60E5 pone en 0xC130 segun el
+;   lado por el que se sale (C: 0 arriba, 1 abajo, 2 izquierda, 3 derecha): 0,
+;   2, 3, 1
 ;   0x60f6..0x60fa  (4 bytes)
 DATA_lado_de_la_salida:
 	defb 000h,002h,003h,001h	; 60f6
@@ -160,22 +161,22 @@ DATA_lado_de_la_salida:
 
 salida_especial:
 	ld a,(0c125h)		;60fa   ; pantallas 0xF0-0xFB: la de llegada y el punto de p01:611F
-	sub 0f0h		;60fd
+	sub 0f0h		;60fd   ; las pantallas 0xF0-0xFB no existen: son salidas especiales
 	ret c			;60ff
-	ld c,a			;6100
+	ld c,a			;6100   ; 3 bytes cada una en p01:611F
 	add a,a			;6101
 	add a,c			;6102
 	ld hl,0611fh		;6103   ; salidas_especiales: 12 salidas especiales (0xF0-0xFB): pantalla de llegada y punto (x, y) donde aparece Mitchel; p01:60FA con 0x611F + 3*(n-0xF0)
 	call 04255h		;6106   ; p00:hl_mas_a
-	ld a,(hl)			;6109
+	ld a,(hl)			;6109   ; [pantalla de llegada]...
 	ld (0c125h),a		;610a   ; guarda la PANTALLA
 	inc hl			;610d
-	ld e,(hl)			;610e
+	ld e,(hl)			;610e   ; ...[x][y]
 	inc hl			;610f
 	ld d,(hl)			;6110
 	inc hl			;6111
 	ld (0c321h),de		;6112   ; guarda el punto de entrada (y, x)
-	ld a,001h		;6116
+	ld a,001h		;6116   ; 0xC14F = 1
 	ld (0c14fh),a		;6118
 	ld (0c323h),a		;611b
 	ret			;611e
@@ -206,7 +207,7 @@ DATA_salidas_especiales:
 
 donde_aparece_mitchel:
 	ld a,(0c303h)		;6143   ; el punto de entrada (0xC321) segun el lado C por el que se entra
-	ld l,a			;6146
+	ld l,a			;6146   ; L = la y y H = la x de ahora; segun el lado C por el que se sale...
 	ld a,(0c305h)		;6147   ; lee la X de Mitchel
 	ld h,a			;614a
 	ld a,c			;614b
@@ -216,34 +217,34 @@ donde_aparece_mitchel:
 	jr z,L_615D		;6150
 	dec a			;6152
 	jr z,L_6161		;6153
-	ld l,0a0h		;6155
+	ld l,0a0h		;6155   ; ...por arriba (0): entra por abajo, y = 0xA0
 	jr L_6163		;6157
 L_6159:
-	ld l,010h		;6159
+	ld l,010h		;6159   ; ...por abajo (1): y = 0x10
 	jr L_6163		;615b
 L_615D:
-	ld h,0a0h		;615d
+	ld h,0a0h		;615d   ; ...por la izquierda (2): x = 0xA0
 	jr L_6163		;615f
 L_6161:
-	ld h,010h		;6161
+	ld h,010h		;6161   ; ...por la derecha (3): x = 0x10
 L_6163:
 	ld (0c321h),hl		;6163   ; guarda el punto de entrada (y, x)
-	ld a,c			;6166
+	ld a,c			;6166   ; y el lado, en 0xC323
 	ld (0c323h),a		;6167
 	ret			;616a
 pantalla_vecina:
 	ld a,(0c125h)		;616b   ; p09:B1C5 + 4*pantalla + C: arriba, abajo, izquierda, derecha
-	ld l,a			;616e
+	ld l,a			;616e   ; 4 bytes por pantalla en p09:B1C5...
 	ld h,000h		;616f
 	add hl,hl			;6171
 	add hl,hl			;6172
 	ld de,0b1c5h		;6173
 	add hl,de			;6176
-	ld a,009h		;6177
+	ld a,009h		;6177   ; ...con el banco 9 en 0xA000...
 	di			;6179
 	ld (0a000h),a		;617a   ; el mapper: el banco de A en 0xA000
 	ld (0f0f3h),a		;617d   ; guarda la copia del banco de 0xA000
-	ld b,000h		;6180
+	ld b,000h		;6180   ; ...+ C: arriba, abajo, izquierda o derecha
 	add hl,bc			;6182
 	ld a,(hl)			;6183
 	jp 042bch		;6184   ; p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
@@ -261,30 +262,30 @@ DATA_banco_15_en_a000:
 
 
 enemigos_en_el_panel:
-	call enemigos_del_panel		;6192
+	call enemigos_del_panel		;6192   ; los enemigos del panel: hasta tres (0xC220, 3 bytes cada uno)
 	ld b,003h		;6195
 	ld hl,0c220h		;6197
 L_619A:
 	push bc			;619a
 	ld (0e800h),hl		;619b
-	ld a,(hl)			;619e
+	ld a,(hl)			;619e   ; el tipo (0, nada)
 	dec a			;619f
 	call p,enemigo_en_el_panel		;61a0
 	ld hl,(0e800h)		;61a3
-	inc hl			;61a6
+	inc hl			;61a6   ; el siguiente
 	inc hl			;61a7
 	inc hl			;61a8
 	pop bc			;61a9
 	djnz L_619A		;61aa
 	jp 042bch		;61ac   ; p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 enemigo_en_el_panel:
-	call sitio_del_enemigo_en_el_panel		;61af
+	call sitio_del_enemigo_en_el_panel		;61af   ; sitio_del_enemigo_en_el_panel: tres filas en el panel, la primera abajo: y = 0x80 + 24*(3-B), x = 0xB0
 	call escribe_nombre_del_enemigo		;61b2   ; escribe_nombre_del_enemigo: p15:BA76 + 2*tipo, con el banco 15 en 0xA000
 	call escribe_life_y_str		;61b5
-	call escribe_valores_del_enemigo		;61b8
+	call escribe_valores_del_enemigo		;61b8   ; escribe_valores_del_enemigo: sus valores, a la derecha
 	jr L_6219		;61bb
 sitio_del_enemigo_en_el_panel:
-	ld a,b			;61bd
+	ld a,b			;61bd   ; tres filas en el panel, la primera abajo: y = 0x80 + 24*(3-B), x = 0xB0
 	sub 003h		;61be
 	neg		;61c0
 	add a,a			;61c2
@@ -300,20 +301,20 @@ sitio_del_enemigo_en_el_panel:
 	ret			;61d1
 escribe_nombre_del_enemigo:
 	di			;61d2   ; p15:BA76 + 2*tipo, con el banco 15 en 0xA000
-	ld a,00fh		;61d3
+	ld a,00fh		;61d3   ; el banco 15 en 0xA000
 	ld (0a000h),a		;61d5   ; el mapper: el banco de A en 0xA000
 	ld (0f0f3h),a		;61d8   ; guarda la copia del banco de 0xA000
 	ei			;61db
-	ld a,(hl)			;61dc
+	ld a,(hl)			;61dc   ; el tipo
 	ld de,0ba76h		;61dd
 	call 042ffh		;61e0   ; p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
 	ex de,hl			;61e3
-	ld de,(0c204h)		;61e4
-	ld c,0ffh		;61e8
+	ld de,(0c204h)		;61e4   ; donde
+	ld c,0ffh		;61e8   ; con la fuente normal
 	jp 04919h		;61ea   ; p00:escribe_letras
 escribe_life_y_str:
 	ld de,(0c204h)		;61ed
-	ld a,e			;61f1
+	ld a,e			;61f1   ; 8 lineas mas abajo, "LIFE"...
 	add a,008h		;61f2
 	ld e,a			;61f4
 	ld hl,0628fh		;61f5   ; life_y_str: "LIFE" y "STR" (0xFF acaba cada uno): lo que p01:61F5 y p01:6203 escriben junto al enemigo en el panel
@@ -321,14 +322,14 @@ escribe_life_y_str:
 	push de			;61fa
 	call 04919h		;61fb   ; p00:escribe_letras
 	pop de			;61fe
-	ld a,e			;61ff
+	ld a,e			;61ff   ; ...y 8 mas, "STR"
 	add a,008h		;6200
 	ld e,a			;6202
 	ld hl,06294h		;6203
 	ld c,080h		;6206
 	jp 04919h		;6208   ; p00:escribe_letras
 escribe_valores_del_enemigo:
-	ld hl,(0e800h)		;620b
+	ld hl,(0e800h)		;620b   ; sus valores, a la derecha
 	inc l			;620e
 	ld de,(0c204h)		;620f
 	ld a,e			;6213
@@ -336,7 +337,7 @@ escribe_valores_del_enemigo:
 	ld e,a			;6216
 	jr L_6226		;6217
 L_6219:
-	ld hl,(0e800h)		;6219
+	ld hl,(0e800h)		;6219   ; su vida y su fuerza, en BCD
 	inc l			;621c
 	inc l			;621d
 	ld de,(0c204h)		;621e
@@ -344,28 +345,28 @@ L_6219:
 	add a,010h		;6223
 	ld e,a			;6225
 L_6226:
-	ld a,d			;6226
+	ld a,d			;6226   ; a la derecha de "LIFE"
 	add a,038h		;6227
 	ld d,a			;6229
 	ld bc,001ffh		;622a
-	jp escribe_numero_bcd		;622d
+	jp escribe_numero_bcd		;622d   ; escribe_numero_bcd: los ceros de la izquierda no se escriben...
 enemigos_del_panel:
-	xor a			;6230
+	xor a			;6230   ; los tres huecos a cero
 	ld (0c220h),a		;6231
 	ld (0c223h),a		;6234
 	ld (0c226h),a		;6237
 	ld ix,0d000h		;623a   ; apunta a las fichas de los enemigos (13 de 0x80)
-	ld b,00dh		;623e
+	ld b,00dh		;623e   ; recorre las 13 fichas
 L_6240:
 	ld a,(ix+000h)		;6240   ; lee el tipo del enemigo
-	dec a			;6243
-	call p,apunta_enemigo_en_el_panel		;6244
+	dec a			;6243   ; las que tienen tipo
+	call p,apunta_enemigo_en_el_panel		;6244   ; apunta_enemigo_en_el_panel: 0x2D, 0x3D, 0x40 y 0x41 no salen en el panel
 	ld de,00080h		;6247
 	add ix,de		;624a
 	djnz L_6240		;624c
 	jp 042bch		;624e   ; p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 apunta_enemigo_en_el_panel:
-	inc a			;6251
+	inc a			;6251   ; 0x2D, 0x3D, 0x40 y 0x41 no salen en el panel
 	ld c,a			;6252
 	cp 02dh		;6253
 	ret z			;6255
@@ -375,7 +376,7 @@ apunta_enemigo_en_el_panel:
 	ret z			;625b
 	cp 041h		;625c
 	ret z			;625e
-	ld hl,0c220h		;625f
+	ld hl,0c220h		;625f   ; si ya esta, nada...
 	ld e,003h		;6262
 L_6264:
 	ld a,(hl)			;6264
@@ -390,12 +391,12 @@ L_6264:
 	jr nz,L_6264		;626e
 	ret			;6270
 L_6271:
-	ld (hl),c			;6271
+	ld (hl),c			;6271   ; ...si no, al primer hueco libre: el tipo...
 	inc l			;6272
-	ld a,(ix+00dh)		;6273
+	ld a,(ix+00dh)		;6273   ; ...su vida...
 	ld (hl),a			;6276
 	inc l			;6277
-	di			;6278
+	di			;6278   ; ...y su fuerza (p09:BC4F + tipo - 1, con el banco 9)
 	ld a,009h		;6279
 	ld (0a000h),a		;627b   ; el mapper: el banco de A en 0xA000
 	ld (0f0f3h),a		;627e   ; guarda la copia del banco de 0xA000
@@ -422,21 +423,21 @@ DATA_life_y_str:
 
 borra_la_ram_de_la_partida:
 	ld hl,0c120h		;6298   ; 0x2EE0 ceros desde 0xC120 y los tres bytes de p01:62C0
-	ld bc,02ee0h		;629b
+	ld bc,02ee0h		;629b   ; 0x2EE0 ceros desde 0xC120
 	ld d,h			;629e
 	ld e,l			;629f
 	inc e			;62a0
 	ld (hl),000h		;62a1
 	ldir		;62a3
 	ld hl,062c0h		;62a5   ; valores_de_c120: 3 bytes que p01:62AF copia a 0xC120-0xC122 al empezar la partida
-	ld de,0c120h		;62a8
+	ld de,0c120h		;62a8   ; y los tres valores de p01:62C0
 	ld bc,00003h		;62ab
 	ldir		;62ae
 	xor a			;62b0
 	ld (0c124h),a		;62b1
 	ld (0c139h),a		;62b4   ; guarda el paso del suceso de p06:A649
 	ld (0c13bh),a		;62b7
-	ld a,040h		;62ba
+	ld a,040h		;62ba   ; 0xC13A = 0x40
 	ld (0c13ah),a		;62bc
 	ret			;62bf
 
@@ -454,26 +455,26 @@ DATA_valores_de_c120:
 
 pinta_el_panel:
 	ld hl,0631ch		;62c3   ; los rotulos y las seis cifras (DAYS, LIFE, EXP, LEVEL, MP, GOLD)
-	call 0490bh		;62c6
-	call 04450h		;62c9
-	call escribe_days		;62cc
-	call escribe_life		;62cf
-	call escribe_exp		;62d2
+	call 0490bh		;62c6   ; los rotulos de la columna de la derecha...
+	call 04450h		;62c9   ; ...la figura de p00:4450...
+	call escribe_days		;62cc   ; ...y las seis cifras
+	call escribe_life		;62cf   ; escribe_life: LIFE: 2 bytes en (0x30, 0xD8)
+	call escribe_exp		;62d2   ; escribe_exp: EXP: 3 bytes en (0x38, 0xC8)
 	call escribe_level		;62d5
 	call escribe_mp		;62d8
-	call escribe_gold		;62db
+	call escribe_gold		;62db   ; escribe_gold: GOLD: 2 bytes en (0x50, 0xD8)
 L_62DE:
 	ld hl,06302h		;62de   ; rotulos_del_panel_1: [x][y] letras, 0xFE [x][y] sigue en otro sitio, 0xFF acaba: MITCHEL, SHOT1 y SHOT2; p01:62DE
 	call 0490fh		;62e1   ; p00:rotulo: [x][y] letras, 0xFE [x][y] otro sitio, 0xFF acaba
-	call icono_de_shot2		;62e4
+	call icono_de_shot2		;62e4   ; el icono de SHOT2 y el de SHOT1 en (0x58, 0xE0)...
 	ld a,(0c140h)		;62e7   ; lee SHOT1, el arma que se lleva (0 el puno)
 	ld de,0e058h		;62ea
 	jr L_62F5		;62ed
 icono_de_shot2:
 	ld a,(0c141h)		;62ef   ; lee SHOT2, el objeto que se lleva
-	ld de,0e068h		;62f2
+	ld de,0e068h		;62f2   ; SHOT2 en (0x68, 0xE0)
 L_62F5:
-	and a			;62f5
+	and a			;62f5   ; sin nada, un cuadro de 16x16 en negro
 	jp nz,pinta_icono		;62f6   ; pinta_icono: el 0x26 (oro) se pinta con el dibujo del 6 (la bolsa)
 	ex de,hl			;62f9
 	ld bc,01010h		;62fa
@@ -504,88 +505,88 @@ DATA_rotulos_del_panel_2:
 
 
 escribe_days:
-	ld b,002h		;6344
+	ld b,002h		;6344   ; DAYS: 2 bytes en (0x28, 0xD8)
 	ld hl,0c128h		;6346
 	ld de,0d828h		;6349
 	jr escribe_numero_bcd		;634c
 escribe_life:
-	ld hl,0c12ah		;634e
+	ld hl,0c12ah		;634e   ; LIFE: 2 bytes en (0x30, 0xD8)
 	ld b,002h		;6351
 	ld de,0d830h		;6353
 	jr escribe_numero_bcd		;6356
 escribe_exp:
-	ld hl,0c12dh		;6358
+	ld hl,0c12dh		;6358   ; EXP: 3 bytes en (0x38, 0xC8)
 	ld b,003h		;635b
 	ld de,0c838h		;635d
 	jr escribe_numero_bcd		;6360
 escribe_level:
 	ld hl,0c12eh		;6362   ; apunta a LEVEL, el nivel de Mitchel (BCD)
-	ld b,001h		;6365
+	ld b,001h		;6365   ; LEVEL: 1 byte en (0x40, 0xE8)
 	ld de,0e840h		;6367
 	jr escribe_numero_bcd		;636a
 escribe_mp:
 	ld hl,0c12fh		;636c   ; apunta a MP, la magia (BCD, hasta 99)
-	ld b,001h		;636f
+	ld b,001h		;636f   ; MP: 1 byte en (0x48, 0xE8)
 	ld de,0e848h		;6371
 	jr escribe_numero_bcd		;6374
 escribe_gold:
-	ld hl,0c136h		;6376
+	ld hl,0c136h		;6376   ; GOLD: 2 bytes en (0x50, 0xD8)
 	ld b,002h		;6379
 	ld de,0d850h		;637b
 escribe_numero_bcd:
-	ld c,000h		;637e
+	ld c,000h		;637e   ; los ceros de la izquierda no se escriben...
 L_6380:
-	dec b			;6380
+	dec b			;6380   ; ...salvo la ultima cifra
 	jr nz,L_6385		;6381
 	ld c,0ffh		;6383
 L_6385:
 	inc b			;6385
-	ld a,(hl)			;6386
+	ld a,(hl)			;6386   ; la cifra alta...
 	rra			;6387
 	rra			;6388
 	rra			;6389
 	rra			;638a
-	call escribe_cifra		;638b
-	ld a,(hl)			;638e
-	call escribe_cifra		;638f
-	dec hl			;6392
+	call escribe_cifra		;638b   ; escribe_cifra: una cifra no cero...
+	ld a,(hl)			;638e   ; ...y la baja
+	call escribe_cifra		;638f   ; escribe_cifra: una cifra no cero...
+	dec hl			;6392   ; el byte siguiente (de arriba abajo)
 	djnz L_6380		;6393
 	ret			;6395
 escribe_cifra:
-	and 00fh		;6396
+	and 00fh		;6396   ; una cifra no cero...
 	jr z,L_639C		;6398
-	ld c,0ffh		;639a
+	ld c,0ffh		;639a   ; ...ya deja escribir los ceros que vengan
 L_639C:
-	add a,090h		;639c
+	add a,090h		;639c   ; la letra 0x90 + cifra, o espacio (0) mientras C sea 0
 	and c			;639e
 	call 04952h		;639f   ; p00:escribe_una_letra
-	ld a,d			;63a2
+	ld a,d			;63a2   ; la siguiente, 8 puntos a la derecha
 	add a,008h		;63a3
 	ld d,a			;63a5
 	ret			;63a6
 pinta_los_bordes:
-	call bordes_de_arriba_y_abajo		;63a7
-	call bordes_de_los_lados		;63aa
-	call borra_el_rotulo_del_panel		;63ad
+	call bordes_de_arriba_y_abajo		;63a7   ; bordes_de_arriba_y_abajo: los dibujos de borde (0xF0): la fila de arriba entera...
+	call bordes_de_los_lados		;63aa   ; bordes_de_los_lados: los dibujos de borde de los lados (0xF1): el de la izquierda...
+	call borra_el_rotulo_del_panel		;63ad   ; borra_el_rotulo_del_panel: 72x16 puntos en (0xB0, 8)
 	call borra_la_ventana_de_texto		;63b0   ; borra_la_ventana_de_texto: 160x24 puntos en (8, 0xB0): debajo del decorado
 	jr L_6412		;63b3
 bordes_de_arriba_y_abajo:
-	ld de,00000h		;63b5
+	ld de,00000h		;63b5   ; los dibujos de borde (0xF0): la fila de arriba entera...
 	ld b,020h		;63b8
-	call fila_de_borde		;63ba
-	ld de,0b018h		;63bd
+	call fila_de_borde		;63ba   ; fila_de_borde: el dibujo 0xF0, B veces hacia la derecha
+	ld de,0b018h		;63bd   ; ...trozos en el panel de la derecha (y 0x18 y 0x78)...
 	ld b,009h		;63c0
-	call fila_de_borde		;63c2
+	call fila_de_borde		;63c2   ; fila_de_borde: el dibujo 0xF0, B veces hacia la derecha
 	ld de,0b078h		;63c5
 	ld b,009h		;63c8
-	call fila_de_borde		;63ca
-	ld de,008a8h		;63cd
+	call fila_de_borde		;63ca   ; fila_de_borde: el dibujo 0xF0, B veces hacia la derecha
+	ld de,008a8h		;63cd   ; ...la de encima de la ventana de texto...
 	ld b,014h		;63d0
-	call fila_de_borde		;63d2
-	ld de,000c8h		;63d5
+	call fila_de_borde		;63d2   ; fila_de_borde: el dibujo 0xF0, B veces hacia la derecha
+	ld de,000c8h		;63d5   ; ...y la de abajo del todo
 	ld b,020h		;63d8
 fila_de_borde:
-	ld a,0f0h		;63da
+	ld a,0f0h		;63da   ; el dibujo 0xF0, B veces hacia la derecha
 	call 0497bh		;63dc   ; p00:pon_dibujo: el dibujo A de la hoja (pagina 1) en (D, E) de la pagina 0
 	ld a,d			;63df
 	add a,008h		;63e0
@@ -593,16 +594,16 @@ fila_de_borde:
 	djnz fila_de_borde		;63e3
 	ret			;63e5
 bordes_de_los_lados:
-	ld de,00008h		;63e6
+	ld de,00008h		;63e6   ; los dibujos de borde de los lados (0xF1): el de la izquierda...
 	ld b,019h		;63e9
-	call columna_de_borde		;63eb
-	ld de,0a808h		;63ee
+	call columna_de_borde		;63eb   ; columna_de_borde: el dibujo 0xF1, B veces hacia abajo
+	ld de,0a808h		;63ee   ; ...el del medio (x 0xA8)...
 	ld b,018h		;63f1
-	call columna_de_borde		;63f3
-	ld de,0f800h		;63f6
+	call columna_de_borde		;63f3   ; columna_de_borde: el dibujo 0xF1, B veces hacia abajo
+	ld de,0f800h		;63f6   ; ...y el de la derecha (x 0xF8)
 	ld b,019h		;63f9
 columna_de_borde:
-	ld a,0f1h		;63fb
+	ld a,0f1h		;63fb   ; el dibujo 0xF1, B veces hacia abajo
 	call 0497bh		;63fd   ; p00:pon_dibujo: el dibujo A de la hoja (pagina 1) en (D, E) de la pagina 0
 	ld a,e			;6400
 	add a,008h		;6401
@@ -610,47 +611,47 @@ columna_de_borde:
 	djnz columna_de_borde		;6404
 	ret			;6406
 borra_el_rotulo_del_panel:
-	ld hl,0b008h		;6407
+	ld hl,0b008h		;6407   ; 72x16 puntos en (0xB0, 8)
 	ld bc,04810h		;640a
 	xor a			;640d
 	ld d,a			;640e
 	jp 0479bh		;640f   ; p00:hmmv: el color, a un lado
 L_6412:
-	ld hl,0b020h		;6412
+	ld hl,0b020h		;6412   ; 72x88 puntos en (0xB0, 0x20): las cifras del panel
 	ld bc,04858h		;6415
 	xor a			;6418
 	ld d,a			;6419
 	jp 0479bh		;641a   ; p00:hmmv: el color, a un lado
 borra_el_hueco_de_la_derecha:
-	ld hl,0b080h		;641d
+	ld hl,0b080h		;641d   ; 72x72 puntos en (0xB0, 0x80): los enemigos del panel
 	ld bc,04848h		;6420
 	xor a			;6423
 	ld d,a			;6424
 	jp 0479bh		;6425   ; p00:hmmv: el color, a un lado
 borra_la_ventana_de_texto:
 	ld hl,008b0h		;6428   ; 160x24 puntos en (8, 0xB0): debajo del decorado
-	ld bc,0a018h		;642b
+	ld bc,0a018h		;642b   ; 160x24 en (8, 0xB0)
 	xor a			;642e
 	ld d,a			;642f
 	jp 0479bh		;6430   ; p00:hmmv: el color, a un lado
 L_6433:
-	ld hl,00808h		;6433
+	ld hl,00808h		;6433   ; 160x160 en (8, 8): el decorado
 	ld bc,0a0a0h		;6436
 	xor a			;6439
 	ld d,a			;643a
 	jp 0479bh		;643b   ; p00:hmmv: el color, a un lado
 cambia_el_enemigo_del_panel:
-	bit 7,c		;643e
+	bit 7,c		;643e   ; el enemigo C golpeado: en el panel se subraya un rato
 	ret nz			;6440
 	ld hl,0c208h		;6441
-	ld a,(hl)			;6444
+	ld a,(hl)			;6444   ; si ya lo esta, nada
 	cp c			;6445
 	ret z			;6446
 	ld (hl),c			;6447
-	ld a,(0c206h)		;6448
+	ld a,(0c206h)		;6448   ; quita la raya del que habia
 	and a			;644b
-	call nz,raya_de_la_ventana		;644c
-	ld hl,0c220h		;644f
+	call nz,raya_de_la_ventana		;644c   ; raya_de_la_ventana: ...se borra la raya (color 0)
+	ld hl,0c220h		;644f   ; busca en cual de los tres huecos esta
 	ld b,003h		;6452
 L_6454:
 	ld a,(hl)			;6454
@@ -662,27 +663,27 @@ L_6454:
 	djnz L_6454		;645b
 	ret			;645d
 L_645E:
-	call sitio_del_enemigo_en_el_panel		;645e
+	call sitio_del_enemigo_en_el_panel		;645e   ; su fila del panel...
 	ld a,e			;6461
 	add a,008h		;6462
 	ld e,a			;6464
-	ld (0c207h),a		;6465
-	ld a,03ch		;6468
+	ld (0c207h),a		;6465   ; ...la raya debajo de su nombre (0xC207)...
+	ld a,03ch		;6468   ; ...durante 0x3C cuadros (0xC206)
 	ld (0c206h),a		;646a
 	ex de,hl			;646d
-	ld b,038h		;646e
+	ld b,038h		;646e   ; una raya de 0x38 puntos en color 8
 	xor a			;6470
 	ld c,008h		;6471
 	jp 04706h		;6473   ; p00:raya_horizontal: orden LINE del V9938 (MAJ = 0): de (H, L), B-1 puntos
 L_6476:
-	ld hl,0c206h		;6476
+	ld hl,0c206h		;6476   ; cuando se acaba la cuenta...
 	ld a,(hl)			;6479
 	and a			;647a
 	ret z			;647b
 	dec (hl)			;647c
 	ret nz			;647d
 raya_de_la_ventana:
-	xor a			;647e
+	xor a			;647e   ; ...se borra la raya (color 0)
 	ld (0c208h),a		;647f
 	ld (0c206h),a		;6482
 	ld a,(0c207h)		;6485
@@ -693,12 +694,12 @@ raya_de_la_ventana:
 	ld b,038h		;648d
 	jp 04706h		;648f   ; p00:raya_horizontal: orden LINE del V9938 (MAJ = 0): de (H, L), B-1 puntos
 L_6492:
-	call 054e3h		;6492
+	call 054e3h		;6492   ; EL VDP Y EL SONIDO al encender: p00:54E3...
 	call 0465ch		;6495   ; p00:apaga_los_sprites: la copia de R#8 (0xFFE7)...
-	ld a,005h		;6498
+	ld a,005h		;6498   ; ...SCREEN 5...
 	call 0005fh		;649a   ; BIOS CHGMOD - Switches to given screen mode
 	call 0462dh		;649d   ; p00:apaga_la_pantalla: bit 6 del registro 1 del VDP a cero
-	call borra_la_pagina_entera		;64a0
+	call borra_la_pagina_entera		;64a0   ; ...las paginas borradas...
 	xor a			;64a3
 	ld h,a			;64a4
 	ld l,a			;64a5
@@ -707,13 +708,13 @@ L_6492:
 	ld d,001h		;64a8
 	call 0479bh		;64aa   ; p00:hmmv: el color, a un lado
 	call 046ddh		;64ad   ; p00:espera_al_vdp: espera a que el V9938 acabe la orden (bit 0 de S#2)
-	ld b,004h		;64b0
+	ld b,004h		;64b0   ; ...y los 4 registros del VDP de p01:64C8
 	ld hl,064c8h		;64b2   ; registros_del_vdp: 4 parejas [registro][valor] que p01:64B5 escribe con WRTVDP: R1 0x62, R5 0xEF, R6 0x1F, R11 0x01
 L_64B5:
 	push bc			;64b5
-	ld c,(hl)			;64b6
+	ld c,(hl)			;64b6   ; [registro]...
 	inc hl			;64b7
-	ld b,(hl)			;64b8
+	ld b,(hl)			;64b8   ; ...[valor]
 	inc hl			;64b9
 	push hl			;64ba
 	call 00047h		;64bb   ; BIOS WRTVDP - Writes data in the VDP-register
@@ -736,7 +737,7 @@ DATA_registros_del_vdp:
 
 
 borra_la_pagina_entera:
-	xor a			;64d0
+	xor a			;64d0   ; 256x256 puntos a cero en la pagina 0
 	ld h,a			;64d1
 	ld l,a			;64d2
 	ld b,a			;64d3
@@ -745,47 +746,47 @@ borra_la_pagina_entera:
 	jp 0479bh		;64d6   ; p00:hmmv: el color, a un lado
 teclas_del_cuadro:
 	ld a,(0c102h)		;64d9   ; sin el bit 6 de 0xC102 (la demostracion), las teclas salen del guion (p01:69D7)
-	and 040h		;64dc
-	jp z,teclas_de_la_demostracion		;64de
+	and 040h		;64dc   ; sin la partida de verdad, las teclas del guion de la demostracion
+	jp z,teclas_de_la_demostracion		;64de   ; teclas_de_la_demostracion: las teclas de la demostracion, con el banco 6
 	ld a,(0c139h)		;64e1   ; lee el paso del suceso de p06:A649
-	inc a			;64e4
+	inc a			;64e4   ; con 0xC139 = 0xFF...
 	jr z,L_64EA		;64e5
-	xor a			;64e7
+	xor a			;64e7   ; ...ninguna tecla
 	jr guarda_las_teclas		;64e8
 L_64EA:
-	call lee_el_teclado		;64ea
-	ld hl,0c113h		;64ed
+	call lee_el_teclado		;64ea   ; el teclado (1, 2, 3, F5)...
+	ld hl,0c113h		;64ed   ; ...y el mando
 	call teclas_nuevas		;64f0   ; teclas_nuevas: (HL) = las de ahora; (HL-1) = las que no estaban el cuadro anterior
-	call lee_el_mando		;64f3
+	call lee_el_mando		;64f3   ; lee_el_mando: el mando del puerto 1: R#15 del PSG...
 guarda_las_teclas:
 	ld hl,0c107h		;64f6   ; apunta a las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 teclas_nuevas:
 	ld c,(hl)			;64f9   ; (HL) = las de ahora; (HL-1) = las que no estaban el cuadro anterior
 	ld (hl),a			;64fa
-	xor c			;64fb
+	xor c			;64fb   ; las que no estaban...
 	and (hl)			;64fc
-	dec hl			;64fd
+	dec hl			;64fd   ; ...a (HL-1): las nuevas
 	ld (hl),a			;64fe
 	ret			;64ff
 lee_el_mando:
-	ld e,08fh		;6500
+	ld e,08fh		;6500   ; el mando del puerto 1: R#15 del PSG...
 	ld a,00fh		;6502
 	call 00093h		;6504   ; BIOS WRTPSG - Writes data to PSG-register
-	ld a,00eh		;6507
+	ld a,00eh		;6507   ; ...y R#14, invertido: arriba, abajo, izquierda, derecha y los botones
 	di			;6509
 	call 00096h		;650a   ; BIOS RDPSG - Reads value from PSG-register
 	ei			;650d
 	cpl			;650e
 	and 03fh		;650f
 	push af			;6511
-	ld a,006h		;6512
+	ld a,006h		;6512   ; la fila 6 del teclado...
 	call 00141h		;6514   ; BIOS SNSMAT - Returns the value of the specified line from the keyboard matrix
 	rra			;6517
 	ld e,000h		;6518
 	jr c,L_651E		;651a
 	ld e,020h		;651c
 L_651E:
-	ld a,008h		;651e
+	ld a,008h		;651e   ; ...y la fila 8 (los cursores y el espacio)
 	call 00141h		;6520   ; BIOS SNSMAT - Returns the value of the specified line from the keyboard matrix
 	cpl			;6523
 	rrca			;6524
@@ -805,11 +806,11 @@ L_651E:
 	rrca			;6534
 	and 003h		;6535
 	or c			;6537
-	pop bc			;6538
+	pop bc			;6538   ; y los botones del mando
 	or b			;6539
 	ret			;653a
 lee_el_teclado:
-	ld a,006h		;653b
+	ld a,006h		;653b   ; la fila 6 del teclado...
 	call 00141h		;653d   ; BIOS SNSMAT - Returns the value of the specified line from the keyboard matrix
 	cpl			;6540
 	rlca			;6541
@@ -826,23 +827,23 @@ lee_el_teclado:
 	rlca			;654e
 	or e			;654f
 	ld e,a			;6550
-	ld a,007h		;6551
+	ld a,007h		;6551   ; ...y la 7
 	call 00141h		;6553   ; BIOS SNSMAT - Returns the value of the specified line from the keyboard matrix
-	bit 1,a		;6556
+	bit 1,a		;6556   ; F4...
 	jr nz,L_655C		;6558
 	set 2,e		;655a
 L_655C:
-	bit 0,a		;655c
+	bit 0,a		;655c   ; ...F5...
 	jr nz,L_6562		;655e
 	set 7,e		;6560
 L_6562:
-	bit 3,a		;6562
+	bit 3,a		;6562   ; ...y la tecla de 0xC11F
 	ld a,000h		;6564
 	jr nz,L_656A		;6566
 	ld a,001h		;6568
 L_656A:
 	ld (0c11fh),a		;656a
-	xor a			;656d
+	xor a			;656d   ; la fila 0: 1, 2 y 3 a los bits 3, 4 y 5
 	call 00141h		;656e   ; BIOS SNSMAT - Returns the value of the specified line from the keyboard matrix
 	cpl			;6571
 	add a,a			;6572
@@ -851,11 +852,11 @@ L_656A:
 	or e			;6576
 	ret			;6577
 L_6578:
-	ld a,(0c133h)		;6578
+	ld a,(0c133h)		;6578   ; LA MUSICA QUE TOCA: con algo en marcha, nada
 	and a			;657b
 	ret nz			;657c
 	call 054bdh		;657d   ; p00:hay_musica: Z si no suena nada que importe: sin fundido (0xC08B) ni musica (0xC08D)
-	jr z,L_658E		;6580
+	jr z,L_658E		;6580   ; las piezas 0x85, 0x81, 0x82 y 0x8C no se cortan
 	cp 085h		;6582
 	ret z			;6584
 	cp 081h		;6585
@@ -865,47 +866,47 @@ L_6578:
 	cp 08ch		;658b
 	ret z			;658d
 L_658E:
-	ld b,082h		;658e
+	ld b,082h		;658e   ; 0x82 con 0xC132...
 	ld a,(0c132h)		;6590
 	and a			;6593
 	jr nz,L_65A9		;6594
-	ld a,(0c151h)		;6596
+	ld a,(0c151h)		;6596   ; ...0x84 con 0xC151 (hay un jefe)...
 	ld b,084h		;6599
 	and a			;659b
 	jr nz,L_65A9		;659c
-	ld a,(0c148h)		;659e   ; lee el juego de dibujos de la pantalla
+	ld a,(0c148h)		;659e   ; ...0x83 en el juego de dibujos 5...
 	ld b,083h		;65a1
 	cp 005h		;65a3   ; el juego de dibujos 5?
 	jr z,L_65A9		;65a5
-	ld b,080h		;65a7
+	ld b,080h		;65a7   ; ...y si no, 0x80
 L_65A9:
 	ld hl,0c154h		;65a9
 	call 054bdh		;65ac   ; p00:hay_musica: Z si no suena nada que importe: sin fundido (0xC08B) ni musica (0xC08D)
 	jr z,L_65BC		;65af
-	cp b			;65b1
+	cp b			;65b1   ; si ya suena, nada
 	ret z			;65b2
 	ld a,(hl)			;65b3
 	and a			;65b4
 	ret nz			;65b5
-	inc (hl)			;65b6
+	inc (hl)			;65b6   ; si suena otra, se para primero (0xFF) y se pone al cuadro siguiente
 	ld a,0ffh		;65b7
 	jp 05488h		;65b9   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 L_65BC:
-	xor a			;65bc
+	xor a			;65bc   ; la pieza B
 	ld (hl),a			;65bd
 	ld a,b			;65be
 	jp 05488h		;65bf   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 L_65C2:
-	ld hl,0c103h		;65c2   ; apunta a el contador de cuadros
+	ld hl,0c103h		;65c2   ; EL JUEGO, CADA CUADRO (desde la interrupcion)
 	inc (hl)			;65c5
 	ld bc,(0c100h)		;65c6   ; lee el ESTADO del juego
-	ld a,c			;65ca
+	ld a,c			;65ca   ; en los estados 0-2 (presentacion), se vuelve por p01:676E
 	cp 003h		;65cb
 	jr nc,L_65D3		;65cd
 	ld hl,0676eh		;65cf
 	push hl			;65d2
 L_65D3:
-	call 0425fh		;65d3   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+	call 0425fh		;65d3   ; por el estado (0xC100), con el paso en B
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_65D6: 10 destinos del despachador de 0x425F (call en p01:65D3):
@@ -930,20 +931,20 @@ DATA_tabla_65D6:
 
 
 L_65EA:
-	djnz L_65FA		;65ea
+	djnz L_65FA		;65ea   ; estado 0, paso 0: el logotipo de Konami destapandose...
 	call 05fb7h		;65ec
-	ld a,(0c202h)		;65ef
+	ld a,(0c202h)		;65ef   ; ...hasta que acaba (0xC202)
 	or a			;65f2
 	ret z			;65f3
 	call 05ffah		;65f4   ; p00:modo_de_pantalla: 0xFAF6 = 1...
 	xor a			;65f7
 	jr L_664C		;65f8
 L_65FA:
-	djnz L_6611		;65fa
+	djnz L_6611		;65fa   ; paso 1: la espera...
 	ld hl,0c104h		;65fc   ; apunta a la espera del estado, en cuadros
 	dec (hl)			;65ff
 	ret nz			;6600
-	di			;6601
+	di			;6601   ; ...y el titulo (p06:BA79)
 	ld a,006h		;6602
 	call 05d9ch		;6604   ; p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
 	call 0ba79h		;6607
@@ -955,7 +956,7 @@ L_6611:
 	call 05f3fh		;6614   ; p00:logotipo_de_konami
 	jr L_664F		;6617
 L_6619:
-	ld a,006h		;6619
+	ld a,006h		;6619   ; paso 2: p06:B9C8 hasta que acaba la espera
 	call 05d9ch		;661b   ; p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
 	call 0b9c8h		;661e
 	call 042bch		;6621   ; p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
@@ -964,9 +965,9 @@ L_6619:
 	ret nz			;6628
 	jp L_6688		;6629
 L_662C:
-	djnz L_6644		;662c
+	djnz L_6644		;662c   ; estado 1: la demostracion (p00:5C05)...
 	call salta_a_5C05		;662e
-	ld a,(0c123h)		;6631
+	ld a,(0c123h)		;6631   ; ...hasta que se acaba (0xC123)
 	or a			;6634
 	ret nz			;6635
 L_6636:
@@ -978,8 +979,8 @@ L_663A:
 	ld (0c104h),a		;663f   ; guarda la espera del estado, en cuadros
 	jr L_6691		;6642
 L_6644:
-	call 04612h		;6644   ; p00:limpia_la_pantalla: LIMPIA: sin sprites, pantalla apagada...
-	call empieza_la_demostracion		;6647
+	call 04612h		;6644   ; empieza una demostracion
+	call empieza_la_demostracion		;6647   ; empieza_la_demostracion: LA DEMOSTRACION: la RAM a cero...
 	ld a,020h		;664a
 L_664C:
 	ld (0c104h),a		;664c   ; guarda la espera del estado, en cuadros
@@ -988,7 +989,7 @@ L_664F:
 	inc (hl)			;6652
 	ret			;6653
 L_6654:
-	djnz L_666B		;6654
+	djnz L_666B		;6654   ; estado 2: p06:BA46 hasta que acaba la espera...
 	ld a,006h		;6656
 	call 05d9ch		;6658   ; p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
 	call 0ba46h		;665b
@@ -996,24 +997,24 @@ L_6654:
 	ld hl,0c104h		;6661   ; apunta a la espera del estado, en cuadros
 	dec (hl)			;6664
 	ret nz			;6665
-	call borra_la_ram_de_la_partida		;6666   ; borra_la_ram_de_la_partida: 0x2EE0 ceros desde 0xC120 y los tres bytes de p01:62C0
+	call borra_la_ram_de_la_partida		;6666   ; ...y la partida desde cero
 	jr L_6688		;6669
 L_666B:
-	ld a,085h		;666b
+	ld a,085h		;666b   ; la musica 0x85 y 0x50 cuadros
 	call 05490h		;666d   ; p00:sonido: pone los bancos 4 y 5 y pide el sonido A a p04:6032
 	ld a,050h		;6670
 	jr L_664C		;6672
 L_6674:
 	call 04612h		;6674   ; p00:limpia_la_pantalla: LIMPIA: sin sprites, pantalla apagada...
 	call 0533dh		;6677   ; p00:empieza_la_partida: EMPIEZA LA PARTIDA: pantalla limpia...
-	di			;667a
+	di			;667a   ; con el banco 6...
 	ld a,006h		;667b
 	call 05d9ch		;667d   ; p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
 	call 042bch		;6680   ; p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
-	ld hl,0c123h		;6683
+	ld hl,0c123h		;6683   ; ...0xC123 = 1
 	ld (hl),001h		;6686
 L_6688:
-	ld a,020h		;6688
+	ld a,020h		;6688   ; 0x20 cuadros de espera y el paso siguiente
 L_668A:
 	ld (0c104h),a		;668a   ; guarda la espera del estado, en cuadros
 	ld hl,0c100h		;668d   ; apunta a el ESTADO del juego
@@ -1023,62 +1024,67 @@ L_6691:
 	ld (0c101h),a		;6692   ; guarda el paso del estado
 	ret			;6695
 L_6696:
-	call 05c05h		;6696
-	ld a,(0c124h)		;6699
+	call 05c05h		;6696   ; estado 3: LA PARTIDA (p00:5C05)
+	ld a,(0c124h)		;6699   ; 0xC124: se acabo (GAME OVER)
 	and a			;669c
 	ld a,008h		;669d
 	jr nz,L_66AF		;669f
-	ld a,(0c11bh)		;66a1
+	ld a,(0c11bh)		;66a1   ; 0xC11B...
 	and a			;66a4
 	jp nz,L_66BE		;66a5
-	ld a,(0c123h)		;66a8
+	ld a,(0c123h)		;66a8   ; ...0xC123
 	or a			;66ab
 	ret nz			;66ac
 	jr L_6688		;66ad
 L_66AF:
-	ld a,007h		;66af
+	ld a,007h		;66af   ; estado 7: GAME OVER, con la musica 0xFF parada...
 	ld (0c100h),a		;66b1   ; guarda el ESTADO del juego
 	ld a,0ffh		;66b4
 	call 05488h		;66b6   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
-	ld a,080h		;66b9
+	ld a,080h		;66b9   ; ...y 0x80 cuadros
 	jp L_668A		;66bb
 L_66BE:
-	ld a,006h		;66be
+	ld a,006h		;66be   ; la ventana de pausa (con la fila 6 del teclado: bit 1, CTRL)...
 	call 00141h		;66c0   ; BIOS SNSMAT - Returns the value of the specified line from the keyboard matrix
 	bit 1,a		;66c3
 	jr z,L_66CC		;66c5
-	call ventana_de_pausa		;66c7
+	call ventana_de_pausa		;66c7   ; ventana_de_pausa: la ventana de pausa: se guarda lo que tapa (0x30x10 de (0x54, 0x50) a la pagina 1)...
 	jr L_66D1		;66ca
 L_66CC:
-	ld a,002h		;66cc
+	ld a,002h		;66cc   ; ...o 0xC11B = 2
 	ld (0c11bh),a		;66ce
 L_66D1:
-	ld a,009h		;66d1
+	ld a,009h		;66d1   ; al estado 9
 	jp L_663A		;66d3
 L_66D6:
-	ld a,089h		;66d6
+	ld a,089h		;66d6   ; la musica 0x89
 	call 05490h		;66d8   ; p00:sonido: pone los bancos 4 y 5 y pide el sonido A a p04:6032
 	jr L_6688		;66db
+
+; ----------------------------------------------------------------------
+; CONTINUE F5: la partida sigue con la vida a 5*(LEVEL + 3) y una
+; continuacion mas en 0xC16E (la que mira el final, p06:A85C).
+; ----------------------------------------------------------------------
 continuar:
 	djnz L_6736		;66dd
 	call teclas_del_cuadro		;66df   ; teclas_del_cuadro: sin el bit 6 de 0xC102 (la demostracion), las teclas salen del guion (p01:69D7)
-	ld hl,0c11ah		;66e2
+	ld hl,0c11ah		;66e2   ; F5 (bit 2 de 0xC112) la pide...
 	ld a,(0c112h)		;66e5   ; lee las teclas del teclado (bits 3-5: 1, 2 y 3; bit 2: F5)
 	bit 2,a		;66e8   ; F5 (bit 2 de 0xC112): CONTINUE
 	jr z,L_66F4		;66ea
-	ld (hl),001h		;66ec
+	ld (hl),001h		;66ec   ; ...y "CONTINUE F5" (p03:BFEC) se escribe
 	ld hl,0bfech		;66ee   ; p03:continue_f5: [x][y] "CONTINUE F5" 0xFF: p01:66EE
 	call 04913h		;66f1
 L_66F4:
 	call 054bdh		;66f4   ; p00:hay_musica: Z si no suena nada que importe: sin fundido (0xC08B) ni musica (0xC08D)
 	ret nz			;66f7
-	ld a,(0c11ah)		;66f8
+	ld a,(0c11ah)		;66f8   ; sin F5, a empezar de cero
 	and a			;66fb
 	jp z,L_6636		;66fc
 	ld hl,0c16eh		;66ff   ; una vez mas (lo mira p06:A85C para el final)
-	inc (hl)			;6702
+	inc (hl)			;6702   ; una continuacion mas
 	ld a,(0c12eh)		;6703   ; lee LEVEL, el nivel de Mitchel (BCD)
-	add a,003h		;6706
+	add a,003h		;6706   ; LEVEL + 3 (BCD, hasta 99)...
 	daa			;6708
 	jr nc,L_670D		;6709
 	ld a,099h		;670b
@@ -1086,7 +1092,7 @@ L_670D:
 	ld e,a			;670d
 	ld l,a			;670e
 	ld h,000h		;670f
-	ld b,002h		;6711
+	ld b,002h		;6711   ; ...por 4...
 L_6713:
 	ld a,l			;6713
 	add a,a			;6714
@@ -1097,7 +1103,7 @@ L_6713:
 	daa			;6719
 	ld h,a			;671a
 	djnz L_6713		;671b
-	ld a,l			;671d
+	ld a,l			;671d   ; ...+ LEVEL + 3: la vida, 5*(LEVEL + 3)
 	add a,e			;671e
 	daa			;671f
 	ld l,a			;6720
@@ -1106,20 +1112,20 @@ L_6713:
 	daa			;6724
 	ld h,a			;6725
 	ld (0c129h),hl		;6726   ; guarda LIFE, los dos bytes (BCD)
-	call 0538dh		;6729
+	call 0538dh		;6729   ; la pantalla otra vez (p00:538D)
 	ld a,001h		;672c
 	ld (0c123h),a		;672e
 	ld a,005h		;6731
 	jp L_663A		;6733
 L_6736:
-	call 04612h		;6736   ; p00:limpia_la_pantalla: LIMPIA: sin sprites, pantalla apagada...
+	call 04612h		;6736   ; sin continuar
 	xor a			;6739
 	ld (0c11ah),a		;673a
 	ld hl,0bfdfh		;673d   ; p03:game_over: [x][y] "GAME  OVER" y 0xFE, que sigue con p03:BFEC: p01:673D escribe las dos lineas
 	call 0490fh		;6740   ; p00:rotulo: [x][y] letras, 0xFE [x][y] otro sitio, 0xFF acaba
 	jp L_664F		;6743
 L_6746:
-	di			;6746
+	di			;6746   ; el final, con el banco 6 (p06:A6CF)
 	ld a,006h		;6747
 	call 05d9ch		;6749   ; p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
 	call 0a6cfh		;674c
@@ -1129,40 +1135,40 @@ L_6752:
 	ld a,(0c112h)		;6755   ; lee las teclas del teclado (bits 3-5: 1, 2 y 3; bit 2: F5)
 	rra			;6758
 	ret nc			;6759
-	ld hl,0c11bh		;675a
+	ld hl,0c11bh		;675a   ; la pausa: quita la ventana...
 	ld a,(hl)			;675d
 	ld (hl),000h		;675e
 	dec a			;6760
-	call z,quita_la_ventana_de_pausa		;6761
-	ld a,0feh		;6764
+	call z,quita_la_ventana_de_pausa		;6761   ; quita_la_ventana_de_pausa: lo guardado, de vuelta
+	ld a,0feh		;6764   ; ...la musica se devuelve (0xFE)
 	call 05488h		;6766   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 	ld a,005h		;6769
 	jp L_663A		;676b
 L_676E:
-	call lee_el_teclado		;676e
+	call lee_el_teclado		;676e   ; LA PRESENTACION: el teclado (0xC11C) y el mando (0xC111)...
 	ld hl,0c11ch		;6771
 	call teclas_nuevas		;6774   ; teclas_nuevas: (HL) = las de ahora; (HL-1) = las que no estaban el cuadro anterior
-	call lee_el_mando		;6777
+	call lee_el_mando		;6777   ; lee_el_mando: el mando del puerto 1: R#15 del PSG...
 	ld hl,0c111h		;677a
 	call teclas_nuevas		;677d   ; teclas_nuevas: (HL) = las de ahora; (HL-1) = las que no estaban el cuadro anterior
-	or a			;6780
+	or a			;6780   ; ...sin tecla nueva, nada
 	ret z			;6781
 	ld hl,0c104h		;6782   ; apunta a la espera del estado, en cuadros
-	ld (hl),000h		;6785
+	ld (hl),000h		;6785   ; la espera a cero
 	ld hl,0c100h		;6787   ; apunta a el ESTADO del juego
 	ld b,(hl)			;678a
-	djnz L_679D		;678b
+	djnz L_679D		;678b   ; en la demostracion (estado 1), los botones (bits 4 y 5)...
 	and 030h		;678d
 	ret z			;678f
-	call valor_de_c11e		;6790
-	ld a,040h		;6793
+	call valor_de_c11e		;6790   ; ...EMPIEZAN LA PARTIDA: el truco de 0xC11E...
+	ld a,040h		;6793   ; ...la partida de verdad (bit 6 de 0xC102)...
 	ld (0c102h),a		;6795   ; guarda las banderas de la partida (bit 6: de verdad, no la demostracion)
-	ld (hl),003h		;6798
+	ld (hl),003h		;6798   ; ...estado 3, paso 0
 	inc hl			;679a
 	ld (hl),b			;679b
 	ret			;679c
 L_679D:
-	ld (hl),001h		;679d
+	ld (hl),001h		;679d   ; en el titulo, otra tecla vuelve a la demostracion
 	ld a,000h		;679f
 	call 05490h		;67a1   ; p00:sonido: pone los bancos 4 y 5 y pide el sonido A a p04:6032
 	ld a,006h		;67a4
@@ -1170,7 +1176,7 @@ L_679D:
 	call 0ba79h		;67a9
 	jp 042bch		;67ac   ; p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 ventana_de_pausa:
-	ld hl,05054h		;67af
+	ld hl,05054h		;67af   ; la ventana de pausa: se guarda lo que tapa (0x30x10 de (0x54, 0x50) a la pagina 1)...
 	ld bc,03010h		;67b2
 	ld de,0d090h		;67b5
 	ld a,004h		;67b8
@@ -1179,8 +1185,8 @@ ventana_de_pausa:
 	call 047d7h		;67bc   ; p00:hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
 	pop bc			;67bf
 	pop hl			;67c0
-	call marco_de_la_ventana		;67c1
-	ld hl,067cah		;67c4   ; pausa: [x][y] "PAUSE" 0xFF: lo que escribe p01:67C4 al parar la partida
+	call marco_de_la_ventana		;67c1   ; ...el marco...
+	ld hl,067cah		;67c4   ; ...y "PAUSE"
 	jp 0490fh		;67c7   ; p00:rotulo: [x][y] letras, 0xFE [x][y] otro sitio, 0xFF acaba
 
 ; ----------------------------------------------------------------------
@@ -1196,17 +1202,17 @@ DATA_pausa:
 
 
 quita_la_ventana_de_pausa:
-	ld de,05054h		;67d2
+	ld de,05054h		;67d2   ; lo guardado, de vuelta
 	ld bc,03010h		;67d5
 	ld hl,0d090h		;67d8
 	ld a,001h		;67db
 	jp 047d7h		;67dd   ; p00:hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
 marco_de_la_ventana:
-	call borra_la_ventana		;67e0
+	call borra_la_ventana		;67e0   ; borrada y con un marco en color 14
 	ld c,00eh		;67e3
 	jp 0476dh		;67e5   ; p00:marco: cuatro rayas: un marco de E por D en HL
 borra_la_ventana:
-	xor a			;67e8
+	xor a			;67e8   ; HMMV en negro
 	ld d,000h		;67e9
 	push bc			;67eb
 	push hl			;67ec
@@ -1214,27 +1220,34 @@ borra_la_ventana:
 	pop hl			;67f0
 	pop de			;67f1
 	ret			;67f2
+
+; ----------------------------------------------------------------------
+; EL TRUCO DEL NIVEL. Con TAB pulsado (fila 7, bit 3: 0xC11F) al empezar la
+; partida, F1, F2, F3, F4 o F5 (bits de 0xC11C que monta p01:653B) dan 0x10,
+; 0x20, 0x30, 0x40 o 0x50, y p00:5388 lo pone en LEVEL: se empieza en el nivel
+; 10, 20, 30, 40 o 50.
+; ----------------------------------------------------------------------
 valor_de_c11e:
-	ld a,(0c11fh)		;67f3
+	ld a,(0c11fh)		;67f3   ; sin TAB, nada
 	and a			;67f6
 	jr z,L_681A		;67f7
 	ld a,(0c11ch)		;67f9
-	rra			;67fc
+	rra			;67fc   ; F1: nivel 10
 	ld c,010h		;67fd
 	jr c,L_681C		;67ff
-	rra			;6801
+	rra			;6801   ; F2: 20
 	ld c,020h		;6802
 	jr c,L_681C		;6804
-	rra			;6806
+	rra			;6806   ; F5: 50
 	ld c,050h		;6807
 	jr c,L_681C		;6809
-	rra			;680b
+	rra			;680b   ; F3: 30
 	rra			;680c
 	rra			;680d
 	rra			;680e
 	ld c,030h		;680f
 	jr c,L_681C		;6811
-	rra			;6813
+	rra			;6813   ; F4: 40
 	jr nc,L_681A		;6814
 	ld c,040h		;6816
 	jr L_681C		;6818
@@ -1245,26 +1258,26 @@ L_681C:
 	ld (0c11eh),a		;681d
 	ret			;6820
 L_6821:
-	ld a,(0c125h)		;6821   ; lee la PANTALLA
+	ld a,(0c125h)		;6821   ; LOS ENEMIGOS DEL CUADRO: con 0xC147 a cero, los sucesos de la pantalla (p00:5A2A)
 	cp 08ah		;6824   ; la pantalla 0x8A?
 	ret nc			;6826
 	ld a,(0c147h)		;6827
 	and a			;682a
 	call z,05a2ah		;682b
 	ld ix,0d000h		;682e   ; apunta a las fichas de los enemigos (13 de 0x80)
-	ld b,00dh		;6832
+	ld b,00dh		;6832   ; las 13 fichas
 L_6834:
 	ld a,(ix+000h)		;6834   ; lee el tipo del enemigo
-	and a			;6837
+	and a			;6837   ; las que tienen tipo
 	jr z,L_684B		;6838
 	push bc			;683a
 	call mueve_una_ficha		;683b   ; mueve_una_ficha: las explosiones (0xF0 en adelante) a p00:5E4F; si no, por su tipo con la tabla de p01:6885
 	ld a,(0c147h)		;683e
 	and a			;6841
 	jr nz,L_6847		;6842
-	call se_mueve		;6844
+	call se_mueve		;6844   ; se mueven...
 L_6847:
-	call fuera_de_la_pantalla		;6847
+	call fuera_de_la_pantalla		;6847   ; ...y se borran si salen de la pantalla
 	pop bc			;684a
 L_684B:
 	ld de,00080h		;684b
@@ -1272,7 +1285,7 @@ L_684B:
 	djnz L_6834		;6850
 	ret			;6852
 L_6853:
-	ld ix,0d000h		;6853   ; apunta a las fichas de los enemigos (13 de 0x80)
+	ld ix,0d000h		;6853   ; lo de cada tipo (p01:686A), las 13
 	ld b,00dh		;6857
 L_6859:
 	push bc			;6859
@@ -1286,18 +1299,18 @@ L_6859:
 	ret			;6869
 mueve_una_ficha:
 	ld a,(ix+000h)		;686a   ; las explosiones (0xF0 en adelante) a p00:5E4F; si no, por su tipo con la tabla de p01:6885
-	cp 0f0h		;686d
+	cp 0f0h		;686d   ; las explosiones (0xF0 en adelante): p00:5E4F
 	jp nc,05e4fh		;686f
 	ld c,a			;6872
-	ld a,(0c147h)		;6873
+	ld a,(0c147h)		;6873   ; con 0xC147 no hacen nada
 	and a			;6876
 	ret nz			;6877
-	inc (ix+00ch)		;6878
+	inc (ix+00ch)		;6878   ; la cuenta de cuadros
 	ld a,c			;687b
-	rla			;687c
+	rla			;687c   ; con el bit 7 del tipo, p01:7072
 	ld a,c			;687d
 	jp c,L_7072		;687e
-	dec a			;6881
+	dec a			;6881   ; por el tipo, con la tabla de p01:6885
 	call 0425fh		;6882   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
@@ -1387,14 +1400,14 @@ se_mueve:
 	and a			;6911
 	ret z			;6912
 L_6913:
-	ld e,(ix+007h)		;6913
+	ld e,(ix+007h)		;6913   ; la y (16 bits: ix+2 e ix+3) + la velocidad vertical...
 	ld d,(ix+008h)		;6916
 	ld l,(ix+002h)		;6919
 	ld h,(ix+003h)		;691c
 	add hl,de			;691f
 	ld (ix+002h),l		;6920
 	ld (ix+003h),h		;6923
-	ld e,(ix+009h)		;6926
+	ld e,(ix+009h)		;6926   ; ...y la x (ix+4 e ix+5) + la horizontal
 	ld d,(ix+00ah)		;6929
 	ld l,(ix+004h)		;692c
 	ld h,(ix+005h)		;692f
@@ -1403,20 +1416,20 @@ L_6913:
 	ld (ix+005h),h		;6936
 	ret			;6939
 fuera_de_la_pantalla:
-	ld a,(ix+003h)		;693a
+	ld a,(ix+003h)		;693a   ; por abajo (0xB0)...
 	ld c,0b0h		;693d
 	cp c			;693f
 	jr nc,L_694B		;6940
-	ld a,(ix+005h)		;6942
+	ld a,(ix+005h)		;6942   ; ...por la derecha (0xB0)...
 	cp c			;6945
 	jr nc,L_694B		;6946
-	cp 007h		;6948
+	cp 007h		;6948   ; ...o por la izquierda (7)
 	ret nc			;694a
 L_694B:
-	xor a			;694b
+	xor a			;694b   ; se borra la ficha...
 	ld (ix+000h),a		;694c
 L_694F:
-	push ix		;694f
+	push ix		;694f   ; ...y sus sprites se dejan libres (y = 0xE0)
 	pop hl			;6951
 	set 5,l		;6952
 	ld c,(hl)			;6954
@@ -1432,7 +1445,7 @@ L_695A:
 	jr z,L_6966		;6961
 	ld hl,0e628h		;6963
 L_6966:
-	ld a,(de)			;6966
+	ld a,(de)			;6966   ; el hueco de cada sprite en la tabla
 	add a,a			;6967
 	add a,a			;6968
 	add a,l			;6969
@@ -1440,7 +1453,7 @@ L_6966:
 	ld (hl),0e0h		;696b
 	inc e			;696d
 	ld a,0e0h		;696e
-	ld (de),a			;6970
+	ld (de),a			;6970   ; y en la ficha
 	ld a,e			;6971
 	add a,004h		;6972
 	ld e,a			;6974
@@ -1448,11 +1461,11 @@ L_6966:
 	jr nz,L_695A		;6976
 	ret			;6978
 L_6979:
-	ld a,001h		;6979
+	ld a,001h		;6979   ; 0xC151 = 1: hay jefe
 	ld (0c151h),a		;697b
 	ret			;697e
 empieza_la_demostracion:
-	ld hl,0c120h		;697f
+	ld hl,0c120h		;697f   ; LA DEMOSTRACION: la RAM a cero...
 	ld bc,02ee0h		;6982
 	ld d,h			;6985
 	ld e,l			;6986
@@ -1460,17 +1473,17 @@ empieza_la_demostracion:
 	ld (hl),000h		;6988
 	ldir		;698a
 	ld hl,0c10ch		;698c   ; apunta a la demostracion que toca (alterna)
-	ld a,(hl)			;698f
+	ld a,(hl)			;698f   ; ...una u otra, alternando (0xC10C)...
 	inc (hl)			;6990
 	and 001h		;6991
 	add a,a			;6993
 	add a,a			;6994
 	ld hl,069cch		;6995   ; demostraciones: 2 entradas de 4 bytes (0xC10C alterna): [pantalla][0xC103][palabra que lee p01:69B7]; p01:6995
 	call 04255h		;6998   ; p00:hl_mas_a
-	ld a,(hl)			;699b
+	ld a,(hl)			;699b   ; ...su pantalla...
 	ld (0c125h),a		;699c   ; guarda la PANTALLA
 	inc hl			;699f
-	ld a,(hl)			;69a0
+	ld a,(hl)			;69a0   ; ...su 0xC103...
 	ld (0c103h),a		;69a1   ; guarda el contador de cuadros
 	ld a,001h		;69a4
 	ld (0c123h),a		;69a6
@@ -1484,10 +1497,10 @@ empieza_la_demostracion:
 	inc hl			;69b8
 	ld d,(hl)			;69b9
 	ld (0c10dh),de		;69ba   ; guarda el guion de la demostracion
-	call 0533dh		;69be   ; p00:empieza_la_partida: EMPIEZA LA PARTIDA: pantalla limpia...
-	ld a,004h		;69c1
+	call 0533dh		;69be   ; ...la partida...
+	ld a,004h		;69c1   ; ...0xC307 = 4...
 	ld (0c307h),a		;69c3
-	ld a,099h		;69c6
+	ld a,099h		;69c6   ; ...y Mitchel en el nivel 99
 	ld (0c12eh),a		;69c8   ; guarda LEVEL, el nivel de Mitchel (BCD)
 	ret			;69cb
 
@@ -1506,24 +1519,24 @@ DATA_demostraciones:
 salta_a_5C05:
 	jp 05c05h		;69d4
 teclas_de_la_demostracion:
-	di			;69d7
+	di			;69d7   ; las teclas de la demostracion, con el banco 6
 	ld a,006h		;69d8
 	call 05d9ch		;69da   ; p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
 	ld hl,0c109h		;69dd   ; apunta a la cuenta de la pulsacion de la demostracion
-	dec (hl)			;69e0
+	dec (hl)			;69e0   ; la pulsacion se acaba...
 	jr z,L_69F7		;69e1
 L_69E3:
 	ld a,(0c10ah)		;69e3   ; lee las teclas de la demostracion
-	cp 0ffh		;69e6
+	cp 0ffh		;69e6   ; ...0xFF: se acabo la demostracion
 	jr z,L_69F0		;69e8
-	call guarda_las_teclas		;69ea
+	call guarda_las_teclas		;69ea   ; las teclas de ahora
 	jp 042bch		;69ed   ; p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 L_69F0:
 	xor a			;69f0
 	ld (0c123h),a		;69f1
 	jp 042bch		;69f4   ; p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 L_69F7:
-	inc hl			;69f7
+	inc hl			;69f7   ; la pareja siguiente del guion
 	inc hl			;69f8
 	ld c,(hl)			;69f9
 	inc (hl)			;69fa
@@ -1532,46 +1545,46 @@ L_69F7:
 	ld h,000h		;6a00
 	add hl,hl			;6a02
 	add hl,de			;6a03
-	ld a,(hl)			;6a04
+	ld a,(hl)			;6a04   ; [cuadros]...
 	ld (0c109h),a		;6a05   ; guarda la cuenta de la pulsacion de la demostracion
 	inc hl			;6a08
-	ld a,(hl)			;6a09
+	ld a,(hl)			;6a09   ; ...[teclas]
 	ld (0c10ah),a		;6a0a   ; guarda las teclas de la demostracion
 	jr L_69E3		;6a0d
 L_6A0F:
-	ld hl,0dfa0h		;6a0f
+	ld hl,0dfa0h		;6a0f   ; LAS PANTALLAS 0x11, 0x3E, 0x43, 0x46 Y 0x4A: cada 0x50 cuadros (0xDFA0)...
 	dec (hl)			;6a12
 	ret nz			;6a13
 	ld (hl),050h		;6a14
 	ld a,(0c125h)		;6a16   ; lee la PANTALLA
 	cp 011h		;6a19   ; la pantalla 0x11?
 	jr nz,L_6A21		;6a1b
-	ld b,001h		;6a1d
+	ld b,001h		;6a1d   ; ...en la 0x11 sale uno en el sitio 1...
 	jr L_6A3E		;6a1f
 L_6A21:
-	ld b,002h		;6a21
+	ld b,002h		;6a21   ; ...en la 0x3E y la 0x46, en el 2...
 	cp 03eh		;6a23
 	jr z,L_6A3E		;6a25
 	cp 046h		;6a27
 	jr z,L_6A3E		;6a29
 	cp 04ah		;6a2b
 	jr nz,L_6A33		;6a2d
-	ld b,003h		;6a2f
+	ld b,003h		;6a2f   ; ...en la 0x4A, en el 3...
 	jr L_6A3E		;6a31
 L_6A33:
-	call 0bf0eh		;6a33
+	call 0bf0eh		;6a33   ; ...y en la 0x43 en el 0 o el 2, al azar (p03:BF0E)
 	ld b,000h		;6a36
 	and 001h		;6a38
 	jr z,L_6A3E		;6a3a
 	ld b,002h		;6a3c
 L_6A3E:
-	ld a,b			;6a3e
+	ld a,b			;6a3e   ; la posicion de p01:6A4D...
 	ld hl,06a4dh		;6a3f   ; posiciones_6A4D: 5 bytes que p01:6A3F lee de dos en dos segun B (se solapan): [x][y] para p00:5A69
 	call 04255h		;6a42   ; p00:hl_mas_a
 	ld e,(hl)			;6a45
 	inc hl			;6a46
 	ld d,(hl)			;6a47
-	ld c,01bh		;6a48
+	ld c,01bh		;6a48   ; ...y el tipo 0x1B (SEALOUSE)
 	jp 05a69h		;6a4a   ; p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
 
 ; ----------------------------------------------------------------------
@@ -1587,10 +1600,10 @@ DATA_posiciones_6A4D:
 
 
 L_6A52:
-	call mitchel_en_la_mitad_de_abajo		;6a52
+	call mitchel_en_la_mitad_de_abajo		;6a52   ; LAS PANTALLAS 0x73-0x76: los enemigos salen segun avanza Mitchel
 	or a			;6a55
 	ld a,(0c303h)		;6a56   ; lee la Y de Mitchel
-	jr nz,L_6A64		;6a59
+	jr nz,L_6A64		;6a59   ; segun la mitad y la x de Mitchel...
 	cp 048h		;6a5b
 	jr nc,L_6A7D		;6a5d
 	cp 028h		;6a5f
@@ -1603,24 +1616,24 @@ L_6A64:
 	ret nc			;6a6a
 	jr L_6A7D		;6a6b
 L_6A6D:
-	ld hl,0dff4h		;6a6d
+	ld hl,0dff4h		;6a6d   ; ...uno por abajo (bit 0 de 0xDFF4, una vez)...
 	bit 0,(hl)		;6a70
 	ret nz			;6a72
 	set 0,(hl)		;6a73
-	ld c,040h		;6a75
+	ld c,040h		;6a75   ; ...el tipo 0x40 (SHUT ALL) en (0x14, 0x18)
 	ld de,01814h		;6a77
 	jp 05a69h		;6a7a   ; p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
 L_6A7D:
-	ld hl,0dff4h		;6a7d
+	ld hl,0dff4h		;6a7d   ; ...y otro con el bit 1
 	bit 1,(hl)		;6a80
 	ret nz			;6a82
 	set 1,(hl)		;6a83
 	ld ix,0d000h		;6a85   ; apunta a las fichas de los enemigos (13 de 0x80)
-	ld (ix+014h),000h		;6a89
+	ld (ix+014h),000h		;6a89   ; que baja
 	ld de,0ff60h		;6a8d
 	jp 04311h		;6a90
 L_6A93:
-	call mitchel_en_la_mitad_de_abajo		;6a93
+	call mitchel_en_la_mitad_de_abajo		;6a93   ; la 0x74: pasado 0x58, una vez cada vez (0xDFF5)...
 	or a			;6a96
 	ld a,(0c303h)		;6a97   ; lee la Y de Mitchel
 	jr z,L_6AA1		;6a9a
@@ -1637,7 +1650,7 @@ L_6AA4:
 	ret nz			;6aa9
 	ld (hl),002h		;6aaa
 	dec hl			;6aac
-	ld a,(hl)			;6aad
+	ld a,(hl)			;6aad   ; ...hasta cinco: arriba y abajo en la x de p01:6ACE
 	cp 005h		;6aae
 	ret nc			;6ab0
 	ld e,a			;6ab1
@@ -1654,7 +1667,7 @@ L_6AA4:
 	ld c,040h		;6ac4
 	call 05a69h		;6ac6   ; p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
 L_6AC9:
-	ld hl,0dff4h		;6ac9
+	ld hl,0dff4h		;6ac9   ; uno mas
 	inc (hl)			;6acc
 	ret			;6acd
 
@@ -1671,7 +1684,7 @@ DATA_posiciones_6ACE:
 
 
 L_6AD3:
-	call mitchel_en_la_mitad_de_abajo		;6ad3
+	call mitchel_en_la_mitad_de_abajo		;6ad3   ; la 0x75: pasado 0x78, grupos de p01:6B1B (hasta tres)
 	or a			;6ad6
 	ld a,(0c303h)		;6ad7   ; lee la Y de Mitchel
 	jr z,L_6AE1		;6ada
@@ -1701,9 +1714,9 @@ L_6AE4:
 	ld d,000h		;6af8
 	ld hl,06b1bh		;6afa   ; grupos_6B1B: grupos [cuantos] y ternas [x][y][y2] que p01:6AFA pinta con p00:5A69 (C = 0x40)
 	add hl,de			;6afd
-	ld b,(hl)			;6afe
+	ld b,(hl)			;6afe   ; cuantos en el grupo
 L_6AFF:
-	inc hl			;6aff
+	inc hl			;6aff   ; [x][y] y [y2]: dos de cada, arriba y abajo
 	ld e,(hl)			;6b00
 	inc hl			;6b01
 	ld d,(hl)			;6b02
@@ -1738,11 +1751,11 @@ DATA_grupos_6B1B:
 
 
 L_6B30:
-	ld a,040h		;6b30
+	ld a,040h		;6b30   ; la 0x76: con menos de 3 fichas del tipo 0x40...
 	call 08bc6h		;6b32   ; p02:cuenta_las_fichas
 	cp 003h		;6b35
 	ret nc			;6b37
-	call mitchel_en_la_mitad_de_abajo		;6b38
+	call mitchel_en_la_mitad_de_abajo		;6b38   ; mitchel_en_la_mitad_de_abajo: 0 si Mitchel (0xDFF6, al entrar) estaba en la mitad de arriba; 1 si en la de abajo
 	or a			;6b3b
 	ld a,(0c303h)		;6b3c   ; lee la Y de Mitchel
 	jr nz,L_6B4A		;6b3f
@@ -1758,7 +1771,7 @@ L_6B4A:
 	ret nc			;6b50
 	jr L_6B6A		;6b51
 L_6B53:
-	ld a,(0dff4h)		;6b53
+	ld a,(0dff4h)		;6b53   ; ...dos mas, en (0x24, 0x18) y (0x24, 0x98)
 	dec a			;6b56
 	ret z			;6b57
 	ld de,01824h		;6b58
@@ -1769,18 +1782,18 @@ L_6B53:
 	call 05a69h		;6b65   ; p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
 	jr L_6B78		;6b68
 L_6B6A:
-	ld a,(0dff4h)		;6b6a
+	ld a,(0dff4h)		;6b6a   ; ...o por abajo, en (0x64, 0x98)
 	sub 002h		;6b6d
 	ret z			;6b6f
 	ld de,09864h		;6b70
 	ld c,040h		;6b73
 	call 05a69h		;6b75   ; p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
 L_6B78:
-	ld hl,0dff4h		;6b78
+	ld hl,0dff4h		;6b78   ; uno mas
 	inc (hl)			;6b7b
 	ret			;6b7c
 mitchel_en_la_mitad_de_abajo:
-	ld a,(0dff6h)		;6b7d
+	ld a,(0dff6h)		;6b7d   ; 0 si Mitchel (0xDFF6, al entrar) estaba en la mitad de arriba; 1 si en la de abajo
 	cp 058h		;6b80
 	ld a,000h		;6b82
 	ret c			;6b84
@@ -1788,27 +1801,27 @@ mitchel_en_la_mitad_de_abajo:
 	ret			;6b86
 L_6B87:
 	ld ix,0c300h		;6b87   ; apunta a el estado de Mitchel
-	call mitchel_en_el_agua		;6b8b   ; mitchel_en_el_agua: 0xC160 = 1 si la casilla que pisa es agua (juegos de dibujos 0, 4 y 7): con ella p00:4FF0 usa las poses de 0x7DBD
-	ld a,(0c133h)		;6b8e
+	call mitchel_en_el_agua		;6b8b   ; MITCHEL, CADA CUADRO: el agua...
+	ld a,(0c133h)		;6b8e   ; ...y si no hay nada en marcha...
 	and a			;6b91
 	jr nz,L_6BED		;6b92
-	call se_toca_una_tecla		;6b94
+	call se_toca_una_tecla		;6b94   ; ...teclas...
 	call dispara		;6b97   ; dispara: bit 5 de 0xC106: SHOT2; bit 4: SHOT1
-	call mueve_a_mitchel		;6b9a
-	call parpadeo_de_mitchel		;6b9d
-	jp L_6C59		;6ba0
+	call mueve_a_mitchel		;6b9a   ; ...moverse...
+	call parpadeo_de_mitchel		;6b9d   ; ...parpadear...
+	jp L_6C59		;6ba0   ; ...y la enfermedad
 mitchel_en_el_agua:
 	xor a			;6ba3   ; 0xC160 = 1 si la casilla que pisa es agua (juegos de dibujos 0, 4 y 7): con ella p00:4FF0 usa las poses de 0x7DBD
 	ld (0c160h),a		;6ba4   ; guarda Mitchel metido en el agua
 	call 04308h		;6ba7   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
-	ex de,hl			;6baa
+	ex de,hl			;6baa   ; la casilla que pisa, en el mapa de la RAM
 	call 0431fh		;6bab   ; p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
 	ld a,(0c148h)		;6bae   ; lee el juego de dibujos de la pantalla
-	and a			;6bb1
+	and a			;6bb1   ; segun el juego de dibujos: el 0...
 	jr z,L_6BCD		;6bb2
-	cp 004h		;6bb4
+	cp 004h		;6bb4   ; ...el 4...
 	jr z,L_6BD9		;6bb6
-	cp 007h		;6bb8
+	cp 007h		;6bb8   ; ...o el 7: dibujos 0x60-0x63 y 0x75-0x7C
 	ret nz			;6bba
 	ld a,(hl)			;6bbb
 	sub 060h		;6bbc
@@ -1818,11 +1831,11 @@ mitchel_en_el_agua:
 	cp 008h		;6bc4
 	ret nc			;6bc6
 L_6BC7:
-	ld a,001h		;6bc7
+	ld a,001h		;6bc7   ; en el agua
 	ld (0c160h),a		;6bc9   ; guarda Mitchel metido en el agua
 	ret			;6bcc
 L_6BCD:
-	ld a,(hl)			;6bcd
+	ld a,(hl)			;6bcd   ; juego 0: el 0x98 y del 0x74 al 0x79
 	cp 098h		;6bce
 	jr z,L_6BC7		;6bd0
 	sub 074h		;6bd2
@@ -1830,7 +1843,7 @@ L_6BCD:
 	jr c,L_6BC7		;6bd6
 	ret			;6bd8
 L_6BD9:
-	ld a,(hl)			;6bd9
+	ld a,(hl)			;6bd9   ; juego 4: 0x60-0x63, 0x68-0x69 y 0x88-0x89
 	sub 060h		;6bda
 	cp 004h		;6bdc
 	jr c,L_6BC7		;6bde
@@ -1842,27 +1855,27 @@ L_6BD9:
 	jr c,L_6BC7		;6bea
 	ret			;6bec
 L_6BED:
-	ld hl,0c311h		;6bed   ; apunta a la cuenta de los pasos de Mitchel
+	ld hl,0c311h		;6bed   ; MITCHEL MUERE: la cuenta (0xC311)...
 	dec (hl)			;6bf0
 	jr nz,L_6BF8		;6bf1
-	xor a			;6bf3
+	xor a			;6bf3   ; ...al acabar, 0xC123 = 0
 	ld (0c123h),a		;6bf4
 	ret			;6bf7
 L_6BF8:
-	ld a,(hl)			;6bf8
+	ld a,(hl)			;6bf8   ; a los 0x4B cuadros, la musica 0x8A
 	cp 04bh		;6bf9
 	ld a,08ah		;6bfb
 	call z,05488h		;6bfd   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 	ld a,(hl)			;6c00
 	ld hl,0c306h		;6c01   ; apunta a hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
-	cp 030h		;6c04
+	cp 030h		;6c04   ; mientras, gira: una pose cada 4 cuadros...
 	jr nc,L_6C14		;6c06
 	ld c,a			;6c08
 	ld a,(hl)			;6c09
 	dec a			;6c0a
 	ld a,c			;6c0b
 	jr nz,L_6C14		;6c0c
-	ld a,010h		;6c0e
+	ld a,010h		;6c0e   ; ...y al final la 0x10
 	ld (0c310h),a		;6c10   ; guarda la POSE de Mitchel
 	ret			;6c13
 L_6C14:
@@ -1902,32 +1915,37 @@ DATA_pose_por_direccion:
 
 se_toca_una_tecla:
 	ld a,(0c106h)		;6c35   ; lee las teclas nuevas del cuadro (bit 4 SHOT1, bit 5 SHOT2)
-	and 00fh		;6c38
+	and 00fh		;6c38   ; cualquier direccion...
 	ret z			;6c3a
-	ld a,001h		;6c3b
+	ld a,001h		;6c3b   ; ...0xC327 = 1
 	ld (0c327h),a		;6c3d
 	ret			;6c40
 dispara:
 	ld a,(0c300h)		;6c41   ; bit 5 de 0xC106: SHOT2; bit 4: SHOT1
-	cp 005h		;6c44
+	cp 005h		;6c44   ; solo en los estados 0-4 de Mitchel
 	ret nc			;6c46
 	ld a,(0c106h)		;6c47   ; lee las teclas nuevas del cuadro (bit 4 SHOT1, bit 5 SHOT2)
 	bit 5,a		;6c4a
 	jp nz,usa_shot2		;6c4c
 	and 010h		;6c4f
 	ret z			;6c51
-	xor a			;6c52
+	xor a			;6c52   ; 0xC324 = 0 y SHOT1
 	ld (0c324h),a		;6c53
 	jp usa_shot1		;6c56   ; usa_shot1: El arma de SHOT1 (0xC140): 0 el puno; 1-3 golpes 0x11-0x13; 4 solo en las
+
+; ----------------------------------------------------------------------
+; LA ENFERMEDAD (la picadura de p12:B713): cada 256 cuadros (0xC209 da la
+; vuelta) quita 1 de LIFE; a cero, Mitchel muere. Las hierbas la quitan (p01:7CB8).
+; ----------------------------------------------------------------------
 L_6C59:
 	ld a,(0c146h)		;6c59   ; lee la ENFERMEDAD (la picadura)
 	and a			;6c5c
 	ret z			;6c5d
-	ld a,(0c209h)		;6c5e
+	ld a,(0c209h)		;6c5e   ; cada 256 cuadros...
 	and a			;6c61
 	ret nz			;6c62
 	ld hl,0c129h		;6c63   ; apunta a LIFE, la vida de Mitchel (BCD)
-	ld a,(hl)			;6c66
+	ld a,(hl)			;6c66   ; ...LIFE - 1 (BCD)
 	sub 001h		;6c67
 	daa			;6c69
 	ld (hl),a			;6c6a
@@ -1935,48 +1953,48 @@ L_6C59:
 	ld a,(hl)			;6c6c
 	sbc a,000h		;6c6d
 	ld (hl),a			;6c6f
-	jr c,mitchel_muere		;6c70
-	jp nz,escribe_life		;6c72
+	jr c,mitchel_muere		;6c70   ; a cero, muere
+	jp nz,escribe_life		;6c72   ; escribe_life: LIFE: 2 bytes en (0x30, 0xD8)
 	dec e			;6c75
 	ld a,(de)			;6c76
 	and a			;6c77
-	jp nz,escribe_life		;6c78
+	jp nz,escribe_life		;6c78   ; escribe_life: LIFE: 2 bytes en (0x30, 0xD8)
 mitchel_muere:
-	ld hl,04201h		;6c7b   ; LIFE a cero, lo lanzado se borra y 0x50 cuadros de espera
+	ld hl,04201h		;6c7b   ; los colores de Mitchel otra vez los de siempre
 	ld (0c309h),hl		;6c7e   ; guarda el color del primer sprite de Mitchel
 	xor a			;6c81
 	ld l,a			;6c82
 	ld h,a			;6c83
 	ld (0c129h),hl		;6c84   ; guarda LIFE, los dos bytes (BCD)
 	ld (0c380h),a		;6c87   ; guarda lo que lanza Mitchel (su ficha)
-	inc a			;6c8a
+	inc a			;6c8a   ; 0xC133 = 1: algo en marcha
 	ld (0c133h),a		;6c8b
 	ld a,050h		;6c8e
 	ld (0c311h),a		;6c90   ; guarda la cuenta de los pasos de Mitchel
-	ld a,00fh		;6c93
+	ld a,00fh		;6c93   ; el sonido 0x0F
 	call 05488h		;6c95   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
-	jp escribe_life		;6c98
+	jp escribe_life		;6c98   ; escribe_life: LIFE: 2 bytes en (0x30, 0xD8)
 mitchel_resbala:
-	ld hl,0c163h		;6c9b
+	ld hl,0c163h		;6c9b   ; EL EMPUJON: mientras dure (0xC163)...
 	ld a,(hl)			;6c9e
 	and a			;6c9f
 	ret z			;6ca0
 	dec (hl)			;6ca1
-	inc l			;6ca2
+	inc l			;6ca2   ; ...hacia donde (0xC164)...
 	call 04308h		;6ca3   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
 	ld c,(hl)			;6ca6
-	call casilla_hacia		;6ca7
+	call casilla_hacia		;6ca7   ; ...si se puede...
 	jr c,L_6D01		;6caa
 	ld a,(0c164h)		;6cac
 	ld de,06d1eh		;6caf   ; pasos_6D1E: 4 parejas [dx][dy] segun 0xC164 (p01:6CAF)
 	call 042ffh		;6cb2   ; p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
-	ex de,hl			;6cb5
+	ex de,hl			;6cb5   ; ...el paso de p01:6D1E...
 	call 04308h		;6cb6   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
 	ld a,e			;6cb9
 	add a,l			;6cba
 	ld l,a			;6cbb
 	ld bc,0c303h		;6cbc   ; apunta a la Y de Mitchel
-	cp 0a1h		;6cbf
+	cp 0a1h		;6cbf   ; ...sin salirse de 0x10-0xA0...
 	jr nc,L_6CFE		;6cc1
 	cp 010h		;6cc3
 	jr c,L_6CF9		;6cc5
@@ -1988,7 +2006,7 @@ mitchel_resbala:
 	jr nc,L_6CFE		;6ccf
 	cp 010h		;6cd1
 	jr c,L_6CF9		;6cd3
-	ld a,(0c800h)		;6cd5
+	ld a,(0c800h)		;6cd5   ; ...ni meterse en lo de 0xC800
 	and a			;6cd8
 	jr z,L_6D18		;6cd9
 	ld a,(0c801h)		;6cdb
@@ -2002,20 +2020,20 @@ mitchel_resbala:
 	cp 020h		;6ceb
 	jr c,L_6D01		;6ced
 L_6CEF:
-	ld a,l			;6cef
+	ld a,l			;6cef   ; la posicion nueva
 	ld (0c303h),a		;6cf0   ; guarda la Y de Mitchel
 	ld a,h			;6cf3
 	ld (0c305h),a		;6cf4   ; guarda la X de Mitchel
 	jr L_6D18		;6cf7
 L_6CF9:
-	ld a,010h		;6cf9
+	ld a,010h		;6cf9   ; contra el borde: 0x10...
 	ld (bc),a			;6cfb
 	jr L_6D01		;6cfc
 L_6CFE:
-	ld a,0a0h		;6cfe
+	ld a,0a0h		;6cfe   ; ...o 0xA0
 	ld (bc),a			;6d00
 L_6D01:
-	call 04308h		;6d01   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
+	call 04308h		;6d01   ; se acaba el empujon: Mitchel, alineado a 8
 	ld a,e			;6d04
 	and 0f8h		;6d05
 	ld l,000h		;6d07
@@ -2044,9 +2062,9 @@ DATA_pasos_6D1E:
 
 
 mueve_a_mitchel:
-	call mitchel_resbala		;6d26
+	call mitchel_resbala		;6d26   ; con empujon, nada mas
 	ret c			;6d29
-	ld a,(0c161h)		;6d2a
+	ld a,(0c161h)		;6d2a   ; 0xC161: en ese caso solo en los estados 5 en adelante
 	and a			;6d2d
 	ld a,(0c300h)		;6d2e   ; lee el estado de Mitchel
 	jr z,L_6D39		;6d31
@@ -2079,12 +2097,12 @@ DATA_tabla_6D3C:
 
 
 L_6D4E:
-	call mira_a_los_lados		;6d4e
+	call mira_a_los_lados		;6d4e   ; ESTADO 0, QUIETO: las teclas...
 	ld a,(0c300h)		;6d51   ; lee el estado de Mitchel
 	and a			;6d54
 	ret nz			;6d55
 	ld a,(0c107h)		;6d56   ; lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
-	rra			;6d59
+	rra			;6d59   ; ...la primera de arriba, abajo, izquierda y derecha...
 	ld c,000h		;6d5a
 	jr c,L_6D69		;6d5c
 	inc c			;6d5e
@@ -2097,13 +2115,13 @@ L_6D4E:
 	rra			;6d67
 	ret nc			;6d68
 L_6D69:
-	ld a,c			;6d69
+	ld a,c			;6d69   ; ...da el estado
 	ld (0c306h),a		;6d6a   ; guarda hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	ret			;6d6d
 mira_a_los_lados:
 	ld a,(0c306h)		;6d6e   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	cp 002h		;6d71   ; mira a la izquierda?
-	jr c,L_6D7F		;6d73
+	jr c,L_6D7F		;6d73   ; primero el eje en que ya mira
 L_6D75:
 	call teclas_arriba_abajo		;6d75
 	ret nc			;6d78
@@ -2116,13 +2134,13 @@ L_6D7F:
 	call teclas_arriba_abajo		;6d83
 	ret nc			;6d86
 L_6D87:
-	xor a			;6d87
+	xor a			;6d87   ; sin tecla: la pose de quieto
 	ld (0c300h),a		;6d88   ; guarda el estado de Mitchel
 pose_quieto:
 	ld a,(0c306h)		;6d8b   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	ld hl,06d99h		;6d8e   ; pose_de_cada_direccion: 4 bytes: la pose (0xC310) segun la direccion 0xC306 (p01:6D8E)
 	call 04255h		;6d91   ; p00:hl_mas_a
-	ld a,(hl)			;6d94
+	ld a,(hl)			;6d94   ; segun la direccion
 	ld (0c310h),a		;6d95   ; guarda la POSE de Mitchel
 	ret			;6d98
 
@@ -2139,43 +2157,43 @@ DATA_pose_de_cada_direccion:
 
 
 L_6D9D:
-	call pose_andando		;6d9d
+	call pose_andando		;6d9d   ; ESTADO 1, HACIA ARRIBA: la pose andando...
 	ld a,(0c107h)		;6da0   ; lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
-	and 002h		;6da3
+	and 002h		;6da3   ; ...si se pulsa abajo (tecla nueva), se da la vuelta
 	jr z,L_6DB1		;6da5
 	ld a,(0c327h)		;6da7
 	and a			;6daa
 	jr z,L_6DB1		;6dab
-	call anda_abajo		;6dad
+	call anda_abajo		;6dad   ; anda_abajo: abajo (1): el estado 2
 	ret nc			;6db0
 L_6DB1:
-	xor a			;6db1
-	call puede_andar_hacia		;6db2
+	xor a			;6db1   ; si no puede seguir, quieto
+	call puede_andar_hacia		;6db2   ; puede_andar_hacia: 0xC173 = 1
 	jr c,$-46		;6db5
-	ld hl,(0c302h)		;6db7
-	call cuantos_pasos		;6dba
+	ld hl,(0c302h)		;6db7   ; un paso en la y
+	call cuantos_pasos		;6dba   ; cuantos_pasos: B = ix+7 + 1 pasos como mucho
 	ld (0c302h),hl		;6dbd
-	ret nz			;6dc0
-	ld a,(0c327h)		;6dc1
+	ret nz			;6dc0   ; hasta la casilla siguiente...
+	ld a,(0c327h)		;6dc1   ; ...y alli, las teclas otra vez
 	and a			;6dc4
 	jr z,$-80		;6dc5
 	jr $-72		;6dc7
 L_6DC9:
-	call pose_andando		;6dc9
+	call pose_andando		;6dc9   ; ESTADO 2, HACIA ABAJO
 	ld a,(0c107h)		;6dcc   ; lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
-	and 001h		;6dcf
+	and 001h		;6dcf   ; arriba: se da la vuelta
 	jr z,L_6DDD		;6dd1
 	ld a,(0c327h)		;6dd3
 	and a			;6dd6
 	jr z,L_6DDD		;6dd7
-	call anda_arriba		;6dd9
+	call anda_arriba		;6dd9   ; anda_arriba: arriba (direccion 0)...
 	ret nc			;6ddc
 L_6DDD:
 	ld a,001h		;6ddd
-	call puede_andar_hacia		;6ddf
+	call puede_andar_hacia		;6ddf   ; puede_andar_hacia: 0xC173 = 1
 	jr c,$-91		;6de2
-	ld hl,(0c302h)		;6de4
-	call cuantos_pasos		;6de7
+	ld hl,(0c302h)		;6de4   ; un paso en la y
+	call cuantos_pasos		;6de7   ; cuantos_pasos: B = ix+7 + 1 pasos como mucho
 	ld (0c302h),hl		;6dea
 	ret nz			;6ded
 	ld a,(0c327h)		;6dee
@@ -2183,21 +2201,21 @@ L_6DDD:
 	jp z,L_6D75		;6df2
 	jp L_6D7F		;6df5
 L_6DF8:
-	call pose_andando		;6df8
+	call pose_andando		;6df8   ; ESTADO 3, HACIA LA IZQUIERDA
 	ld a,(0c107h)		;6dfb   ; lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
-	and 008h		;6dfe
+	and 008h		;6dfe   ; derecha: se da la vuelta
 	jr z,L_6E0C		;6e00
 	ld a,(0c327h)		;6e02
 	and a			;6e05
 	jr z,L_6E0C		;6e06
-	call anda_a_la_derecha		;6e08
+	call anda_a_la_derecha		;6e08   ; anda_a_la_derecha: derecha (3): el estado 4
 	ret nc			;6e0b
 L_6E0C:
 	ld a,002h		;6e0c
-	call puede_andar_hacia		;6e0e
+	call puede_andar_hacia		;6e0e   ; puede_andar_hacia: 0xC173 = 1
 	jp c,L_6D87		;6e11
-	ld hl,(0c304h)		;6e14
-	call cuantos_pasos		;6e17
+	ld hl,(0c304h)		;6e14   ; un paso en la x
+	call cuantos_pasos		;6e17   ; cuantos_pasos: B = ix+7 + 1 pasos como mucho
 	ld (0c304h),hl		;6e1a
 	ret nz			;6e1d
 	ld a,(0c327h)		;6e1e
@@ -2205,21 +2223,21 @@ L_6E0C:
 	jp z,L_6D7F		;6e22
 	jp L_6D75		;6e25
 L_6E28:
-	call pose_andando		;6e28
+	call pose_andando		;6e28   ; ESTADO 4, HACIA LA DERECHA
 	ld a,(0c107h)		;6e2b   ; lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
-	and 004h		;6e2e
+	and 004h		;6e2e   ; izquierda: se da la vuelta
 	jr z,L_6E3C		;6e30
 	ld a,(0c327h)		;6e32
 	and a			;6e35
 	jr z,L_6E3C		;6e36
-	call anda_a_la_izquierda		;6e38
+	call anda_a_la_izquierda		;6e38   ; anda_a_la_izquierda: izquierda (2): el estado 3
 	ret nc			;6e3b
 L_6E3C:
 	ld a,003h		;6e3c
-	call puede_andar_hacia		;6e3e
+	call puede_andar_hacia		;6e3e   ; puede_andar_hacia: 0xC173 = 1
 	jp c,L_6D87		;6e41
-	ld hl,(0c304h)		;6e44
-	call cuantos_pasos		;6e47
+	ld hl,(0c304h)		;6e44   ; un paso en la x
+	call cuantos_pasos		;6e47   ; cuantos_pasos: B = ix+7 + 1 pasos como mucho
 	ld (0c304h),hl		;6e4a
 	ret nz			;6e4d
 	ld a,(0c327h)		;6e4e
@@ -2229,14 +2247,14 @@ L_6E3C:
 pose_andando:
 	ld hl,0c311h		;6e58   ; apunta a la cuenta de los pasos de Mitchel
 	inc (hl)			;6e5b
-	ld a,(hl)			;6e5c
+	ld a,(hl)			;6e5c   ; cada 4 cuadros...
 	rra			;6e5d
 	rra			;6e5e
-	and 003h		;6e5f
+	and 003h		;6e5f   ; ...uno de los 4 pasos de p01:6E72...
 	ld hl,06e72h		;6e61   ; paso_de_la_pose: 4 bytes que p01:6E61 suma a 3*direccion para la pose (0xC310)
 	call 04255h		;6e64   ; p00:hl_mas_a
 	ld a,(0c306h)		;6e67   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
-	ld c,a			;6e6a
+	ld c,a			;6e6a   ; ...+ 3*direccion: la pose
 	add a,a			;6e6b
 	add a,c			;6e6c
 	add a,(hl)			;6e6d
@@ -2257,55 +2275,55 @@ DATA_paso_de_la_pose:
 
 teclas_izquierda_derecha:
 	ld a,(0c107h)		;6e76   ; lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
-	and 00ch		;6e79
+	and 00ch		;6e79   ; izquierda y derecha...
 	scf			;6e7b
-	ret pe			;6e7c
-	and 008h		;6e7d
+	ret pe			;6e7c   ; ...las dos a la vez, o ninguna: nada
+	and 008h		;6e7d   ; derecha...
 	jr nz,anda_a_la_derecha		;6e7f
-	jr anda_a_la_izquierda		;6e81
+	jr anda_a_la_izquierda		;6e81   ; ...o izquierda
 teclas_arriba_abajo:
 	ld a,(0c107h)		;6e83   ; lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
-	and 003h		;6e86
+	and 003h		;6e86   ; arriba y abajo: igual
 	scf			;6e88
 	ret pe			;6e89
 	and 001h		;6e8a
 	jr nz,anda_arriba		;6e8c
 	jr anda_abajo		;6e8e
 anda_arriba:
-	xor a			;6e90
-	call puede_andar_hacia		;6e91
+	xor a			;6e90   ; arriba (direccion 0)...
+	call puede_andar_hacia		;6e91   ; puede_andar_hacia: 0xC173 = 1
 	ret c			;6e94
-	ld a,001h		;6e95
+	ld a,001h		;6e95   ; ...el estado 1
 	jr L_6EB5		;6e97
 anda_abajo:
-	ld a,001h		;6e99
-	call puede_andar_hacia		;6e9b
+	ld a,001h		;6e99   ; abajo (1): el estado 2
+	call puede_andar_hacia		;6e9b   ; puede_andar_hacia: 0xC173 = 1
 	ret c			;6e9e
 	ld a,002h		;6e9f
 	jr L_6EB5		;6ea1
 anda_a_la_izquierda:
-	ld a,002h		;6ea3
-	call puede_andar_hacia		;6ea5
+	ld a,002h		;6ea3   ; izquierda (2): el estado 3
+	call puede_andar_hacia		;6ea5   ; puede_andar_hacia: 0xC173 = 1
 	ret c			;6ea8
 	ld a,003h		;6ea9
 	jr L_6EB5		;6eab
 anda_a_la_derecha:
-	ld a,003h		;6ead
-	call puede_andar_hacia		;6eaf
+	ld a,003h		;6ead   ; derecha (3): el estado 4
+	call puede_andar_hacia		;6eaf   ; puede_andar_hacia: 0xC173 = 1
 	ret c			;6eb2
 	ld a,004h		;6eb3
 L_6EB5:
-	cp (ix+000h)		;6eb5
+	cp (ix+000h)		;6eb5   ; si el estado es otro, se cambia...
 	jr z,L_6EC9		;6eb8
 	ld (ix+000h),a		;6eba
-	dec a			;6ebd
+	dec a			;6ebd   ; ...y la direccion
 	ld (0c306h),a		;6ebe   ; guarda hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	xor a			;6ec1
 	ld (0c311h),a		;6ec2   ; guarda la cuenta de los pasos de Mitchel
-	ld (0c327h),a		;6ec5
+	ld (0c327h),a		;6ec5   ; 0xC327 = 0
 	ret			;6ec8
 L_6EC9:
-	ld a,(0c300h)		;6ec9   ; lee el estado de Mitchel
+	ld a,(0c300h)		;6ec9   ; en el mismo: sigue hasta la casilla (la y para 1 y 2, la x para 3 y 4)
 	cp 003h		;6ecc
 	ld hl,0c302h		;6ece
 	jr c,$+4		;6ed1
@@ -2316,23 +2334,23 @@ L_6EC9:
 	ld d,(hl)			;6edb
 	ex de,hl			;6edc
 	ld c,a			;6edd
-	ld de,(0c16bh)		;6ede
+	ld de,(0c16bh)		;6ede   ; el paso (0xC16B), negativo hacia arriba y a la izquierda
 	rr c		;6ee2
-	call c,niega_de		;6ee4
-	ld a,(0c326h)		;6ee7
+	call c,niega_de		;6ee4   ; niega_de: DE = -DE
+	ld a,(0c326h)		;6ee7   ; los pasos que faltan (0xC326)
 	and a			;6eea
 	ld b,a			;6eeb
 	ret z			;6eec
 	ret m			;6eed
 L_6EEE:
-	ld a,h			;6eee
+	ld a,h			;6eee   ; hasta alinearse a 8
 	and 007h		;6eef
 	or l			;6ef1
 	jr z,L_6EF7		;6ef2
 	add hl,de			;6ef4
 	djnz L_6EEE		;6ef5
 L_6EF7:
-	ex de,hl			;6ef7
+	ex de,hl			;6ef7   ; la posicion nueva
 	ld hl,(0e800h)		;6ef8
 	ld (hl),e			;6efb
 	inc hl			;6efc
@@ -2342,7 +2360,7 @@ L_6EF7:
 paso_de_mitchel:
 	ld de,00040h		;6f00   ; 0x40; la mitad (0x20) en el agua del juego de dibujos 4 sin los zuecos puestos (0xC142)
 	ld a,(0c160h)		;6f03   ; lee Mitchel metido en el agua
-	and a			;6f06
+	and a			;6f06   ; fuera del agua, 0x40
 	ret z			;6f07
 	ld a,(0c148h)		;6f08   ; lee el juego de dibujos de la pantalla
 	cp 004h		;6f0b   ; el juego de dibujos 4?
@@ -2350,36 +2368,36 @@ paso_de_mitchel:
 	ld a,(0c142h)		;6f0e   ; lee los zuecos puestos
 	and a			;6f11
 	ret nz			;6f12
-	ld de,00020h		;6f13
+	ld de,00020h		;6f13   ; en el agua del juego 4 sin zuecos, la mitad
 	ret			;6f16
 cuantos_pasos:
-	ld b,(ix+007h)		;6f17
+	ld b,(ix+007h)		;6f17   ; B = ix+7 + 1 pasos como mucho
 	inc b			;6f1a
 	call paso_de_mitchel		;6f1b   ; paso_de_mitchel: 0x40; la mitad (0x20) en el agua del juego de dibujos 4 sin los zuecos puestos (0xC142)
-	ld (0c16bh),de		;6f1e
+	ld (0c16bh),de		;6f1e   ; el paso...
 	ld a,(0c300h)		;6f22   ; lee el estado de Mitchel
-	rra			;6f25
-	call c,niega_de		;6f26
+	rra			;6f25   ; ...negativo segun la direccion
+	call c,niega_de		;6f26   ; niega_de: DE = -DE
 L_6F29:
-	add hl,de			;6f29
+	add hl,de			;6f29   ; hasta la casilla siguiente (multiplo de 8)
 	ld a,h			;6f2a
 	and 007h		;6f2b
 	or l			;6f2d
 	jr z,L_6F35		;6f2e
 	djnz L_6F29		;6f30
-	or 0ffh		;6f32
+	or 0ffh		;6f32   ; NZ: aun no ha llegado
 	ret			;6f34
 L_6F35:
-	dec b			;6f35
+	dec b			;6f35   ; llego: los pasos que sobran
 	ld a,b			;6f36
 	ld (0c326h),a		;6f37
 	xor a			;6f3a
 	ret			;6f3b
 alineado:
-	ld a,c			;6f3c
+	ld a,c			;6f3c   ; la coordenada que no cambia (x para arriba y abajo, y para los lados)...
 	cp 002h		;6f3d
 	jr c,L_6F45		;6f3f
-	ld a,d			;6f41
+	ld a,d			;6f41   ; ...alineada a 8 si Z
 	and 007h		;6f42
 	ret			;6f44
 L_6F45:
@@ -2387,16 +2405,16 @@ L_6F45:
 	and 007h		;6f46
 	ret			;6f48
 puede_andar_hacia:
-	ld c,a			;6f49
+	ld c,a			;6f49   ; 0xC173 = 1
 	push bc			;6f4a
 	ld a,001h		;6f4b
 	ld (0c173h),a		;6f4d
 	call 04308h		;6f50   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
-	call alineado		;6f53
-	call z,casilla_hacia		;6f56
+	call alineado		;6f53   ; solo en una casilla justa se mira el mapa...
+	call z,casilla_hacia		;6f56   ; ...la casilla de al lado
 	pop bc			;6f59
-	ret c			;6f5a
-	ld a,(0c800h)		;6f5b
+	ret c			;6f5a   ; no se puede: acarreo
+	ld a,(0c800h)		;6f5b   ; y lo de 0xC800, si lo hay
 	and a			;6f5e
 	ret z			;6f5f
 	call 04308h		;6f60   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
@@ -2404,7 +2422,7 @@ puede_andar_hacia:
 	ld a,(0c800h)		;6f66
 	and a			;6f69
 	ret z			;6f6a
-	ld a,c			;6f6b
+	ld a,c			;6f6b   ; segun la direccion: si esta delante y cerca, no se pasa
 	and a			;6f6c
 	jr z,L_6FAF		;6f6d
 	dec a			;6f6f
@@ -2444,12 +2462,12 @@ L_6F91:
 	ret nc			;6f9c
 	ld a,(0c125h)		;6f9d   ; lee la PANTALLA
 	cp 005h		;6fa0   ; la pantalla 0x05?
-	jr nz,L_6FBD		;6fa2
-	ld a,l			;6fa4
+	jr nz,L_6FBD		;6fa2   ; abajo, en la pantalla de la estatua...
+	ld a,l			;6fa4   ; ...pasada la y 0x98 si se puede
 	cp 098h		;6fa5
 	jr c,L_6FBD		;6fa7
 L_6FA9:
-	xor a			;6fa9
+	xor a			;6fa9   ; no se pasa
 	ld (0c173h),a		;6faa
 	scf			;6fad
 	ret			;6fae
@@ -2465,7 +2483,7 @@ L_6FAF:
 	ret nc			;6fba
 	jr L_6FBD		;6fbb
 L_6FBD:
-	ld de,(0c801h)		;6fbd
+	ld de,(0c801h)		;6fbd   ; la casilla de lo de 0xC800...
 	ld a,e			;6fc1
 	add a,004h		;6fc2
 	and 0f8h		;6fc4
@@ -2474,17 +2492,17 @@ L_6FBD:
 	add a,004h		;6fc8
 	and 0f8h		;6fca
 	ld d,a			;6fcc
-	call casilla_hacia		;6fcd
+	call casilla_hacia		;6fcd   ; ...tampoco se puede pisar
 	ret nc			;6fd0
 	jr L_6FA9		;6fd1
 casilla_hacia:
 	push de			;6fd3
 	ld de,07026h		;6fd4   ; pasos_7026: 4 parejas [dx][dy] segun C (p01:6FD4)
-	ld a,c			;6fd7
+	ld a,c			;6fd7   ; el paso de p01:7026 segun la direccion C
 	call 042ffh		;6fd8   ; p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
 	pop hl			;6fdb
-	ld (0e808h),hl		;6fdc
-	ld a,l			;6fdf
+	ld (0e808h),hl		;6fdc   ; el punto de ahora (0xE808)...
+	ld a,l			;6fdf   ; ...mas el paso
 	add a,e			;6fe0
 	ld l,a			;6fe1
 	ld a,h			;6fe2
@@ -2492,25 +2510,25 @@ casilla_hacia:
 	ld h,a			;6fe4
 	call 0431fh		;6fe5   ; p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
 	call se_puede_pisar		;6fe8   ; se_puede_pisar: el dibujo de la casilla contra el limite del juego de dibujos (p01:73D0)
-	ret c			;6feb
-	ld a,c			;6fec
+	ret c			;6feb   ; la casilla del mapa de la RAM
+	ld a,c			;6fec   ; arriba y abajo: la de debajo...
 	cp 002h		;6fed
 	jr c,L_7005		;6fef
-	ld bc,00020h		;6ff1
+	ld bc,00020h		;6ff1   ; ...y la siguiente fila...
 	add hl,bc			;6ff4
 	call se_puede_pisar		;6ff5   ; se_puede_pisar: el dibujo de la casilla contra el limite del juego de dibujos (p01:73D0)
 	ret c			;6ff8
-	ld a,(0e808h)		;6ff9
+	ld a,(0e808h)		;6ff9   ; ...si no esta alineado en x, una tercera
 	and 007h		;6ffc
 	ret z			;6ffe
 	ld bc,00020h		;6fff
 	add hl,bc			;7002
 	jr se_puede_pisar		;7003
 L_7005:
-	inc hl			;7005
+	inc hl			;7005   ; los lados: la de al lado...
 	call se_puede_pisar		;7006   ; se_puede_pisar: el dibujo de la casilla contra el limite del juego de dibujos (p01:73D0)
 	ret c			;7009
-	ld a,(0e809h)		;700a
+	ld a,(0e809h)		;700a   ; ...y si no esta alineado en y, la siguiente
 	and 007h		;700d
 	ret z			;700f
 	inc hl			;7010
@@ -2518,13 +2536,13 @@ se_puede_pisar:
 	ld a,(0c148h)		;7011   ; el dibujo de la casilla contra el limite del juego de dibujos (p01:73D0)
 	ld de,073d0h		;7014   ; byte_por_juego_de_dibujos: un byte por juego de dibujos (0xC148, 13): lo que p01:7332 pone en 0xE802
 	call 0425ah		;7017   ; p00:de_mas_a
-	ld a,(hl)			;701a
+	ld a,(hl)			;701a   ; el dibujo de la casilla: 0 se pisa...
 	and a			;701b
 	ret z			;701c
-	cp 0f0h		;701d
+	cp 0f0h		;701d   ; ...0xF0 no...
 	scf			;701f
 	ret z			;7020
-	dec a			;7021
+	dec a			;7021   ; ...y los demas, si no pasan del limite del juego de dibujos
 	ex de,hl			;7022
 	cp (hl)			;7023
 	ex de,hl			;7024
@@ -2542,42 +2560,42 @@ DATA_pasos_7026:
 
 
 parpadeo_de_mitchel:
-	ld hl,0c325h		;702e
+	ld hl,0c325h		;702e   ; EL PARPADEO: mientras dure (0xC325)...
 	ld a,(hl)			;7031
 	and a			;7032
 	ret z			;7033
-	ld de,04201h		;7034
+	ld de,04201h		;7034   ; ...los colores de siempre (0x01, 0x42)...
 	dec (hl)			;7037
 	jr z,L_7041		;7038
 	bit 0,(hl)		;703a
 	jr z,L_7041		;703c
-	ld de,04402h		;703e
+	ld de,04402h		;703e   ; ...o, un cuadro de cada dos, otros (0x02, 0x44)
 L_7041:
 	ld (0c309h),de		;7041   ; guarda el color del primer sprite de Mitchel
 	ret			;7045
 mitchel_en_la_entrada:
-	ld hl,04201h		;7046
+	ld hl,04201h		;7046   ; MITCHEL ENTRA: colores de siempre...
 	ld (0c309h),hl		;7049   ; guarda el color del primer sprite de Mitchel
-	xor a			;704c
+	xor a			;704c   ; ...pose 0 y sin fracciones...
 	ld (0c310h),a		;704d   ; guarda la POSE de Mitchel
 	ld (0c302h),a		;7050
 	ld (0c304h),a		;7053
 	ld hl,0c380h		;7056   ; apunta a lo que lanza Mitchel (su ficha)
-	ld b,040h		;7059
+	ld b,040h		;7059   ; ...lo lanzado a cero (0xC380, 64 bytes)...
 L_705B:
 	ld (hl),000h		;705b
 	inc hl			;705d
 	djnz L_705B		;705e
 	ld hl,(0c321h)		;7060   ; lee el punto de entrada (y, x)
-	ld a,l			;7063
+	ld a,l			;7063   ; ...y en el punto de entrada (0xC321)
 	ld (0c303h),a		;7064   ; guarda la Y de Mitchel
 	ld a,h			;7067
 	ld (0c305h),a		;7068   ; guarda la X de Mitchel
-	ld a,(0c323h)		;706b
+	ld a,(0c323h)		;706b   ; el estado segun el lado (0xC323)
 	ld (0c306h),a		;706e   ; guarda hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	ret			;7071
 L_7072:
-	sub 081h		;7072
+	sub 081h		;7072   ; los tipos 0x81 en adelante (figuras que no son enemigos) por p01:7077
 	call 0425fh		;7074   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
@@ -2612,7 +2630,7 @@ DATA_tabla_7077:
 L_7099:
 	ret			;7099
 L_709A:
-	ld a,c			;709a
+	ld a,c			;709a   ; CREA UNA FIGURA: el tipo C en DE
 	ld (0e800h),a		;709b
 	ld (0e801h),de		;709e
 	push ix		;70a2
@@ -2623,7 +2641,7 @@ L_709A:
 	ret			;70ac
 recorre_las_fichas:
 	ld hl,0d000h		;70ad   ; apunta a las fichas de los enemigos (13 de 0x80)
-	ld b,00dh		;70b0
+	ld b,00dh		;70b0   ; una ficha libre entre las 13
 	xor a			;70b2
 	ld de,00080h		;70b3
 L_70B6:
@@ -2631,15 +2649,15 @@ L_70B6:
 	jr z,L_70BE		;70b7
 	add hl,de			;70b9
 	djnz L_70B6		;70ba
-	xor a			;70bc
+	xor a			;70bc   ; no hay
 	ret			;70bd
 L_70BE:
 	push hl			;70be
 	pop ix		;70bf
 	ld (0e804h),hl		;70c1
-	ld c,002h		;70c4
+	ld c,002h		;70c4   ; con dos sprites
 	ld (ix+020h),c		;70c6
-	ld de,00000h		;70c9
+	ld de,00000h		;70c9   ; busca dos huecos en la tabla de sprites (como p00:5A9F)
 	ld a,(0c132h)		;70cc
 	and a			;70cf
 	ld hl,0e618h		;70d0
@@ -2663,24 +2681,24 @@ L_70E9:
 	inc l			;70ec
 	inc l			;70ed
 	djnz L_70DC		;70ee
-	xor a			;70f0
+	xor a			;70f0   ; no hay sprites libres
 	ret			;70f1
 L_70F2:
-	ld hl,(0e804h)		;70f2
+	ld hl,(0e804h)		;70f2   ; la ficha: tipo...
 	ld a,(0e800h)		;70f5
 	ld (hl),a			;70f8
 	xor a			;70f9
-	inc l			;70fa
+	inc l			;70fa   ; ...paso 0...
 	ld (hl),a			;70fb
 	ld de,(0e801h)		;70fc
 	inc l			;7100
 	ld (hl),a			;7101
 	inc l			;7102
-	ld (hl),e			;7103
+	ld (hl),e			;7103   ; ...y...
 	inc l			;7104
 	ld (hl),a			;7105
 	inc l			;7106
-	ld (hl),d			;7107
+	ld (hl),d			;7107   ; ...x
 	inc l			;7108
 	ld (hl),a			;7109
 	ld (ix+00ch),a		;710a
@@ -2688,7 +2706,7 @@ L_70F2:
 	ld (ix+010h),a		;7111
 	ld (ix+011h),a		;7114
 	ld (ix+01eh),000h		;7117
-	di			;711b
+	di			;711b   ; con el banco 6: sus colores de p06:BC07 + 2*(tipo - 0x80)
 	ld a,006h		;711c
 	call 05d9ch		;711e   ; p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
 	ld a,(ix+000h)		;7121
@@ -2702,7 +2720,7 @@ L_70F2:
 	add a,l			;7134
 	ld l,a			;7135
 L_7136:
-	ld a,(de)			;7136
+	ld a,(de)			;7136   ; un color por sprite, de 5 en 5
 	ld (hl),a			;7137
 	inc de			;7138
 	ld a,l			;7139
@@ -2710,7 +2728,7 @@ L_7136:
 	ld l,a			;713c
 	djnz L_7136		;713d
 	call 042bch		;713f   ; p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
-	ld a,(ix+000h)		;7142
+	ld a,(ix+000h)		;7142   ; y lo de su tipo por p01:714A
 	sub 081h		;7145
 	call 0425fh		;7147   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
@@ -2746,12 +2764,12 @@ DATA_tabla_714A:
 L_716C:
 	ret			;716c
 L_716D:
-	ld a,080h		;716d
+	ld a,080h		;716d   ; la velocidad 0x80
 rumbo_hacia_mitchel:
-	ld e,(ix+003h)		;716f
+	ld e,(ix+003h)		;716f   ; RUMBO HACIA MITCHEL a velocidad A: el angulo...
 	ld d,(ix+005h)		;7172
 	ld c,a			;7175
-	ld a,(0c126h)		;7176
+	ld a,(0c126h)		;7176   ; ...la velocidad (con 0xC126 * 8)...
 	add a,a			;7179
 	add a,a			;717a
 	add a,a			;717b
@@ -2759,7 +2777,7 @@ rumbo_hacia_mitchel:
 	ld (0e80fh),a		;717d
 	call mitchel_en_e800		;7180
 L_7183:
-	ld a,(0e815h)		;7183
+	ld a,(0e815h)		;7183   ; ...el seno y el coseno (p01:725E)...
 L_7186:
 	ld e,a			;7186
 	ld d,000h		;7187
@@ -2776,26 +2794,26 @@ L_7186:
 	ld a,(hl)			;7197
 	ld (0e814h),a		;7198
 	ld e,c			;719b
-	call multiplica_e80f		;719c
-	ld a,(0e810h)		;719f
+	call multiplica_e80f		;719c   ; ...por la velocidad: la componente vertical...
+	ld a,(0e810h)		;719f   ; ...con su signo...
 	and a			;71a2
-	call nz,niega_de		;71a3
+	call nz,niega_de		;71a3   ; niega_de: DE = -DE
 	ld (0e812h),de		;71a6
-	ld a,(0e814h)		;71aa
+	ld a,(0e814h)		;71aa   ; ...y la horizontal
 	ld e,a			;71ad
-	call multiplica_e80f		;71ae
+	call multiplica_e80f		;71ae   ; multiplica_e80f: E * la velocidad (0xE80F) / 32
 	ld a,(0e811h)		;71b1
 	and a			;71b4
-	call nz,niega_de		;71b5
-	ld hl,(0e812h)		;71b8
+	call nz,niega_de		;71b5   ; niega_de: DE = -DE
+	ld hl,(0e812h)		;71b8   ; HL = la vertical, DE = la horizontal
 	ret			;71bb
 mitchel_en_e800:
 	ld a,(0c303h)		;71bc   ; lee la Y de Mitchel
-	ld (0e800h),a		;71bf
+	ld (0e800h),a		;71bf   ; el punto de Mitchel en 0xE800/0xE801
 	ld a,(0c305h)		;71c2   ; lee la X de Mitchel
 	ld (0e801h),a		;71c5
 L_71C8:
-	ld hl,0e810h		;71c8
+	ld hl,0e810h		;71c8   ; dy (con su signo en 0xE810)...
 	ld (hl),000h		;71cb
 	ld a,(0e800h)		;71cd
 	sub e			;71d0
@@ -2803,7 +2821,7 @@ L_71C8:
 	neg		;71d3
 	inc (hl)			;71d5
 L_71D6:
-	inc hl			;71d6
+	inc hl			;71d6   ; ...y dx (signo en 0xE811)...
 	ld (hl),000h		;71d7
 	rra			;71d9
 	rra			;71da
@@ -2815,18 +2833,18 @@ L_71D6:
 	neg		;71e4
 	inc (hl)			;71e6
 L_71E7:
-	rlca			;71e7
+	rlca			;71e7   ; ...en octavos: la fila y la columna de la tabla de p01:721E
 	rlca			;71e8
 	rlca			;71e9
 	and 007h		;71ea
 	add a,e			;71ec
 	ld hl,0721eh		;71ed   ; razon_para_apuntar: 8 filas de 8: la razon entre las dos distancias en 32avos (la diagonal es 0x20); p01:71ED
 	call 04255h		;71f0   ; p00:hl_mas_a
-	ld a,(hl)			;71f3
+	ld a,(hl)			;71f3   ; el angulo (0-0x3F)
 	ld (0e815h),a		;71f4
 	ret			;71f7
 niega_de:
-	ld a,d			;71f8
+	ld a,d			;71f8   ; DE = -DE
 	cpl			;71f9
 	ld d,a			;71fa
 	ld a,e			;71fb
@@ -2835,9 +2853,9 @@ niega_de:
 	inc de			;71fe
 	ret			;71ff
 multiplica_e80f:
-	ld a,(0e80fh)		;7200
+	ld a,(0e80fh)		;7200   ; E * la velocidad (0xE80F) / 32
 	ld h,a			;7203
-	call multiplica_8_bits		;7204
+	call multiplica_8_bits		;7204   ; multiplica_8_bits: HL = H * E (8 bits por 8 bits)
 	xor a			;7207
 	add hl,hl			;7208
 	adc a,a			;7209
@@ -2850,7 +2868,7 @@ multiplica_e80f:
 	ex de,hl			;7210
 	ret			;7211
 multiplica_8_bits:
-	ld b,008h		;7212
+	ld b,008h		;7212   ; HL = H * E (8 bits por 8 bits)
 	ld l,000h		;7214
 	ld d,l			;7216
 L_7217:
@@ -2886,23 +2904,23 @@ DATA_cuarto_de_seno:
 
 
 apunta_a_mitchel:
-	ld a,c			;729e
+	ld a,c			;729e   ; APUNTA: la velocidad C...
 	ld (0e808h),a		;729f
-	bit 1,b		;72a2
+	bit 1,b		;72a2   ; ...hacia Mitchel (salvo con el bit 1 de B, DE)...
 	jr nz,L_72AE		;72a4
 	ld a,(0c303h)		;72a6   ; lee la Y de Mitchel
 	ld e,a			;72a9
 	ld a,(0c305h)		;72aa   ; lee la X de Mitchel
 	ld d,a			;72ad
 L_72AE:
-	bit 0,b		;72ae
+	bit 0,b		;72ae   ; ...desde la ficha (salvo con el bit 0, HL)
 	jr nz,L_72B8		;72b0
 	ld l,(ix+003h)		;72b2
 	ld h,(ix+005h)		;72b5
 L_72B8:
-	ld (0e806h),hl		;72b8
+	ld (0e806h),hl		;72b8   ; el punto de la ficha (0xE806)
 	ld l,c			;72bb
-	ld a,(0e806h)		;72bc
+	ld a,(0e806h)		;72bc   ; dy: si Mitchel esta debajo, direccion 0 (arriba) o 2...
 	sub e			;72bf
 	ld c,000h		;72c0
 	jr nc,L_72C8		;72c2
@@ -2910,14 +2928,14 @@ L_72B8:
 	neg		;72c6
 L_72C8:
 	ld h,a			;72c8
-	ld a,(0e807h)		;72c9
+	ld a,(0e807h)		;72c9   ; ...dx: 3 o 1
 	sub d			;72cc
 	ld b,003h		;72cd
 	jr nc,L_72D5		;72cf
 	ld b,001h		;72d1
 	neg		;72d3
 L_72D5:
-	cp h			;72d5
+	cp h			;72d5   ; el eje donde la distancia es mayor va primero
 	ld a,c			;72d6
 	ld c,b			;72d7
 	jr c,L_72DC		;72d8
@@ -2925,36 +2943,36 @@ L_72D5:
 	ld a,b			;72db
 L_72DC:
 	ld e,l			;72dc
-	call choca_con_el_mapa		;72dd
+	call choca_con_el_mapa		;72dd   ; si por ahi se puede, ese
 	ret nc			;72e0
-	ld b,a			;72e1
+	ld b,a			;72e1   ; si no, el otro eje
 	ld a,(0e808h)		;72e2
 	ld e,a			;72e5
 	ld a,c			;72e6
 	ld c,b			;72e7
-	call choca_con_el_mapa		;72e8
+	call choca_con_el_mapa		;72e8   ; choca_con_el_mapa: la direccion (0xE805): los lados necesitan la y alineada...
 	jr nc,L_7301		;72eb
-	add a,002h		;72ed
+	add a,002h		;72ed   ; y si tampoco, el contrario del primero...
 	and 003h		;72ef
 	ex af,af'			;72f1
 	ld a,(0e808h)		;72f2
 	ld e,a			;72f5
 	ex af,af'			;72f6
-	call choca_con_el_mapa		;72f7
+	call choca_con_el_mapa		;72f7   ; choca_con_el_mapa: la direccion (0xE805): los lados necesitan la y alineada...
 	jr nc,L_7301		;72fa
-	ld a,c			;72fc
+	ld a,c			;72fc   ; ...o el contrario del segundo
 	add a,002h		;72fd
 	and 003h		;72ff
 L_7301:
-	scf			;7301
+	scf			;7301   ; acarreo: la direccion en A
 	ret			;7302
 L_7303:
-	ld l,(ix+003h)		;7303
+	ld l,(ix+003h)		;7303   ; desde la ficha
 	ld h,(ix+005h)		;7306
 L_7309:
 	ld (0e806h),hl		;7309
 choca_con_el_mapa:
-	ld (0e805h),a		;730c
+	ld (0e805h),a		;730c   ; la direccion (0xE805): los lados necesitan la y alineada...
 	rra			;730f
 	jr c,L_731C		;7310
 	ld a,(0e806h)		;7312
@@ -2962,24 +2980,24 @@ choca_con_el_mapa:
 	jr z,L_7324		;7317
 	jp L_73CB		;7319
 L_731C:
-	ld a,(0e807h)		;731c
+	ld a,(0e807h)		;731c   ; ...arriba y abajo, la x
 	and 007h		;731f
 	jp nz,L_73CB		;7321
 L_7324:
-	ld a,00ah		;7324
+	ld a,00ah		;7324   ; E = 1: 0x14 puntos y 4 casillas; si no, 0x0A y 2
 	ld b,002h		;7326
 	dec e			;7328
 	jr nz,L_732F		;7329
 	ld a,014h		;732b
 	ld b,004h		;732d
 L_732F:
-	ld (0e800h),a		;732f
+	ld (0e800h),a		;732f   ; el limite del juego de dibujos (p01:73D0)...
 	ld hl,073d0h		;7332   ; byte_por_juego_de_dibujos: un byte por juego de dibujos (0xC148, 13): lo que p01:7332 pone en 0xE802
 	ld a,(0c148h)		;7335   ; lee el juego de dibujos de la pantalla
 	call 04255h		;7338   ; p00:hl_mas_a
 	ld a,(hl)			;733b
 	ld (0e802h),a		;733c
-	ld a,(0e805h)		;733f
+	ld a,(0e805h)		;733f   ; ...y por la direccion, p01:7345
 	call 0425fh		;7342   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
@@ -2998,7 +3016,7 @@ DATA_tabla_7345:
 
 
 L_734D:
-	ld a,(0e800h)		;734d
+	ld a,(0e800h)		;734d   ; arriba: las casillas encima...
 	ld d,a			;7350
 	ld a,(0e806h)		;7351
 	sub d			;7354
@@ -3014,7 +3032,7 @@ L_7363:
 	ld hl,(0e803h)		;7366
 	call 0431fh		;7369   ; p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
 L_736C:
-	ld a,(0e802h)		;736c
+	ld a,(0e802h)		;736c   ; ...si alguna no se pisa (0xF0 o pasado el limite), acarreo
 	cp (hl)			;736f
 	jr nc,L_73C8		;7370
 	ld a,(hl)			;7372
@@ -3024,14 +3042,14 @@ L_736C:
 	djnz L_736C		;7378
 	jr L_73CB		;737a
 L_737C:
-	ld a,(0e800h)		;737c
+	ld a,(0e800h)		;737c   ; abajo
 	ld d,a			;737f
 	ld a,(0e806h)		;7380
 	add a,d			;7383
 	ld (0e803h),a		;7384
 	jr L_7358		;7387
 L_7389:
-	ld a,(0e800h)		;7389
+	ld a,(0e800h)		;7389   ; izquierda: las casillas de la columna...
 	ld d,a			;738c
 	ld a,(0e807h)		;738d
 	sub d			;7390
@@ -3053,22 +3071,22 @@ L_73A8:
 	ld a,(hl)			;73ae
 	cp 0f0h		;73af
 	jr z,L_73C8		;73b1
-	ld de,00020h		;73b3
+	ld de,00020h		;73b3   ; ...de fila en fila (32)
 	add hl,de			;73b6
 	djnz L_73A8		;73b7
 	jr L_73CB		;73b9
 L_73BB:
-	ld a,(0e800h)		;73bb
+	ld a,(0e800h)		;73bb   ; derecha
 	ld d,a			;73be
 	ld a,(0e807h)		;73bf
 	add a,d			;73c2
 	ld (0e804h),a		;73c3
 	jr L_7394		;73c6
 L_73C8:
-	scf			;73c8
+	scf			;73c8   ; acarreo: no se puede
 	jr L_73CC		;73c9
 L_73CB:
-	or a			;73cb
+	or a			;73cb   ; se puede
 L_73CC:
 	ld a,(0e805h)		;73cc
 	ret			;73cf
@@ -3093,12 +3111,12 @@ ficha_contra_el_mapa:
 	ld a,(0c148h)		;73e4   ; lee el juego de dibujos de la pantalla
 	ld hl,073d0h		;73e7   ; byte_por_juego_de_dibujos: un byte por juego de dibujos (0xC148, 13): lo que p01:7332 pone en 0xE802
 	call 04255h		;73ea   ; p00:hl_mas_a
-	ld c,(hl)			;73ed
+	ld c,(hl)			;73ed   ; el limite del juego de dibujos; la casilla de la ficha
 	ld h,(ix+005h)		;73ee
 	ld l,(ix+003h)		;73f1
 	push hl			;73f4
 	ld b,000h		;73f5
-	ld a,l			;73f7
+	ld a,l			;73f7   ; D por encima
 	sub d			;73f8
 	ld l,a			;73f9
 	call 0431fh		;73fa   ; p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
@@ -3432,7 +3450,7 @@ velocidad_de_lo_lanzado:
 	ld a,(0c306h)		;75f2   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	ld c,a			;75f5
 	rra			;75f6
-	call nc,niega_de		;75f7
+	call nc,niega_de		;75f7   ; niega_de: DE = -DE
 	ld a,c			;75fa
 	ld hl,00000h		;75fb
 	cp 002h		;75fe
@@ -3506,12 +3524,12 @@ rebota_lo_lanzado:
 	ld (ix+001h),a		;7673
 	ld e,(ix+007h)		;7676
 	ld d,(ix+008h)		;7679
-	call niega_de		;767c
+	call niega_de		;767c   ; niega_de: DE = -DE
 	ld (ix+007h),e		;767f
 	ld (ix+008h),d		;7682
 	ld e,(ix+009h)		;7685
 	ld d,(ix+00ah)		;7688
-	call niega_de		;768b
+	call niega_de		;768b   ; niega_de: DE = -DE
 	ld (ix+009h),e		;768e
 	ld (ix+00ah),d		;7691
 L_7694:
@@ -4168,7 +4186,7 @@ L_7A5A:
 	adc a,000h		;7a70
 	daa			;7a72
 	ld (hl),a			;7a73
-	jp escribe_days		;7a74
+	jp escribe_days		;7a74   ; escribe_days: DAYS: 2 bytes en (0x28, 0xD8)
 fin_del_suceso_de_shot2:
 	ld a,(0c141h)		;7a77   ; lee SHOT2, el objeto que se lleva
 	sub 00ch		;7a7a
@@ -4228,7 +4246,7 @@ L_7AD0:
 	ld (ix+00bh),00dh		;7ad0
 	ld (ix+006h),001h		;7ad4
 	ld bc,00000h		;7ad8
-	call apunta_a_mitchel		;7adb
+	call apunta_a_mitchel		;7adb   ; apunta_a_mitchel: APUNTA: la velocidad C...
 	ld (ix+015h),a		;7ade
 	ld hl,0bf62h		;7ae1
 	jp 0bf19h		;7ae4
@@ -4273,7 +4291,7 @@ L_7B2C:
 L_7B3C:
 	ld (ix+00bh),00ch		;7b3c
 	ld a,030h		;7b40
-	call rumbo_hacia_mitchel		;7b42
+	call rumbo_hacia_mitchel		;7b42   ; rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
 	jp 08bdch		;7b45   ; p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
 L_7B48:
 	ld l,(ix+003h)		;7b48
@@ -4324,7 +4342,7 @@ L_7BA5:
 	inc (ix+001h)		;7ba5
 	ld a,020h		;7ba8
 L_7BAA:
-	call rumbo_hacia_mitchel		;7baa
+	call rumbo_hacia_mitchel		;7baa   ; rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
 	call 08bdch		;7bad   ; p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
 	ld a,005h		;7bb0
 	jp 05488h		;7bb2   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
@@ -4526,7 +4544,7 @@ L_7CEB:
 	ex de,hl			;7cee
 L_7CEF:
 	ld (0c129h),hl		;7cef   ; guarda LIFE, los dos bytes (BCD)
-	jp escribe_life		;7cf2
+	jp escribe_life		;7cf2   ; escribe_life: LIFE: 2 bytes en (0x30, 0xD8)
 usa_el_0x12:
 	ld a,(0c125h)		;7cf5   ; solo en la pantalla 0x68
 	cp 068h		;7cf8   ; la pantalla 0x68?

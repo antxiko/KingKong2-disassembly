@@ -849,15 +849,10 @@ B 0x590B las que entran nuevas se ponen a cero: lo marcado dura mientras Mitchel
 B 0x590B mueva por las vecinas.
 C 0x58DD de las pantallas 0x62-0x88 no se guarda nada
 C 0x58FB entre 0x57 y 0x5A, todo a cero
-C 0x590B el lado por el que se ha salido (0xC130)
-C 0x590F arriba...
-C 0x5912 ...abajo...
-C 0x5915 ...izquierda; y si no, derecha:
 C 0x5917 cada fila de tres, una tira a la derecha
 C 0x5935 y a cero la columna de la izquierda
 C 0x593A arriba: todo una fila (48 bytes) hacia abajo...
 C 0x5945 ...y a cero la fila de arriba
-C 0x594A izquierda: cada fila, una tira a la izquierda...
 C 0x5968 ...y a cero la columna de la derecha
 C 0x596B tres tiras de 16 a cero, de 0x30 en 0x30
 C 0x597D abajo: todo una fila hacia arriba...
@@ -994,6 +989,11 @@ C 0x5FDE 0xFF acaba
 C 0x5FE1 0xFE [dx]: una fila mas abajo, corrida dx
 C 0x5FEF el dibujo, copiado en la pagina 1
 C 0x5FFA 0xFAF6 = 1...
+C 0x590B el lado por el que se ha salido (0xC130: 0 arriba, 1 derecha, 2 abajo, 3 izquierda)
+C 0x590F arriba...
+C 0x5912 ...derecha...
+C 0x5915 ...abajo; y si no, izquierda:
+C 0x594A derecha: cada fila, una tira a la izquierda...
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x4000 0x4010 cabecera_ab  la cabecera del cartucho: 'AB', INIT (0x4269) y STATEMENT, DEVICE y TEXT a cero; lo leen la BIOS (16 bytes)
@@ -1121,11 +1121,11 @@ C 0x4074 oculta_los_sprites: los 128 bytes de atributos de sprite (0xF600) a 0xE
 C 0x407A hmmv: el color, a un lado
 C 0x4080 rellena_la_vram: BC bytes con A desde la VRAM de HL
 C 0x4086 enciende_la_pantalla: la copia de R#1 (0xF3E0), con la pantalla encendida
-C 0x4092 p01:escribe_numero_bcd
+C 0x4092 p01:escribe_numero_bcd: los ceros de la izquierda no se escriben...
 C 0x409E limpia_la_pantalla: LIMPIA: sin sprites, pantalla apagada...
 C 0x40A4 p01:pinta_los_bordes
-C 0x40B0 p01:borra_el_hueco_de_la_derecha
-C 0x40B6 p01:enemigos_en_el_panel
+C 0x40B0 p01:borra_el_hueco_de_la_derecha: 72x72 puntos en (0xB0, 0x80): los enemigos del panel
+C 0x40B6 p01:enemigos_en_el_panel: los enemigos del panel: hasta tres (0xC220, 3 bytes cada uno)
 C 0x40BC monta_la_pantalla: MONTA LA PANTALLA: el decorado...
 C 0x40C2 sitio_de_la_casilla: L es la columna: 16 puntos cada una, desde 0x10
 C 0x40C8 p01:pinta_icono: el 0x26 (oro) se pinta con el dibujo del 6 (la bolsa)
@@ -1142,21 +1142,21 @@ C 0x4110 borra_la_parte_de_abajo: desde la linea 0x98, 60 lineas...
 C 0x4116 espera_al_vdp: espera a que el V9938 acabe la orden (bit 0 de S#2)
 C 0x411C sube_dibujos: B dibujos de 8x8 a 4 bits de HL a la VRAM de DE
 C 0x413A multiplica_en_bcd: A*E en BCD: los ocho bits de H, de uno en uno
-C 0x4140 p01:cambia_el_enemigo_del_panel
+C 0x4140 p01:cambia_el_enemigo_del_panel: el enemigo C golpeado: en el panel se subraya un rato
 C 0x4146 p01:escribe_level
-C 0x414C p01:escribe_exp
+C 0x414C p01:escribe_exp: EXP: 3 bytes en (0x38, 0xC8)
 C 0x4152 mata_la_ficha: el enemigo muere: guarda su tipo en ix+0x1F y se convierte en la explosion de p15:A3CA
 C 0x4158 p01:rebota_lo_lanzado
-C 0x415E p01:escribe_life
+C 0x415E p01:escribe_life: LIFE: 2 bytes en (0x30, 0xD8)
 C 0x4164 p01:quita_un_objeto_del_suelo
-C 0x416A p01:escribe_gold
+C 0x416A p01:escribe_gold: GOLD: 2 bytes en (0x50, 0xD8)
 C 0x4170 p01:conversacion_de_la_pantalla
 C 0x417C marco: cuatro rayas: un marco de E por D en HL
 C 0x4182 lmmm: orden LMMM del V9938: lo mismo con operacion logica (A: paginas y operacion; 8 = TIMP)
 C 0x4188 paleta_inicial: los 16 colores de p00:46AF
 C 0x418E rle_con_destino: la palabra de DE es la direccion de VRAM; detras, el RLE
 C 0x41A0 p02:persigue_a_mitchel_83A7
-C 0x41A6 p01:mitchel_muere: LIFE a cero, lo lanzado se borra y 0x50 cuadros de espera
+C 0x41A6 p01:mitchel_muere: los colores de Mitchel otra vez los de siempre
 C 0x41AC modo_de_pantalla: 0xFAF6 = 1...
 C 0x41B2 sube_letras: B letras de 1 bit de HL, en color C, a la hoja de la pagina 1 desde (D, E)
 C 0x41C4 pinta_figura_sin_bancos: HL' = la casilla del mapa de la RAM de la esquina
@@ -1439,7 +1439,7 @@ C 0x5364 guarda GOLD, los dos bytes bajos (BCD)
 C 0x536A guarda LIFE, los dos bytes (BCD)
 C 0x5378 apunta a las banderas del decorado ya quitado
 C 0x5388 guarda LEVEL, el nivel de Mitchel (BCD)
-C 0x53A4 p01:borra_el_hueco_de_la_derecha
+C 0x53A4 p01:borra_el_hueco_de_la_derecha: 72x72 puntos en (0xB0, 0x80): los enemigos del panel
 C 0x53AA borra_atributos_7600: los 128 atributos de sprite de 0x7600 a 0xE0 (no se ven)
 C 0x53AE guarda el estado de Mitchel
 C 0x53B4 guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
@@ -1449,7 +1449,7 @@ C 0x53DF apunta a los objetos del suelo (4 fichas de 16 bytes)
 C 0x53E5 rellena_con_ceros: BC+1 ceros desde HL
 C 0x53E8 apunta a las fichas de los enemigos (13 de 0x80)
 C 0x53EE rellena_con_ceros: BC+1 ceros desde HL
-C 0x53F1 p01:mitchel_en_la_entrada
+C 0x53F1 p01:mitchel_en_la_entrada: MITCHEL ENTRA: colores de siempre...
 C 0x53F6 banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
 C 0x5402 bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 C 0x5417 bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
@@ -1491,7 +1491,7 @@ C 0x59C9 bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mappe
 C 0x59D4 lee el plano de la pantalla (0, el exterior)
 C 0x59E0 bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 C 0x59F2 bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
-C 0x59FA lee el lado por el que se entra en una salida especial
+C 0x59FA lee el lado por el que se ha salido (0 arriba, 1 derecha, 2 abajo, 3 izquierda)
 C 0x5A0B indice_del_jefe: C = el tipo; L = su numero de jefe (de dos en dos) y acarreo; sin acarreo, no es jefe
 C 0x5A1C crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
 C 0x5A2D la pantalla 0x03?
