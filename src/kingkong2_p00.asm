@@ -4646,7 +4646,7 @@ L_5D68:
 L_5D72:
 	ld a,00fh		;5d72   ; p15:BE98 con el banco 15
 	call banco_en_a000		;5d74   ; banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
-	call 0be98h		;5d77   ; p15:suceso_BE98
+	call 0be98h		;5d77   ; p15:suceso_BE98: LOS SUCESOS 6 EN ADELANTE (pantallas que se abren de golpe): si ninguna ficha es de tipo 6 o mas, a jugar (0xC201 = 0)...
 	jp bancos_1_2_3		;5d7a   ; bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 L_5D7D:
 	ld a,00fh		;5d7d   ; p15:BD3A: quita el decorado del suceso

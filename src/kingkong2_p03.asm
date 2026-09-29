@@ -3861,7 +3861,7 @@ L_BD1F:
 	ld b,002h		;bd25
 	jp L_BC89		;bd27
 L_BD2A:
-	ld (ix+00bh),065h		;bd2a   ; AL CREAR la ficha del tipo 0x3D
+	ld (ix+00bh),065h		;bd2a   ; AL CREAR la ficha del tipo 0x3D: cuadro 0x65, en marcha; su tabla segun la pantalla (0x7E, 0x7F, 0x82, 0x83 u otra)...
 	ld (ix+00eh),001h		;bd2e
 	ld (ix+006h),001h		;bd32   ; si se mueve = 0x01
 	ld a,(0c125h)		;bd36   ; lee la PANTALLA
@@ -3879,7 +3879,7 @@ L_BD2A:
 	jr z,L_BD4F		;bd4c
 	inc c			;bd4e
 L_BD4F:
-	ld a,c			;bd4f
+	ld a,c			;bd4f   ; ...de p03:BD82, la terna numero 0xDFE0 (una mas cada vez): ix+0x12 el eje y el sentido, ix+0x13 e ix+0x14 los dos extremos...
 	ld de,0bd82h		;bd50   ; fichas_BD82: 5 punteros segun C a fichas de 9 bytes (p03:BD50)
 	call 042ffh		;bd53   ; p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
 	ld hl,0dfe0h		;bd56
@@ -3897,7 +3897,7 @@ L_BD4F:
 	inc de			;bd6a
 	ld a,(de)			;bd6b
 	ld (ix+014h),a		;bd6c
-	ld a,(ix+012h)		;bd6f
+	ld a,(ix+012h)		;bd6f   ; ...y su velocidad de p03:BDB9, en vertical (bit 1 de ix+0x12 a 0) o en horizontal
 	ld de,0bdb9h		;bd72   ; velocidades_BDB9: 4 palabras segun ix+0x12 que p03:BD72 pone en ix+7 o ix+9
 	call 042ffh		;bd75   ; p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
 	bit 1,(ix+012h)		;bd78
@@ -3948,7 +3948,7 @@ DATA_tabla_BDC7:
 
 
 L_BDCB:
-	bit 0,(ix+012h)		;bdcb   ; tipo 0x3D, paso 0
+	bit 0,(ix+012h)		;bdcb   ; PASO 0: va hasta el extremo (ix+0x13 o ix+0x14 segun el bit 0 de ix+0x12) en su eje...
 	jr nz,L_BDD6		;bdcf
 	ld c,(ix+013h)		;bdd1
 	jr L_BDD9		;bdd4
@@ -3964,12 +3964,12 @@ L_BDE4:
 L_BDE7:
 	cp c			;bde7
 	ret nz			;bde8
-	inc (ix+001h)		;bde9   ; sube el paso en que va
+	inc (ix+001h)		;bde9   ; ...y alli, parada 0x10 cuadros (paso 1)
 	ld (ix+015h),010h		;bdec
 	ld (ix+006h),000h		;bdf0   ; si se mueve = 0x00
 	ret			;bdf4
 L_BDF5:
-	dec (ix+015h)		;bdf5   ; tipo 0x3D, paso 1
+	dec (ix+015h)		;bdf5   ; PASO 1: tras la espera, hacia el otro extremo con la velocidad al reves
 	ret nz			;bdf8
 	dec (ix+001h)		;bdf9   ; baja el paso en que va
 	ld (ix+006h),001h		;bdfc   ; si se mueve = 0x01
@@ -3988,7 +3988,7 @@ L_BE18:
 	jp z,04311h		;be1f   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	jp 04318h		;be22   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_BE25:
-	ld (ix+00bh),007h		;be25   ; AL CREAR RUINSBAT (tipo 0x3F)
+	ld (ix+00bh),007h		;be25   ; AL CREAR RUINSBAT: cuadro 7, 0x10 cuadros
 	ld (ix+012h),010h		;be29
 	ret			;be2d
 L_BE2E:
@@ -4009,10 +4009,10 @@ DATA_tabla_BE34:
 
 
 L_BE38:
-	dec (ix+012h)		;be38   ; RUINSBAT, paso 0
+	dec (ix+012h)		;be38   ; PASO 0: aletea 0x10 cuadros; luego vuela (paso 1)...
 	jr nz,ruinsbat_anima		;be3b
 	inc (ix+001h)		;be3d   ; sube el paso en que va
-	ld a,(0c303h)		;be40   ; lee la Y de Mitchel
+	ld a,(0c303h)		;be40   ; ...hacia un punto: una vez la y de Mitchel con una x al azar, otra la x de Mitchel con una y al azar...
 	ld e,a			;be43
 	ld a,(0c305h)		;be44   ; lee la X de Mitchel
 	ld d,a			;be47
@@ -4027,21 +4027,21 @@ L_BE58:
 	ld d,a			;be58
 L_BE59:
 	ld (0e800h),de		;be59
-	ld e,(ix+003h)		;be5d   ; lee la y del enemigo
+	ld e,(ix+003h)		;be5d   ; ...a 0x50
 	ld d,(ix+005h)		;be60   ; lee la x del enemigo
 	ld a,050h		;be63
 	ld (0e80fh),a		;be65
-	call 071c8h		;be68
-	call 07183h		;be6b
+	call 071c8h		;be68   ; p01:angulo_hacia_e800: el angulo (0xE815) desde DE hacia el punto de 0xE800 (y) y 0xE801 (x): dy con su signo en 0xE810...
+	call 07183h		;be6b   ; p01:rumbo_del_angulo_e815: ...el seno y el coseno (p01:725E) del angulo de 0xE815...
 	ld (ix+007h),l		;be6e   ; guarda la velocidad vertical (baja)
 	ld (ix+008h),h		;be71   ; guarda la velocidad vertical
 	ld (ix+009h),e		;be74   ; guarda la velocidad horizontal (baja)
 	ld (ix+00ah),d		;be77   ; guarda la velocidad horizontal
 	ret			;be7a
 L_BE7B:
-	call ruinsbat_anima		;be7b   ; RUINSBAT, paso 1
+	call ruinsbat_anima		;be7b   ; PASO 1: aletea y se mueve...
 	call 06913h		;be7e   ; p01:mueve_la_ficha: un paso: la y (ix+2, ix+3) mas la velocidad vertical...
-	ld e,(ix+003h)		;be81   ; lee la y del enemigo
+	ld e,(ix+003h)		;be81   ; ...hasta salirse de 0x10-0xA0 en y o en x: se queda en el borde, 0x10 cuadros en el paso 0
 	ld d,(ix+005h)		;be84   ; lee la x del enemigo
 	ld l,000h		;be87
 	ld bc,010a0h		;be89
@@ -4072,7 +4072,7 @@ L_BEAD:
 	dec (ix+001h)		;beb4   ; baja el paso en que va
 	ret			;beb7
 ruinsbat_anima:
-	ld a,(ix+00ch)		;beb8   ; lee la cuenta de cuadros
+	ld a,(ix+00ch)		;beb8   ; cada 4 cuadros, el cuadro siguiente de los 6 de p03:BEDA
 	and 003h		;bebb
 	ret nz			;bebd
 	inc (ix+014h)		;bebe

@@ -1552,7 +1552,7 @@ C 0x5D4B sube_los_sprites_girando: 0xC10F avanza 0x68: el orden de los sprites d
 C 0x5D60 sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 C 0x5D68 hay_musica: Z si no suena nada que importe: sin fundido (0xC08B) ni musica (0xC08D)
 C 0x5D74 banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
-C 0x5D77 p15:suceso_BE98
+C 0x5D77 p15:suceso_BE98: LOS SUCESOS 6 EN ADELANTE (pantallas que se abren de golpe): si ninguna ficha es de tipo 6 o mas, a jugar (0xC201 = 0)...
 C 0x5D7A bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 C 0x5D7F banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
 C 0x5D82 p15:quita_el_decorado_del_suceso: El suceso de 0xC560 (lo dejan los objetos y los conjuros al usarse: el

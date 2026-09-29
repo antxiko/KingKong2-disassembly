@@ -19,6 +19,35 @@ L 0xBFCB puerto_del_vdp
 L 0xBFD4 escribe_r44
 L 0xBFDD escribe_r45
 L 0xBFE6 escribe_r46
+C 0xBD41 busca en las tres fichas de 0xC500 la de ese tipo...
+C 0xBD58 ...y si no la hay, el suceso se acaba
+C 0xBD5D QUITADO: la ficha libre y el paso a 0; si ya no queda ninguna de ese tipo...
+C 0xBD76 ...se acaba el suceso, y en la pantalla 0x0B APARECE LA ESPADA DE LUZ (ひかりのけん, 0x04) en DE = 0x5858
+C 0xBD88 PASO 0: el sonido 0x1D, las casillas de debajo vuelven al mapa de la RAM, y 8 pasadas (0xC562)
+C 0xBDA7 PASO 1, uno de cada dos cuadros (bit 0 de 0xC209): SE DESHACE a puntos...
+C 0xBDAC ...recorre sus casillas (filas ix+3, columnas ix+4, las de debajo en ix+5)...
+C 0xBDC4 ...y en cada una pinta 8 puntos del dibujo de debajo, uno de cada fila, saltando de 3 en 3 (0xC564)...
+C 0xBDF3 ...otra pasada, empezando 3 mas alla (0xC563)...
+C 0xBDFC ...y a las 8 pasadas, la bandera de 0xC580 y quitado
+C 0xBE0F las casillas guardadas (ix+5) vuelven a su sitio del mapa de la RAM, filas x columnas
+C 0xBE35 DE = el punto de la pantalla: y = ix+1 + 8*fila (0xC565) + (8 - B); x = ix+2 + 8*columna (0xC566) + 0xC564
+C 0xBE55 A = el color del punto: la casilla (DE) en la VRAM desde 0x8000 (32 por fila, 4 bytes por linea), la linea 8 - B...
+C 0xBE74 ...el byte del punto 0xC564 / 2 y su nibble (alto si es par)
+C 0xBEF2 cada cuadro: el tipo 7 por p15:BF4F...
+C 0xBEFF ...los demas, dos filas de puntos por cuadro, columna a columna...
+C 0xBF38 ...hasta acabar las pasadas
+C 0xBF3D quitado: su bandera, a jugar y la ficha libre
+C 0xBF4F EL TIPO 7: fila a fila de arriba abajo, 8 puntos por pasada
+C 0xBF8C ORDEN PSET del V9938: el punto (D, E) = (x, y) de la pagina que se ve (0xFAF6) con el color A
+C 0xBF9C R#36-R#39: x e y; R#45 = 0...
+C 0xBFA3 ...R#44 el color y R#46 = 0x50 (PSET)
+C 0xBFB0 desde R#36 (0x91 = autoincremento), L, H, E y D
+C 0xBFCB C = el puerto de escritura del VDP + 1 (0x0007 + 1), sin interrupciones
+C 0xBFD4 el registro 44 (0x80 + 44 = 0xAC) = A
+C 0xBFDD el registro 45 = A
+C 0xBFE6 el registro 46 = A (la orden)
+C 0xBE98 LOS SUCESOS 6 EN ADELANTE: si ninguna ficha es de tipo 6 o mas, a jugar (0xC201 = 0)...
+C 0xBEBA ...la primera vez (0xC567): casillas al mapa, 8 pasadas por cada fila (por cada columna en el tipo 6), y el sonido 0x22 (pantalla 0x2D) o 0x23
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA047 0xA062 rotulo_del_panel  numeros de dibujo, 0xFE otra fila, 0xFF acaba: el rotulo del panel que p00:4A6F pinta con p00:492B en (0xA8, 0); lo leen p00:4A6F (27 bytes)
@@ -328,10 +357,10 @@ F 0xBD32 16
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
 C 0xBD3A lee el SUCESO: el tipo de decorado que hay que quitar
 C 0xBD3D apunta a el decorado que se quita (3 fichas de 32 bytes)
-C 0xBD41 compara con el tipo de decorado (el suceso que lo quita)
 C 0xBD4A compara con el tipo de decorado (el suceso que lo quita)
 C 0xBD53 compara con el tipo de decorado (el suceso que lo quita)
 C 0xBD59 guarda el SUCESO: el tipo de decorado que hay que quitar
+C 0xBD5E guarda el tipo de decorado (el suceso que lo quita)
 C 0xBD61 guarda el paso del suceso
 C 0xBD64 lee el SUCESO: el tipo de decorado que hay que quitar
 C 0xBD67 apunta a el decorado que se quita (3 fichas de 32 bytes)
@@ -340,27 +369,59 @@ C 0xBD7A lee la PANTALLA
 C 0xBD7D la pantalla 0x0B?
 C 0xBD80 el objeto 0x04, ひかりのけん
 C 0xBD85 p00:puente_pon_objeto: p01:7852: pone el objeto C (B unidades) en (E, D) de la pantalla
-C 0xBD88 lee el paso del suceso
 C 0xBD90 p00:puente_sonido_si_juega
+C 0xBD93 borra_el_decorado: las casillas guardadas (ix+5) vuelven a su sitio del mapa de la RAM, filas x columnas
 C 0xBD96 apunta a el paso del suceso
+C 0xBDAF lee donde se guarda lo de debajo (alto)
+C 0xBDB9 lee cuantas filas
+C 0xBDBC lee cuantas columnas
+C 0xBDCD copia_el_trozo: A = el color del punto: la casilla (DE) en la VRAM desde 0x8000 (32 por fila, 4 bytes por linea), la linea 8 - B...
+C 0xBDD1 sitio_del_trozo: DE = el punto de la pantalla: y = ix+1 + 8*fila (0xC565) + (8 - B); x = ix+2 + 8*columna (0xC566) + 0xC564
+C 0xBDD5 orden_del_vdp: ORDEN PSET del V9938: el punto (D, E) = (x, y) de la pagina que se ve (0xFAF6) con el color A
 C 0xBE01 apunta a las banderas del decorado ya quitado
+C 0xBE04 lee su bandera en 0xC580
 C 0xBE07 p00:puente_hl_mas_a
+C 0xBE0C decorado_quitado: QUITADO: la ficha libre y el paso a 0; si ya no queda ninguna de ese tipo...
+C 0xBE12 lee la x del decorado
 C 0xBE15 p00:puente_casilla_en_ram
+C 0xBE18 lee donde se guarda lo de debajo (bajo)
+C 0xBE1B lee donde se guarda lo de debajo (alto)
+C 0xBE1E lee cuantas filas
+C 0xBE21 lee cuantas columnas
 C 0xBE2E p00:puente_hl_mas_a
+C 0xBE3A le suma la y del decorado
+C 0xBE4C le suma la x del decorado
 C 0xBE79 p00:puente_hl_mas_a
-C 0xBE98 apunta a el decorado que se quita (3 fichas de 32 bytes)
 C 0xBE9C lee el tipo de decorado (el suceso que lo quita)
 C 0xBEA7 lee el tipo de decorado (el suceso que lo quita)
 C 0xBEAE lee el tipo de decorado (el suceso que lo quita)
 C 0xBEB6 guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
+C 0xBEC0 borra_el_decorado: las casillas guardadas (ix+5) vuelven a su sitio del mapa de la RAM, filas x columnas
+C 0xBED1 lee el tipo de decorado (el suceso que lo quita)
+C 0xBED6 lee cuantas columnas
+C 0xBEDB lee cuantas filas
 C 0xBEE4 lee la PANTALLA
 C 0xBEE7 la pantalla 0x2D?
 C 0xBEEF p00:puente_sonido_si_juega
+C 0xBEF5 lee donde se guarda lo de debajo (alto)
+C 0xBEF8 lee el tipo de decorado (el suceso que lo quita)
 C 0xBF02 p00:puente_de_mas_a
+C 0xBF0C copia_el_trozo: A = el color del punto: la casilla (DE) en la VRAM desde 0x8000 (32 por fila, 4 bytes por linea), la linea 8 - B...
+C 0xBF10 sitio_del_trozo: DE = el punto de la pantalla: y = ix+1 + 8*fila (0xC565) + (8 - B); x = ix+2 + 8*columna (0xC566) + 0xC564
+C 0xBF14 orden_del_vdp: ORDEN PSET del V9938: el punto (D, E) = (x, y) de la pagina que se ve (0xFAF6) con el color A
+C 0xBF1A lee cuantas columnas
 C 0xBF1D p00:puente_de_mas_a
-C 0xBF3D apunta a las banderas del decorado ya quitado
+C 0xBF40 lee su bandera en 0xC580
 C 0xBF43 p00:puente_hl_mas_a
 C 0xBF48 guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
+C 0xBF4B guarda el tipo de decorado (el suceso que lo quita)
 C 0xBF52 p00:puente_de_mas_a
+C 0xBF62 copia_el_trozo: A = el color del punto: la casilla (DE) en la VRAM desde 0x8000 (32 por fila, 4 bytes por linea), la linea 8 - B...
+C 0xBF66 sitio_del_trozo: DE = el punto de la pantalla: y = ix+1 + 8*fila (0xC565) + (8 - B); x = ix+2 + 8*columna (0xC566) + 0xC564
+C 0xBF6A orden_del_vdp: ORDEN PSET del V9938: el punto (D, E) = (x, y) de la pagina que se ve (0xFAF6) con el color A
 C 0xBF90 p00:puente_espera_al_vdp
+C 0xBFA0 escribe_r45: el registro 45 = A
+C 0xBFA4 escribe_r44: el registro 44 (0x80 + 44 = 0xAC) = A
+C 0xBFA9 escribe_r46: el registro 46 = A (la orden)
+C 0xBFB2 puerto_del_vdp: C = el puerto de escritura del VDP + 1 (0x0007 + 1), sin interrupciones
 # --- fin de las anotaciones de anota.py ---

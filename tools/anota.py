@@ -191,7 +191,7 @@ CAMPOS = {
 # el sonido (p04:6321-632F).
 POR_DEFECTO = {2: "ficha", 3: "ficha", 4: "canal"}
 # Tramos que reciben IX de otra clase de quien los llama (y no lo cargan ellos).
-TRAMOS = {2: [(0x8207, 0x8234, "decorado")]}
+TRAMOS = {2: [(0x8207, 0x8234, "decorado")], 15: [(0xBD5D, 0xBF8C, "decorado")]}
 
 
 def clase_de(v):

@@ -1952,7 +1952,7 @@ DATA_nombre_68:
 quita_el_decorado_del_suceso:
 	ld a,(0c560h)		;bd3a   ; lee el SUCESO: el tipo de decorado que hay que quitar
 	ld ix,0c500h		;bd3d   ; apunta a el decorado que se quita (3 fichas de 32 bytes)
-	cp (ix+000h)		;bd41   ; compara con el tipo de decorado (el suceso que lo quita)
+	cp (ix+000h)		;bd41   ; busca en las tres fichas de 0xC500 la de ese tipo...
 	jr z,L_BD88		;bd44
 	ld ix,0c520h		;bd46
 	cp (ix+000h)		;bd4a   ; compara con el tipo de decorado (el suceso que lo quita)
@@ -1960,12 +1960,12 @@ quita_el_decorado_del_suceso:
 	ld ix,0c540h		;bd4f
 	cp (ix+000h)		;bd53   ; compara con el tipo de decorado (el suceso que lo quita)
 	jr z,L_BD88		;bd56
-	xor a			;bd58
+	xor a			;bd58   ; ...y si no la hay, el suceso se acaba
 	ld (0c560h),a		;bd59   ; guarda el SUCESO: el tipo de decorado que hay que quitar
 	ret			;bd5c
 decorado_quitado:
-	xor a			;bd5d
-	ld (ix+000h),a		;bd5e
+	xor a			;bd5d   ; QUITADO: la ficha libre y el paso a 0; si ya no queda ninguna de ese tipo...
+	ld (ix+000h),a		;bd5e   ; guarda el tipo de decorado (el suceso que lo quita)
 	ld (0c561h),a		;bd61   ; guarda el paso del suceso
 	ld a,(0c560h)		;bd64   ; lee el SUCESO: el tipo de decorado que hay que quitar
 	ld hl,0c500h		;bd67   ; apunta a el decorado que se quita (3 fichas de 32 bytes)
@@ -1977,7 +1977,7 @@ decorado_quitado:
 	ld hl,0c540h		;bd71
 	cp (hl)			;bd74
 	ret z			;bd75
-	xor a			;bd76
+	xor a			;bd76   ; ...se acaba el suceso, y en la pantalla 0x0B APARECE LA ESPADA DE LUZ (ひかりのけん, 0x04) en DE = 0x5858
 	ld (0c560h),a		;bd77   ; guarda el SUCESO: el tipo de decorado que hay que quitar
 	ld a,(0c125h)		;bd7a   ; lee la PANTALLA
 	cp 00bh		;bd7d   ; la pantalla 0x0B?
@@ -1986,12 +1986,12 @@ decorado_quitado:
 	ld de,05858h		;bd82
 	jp 0419ah		;bd85   ; p00:puente_pon_objeto: p01:7852: pone el objeto C (B unidades) en (E, D) de la pantalla
 L_BD88:
-	ld a,(0c561h)		;bd88   ; lee el paso del suceso
+	ld a,(0c561h)		;bd88   ; PASO 0: el sonido 0x1D, las casillas de debajo vuelven al mapa de la RAM, y 8 pasadas (0xC562)
 	dec a			;bd8b
 	jr z,L_BDA7		;bd8c
 	ld a,01dh		;bd8e
 	call 040e6h		;bd90   ; p00:puente_sonido_si_juega
-	call borra_el_decorado		;bd93
+	call borra_el_decorado		;bd93   ; borra_el_decorado: las casillas guardadas (ix+5) vuelven a su sitio del mapa de la RAM, filas x columnas
 	ld hl,0c561h		;bd96   ; apunta a el paso del suceso
 	inc (hl)			;bd99
 	xor a			;bd9a
@@ -2001,31 +2001,31 @@ L_BD88:
 	ld (0c562h),a		;bda3
 	ret			;bda6
 L_BDA7:
-	ld a,(0c209h)		;bda7
+	ld a,(0c209h)		;bda7   ; PASO 1, uno de cada dos cuadros (bit 0 de 0xC209): SE DESHACE a puntos...
 	rra			;bdaa
 	ret c			;bdab
-	ld e,(ix+005h)		;bdac
-	ld d,(ix+006h)		;bdaf
+	ld e,(ix+005h)		;bdac   ; ...recorre sus casillas (filas ix+3, columnas ix+4, las de debajo en ix+5)...
+	ld d,(ix+006h)		;bdaf   ; lee donde se guarda lo de debajo (alto)
 	xor a			;bdb2
 	ld (0c565h),a		;bdb3
 	ld (0c566h),a		;bdb6
-	ld b,(ix+003h)		;bdb9
+	ld b,(ix+003h)		;bdb9   ; lee cuantas filas
 L_BDBC:
-	ld c,(ix+004h)		;bdbc
+	ld c,(ix+004h)		;bdbc   ; lee cuantas columnas
 	xor a			;bdbf
 	ld (0c566h),a		;bdc0
 	push bc			;bdc3
 L_BDC4:
-	ld a,(0c563h)		;bdc4
+	ld a,(0c563h)		;bdc4   ; ...y en cada una pinta 8 puntos del dibujo de debajo, uno de cada fila, saltando de 3 en 3 (0xC564)...
 	ld (0c564h),a		;bdc7
 	ld b,008h		;bdca
 L_BDCC:
 	push de			;bdcc
-	call copia_el_trozo		;bdcd
+	call copia_el_trozo		;bdcd   ; copia_el_trozo: A = el color del punto: la casilla (DE) en la VRAM desde 0x8000 (32 por fila, 4 bytes por linea), la linea 8 - B...
 	push af			;bdd0
-	call sitio_del_trozo		;bdd1
+	call sitio_del_trozo		;bdd1   ; sitio_del_trozo: DE = el punto de la pantalla: y = ix+1 + 8*fila (0xC565) + (8 - B); x = ix+2 + 8*columna (0xC566) + 0xC564
 	pop af			;bdd4
-	call orden_del_vdp		;bdd5
+	call orden_del_vdp		;bdd5   ; orden_del_vdp: ORDEN PSET del V9938: el punto (D, E) = (x, y) de la pagina que se ve (0xFAF6) con el color A
 	ld hl,0c564h		;bdd8
 	ld a,(hl)			;bddb
 	add a,003h		;bddc
@@ -2042,28 +2042,28 @@ L_BDCC:
 	inc (hl)			;bdef
 	pop bc			;bdf0
 	djnz L_BDBC		;bdf1
-	ld hl,0c563h		;bdf3
+	ld hl,0c563h		;bdf3   ; ...otra pasada, empezando 3 mas alla (0xC563)...
 	ld a,(hl)			;bdf6
 	add a,003h		;bdf7
 	and 007h		;bdf9
 	ld (hl),a			;bdfb
-	ld hl,0c562h		;bdfc
+	ld hl,0c562h		;bdfc   ; ...y a las 8 pasadas, la bandera de 0xC580 y quitado
 	dec (hl)			;bdff
 	ret nz			;be00
 	ld hl,0c580h		;be01   ; apunta a las banderas del decorado ya quitado
-	ld a,(ix+008h)		;be04
+	ld a,(ix+008h)		;be04   ; lee su bandera en 0xC580
 	call 0408ch		;be07   ; p00:puente_hl_mas_a
 	ld (hl),000h		;be0a
-	jp decorado_quitado		;be0c
+	jp decorado_quitado		;be0c   ; decorado_quitado: QUITADO: la ficha libre y el paso a 0; si ya no queda ninguna de ese tipo...
 borra_el_decorado:
-	ld l,(ix+001h)		;be0f
-	ld h,(ix+002h)		;be12
+	ld l,(ix+001h)		;be0f   ; las casillas guardadas (ix+5) vuelven a su sitio del mapa de la RAM, filas x columnas
+	ld h,(ix+002h)		;be12   ; lee la x del decorado
 	call 041cah		;be15   ; p00:puente_casilla_en_ram
-	ld e,(ix+005h)		;be18
-	ld d,(ix+006h)		;be1b
-	ld c,(ix+003h)		;be1e
+	ld e,(ix+005h)		;be18   ; lee donde se guarda lo de debajo (bajo)
+	ld d,(ix+006h)		;be1b   ; lee donde se guarda lo de debajo (alto)
+	ld c,(ix+003h)		;be1e   ; lee cuantas filas
 L_BE21:
-	ld b,(ix+004h)		;be21
+	ld b,(ix+004h)		;be21   ; lee cuantas columnas
 	push hl			;be24
 L_BE25:
 	ld a,(de)			;be25
@@ -2078,10 +2078,10 @@ L_BE25:
 	jr nz,L_BE21		;be32
 	ret			;be34
 sitio_del_trozo:
-	ld a,b			;be35
+	ld a,b			;be35   ; DE = el punto de la pantalla: y = ix+1 + 8*fila (0xC565) + (8 - B); x = ix+2 + 8*columna (0xC566) + 0xC564
 	sub 008h		;be36
 	neg		;be38
-	add a,(ix+001h)		;be3a
+	add a,(ix+001h)		;be3a   ; le suma la y del decorado
 	ld e,a			;be3d
 	ld a,(0c565h)		;be3e
 	add a,a			;be41
@@ -2093,13 +2093,13 @@ sitio_del_trozo:
 	add a,a			;be49
 	add a,a			;be4a
 	add a,a			;be4b
-	add a,(ix+002h)		;be4c
+	add a,(ix+002h)		;be4c   ; le suma la x del decorado
 	ld hl,0c564h		;be4f
 	add a,(hl)			;be52
 	ld d,a			;be53
 	ret			;be54
 copia_el_trozo:
-	ld a,(de)			;be55
+	ld a,(de)			;be55   ; A = el color del punto: la casilla (DE) en la VRAM desde 0x8000 (32 por fila, 4 bytes por linea), la linea 8 - B...
 	ld e,a			;be56
 	and 01fh		;be57
 	add a,a			;be59
@@ -2121,7 +2121,7 @@ copia_el_trozo:
 	rr e		;be6f
 	add hl,de			;be71
 	set 7,h		;be72
-	ld a,(0c564h)		;be74
+	ld a,(0c564h)		;be74   ; ...el byte del punto 0xC564 / 2 y su nibble (alto si es par)
 	srl a		;be77
 	call 0408ch		;be79   ; p00:puente_hl_mas_a
 	call 00174h		;be7c   ; BIOS NRDVRM - Reads VRAM like in RDVRM (with 16-bit VRAM-address)
@@ -2151,7 +2151,7 @@ DATA_codigo_BE8E:
 
 
 suceso_BE98:
-	ld ix,0c500h		;be98   ; apunta a el decorado que se quita (3 fichas de 32 bytes)
+	ld ix,0c500h		;be98   ; LOS SUCESOS 6 EN ADELANTE: si ninguna ficha es de tipo 6 o mas, a jugar (0xC201 = 0)...
 	ld a,(ix+000h)		;be9c   ; lee el tipo de decorado (el suceso que lo quita)
 	cp 006h		;be9f
 	jr nc,L_BEBA		;bea1
@@ -2166,20 +2166,20 @@ suceso_BE98:
 	ld (0c201h),a		;beb6   ; guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
 	ret			;beb9
 L_BEBA:
-	ld a,(0c567h)		;beba
+	ld a,(0c567h)		;beba   ; ...la primera vez (0xC567): casillas al mapa, 8 pasadas por cada fila (por cada columna en el tipo 6), y el sonido 0x22 (pantalla 0x2D) o 0x23
 	and a			;bebd
 	jr nz,L_BEF2		;bebe
-	call borra_el_decorado		;bec0
+	call borra_el_decorado		;bec0   ; borra_el_decorado: las casillas guardadas (ix+5) vuelven a su sitio del mapa de la RAM, filas x columnas
 	ld hl,00000h		;bec3
 	ld (0c563h),hl		;bec6
 	ld (0c565h),hl		;bec9
 	ld a,001h		;becc
 	ld (0c567h),a		;bece
-	ld a,(ix+000h)		;bed1
+	ld a,(ix+000h)		;bed1   ; lee el tipo de decorado (el suceso que lo quita)
 	cp 006h		;bed4
-	ld a,(ix+004h)		;bed6
+	ld a,(ix+004h)		;bed6   ; lee cuantas columnas
 	jr z,L_BEDE		;bed9
-	ld a,(ix+003h)		;bedb
+	ld a,(ix+003h)		;bedb   ; lee cuantas filas
 L_BEDE:
 	add a,a			;bede
 	add a,a			;bedf
@@ -2193,12 +2193,12 @@ L_BEDE:
 L_BEEF:
 	jp 040e6h		;beef   ; p00:puente_sonido_si_juega
 L_BEF2:
-	ld e,(ix+005h)		;bef2
-	ld d,(ix+006h)		;bef5
-	ld a,(ix+000h)		;bef8
+	ld e,(ix+005h)		;bef2   ; cada cuadro: el tipo 7 por p15:BF4F...
+	ld d,(ix+006h)		;bef5   ; lee donde se guarda lo de debajo (alto)
+	ld a,(ix+000h)		;bef8   ; lee el tipo de decorado (el suceso que lo quita)
 	cp 007h		;befb
 	jr z,L_BF4F		;befd
-	ld a,(0c566h)		;beff
+	ld a,(0c566h)		;beff   ; ...los demas, dos filas de puntos por cuadro, columna a columna...
 	call 04098h		;bf02   ; p00:puente_de_mas_a
 	xor a			;bf05
 	ld (0c565h),a		;bf06
@@ -2206,14 +2206,14 @@ L_BF09:
 	ld b,008h		;bf09
 L_BF0B:
 	push de			;bf0b
-	call copia_el_trozo		;bf0c
+	call copia_el_trozo		;bf0c   ; copia_el_trozo: A = el color del punto: la casilla (DE) en la VRAM desde 0x8000 (32 por fila, 4 bytes por linea), la linea 8 - B...
 	push af			;bf0f
-	call sitio_del_trozo		;bf10
+	call sitio_del_trozo		;bf10   ; sitio_del_trozo: DE = el punto de la pantalla: y = ix+1 + 8*fila (0xC565) + (8 - B); x = ix+2 + 8*columna (0xC566) + 0xC564
 	pop af			;bf13
-	call orden_del_vdp		;bf14
+	call orden_del_vdp		;bf14   ; orden_del_vdp: ORDEN PSET del V9938: el punto (D, E) = (x, y) de la pagina que se ve (0xFAF6) con el color A
 	pop de			;bf17
 	djnz L_BF0B		;bf18
-	ld a,(ix+004h)		;bf1a
+	ld a,(ix+004h)		;bf1a   ; lee cuantas columnas
 	call 04098h		;bf1d   ; p00:puente_de_mas_a
 	ld hl,0c565h		;bf20
 	inc (hl)			;bf23
@@ -2230,20 +2230,20 @@ L_BF0B:
 	ld hl,0c566h		;bf34
 	inc (hl)			;bf37
 L_BF38:
-	ld hl,0c562h		;bf38
+	ld hl,0c562h		;bf38   ; ...hasta acabar las pasadas
 	dec (hl)			;bf3b
 	ret nz			;bf3c
 L_BF3D:
-	ld hl,0c580h		;bf3d   ; apunta a las banderas del decorado ya quitado
-	ld a,(ix+008h)		;bf40
+	ld hl,0c580h		;bf3d   ; quitado: su bandera, a jugar y la ficha libre
+	ld a,(ix+008h)		;bf40   ; lee su bandera en 0xC580
 	call 0408ch		;bf43   ; p00:puente_hl_mas_a
 	xor a			;bf46
 	ld (hl),a			;bf47
 	ld (0c201h),a		;bf48   ; guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
-	ld (ix+000h),a		;bf4b
+	ld (ix+000h),a		;bf4b   ; guarda el tipo de decorado (el suceso que lo quita)
 	ret			;bf4e
 L_BF4F:
-	ld a,(0c565h)		;bf4f
+	ld a,(0c565h)		;bf4f   ; EL TIPO 7: fila a fila de arriba abajo, 8 puntos por pasada
 	call 04098h		;bf52   ; p00:puente_de_mas_a
 	xor a			;bf55
 	ld (0c564h),a		;bf56
@@ -2253,11 +2253,11 @@ L_BF59:
 	sub 008h		;bf5d
 	neg		;bf5f
 	ld b,a			;bf61
-	call copia_el_trozo		;bf62
+	call copia_el_trozo		;bf62   ; copia_el_trozo: A = el color del punto: la casilla (DE) en la VRAM desde 0x8000 (32 por fila, 4 bytes por linea), la linea 8 - B...
 	push af			;bf65
-	call sitio_del_trozo		;bf66
+	call sitio_del_trozo		;bf66   ; sitio_del_trozo: DE = el punto de la pantalla: y = ix+1 + 8*fila (0xC565) + (8 - B); x = ix+2 + 8*columna (0xC566) + 0xC564
 	pop af			;bf69
-	call orden_del_vdp		;bf6a
+	call orden_del_vdp		;bf6a   ; orden_del_vdp: ORDEN PSET del V9938: el punto (D, E) = (x, y) de la pagina que se ve (0xFAF6) con el color A
 	pop de			;bf6d
 	ld hl,0c564h		;bf6e
 	inc (hl)			;bf71
@@ -2278,7 +2278,7 @@ L_BF85:
 	ret nz			;bf89
 	jr L_BF3D		;bf8a
 orden_del_vdp:
-	push bc			;bf8c
+	push bc			;bf8c   ; ORDEN PSET del V9938: el punto (D, E) = (x, y) de la pagina que se ve (0xFAF6) con el color A
 	push hl			;bf8d
 	push de			;bf8e
 	push af			;bf8f
@@ -2288,20 +2288,20 @@ orden_del_vdp:
 	ld a,(0faf6h)		;bf96
 	and 003h		;bf99
 	ld d,a			;bf9b
-	call registros_de_la_orden		;bf9c
+	call registros_de_la_orden		;bf9c   ; R#36-R#39: x e y; R#45 = 0...
 	xor a			;bf9f
-	call escribe_r45		;bfa0
-	pop af			;bfa3
-	call escribe_r44		;bfa4
+	call escribe_r45		;bfa0   ; escribe_r45: el registro 45 = A
+	pop af			;bfa3   ; ...R#44 el color y R#46 = 0x50 (PSET)
+	call escribe_r44		;bfa4   ; escribe_r44: el registro 44 (0x80 + 44 = 0xAC) = A
 	ld a,050h		;bfa7
-	call escribe_r46		;bfa9
+	call escribe_r46		;bfa9   ; escribe_r46: el registro 46 = A (la orden)
 	pop de			;bfac
 	pop hl			;bfad
 	pop bc			;bfae
 	ret			;bfaf
 registros_de_la_orden:
-	ld b,024h		;bfb0
-	call puerto_del_vdp		;bfb2
+	ld b,024h		;bfb0   ; desde R#36 (0x91 = autoincremento), L, H, E y D
+	call puerto_del_vdp		;bfb2   ; puerto_del_vdp: C = el puerto de escritura del VDP + 1 (0x0007 + 1), sin interrupciones
 	out (c),b		;bfb5
 	ld a,091h		;bfb7
 	out (c),a		;bfb9
@@ -2318,7 +2318,7 @@ registros_de_la_orden:
 	ei			;bfc9
 	ret			;bfca
 puerto_del_vdp:
-	push af			;bfcb
+	push af			;bfcb   ; C = el puerto de escritura del VDP + 1 (0x0007 + 1), sin interrupciones
 	ld a,(00007h)		;bfcc
 	inc a			;bfcf
 	ld c,a			;bfd0
@@ -2326,17 +2326,17 @@ puerto_del_vdp:
 	di			;bfd2
 	ret			;bfd3
 escribe_r44:
-	call puerto_del_vdp		;bfd4
+	call puerto_del_vdp		;bfd4   ; el registro 44 (0x80 + 44 = 0xAC) = A
 	out (c),a		;bfd7
 	ld a,0ach		;bfd9
 	jr L_BFEF		;bfdb
 escribe_r45:
-	call puerto_del_vdp		;bfdd
+	call puerto_del_vdp		;bfdd   ; el registro 45 = A
 	out (c),a		;bfe0
 	ld a,0adh		;bfe2
 	jr L_BFEF		;bfe4
 escribe_r46:
-	call puerto_del_vdp		;bfe6
+	call puerto_del_vdp		;bfe6   ; el registro 46 = A (la orden)
 	out (c),a		;bfe9
 	ld a,0aeh		;bfeb
 	jr L_BFEF		;bfed

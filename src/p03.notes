@@ -356,6 +356,19 @@ C 0xBCE2 LO QUE SUELTA WHITEFIRE: en la pantalla 0x6A, cada 6 muertes (0xDFDB), 
 C 0xBCF9 LO QUE SUELTA BIGFLOWER: el objeto 0x29: nada
 C 0xBD00 LO QUE SUELTA GRASSOGRE: cada 16 muertes (0xDFC6), el ROD (0x02) si no se lleva; si no, la mitad de las veces 1 de MP
 C 0xBD1F LO QUE SUELTA BUCKLER: la mitad de las veces, 2 de MP
+C 0xBD2A AL CREAR la ficha del tipo 0x3D: cuadro 0x65, en marcha; su tabla segun la pantalla (0x7E, 0x7F, 0x82, 0x83 u otra)...
+C 0xBD4F ...de p03:BD82, la terna numero 0xDFE0 (una mas cada vez): ix+0x12 el eje y el sentido, ix+0x13 e ix+0x14 los dos extremos...
+C 0xBD6F ...y su velocidad de p03:BDB9, en vertical (bit 1 de ix+0x12 a 0) o en horizontal
+C 0xBDCB PASO 0: va hasta el extremo (ix+0x13 o ix+0x14 segun el bit 0 de ix+0x12) en su eje...
+C 0xBDE9 ...y alli, parada 0x10 cuadros (paso 1)
+C 0xBDF5 PASO 1: tras la espera, hacia el otro extremo con la velocidad al reves
+C 0xBE25 AL CREAR RUINSBAT: cuadro 7, 0x10 cuadros
+C 0xBE38 PASO 0: aletea 0x10 cuadros; luego vuela (paso 1)...
+C 0xBE40 ...hacia un punto: una vez la y de Mitchel con una x al azar, otra la x de Mitchel con una y al azar...
+C 0xBE5D ...a 0x50
+C 0xBE7B PASO 1: aletea y se mueve...
+C 0xBE81 ...hasta salirse de 0x10-0xA0 en y o en x: se queda en el borde, 0x10 cuadros en el paso 0
+C 0xBEB8 cada 4 cuadros, el cuadro siguiente de los 6 de p03:BEDA
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA3EE 0xA3FA tabla_A3EE  6 destinos del despachador de 0x425F (call en p03:A3EB): 0xA3FA, 0xA442, 0xA48F, 0xA4F4, 0xA505, 0xA511; lo leen p03:A3EB (12 bytes)
@@ -1017,7 +1030,6 @@ C 0xBD08 lee cuantos objetos 0x02 se llevan (BCD; 0xFF sin cuenta)
 C 0xBD0D el objeto 0x02, ROD
 C 0xBD11 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 C 0xBD14 lee el contador de cuadros
-C 0xBD2A AL CREAR la ficha del tipo 0x3D
 C 0xBD32 si se mueve = 0x01
 C 0xBD36 lee la PANTALLA
 C 0xBD39 la pantalla 0x7E?
@@ -1033,12 +1045,9 @@ C 0xBD7C p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7
 C 0xBD7F p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 C 0xBDC1 ENTRADA de la ficha del tipo 0x3D, con ella en IX
 C 0xBDC4 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
-C 0xBDCB tipo 0x3D, paso 0
 C 0xBDDF lee la y del enemigo
 C 0xBDE4 lee la x del enemigo
-C 0xBDE9 sube el paso en que va
 C 0xBDF0 si se mueve = 0x00
-C 0xBDF5 tipo 0x3D, paso 1
 C 0xBDF9 baja el paso en que va
 C 0xBDFC si se mueve = 0x01
 C 0xBE0A lee la velocidad vertical (baja)
@@ -1048,27 +1057,22 @@ C 0xBE15 lee la velocidad horizontal
 C 0xBE18 p01:niega_de: DE = -DE
 C 0xBE1F p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 C 0xBE22 p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
-C 0xBE25 AL CREAR RUINSBAT (tipo 0x3F)
 C 0xBE2E ENTRADA de RUINSBAT (tipo 0x3F), con su ficha en IX
 C 0xBE31 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
-C 0xBE38 RUINSBAT, paso 0
 C 0xBE3D sube el paso en que va
-C 0xBE40 lee la Y de Mitchel
 C 0xBE44 lee la X de Mitchel
-C 0xBE5D lee la y del enemigo
 C 0xBE60 lee la x del enemigo
+C 0xBE68 p01:angulo_hacia_e800: el angulo (0xE815) desde DE hacia el punto de 0xE800 (y) y 0xE801 (x): dy con su signo en 0xE810...
+C 0xBE6B p01:rumbo_del_angulo_e815: ...el seno y el coseno (p01:725E) del angulo de 0xE815...
 C 0xBE6E guarda la velocidad vertical (baja)
 C 0xBE71 guarda la velocidad vertical
 C 0xBE74 guarda la velocidad horizontal (baja)
 C 0xBE77 guarda la velocidad horizontal
-C 0xBE7B RUINSBAT, paso 1
 C 0xBE7E p01:mueve_la_ficha: un paso: la y (ix+2, ix+3) mas la velocidad vertical...
-C 0xBE81 lee la y del enemigo
 C 0xBE84 lee la x del enemigo
 C 0xBE96 guarda la y del enemigo
 C 0xBEA8 guarda la x del enemigo
 C 0xBEB4 baja el paso en que va
-C 0xBEB8 lee la cuenta de cuadros
 C 0xBECF cuadros_BEDA: 6 bytes: el cuadro (ix+0x0B) segun ix+0x14 (p03:BECF)
 C 0xBED2 p00:hl_mas_a
 C 0xBED6 guarda el cuadro del enemigo

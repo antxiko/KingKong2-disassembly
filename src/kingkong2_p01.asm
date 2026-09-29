@@ -2776,8 +2776,8 @@ rumbo_hacia_mitchel:
 	add a,c			;717c
 	ld (0e80fh),a		;717d
 	call mitchel_en_e800		;7180
-L_7183:
-	ld a,(0e815h)		;7183   ; ...el seno y el coseno (p01:725E)...
+rumbo_del_angulo_e815:
+	ld a,(0e815h)		;7183   ; ...el seno y el coseno (p01:725E) del angulo de 0xE815...
 rumbo_con_angulo:
 	ld e,a			;7186   ; el rumbo del angulo A (0x40 un cuarto de vuelta): DE y HL las velocidades, del seno y el coseno de p01:725E
 	ld d,000h		;7187
@@ -2812,8 +2812,8 @@ mitchel_en_e800:
 	ld (0e800h),a		;71bf   ; el punto de Mitchel en 0xE800/0xE801
 	ld a,(0c305h)		;71c2   ; lee la X de Mitchel
 	ld (0e801h),a		;71c5
-L_71C8:
-	ld hl,0e810h		;71c8   ; dy (con su signo en 0xE810)...
+angulo_hacia_e800:
+	ld hl,0e810h		;71c8   ; el angulo (0xE815) desde DE hacia el punto de 0xE800 (y) y 0xE801 (x): dy con su signo en 0xE810...
 	ld (hl),000h		;71cb
 	ld a,(0e800h)		;71cd
 	sub e			;71d0
