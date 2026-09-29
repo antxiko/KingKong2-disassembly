@@ -131,16 +131,71 @@ L_A649:
 	jp (hl)			;a657
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xa658..0xa6cf  (119 bytes)
+; DATOS sin identificar  0xa658..0xa664  (12 bytes)
 DATA_A658:
-	defb 064h,0a6h,074h,0a6h,083h,0a6h,099h,0a6h,0a0h,0a6h,0ach,0a6h,001h,004h,004h,011h	; a658  d.t.............
-	defb 088h,048h,0cdh,00ah,041h,03eh,002h,032h,007h,0c3h,018h,00ah,021h,03ah,0c1h,035h	; a668  .H..A>.2....!:.5
-	defb 0c0h,03eh,010h,032h,03ah,0c1h,021h,039h,0c1h,034h,0c9h,021h,03ah,0c1h,035h,03eh	; a678  .>.2:.!9.4.!:.5>
-	defb 008h,028h,0f0h,07eh,021h,0bfh,0a6h,0cdh,08ch,040h,07eh,021h,003h,0c3h,086h,077h	; a688  .(.~!....@~!...w
-	defb 0c9h,021h,03ah,0c1h,035h,0c0h,018h,0deh,03ah,003h,0c3h,0feh,059h,038h,0d7h,03eh	; a698  .!:.5...:...Y8.>
-	defb 001h,0c3h,004h,041h,03eh,0f0h,032h,02ah,0e2h,032h,02bh,0e2h,03eh,004h,032h,007h	; a6a8  ...A>.2*.2+.>.2.
-	defb 0c3h,03eh,0ffh,032h,039h,0c1h,0c9h,003h,003h,002h,001h,001h,000h,000h,0ffh,0ffh	; a6b8  .>.29...........
-	defb 0ffh,0feh,0fch,0fah,0fch,0feh,0ffh	; a6c8
+	defb 064h,0a6h,074h,0a6h,083h,0a6h,099h,0a6h,0a0h,0a6h,0ach,0a6h	; a658  d.t.........
+
+; ======================================================================
+; CODIGO 0xa664..0xa6bf  (91 bytes)
+; ======================================================================
+
+
+L_A664:
+	ld bc,00404h		;a664
+	ld de,04888h		;a667
+	call 0410ah		;a66a
+	ld a,002h		;a66d
+	ld (0c307h),a		;a66f
+	jr L_A67E		;a672
+L_A674:
+	ld hl,0c13ah		;a674
+	dec (hl)			;a677
+	ret nz			;a678
+	ld a,010h		;a679
+L_A67B:
+	ld (0c13ah),a		;a67b
+L_A67E:
+	ld hl,0c139h		;a67e
+	inc (hl)			;a681
+	ret			;a682
+L_A683:
+	ld hl,0c13ah		;a683
+	dec (hl)			;a686
+	ld a,008h		;a687
+	jr z,L_A67B		;a689
+	ld a,(hl)			;a68b
+	ld hl,0a6bfh		;a68c
+	call 0408ch		;a68f
+	ld a,(hl)			;a692
+	ld hl,0c303h		;a693
+	add a,(hl)			;a696
+	ld (hl),a			;a697
+	ret			;a698
+L_A699:
+	ld hl,0c13ah		;a699
+	dec (hl)			;a69c
+	ret nz			;a69d
+	jr L_A67E		;a69e
+L_A6A0:
+	ld a,(0c303h)		;a6a0
+	cp 059h		;a6a3
+	jr c,L_A67E		;a6a5
+	ld a,001h		;a6a7
+	jp 04104h		;a6a9
+L_A6AC:
+	ld a,0f0h		;a6ac
+	ld (0e22ah),a		;a6ae
+	ld (0e22bh),a		;a6b1
+	ld a,004h		;a6b4
+	ld (0c307h),a		;a6b6
+	ld a,0ffh		;a6b9
+	ld (0c139h),a		;a6bb
+	ret			;a6be
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0xa6bf..0xa6cf  (16 bytes)
+DATA_A6BF:
+	defb 003h,003h,002h,001h,001h,000h,000h,0ffh,0ffh,0ffh,0feh,0fch,0fah,0fch,0feh,0ffh	; a6bf  ................
 
 ; ======================================================================
 ; CODIGO 0xa6cf..0xa794  (197 bytes)
@@ -369,6 +424,7 @@ DATA_A879:
 L_A8AA:
 	ld a,(0c137h)		;a8aa
 	ld hl,0a8b9h		;a8ad
+L_A8B0:
 	add a,a			;a8b0
 	call 0408ch		;a8b1
 	ld e,(hl)			;a8b4
@@ -378,42 +434,84 @@ L_A8AA:
 	jp (hl)			;a8b8
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0xa8b9..0xaacc  (531 bytes)
+; DATOS sin identificar  0xa8b9..0xa8bf  (6 bytes)
 DATA_A8B9:
-	defb 0bfh,0a8h,05ch,0a9h,06fh,0aah,03ah,038h,0c1h,021h,0c7h,0a8h,018h,0e9h,0dfh,0a8h	; a8b9  ..\.o.:8.!......
-	defb 0ebh,0a8h,0eeh,0a8h,0f1h,0a8h,004h,0a9h,007h,0a9h,00ah,0a9h,021h,0a9h,030h,0a9h	; a8c9  ............!.0.
-	defb 033h,0a9h,04eh,0a9h,051h,0a9h,021h,044h,0adh,011h,098h,028h,0cdh,0cch,0aah,0c3h	; a8d9  3.N.Q.!D...(....
-	defb 057h,0a9h,0c3h,026h,0abh,0c3h,033h,0abh,0cdh,005h,0a8h,0d0h,0cdh,046h,0abh,021h	; a8e9  W..&..3......F.!
-	defb 08ah,0adh,011h,098h,040h,0cdh,0cch,0aah,0c3h,057h,0a9h,0c3h,026h,0abh,0c3h,073h	; a8f9  ....@....W..&..s
-	defb 0abh,0cdh,0c5h,0a7h,0d0h,0cdh,086h,0abh,03eh,010h,032h,038h,0cfh,021h,0b6h,0adh	; a909  ........>.28.!..
-	defb 011h,098h,048h,0cdh,0cch,0aah,018h,036h,03ah,036h,0cfh,0a7h,0cch,0ddh,0aah,0cdh	; a919  ..H....6:6......
-	defb 068h,0ach,0d0h,03eh,080h,018h,024h,0c3h,073h,0abh,0cdh,0c5h,0a7h,0d0h,0cdh,09eh	; a929  h..>..$.s.......
-	defb 040h,0cdh,016h,041h,021h,079h,0a8h,0cdh,0f2h,040h,021h,0e1h,0adh,011h,098h,030h	; a939  @..A!y...@!....0
-	defb 0cdh,0cch,0aah,018h,009h,0c3h,026h,0abh,0c3h,007h,0ach,032h,004h,0c1h,021h,038h	; a949  ......&....2..!8
-	defb 0c1h,034h,0c9h,03ah,038h,0c1h,021h,065h,0a9h,0c3h,0b0h,0a8h,07fh,0a9h,08ah,0a9h	; a959  .4.:8.!e........
-	defb 08dh,0a9h,090h,0a9h,09bh,0a9h,0dfh,0a9h,0e2h,0a9h,0e5h,0a9h,032h,0aah,035h,0aah	; a969  ............2.5.
-	defb 038h,0aah,059h,0aah,06ch,0aah,021h,024h,0aeh,011h,098h,028h,0cdh,0cch,0aah,018h	; a979  8.Y.l.!$...(....
-	defb 0cdh,0c3h,026h,0abh,0c3h,033h,0abh,0cdh,005h,0a8h,0d0h,0cdh,046h,0abh,0afh,0c3h	; a989  ..&..3......F...
-	defb 054h,0a9h,021h,004h,0c1h,035h,07eh,0feh,040h,028h,02fh,0feh,0c0h,0d0h,0feh,080h	; a999  T.!..5~.@(/.....
-	defb 0d8h,0e6h,038h,01fh,01fh,01fh,04fh,0c5h,026h,008h,069h,011h,043h,06ch,083h,05fh	; a9a9  ..8...O.&.i.Cl._
-	defb 001h,001h,008h,03eh,048h,0cdh,082h,041h,0c1h,079h,026h,010h,069h,011h,043h,088h	; a9b9  ...>H..A.y&.i.C.
-	defb 083h,05fh,001h,001h,008h,03eh,048h,0c3h,082h,041h,021h,06fh,0aeh,011h,098h,020h	; a9c9  ._...>H..A!o...
-	defb 0cdh,0cch,0aah,0c3h,057h,0a9h,0c3h,026h,0abh,0c3h,073h,0abh,0cdh,0c5h,0a7h,0d0h	; a9d9  ....W..&..s.....
-	defb 0cdh,09eh,040h,0cdh,016h,041h,021h,079h,0a8h,0cdh,0f2h,040h,021h,03eh,05bh,011h	; a9e9  ..@..A!y...@!>[.
-	defb 02ah,04ah,00eh,00ch,0cdh,07ch,041h,021h,03dh,05ah,011h,02ch,04ch,00eh,003h,0cdh	; a9f9  *J...|A!=Z.,L...
-	defb 07ch,041h,021h,03ch,059h,011h,02eh,04eh,00eh,00dh,0cdh,07ch,041h,021h,03fh,05ch	; aa09  |A!<Y..N...|A!?\
-	defb 001h,028h,048h,03eh,088h,016h,000h,0cdh,07ah,040h,0cdh,028h,041h,021h,0a4h,0aeh	; aa19  .(H>....z@.(A!..
-	defb 011h,098h,020h,0cdh,0cch,0aah,0c3h,057h,0a9h,0c3h,026h,0abh,0c3h,073h,0abh,0cdh	; aa29  .. ....W..&..s..
-	defb 0c5h,0a7h,0d0h,0cdh,086h,0abh,03eh,010h,032h,037h,0cfh,03eh,030h,032h,038h,0cfh	; aa39  ......>.27.>028.
-	defb 021h,0bdh,0aeh,011h,098h,028h,0cdh,0cch,0aah,0afh,032h,036h,0cfh,0c3h,057h,0a9h	; aa49  !....(....26..W.
-	defb 03ah,036h,0cfh,0a7h,0cch,0ddh,0aah,0cdh,056h,0ach,0cdh,068h,0ach,0d0h,03eh,080h	; aa59  :6......V..h..>.
-	defb 0c3h,054h,0a9h,0c3h,007h,0ach,03ah,038h,0c1h,021h,078h,0aah,0c3h,0b0h,0a8h,07fh	; aa69  .T....:8.!x.....
-	defb 0a9h,08ah,0a9h,08dh,0a9h,090h,0a9h,09bh,0a9h,0dfh,0a9h,0e2h,0a9h,0e5h,0a9h,032h	; aa79  ...............2
-	defb 0aah,035h,0aah,038h,0aah,059h,0aah,098h,0aah,09bh,0aah,0b9h,0aah,0c9h,0aah,0c3h	; aa89  .5.8.Y..........
-	defb 033h,0abh,0cdh,005h,0a8h,0d0h,0cdh,010h,041h,021h,079h,0a8h,0cdh,0f2h,040h,03eh	; aa99  3.......A!y...@>
-	defb 010h,032h,039h,0cfh,021h,003h,0afh,011h,098h,018h,0cdh,0cch,0aah,0c3h,057h,0a9h	; aaa9  .29.!.........W.
-	defb 03ah,036h,0cfh,0a7h,0cch,0ddh,0aah,0cdh,0e5h,0ach,0d0h,03eh,080h,0c3h,054h,0a9h	; aab9  :6.........>..T.
-	defb 0c3h,007h,0ach	; aac9
+	defb 0bfh,0a8h,05ch,0a9h,06fh,0aah	; a8b9
+
+; ======================================================================
+; CODIGO 0xa8bf..0xa8c7  (8 bytes)
+; ======================================================================
+
+
+L_A8BF:
+	ld a,(0c138h)		;a8bf
+	ld hl,0a8c7h		;a8c2
+	jr $-21		;a8c5
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0xa8c7..0xa95c  (149 bytes)
+DATA_A8C7:
+	defb 0dfh,0a8h,0ebh,0a8h,0eeh,0a8h,0f1h,0a8h,004h,0a9h,007h,0a9h,00ah,0a9h,021h,0a9h	; a8c7  ..............!.
+	defb 030h,0a9h,033h,0a9h,04eh,0a9h,051h,0a9h,021h,044h,0adh,011h,098h,028h,0cdh,0cch	; a8d7  0.3.N.Q.!D...(..
+	defb 0aah,0c3h,057h,0a9h,0c3h,026h,0abh,0c3h,033h,0abh,0cdh,005h,0a8h,0d0h,0cdh,046h	; a8e7  ..W..&..3......F
+	defb 0abh,021h,08ah,0adh,011h,098h,040h,0cdh,0cch,0aah,0c3h,057h,0a9h,0c3h,026h,0abh	; a8f7  .!....@....W..&.
+	defb 0c3h,073h,0abh,0cdh,0c5h,0a7h,0d0h,0cdh,086h,0abh,03eh,010h,032h,038h,0cfh,021h	; a907  .s........>.28.!
+	defb 0b6h,0adh,011h,098h,048h,0cdh,0cch,0aah,018h,036h,03ah,036h,0cfh,0a7h,0cch,0ddh	; a917  ....H....6:6....
+	defb 0aah,0cdh,068h,0ach,0d0h,03eh,080h,018h,024h,0c3h,073h,0abh,0cdh,0c5h,0a7h,0d0h	; a927  ..h..>..$.s.....
+	defb 0cdh,09eh,040h,0cdh,016h,041h,021h,079h,0a8h,0cdh,0f2h,040h,021h,0e1h,0adh,011h	; a937  ..@..A!y...@!...
+	defb 098h,030h,0cdh,0cch,0aah,018h,009h,0c3h,026h,0abh,0c3h,007h,0ach,032h,004h,0c1h	; a947  .0......&....2..
+	defb 021h,038h,0c1h,034h,0c9h	; a957
+
+; ======================================================================
+; CODIGO 0xa95c..0xa965  (9 bytes)
+; ======================================================================
+
+
+L_A95C:
+	ld a,(0c138h)		;a95c
+	ld hl,0a965h		;a95f
+	jp L_A8B0		;a962
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0xa965..0xaa6f  (266 bytes)
+DATA_A965:
+	defb 07fh,0a9h,08ah,0a9h,08dh,0a9h,090h,0a9h,09bh,0a9h,0dfh,0a9h,0e2h,0a9h,0e5h,0a9h	; a965  ................
+	defb 032h,0aah,035h,0aah,038h,0aah,059h,0aah,06ch,0aah,021h,024h,0aeh,011h,098h,028h	; a975  2.5.8.Y.l.!$...(
+	defb 0cdh,0cch,0aah,018h,0cdh,0c3h,026h,0abh,0c3h,033h,0abh,0cdh,005h,0a8h,0d0h,0cdh	; a985  ......&..3......
+	defb 046h,0abh,0afh,0c3h,054h,0a9h,021h,004h,0c1h,035h,07eh,0feh,040h,028h,02fh,0feh	; a995  F...T.!..5~.@(/.
+	defb 0c0h,0d0h,0feh,080h,0d8h,0e6h,038h,01fh,01fh,01fh,04fh,0c5h,026h,008h,069h,011h	; a9a5  ......8...O.&.i.
+	defb 043h,06ch,083h,05fh,001h,001h,008h,03eh,048h,0cdh,082h,041h,0c1h,079h,026h,010h	; a9b5  Cl._...>H..A.y&.
+	defb 069h,011h,043h,088h,083h,05fh,001h,001h,008h,03eh,048h,0c3h,082h,041h,021h,06fh	; a9c5  i.C.._...>H..A!o
+	defb 0aeh,011h,098h,020h,0cdh,0cch,0aah,0c3h,057h,0a9h,0c3h,026h,0abh,0c3h,073h,0abh	; a9d5  ... ....W..&..s.
+	defb 0cdh,0c5h,0a7h,0d0h,0cdh,09eh,040h,0cdh,016h,041h,021h,079h,0a8h,0cdh,0f2h,040h	; a9e5  ......@..A!y...@
+	defb 021h,03eh,05bh,011h,02ah,04ah,00eh,00ch,0cdh,07ch,041h,021h,03dh,05ah,011h,02ch	; a9f5  !>[.*J...|A!=Z.,
+	defb 04ch,00eh,003h,0cdh,07ch,041h,021h,03ch,059h,011h,02eh,04eh,00eh,00dh,0cdh,07ch	; aa05  L...|A!<Y..N...|
+	defb 041h,021h,03fh,05ch,001h,028h,048h,03eh,088h,016h,000h,0cdh,07ah,040h,0cdh,028h	; aa15  A!?\.(H>....z@.(
+	defb 041h,021h,0a4h,0aeh,011h,098h,020h,0cdh,0cch,0aah,0c3h,057h,0a9h,0c3h,026h,0abh	; aa25  A!.... ....W..&.
+	defb 0c3h,073h,0abh,0cdh,0c5h,0a7h,0d0h,0cdh,086h,0abh,03eh,010h,032h,037h,0cfh,03eh	; aa35  .s........>.27.>
+	defb 030h,032h,038h,0cfh,021h,0bdh,0aeh,011h,098h,028h,0cdh,0cch,0aah,0afh,032h,036h	; aa45  028.!....(....26
+	defb 0cfh,0c3h,057h,0a9h,03ah,036h,0cfh,0a7h,0cch,0ddh,0aah,0cdh,056h,0ach,0cdh,068h	; aa55  ..W.:6......V..h
+	defb 0ach,0d0h,03eh,080h,0c3h,054h,0a9h,0c3h,007h,0ach	; aa65  ..>..T....
+
+; ======================================================================
+; CODIGO 0xaa6f..0xaa78  (9 bytes)
+; ======================================================================
+
+
+L_AA6F:
+	ld a,(0c138h)		;aa6f
+	ld hl,0aa78h		;aa72
+	jp L_A8B0		;aa75
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0xaa78..0xaacc  (84 bytes)
+DATA_AA78:
+	defb 07fh,0a9h,08ah,0a9h,08dh,0a9h,090h,0a9h,09bh,0a9h,0dfh,0a9h,0e2h,0a9h,0e5h,0a9h	; aa78  ................
+	defb 032h,0aah,035h,0aah,038h,0aah,059h,0aah,098h,0aah,09bh,0aah,0b9h,0aah,0c9h,0aah	; aa88  2.5.8.Y.........
+	defb 0c3h,033h,0abh,0cdh,005h,0a8h,0d0h,0cdh,010h,041h,021h,079h,0a8h,0cdh,0f2h,040h	; aa98  .3.......A!y...@
+	defb 03eh,010h,032h,039h,0cfh,021h,003h,0afh,011h,098h,018h,0cdh,0cch,0aah,0c3h,057h	; aaa8  >.29.!.........W
+	defb 0a9h,03ah,036h,0cfh,0a7h,0cch,0ddh,0aah,0cdh,0e5h,0ach,0d0h,03eh,080h,0c3h,054h	; aab8  .:6.........>..T
+	defb 0a9h,0c3h,007h,0ach	; aac8
 
 ; ======================================================================
 ; CODIGO 0xaacc..0xab26  (90 bytes)

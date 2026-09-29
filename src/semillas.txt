@@ -1,0 +1,77 @@
+# Semillas a mano: 'pNN 0xADDR b6000 b8000 bA000  # por que'.
+# Son destinos que el trazador no puede ver porque se saltan con `jp (hl)`.
+# Cada una lleva la instruccion que la justifica.
+#
+# p06:A649: `ld a,(0xC139) / ld hl,0xA658 / add a,a / call 0x408C / ld e,(hl) /
+# inc hl / ld d,(hl) / ex de,hl / jp (hl)`. Seis palabras: acaba en 0xA664,
+# que es su primer destino.
+p06 0xA664 1 2 6  # a mano: tabla de p06:A658, entrada 0 (despachador de p06:A649, por 0xC139)
+p06 0xA674 1 2 6  # a mano: tabla de p06:A658, entrada 1 (despachador de p06:A649, por 0xC139)
+p06 0xA683 1 2 6  # a mano: tabla de p06:A658, entrada 2 (despachador de p06:A649, por 0xC139)
+p06 0xA699 1 2 6  # a mano: tabla de p06:A658, entrada 3 (despachador de p06:A649, por 0xC139)
+p06 0xA6A0 1 2 6  # a mano: tabla de p06:A658, entrada 4 (despachador de p06:A649, por 0xC139)
+p06 0xA6AC 1 2 6  # a mano: tabla de p06:A658, entrada 5 (despachador de p06:A649, por 0xC139)
+#
+# p06:A8AA: lo mismo con 0xC137 y la tabla de 0xA8B9, de tres palabras (acaba en
+# 0xA8BF, su primer destino).
+p06 0xA8BF 1 2 6  # a mano: tabla de p06:A8B9, entrada 0 (despachador de p06:A8AA, por 0xC137)
+p06 0xA95C 1 2 6  # a mano: tabla de p06:A8B9, entrada 1 (despachador de p06:A8AA, por 0xC137)
+p06 0xAA6F 1 2 6  # a mano: tabla de p06:A8B9, entrada 2 (despachador de p06:A8AA, por 0xC137)
+#
+# p03:B9E9: el byte de 0xBA66 + indice (69 bytes, 0xFF = nada) elige una de las
+# 48 palabras de 0xBA06, que p00:42FF lee (`ld l,a / ld h,0 / add hl,hl / add
+# hl,de / ld e,(hl) / inc hl / ld d,(hl)`) y p03:BA05 salta con `jp (hl)`.
+p03 0xBAAB 1 2 3  # a mano: tabla de p03:BA06, entrada 0 (salto de p03:BA05)
+p03 0xBAB4 1 2 3  # a mano: tabla de p03:BA06, entrada 1 (salto de p03:BA05)
+p03 0xBABB 1 2 3  # a mano: tabla de p03:BA06, entrada 2 (salto de p03:BA05)
+p03 0xBAC8 1 2 3  # a mano: tabla de p03:BA06, entrada 3 (salto de p03:BA05)
+p03 0xBAD3 1 2 3  # a mano: tabla de p03:BA06, entrada 4 (salto de p03:BA05)
+p03 0xBADE 1 2 3  # a mano: tabla de p03:BA06, entrada 5 (salto de p03:BA05)
+p03 0xBAEC 1 2 3  # a mano: tabla de p03:BA06, entrada 6 (salto de p03:BA05)
+p03 0xBB18 1 2 3  # a mano: tabla de p03:BA06, entrada 7 (salto de p03:BA05)
+p03 0xBAF8 1 2 3  # a mano: tabla de p03:BA06, entrada 8 (salto de p03:BA05)
+p03 0xBB06 1 2 3  # a mano: tabla de p03:BA06, entrada 9 (salto de p03:BA05)
+p03 0xBB1F 1 2 3  # a mano: tabla de p03:BA06, entrada 11 (salto de p03:BA05)
+p03 0xBB37 1 2 3  # a mano: tabla de p03:BA06, entrada 12 (salto de p03:BA05)
+p03 0xBB4D 1 2 3  # a mano: tabla de p03:BA06, entrada 13 (salto de p03:BA05)
+p03 0xBB59 1 2 3  # a mano: tabla de p03:BA06, entrada 14 (salto de p03:BA05)
+p03 0xBB64 1 2 3  # a mano: tabla de p03:BA06, entrada 15 (salto de p03:BA05)
+p03 0xBB77 1 2 3  # a mano: tabla de p03:BA06, entrada 16 (salto de p03:BA05)
+p03 0xBB82 1 2 3  # a mano: tabla de p03:BA06, entrada 17 (salto de p03:BA05)
+p03 0xBB8E 1 2 3  # a mano: tabla de p03:BA06, entrada 18 (salto de p03:BA05)
+p03 0xBB9A 1 2 3  # a mano: tabla de p03:BA06, entrada 19 (salto de p03:BA05)
+p03 0xBBCD 1 2 3  # a mano: tabla de p03:BA06, entrada 20 (salto de p03:BA05)
+p03 0xBBED 1 2 3  # a mano: tabla de p03:BA06, entrada 21 (salto de p03:BA05)
+p03 0xBC04 1 2 3  # a mano: tabla de p03:BA06, entrada 22 (salto de p03:BA05)
+p03 0xBC0B 1 2 3  # a mano: tabla de p03:BA06, entrada 23 (salto de p03:BA05)
+p03 0xBC19 1 2 3  # a mano: tabla de p03:BA06, entrada 24 (salto de p03:BA05)
+p03 0xBC1E 1 2 3  # a mano: tabla de p03:BA06, entrada 25 (salto de p03:BA05)
+p03 0xBC29 1 2 3  # a mano: tabla de p03:BA06, entrada 26 (salto de p03:BA05)
+p03 0xBC35 1 2 3  # a mano: tabla de p03:BA06, entrada 27 (salto de p03:BA05)
+p03 0xBC48 1 2 3  # a mano: tabla de p03:BA06, entrada 28 (salto de p03:BA05)
+p03 0xBC4F 1 2 3  # a mano: tabla de p03:BA06, entrada 30 (salto de p03:BA05)
+p03 0xBC5A 1 2 3  # a mano: tabla de p03:BA06, entrada 31 (salto de p03:BA05)
+p03 0xBC6D 1 2 3  # a mano: tabla de p03:BA06, entrada 32 (salto de p03:BA05)
+p03 0xBC7B 1 2 3  # a mano: tabla de p03:BA06, entrada 33 (salto de p03:BA05)
+p03 0xBC87 1 2 3  # a mano: tabla de p03:BA06, entrada 34 (salto de p03:BA05)
+p03 0xBC8E 1 2 3  # a mano: tabla de p03:BA06, entrada 35 (salto de p03:BA05)
+p03 0xBC99 1 2 3  # a mano: tabla de p03:BA06, entrada 36 (salto de p03:BA05)
+p03 0xBCA6 1 2 3  # a mano: tabla de p03:BA06, entrada 37 (salto de p03:BA05)
+p03 0xBCB2 1 2 3  # a mano: tabla de p03:BA06, entrada 38 (salto de p03:BA05)
+p03 0xBCBD 1 2 3  # a mano: tabla de p03:BA06, entrada 39 (salto de p03:BA05)
+p03 0xBCC8 1 2 3  # a mano: tabla de p03:BA06, entrada 40 (salto de p03:BA05)
+p03 0xBCD6 1 2 3  # a mano: tabla de p03:BA06, entrada 41 (salto de p03:BA05)
+p03 0xBCE2 1 2 3  # a mano: tabla de p03:BA06, entrada 43 (salto de p03:BA05)
+p03 0xBCF9 1 2 3  # a mano: tabla de p03:BA06, entrada 44 (salto de p03:BA05)
+p03 0xBD00 1 2 3  # a mano: tabla de p03:BA06, entrada 45 (salto de p03:BA05)
+p03 0xBD1F 1 2 3  # a mano: tabla de p03:BA06, entrada 46 (salto de p03:BA05)
+#
+# El sonido (banco 4, con el 5 detras; lo llama la interrupcion p00:4229)
+# salta cada cuadro al manejador de cada canal: `ld hl,(0xC012+2n) / jp (hl)` en
+# p04:6298, y el de 0xC018 en p04:62BE.
+p04 0x6299 4 5 3  # a mano: p04:6022 y p04:624C: ld hl,0x6299 / ld (0xC010..0xC016),hl (canal en reposo)
+p04 0x6321 4 5 3  # a mano: p04:609A: ld hl,0x6321 / ld (0xC010),hl
+p04 0x6328 4 5 3  # a mano: p04:60A0: ld hl,0x6328 / ld (0xC012),hl
+p04 0x632F 4 5 3  # a mano: p04:60A6: ld hl,0x632F / ld (0xC014),hl
+p04 0x6587 4 5 3  # a mano: p04:60FE: ld hl,0x6587 / ld (0xC016),hl
+p04 0x631A 4 5 3  # a mano: p04:61A8: ld hl,0x631A / ld (0xC018),hl

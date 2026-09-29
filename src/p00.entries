@@ -38,6 +38,8 @@
 0x40F2   # p06:A876 jp
 0x40F8   # p06:BA83 call
 0x40FE   # p06:AAFA call
+0x4104   # p06:A6A9 jp
+0x410A   # p06:A66A call
 0x4116   # p06:A777 call
 0x411C   # p06:A83F call
 0x413A   # p09:B7F5 jp
@@ -73,29 +75,27 @@
 0x420C   # p12:BFF0 jp
 0x4229   # gancho de interrupcion H.TIMI: INIT escribe 0xC3 en 0xFD9F y esta direccion en 0xFDA0 (p00:42AA-p00:42B2)
 0x425A   # p01:6287 call
-0x425F   # p01:65D3 call
+0x425F   # p01:78A2 call
 0x4260   # p02:8672 jp
 0x4269   # cabecera AB: INIT
-0x42BC   # p01:69ED jp
 0x42FF   # p01:61E0 call
 0x4311   # p02:8BE3 jp
-0x4318   # p02:8BDF call
+0x4318   # p03:A8B5 jp
 0x4333   # p02:8536 call
 0x43B6   # p02:853F jp
 0x4450   # p01:62C9 call
 0x454C   # p02:824B call
 0x476D   # p01:67E5 jp
-0x47D7   # p01:67DD jp
-0x481B   # p01:797C jp
 0x4867   # p01:6019 call
 0x490B   # p01:62C6 call
 0x490F   # p01:62E1 call
 0x4913   # p01:66F1 call
+0x4952   # p01:639F call
 0x4D03   # p00:4CE1 entrada 0 de la tabla de 0x4CE4 (call 0x425F en 0x4CE1)
 0x4D1F   # p00:4CE1 entrada 1 de la tabla de 0x4CE4 (call 0x425F en 0x4CE1)
 0x4D2A   # p00:4CE1 entrada 2 de la tabla de 0x4CE4 (call 0x425F en 0x4CE1)
 0x4D35   # p00:4CE1 entrada 3 de la tabla de 0x4CE4 (call 0x425F en 0x4CE1)
-0x4EB5   # p02:8204 jp
+0x4EB5   # p01:78E7 jp
 0x5046   # p01:755C jp
 0x507A   # p01:77F9 jp cc
 0x50EA   # p01:7C90 call

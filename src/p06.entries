@@ -12,7 +12,16 @@
 #
 # Este fichero lo regenera `make semillas` (tools/bancos.py escribe).
 0xA649   # p00:5C2D call cc
+0xA664   # a mano: tabla de p06:A658, entrada 0 (despachador de p06:A649, por 0xC139)
+0xA674   # a mano: tabla de p06:A658, entrada 1 (despachador de p06:A649, por 0xC139)
+0xA683   # a mano: tabla de p06:A658, entrada 2 (despachador de p06:A649, por 0xC139)
+0xA699   # a mano: tabla de p06:A658, entrada 3 (despachador de p06:A649, por 0xC139)
+0xA6A0   # a mano: tabla de p06:A658, entrada 4 (despachador de p06:A649, por 0xC139)
+0xA6AC   # a mano: tabla de p06:A658, entrada 5 (despachador de p06:A649, por 0xC139)
 0xA6CF   # p01:674C call
+0xA8BF   # a mano: tabla de p06:A8B9, entrada 0 (despachador de p06:A8AA, por 0xC137)
+0xA95C   # a mano: tabla de p06:A8B9, entrada 1 (despachador de p06:A8AA, por 0xC137)
+0xAA6F   # a mano: tabla de p06:A8B9, entrada 2 (despachador de p06:A8AA, por 0xC137)
 0xB9C8   # p01:661E call
 0xBA46   # p01:665B call
 0xBA79   # p01:6607 call

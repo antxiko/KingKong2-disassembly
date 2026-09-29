@@ -87,6 +87,7 @@
 0x96FA   # p02:9659 entrada 3 de la tabla de 0x965C (call 0x425F en 0x9659)
 0x9739   # p02:9659 entrada 4 de la tabla de 0x965C (call 0x425F en 0x9659)
 0x980C   # p00:5B1B entrada 28 de la tabla de 0x5B1E (call 0x425F en 0x5B1B)
+0x98B4   # p03:A53B jp
 0x98C1   # p01:6882 entrada 28 de la tabla de 0x6885 (call 0x425F en 0x6882)
 0x994B   # p02:993E entrada 0 de la tabla de 0x9941 (call 0x425F en 0x993E)
 0x9996   # p02:993E entrada 1 de la tabla de 0x9941 (call 0x425F en 0x993E)

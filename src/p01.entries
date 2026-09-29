@@ -23,6 +23,7 @@
 0x643E   # p00:4140 call
 0x6476   # p00:5CBC call
 0x6492   # p00:42A6 call
+0x64F6   # p00:4104 call
 0x6578   # p00:5C87 call
 0x65C2   # p00:424C call
 0x65EA   # p01:65D3 entrada 0 de la tabla de 0x65D6 (call 0x425F en 0x65D3)
@@ -60,8 +61,8 @@
 0x7183   # p03:BE6B call
 0x7186   # p03:B8D6 call
 0x71C8   # p03:BE68 call
-0x729E   # p03:A1BE call
-0x7303   # p02:9F80 call
+0x729E   # p03:A532 call
+0x7303   # p03:A697 call
 0x7309   # p03:AA44 call
 0x734D   # p01:7342 entrada 0 de la tabla de 0x7345 (call 0x425F en 0x7342)
 0x737C   # p01:7342 entrada 2 de la tabla de 0x7345 (call 0x425F en 0x7342)
@@ -92,7 +93,7 @@
 0x7777   # p01:6D39 entrada 5 de la tabla de 0x6D3C (call 0x425F en 0x6D39)
 0x77F5   # p00:5D26 call
 0x784A   # p00:5F3C jp
-0x7852   # p00:419A call
+0x7852   # p03:BC8B jp
 0x78B1   # p01:78A2 entrada 4 de la tabla de 0x78A5 (call 0x425F en 0x78A2)
 0x78B5   # p01:78A2 entrada 1 de la tabla de 0x78A5 (call 0x425F en 0x78A2)
 0x78D9   # p01:78A2 entrada 0 de la tabla de 0x78A5 (call 0x425F en 0x78A2)
