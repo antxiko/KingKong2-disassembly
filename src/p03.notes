@@ -441,11 +441,14 @@ F 0xBE34 2
 
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
 C 0xA002 velocidades: 16 entradas de 4 bytes que p03:BF19 pone en ix+8, ix+7, ix+0x0A e ix+9 (dos velocidades de 16 bits) segun A; se entra por 0xBF32, 0xBF42, 0xBF52 y 0xBF62
+C 0xA005 guarda su direccion
 C 0xA008 velocidad_de_la_tabla_4: las dos velocidades de las 4 bytes HL + 4*A: [vy alta][vy baja][vx alta][vx baja]
+C 0xA014 baja la espera
 C 0xA018 baja el paso en que va
 C 0xA022 lee la y del enemigo
 C 0xA028 lee la x del enemigo
 C 0xA02E el paso en que va = 0x02
+C 0xA032 la espera = 0x30
 C 0xA036 si se mueve = 0x00
 C 0xA03D REDSPIDER (tipo 0x0B)?
 C 0xA043 lee la Y de Mitchel
@@ -459,6 +462,7 @@ C 0xA082 compara con la y del enemigo
 C 0xA086 lee la X de Mitchel
 C 0xA08B compara con la x del enemigo
 C 0xA091 compara con la x del enemigo
+C 0xA098 la espera = 0x10
 C 0xA09C si se mueve = 0x00
 C 0xA0A0 lee la velocidad vertical
 C 0xA0A5 lee la velocidad vertical (baja)
@@ -495,36 +499,58 @@ C 0xA1A8 lee la X de Mitchel
 C 0xA1AF la y del enemigo = 0x50
 C 0xA1B3 la x del enemigo = 0xA0
 C 0xA1BE p01:apunta_a_mitchel: APUNTA: la velocidad C...
+C 0xA1C1 guarda su direccion
 C 0xA1C4 grounder_cuadro: la direccion A en ix+0x13 (la de antes en ix+0x14), su cuadro de p03:A362 y sus velocidades de p03:BF42
 C 0xA1C7 lee la y del enemigo
 C 0xA1CD lee la x del enemigo
 C 0xA1D3 si se mueve = 0x01
+C 0xA1D7 si ya probo el rumbo = 0x00
 C 0xA1DB el cuadro del enemigo = 0x0E
+C 0xA1DF cuantos quedan de su grupo = 0x06
+C 0xA1EB guarda su numero
+C 0xA1F8 guarda su dibujo
 C 0xA1FB si se mueve = 0x01
 C 0xA1FF el cuadro del enemigo = 0x0E
+C 0xA203 la cuenta de 4 = 0x04
+C 0xA207 cuantos quedan de su grupo = 0x06
+C 0xA20B su hueco (su numero en la lista de la pantalla) = 0xFF
+C 0xA230 mira el bit 0 de su direccion
 C 0xA236 lee la x del enemigo
+C 0xA248 lee su numero
 C 0xA24D grounder_prueba_rumbo: si choca, p03:A2A9; si no, hacia Mitchel salvo si es dar media vuelta...
 C 0xA257 grounder_crea_otro: otro GROUNDER (0xDFB0 + 1) en el sitio del primero (0xDFB1, 0xDFB2)
 C 0xA26C p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 C 0xA274 p01:apunta_a_mitchel: APUNTA: la velocidad C...
 C 0xA281 grounder_cuadro: la direccion A en ix+0x13 (la de antes en ix+0x14), su cuadro de p03:A362 y sus velocidades de p03:BF42
+C 0xA28B compara con la direccion contraria
 C 0xA292 p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 C 0xA295 grounder_cuadro: la direccion A en ix+0x13 (la de antes en ix+0x14), su cuadro de p03:A362 y sus velocidades de p03:BF42
+C 0xA2A3 lee la direccion contraria
 C 0xA2A6 grounder_cuadro: la direccion A en ix+0x13 (la de antes en ix+0x14), su cuadro de p03:A362 y sus velocidades de p03:BF42
 C 0xA2C6 p01:apunta_a_mitchel: APUNTA: la velocidad C...
 C 0xA2C9 grounder_cuadro: la direccion A en ix+0x13 (la de antes en ix+0x14), su cuadro de p03:A362 y sus velocidades de p03:BF42
 C 0xA2DD p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
+C 0xA2E4 lee cuantos quedan de su grupo
+C 0xA2E7 compara con su numero
+C 0xA2F9 la cuenta de 4 = 0x04
+C 0xA306 guarda su dibujo
 C 0xA30C p00:hl_mas_a
 C 0xA310 guarda el cuadro del enemigo
+C 0xA318 lee su numero
 C 0xA31E apunta a las fichas de los enemigos (13 de 0x80)
 C 0xA322 lee el tipo del enemigo
 C 0xA325 GROUNDER (tipo 0x2C)?
+C 0xA330 lee su numero
 C 0xA34F cuadros_A362: 8 bytes: el cuadro (ix+0x0B) segun ix+0x13 (p03:A34F) o ix+0x1A (desde 0xA366, p03:A309)
 C 0xA352 p00:hl_mas_a
 C 0xA35F velocidad_de_la_tabla_4: las dos velocidades de las 4 bytes HL + 4*A: [vy alta][vy baja][vx alta][vx baja]
 C 0xA36F guarda la velocidad vertical (baja)
 C 0xA372 guarda la velocidad horizontal (baja)
+C 0xA375 el punto de la curva = 0x0F
+C 0xA379 su direccion = 0x02
 C 0xA37D saltarines_elige: EL CUADRO: POLEMAN, BOOMERANG y FALCONER, direccion*2 y el siguiente cada 4 cuadros...
+C 0xA380 los pasos = 0x08
+C 0xA384 los pasos = 0x08
 C 0xA398 le resta la y del enemigo
 C 0xA3A5 le resta la x del enemigo
 C 0xA3B2 BLOWMIRE (tipo 0x19)?
@@ -539,28 +565,36 @@ C 0xA41A saltarines_alineado_en_y: EN SU FILA: si Mitchel esta en la misma y y a
 C 0xA430 p01:apunta_a_mitchel: APUNTA: la velocidad C...
 C 0xA439 p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 C 0xA445 p02:sigue_si_esta_en_casilla: si la ficha no esta alineada a 8 en x e y, vuelve al que llamo al que llamo
+C 0xA448 lee su direccion
 C 0xA44D p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 C 0xA455 p01:apunta_a_mitchel: APUNTA: la velocidad C...
 C 0xA45E FALCONER (tipo 0x24)?
 C 0xA467 saltarines_alineado_en_x: EN SU COLUMNA: si Mitchel esta en la misma x (redondeada a 8) y a 0x30 o mas...
 C 0xA46A saltarines_alineado_en_y: EN SU FILA: si Mitchel esta en la misma y y a menos de 0x30, se aparta...
+C 0xA471 los pasos = 0x08
 C 0xA475 el paso en que va = 0x00
 C 0xA479 lee la Y de Mitchel
 C 0xA47C compara con la y del enemigo
 C 0xA486 p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
+C 0xA492 compara con la y de donde salto
 C 0xA495 el paso en que va = 0x01
+C 0xA4A0 lee la y de donde salto
 C 0xA4A3 lee el tipo del enemigo
 C 0xA4A6 CLINGMAN (tipo 0x37)?
 C 0xA4A8 lee la x del enemigo
+C 0xA4B1 lee su direccion
 C 0xA4B6 p01:choca_desde_hl: desde (L, H) = (y, x): acarreo si hacia la direccion A no se puede pasar
 C 0xA4BB guarda la x del enemigo
 C 0xA4BE la velocidad horizontal = 0x00
 C 0xA4C5 tablas_A6A0: tres tablas de 16 bytes: 0xA6A0 (tipo 0x37) y 0xA6B8 (los demas) segun ix+0x18 (p03:A4C2), y parejas desde 0xA6C8 segun ix+0x19 (p03:A553)
 C 0xA4CB CLINGMAN (tipo 0x37)?
+C 0xA4D5 lee el punto de la curva
 C 0xA4DE p00:hl_mas_a
 C 0xA4E4 guarda la velocidad vertical
 C 0xA4E9 p00:hl_mas_a
 C 0xA4ED guarda la velocidad vertical
+C 0xA4F0 sube el punto de la curva
+C 0xA4F7 baja el punto de la curva
 C 0xA4FB el paso en que va = 0x00
 C 0xA4FF si se mueve = 0x01
 C 0xA508 guarda la y del enemigo
@@ -575,6 +609,7 @@ C 0xA53B p02:velocidad_de_la_tabla: la pareja A de la tabla de HL en ix+8 e ix+0
 C 0xA556 p00:hl_mas_a
 C 0xA559 lee la cuenta de cuadros
 C 0xA562 guarda el cuadro del enemigo
+C 0xA566 lee su direccion
 C 0xA56A guarda el cuadro del enemigo
 C 0xA56D lee la cuenta de cuadros
 C 0xA573 sube el cuadro del enemigo
@@ -585,17 +620,23 @@ C 0xA5A4 XOR con la cuenta de cuadros
 C 0xA5A9 lee el tipo del enemigo
 C 0xA5AC BLOWMIRE (tipo 0x19)?
 C 0xA5B5 p01:apunta_a_mitchel: APUNTA: la velocidad C...
+C 0xA5B8 guarda su direccion
 C 0xA5BE el paso en que va = 0x05
 C 0xA5C2 guarda el cuadro del enemigo
 C 0xA5C7 lee el tipo del enemigo
 C 0xA5CA BOOMERANG (tipo 0x18)?
 C 0xA5D1 guarda el cuadro del enemigo
+C 0xA5D6 guarda la espera tras tirar
+C 0xA5D9 los pasos = 0x08
+C 0xA5DD los pasos = 0x08
 C 0xA5E1 si se mueve = 0x00
 C 0xA5E8 lee la x del enemigo
 C 0xA5EB lee el tipo del enemigo
 C 0xA5F1 p01:crea_una_figura: CREA UNA FIGURA: el tipo C en DE
 C 0xA5FC compara con la y del enemigo
 C 0xA601 le resta la x del enemigo
+C 0xA61A los pasos = 0x08
+C 0xA61E los pasos = 0x08
 C 0xA622 lee el tipo del enemigo
 C 0xA625 FALCONER (tipo 0x24)?
 C 0xA62C JUMPMAN (tipo 0x36)?
@@ -603,6 +644,8 @@ C 0xA632 lee la y del enemigo
 C 0xA635 lee la x del enemigo
 C 0xA638 p01:crea_una_figura: CREA UNA FIGURA: el tipo C en DE
 C 0xA63D p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
+C 0xA643 guarda la y de donde salto
+C 0xA646 el punto de la curva = 0x01
 C 0xA64A lee el tipo del enemigo
 C 0xA64D tablas_A6A0: tres tablas de 16 bytes: 0xA6A0 (tipo 0x37) y 0xA6B8 (los demas) segun ix+0x18 (p03:A4C2), y parejas desde 0xA6C8 segun ix+0x19 (p03:A553)
 C 0xA652 CLINGMAN (tipo 0x37)?
@@ -610,20 +653,27 @@ C 0xA65A lee la X de Mitchel
 C 0xA65D compara con la x del enemigo
 C 0xA661 guarda la velocidad vertical
 C 0xA665 guarda la velocidad horizontal
+C 0xA668 su direccion = 0x03
 C 0xA66C el cuadro del enemigo = 0x05
 C 0xA673 guarda la velocidad horizontal
+C 0xA676 su direccion = 0x01
 C 0xA67A el cuadro del enemigo = 0x0A
 C 0xA683 lee el paso en que va
 C 0xA688 guarda el paso en que va
 C 0xA68E p01:apunta_a_mitchel: APUNTA: la velocidad C...
 C 0xA697 p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
+C 0xA6DC si tiene el fondo guardado = 0x01
+C 0xA6E0 la espera = 0x10
+C 0xA6E4 la cuenta de cuadros = 0x00
 C 0xA6E8 lee la y del enemigo
 C 0xA6ED lee la x del enemigo
 C 0xA6F6 p00:lmmm: orden LMMM del V9938: lo mismo con operacion logica (A: paginas y operacion; 8 = TIMP)
 C 0xA6FB p00:guarda_el_fondo: GUARDA EL FONDO: lo que hay debajo de la ficha, desde su esquina
 C 0xA6FE p01:hay_jefe: 0xC151 = 1: hay jefe
+C 0xA717 sube la cuenta de cuadros
 C 0xA721 lee el cuadro del enemigo
 C 0xA72E guarda el cuadro del enemigo
+C 0xA731 guarda la espera
 C 0xA734 mira el bit 0 de el cuadro del enemigo
 C 0xA741 lee los GARGOYLE que quedan por soltar
 C 0xA751 lee la y del enemigo
@@ -637,7 +687,10 @@ C 0xA7CA p00:hl_mas_a
 C 0xA7D4 p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 C 0xA7D9 p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 C 0xA7DE p00:hl_mas_a
+C 0xA7E2 guarda los saltos
+C 0xA7E5 la espera o el punto del salto = 0x04
 C 0xA7F1 p00:hl_mas_a
+C 0xA7F5 guarda su punto del guion
 C 0xA82D p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 C 0xA848 sube el paso en que va
 C 0xA84B si se mueve = 0x01
@@ -645,52 +698,113 @@ C 0xA85D p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad,
 C 0xA864 sube el paso en que va
 C 0xA867 el cuadro del enemigo = 0x10
 C 0xA86B si se mueve = 0x00
+C 0xA86F la espera o el punto del salto = 0x0C
+C 0xA876 guarda la y en el suelo (baja)
 C 0xA879 lee la y del enemigo
+C 0xA87C guarda la y en el suelo
+C 0xA882 guarda la x en el suelo (baja)
 C 0xA885 lee la x del enemigo
+C 0xA888 guarda la x en el suelo
+C 0xA890 baja la espera o el punto del salto
+C 0xA894 mira el bit 0 de si ya giro
 C 0xA8A5 ranas_espera_segun_el_tipo: CUANTO DURA EL SALTO: GARGOYLE (6) 0x0C, POISNFROG y MIREFROG 8, GARGOYLE (8) 0x10...
+C 0xA8A8 si ya giro = 0x00
 C 0xA8AF p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 C 0xA8B5 p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
+C 0xA8BB la espera o el punto del salto = 0x0C
 C 0xA8C0 el cuadro del enemigo = 0x14
+C 0xA8C4 baja la espera o el punto del salto
+C 0xA8C8 mira el bit 0 de si ya giro
 C 0xA8CE ranas_siguiente_movimiento: EL MOVIMIENTO SIGUIENTE, del guion de 32 de p03:AAD8: 1 hacia un punto al azar, 2 hacia Mitchel...
 C 0xA8D9 ranas_espera_segun_el_tipo: CUANTO DURA EL SALTO: GARGOYLE (6) 0x0C, POISNFROG y MIREFROG 8, GARGOYLE (8) 0x10...
+C 0xA8DC si ya giro = 0x00
 C 0xA8E3 p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 C 0xA8E9 p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 C 0xA8EC ranas_velocidad: GIRA hacia A: arriba paso 5, derecha 4, abajo 2, izquierda 3; 0x0C cuadros y ix+0x19 = 1 (la proxima, salta)
+C 0xA8EF la espera o el punto del salto = 0x0C
 C 0xA8F4 el cuadro del enemigo = 0x16
+C 0xA8F8 baja la espera o el punto del salto
+C 0xA8FC mira el bit 0 de si ya giro
 C 0xA902 ranas_siguiente_movimiento: EL MOVIMIENTO SIGUIENTE, del guion de 32 de p03:AAD8: 1 hacia un punto al azar, 2 hacia Mitchel...
 C 0xA90D ranas_espera_segun_el_tipo: CUANTO DURA EL SALTO: GARGOYLE (6) 0x0C, POISNFROG y MIREFROG 8, GARGOYLE (8) 0x10...
+C 0xA910 si ya giro = 0x00
 C 0xA917 p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 C 0xA91D p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 C 0xA920 ranas_velocidad: GIRA hacia A: arriba paso 5, derecha 4, abajo 2, izquierda 3; 0x0C cuadros y ix+0x19 = 1 (la proxima, salta)
+C 0xA923 la espera o el punto del salto = 0x0C
 C 0xA928 el cuadro del enemigo = 0x12
+C 0xA92C baja la espera o el punto del salto
+C 0xA930 mira el bit 0 de si ya giro
 C 0xA936 ranas_siguiente_movimiento: EL MOVIMIENTO SIGUIENTE, del guion de 32 de p03:AAD8: 1 hacia un punto al azar, 2 hacia Mitchel...
 C 0xA940 ranas_espera_segun_el_tipo: CUANTO DURA EL SALTO: GARGOYLE (6) 0x0C, POISNFROG y MIREFROG 8, GARGOYLE (8) 0x10...
+C 0xA943 si ya giro = 0x00
 C 0xA94A p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 C 0xA950 p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 C 0xA953 ranas_velocidad: GIRA hacia A: arriba paso 5, derecha 4, abajo 2, izquierda 3; 0x0C cuadros y ix+0x19 = 1 (la proxima, salta)
+C 0xA956 la espera o el punto del salto = 0x0C
+C 0xA95F baja la espera o el punto del salto
+C 0xA962 mira el bit 0 de si no avanza
 C 0xA968 ranas_suma_velocidad: el sitio en el suelo (ix+0x14/15 y, ix+0x16/17 x) mas las velocidades
+C 0xA975 lee la y en el suelo
+C 0xA978 lee la x en el suelo
 C 0xA97F p01:choca_desde_hl: desde (L, H) = (y, x): acarreo si hacia la direccion A no se puede pasar
+C 0xA984 si no avanza = 0x01
 C 0xA98D el paso en que va = 0x02
+C 0xA991 la espera o el punto del salto = 0x0C
+C 0xA995 si no avanza = 0x00
+C 0xA999 sube los saltos
 C 0xA99D el cuadro del enemigo = 0x15
+C 0xA9A1 baja la espera o el punto del salto
+C 0xA9A4 mira el bit 0 de si no avanza
 C 0xA9AA ranas_suma_velocidad: el sitio en el suelo (ix+0x14/15 y, ix+0x16/17 x) mas las velocidades
 C 0xA9AD ranas_recorrido_segun_el_tipo: LA ALTURA DEL SALTO: su tabla por tipo (GARGOYLE 6 p03:AB88, POISNFROG y MIREFROG p03:ABA4, GARGOYLE 8 p03:AB94; otro, p03:AB88 o, uno de cada 4, p03:ABAC)...
+C 0xA9B0 lee la espera o el punto del salto
+C 0xA9B7 lee la y en el suelo
+C 0xA9BA lee la x en el suelo
 C 0xA9C1 p01:choca_desde_hl: desde (L, H) = (y, x): acarreo si hacia la direccion A no se puede pasar
+C 0xA9C6 si no avanza = 0x01
+C 0xA9CA lee la espera o el punto del salto
 C 0xA9CF el paso en que va = 0x03
+C 0xA9D3 la espera o el punto del salto = 0x0C
+C 0xA9D7 si no avanza = 0x00
+C 0xA9DB sube los saltos
 C 0xA9DF el cuadro del enemigo = 0x17
+C 0xA9E3 baja la espera o el punto del salto
+C 0xA9E6 mira el bit 0 de si no avanza
 C 0xA9EC ranas_suma_velocidad: el sitio en el suelo (ix+0x14/15 y, ix+0x16/17 x) mas las velocidades
 C 0xA9EF ranas_recorrido_segun_el_tipo: LA ALTURA DEL SALTO: su tabla por tipo (GARGOYLE 6 p03:AB88, POISNFROG y MIREFROG p03:ABA4, GARGOYLE 8 p03:AB94; otro, p03:AB88 o, uno de cada 4, p03:ABAC)...
+C 0xA9F2 lee la espera o el punto del salto
+C 0xA9F9 lee la y en el suelo
+C 0xA9FC lee la x en el suelo
 C 0xAA03 p01:choca_desde_hl: desde (L, H) = (y, x): acarreo si hacia la direccion A no se puede pasar
+C 0xAA08 si no avanza = 0x01
+C 0xAA0C lee la espera o el punto del salto
 C 0xAA11 el paso en que va = 0x04
+C 0xAA15 la espera o el punto del salto = 0x0C
+C 0xAA19 si no avanza = 0x00
+C 0xAA1D sube los saltos
 C 0xAA21 el cuadro del enemigo = 0x13
+C 0xAA25 baja la espera o el punto del salto
+C 0xAA28 mira el bit 0 de si no avanza
 C 0xAA2E ranas_suma_velocidad: el sitio en el suelo (ix+0x14/15 y, ix+0x16/17 x) mas las velocidades
 C 0xAA31 ranas_recorrido_segun_el_tipo: LA ALTURA DEL SALTO: su tabla por tipo (GARGOYLE 6 p03:AB88, POISNFROG y MIREFROG p03:ABA4, GARGOYLE 8 p03:AB94; otro, p03:AB88 o, uno de cada 4, p03:ABAC)...
+C 0xAA34 lee la espera o el punto del salto
+C 0xAA3B lee la y en el suelo
+C 0xAA3E lee la x en el suelo
 C 0xAA44 p01:choca_desde_hl: desde (L, H) = (y, x): acarreo si hacia la direccion A no se puede pasar
+C 0xAA49 si no avanza = 0x01
+C 0xAA4D lee la espera o el punto del salto
 C 0xAA52 el paso en que va = 0x05
+C 0xAA56 la espera o el punto del salto = 0x0C
+C 0xAA5A si no avanza = 0x00
+C 0xAA5E sube los saltos
 C 0xAA65 GARGOYLE (tipo 0x06)?
 C 0xAA6B POISNFROG (tipo 0x07)?
 C 0xAA71 MIREFROG (tipo 0x3E)?
 C 0xAA75 GARGOYLE (tipo 0x08)?
 C 0xAA88 p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
+C 0xAA8B guarda la espera o el punto del salto
+C 0xAA92 lee su punto del guion
 C 0xAA9A p00:hl_mas_a
 C 0xAAB3 p01:apunta_a_mitchel: APUNTA: la velocidad C...
 C 0xAAB9 p01:apunta_a_mitchel: APUNTA: la velocidad C...
@@ -698,29 +812,50 @@ C 0xAAC1 tablas_AAD4: 4 bytes segun ix+1 - 2 (p03:AAC1) y 32 codigos segun ix+0x
 C 0xAAC4 p00:hl_mas_a
 C 0xAACC p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 C 0xAB09 guarda el paso en que va
+C 0xAB0C la espera o el punto del salto = 0x0C
+C 0xAB10 si ya giro = 0x01
+C 0xAB18 lee la y en el suelo
 C 0xAB1B lee la velocidad vertical (baja)
 C 0xAB1E lee la velocidad vertical
+C 0xAB22 guarda la y en el suelo (baja)
+C 0xAB25 guarda la y en el suelo
+C 0xAB28 lee la x en el suelo (baja)
+C 0xAB2B lee la x en el suelo
 C 0xAB2E lee la velocidad horizontal (baja)
 C 0xAB31 lee la velocidad horizontal
+C 0xAB35 guarda la x en el suelo (baja)
+C 0xAB38 guarda la x en el suelo
 C 0xAB3F GARGOYLE (tipo 0x06)?
 C 0xAB41 recorridos_AB88: pasos que elige p03:AB41 segun el tipo: 0xAB88 (tipos 6 y otros), 0xABA4 (7 y 0x3E), 0xAB94 (8) y 0xABAC
 C 0xAB46 POISNFROG (tipo 0x07)?
 C 0xAB4D MIREFROG (tipo 0x3E)?
 C 0xAB51 GARGOYLE (tipo 0x08)?
+C 0xAB58 lee los saltos
 C 0xAB5D recorridos_AB88: pasos que elige p03:AB41 segun el tipo: 0xAB88 (tipos 6 y otros), 0xABA4 (7 y 0x3E), 0xAB94 (8) y 0xABAC
 C 0xAB68 p00:hl_mas_a
+C 0xAB6E lee la y en el suelo (baja)
+C 0xAB71 lee la y en el suelo
 C 0xAB78 guarda la y del enemigo
+C 0xAB7B lee la x en el suelo (baja)
+C 0xAB81 lee la x en el suelo
 C 0xAB84 guarda la x del enemigo
 C 0xABF8 ENTRADA de GARGOYLE (tipo 0x08), con su ficha en IX
 C 0xAC03 apunta a las ranas que quedan por salir
 C 0xAC17 p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
+C 0xAC22 los saltos = 0x20
 C 0xAC27 ENTRADA de POISNFROG (tipo 0x07), con su ficha en IX
 C 0xAC2A p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 C 0xAC4B guarda el cuadro del enemigo
+C 0xAC4E baja los saltos
 C 0xAC52 sube el paso en que va
 C 0xAC55 el cuadro del enemigo = 0x04
+C 0xAC5D la espera o el punto del salto = 0x08
+C 0xAC64 guarda la y en el suelo (baja)
 C 0xAC67 lee la y del enemigo
+C 0xAC6A guarda la y en el suelo
+C 0xAC70 guarda la x en el suelo (baja)
 C 0xAC73 lee la x del enemigo
+C 0xAC76 guarda la x en el suelo
 C 0xAC7A POISNFROG, paso 1
 C 0xAC85 POISNFROG, paso 3
 C 0xAC8C POISNFROG, paso 4
@@ -737,13 +872,20 @@ C 0xACD4 la pantalla 0x06?
 C 0xACDE dibujos_ACEA: 4 palabras segun A & C que p03:ACDE pasa a p00:5A69
 C 0xACE1 p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
 C 0xACE7 p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
+C 0xACFA los saltos = 0x20
 C 0xACFF ENTRADA de MIREFROG (tipo 0x3E), con su ficha en IX
 C 0xAD02 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 C 0xAD23 guarda el cuadro del enemigo
+C 0xAD26 baja los saltos
 C 0xAD2A sube el paso en que va
 C 0xAD2D el cuadro del enemigo = 0x07
+C 0xAD35 la espera o el punto del salto = 0x08
+C 0xAD3C guarda la y en el suelo (baja)
 C 0xAD3F lee la y del enemigo
+C 0xAD42 guarda la y en el suelo
+C 0xAD48 guarda la x en el suelo (baja)
 C 0xAD4B lee la x del enemigo
+C 0xAD4E guarda la x en el suelo
 C 0xAD52 MIREFROG, paso 1
 C 0xAD5D MIREFROG, paso 3
 C 0xAD64 MIREFROG, paso 4
@@ -754,9 +896,11 @@ C 0xAD80 MIREFROG, paso 8
 C 0xAD87 MIREFROG, paso 9
 C 0xAD95 el cuadro del enemigo = 0x11
 C 0xAD9B el cuadro del enemigo = 0x10
+C 0xADA0 guarda si mira arriba
 C 0xADA3 si se mueve = 0x01
 C 0xADAE byte_12_ADC1: 8 bytes: lo que p03:ADAE pone en ix+0x12 segun (HL) & 7
 C 0xADB1 p00:hl_mas_a
+C 0xADB5 guarda los cuadros hasta parar
 C 0xADBE p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
 C 0xADCC dungroll_empieza_a_rodar: A EMPUJAR: el paso de ahora a ix+0x13, 0x18 cuadros en el paso 2, parado
 C 0xADCF lee el paso en que va
@@ -769,58 +913,100 @@ C 0xADF7 lee la x del enemigo
 C 0xAE00 p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 C 0xAE04 baja el paso en que va
 C 0xAE0A p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
+C 0xAE10 lee la cuenta del empujon
+C 0xAE1F mira el bit 0 de si mira arriba
 C 0xAE23 el cuadro del enemigo = 0x10
 C 0xAE28 el cuadro del enemigo = 0x11
+C 0xAE2D lee el paso de antes
 C 0xAE30 guarda el paso en que va
 C 0xAE3B p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
+C 0xAE3E los cuadros hasta parar = 0x50
 C 0xAE47 el cuadro del enemigo = 0x10
 C 0xAE4D el cuadro del enemigo = 0x11
 C 0xAE55 p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 C 0xAE59 lee el cuadro del enemigo
 C 0xAE61 lee la x del enemigo
+C 0xAE64 mira el bit 0 de si mira arriba
 C 0xAE6E lee la y del enemigo
 C 0xAE73 p01:crea_una_figura: CREA UNA FIGURA: el tipo C en DE
+C 0xAE7E mira el bit 0 de si mira arriba
 C 0xAE82 cuadros_AE92: dos parejas de cuadros (ix+0x0B) segun el bit 0 de ix+0x15 (p03:AE82)
 C 0xAE8A p00:hl_mas_a
 C 0xAE8E guarda el cuadro del enemigo
+C 0xAE9A la cuenta del empujon = 0x18
 C 0xAE9E lee el paso en que va
+C 0xAEA1 guarda el paso de antes
 C 0xAEA4 el paso en que va = 0x02
 C 0xAEAB p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 C 0xAED4 guarda el paso en que va
+C 0xAED7 guarda los saltos para lanzar
 C 0xAEDD la pantalla 0x20?
 C 0xAEE7 parejas_AF0F: 12 parejas que p03:AEE7 pone en ix+0x12 e ix+0x19 segun C
 C 0xAEEA p00:hl_mas_a
+C 0xAEEE guarda los saltos por lado
+C 0xAEF3 guarda el sentido (bit 0 arriba o abajo, bit 1 el lado)
 C 0xAEF6 el cuadro del enemigo = 0x10
+C 0xAEFA la cuenta = 0x20
+C 0xAEFE los saltos dados = 0x00
+C 0xAF05 guarda la y en el suelo (baja)
 C 0xAF08 lee la y del enemigo
+C 0xAF0B guarda la y en el suelo
 C 0xAF27 ENTRADA de FIRETOTEM (tipo 0x29), con su ficha en IX
 C 0xAF2A p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 C 0xAF4F guarda el cuadro del enemigo
+C 0xAF52 baja la cuenta
+C 0xAF57 lee la cuenta
+C 0xAF5D lee si va a lanzar
 C 0xAF61 firetotem_lanza: la figura 0x8C en su sitio
+C 0xAF6C lee los saltos dados
+C 0xAF6F compara con los saltos por lado
 C 0xAF84 guarda el paso en que va
+C 0xAF87 la cuenta = 0x0E
 C 0xAF8B p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 C 0xAF92 p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 C 0xAF9C guarda el paso en que va
+C 0xAF9F la cuenta = 0x08
+C 0xAFA3 lee el sentido (bit 0 arriba o abajo, bit 1 el lado)
+C 0xAFA8 guarda el sentido (bit 0 arriba o abajo, bit 1 el lado)
 C 0xAFAE firetotem_cuadro: el cuadro de p03:B040 segun ix+0x14
 C 0xAFB1 firetotem_suma_velocidad: la y del suelo (ix+0x16/17) mas la velocidad vertical; la x, con la horizontal
 C 0xAFB4 firetotem_altura: la y: la del suelo mas p03:AFFC segun ix+0x14
 C 0xAFBC guarda el paso en que va
+C 0xAFBF la cuenta = 0x10
 C 0xAFC3 firetotem_cuenta: cada 4 saltos, ix+0x18 = 1: en la espera siguiente lanza
+C 0xAFC6 lee el sentido (bit 0 arriba o abajo, bit 1 el lado)
+C 0xAFCB guarda el sentido (bit 0 arriba o abajo, bit 1 el lado)
 C 0xAFDE FIRETOTEM, paso 4
+C 0xAFE5 lee la cuenta
 C 0xAFE8 p00:hl_mas_a
+C 0xAFEE lee la y en el suelo (baja)
+C 0xAFF1 lee la y en el suelo
 C 0xAFF8 guarda la y del enemigo
+C 0xB00E lee la y en el suelo
 C 0xB011 lee la velocidad vertical (baja)
 C 0xB014 lee la velocidad vertical
+C 0xB018 guarda la y en el suelo (baja)
+C 0xB01B guarda la y en el suelo
 C 0xB021 lee la x del enemigo
 C 0xB024 lee la velocidad horizontal (baja)
 C 0xB027 lee la velocidad horizontal
 C 0xB02E guarda la x del enemigo
+C 0xB035 lee la cuenta
 C 0xB038 p00:hl_mas_a
 C 0xB03C guarda el cuadro del enemigo
+C 0xB052 lee los saltos para lanzar
+C 0xB058 si va a lanzar = 0x01
 C 0xB05F lee la y del enemigo
 C 0xB062 lee la x del enemigo
 C 0xB065 p01:crea_una_figura: CREA UNA FIGURA: el tipo C en DE
+C 0xB06C los saltos = 0x00
+C 0xB070 la espera o el punto del salto = 0x0C
+C 0xB077 guarda la y en el suelo (baja)
 C 0xB07A lee la y del enemigo
+C 0xB07D guarda la y en el suelo
+C 0xB083 guarda la x en el suelo (baja)
 C 0xB086 lee la x del enemigo
+C 0xB089 guarda la x en el suelo
 C 0xB0A7 ENTRADA de HUMPEDMAN (tipo 0x30), con su ficha en IX
 C 0xB0AA p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 C 0xB0CC HUMPEDMAN, paso 3
@@ -860,6 +1046,7 @@ C 0xB251 ENTRADA de BUCKLER (tipo 0x44), con su ficha en IX
 C 0xB254 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 C 0xB26D el cuadro del enemigo = 0x26
 C 0xB277 guarda el paso en que va
+C 0xB27A los pasos = 0x30
 C 0xB27F BUCKLER, paso 2
 C 0xB283 el cuadro del enemigo = 0x2C
 C 0xB28B BUCKLER, paso 3
@@ -868,6 +1055,7 @@ C 0xB297 BUCKLER, paso 4
 C 0xB29B el cuadro del enemigo = 0x27
 C 0xB2A5 buckler_cuadros: los cuadros de p03:B2E9
 C 0xB2AA p01:mueve_la_ficha: un paso: la y (ix+2, ix+3) mas la velocidad vertical...
+C 0xB2B3 lee los pasos
 C 0xB2BC p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 C 0xB2C3 BUCKLER, paso 6
 C 0xB2C5 buckler_cuadros: los cuadros de p03:B2E9
@@ -879,6 +1067,7 @@ C 0xB2FB ENTRADA de GRASSOGRE (tipo 0x43), con su ficha en IX
 C 0xB2FE p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 C 0xB30D grassogre_cuadros: los cuadros de p03:B35F...
 C 0xB312 p01:mueve_la_ficha: un paso: la y (ix+2, ix+3) mas la velocidad vertical...
+C 0xB31B lee los pasos
 C 0xB324 p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 C 0xB32B GRASSOGRE, paso 2
 C 0xB32D grassogre_cuadros: los cuadros de p03:B35F...
@@ -894,9 +1083,14 @@ C 0xB37B p00:despacha: Salta a la entrada A de la tabla de palabras que va pegad
 C 0xB390 guarda la y del enemigo
 C 0xB399 guarda la x del enemigo
 C 0xB3A3 ENTRADA de WOODWORM (tipo 0x03), con su ficha en IX
+C 0xB3AA la y maxima del centro = 0x81
+C 0xB3AE la x minima del centro = 0x20
+C 0xB3B2 la x maxima del centro = 0x91
+C 0xB3B6 la velocidad de la vuelta = 0x03
 C 0xB3D4 guarda el cuadro del enemigo
 C 0xB3DF lee la x del enemigo
 C 0xB3E5 lee la y del enemigo
+C 0xB3EE guarda cuantos quedan de su grupo
 C 0xB3F6 lee la y del enemigo
 C 0xB3F9 lee la x del enemigo
 C 0xB421 guarda el tipo del enemigo
@@ -905,12 +1099,25 @@ C 0xB431 guarda la y del enemigo
 C 0xB43D guarda la x del enemigo
 C 0xB441 guarda si se mueve
 C 0xB444 guarda la cuenta de cuadros
+C 0xB44B su hueco (su numero en la lista de la pantalla) = 0xFF
+C 0xB44F guarda si sus sprites no se mueven
+C 0xB452 guarda si tiene el fondo guardado
+C 0xB458 guarda los toques (bit 0: toca a Mitchel; bit 1: le han dado)
 C 0xB45E guarda el cuadro del enemigo
 C 0xB464 guarda la vida del enemigo (BCD)
+C 0xB47D guarda cuantos quedan de su grupo
 C 0xB4B4 p00:hl_mas_a
 C 0xB4C5 ENTRADA de GRASSWORM (tipo 0x12), con su ficha en IX
 C 0xB4C8 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 C 0xB4E9 lee la Y de Mitchel
+C 0xB4FA compara con la y minima del centro
+C 0xB4FF lee la y minima del centro
+C 0xB50D compara con la y maxima del centro
+C 0xB512 lee la y maxima del centro
+C 0xB52A compara con la x minima del centro
+C 0xB52F lee la x minima del centro
+C 0xB53D compara con la x maxima del centro
+C 0xB542 lee la x maxima del centro
 C 0xB555 gusanos_paso: LA VUELTA: con ix+0x12 (0-0xFF, sube ix+0x1B cada vez) y los 65 bytes de p03:B737...
 C 0xB55F p00:hl_mas_a
 C 0xB562 lee la y del enemigo
@@ -918,6 +1125,14 @@ C 0xB567 lee la x del enemigo
 C 0xB571 sube el paso en que va
 C 0xB587 lee la cuenta de cuadros
 C 0xB58D lee la Y de Mitchel
+C 0xB59E compara con la y minima del centro
+C 0xB5A3 lee la y minima del centro
+C 0xB5B1 compara con la y maxima del centro
+C 0xB5B6 lee la y maxima del centro
+C 0xB5CE compara con la x minima del centro
+C 0xB5D3 lee la x minima del centro
+C 0xB5E1 compara con la x maxima del centro
+C 0xB5E6 lee la x maxima del centro
 C 0xB5FA gusanos_paso: LA VUELTA: con ix+0x12 (0-0xFF, sube ix+0x1B cada vez) y los 65 bytes de p03:B737...
 C 0xB604 p00:hl_mas_a
 C 0xB607 lee la y del enemigo
@@ -939,10 +1154,21 @@ C 0xB6DF guarda la y del enemigo
 C 0xB6F9 pasos_B737: 65 bytes que recorren p03:B664, p03:B6A7 y p03:B6F9 segun ix+0x12
 C 0xB722 gusanos_de_la_tabla: A = el byte de la tabla >> E, con el signo de C en el acarreo
 C 0xB731 guarda la y del enemigo
+C 0xB780 la x minima del centro = 0x20
+C 0xB784 la x maxima del centro = 0x91
+C 0xB788 la velocidad de la vuelta = 0x03
+C 0xB7A3 la y maxima del centro = 0x71
+C 0xB7A7 la x minima del centro = 0x30
+C 0xB7AB la x maxima del centro = 0x91
+C 0xB7AF la velocidad de la vuelta = 0x03
 C 0xB7CD ENTRADA de CENTIPEDE (tipo 0x13), con su ficha en IX
 C 0xB7D0 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 C 0xB7F0 guarda el cuadro del enemigo
 C 0xB801 guarda el cuadro del enemigo
+C 0xB809 la y maxima del centro = 0x71
+C 0xB80D la x minima del centro = 0x20
+C 0xB811 la x maxima del centro = 0x91
+C 0xB815 la velocidad de la vuelta = 0x03
 C 0xB826 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 C 0xB82F CENTIPEDE, paso 0
 C 0xB832 CENTIPEDE, paso 1
@@ -1077,28 +1303,42 @@ C 0xBD50 fichas_BD82: 5 punteros segun C a fichas de 9 bytes (p03:BD50)
 C 0xBD53 p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
 C 0xBD56 apunta a la ficha 0x3D que va (su terna de p03:BD82)
 C 0xBD5E p00:de_mas_a
+C 0xBD62 guarda el eje y el sentido
+C 0xBD67 guarda un extremo
+C 0xBD6C guarda el otro extremo
 C 0xBD72 velocidades_BDB9: 4 palabras segun ix+0x12 que p03:BD72 pone en ix+7 o ix+9
 C 0xBD75 p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
+C 0xBD78 mira el bit 1 de el eje y el sentido
 C 0xBD7C p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 C 0xBD7F p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 C 0xBDC1 ENTRADA de la ficha del tipo 0x3D, con ella en IX
 C 0xBDC4 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0xBDD1 lee un extremo
+C 0xBDD6 lee el otro extremo
+C 0xBDD9 mira el bit 1 de el eje y el sentido
 C 0xBDDF lee la y del enemigo
 C 0xBDE4 lee la x del enemigo
+C 0xBDEC la espera = 0x10
 C 0xBDF0 si se mueve = 0x00
 C 0xBDF9 baja el paso en que va
 C 0xBDFC si se mueve = 0x01
+C 0xBE00 lee el eje y el sentido
+C 0xBE05 guarda el eje y el sentido
 C 0xBE0A lee la velocidad vertical (baja)
 C 0xBE0D lee la velocidad vertical
 C 0xBE12 lee la velocidad horizontal (baja)
 C 0xBE15 lee la velocidad horizontal
 C 0xBE18 p01:niega_de: DE = -DE
+C 0xBE1B mira el bit 1 de el eje y el sentido
 C 0xBE1F p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 C 0xBE22 p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
+C 0xBE29 la espera = 0x10
 C 0xBE2E ENTRADA de RUINSBAT (tipo 0x3F), con su ficha en IX
 C 0xBE31 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 C 0xBE3D sube el paso en que va
 C 0xBE44 lee la X de Mitchel
+C 0xBE4C sube hacia que eje va
+C 0xBE4F mira el bit 0 de hacia que eje va
 C 0xBE60 lee la x del enemigo
 C 0xBE68 p01:angulo_hacia_e800: el angulo (0xE815) desde DE hacia el punto de 0xE800 (y) y 0xE801 (x): dy con su signo en 0xE810...
 C 0xBE6B p01:rumbo_del_angulo_e815: ...el seno y el coseno (p01:725E) del angulo de 0xE815...
@@ -1110,7 +1350,12 @@ C 0xBE7E p01:mueve_la_ficha: un paso: la y (ix+2, ix+3) mas la velocidad vertica
 C 0xBE84 lee la x del enemigo
 C 0xBE96 guarda la y del enemigo
 C 0xBEA8 guarda la x del enemigo
+C 0xBEB0 la espera = 0x10
 C 0xBEB4 baja el paso en que va
+C 0xBEBE sube su dibujo
+C 0xBEC1 lee su dibujo
+C 0xBEC8 su dibujo = 0x00
+C 0xBECC lee su dibujo
 C 0xBECF cuadros_BEDA: 6 bytes: el cuadro (ix+0x0B) segun ix+0x14 (p03:BECF)
 C 0xBED2 p00:hl_mas_a
 C 0xBED6 guarda el cuadro del enemigo

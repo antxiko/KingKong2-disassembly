@@ -177,7 +177,14 @@ CAMPOS = {
         0x0C: "la cuenta de cuadros",                 # p01:6878
         0x0D: "la vida del enemigo (BCD)",            # p09:B7D6
         0x1F: "el tipo que tenia antes de morir",     # p00:5DA8
+        0x0F: "su hueco (su numero en la lista de la pantalla)",  # p00:5AE8
+        0x10: "si sus sprites no se mueven",          # p00:5119
+        0x11: "si tiene el fondo guardado",           # p00:5E1F
+        0x1C: "cuantos quedan de su grupo",           # p00:5ED4
+        0x1E: "los toques (bit 0: toca a Mitchel; bit 1: le han dado)",  # p09:BA15, p09:B857
         0x20: "cuantos sprites lleva",                # p00:5A94
+        0x7D: "si ya no queda ninguno de su grupo",   # p00:5EFC
+        0x7E: "el lado por el que le han dado",       # p09:B809
     },
     "objeto": {                    # 0xC400 + 16*n (p01:787E)
         0x00: "el numero de objeto",
@@ -493,6 +500,9 @@ def comentario(b, filas, k, clases, rut, cruces, fuentes=None, datos=None, repar
         if mm:
             n = int(mm.group(1), 16)
             que = CAMPOS[cl].get(n)
+            if not que and cl == "ficha" and b in (2, 3):
+                qs = {CAMPOS_POR_ENTRADA.get(e, {}).get(n) for e in DUENOS.get(a, ())}
+                que = qs.pop() if len(qs) == 1 else None
             if que:
                 op = t.split()[0]
                 if op == "ld" and t.startswith("ld (ix"):
@@ -548,6 +558,88 @@ def comentario(b, filas, k, clases, rut, cruces, fuentes=None, datos=None, repar
     return None
 
 
+DUENOS = {}                          # direccion -> las entradas de los enemigos que la ejecutan
+CAMPOS_POR_ENTRADA = {}
+# Los campos propios de la ficha de cada enemigo (ix+0x12 en adelante), por un
+# tipo del grupo: salen de leer su codigo (p02 y p03).
+RANAS = {0x12: "los saltos", 0x13: "la espera o el punto del salto",
+         0x14: "la y en el suelo (baja)", 0x15: "la y en el suelo",
+         0x16: "la x en el suelo (baja)", 0x17: "la x en el suelo", 0x18: "si no avanza",
+         0x19: "si ya giro", 0x1A: "su punto del guion"}
+SALTARINES = {0x16: "la y de donde salto", 0x17: "la espera tras tirar",
+              0x18: "el punto de la curva", 0x19: "su direccion", 0x1A: "los pasos",
+              0x1B: "los pasos"}
+GUSANOS_LARGOS = {0x17: "la y minima del centro", 0x18: "la y maxima del centro",
+                  0x19: "la x minima del centro", 0x1A: "la x maxima del centro",
+                  0x1B: "la velocidad de la vuelta"}
+CAMPOS_DE_GRUPO = {
+    0x04: {0x14: "la cuenta de 8 cuadros"},
+    0x05: {0x14: "la cuenta de 8 cuadros", 0x15: "su direccion"},
+    0x10: {0x13: "el paso del cuadro (1 o -1)", 0x14: "la cuenta del vaiven",
+           0x19: "su tabla de pasos (0 o 1)"},
+    0x11: {0x14: "hacia donde va (bit 0)"},
+    0x1C: {0x14: "su direccion", 0x15: "la cuenta de 0x90 cuadros", 0x16: "la espera",
+           0x18: "su bola (baja)", 0x19: "su bola (alta)"},
+    0x1A: {0x14: "la cuenta de 0x40 cuadros"},
+    0x28: {0x18: "la y del punto al que va", 0x19: "la x del punto al que va",
+           0x1A: "la y de Mitchel guardada", 0x1B: "la x de Mitchel guardada",
+           0x13: "el paso del cuadro"},
+    0x33: {0x15: "la espera", 0x16: "la y a la que va", 0x17: "la x a la que va"},
+    0x3B: {0x14: "su direccion"},
+    0x40: {0x13: "si ya esta cerrada", 0x14: "los pasos que lleva", 0x15: "hacia donde cierra",
+           0x16: "su y", 0x17: "la x del trozo", 0x18: "la y de su sitio",
+           0x19: "la x de su sitio"},
+    0x41: {0x14: "su direccion"},
+    0x1B: {0x12: "el giro (1 o -1)", 0x19: "su diagonal", 0x1A: "si mira las casillas (bit 0)",
+           0x1B: "los dos lados de su diagonal"},
+    0x2F: {0x14: "su vida de antes", 0x19: "su direccion", 0x1A: "su direccion de antes"},
+    0x0A: {0x16: "si esta vez va hacia Mitchel", 0x18: "los pasos de cada tramo",
+           0x19: "los pasos que quedan", 0x1A: "la cuenta de 8 cuadros", 0x1B: "su direccion"},
+    0x09: {0x12: "los pasos hacia el punto", 0x13: "los pasos antes de cambiar",
+           0x14: "su direccion de antes", 0x19: "su direccion", 0x1A: "la x del punto",
+           0x1B: "la y del punto"},
+    0x32: {0x12: "la cuenta de 8 cuadros", 0x13: "su dibujo (0-3)", 0x15: "la y de su vuelo",
+           0x1B: "lo que Mitchel esta por debajo"},
+    0x3A: {0x12: "la x de donde salio", 0x13: "la y de donde salio",
+           0x14: "el paso al que vuelve", 0x15: "su diagonal de antes", 0x16: "su diagonal",
+           0x17: "la y de Mitchel", 0x18: "la x de Mitchel", 0x19: "la y de partida",
+           0x1A: "la x de partida", 0x1B: "la espera"},
+    0x1D: {0x12: "la cuenta de 0x96 cuadros", 0x14: "la espera parado",
+           0x15: "si esta vez va hacia Mitchel", 0x16: "su numero (tipo - 0x1D)",
+           0x17: "los pasos de cada tramo", 0x18: "sus banderas (bit 0 grande, bit 1 sin parar)",
+           0x19: "los pasos que quedan", 0x1A: "su direccion", 0x1B: "la espera de CAVERNBIG",
+           0x7F: "su direccion"},
+    0x3C: {0x12: "su direccion", 0x15: "si ha chocado con otro", 0x1B: "la espera o los pasos"},
+    0x2D: {0x13: "su punto del circulo", 0x15: "su numero de parte", 0x16: "el giro (+-5)",
+           0x18: "el retraso o la espera", 0x19: "la espera entre puntos",
+           0x1A: "la y a la que va", 0x1B: "la x a la que va"},
+    0x0B: {0x12: "la espera", 0x13: "la cuenta para soltar", 0x14: "la espera",
+           0x15: "su direccion", 0x1A: "los pasos"},
+    0x2C: {0x12: "si ya probo el rumbo", 0x13: "su direccion", 0x14: "su direccion de antes",
+           0x15: "su numero", 0x16: "la direccion contraria", 0x1A: "su dibujo",
+           0x1B: "la cuenta de 4"},
+    0x17: SALTARINES,
+    0x2A: {0x12: "la espera", 0x13: "la cuenta de cuadros"},
+    0x2B: {0x12: "la espera", 0x13: "la cuenta de cuadros"},
+    0x06: RANAS,
+    0x08: RANAS, 0x07: RANAS, 0x3E: RANAS, 0x30: RANAS,
+    0x19: SALTARINES, 0x24: SALTARINES, 0x37: SALTARINES,
+    0x2E: GUSANOS_LARGOS, 0x13: GUSANOS_LARGOS, 0x14: GUSANOS_LARGOS,
+    0x02: {}, 0x03: {},
+    0x15: {0x12: "los cuadros hasta parar", 0x13: "el paso de antes",
+           0x14: "la cuenta del empujon", 0x15: "si mira arriba"},
+    0x29: {0x12: "los saltos por lado", 0x13: "los saltos dados", 0x14: "la cuenta",
+           0x15: "los saltos para lanzar", 0x16: "la y en el suelo (baja)",
+           0x17: "la y en el suelo", 0x18: "si va a lanzar",
+           0x19: "el sentido (bit 0 arriba o abajo, bit 1 el lado)"},
+    0x01: {0x12: "los pasos", 0x13: "la espera", 0x15: "su punto del guion"},
+    0x44: {0x12: "los pasos", 0x13: "la espera", 0x15: "su punto del guion", 0x7F: "su lado"},
+    0x43: {0x12: "los pasos", 0x13: "la espera", 0x15: "su punto del guion"},
+    0x3F: {0x12: "la espera", 0x13: "hacia que eje va", 0x14: "su dibujo"},
+    0x3D: {0x12: "el eje y el sentido", 0x13: "un extremo", 0x14: "el otro extremo",
+           0x15: "la espera"},
+    0x12: GUSANOS_LARGOS,
+}
 TABLA_DE_TIPOS = 0x6885              # p01:6885: la entrada de cada tipo (1-68)
 TABLA_DE_CREACION = 0x5B1E           # p00:5B1E: lo que hace cada tipo al crearse
 LO_QUE_SUELTA_TIPO = 0xBA66          # p03:BA66: tipo - 1 -> rutina (0xFF nada)
@@ -645,8 +737,16 @@ def pasos_de_los_enemigos():
         if banco(e):
             entradas.setdefault(e, []).append(t)
     duenos = {}
+    raices = {e: [e] for e in entradas}
+    for t in range(1, 69):
+        o = 0x2000 + TABLA_DE_TIPOS - 0x6000 + 2 * (t - 1)
+        e = rom[o] | rom[o + 1] << 8
+        o = TABLA_DE_CREACION - 0x4000 + 2 * (t - 1)
+        c = rom[o] | rom[o + 1] << 8
+        if e in raices and banco(c):
+            raices[e].append(c)
     for e in entradas:
-        pila, visto = [e], set()
+        pila, visto = list(raices[e]), set()
         while pila:
             a = pila.pop()
             b = banco(a)
@@ -664,6 +764,11 @@ def pasos_de_los_enemigos():
         ns = list(dict.fromkeys(ns))
         return ns[0] if len(ns) == 1 else "%s y %s" % (", ".join(ns[:-1]), ns[-1]) if len(ns) <= 3             else "%s y %d mas" % (", ".join(ns[:2]), len(ns) - 2)
 
+    DUENOS.clear()
+    DUENOS.update(duenos)
+    for t, campos in CAMPOS_DE_GRUPO.items():
+        o = 0x2000 + TABLA_DE_TIPOS - 0x6000 + 2 * (t - 1)
+        CAMPOS_POR_ENTRADA[rom[o] | rom[o + 1] << 8] = campos
     fuera = {}
     creacion = {}
     for t in range(1, 69):

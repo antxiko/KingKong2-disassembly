@@ -24,14 +24,14 @@ DATA_call_partido:
 L_A002:
 	ld hl,0bf32h		;a002   ; velocidades: 16 entradas de 4 bytes que p03:BF19 pone en ix+8, ix+7, ix+0x0A e ix+9 (dos velocidades de 16 bits) segun A; se entra por 0xBF32, 0xBF42, 0xBF52 y 0xBF62
 L_A005:
-	ld (ix+015h),a		;a005
+	ld (ix+015h),a		;a005   ; guarda su direccion
 	jp velocidad_de_la_tabla_4		;a008   ; velocidad_de_la_tabla_4: las dos velocidades de las 4 bytes HL + 4*A: [vy alta][vy baja][vx alta][vx baja]
 L_A00B:
 	call spider_cuadros		;a00b   ; PASO 1: parada ix+0x12 cuadros y vuelta al paso 0 con otro rumbo...
 	ld a,(0dfb0h)		;a00e
 	dec a			;a011
 	jr z,L_A01E		;a012
-	dec (ix+012h)		;a014
+	dec (ix+012h)		;a014   ; baja la espera
 	ret nz			;a017
 	dec (ix+001h)		;a018   ; baja el paso en que va
 	jp 09f6ah		;a01b
@@ -43,7 +43,7 @@ L_A01E:
 	ld a,(ix+005h)		;a028   ; lee la x del enemigo
 	ld (0dfb2h),a		;a02b
 	ld (ix+001h),002h		;a02e   ; el paso en que va = 0x02
-	ld (ix+014h),030h		;a032
+	ld (ix+014h),030h		;a032   ; la espera = 0x30
 	ld (ix+006h),000h		;a036   ; si se mueve = 0x00
 	ld a,(ix+000h)		;a03a   ; ...y REDSPIDER saldra en vertical hacia la mitad de Mitchel; BIGSPIDER, hacia el a 0x90
 	cp 00bh		;a03d   ; REDSPIDER (tipo 0x0B)?
@@ -92,7 +92,7 @@ L_A066:
 	ret c			;a094
 L_A095:
 	inc (ix+001h)		;a095   ; ...entonces quieta 0x10 cuadros y con la velocidad al reves (paso 4)
-	ld (ix+014h),010h		;a098
+	ld (ix+014h),010h		;a098   ; la espera = 0x10
 	ld (ix+006h),000h		;a09c   ; si se mueve = 0x00
 	ld a,(ix+008h)		;a0a0   ; lee la velocidad vertical
 	cpl			;a0a3
@@ -235,32 +235,32 @@ L_A1A1:
 L_A1BB:
 	ld bc,00000h		;a1bb   ; ...mirando hacia Mitchel, apunta su sitio (0xDFB1, 0xDFB2), cuadro 0x0E, 6 en ix+0x1C
 	call 0729eh		;a1be   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
-	ld (ix+013h),a		;a1c1
+	ld (ix+013h),a		;a1c1   ; guarda su direccion
 	call grounder_cuadro		;a1c4   ; grounder_cuadro: la direccion A en ix+0x13 (la de antes en ix+0x14), su cuadro de p03:A362 y sus velocidades de p03:BF42
 	ld a,(ix+003h)		;a1c7   ; lee la y del enemigo
 	ld (0dfb1h),a		;a1ca
 	ld a,(ix+005h)		;a1cd   ; lee la x del enemigo
 	ld (0dfb2h),a		;a1d0
 	ld (ix+006h),001h		;a1d3   ; si se mueve = 0x01
-	ld (ix+012h),000h		;a1d7
+	ld (ix+012h),000h		;a1d7   ; si ya probo el rumbo = 0x00
 	ld (ix+00bh),00eh		;a1db   ; el cuadro del enemigo = 0x0E
-	ld (ix+01ch),006h		;a1df
+	ld (ix+01ch),006h		;a1df   ; cuantos quedan de su grupo = 0x06
 	res 1,(ix+00eh)		;a1e3
 	ret			;a1e7
 L_A1E8:
 	ld a,(0dfb0h)		;a1e8   ; los otros: su numero (0xDFB0) en ix+0x15 y su direccion (numero & 3); cuadro 0x0E
-	ld (ix+015h),a		;a1eb
+	ld (ix+015h),a		;a1eb   ; guarda su numero
 	cp 006h		;a1ee
 	jr z,L_A1F6		;a1f0
 	res 1,(ix+00eh)		;a1f2
 L_A1F6:
 	and 003h		;a1f6
-	ld (ix+01ah),a		;a1f8
+	ld (ix+01ah),a		;a1f8   ; guarda su dibujo
 	ld (ix+006h),001h		;a1fb   ; si se mueve = 0x01
 	ld (ix+00bh),00eh		;a1ff   ; el cuadro del enemigo = 0x0E
-	ld (ix+01bh),004h		;a203
-	ld (ix+01ch),006h		;a207
-	ld (ix+00fh),0ffh		;a20b
+	ld (ix+01bh),004h		;a203   ; la cuenta de 4 = 0x04
+	ld (ix+01ch),006h		;a207   ; cuantos quedan de su grupo = 0x06
+	ld (ix+00fh),0ffh		;a20b   ; su hueco (su numero en la lista de la pantalla) = 0xFF
 	jp L_A318		;a20f
 L_A212:
 	ld a,(ix+015h)		;a212   ; GROUNDER: los que no son el primero, por p03:A2E0
@@ -276,7 +276,7 @@ L_A229:
 	xor a			;a229
 	ld (0dfb4h),a		;a22a
 	ld a,(ix+003h)		;a22d   ; alineado a 16 en el eje por el que va (0xDFB4 = 1)...
-	bit 0,(ix+013h)		;a230
+	bit 0,(ix+013h)		;a230   ; mira el bit 0 de su direccion
 	jr z,L_A239		;a234
 	ld a,(ix+005h)		;a236   ; lee la x del enemigo
 L_A239:
@@ -287,7 +287,7 @@ L_A239:
 	ld a,(ix+012h)		;a241   ; ...prueba el rumbo; si quedan menos de 6, crea otro
 	and 001h		;a244
 	jr z,grounder_prueba_rumbo		;a246
-	ld a,(ix+015h)		;a248
+	ld a,(ix+015h)		;a248   ; lee su numero
 	cp 002h		;a24b
 	call nc,grounder_prueba_rumbo		;a24d   ; grounder_prueba_rumbo: si choca, p03:A2A9; si no, hacia Mitchel salvo si es dar media vuelta...
 	ld a,(0dfb0h)		;a250
@@ -320,7 +320,7 @@ L_A284:
 	xor a			;a287
 	ld (0dfb3h),a		;a288
 L_A28B:
-	cp (ix+016h)		;a28b
+	cp (ix+016h)		;a28b   ; compara con la direccion contraria
 	jr z,L_A298		;a28e
 	ld e,000h		;a290
 	call 07303h		;a292   ; p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
@@ -331,7 +331,7 @@ L_A298:
 	ld (0dfb3h),a		;a29c
 	cp 004h		;a29f
 	jr c,L_A28B		;a2a1
-	ld a,(ix+016h)		;a2a3
+	ld a,(ix+016h)		;a2a3   ; lee la direccion contraria
 	jp grounder_cuadro		;a2a6   ; grounder_cuadro: la direccion A en ix+0x13 (la de antes en ix+0x14), su cuadro de p03:A362 y sus velocidades de p03:BF42
 L_A2A9:
 	ld a,(ix+005h)		;a2a9   ; choca: dentro de x 0x30-0x7F, hacia Mitchel; fuera, una vez si y otra no (0xDFB5)
@@ -362,8 +362,8 @@ grounder_crea_otro:
 	jp 05a69h		;a2dd   ; p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
 L_A2E0:
 	res 1,(ix+00eh)		;a2e0   ; LOS DEMAS GROUNDER: cada 4 cuadros el cuadro siguiente de los 4 de p03:A366...
-	ld a,(ix+01ch)		;a2e4
-	cp (ix+015h)		;a2e7
+	ld a,(ix+01ch)		;a2e4   ; lee cuantos quedan de su grupo
+	cp (ix+015h)		;a2e7   ; compara con su numero
 	jr nz,L_A2F4		;a2ea
 	ld a,(ix+00eh)		;a2ec
 	add a,002h		;a2ef
@@ -371,14 +371,14 @@ L_A2E0:
 L_A2F4:
 	dec (ix+01bh)		;a2f4   ; cada 4 cuadros...
 	jr nz,L_A313		;a2f7
-	ld (ix+01bh),004h		;a2f9
+	ld (ix+01bh),004h		;a2f9   ; la cuenta de 4 = 0x04
 	ld a,(ix+01ah)		;a2fd   ; ...el dibujo siguiente de los 4
 	inc a			;a300
 	cp 004h		;a301
 	jr nz,L_A306		;a303
 	xor a			;a305
 L_A306:
-	ld (ix+01ah),a		;a306
+	ld (ix+01ah),a		;a306   ; guarda su dibujo
 	ld hl,0a366h		;a309
 	call 04255h		;a30c   ; p00:hl_mas_a
 	ld a,(hl)			;a30f
@@ -388,7 +388,7 @@ L_A313:
 	dec a			;a316
 	ret nz			;a317
 L_A318:
-	ld e,(ix+015h)		;a318
+	ld e,(ix+015h)		;a318   ; lee su numero
 	dec e			;a31b
 	push ix		;a31c
 	ld ix,0d000h		;a31e   ; apunta a las fichas de los enemigos (13 de 0x80)
@@ -401,7 +401,7 @@ L_A329:
 	add ix,bc		;a32c
 	jr L_A322		;a32e
 L_A330:
-	ld a,(ix+015h)		;a330
+	ld a,(ix+015h)		;a330   ; lee su numero
 	cp e			;a333
 	jr nz,L_A329		;a334
 	ld a,(ix+014h)		;a336   ; ...tomando la direccion que el llevaba antes (su ix+0x14): van en fila
@@ -440,11 +440,11 @@ L_A36A:
 	xor a			;a36e
 	ld (ix+007h),a		;a36f   ; guarda la velocidad vertical (baja)
 	ld (ix+009h),a		;a372   ; guarda la velocidad horizontal (baja)
-	ld (ix+018h),00fh		;a375
-	ld (ix+019h),002h		;a379
+	ld (ix+018h),00fh		;a375   ; el punto de la curva = 0x0F
+	ld (ix+019h),002h		;a379   ; su direccion = 0x02
 	call saltarines_elige		;a37d   ; saltarines_elige: EL CUADRO: POLEMAN, BOOMERANG y FALCONER, direccion*2 y el siguiente cada 4 cuadros...
-	ld (ix+01ah),008h		;a380
-	ld (ix+01bh),008h		;a384
+	ld (ix+01ah),008h		;a380   ; los pasos = 0x08
+	ld (ix+01bh),008h		;a384   ; los pasos = 0x08
 	ret			;a388
 L_A389:
 	ld a,(ix+001h)		;a389   ; BLOWMIRE y FALCONER: en el paso 5, sin mas...
@@ -544,7 +544,7 @@ L_A41A:
 L_A442:
 	call saltarines_elige		;a442   ; PASO 1: si choca, hacia Mitchel...
 	call 09a9fh		;a445   ; p02:sigue_si_esta_en_casilla: si la ficha no esta alineada a 8 en x e y, vuelve al que llamo al que llamo
-	ld a,(ix+019h)		;a448
+	ld a,(ix+019h)		;a448   ; lee su direccion
 	ld e,000h		;a44b
 	call 07303h		;a44d   ; p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 	jr nc,L_A45B		;a450
@@ -563,7 +563,7 @@ L_A46A:
 	call saltarines_alineado_en_y		;a46a   ; saltarines_alineado_en_y: EN SU FILA: si Mitchel esta en la misma y y a menos de 0x30, se aparta...
 	dec (ix+01ah)		;a46d   ; ...y a los 8 pasos, al paso 0 hacia la y de Mitchel (arriba o abajo)
 	ret nz			;a470
-	ld (ix+01ah),008h		;a471
+	ld (ix+01ah),008h		;a471   ; los pasos = 0x08
 	ld (ix+001h),000h		;a475   ; el paso en que va = 0x00
 	ld a,(0c303h)		;a479   ; lee la Y de Mitchel
 	cp (ix+003h)		;a47c   ; compara con la y del enemigo
@@ -577,11 +577,11 @@ L_A484:
 	jp L_A535		;a48c
 L_A48F:
 	ld a,(ix+003h)		;a48f   ; PASO 2, EL SALTO: al volver a la y de salida (ix+0x16), al paso 1...
-	cp (ix+016h)		;a492
+	cp (ix+016h)		;a492   ; compara con la y de donde salto
 	ld (ix+001h),001h		;a495   ; el paso en que va = 0x01
 	jp z,L_A51D		;a499
 	ld (ix+001h),002h		;a49c   ; ...si no, si choca en x se queda en su x (alineada a 8 salvo CLINGMAN) sin velocidad horizontal...
-	ld l,(ix+016h)		;a4a0
+	ld l,(ix+016h)		;a4a0   ; lee la y de donde salto
 	ld a,(ix+000h)		;a4a3   ; lee el tipo del enemigo
 	cp 037h		;a4a6   ; CLINGMAN (tipo 0x37)?
 	ld a,(ix+005h)		;a4a8   ; lee la x del enemigo
@@ -590,7 +590,7 @@ L_A48F:
 L_A4AF:
 	ld h,a			;a4af
 	ld c,a			;a4b0
-	ld a,(ix+019h)		;a4b1
+	ld a,(ix+019h)		;a4b1   ; lee su direccion
 	ld e,000h		;a4b4
 	call 07309h		;a4b6   ; p01:choca_desde_hl: desde (L, H) = (y, x): acarreo si hacia la direccion A no se puede pasar
 	jr nc,L_A4C2		;a4b9
@@ -605,7 +605,7 @@ L_A4C2:
 	ld hl,0a6b8h		;a4cf
 	ld bc,010e1h		;a4d2
 L_A4D5:
-	ld a,(ix+018h)		;a4d5
+	ld a,(ix+018h)		;a4d5   ; lee el punto de la curva
 	cp b			;a4d8
 	jr c,L_A4E9		;a4d9
 	add a,c			;a4db
@@ -620,11 +620,11 @@ L_A4E9:
 	ld a,(hl)			;a4ec
 	ld (ix+008h),a		;a4ed   ; guarda la velocidad vertical
 L_A4F0:
-	inc (ix+018h)		;a4f0
+	inc (ix+018h)		;a4f0   ; sube el punto de la curva
 	ret			;a4f3
 L_A4F4:
 	call saltarines_elige		;a4f4   ; PASO 3: espera ix+0x18 cuadros y a andar
-	dec (ix+018h)		;a4f7
+	dec (ix+018h)		;a4f7   ; baja el punto de la curva
 	ret nz			;a4fa
 	ld (ix+001h),000h		;a4fb   ; el paso en que va = 0x00
 	ld (ix+006h),001h		;a4ff   ; si se mueve = 0x01
@@ -679,7 +679,7 @@ L_A561:
 	ld (ix+00bh),a		;a562   ; guarda el cuadro del enemigo
 	ret			;a565
 L_A566:
-	ld a,(ix+019h)		;a566
+	ld a,(ix+019h)		;a566   ; lee su direccion
 	add a,a			;a569
 	ld (ix+00bh),a		;a56a   ; guarda el cuadro del enemigo
 	ld a,(ix+00ch)		;a56d   ; lee la cuenta de cuadros
@@ -724,7 +724,7 @@ L_A5A2:
 	jr z,L_A5BD		;a5b0
 	ld bc,00000h		;a5b2
 	call 0729eh		;a5b5   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
-	ld (ix+019h),a		;a5b8
+	ld (ix+019h),a		;a5b8   ; guarda su direccion
 	ld b,a			;a5bb
 	add a,a			;a5bc
 L_A5BD:
@@ -741,9 +741,9 @@ L_A5BE:
 	ld (ix+00bh),a		;a5d1   ; guarda el cuadro del enemigo
 	ld c,048h		;a5d4
 L_A5D6:
-	ld (ix+017h),c		;a5d6
-	ld (ix+01ah),008h		;a5d9
-	ld (ix+01bh),008h		;a5dd
+	ld (ix+017h),c		;a5d6   ; guarda la espera tras tirar
+	ld (ix+01ah),008h		;a5d9   ; los pasos = 0x08
+	ld (ix+01bh),008h		;a5dd   ; los pasos = 0x08
 	ld (ix+006h),000h		;a5e1   ; si se mueve = 0x00
 	ld e,(ix+003h)		;a5e5   ; ...y la figura de su tipo + 0x70 en su sitio
 	ld d,(ix+005h)		;a5e8   ; lee la x del enemigo
@@ -773,8 +773,8 @@ L_A608:
 	dec a			;a616
 	jr z,L_A5A2		;a617
 	pop hl			;a619
-	ld (ix+01ah),008h		;a61a
-	ld (ix+01bh),008h		;a61e
+	ld (ix+01ah),008h		;a61a   ; los pasos = 0x08
+	ld (ix+01bh),008h		;a61e   ; los pasos = 0x08
 	ld a,(ix+000h)		;a622   ; lee el tipo del enemigo
 	cp 024h		;a625   ; FALCONER (tipo 0x24)?
 	ret z			;a627
@@ -789,8 +789,8 @@ L_A63B:
 	ld a,00bh		;a63b
 	call 05488h		;a63d   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 	ld a,(ix+003h)		;a640   ; ...desde su y (ix+0x16), por la curva de p03:A6A0 o p03:A6B8, a -2 (CLINGMAN) o -3 en x...
-	ld (ix+016h),a		;a643
-	ld (ix+018h),001h		;a646
+	ld (ix+016h),a		;a643   ; guarda la y de donde salto
+	ld (ix+018h),001h		;a646   ; el punto de la curva = 0x01
 	ld a,(ix+000h)		;a64a   ; lee el tipo del enemigo
 	ld hl,0a6a0h		;a64d   ; tablas_A6A0: tres tablas de 16 bytes: 0xA6A0 (tipo 0x37) y 0xA6B8 (los demas) segun ix+0x18 (p03:A4C2), y parejas desde 0xA6C8 segun ix+0x19 (p03:A553)
 	ld b,0feh		;a650
@@ -805,12 +805,12 @@ L_A65A:
 	ld (ix+008h),a		;a661   ; guarda la velocidad vertical
 	ld a,b			;a664
 	ld (ix+00ah),a		;a665   ; guarda la velocidad horizontal
-	ld (ix+019h),003h		;a668
+	ld (ix+019h),003h		;a668   ; su direccion = 0x03
 	ld (ix+00bh),005h		;a66c   ; el cuadro del enemigo = 0x05
 	ret c			;a670   ; ...o a la derecha si Mitchel esta a su derecha (cuadro 0x0A)
 	neg		;a671
 	ld (ix+00ah),a		;a673   ; guarda la velocidad horizontal
-	ld (ix+019h),001h		;a676
+	ld (ix+019h),001h		;a676   ; su direccion = 0x01
 	ld (ix+00bh),00ah		;a67a   ; el cuadro del enemigo = 0x0A
 	ret			;a67e
 L_A67F:
@@ -848,9 +848,9 @@ L_A6D0:
 	ld bc,02004h		;a6d5
 L_A6D8:
 	ld (ix+00bh),000h		;a6d8   ; ...cuadro 0, ix+0x11 = 1, 0x10 cuadros; la figura con LMMM, el fondo guardado y hay jefe
-	ld (ix+011h),001h		;a6dc
-	ld (ix+012h),010h		;a6e0
-	ld (ix+013h),000h		;a6e4
+	ld (ix+011h),001h		;a6dc   ; si tiene el fondo guardado = 0x01
+	ld (ix+012h),010h		;a6e0   ; la espera = 0x10
+	ld (ix+013h),000h		;a6e4   ; la cuenta de cuadros = 0x00
 	ld a,(ix+003h)		;a6e8   ; lee la y del enemigo
 	add a,d			;a6eb
 	ld e,a			;a6ec
@@ -875,7 +875,7 @@ L_A710:
 	ld a,(ix+00ch)		;a710   ; ...ix+0x13 cuenta los cuadros de dos en dos...
 	and 001h		;a713
 	jr nz,L_A71A		;a715
-	inc (ix+013h)		;a717
+	inc (ix+013h)		;a717   ; sube la cuenta de cuadros
 L_A71A:
 	dec (ix+012h)		;a71a   ; ...cada ix+0x12 cuadros abre o cierra (cuadro 1: 0x20 cuadros abierto; 0: 0x10 cerrado)...
 	ret nz			;a71d
@@ -891,7 +891,7 @@ L_A72B:
 	cpl			;a72b
 	and 001h		;a72c
 	ld (ix+00bh),a		;a72e   ; guarda el cuadro del enemigo
-	ld (ix+012h),b		;a731
+	ld (ix+012h),b		;a731   ; guarda la espera
 	bit 0,(ix+00bh)		;a734   ; mira el bit 0 de el cuadro del enemigo
 	jr z,L_A770		;a738
 	ld a,(ix+013h)		;a73a   ; ...al abrir, si ix+0x13 no ha llegado a 0x80 y quedan en 0xDFA4, crea una (y quedan una menos)...
@@ -984,8 +984,8 @@ L_A7B2:
 	pop hl			;a7dd   ; ...su espera de p03:A81A, 4 en ix+0x13...
 	call 04255h		;a7de   ; p00:hl_mas_a
 	ld a,(hl)			;a7e1
-	ld (ix+012h),a		;a7e2
-	ld (ix+013h),004h		;a7e5
+	ld (ix+012h),a		;a7e2   ; guarda los saltos
+	ld (ix+013h),004h		;a7e5   ; la espera o el punto del salto = 0x04
 	pop hl			;a7e9   ; ...y ix+0x1A de p03:A822 segun cuantos van (0xDFA1)
 	inc (hl)			;a7ea
 	ld a,(hl)			;a7eb
@@ -993,7 +993,7 @@ L_A7B2:
 	ld hl,0a822h		;a7ee
 	call 04255h		;a7f1   ; p00:hl_mas_a
 	ld a,(hl)			;a7f4
-	ld (ix+01ah),a		;a7f5
+	ld (ix+01ah),a		;a7f5   ; guarda su punto del guion
 	scf			;a7f8
 	ret			;a7f9
 
@@ -1054,22 +1054,22 @@ L_A860:
 	inc (ix+001h)		;a864   ; sube el paso en que va
 	ld (ix+00bh),010h		;a867   ; el cuadro del enemigo = 0x10
 	ld (ix+006h),000h		;a86b   ; si se mueve = 0x00
-	ld (ix+013h),00ch		;a86f
+	ld (ix+013h),00ch		;a86f   ; la espera o el punto del salto = 0x0C
 	ld a,(ix+002h)		;a873
-	ld (ix+014h),a		;a876
+	ld (ix+014h),a		;a876   ; guarda la y en el suelo (baja)
 	ld a,(ix+003h)		;a879   ; lee la y del enemigo
-	ld (ix+015h),a		;a87c
+	ld (ix+015h),a		;a87c   ; guarda la y en el suelo
 	ld a,(ix+004h)		;a87f
-	ld (ix+016h),a		;a882
+	ld (ix+016h),a		;a882   ; guarda la x en el suelo (baja)
 	ld a,(ix+005h)		;a885   ; lee la x del enemigo
-	ld (ix+017h),a		;a888
+	ld (ix+017h),a		;a888   ; guarda la x en el suelo
 	ret			;a88b
 L_A88C:
 	ld (ix+00bh),010h		;a88c   ; PASOS 2-5, SENTADA mirando abajo (2), a la izquierda (3), a la derecha (4) o arriba (5): tras ix+0x13 cuadros...
 L_A890:
-	dec (ix+013h)		;a890
+	dec (ix+013h)		;a890   ; baja la espera o el punto del salto
 	ret nz			;a893
-	bit 0,(ix+019h)		;a894
+	bit 0,(ix+019h)		;a894   ; mira el bit 0 de si ya giro
 	jr nz,L_A8A1		;a898
 	call ranas_siguiente_movimiento		;a89a   ; ...el movimiento siguiente; si es hacia donde mira (o ya giro, ix+0x19), SALTA (paso 6)...
 	cp 002h		;a89d
@@ -1077,21 +1077,21 @@ L_A890:
 L_A8A1:
 	ld (ix+001h),006h		;a8a1   ; ...a 2 hacia abajo
 	call ranas_espera_segun_el_tipo		;a8a5   ; ranas_espera_segun_el_tipo: CUANTO DURA EL SALTO: GARGOYLE (6) 0x0C, POISNFROG y MIREFROG 8, GARGOYLE (8) 0x10...
-	ld (ix+019h),000h		;a8a8
+	ld (ix+019h),000h		;a8a8   ; si ya giro = 0x00
 	ld de,00200h		;a8ac
 	call 04311h		;a8af   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	ld de,00000h		;a8b2
 	jp 04318h		;a8b5   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_A8B8:
 	call ranas_velocidad		;a8b8   ; ...si no, gira hacia alli
-	ld (ix+013h),00ch		;a8bb
+	ld (ix+013h),00ch		;a8bb   ; la espera o el punto del salto = 0x0C
 	ret			;a8bf
 L_A8C0:
 	ld (ix+00bh),014h		;a8c0   ; el cuadro del enemigo = 0x14
 L_A8C4:
-	dec (ix+013h)		;a8c4
+	dec (ix+013h)		;a8c4   ; baja la espera o el punto del salto
 	ret nz			;a8c7
-	bit 0,(ix+019h)		;a8c8
+	bit 0,(ix+019h)		;a8c8   ; mira el bit 0 de si ya giro
 	jr nz,L_A8D5		;a8cc
 	call ranas_siguiente_movimiento		;a8ce   ; ranas_siguiente_movimiento: EL MOVIMIENTO SIGUIENTE, del guion de 32 de p03:AAD8: 1 hacia un punto al azar, 2 hacia Mitchel...
 	cp 003h		;a8d1
@@ -1099,21 +1099,21 @@ L_A8C4:
 L_A8D5:
 	ld (ix+001h),007h		;a8d5   ; salta a la izquierda (paso 7)
 	call ranas_espera_segun_el_tipo		;a8d9   ; ranas_espera_segun_el_tipo: CUANTO DURA EL SALTO: GARGOYLE (6) 0x0C, POISNFROG y MIREFROG 8, GARGOYLE (8) 0x10...
-	ld (ix+019h),000h		;a8dc
+	ld (ix+019h),000h		;a8dc   ; si ya giro = 0x00
 	ld de,00000h		;a8e0
 	call 04311h		;a8e3   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	ld de,0fe00h		;a8e6
 	jp 04318h		;a8e9   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_A8EC:
 	call ranas_velocidad		;a8ec   ; ranas_velocidad: GIRA hacia A: arriba paso 5, derecha 4, abajo 2, izquierda 3; 0x0C cuadros y ix+0x19 = 1 (la proxima, salta)
-	ld (ix+013h),00ch		;a8ef
+	ld (ix+013h),00ch		;a8ef   ; la espera o el punto del salto = 0x0C
 	ret			;a8f3
 L_A8F4:
 	ld (ix+00bh),016h		;a8f4   ; el cuadro del enemigo = 0x16
 L_A8F8:
-	dec (ix+013h)		;a8f8
+	dec (ix+013h)		;a8f8   ; baja la espera o el punto del salto
 	ret nz			;a8fb
-	bit 0,(ix+019h)		;a8fc
+	bit 0,(ix+019h)		;a8fc   ; mira el bit 0 de si ya giro
 	jr nz,L_A909		;a900
 	call ranas_siguiente_movimiento		;a902   ; ranas_siguiente_movimiento: EL MOVIMIENTO SIGUIENTE, del guion de 32 de p03:AAD8: 1 hacia un punto al azar, 2 hacia Mitchel...
 	cp 001h		;a905
@@ -1121,21 +1121,21 @@ L_A8F8:
 L_A909:
 	ld (ix+001h),008h		;a909   ; salta a la derecha (paso 8)
 	call ranas_espera_segun_el_tipo		;a90d   ; ranas_espera_segun_el_tipo: CUANTO DURA EL SALTO: GARGOYLE (6) 0x0C, POISNFROG y MIREFROG 8, GARGOYLE (8) 0x10...
-	ld (ix+019h),000h		;a910
+	ld (ix+019h),000h		;a910   ; si ya giro = 0x00
 	ld de,00000h		;a914
 	call 04311h		;a917   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	ld de,00200h		;a91a
 	jp 04318h		;a91d   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_A920:
 	call ranas_velocidad		;a920   ; ranas_velocidad: GIRA hacia A: arriba paso 5, derecha 4, abajo 2, izquierda 3; 0x0C cuadros y ix+0x19 = 1 (la proxima, salta)
-	ld (ix+013h),00ch		;a923
+	ld (ix+013h),00ch		;a923   ; la espera o el punto del salto = 0x0C
 	ret			;a927
 L_A928:
 	ld (ix+00bh),012h		;a928   ; el cuadro del enemigo = 0x12
 L_A92C:
-	dec (ix+013h)		;a92c
+	dec (ix+013h)		;a92c   ; baja la espera o el punto del salto
 	ret nz			;a92f
-	bit 0,(ix+019h)		;a930
+	bit 0,(ix+019h)		;a930   ; mira el bit 0 de si ya giro
 	jr nz,L_A93C		;a934
 	call ranas_siguiente_movimiento		;a936   ; ranas_siguiente_movimiento: EL MOVIMIENTO SIGUIENTE, del guion de 32 de p03:AAD8: 1 hacia un punto al azar, 2 hacia Mitchel...
 	and a			;a939
@@ -1143,20 +1143,20 @@ L_A92C:
 L_A93C:
 	ld (ix+001h),009h		;a93c   ; salta hacia arriba (paso 9)
 	call ranas_espera_segun_el_tipo		;a940   ; ranas_espera_segun_el_tipo: CUANTO DURA EL SALTO: GARGOYLE (6) 0x0C, POISNFROG y MIREFROG 8, GARGOYLE (8) 0x10...
-	ld (ix+019h),000h		;a943
+	ld (ix+019h),000h		;a943   ; si ya giro = 0x00
 	ld de,0fe00h		;a947
 	call 04311h		;a94a   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	ld de,00000h		;a94d
 	jp 04318h		;a950   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_A953:
 	call ranas_velocidad		;a953   ; ranas_velocidad: GIRA hacia A: arriba paso 5, derecha 4, abajo 2, izquierda 3; 0x0C cuadros y ix+0x19 = 1 (la proxima, salta)
-	ld (ix+013h),00ch		;a956
+	ld (ix+013h),00ch		;a956   ; la espera o el punto del salto = 0x0C
 	ret			;a95a
 L_A95B:
 	ld (ix+00bh),011h		;a95b   ; PASOS 6-9, EL SALTO: su sitio en el suelo (ix+0x14-0x17) avanza con la velocidad...
 L_A95F:
-	dec (ix+013h)		;a95f
-	bit 0,(ix+018h)		;a962
+	dec (ix+013h)		;a95f   ; baja la espera o el punto del salto
+	bit 0,(ix+018h)		;a962   ; mira el bit 0 de si no avanza
 	jr nz,L_A96B		;a966
 	call ranas_suma_velocidad		;a968   ; ranas_suma_velocidad: el sitio en el suelo (ix+0x14/15 y, ix+0x16/17 x) mas las velocidades
 L_A96B:
@@ -1164,105 +1164,105 @@ L_A96B:
 	ld a,(ix+013h)		;a96e   ; ...cada 4 cuadros, si desde el suelo choca por ahi, deja de avanzar (ix+0x18 = 1)...
 	and 003h		;a971
 	jr nz,L_A988		;a973
-	ld l,(ix+015h)		;a975
-	ld h,(ix+017h)		;a978
+	ld l,(ix+015h)		;a975   ; lee la y en el suelo
+	ld h,(ix+017h)		;a978   ; lee la x en el suelo
 	ld e,000h		;a97b
 	ld a,002h		;a97d
 	call 07309h		;a97f   ; p01:choca_desde_hl: desde (L, H) = (y, x): acarreo si hacia la direccion A no se puede pasar
 	jr nc,L_A988		;a982
-	ld (ix+018h),001h		;a984
+	ld (ix+018h),001h		;a984   ; si no avanza = 0x01
 L_A988:
 	ld a,(ix+013h)		;a988   ; ...y al acabar, sentada otra vez mirando hacia alli (0x0C cuadros) y un salto mas en ix+0x12
 	and a			;a98b
 	ret nz			;a98c
 	ld (ix+001h),002h		;a98d   ; el paso en que va = 0x02
-	ld (ix+013h),00ch		;a991
-	ld (ix+018h),000h		;a995
-	inc (ix+012h)		;a999
+	ld (ix+013h),00ch		;a991   ; la espera o el punto del salto = 0x0C
+	ld (ix+018h),000h		;a995   ; si no avanza = 0x00
+	inc (ix+012h)		;a999   ; sube los saltos
 	ret			;a99c
 L_A99D:
 	ld (ix+00bh),015h		;a99d   ; el cuadro del enemigo = 0x15
 L_A9A1:
-	dec (ix+013h)		;a9a1
-	bit 0,(ix+018h)		;a9a4
+	dec (ix+013h)		;a9a1   ; baja la espera o el punto del salto
+	bit 0,(ix+018h)		;a9a4   ; mira el bit 0 de si no avanza
 	jr nz,L_A9AD		;a9a8
 	call ranas_suma_velocidad		;a9aa   ; ranas_suma_velocidad: el sitio en el suelo (ix+0x14/15 y, ix+0x16/17 x) mas las velocidades
 L_A9AD:
 	call ranas_recorrido_segun_el_tipo		;a9ad   ; ranas_recorrido_segun_el_tipo: LA ALTURA DEL SALTO: su tabla por tipo (GARGOYLE 6 p03:AB88, POISNFROG y MIREFROG p03:ABA4, GARGOYLE 8 p03:AB94; otro, p03:AB88 o, uno de cada 4, p03:ABAC)...
-	ld a,(ix+013h)		;a9b0
+	ld a,(ix+013h)		;a9b0   ; lee la espera o el punto del salto
 	and 003h		;a9b3
 	jr nz,L_A9CA		;a9b5
-	ld l,(ix+015h)		;a9b7
-	ld h,(ix+017h)		;a9ba
+	ld l,(ix+015h)		;a9b7   ; lee la y en el suelo
+	ld h,(ix+017h)		;a9ba   ; lee la x en el suelo
 	ld e,000h		;a9bd
 	ld a,003h		;a9bf
 	call 07309h		;a9c1   ; p01:choca_desde_hl: desde (L, H) = (y, x): acarreo si hacia la direccion A no se puede pasar
 	jr nc,L_A9CA		;a9c4
-	ld (ix+018h),001h		;a9c6
+	ld (ix+018h),001h		;a9c6   ; si no avanza = 0x01
 L_A9CA:
-	ld a,(ix+013h)		;a9ca
+	ld a,(ix+013h)		;a9ca   ; lee la espera o el punto del salto
 	and a			;a9cd
 	ret nz			;a9ce
 	ld (ix+001h),003h		;a9cf   ; el paso en que va = 0x03
-	ld (ix+013h),00ch		;a9d3
-	ld (ix+018h),000h		;a9d7
-	inc (ix+012h)		;a9db
+	ld (ix+013h),00ch		;a9d3   ; la espera o el punto del salto = 0x0C
+	ld (ix+018h),000h		;a9d7   ; si no avanza = 0x00
+	inc (ix+012h)		;a9db   ; sube los saltos
 	ret			;a9de
 L_A9DF:
 	ld (ix+00bh),017h		;a9df   ; el cuadro del enemigo = 0x17
 L_A9E3:
-	dec (ix+013h)		;a9e3
-	bit 0,(ix+018h)		;a9e6
+	dec (ix+013h)		;a9e3   ; baja la espera o el punto del salto
+	bit 0,(ix+018h)		;a9e6   ; mira el bit 0 de si no avanza
 	jr nz,L_A9EF		;a9ea
 	call ranas_suma_velocidad		;a9ec   ; ranas_suma_velocidad: el sitio en el suelo (ix+0x14/15 y, ix+0x16/17 x) mas las velocidades
 L_A9EF:
 	call ranas_recorrido_segun_el_tipo		;a9ef   ; ranas_recorrido_segun_el_tipo: LA ALTURA DEL SALTO: su tabla por tipo (GARGOYLE 6 p03:AB88, POISNFROG y MIREFROG p03:ABA4, GARGOYLE 8 p03:AB94; otro, p03:AB88 o, uno de cada 4, p03:ABAC)...
-	ld a,(ix+013h)		;a9f2
+	ld a,(ix+013h)		;a9f2   ; lee la espera o el punto del salto
 	and 003h		;a9f5
 	jr nz,L_AA0C		;a9f7
-	ld l,(ix+015h)		;a9f9
-	ld h,(ix+017h)		;a9fc
+	ld l,(ix+015h)		;a9f9   ; lee la y en el suelo
+	ld h,(ix+017h)		;a9fc   ; lee la x en el suelo
 	ld e,000h		;a9ff
 	ld a,001h		;aa01
 	call 07309h		;aa03   ; p01:choca_desde_hl: desde (L, H) = (y, x): acarreo si hacia la direccion A no se puede pasar
 	jr nc,L_AA0C		;aa06
-	ld (ix+018h),001h		;aa08
+	ld (ix+018h),001h		;aa08   ; si no avanza = 0x01
 L_AA0C:
-	ld a,(ix+013h)		;aa0c
+	ld a,(ix+013h)		;aa0c   ; lee la espera o el punto del salto
 	and a			;aa0f
 	ret nz			;aa10
 	ld (ix+001h),004h		;aa11   ; el paso en que va = 0x04
-	ld (ix+013h),00ch		;aa15
-	ld (ix+018h),000h		;aa19
-	inc (ix+012h)		;aa1d
+	ld (ix+013h),00ch		;aa15   ; la espera o el punto del salto = 0x0C
+	ld (ix+018h),000h		;aa19   ; si no avanza = 0x00
+	inc (ix+012h)		;aa1d   ; sube los saltos
 	ret			;aa20
 L_AA21:
 	ld (ix+00bh),013h		;aa21   ; el cuadro del enemigo = 0x13
 L_AA25:
-	dec (ix+013h)		;aa25
-	bit 0,(ix+018h)		;aa28
+	dec (ix+013h)		;aa25   ; baja la espera o el punto del salto
+	bit 0,(ix+018h)		;aa28   ; mira el bit 0 de si no avanza
 	jr nz,L_AA31		;aa2c
 	call ranas_suma_velocidad		;aa2e   ; ranas_suma_velocidad: el sitio en el suelo (ix+0x14/15 y, ix+0x16/17 x) mas las velocidades
 L_AA31:
 	call ranas_recorrido_segun_el_tipo		;aa31   ; ranas_recorrido_segun_el_tipo: LA ALTURA DEL SALTO: su tabla por tipo (GARGOYLE 6 p03:AB88, POISNFROG y MIREFROG p03:ABA4, GARGOYLE 8 p03:AB94; otro, p03:AB88 o, uno de cada 4, p03:ABAC)...
-	ld a,(ix+013h)		;aa34
+	ld a,(ix+013h)		;aa34   ; lee la espera o el punto del salto
 	and 003h		;aa37
 	jr nz,L_AA4D		;aa39
-	ld l,(ix+015h)		;aa3b
-	ld h,(ix+017h)		;aa3e
+	ld l,(ix+015h)		;aa3b   ; lee la y en el suelo
+	ld h,(ix+017h)		;aa3e   ; lee la x en el suelo
 	ld e,000h		;aa41
 	xor a			;aa43
 	call 07309h		;aa44   ; p01:choca_desde_hl: desde (L, H) = (y, x): acarreo si hacia la direccion A no se puede pasar
 	jr nc,L_AA4D		;aa47
-	ld (ix+018h),001h		;aa49
+	ld (ix+018h),001h		;aa49   ; si no avanza = 0x01
 L_AA4D:
-	ld a,(ix+013h)		;aa4d
+	ld a,(ix+013h)		;aa4d   ; lee la espera o el punto del salto
 	and a			;aa50
 	ret nz			;aa51
 	ld (ix+001h),005h		;aa52   ; el paso en que va = 0x05
-	ld (ix+013h),00ch		;aa56
-	ld (ix+018h),000h		;aa5a
-	inc (ix+012h)		;aa5e
+	ld (ix+013h),00ch		;aa56   ; la espera o el punto del salto = 0x0C
+	ld (ix+018h),000h		;aa5a   ; si no avanza = 0x00
+	inc (ix+012h)		;aa5e   ; sube los saltos
 	ret			;aa61
 ranas_espera_segun_el_tipo:
 	ld a,(ix+000h)		;aa62   ; CUANTO DURA EL SALTO: GARGOYLE (6) 0x0C, POISNFROG y MIREFROG 8, GARGOYLE (8) 0x10...
@@ -1285,11 +1285,11 @@ ranas_espera_segun_el_tipo:
 	ld a,00bh		;aa86
 	call 05488h		;aa88   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 L_AA8B:
-	ld (ix+013h),c		;aa8b
+	ld (ix+013h),c		;aa8b   ; guarda la espera o el punto del salto
 	ret			;aa8e
 ranas_siguiente_movimiento:
 	inc (ix+01ah)		;aa8f   ; EL MOVIMIENTO SIGUIENTE, del guion de 32 de p03:AAD8: 1 hacia un punto al azar, 2 hacia Mitchel...
-	ld a,(ix+01ah)		;aa92
+	ld a,(ix+01ah)		;aa92   ; lee su punto del guion
 	and 01fh		;aa95
 	ld hl,0aad8h		;aa97
 	call 04255h		;aa9a   ; p00:hl_mas_a
@@ -1355,24 +1355,24 @@ ranas_velocidad:
 	ld c,003h		;ab07
 L_AB09:
 	ld (ix+001h),c		;ab09   ; guarda el paso en que va
-	ld (ix+013h),00ch		;ab0c
-	ld (ix+019h),001h		;ab10
+	ld (ix+013h),00ch		;ab0c   ; la espera o el punto del salto = 0x0C
+	ld (ix+019h),001h		;ab10   ; si ya giro = 0x01
 	ret			;ab14
 ranas_suma_velocidad:
 	ld l,(ix+014h)		;ab15   ; el sitio en el suelo (ix+0x14/15 y, ix+0x16/17 x) mas las velocidades
-	ld h,(ix+015h)		;ab18
+	ld h,(ix+015h)		;ab18   ; lee la y en el suelo
 	ld e,(ix+007h)		;ab1b   ; lee la velocidad vertical (baja)
 	ld d,(ix+008h)		;ab1e   ; lee la velocidad vertical
 	add hl,de			;ab21
-	ld (ix+014h),l		;ab22
-	ld (ix+015h),h		;ab25
-	ld l,(ix+016h)		;ab28
-	ld h,(ix+017h)		;ab2b
+	ld (ix+014h),l		;ab22   ; guarda la y en el suelo (baja)
+	ld (ix+015h),h		;ab25   ; guarda la y en el suelo
+	ld l,(ix+016h)		;ab28   ; lee la x en el suelo (baja)
+	ld h,(ix+017h)		;ab2b   ; lee la x en el suelo
 	ld e,(ix+009h)		;ab2e   ; lee la velocidad horizontal (baja)
 	ld d,(ix+00ah)		;ab31   ; lee la velocidad horizontal
 	add hl,de			;ab34
-	ld (ix+016h),l		;ab35
-	ld (ix+017h),h		;ab38
+	ld (ix+016h),l		;ab35   ; guarda la x en el suelo (baja)
+	ld (ix+017h),h		;ab38   ; guarda la x en el suelo
 	ret			;ab3b
 ranas_recorrido_segun_el_tipo:
 	ld a,(ix+000h)		;ab3c   ; LA ALTURA DEL SALTO: su tabla por tipo (GARGOYLE 6 p03:AB88, POISNFROG y MIREFROG p03:ABA4, GARGOYLE 8 p03:AB94; otro, p03:AB88 o, uno de cada 4, p03:ABAC)...
@@ -1387,7 +1387,7 @@ ranas_recorrido_segun_el_tipo:
 	cp 008h		;ab51   ; GARGOYLE (tipo 0x08)?
 	ld hl,0ab94h		;ab53
 	jr z,L_AB65		;ab56
-	ld a,(ix+012h)		;ab58
+	ld a,(ix+012h)		;ab58   ; lee los saltos
 	and 003h		;ab5b
 	ld hl,0ab88h		;ab5d   ; recorridos_AB88: pasos que elige p03:AB41 segun el tipo: 0xAB88 (tipos 6 y otros), 0xABA4 (7 y 0x3E), 0xAB94 (8) y 0xABAC
 	jr nz,L_AB65		;ab60
@@ -1397,14 +1397,14 @@ L_AB65:
 	call 04255h		;ab68   ; p00:hl_mas_a
 	ld d,(hl)			;ab6b
 	ld e,000h		;ab6c
-	ld l,(ix+014h)		;ab6e
-	ld h,(ix+015h)		;ab71
+	ld l,(ix+014h)		;ab6e   ; lee la y en el suelo (baja)
+	ld h,(ix+015h)		;ab71   ; lee la y en el suelo
 	add hl,de			;ab74
 	ld (ix+002h),l		;ab75
 	ld (ix+003h),h		;ab78   ; guarda la y del enemigo
-	ld a,(ix+016h)		;ab7b
+	ld a,(ix+016h)		;ab7b   ; lee la x en el suelo (baja)
 	ld (ix+004h),a		;ab7e
-	ld a,(ix+017h)		;ab81
+	ld a,(ix+017h)		;ab81   ; lee la x en el suelo
 	ld (ix+005h),a		;ab84   ; guarda la x del enemigo
 	ret			;ab87
 
@@ -1466,7 +1466,7 @@ L_AC14:
 L_AC1A:
 	ld (ix+00bh),000h		;ac1a   ; AL CREAR POISNFROG: cuadro 0, 0x20 cuadros
 	ld (ix+00eh),000h		;ac1e
-	ld (ix+012h),020h		;ac22
+	ld (ix+012h),020h		;ac22   ; los saltos = 0x20
 	ret			;ac26
 L_AC27:
 	ld a,(ix+001h)		;ac27   ; ENTRADA de POISNFROG (tipo 0x07), con su ficha en IX
@@ -1501,20 +1501,20 @@ L_AC41:
 	ld a,001h		;ac49
 L_AC4B:
 	ld (ix+00bh),a		;ac4b   ; guarda el cuadro del enemigo
-	dec (ix+012h)		;ac4e
+	dec (ix+012h)		;ac4e   ; baja los saltos
 	ret nz			;ac51
 	inc (ix+001h)		;ac52   ; sube el paso en que va
 	ld (ix+00bh),004h		;ac55   ; el cuadro del enemigo = 0x04
 	ld (ix+00eh),003h		;ac59
-	ld (ix+013h),008h		;ac5d
+	ld (ix+013h),008h		;ac5d   ; la espera o el punto del salto = 0x08
 	ld a,(ix+002h)		;ac61
-	ld (ix+014h),a		;ac64
+	ld (ix+014h),a		;ac64   ; guarda la y en el suelo (baja)
 	ld a,(ix+003h)		;ac67   ; lee la y del enemigo
-	ld (ix+015h),a		;ac6a
+	ld (ix+015h),a		;ac6a   ; guarda la y en el suelo
 	ld a,(ix+004h)		;ac6d
-	ld (ix+016h),a		;ac70
+	ld (ix+016h),a		;ac70   ; guarda la x en el suelo (baja)
 	ld a,(ix+005h)		;ac73   ; lee la x del enemigo
-	ld (ix+017h),a		;ac76
+	ld (ix+017h),a		;ac76   ; guarda la x en el suelo
 	ret			;ac79
 L_AC7A:
 	inc (ix+001h)		;ac7a   ; POISNFROG, paso 1
@@ -1588,7 +1588,7 @@ DATA_dibujos_ACEA:
 L_ACF2:
 	ld (ix+00bh),003h		;acf2   ; AL CREAR MIREFROG: cuadro 3, 0x20 cuadros
 	ld (ix+00eh),000h		;acf6
-	ld (ix+012h),020h		;acfa
+	ld (ix+012h),020h		;acfa   ; los saltos = 0x20
 	ret			;acfe
 L_ACFF:
 	ld a,(ix+001h)		;acff   ; ENTRADA de MIREFROG (tipo 0x3E), con su ficha en IX
@@ -1623,20 +1623,20 @@ L_AD19:
 	ld a,004h		;ad21
 L_AD23:
 	ld (ix+00bh),a		;ad23   ; guarda el cuadro del enemigo
-	dec (ix+012h)		;ad26
+	dec (ix+012h)		;ad26   ; baja los saltos
 	ret nz			;ad29
 	inc (ix+001h)		;ad2a   ; sube el paso en que va
 	ld (ix+00bh),007h		;ad2d   ; el cuadro del enemigo = 0x07
 	ld (ix+00eh),003h		;ad31
-	ld (ix+013h),008h		;ad35
+	ld (ix+013h),008h		;ad35   ; la espera o el punto del salto = 0x08
 	ld a,(ix+002h)		;ad39
-	ld (ix+014h),a		;ad3c
+	ld (ix+014h),a		;ad3c   ; guarda la y en el suelo (baja)
 	ld a,(ix+003h)		;ad3f   ; lee la y del enemigo
-	ld (ix+015h),a		;ad42
+	ld (ix+015h),a		;ad42   ; guarda la y en el suelo
 	ld a,(ix+004h)		;ad45
-	ld (ix+016h),a		;ad48
+	ld (ix+016h),a		;ad48   ; guarda la x en el suelo (baja)
 	ld a,(ix+005h)		;ad4b   ; lee la x del enemigo
-	ld (ix+017h),a		;ad4e
+	ld (ix+017h),a		;ad4e   ; guarda la x en el suelo
 	ret			;ad51
 L_AD52:
 	inc (ix+001h)		;ad52   ; MIREFROG, paso 1
@@ -1674,7 +1674,7 @@ L_AD8E:
 	ld (ix+00bh),010h		;ad9b   ; el cuadro del enemigo = 0x10
 	dec a			;ad9f
 L_ADA0:
-	ld (ix+015h),a		;ada0
+	ld (ix+015h),a		;ada0   ; guarda si mira arriba
 	ld (ix+006h),001h		;ada3   ; si se mueve = 0x01
 	ld hl,0dfa5h		;ada7   ; ...cada cuantos cuadros para (ix+0x12) de p03:ADC1 segun cuantos van (0xDFA5), y hacia la izquierda a 1
 	inc (hl)			;adaa
@@ -1683,7 +1683,7 @@ L_ADA0:
 	ld hl,0adc1h		;adae   ; byte_12_ADC1: 8 bytes: lo que p03:ADAE pone en ix+0x12 segun (HL) & 7
 	call 04255h		;adb1   ; p00:hl_mas_a
 	ld a,(hl)			;adb4
-	ld (ix+012h),a		;adb5
+	ld (ix+012h),a		;adb5   ; guarda los cuadros hasta parar
 	ld hl,00000h		;adb8
 	ld de,0ff00h		;adbb
 	jp 08bdch		;adbe   ; p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
@@ -1743,7 +1743,7 @@ L_ADF4:
 	jp 04318h		;ae0a   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_AE0D:
 	dec (ix+014h)		;ae0d   ; PASO 2, 0x18 cuadros: a los 0x10 empuja...
-	ld a,(ix+014h)		;ae10
+	ld a,(ix+014h)		;ae10   ; lee la cuenta del empujon
 	cp 010h		;ae13
 	jr z,L_AE43		;ae15
 	jr nc,L_AE1C		;ae17
@@ -1752,13 +1752,13 @@ L_AE0D:
 L_AE1C:
 	dec a			;ae1c   ; ...al acabar, sigue con el paso y el lado de antes, y 0x50 cuadros para la parada siguiente
 	jr z,L_AE2D		;ae1d
-	bit 0,(ix+015h)		;ae1f
+	bit 0,(ix+015h)		;ae1f   ; mira el bit 0 de si mira arriba
 	ld (ix+00bh),010h		;ae23   ; el cuadro del enemigo = 0x10
 	ret z			;ae27
 	ld (ix+00bh),011h		;ae28   ; el cuadro del enemigo = 0x11
 	ret			;ae2c
 L_AE2D:
-	ld a,(ix+013h)		;ae2d
+	ld a,(ix+013h)		;ae2d   ; lee el paso de antes
 	ld (ix+001h),a		;ae30   ; guarda el paso en que va
 	and a			;ae33
 	ld de,0ff00h		;ae34
@@ -1766,7 +1766,7 @@ L_AE2D:
 	ld d,001h		;ae39
 L_AE3B:
 	call 04318h		;ae3b   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
-	ld (ix+012h),050h		;ae3e
+	ld (ix+012h),050h		;ae3e   ; los cuadros hasta parar = 0x50
 	ret			;ae42
 L_AE43:
 	bit 0,(ix+015h)		;ae43   ; EMPUJA: si por debajo no choca, la figura 0x85, 8 por debajo (o por encima si mira arriba), con su cuadro en 0xE806
@@ -1782,7 +1782,7 @@ L_AE51:
 	ld (0e806h),a		;ae5c
 	ld c,085h		;ae5f
 	ld d,(ix+005h)		;ae61   ; lee la x del enemigo
-	bit 0,(ix+015h)		;ae64
+	bit 0,(ix+015h)		;ae64   ; mira el bit 0 de si mira arriba
 	ld a,008h		;ae68
 	jr z,L_AE6E		;ae6a
 	ld a,0f8h		;ae6c
@@ -1797,7 +1797,7 @@ dungroll_cuadro:
 	rra			;ae7b
 	rra			;ae7c
 	rra			;ae7d
-	bit 0,(ix+015h)		;ae7e
+	bit 0,(ix+015h)		;ae7e   ; mira el bit 0 de si mira arriba
 	ld hl,0ae92h		;ae82   ; cuadros_AE92: dos parejas de cuadros (ix+0x0B) segun el bit 0 de ix+0x15 (p03:AE82)
 	jr z,L_AE8A		;ae85
 	ld hl,0ae94h		;ae87
@@ -1821,9 +1821,9 @@ DATA_cuadros_AE92:
 
 dungroll_empieza_a_rodar:
 	ld (ix+012h),0ffh		;ae96   ; A EMPUJAR: el paso de ahora a ix+0x13, 0x18 cuadros en el paso 2, parado
-	ld (ix+014h),018h		;ae9a
+	ld (ix+014h),018h		;ae9a   ; la cuenta del empujon = 0x18
 	ld a,(ix+001h)		;ae9e   ; lee el paso en que va
-	ld (ix+013h),a		;aea1
+	ld (ix+013h),a		;aea1   ; guarda el paso de antes
 	ld (ix+001h),002h		;aea4   ; el paso en que va = 0x02
 	ld de,00000h		;aea8
 	jp 04318h		;aeab   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
@@ -1850,7 +1850,7 @@ L_AEC5:
 	inc c			;aed3
 L_AED4:
 	ld (ix+001h),b		;aed4   ; guarda el paso en que va
-	ld (ix+015h),d		;aed7
+	ld (ix+015h),d		;aed7   ; guarda los saltos para lanzar
 	ld a,(0c125h)		;aeda   ; ...en la pantalla 0x20, otras parejas...
 	cp 020h		;aedd   ; la pantalla 0x20?
 	jr nz,L_AEE5		;aedf
@@ -1863,17 +1863,17 @@ L_AEE5:
 	ld hl,0af0fh		;aee7   ; parejas_AF0F: 12 parejas que p03:AEE7 pone en ix+0x12 e ix+0x19 segun C
 	call 04255h		;aeea   ; p00:hl_mas_a
 	ld a,(hl)			;aeed
-	ld (ix+012h),a		;aeee
+	ld (ix+012h),a		;aeee   ; guarda los saltos por lado
 	inc hl			;aef1
 	ld a,(hl)			;aef2
-	ld (ix+019h),a		;aef3
+	ld (ix+019h),a		;aef3   ; guarda el sentido (bit 0 arriba o abajo, bit 1 el lado)
 	ld (ix+00bh),010h		;aef6   ; el cuadro del enemigo = 0x10
-	ld (ix+014h),020h		;aefa
-	ld (ix+013h),000h		;aefe
+	ld (ix+014h),020h		;aefa   ; la cuenta = 0x20
+	ld (ix+013h),000h		;aefe   ; los saltos dados = 0x00
 	ld a,(ix+002h)		;af02
-	ld (ix+016h),a		;af05
+	ld (ix+016h),a		;af05   ; guarda la y en el suelo (baja)
 	ld a,(ix+003h)		;af08   ; lee la y del enemigo
-	ld (ix+017h),a		;af0b
+	ld (ix+017h),a		;af0b   ; guarda la y en el suelo
 	ret			;af0e
 
 ; ----------------------------------------------------------------------
@@ -1924,20 +1924,20 @@ L_AF45:
 	ld a,010h		;af4d
 L_AF4F:
 	ld (ix+00bh),a		;af4f   ; guarda el cuadro del enemigo
-	dec (ix+014h)		;af52
+	dec (ix+014h)		;af52   ; baja la cuenta
 	jr z,L_AF65		;af55
-	ld a,(ix+014h)		;af57
+	ld a,(ix+014h)		;af57   ; lee la cuenta
 	cp 008h		;af5a
 	ret nz			;af5c
-	ld a,(ix+018h)		;af5d
+	ld a,(ix+018h)		;af5d   ; lee si va a lanzar
 	and a			;af60
 	call nz,firetotem_lanza		;af61   ; firetotem_lanza: la figura 0x8C en su sitio
 	ret			;af64
 L_AF65:
 	ld (ix+018h),000h		;af65   ; ...luego otro salto, arriba o abajo segun el bit 0 de ix+0x19, 0x0E cuadros...
 	inc (ix+013h)		;af69   ; un salto mas; a los ix+0x12, cambia de lado
-	ld a,(ix+013h)		;af6c
-	cp (ix+012h)		;af6f
+	ld a,(ix+013h)		;af6c   ; lee los saltos dados
+	cp (ix+012h)		;af6f   ; compara con los saltos por lado
 	jr z,L_AF95		;af72
 	bit 0,(ix+019h)		;af74   ; bit 0 de ix+0x19: arriba (-1) o abajo (+1, y el paso siguiente)
 	ld a,(0e800h)		;af78
@@ -1947,7 +1947,7 @@ L_AF65:
 	inc a			;af83
 L_AF84:
 	ld (ix+001h),a		;af84   ; guarda el paso en que va
-	ld (ix+014h),00eh		;af87
+	ld (ix+014h),00eh		;af87   ; la cuenta = 0x0E
 	call 04311h		;af8b   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	ld de,(0e801h)		;af8e
 	jp 04318h		;af92   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
@@ -1955,10 +1955,10 @@ L_AF95:
 	ld (ix+013h),000h		;af95   ; ...y al dar ix+0x12 saltos, cambia de lado (bit 1 de ix+0x19) con 8 cuadros de espera
 	ld a,(0e803h)		;af99
 	ld (ix+001h),a		;af9c   ; guarda el paso en que va
-	ld (ix+014h),008h		;af9f
-	ld a,(ix+019h)		;afa3
+	ld (ix+014h),008h		;af9f   ; la cuenta = 0x08
+	ld a,(ix+019h)		;afa3   ; lee el sentido (bit 0 arriba o abajo, bit 1 el lado)
 	xor 002h		;afa6
-	ld (ix+019h),a		;afa8
+	ld (ix+019h),a		;afa8   ; guarda el sentido (bit 0 arriba o abajo, bit 1 el lado)
 	ret			;afab
 L_AFAC:
 	xor a			;afac   ; PASO 1 (y 2, 4): EL SALTO, cada cuadro su dibujo, su sitio en el suelo y su altura...
@@ -1971,11 +1971,11 @@ L_AFAD:
 	dec (ix+014h)		;afb8   ; ...y al acabar, al paso de espera con 0x10 cuadros, un salto mas contado y el otro sentido en y
 	ret nz			;afbb
 	ld (ix+001h),a		;afbc   ; guarda el paso en que va
-	ld (ix+014h),010h		;afbf
+	ld (ix+014h),010h		;afbf   ; la cuenta = 0x10
 	call firetotem_cuenta		;afc3   ; firetotem_cuenta: cada 4 saltos, ix+0x18 = 1: en la espera siguiente lanza
-	ld a,(ix+019h)		;afc6
+	ld a,(ix+019h)		;afc6   ; lee el sentido (bit 0 arriba o abajo, bit 1 el lado)
 	xor 001h		;afc9
-	ld (ix+019h),a		;afcb
+	ld (ix+019h),a		;afcb   ; guarda el sentido (bit 0 arriba o abajo, bit 1 el lado)
 	ret			;afce
 L_AFCF:
 	ld hl,00004h		;afcf   ; PASO 3: como el 0 hacia la derecha (+1), volviendo al paso 0 al cambiar de lado
@@ -1988,12 +1988,12 @@ L_AFDE:
 	jr L_AFAD		;afe0
 firetotem_altura:
 	ld hl,0affch		;afe2   ; la y: la del suelo mas p03:AFFC segun ix+0x14
-	ld a,(ix+014h)		;afe5
+	ld a,(ix+014h)		;afe5   ; lee la cuenta
 	call 04255h		;afe8   ; p00:hl_mas_a
 	ld e,000h		;afeb
 	ld d,(hl)			;afed
-	ld l,(ix+016h)		;afee
-	ld h,(ix+017h)		;aff1
+	ld l,(ix+016h)		;afee   ; lee la y en el suelo (baja)
+	ld h,(ix+017h)		;aff1   ; lee la y en el suelo
 	add hl,de			;aff4
 	ld (ix+002h),l		;aff5
 	ld (ix+003h),h		;aff8   ; guarda la y del enemigo
@@ -2013,12 +2013,12 @@ DATA_alturas_AFFC:
 
 firetotem_suma_velocidad:
 	ld l,(ix+016h)		;b00b   ; la y del suelo (ix+0x16/17) mas la velocidad vertical; la x, con la horizontal
-	ld h,(ix+017h)		;b00e
+	ld h,(ix+017h)		;b00e   ; lee la y en el suelo
 	ld e,(ix+007h)		;b011   ; lee la velocidad vertical (baja)
 	ld d,(ix+008h)		;b014   ; lee la velocidad vertical
 	add hl,de			;b017
-	ld (ix+016h),l		;b018
-	ld (ix+017h),h		;b01b
+	ld (ix+016h),l		;b018   ; guarda la y en el suelo (baja)
+	ld (ix+017h),h		;b01b   ; guarda la y en el suelo
 	ld l,(ix+004h)		;b01e
 	ld h,(ix+005h)		;b021   ; lee la x del enemigo
 	ld e,(ix+009h)		;b024   ; lee la velocidad horizontal (baja)
@@ -2029,7 +2029,7 @@ firetotem_suma_velocidad:
 	ret			;b031
 firetotem_cuadro:
 	ld hl,0b040h		;b032   ; el cuadro de p03:B040 segun ix+0x14
-	ld a,(ix+014h)		;b035
+	ld a,(ix+014h)		;b035   ; lee la cuenta
 	call 04255h		;b038   ; p00:hl_mas_a
 	ld a,(hl)			;b03b
 	ld (ix+00bh),a		;b03c   ; guarda el cuadro del enemigo
@@ -2048,10 +2048,10 @@ DATA_cuadros_B040:
 
 firetotem_cuenta:
 	inc (ix+015h)		;b04f   ; cada 4 saltos, ix+0x18 = 1: en la espera siguiente lanza
-	ld a,(ix+015h)		;b052
+	ld a,(ix+015h)		;b052   ; lee los saltos para lanzar
 	and 003h		;b055
 	ret nz			;b057
-	ld (ix+018h),001h		;b058
+	ld (ix+018h),001h		;b058   ; si va a lanzar = 0x01
 	ret			;b05c
 firetotem_lanza:
 	ld c,08ch		;b05d   ; la figura 0x8C en su sitio
@@ -2060,16 +2060,16 @@ firetotem_lanza:
 	jp 0709ah		;b065   ; p01:crea_una_figura: CREA UNA FIGURA: el tipo C en DE
 L_B068:
 	ld (ix+00bh),009h		;b068   ; AL CREAR HUMPEDMAN: cuadro 9, 0x0C cuadros, y apunta su sitio en ix+0x14-0x17
-	ld (ix+012h),000h		;b06c
-	ld (ix+013h),00ch		;b070
+	ld (ix+012h),000h		;b06c   ; los saltos = 0x00
+	ld (ix+013h),00ch		;b070   ; la espera o el punto del salto = 0x0C
 	ld a,(ix+002h)		;b074
-	ld (ix+014h),a		;b077
+	ld (ix+014h),a		;b077   ; guarda la y en el suelo (baja)
 	ld a,(ix+003h)		;b07a   ; lee la y del enemigo
-	ld (ix+015h),a		;b07d
+	ld (ix+015h),a		;b07d   ; guarda la y en el suelo
 	ld a,(ix+004h)		;b080
-	ld (ix+016h),a		;b083
+	ld (ix+016h),a		;b083   ; guarda la x en el suelo (baja)
 	ld a,(ix+005h)		;b086   ; lee la x del enemigo
-	ld (ix+017h),a		;b089
+	ld (ix+017h),a		;b089   ; guarda la x en el suelo
 	ret			;b08c
 
 ; ----------------------------------------------------------------------
@@ -2374,7 +2374,7 @@ L_B273:
 	dec (ix+012h)		;b273   ; ...ix+0x12 cuadros; luego en marcha por ese lado (pasos 5-8), 0x30 cuadros
 	ret nz			;b276
 	ld (ix+001h),a		;b277   ; guarda el paso en que va
-	ld (ix+012h),030h		;b27a
+	ld (ix+012h),030h		;b27a   ; los pasos = 0x30
 	ret			;b27e
 L_B27F:
 	ld (ix+07fh),003h		;b27f   ; BUCKLER, paso 2
@@ -2399,7 +2399,7 @@ L_B2AA:
 	call 06913h		;b2aa   ; p01:mueve_la_ficha: un paso: la y (ix+2, ix+3) mas la velocidad vertical...
 	dec (ix+012h)		;b2ad   ; ...y al acabar o chocar (mirado cada 8), elige rumbo (con 0xE800 = -5: pasos 5-8)
 	jp z,L_B2DE		;b2b0
-	ld a,(ix+012h)		;b2b3
+	ld a,(ix+012h)		;b2b3   ; lee los pasos
 	and 007h		;b2b6
 	ret nz			;b2b8
 	ld e,000h		;b2b9
@@ -2473,7 +2473,7 @@ L_B312:
 	call 06913h		;b312   ; p01:mueve_la_ficha: un paso: la y (ix+2, ix+3) mas la velocidad vertical...
 	dec (ix+012h)		;b315   ; ...y al acabar o chocar (mirado cada 8), elige rumbo
 	jp z,L_B16B		;b318
-	ld a,(ix+012h)		;b31b
+	ld a,(ix+012h)		;b31b   ; lee los pasos
 	and 007h		;b31e
 	ret nz			;b320
 	ld e,000h		;b321
@@ -2568,10 +2568,10 @@ L_B3A3:
 	jp L_B36D		;b3a3   ; ENTRADA de WOODWORM (tipo 0x03), con su ficha en IX
 L_B3A6:
 	ld (ix+017h),040h		;b3a6   ; AL CREAR GRASSWORM: su caja (ix+0x17-0x1A: y 0x40-0x80, x 0x20-0x90), velocidad 3, vida 0x10, colores 1/0x44, 3 partes...
-	ld (ix+018h),081h		;b3aa
-	ld (ix+019h),020h		;b3ae
-	ld (ix+01ah),091h		;b3b2
-	ld (ix+01bh),003h		;b3b6
+	ld (ix+018h),081h		;b3aa   ; la y maxima del centro = 0x81
+	ld (ix+019h),020h		;b3ae   ; la x minima del centro = 0x20
+	ld (ix+01ah),091h		;b3b2   ; la x maxima del centro = 0x91
+	ld (ix+01bh),003h		;b3b6   ; la velocidad de la vuelta = 0x03
 	ld a,010h		;b3ba
 	ld (0e807h),a		;b3bc
 	ld hl,04401h		;b3bf
@@ -2592,7 +2592,7 @@ L_B3D1:
 	ld a,(ix+003h)		;b3e5   ; lee la y del enemigo
 	ld (ix+016h),a		;b3e8
 	ld a,(0e802h)		;b3eb
-	ld (ix+01ch),a		;b3ee
+	ld (ix+01ch),a		;b3ee   ; guarda cuantos quedan de su grupo
 	ld hl,0dd00h		;b3f1   ; ...y el rastro de 0xDD00 (128 sitios [y][x]) lleno con su sitio de ahora
 	ld b,080h		;b3f4
 	ld e,(ix+003h)		;b3f6   ; lee la y del enemigo
@@ -2634,11 +2634,11 @@ L_B418:
 	ld (ix+006h),a		;b441   ; guarda si se mueve
 	ld (ix+00ch),a		;b444   ; guarda la cuenta de cuadros
 	ld (ix+00eh),003h		;b447
-	ld (ix+00fh),0ffh		;b44b
-	ld (ix+010h),a		;b44f
-	ld (ix+011h),a		;b452
+	ld (ix+00fh),0ffh		;b44b   ; su hueco (su numero en la lista de la pantalla) = 0xFF
+	ld (ix+010h),a		;b44f   ; guarda si sus sprites no se mueven
+	ld (ix+011h),a		;b452   ; guarda si tiene el fondo guardado
 	ld (ix+01dh),a		;b455
-	ld (ix+01eh),a		;b458
+	ld (ix+01eh),a		;b458   ; guarda los toques (bit 0: toca a Mitchel; bit 1: le han dado)
 	ld a,(0e804h)		;b45b   ; ...su cuadro, su vida, su retraso en el rastro (ix+0x13, 0x40 menos cada una), la cabeza en ix+0x14/15, su numero en ix+0x16...
 	ld (ix+00bh),a		;b45e   ; guarda el cuadro del enemigo
 	ld a,(0e807h)		;b461
@@ -2651,7 +2651,7 @@ L_B418:
 	inc a			;b476
 	ld (0e801h),a		;b477
 	ld a,(0e802h)		;b47a
-	ld (ix+01ch),a		;b47d
+	ld (ix+01ch),a		;b47d   ; guarda cuantos quedan de su grupo
 	ld (ix+020h),002h		;b480   ; ...2 sprites con sus colores, y sus huecos en la tabla de sprites (y 0xE1)
 	ld a,(0e805h)		;b484
 	ld (ix+025h),a		;b487
@@ -2724,17 +2724,17 @@ L_B4E3:
 	jr nc,L_B507		;b4f2
 	dec (ix+016h)		;b4f4
 	ld a,(ix+016h)		;b4f7
-	cp (ix+017h)		;b4fa
+	cp (ix+017h)		;b4fa   ; compara con la y minima del centro
 	jr nc,L_B519		;b4fd
-	ld a,(ix+017h)		;b4ff
+	ld a,(ix+017h)		;b4ff   ; lee la y minima del centro
 	ld (ix+016h),a		;b502
 	jr L_B519		;b505
 L_B507:
 	inc (ix+016h)		;b507   ; hacia abajo, sin llegar a ix+0x18
 	ld a,(ix+016h)		;b50a
-	cp (ix+018h)		;b50d
+	cp (ix+018h)		;b50d   ; compara con la y maxima del centro
 	jr c,L_B519		;b510
-	ld a,(ix+018h)		;b512
+	ld a,(ix+018h)		;b512   ; lee la y maxima del centro
 	dec a			;b515
 	ld (ix+016h),a		;b516
 L_B519:
@@ -2745,17 +2745,17 @@ L_B519:
 	jr nc,L_B537		;b522
 	dec (ix+015h)		;b524   ; ...a la izquierda, sin bajar de ix+0x19
 	ld a,(ix+015h)		;b527
-	cp (ix+019h)		;b52a
+	cp (ix+019h)		;b52a   ; compara con la x minima del centro
 	jr nc,L_B549		;b52d
-	ld a,(ix+019h)		;b52f
+	ld a,(ix+019h)		;b52f   ; lee la x minima del centro
 	ld (ix+015h),a		;b532
 	jr L_B549		;b535
 L_B537:
 	inc (ix+015h)		;b537   ; hacia la derecha, sin llegar a ix+0x1A
 	ld a,(ix+015h)		;b53a
-	cp (ix+01ah)		;b53d
+	cp (ix+01ah)		;b53d   ; compara con la x maxima del centro
 	jr c,L_B549		;b540
-	ld a,(ix+01ah)		;b542
+	ld a,(ix+01ah)		;b542   ; lee la x maxima del centro
 	dec a			;b545
 	ld (ix+015h),a		;b546
 L_B549:
@@ -2799,17 +2799,17 @@ L_B587:
 	jr nc,L_B5AB		;b596
 	dec (ix+016h)		;b598
 	ld a,(ix+016h)		;b59b
-	cp (ix+017h)		;b59e
+	cp (ix+017h)		;b59e   ; compara con la y minima del centro
 	jr nc,L_B5BD		;b5a1
-	ld a,(ix+017h)		;b5a3
+	ld a,(ix+017h)		;b5a3   ; lee la y minima del centro
 	ld (ix+016h),a		;b5a6
 	jr L_B5BD		;b5a9
 L_B5AB:
 	inc (ix+016h)		;b5ab   ; hacia abajo, sin llegar a ix+0x18
 	ld a,(ix+016h)		;b5ae
-	cp (ix+018h)		;b5b1
+	cp (ix+018h)		;b5b1   ; compara con la y maxima del centro
 	jr c,L_B5BD		;b5b4
-	ld a,(ix+018h)		;b5b6
+	ld a,(ix+018h)		;b5b6   ; lee la y maxima del centro
 	dec a			;b5b9
 	ld (ix+016h),a		;b5ba
 L_B5BD:
@@ -2820,17 +2820,17 @@ L_B5BD:
 	jr nc,L_B5DB		;b5c6
 	dec (ix+015h)		;b5c8   ; ...a la izquierda, sin bajar de ix+0x19
 	ld a,(ix+015h)		;b5cb
-	cp (ix+019h)		;b5ce
+	cp (ix+019h)		;b5ce   ; compara con la x minima del centro
 	jr nc,L_B5ED		;b5d1
-	ld a,(ix+019h)		;b5d3
+	ld a,(ix+019h)		;b5d3   ; lee la x minima del centro
 	ld (ix+015h),a		;b5d6
 	jr L_B5ED		;b5d9
 L_B5DB:
 	inc (ix+015h)		;b5db   ; hacia la derecha, sin llegar a ix+0x1A
 	ld a,(ix+015h)		;b5de
-	cp (ix+01ah)		;b5e1
+	cp (ix+01ah)		;b5e1   ; compara con la x maxima del centro
 	jr c,L_B5ED		;b5e4
-	ld a,(ix+01ah)		;b5e6
+	ld a,(ix+01ah)		;b5e6   ; lee la x maxima del centro
 	dec a			;b5e9
 	ld (ix+015h),a		;b5ea
 L_B5ED:
@@ -3052,9 +3052,9 @@ DATA_pasos_B737:
 L_B778:
 	ld (ix+017h),040h		;b778   ; AL CREAR MIREWORM: la misma caja, vida 0x20, colores 1/0x46, 5 partes
 	ld (ix+018h),081h		;b77c   ; y hasta 0x80, x de 0x20 a 0x90, velocidad 3
-	ld (ix+019h),020h		;b780
-	ld (ix+01ah),091h		;b784
-	ld (ix+01bh),003h		;b788
+	ld (ix+019h),020h		;b780   ; la x minima del centro = 0x20
+	ld (ix+01ah),091h		;b784   ; la x maxima del centro = 0x91
+	ld (ix+01bh),003h		;b788   ; la velocidad de la vuelta = 0x03
 	ld a,020h		;b78c   ; vida 0x20
 	ld (0e807h),a		;b78e
 	ld hl,04601h		;b791
@@ -3065,10 +3065,10 @@ L_B79C:
 	jp L_B4C5		;b79c   ; MIREWORM usa lo de GRASSWORM
 L_B79F:
 	ld (ix+017h),030h		;b79f   ; AL CREAR CENTIPEDE: caja y 0x30-0x70, x 0x30-0x90, vida 0x15, 3 partes, cuadros 0x10 y 0x12, colores 1/0x46
-	ld (ix+018h),071h		;b7a3
-	ld (ix+019h),030h		;b7a7
-	ld (ix+01ah),091h		;b7ab
-	ld (ix+01bh),003h		;b7af
+	ld (ix+018h),071h		;b7a3   ; la y maxima del centro = 0x71
+	ld (ix+019h),030h		;b7a7   ; la x minima del centro = 0x30
+	ld (ix+01ah),091h		;b7ab   ; la x maxima del centro = 0x91
+	ld (ix+01bh),003h		;b7af   ; la velocidad de la vuelta = 0x03
 	ld a,015h		;b7b3
 	ld (0e807h),a		;b7b5
 	ld a,003h		;b7b8
@@ -3124,10 +3124,10 @@ L_B801:
 	ret			;b804
 L_B805:
 	ld (ix+017h),040h		;b805   ; AL CREAR CENTIPEDE (tipo 0x14): caja y 0x40-0x70, x 0x20-0x90, vida 0x20, 5 partes
-	ld (ix+018h),071h		;b809
-	ld (ix+019h),020h		;b80d
-	ld (ix+01ah),091h		;b811
-	ld (ix+01bh),003h		;b815
+	ld (ix+018h),071h		;b809   ; la y maxima del centro = 0x71
+	ld (ix+019h),020h		;b80d   ; la x minima del centro = 0x20
+	ld (ix+01ah),091h		;b811   ; la x maxima del centro = 0x91
+	ld (ix+01bh),003h		;b815   ; la velocidad de la vuelta = 0x03
 	ld a,020h		;b819
 	ld (0e807h),a		;b81b
 	ld a,005h		;b81e
@@ -3890,17 +3890,17 @@ L_BD4F:
 	add a,c			;bd5d
 	call 0425ah		;bd5e   ; p00:de_mas_a
 	ld a,(de)			;bd61
-	ld (ix+012h),a		;bd62
+	ld (ix+012h),a		;bd62   ; guarda el eje y el sentido
 	inc de			;bd65
 	ld a,(de)			;bd66
-	ld (ix+013h),a		;bd67
+	ld (ix+013h),a		;bd67   ; guarda un extremo
 	inc de			;bd6a
 	ld a,(de)			;bd6b
-	ld (ix+014h),a		;bd6c
+	ld (ix+014h),a		;bd6c   ; guarda el otro extremo
 	ld a,(ix+012h)		;bd6f   ; ...y su velocidad de p03:BDB9, en vertical (bit 1 de ix+0x12 a 0) o en horizontal
 	ld de,0bdb9h		;bd72   ; velocidades_BDB9: 4 palabras segun ix+0x12 que p03:BD72 pone en ix+7 o ix+9
 	call 042ffh		;bd75   ; p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
-	bit 1,(ix+012h)		;bd78
+	bit 1,(ix+012h)		;bd78   ; mira el bit 1 de el eje y el sentido
 	jp z,04311h		;bd7c   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	jp 04318h		;bd7f   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 
@@ -3950,12 +3950,12 @@ DATA_tabla_BDC7:
 L_BDCB:
 	bit 0,(ix+012h)		;bdcb   ; PASO 0: va hasta el extremo (ix+0x13 o ix+0x14 segun el bit 0 de ix+0x12) en su eje...
 	jr nz,L_BDD6		;bdcf
-	ld c,(ix+013h)		;bdd1
+	ld c,(ix+013h)		;bdd1   ; lee un extremo
 	jr L_BDD9		;bdd4
 L_BDD6:
-	ld c,(ix+014h)		;bdd6
+	ld c,(ix+014h)		;bdd6   ; lee el otro extremo
 L_BDD9:
-	bit 1,(ix+012h)		;bdd9
+	bit 1,(ix+012h)		;bdd9   ; mira el bit 1 de el eje y el sentido
 	jr nz,L_BDE4		;bddd
 	ld a,(ix+003h)		;bddf   ; lee la y del enemigo
 	jr L_BDE7		;bde2
@@ -3965,7 +3965,7 @@ L_BDE7:
 	cp c			;bde7
 	ret nz			;bde8
 	inc (ix+001h)		;bde9   ; ...y alli, parada 0x10 cuadros (paso 1)
-	ld (ix+015h),010h		;bdec
+	ld (ix+015h),010h		;bdec   ; la espera = 0x10
 	ld (ix+006h),000h		;bdf0   ; si se mueve = 0x00
 	ret			;bdf4
 L_BDF5:
@@ -3973,9 +3973,9 @@ L_BDF5:
 	ret nz			;bdf8
 	dec (ix+001h)		;bdf9   ; baja el paso en que va
 	ld (ix+006h),001h		;bdfc   ; si se mueve = 0x01
-	ld a,(ix+012h)		;be00
+	ld a,(ix+012h)		;be00   ; lee el eje y el sentido
 	xor 001h		;be03
-	ld (ix+012h),a		;be05
+	ld (ix+012h),a		;be05   ; guarda el eje y el sentido
 	bit 1,a		;be08
 	ld e,(ix+007h)		;be0a   ; lee la velocidad vertical (baja)
 	ld d,(ix+008h)		;be0d   ; lee la velocidad vertical
@@ -3984,12 +3984,12 @@ L_BDF5:
 	ld d,(ix+00ah)		;be15   ; lee la velocidad horizontal
 L_BE18:
 	call 071f8h		;be18   ; p01:niega_de: DE = -DE
-	bit 1,(ix+012h)		;be1b
+	bit 1,(ix+012h)		;be1b   ; mira el bit 1 de el eje y el sentido
 	jp z,04311h		;be1f   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	jp 04318h		;be22   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_BE25:
 	ld (ix+00bh),007h		;be25   ; AL CREAR RUINSBAT: cuadro 7, 0x10 cuadros
-	ld (ix+012h),010h		;be29
+	ld (ix+012h),010h		;be29   ; la espera = 0x10
 	ret			;be2d
 L_BE2E:
 	ld a,(ix+001h)		;be2e   ; ENTRADA de RUINSBAT (tipo 0x3F), con su ficha en IX
@@ -4018,8 +4018,8 @@ L_BE38:
 	ld d,a			;be47
 	ld a,r		;be48
 	and 07fh		;be4a
-	inc (ix+013h)		;be4c
-	bit 0,(ix+013h)		;be4f
+	inc (ix+013h)		;be4c   ; sube hacia que eje va
+	bit 0,(ix+013h)		;be4f   ; mira el bit 0 de hacia que eje va
 	jr z,L_BE58		;be53
 	ld e,a			;be55
 	jr L_BE59		;be56
@@ -4068,20 +4068,20 @@ L_BEA8:
 L_BEAD:
 	bit 0,l		;bead
 	ret z			;beaf
-	ld (ix+012h),010h		;beb0
+	ld (ix+012h),010h		;beb0   ; la espera = 0x10
 	dec (ix+001h)		;beb4   ; baja el paso en que va
 	ret			;beb7
 ruinsbat_anima:
 	ld a,(ix+00ch)		;beb8   ; cada 4 cuadros, el cuadro siguiente de los 6 de p03:BEDA
 	and 003h		;bebb
 	ret nz			;bebd
-	inc (ix+014h)		;bebe
-	ld a,(ix+014h)		;bec1
+	inc (ix+014h)		;bebe   ; sube su dibujo
+	ld a,(ix+014h)		;bec1   ; lee su dibujo
 	cp 006h		;bec4
 	jr nz,L_BECC		;bec6
-	ld (ix+014h),000h		;bec8
+	ld (ix+014h),000h		;bec8   ; su dibujo = 0x00
 L_BECC:
-	ld a,(ix+014h)		;becc
+	ld a,(ix+014h)		;becc   ; lee su dibujo
 	ld hl,0bedah		;becf   ; cuadros_BEDA: 6 bytes: el cuadro (ix+0x0B) segun ix+0x14 (p03:BECF)
 	call 04255h		;bed2   ; p00:hl_mas_a
 	ld a,(hl)			;bed5
