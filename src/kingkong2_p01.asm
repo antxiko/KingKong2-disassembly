@@ -1931,7 +1931,7 @@ dispara:
 	ret z			;6c51
 	xor a			;6c52   ; 0xC324 = 0 y SHOT1
 	ld (0c324h),a		;6c53
-	jp usa_shot1		;6c56   ; usa_shot1: El arma de SHOT1 (0xC140): 0 el puno; 1-3 golpes 0x11-0x13; 4 solo en las
+	jp usa_shot1		;6c56   ; usa_shot1: con 0xC132 solo el 0x19 (y el puno)
 
 ; ----------------------------------------------------------------------
 ; LA ENFERMEDAD (la picadura de p12:B713): cada 256 cuadros (0xC209 da la
@@ -3124,7 +3124,7 @@ ficha_contra_el_mapa:
 	cp c			;73fe
 	pop hl			;73ff
 	ret c			;7400
-	push hl			;7401
+	push hl			;7401   ; D a la derecha
 	inc b			;7402
 	ld a,h			;7403
 	add a,d			;7404
@@ -3134,7 +3134,7 @@ ficha_contra_el_mapa:
 	cp c			;740a
 	pop hl			;740b
 	ret c			;740c
-	push hl			;740d
+	push hl			;740d   ; D por debajo
 	inc b			;740e
 	ld a,l			;740f
 	add a,d			;7410
@@ -3144,7 +3144,7 @@ ficha_contra_el_mapa:
 	cp c			;7416
 	pop hl			;7417
 	ret c			;7418
-	inc b			;7419
+	inc b			;7419   ; D a la izquierda
 	ld a,h			;741a
 	sub d			;741b
 	ld h,a			;741c
@@ -3153,7 +3153,7 @@ ficha_contra_el_mapa:
 	cp c			;7421
 	ret			;7422
 L_7423:
-	ld a,008h		;7423
+	ld a,008h		;7423   ; choca: da la vuelta (ix+0x17)
 	call 05488h		;7425   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 	dec (ix+017h)		;7428
 	ld a,b			;742b
@@ -3175,7 +3175,7 @@ DATA_tabla_742F:
 
 
 L_7437:
-	ld de,00200h		;7437
+	ld de,00200h		;7437   ; hacia abajo: 2 por cuadro
 	call 04311h		;743a
 	ld a,002h		;743d
 L_743F:
@@ -3183,7 +3183,7 @@ L_743F:
 	ld (ix+003h),a		;7442
 	ret			;7445
 L_7446:
-	ld de,0fe00h		;7446
+	ld de,0fe00h		;7446   ; hacia la izquierda: -2
 	call 04318h		;7449
 	ld a,0feh		;744c
 L_744E:
@@ -3191,12 +3191,12 @@ L_744E:
 	ld (ix+005h),a		;7451
 	ret			;7454
 L_7455:
-	ld de,0fe00h		;7455
+	ld de,0fe00h		;7455   ; hacia arriba: -2
 	call 04311h		;7458
 	ld a,0feh		;745b
 	jr L_743F		;745d
 L_745F:
-	ld de,00200h		;745f
+	ld de,00200h		;745f   ; hacia la derecha: 2
 	call 04318h		;7462
 	ld a,002h		;7465
 	jr L_744E		;7467
@@ -3208,16 +3208,16 @@ L_745F:
 ; 0x0A uno de 0xC349; 0x0B el golpe 0x1B; 0x1F gasta uno de 0xC35E.
 ; ----------------------------------------------------------------------
 usa_shot1:
-	ld a,(0c132h)		;7469
+	ld a,(0c132h)		;7469   ; con 0xC132 solo el 0x19 (y el puno)
 	and a			;746c
 	ld a,(0c140h)		;746d   ; lee SHOT1, el arma que se lleva (0 el puno)
 	jr z,L_7474		;7470
 	and a			;7472
 	ret nz			;7473
 L_7474:
-	cp 01fh		;7474   ; 0x1F: p01:74D4
+	cp 01fh		;7474   ; el 0x1F aparte
 	jp z,lanza_un_0x1F		;7476
-	cp 00ch		;7479
+	cp 00ch		;7479   ; del 0x0C en adelante no son armas
 	ret nc			;747b
 	call 0425fh		;747c   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
@@ -3246,66 +3246,66 @@ DATA_tabla_747F:
 
 
 golpe_del_puno:
-	ld c,010h		;7497
+	ld c,010h		;7497   ; el puno: el golpe (y su sonido) 0x10
 	jp L_7534		;7499
 L_749C:
-	ld c,011h		;749c
+	ld c,011h		;749c   ; el cuchillo (1): 0x11
 	jp L_7534		;749e
 L_74A1:
-	ld c,012h		;74a1
+	ld c,012h		;74a1   ; ROD (2): 0x12
 	jp L_7534		;74a3
 L_74A6:
-	ld c,013h		;74a6
+	ld c,013h		;74a6   ; el garrote (3): 0x13
 	jp L_7534		;74a8
 golpe_del_4:
 	ld a,(0c125h)		;74ab   ; solo en las pantallas 0x63-0x89
 	cp 063h		;74ae   ; la pantalla 0x63?
-	jr c,L_74BB		;74b0
+	jr c,L_74BB		;74b0   ; la espada de luz (4), solo en 0x63-0x89: 0x14
 	cp 08ah		;74b2   ; la pantalla 0x8A?
 	jr nc,L_74BB		;74b4
 	ld c,014h		;74b6
 	jp L_7534		;74b8
 L_74BB:
-	xor a			;74bb   ; fuera: se suelta (SHOT1 = 0) y va el puno
+	xor a			;74bb   ; fuera, se suelta y se golpea con el puno
 	ld (0c140h),a		;74bc   ; guarda SHOT1, el arma que se lleva (0 el puno)
-	call golpe_del_puno		;74bf
+	call golpe_del_puno		;74bf   ; golpe_del_puno: el puno: el golpe (y su sonido) 0x10
 	jp L_62DE		;74c2
 golpe_del_5:
 	ld a,(0c12eh)		;74c5   ; 0xC12E: LEVEL; hace falta 5
-	cp 005h		;74c8
+	cp 005h		;74c8   ; el hacha (5), con LEVEL 5 o mas: 0x15
 	ret c			;74ca
 	ld c,015h		;74cb
 	jp L_7534		;74cd
 golpe_del_6_y_7:
-	ld c,017h		;74d0
+	ld c,017h		;74d0   ; la espada (6) y la garra (7): 0x17
 	jr L_7534		;74d2
 lanza_un_0x1F:
 	ld hl,0c35eh		;74d4   ; apunta a cuantos objetos 0x1F se llevan (BCD; 0xFF sin cuenta)
-	ld b,004h		;74d7
+	ld b,004h		;74d7   ; el 0x1F: se gasta uno y se lanza con B = 4
 	jr L_74E0		;74d9
 lanza_un_8:
 	ld hl,0c347h		;74db   ; apunta a cuantos objetos 0x08 se llevan (BCD; 0xFF sin cuenta)
-	ld b,001h		;74de
+	ld b,001h		;74de   ; las piedras (8): se gasta una y se lanza
 L_74E0:
 	call hay_algo_lanzado		;74e0   ; hay_algo_lanzado: 0xC380: la ficha de lo que Mitchel lanza
-	ret nz			;74e3
+	ret nz			;74e3   ; si ya hay algo lanzado, nada
 	ld a,(hl)			;74e4   ; gasta uno; sin ninguno, nada
-	sub 001h		;74e5
+	sub 001h		;74e5   ; una menos (BCD); sin ninguna, nada
 	ret c			;74e7
 	daa			;74e8
 	ld (hl),a			;74e9
 	jr nz,lanza_el_0x18		;74ea   ; el ultimo: SHOT1 vuelve a 0
-	call lanza_el_0x18		;74ec
+	call lanza_el_0x18		;74ec   ; se lanza
 L_74EF:
-	xor a			;74ef
+	xor a			;74ef   ; la ultima: SHOT1 se queda vacio y el icono se repinta
 	ld (0c140h),a		;74f0   ; guarda SHOT1, el arma que se lleva (0 el puno)
 	jp L_62DE		;74f3
 lanza_el_0x18:
-	ld c,018h		;74f6
+	ld c,018h		;74f6   ; lo lanzado 0x18 (piedra)
 	jr lanza		;74f8
 lanza_un_9:
 	call hay_algo_lanzado		;74fa   ; hay_algo_lanzado: 0xC380: la ficha de lo que Mitchel lanza
-	ret nz			;74fd
+	ret nz			;74fd   ; la bola de fuego (9): lo mismo con 0xC348
 	ld hl,0c348h		;74fe   ; apunta a cuantos objetos 0x09 se llevan (BCD; 0xFF sin cuenta)
 	ld a,(hl)			;7501
 	sub 001h		;7502
@@ -3313,83 +3313,83 @@ lanza_un_9:
 	daa			;7505
 	ld (hl),a			;7506
 	jr nz,lanza_el_0x19		;7507
-	call lanza_el_0x19		;7509
+	call lanza_el_0x19		;7509   ; lanza_el_0x19: lo lanzado 0x19, B = 2
 	jr L_74EF		;750c
 lanza_el_0x19:
-	ld bc,00219h		;750e
+	ld bc,00219h		;750e   ; lo lanzado 0x19, B = 2
 	jr lanza		;7511
 lanza_el_boomerang:
 	ld a,(0c349h)		;7513   ; 0xC349: cuantos boomerangs hay en la mano
-	and a			;7516
+	and a			;7516   ; el boomerang (0x0A): con alguno en la mano...
 	ret z			;7517
 	call hay_algo_lanzado		;7518   ; hay_algo_lanzado: 0xC380: la ficha de lo que Mitchel lanza
 	ret nz			;751b
-	ld bc,0031ah		;751c
+	ld bc,0031ah		;751c   ; ...se lanza (0x1A, B = 3)...
 	call lanza		;751f   ; lanza: la ficha de lo lanzado (0xC380): el sonido C, B unidades, sale de Mitchel hacia donde mira
 	ld hl,0c349h		;7522   ; apunta a cuantos objetos 0x0A se llevan (BCD; 0xFF sin cuenta)
-	ld a,(hl)			;7525
+	ld a,(hl)			;7525   ; ...y queda uno menos en la mano (vuelve solo, p01:769B)
 	sub 001h		;7526
 	daa			;7528
 	ld (hl),a			;7529
 	ret			;752a
 L_752B:
-	ld c,01bh		;752b
+	ld c,01bh		;752b   ; el arpon (0x0B): 0x1B
 	jr L_7534		;752d
 hay_algo_lanzado:
 	ld a,(0c380h)		;752f   ; 0xC380: la ficha de lo que Mitchel lanza
 	and a			;7532
 	ret			;7533
 L_7534:
-	push bc			;7534
+	push bc			;7534   ; EL GOLPE: si hay algo lanzado, nada
 	call hay_algo_lanzado		;7535   ; hay_algo_lanzado: 0xC380: la ficha de lo que Mitchel lanza
 	pop bc			;7538
 	ret nz			;7539
-	ld a,c			;753a
+	ld a,c			;753a   ; el sonido del golpe
 	call 05490h		;753b   ; p00:sonido: pone los bancos 4 y 5 y pide el sonido A a p04:6032
 	ld hl,0c300h		;753e   ; apunta a el estado de Mitchel
-	ld a,(hl)			;7541
+	ld a,(hl)			;7541   ; el estado de Mitchel se guarda y pasa al 5 (golpe)...
 	ld (0c314h),a		;7542
 	ld (hl),005h		;7545
-	ld a,008h		;7547
+	ld a,008h		;7547   ; ...8 cuadros
 	ld (0c313h),a		;7549
 	ld a,(0c140h)		;754c   ; lee SHOT1, el arma que se lleva (0 el puno)
-	ld (0c301h),a		;754f
+	ld (0c301h),a		;754f   ; lo de 0xC140 en 0xC301
 	and a			;7552
 	ret z			;7553
-	ld (0c38fh),a		;7554
+	ld (0c38fh),a		;7554   ; y con arma, 0xC38F y 0xC380 = 0xFF
 	ld a,0ffh		;7557
 	ld (0c380h),a		;7559   ; guarda lo que lanza Mitchel (su ficha)
 L_755C:
-	jp 05046h		;755c   ; p00:sube_el_arma
+	jp 05046h		;755c   ; los sprites del arma (p00:5046)
 lanza:
 	ld a,c			;755f   ; la ficha de lo lanzado (0xC380): el sonido C, B unidades, sale de Mitchel hacia donde mira
 	call 05490h		;7560   ; p00:sonido: pone los bancos 4 y 5 y pide el sonido A a p04:6032
 	ld hl,0c300h		;7563   ; apunta a el estado de Mitchel
-	ld a,(hl)			;7566
+	ld a,(hl)			;7566   ; el estado de Mitchel se guarda y pasa al 7 (lanzar), 8 cuadros
 	ld (0c314h),a		;7567
 	ld (hl),007h		;756a
 	ld a,008h		;756c
 	ld (0c313h),a		;756e
 	ld hl,0c380h		;7571   ; apunta a lo que lanza Mitchel (su ficha)
-	push hl			;7574
+	push hl			;7574   ; IY = la ficha de lo lanzado
 	pop iy		;7575
-	ld (hl),b			;7577
+	ld (hl),b			;7577   ; [B]: cuantos rebotes o vueltas
 	xor a			;7578
 	inc l			;7579
 	ld (hl),a			;757a
 	inc l			;757b
 	ld (hl),a			;757c
-	inc l			;757d
+	inc l			;757d   ; la y de Mitchel...
 	ld a,(0c303h)		;757e   ; lee la Y de Mitchel
 	ld (hl),a			;7581
 	inc l			;7582
 	ld (hl),000h		;7583
-	inc l			;7585
+	inc l			;7585   ; ...su x...
 	ld a,(0c305h)		;7586   ; lee la X de Mitchel
 	ld (hl),a			;7589
 	inc l			;758a
-	ld (hl),001h		;758b
-	call velocidad_de_lo_lanzado		;758d
+	ld (hl),001h		;758b   ; ...se mueve...
+	call velocidad_de_lo_lanzado		;758d   ; ...con su velocidad
 	inc l			;7590
 	ld (hl),e			;7591
 	inc l			;7592
@@ -3399,7 +3399,7 @@ lanza:
 	inc l			;7596
 	ld (hl),b			;7597
 	inc l			;7598
-	ld a,(iy+000h)		;7599
+	ld a,(iy+000h)		;7599   ; los 4 bytes de su tipo (p01:75DA + 4*tipo)...
 	add a,a			;759c
 	add a,a			;759d
 	ld de,075dah		;759e
@@ -3408,8 +3408,8 @@ lanza:
 	ld bc,00004h		;75a5
 	ldir		;75a8
 	ld a,(0c306h)		;75aa   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
-	ld (de),a			;75ad
-	ld a,(iy+000h)		;75ae
+	ld (de),a			;75ad   ; ...y la direccion de Mitchel
+	ld a,(iy+000h)		;75ae   ; el boomerang (3) va a un punto: 0x10 por delante de Mitchel
 	cp 003h		;75b1
 	jp nz,L_755C		;75b3
 	ld a,(0c306h)		;75b6   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
@@ -3421,7 +3421,7 @@ lanza:
 	ld a,(iy+005h)		;75c6
 	add a,d			;75c9
 	ld (iy+011h),a		;75ca
-	ld hl,00000h		;75cd
+	ld hl,00000h		;75cd   ; sin velocidad propia (0xC398)
 	ld (0c398h),hl		;75d0
 	jp L_755C		;75d3
 
@@ -3446,14 +3446,14 @@ DATA_fichas_de_lo_lanzado:
 
 velocidad_de_lo_lanzado:
 	push hl			;75ee
-	ld de,00300h		;75ef
+	ld de,00300h		;75ef   ; 3 por cuadro...
 	ld a,(0c306h)		;75f2   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	ld c,a			;75f5
-	rra			;75f6
+	rra			;75f6   ; ...negativo hacia arriba y la izquierda...
 	call nc,niega_de		;75f7   ; niega_de: DE = -DE
 	ld a,c			;75fa
 	ld hl,00000h		;75fb
-	cp 002h		;75fe
+	cp 002h		;75fe   ; ...en el eje de la direccion (y para 0 y 1, x para 2 y 3)
 	jr c,L_7603		;7600
 	ex de,hl			;7602
 L_7603:
@@ -3462,8 +3462,8 @@ L_7603:
 	pop hl			;7605
 	ret			;7606
 L_7607:
-	ld ix,0c380h		;7607   ; apunta a lo que lanza Mitchel (su ficha)
-	ld a,(ix+000h)		;760b
+	ld ix,0c380h		;7607   ; LO LANZADO, CADA CUADRO: sin nada, nada
+	ld a,(ix+000h)		;760b   ; por su tipo, con la tabla de p01:7613
 	dec a			;760e
 	ret m			;760f
 	call 0425fh		;7610   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
@@ -3484,45 +3484,45 @@ DATA_tabla_7613:
 
 
 L_761B:
-	call lo_lanzado_contra_el_mapa		;761b
+	call lo_lanzado_contra_el_mapa		;761b   ; piedra y bola de fuego: contra el mapa se acaba...
 	jp c,borra_la_ficha		;761e
-	inc (ix+001h)		;7621
+	inc (ix+001h)		;7621   ; ...y a los 16 cuadros tambien
 	ld a,(ix+001h)		;7624
 	cp 010h		;7627
 	jp nc,borra_la_ficha		;7629
-	call se_mueve		;762c
+	call se_mueve		;762c   ; avanza
 	jr mueve_el_boomerang		;762f
 L_7631:
-	ld a,(0c209h)		;7631
+	ld a,(0c209h)		;7631   ; EL BOOMERANG: su sonido cada 4 cuadros...
 	and 003h		;7634
 	ld a,01ah		;7636
 	call z,05490h		;7638   ; p00:sonido: pone los bancos 4 y 5 y pide el sonido A a p04:6032
-	call lo_lanzado_contra_el_mapa		;763b
+	call lo_lanzado_contra_el_mapa		;763b   ; ...contra el mapa, rebota...
 	jr c,rebota_lo_lanzado		;763e
-	call va_hacia_su_destino		;7640
-	inc (ix+001h)		;7643
+	call va_hacia_su_destino		;7640   ; ...va hacia su punto...
+	inc (ix+001h)		;7643   ; ...0x38 cuadros de vuelo...
 	ld a,(ix+001h)		;7646
 	cp 038h		;7649
 	jr c,L_7694		;764b
-	ld e,(ix+003h)		;764d
+	ld e,(ix+003h)		;764d   ; ...y al acabar se deja en el suelo (el objeto 0x0A)...
 	ld d,(ix+005h)		;7650
 	ld bc,0010ah		;7653
 	push ix		;7656
 	call pon_objeto		;7658   ; pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 	pop ix		;765b
-	call borra_la_ficha		;765d
+	call borra_la_ficha		;765d   ; ...y la ficha se borra
 	ld a,(0c349h)		;7660   ; lee cuantos objetos 0x0A se llevan (BCD; 0xFF sin cuenta)
-	and a			;7663
+	and a			;7663   ; si no queda ninguno en la mano, SHOT1 se vacia
 	ret nz			;7664
 	jp L_74EF		;7665
 rebota_lo_lanzado:
-	ld a,(ix+001h)		;7668
+	ld a,(ix+001h)		;7668   ; a la mitad (0x1C cuadros) da la vuelta...
 	cp 01ch		;766b
 	jr nc,L_7694		;766d
-	sub 038h		;766f
+	sub 038h		;766f   ; ...los cuadros que le quedan...
 	neg		;7671
 	ld (ix+001h),a		;7673
-	ld e,(ix+007h)		;7676
+	ld e,(ix+007h)		;7676   ; ...y las velocidades al reves
 	ld d,(ix+008h)		;7679
 	call niega_de		;767c   ; niega_de: DE = -DE
 	ld (ix+007h),e		;767f
@@ -3533,23 +3533,23 @@ rebota_lo_lanzado:
 	ld (ix+009h),e		;768e
 	ld (ix+00ah),d		;7691
 L_7694:
-	call se_mueve		;7694
-	call mueve_el_boomerang		;7697
+	call se_mueve		;7694   ; avanza, con su cuadro
+	call mueve_el_boomerang		;7697   ; mueve_el_boomerang: cada dos cuadros, uno de los 4 dibujos de p01:76CC
 	ret c			;769a
-	ld hl,0c349h		;769b   ; apunta a cuantos objetos 0x0A se llevan (BCD; 0xFF sin cuenta)
+	ld hl,0c349h		;769b   ; y si vuelve a Mitchel, uno mas en la mano (0xC349)
 	inc (hl)			;769e
 	ret			;769f
 mueve_el_boomerang:
-	ld a,(ix+001h)		;76a0
+	ld a,(ix+001h)		;76a0   ; cada dos cuadros, uno de los 4 dibujos de p01:76CC
 	rra			;76a3
 	and 003h		;76a4
 	ld hl,076cch		;76a6   ; cuadro_del_boomerang: 4 bytes: el cuadro (ix+0x0B) segun el paso (p01:76A6)
 	call 04255h		;76a9   ; p00:hl_mas_a
 	ld a,(hl)			;76ac
 	ld (ix+00bh),a		;76ad
-	add a,004h		;76b0
+	add a,004h		;76b0   ; el segundo sprite, 4 patrones mas alla
 	ld (ix+00dh),a		;76b2
-	ld a,(ix+003h)		;76b5
+	ld a,(ix+003h)		;76b5   ; fuera de la pantalla se borra
 	sub 008h		;76b8
 	cp 0a0h		;76ba
 	jr nc,borra_la_ficha		;76bc
@@ -3575,9 +3575,9 @@ DATA_cuadro_del_boomerang:
 
 
 lo_lanzado_contra_el_mapa:
-	ld l,(ix+003h)		;76d0
+	ld l,(ix+003h)		;76d0   ; la casilla de delante, segun la velocidad
 	ld h,(ix+005h)		;76d3
-	ld a,(ix+007h)		;76d6
+	ld a,(ix+007h)		;76d6   ; moviendose en vertical, 8 arriba o abajo...
 	or (ix+008h)		;76d9
 	jr nz,L_76F0		;76dc
 	ld a,(ix+009h)		;76de
@@ -3591,7 +3591,7 @@ L_76EC:
 	ld h,a			;76ed
 	jr L_76F9		;76ee
 L_76F0:
-	ld a,008h		;76f0
+	ld a,008h		;76f0   ; ...en horizontal, 8 a un lado
 	jp p,L_76F7		;76f2
 	ld a,0f8h		;76f5
 L_76F7:
@@ -3599,11 +3599,11 @@ L_76F7:
 	ld l,a			;76f8
 L_76F9:
 	call 0431fh		;76f9   ; p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
-	ex de,hl			;76fc
+	ex de,hl			;76fc   ; el limite del juego de dibujos
 	ld a,(0c148h)		;76fd   ; lee el juego de dibujos de la pantalla
 	ld hl,073d0h		;7700   ; byte_por_juego_de_dibujos: un byte por juego de dibujos (0xC148, 13): lo que p01:7332 pone en 0xE802
 	call 04255h		;7703   ; p00:hl_mas_a
-	ld a,(de)			;7706
+	ld a,(de)			;7706   ; 0 pasa, 0xF0 no, y los demas segun el limite
 	and a			;7707
 	ret z			;7708
 	cp 0f0h		;7709
@@ -3612,20 +3612,20 @@ L_76F9:
 	cp (hl)			;770d
 	ret			;770e
 va_hacia_su_destino:
-	ld a,(ix+010h)		;770f
+	ld a,(ix+010h)		;770f   ; la velocidad vertical + (destino - y)...
 	ld e,(ix+007h)		;7712
 	ld d,(ix+008h)		;7715
 	sub (ix+003h)		;7718
-	call signo_a_h		;771b
+	call signo_a_h		;771b   ; signo_a_h: HL = A con signo
 	call 04311h		;771e
-	ld a,(ix+011h)		;7721
+	ld a,(ix+011h)		;7721   ; ...y la horizontal + (destino - x)
 	ld e,(ix+009h)		;7724
 	ld d,(ix+00ah)		;7727
 	sub (ix+005h)		;772a
-	call signo_a_h		;772d
+	call signo_a_h		;772d   ; signo_a_h: HL = A con signo
 	jp 04318h		;7730
 signo_a_h:
-	ld h,000h		;7733
+	ld h,000h		;7733   ; HL = A con signo
 	jp p,L_7739		;7735
 	dec h			;7738
 L_7739:
@@ -3634,24 +3634,24 @@ L_7739:
 	ex de,hl			;773b
 	ret			;773c
 L_773D:
-	ld hl,0c313h		;773d
+	ld hl,0c313h		;773d   ; ESTADO 5, EL GOLPE: 8 cuadros...
 	inc (hl)			;7740
 	ld a,(hl)			;7741
 	cp 008h		;7742
 	jr c,$+97		;7744
 L_7746:
-	ld a,(0c314h)		;7746
+	ld a,(0c314h)		;7746   ; ...y vuelve al estado de antes
 	ld (0c300h),a		;7749   ; guarda el estado de Mitchel
 	ret			;774c
 L_774D:
-	xor a			;774d
+	xor a			;774d   ; ESTADO 6: dando vueltas (0xC316)...
 	ld (0c324h),a		;774e
 	ld hl,0c316h		;7751
 	inc (hl)			;7754
 	ld a,(hl)			;7755
 	cp 014h		;7756
 	jr z,$+65		;7758
-	and 003h		;775a
+	and 003h		;775a   ; ...cada 4 cuadros, otra direccion
 	call z,da_la_vuelta		;775c
 	ld a,0ffh		;775f
 	ld (0c313h),a		;7761
@@ -3678,23 +3678,23 @@ DATA_direccion_contraria:
 
 
 L_7777:
-	ld a,(0c301h)		;7777
+	ld a,(0c301h)		;7777   ; ESTADO 7, LANZAR: con arma que se ve...
 	and a			;777a
 	jr z,L_779F		;777b
-	call sitio_del_golpe		;777d
+	call sitio_del_golpe		;777d   ; ...su sitio y la pose de golpe...
 	call pose_de_golpe		;7780
-	ld a,(0c301h)		;7783
+	ld a,(0c301h)		;7783   ; ...y el golpe de la tabla de p01:77D5
 	ld de,077d5h		;7786   ; golpes_77D5: 12 palabras segun 0xC301: lo que p01:7786 pone en 0xC38C y 0xC38E
 	call 042ffh		;7789   ; p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
 	ld a,e			;778c
 	ld (0c38ch),a		;778d
 	ld a,d			;7790
 	ld (0c38eh),a		;7791
-	ld hl,0c313h		;7794
+	ld hl,0c313h		;7794   ; 8 cuadros
 	dec (hl)			;7797
 	ret nz			;7798
 L_7799:
-	xor a			;7799
+	xor a			;7799   ; y al estado 0
 	ld (0c380h),a		;779a   ; guarda lo que lanza Mitchel (su ficha)
 	jr $-87		;779d
 L_779F:
@@ -3703,12 +3703,12 @@ L_779F:
 	jr z,L_7799		;77a3
 pose_de_golpe:
 	ld a,(0c306h)		;77a5   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
-	add a,00ch		;77a8
+	add a,00ch		;77a8   ; la pose: 0x0C + direccion
 	ld (0c310h),a		;77aa   ; guarda la POSE de Mitchel
 	ret			;77ad
 sitio_del_golpe:
 	ld a,(0c306h)		;77ae   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
-	ld c,a			;77b1
+	ld c,a			;77b1   ; los dos sprites del arma: patrones 8 + 8*direccion...
 	add a,a			;77b2
 	add a,a			;77b3
 	add a,a			;77b4
@@ -3717,7 +3717,7 @@ sitio_del_golpe:
 	add a,004h		;77ba
 	ld (0c38dh),a		;77bc
 	ld de,077edh		;77bf   ; pasos_77ED: 4 parejas [dx][dy] segun la direccion (p01:77BF)
-	ld a,c			;77c2
+	ld a,c			;77c2   ; ...y su punto, a un lado de Mitchel (p01:77ED)
 	call 042ffh		;77c3   ; p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
 	ld a,(0c303h)		;77c6   ; lee la Y de Mitchel
 	add a,e			;77c9
@@ -3747,26 +3747,26 @@ DATA_pasos_77ED:
 
 
 L_77F5:
-	ld a,(0c132h)		;77f5
+	ld a,(0c132h)		;77f5   ; LOS SPRITES DE LO LANZADO: los huecos 2 y 3 (0xE608)...
 	and a			;77f8
 	jp nz,0507ah		;77f9   ; p00:la_que_sigue_en_su_sitio
 	ld hl,0e608h		;77fc
 	ld de,0e420h		;77ff
 	ld ix,0c380h		;7802   ; apunta a lo que lanza Mitchel (su ficha)
-	ld a,(ix+000h)		;7806
+	ld a,(ix+000h)		;7806   ; ...si hay algo...
 	and a			;7809
 	jr z,L_783D		;780a
-	ld a,(ix+003h)		;780c
+	ld a,(ix+003h)		;780c   ; ...en y-8...
 	sub 008h		;780f
 	ld c,a			;7811
 	ld (hl),c			;7812
 	inc l			;7813
-	ld a,(ix+005h)		;7814
+	ld a,(ix+005h)		;7814   ; ...y x-8...
 	sub 008h		;7817
 	ld b,a			;7819
 	ld (hl),b			;781a
 	inc l			;781b
-	ld a,(ix+00bh)		;781c
+	ld a,(ix+00bh)		;781c   ; ...con el patron del primero (ix+0x0B)...
 	ld (hl),a			;781f
 	inc l			;7820
 	inc l			;7821
@@ -3774,9 +3774,9 @@ L_77F5:
 	inc l			;7823
 	ld (hl),b			;7824
 	inc l			;7825
-	ld a,(ix+00dh)		;7826
+	ld a,(ix+00dh)		;7826   ; ...y el del segundo (ix+0x0D)
 	ld (hl),a			;7829
-	ld a,(ix+00ch)		;782a
+	ld a,(ix+00ch)		;782a   ; sus dos colores (ix+0x0C e ix+0x0E), 16 lineas cada uno
 	ld b,010h		;782d
 L_782F:
 	ld (de),a			;782f
@@ -3790,7 +3790,7 @@ L_7838:
 	djnz L_7838		;783a
 	ret			;783c
 L_783D:
-	ld (hl),0e0h		;783d
+	ld (hl),0e0h		;783d   ; sin nada, fuera de la pantalla
 	inc l			;783f
 	inc l			;7840
 	inc l			;7841
@@ -3799,7 +3799,7 @@ L_783D:
 	ld a,020h		;7845
 	jp 0425ah		;7847   ; p00:de_mas_a
 L_784A:
-	ld a,c			;784a
+	ld a,c			;784a   ; del 0x27 en adelante (sucesos), con 0xC170 = 1
 	cp 027h		;784b
 	ret c			;784d
 	ld a,001h		;784e
@@ -3814,24 +3814,24 @@ pon_objeto:
 	xor a			;7852
 L_7853:
 	ld (0c170h),a		;7853
-	ld a,c			;7856
+	ld a,c			;7856   ; del 0x27 en adelante, un suceso
 	sub 027h		;7857   ; 0x27 en adelante: sucesos (p01:78A2)
 	jp nc,suceso_en_vez_de_objeto		;7859   ; suceso_en_vez_de_objeto: 0x27 nada; 0x28 suceso 5 (8 en la pantalla 0x5D); 0x29 nada; 0x2A pinta
-	ld a,b			;785c
+	ld a,b			;785c   ; B = 0 vale 1
 	and a			;785d
 	jr nz,L_7861		;785e
 	inc b			;7860
 L_7861:
-	ld a,e			;7861
+	ld a,e			;7861   ; la posicion, alineada a 8
 	and 0f8h		;7862
 	ld e,a			;7864
 	ld a,d			;7865
 	and 0f8h		;7866
 	ld d,a			;7868
 	ld a,b			;7869
-	ld (0e80dh),a		;786a
+	ld (0e80dh),a		;786a   ; cuantas unidades (0xE80D)
 	ld hl,0c400h		;786d   ; apunta a los objetos del suelo (4 fichas de 16 bytes)
-	ld b,004h		;7870
+	ld b,004h		;7870   ; busca una de las 4 fichas libres de 0xC400
 	xor a			;7872
 L_7873:
 	ld a,(hl)			;7873
@@ -3841,15 +3841,15 @@ L_7873:
 	add a,l			;7879
 	ld l,a			;787a
 	djnz L_7873		;787b
-	ret			;787d
+	ret			;787d   ; no hay sitio: el objeto se pierde
 L_787E:
 	push hl			;787e
 	pop ix		;787f
-	ld (hl),c			;7881
+	ld (hl),c			;7881   ; [objeto]...
 	inc l			;7882
 	ld a,c			;7883
 	cp 00ah		;7884   ; el boomerang (0x0A) y el oro (0x26) duran 0x78 cuadros en el suelo;
-	ld c,078h		;7886
+	ld c,078h		;7886   ; ...[0x78 cuadros para el boomerang y el oro; 0xFF los demas]...
 	jr z,L_7890		;7888
 	cp 026h		;788a
 	jr z,L_7890		;788c
@@ -3859,15 +3859,15 @@ L_7890:
 	inc l			;7891
 	ld (hl),000h		;7892
 	inc l			;7894
-	ld (hl),e			;7895
+	ld (hl),e			;7895   ; ...[y]...
 	inc l			;7896
 	inc l			;7897
-	ld (hl),d			;7898
+	ld (hl),d			;7898   ; ...[x]...
 	inc l			;7899
-	ld a,(0e80dh)		;789a
+	ld a,(0e80dh)		;789a   ; ...[cuantos]...
 	ld (hl),a			;789d
 	inc l			;789e
-	ld (hl),010h		;789f
+	ld (hl),010h		;789f   ; ...y 0x10
 	ret			;78a1
 
 ; ----------------------------------------------------------------------
@@ -3896,37 +3896,37 @@ DATA_tabla_78A5:
 
 
 L_78B1:
-	ld a,001h		;78b1
+	ld a,001h		;78b1   ; el suceso 1
 	jr L_78C0		;78b3
 L_78B5:
-	ld a,(0c125h)		;78b5   ; lee la PANTALLA
+	ld a,(0c125h)		;78b5   ; el 5 (el 8 en la pantalla 0x5D)
 	cp 05dh		;78b8   ; la pantalla 0x5D?
 	ld a,005h		;78ba
 	jr nz,L_78C0		;78bc
 	ld a,008h		;78be
 L_78C0:
 	ld c,a			;78c0
-	ld a,(0c170h)		;78c1
+	ld a,(0c170h)		;78c1   ; con 0xC170 (de p01:784A), va a 0xC171...
 	and a			;78c4
 	jr z,L_78D1		;78c5
 	ld a,c			;78c7
 	ld (0c171h),a		;78c8   ; guarda el decorado que hay que dar por quitado
 	dec a			;78cb
 	ret nz			;78cc
-	ld (0c58fh),a		;78cd
+	ld (0c58fh),a		;78cd   ; ...y el 1 tambien a 0xC58F
 	ret			;78d0
 L_78D1:
-	ld a,c			;78d1
+	ld a,c			;78d1   ; sin 0xC170, el suceso va a 0xC560 (p15:BD3A lo quitara)
 	ld (0c560h),a		;78d2   ; guarda el SUCESO: el tipo de decorado que hay que quitar
 	xor a			;78d5
 	ld (0c561h),a		;78d6   ; guarda el paso del suceso
 L_78D9:
 	ret			;78d9
 L_78DA:
-	xor a			;78da
+	xor a			;78da   ; el 0x2A: 0xC59F = 0...
 	ld (0c59fh),a		;78db
 	ld hl,078eah		;78de   ; dibujos_del_suceso_2A: 2x2 numeros de dibujo que p01:78E7 pinta en (0x50, 0x30) (el suceso 0x2A)
-	ld de,03050h		;78e1
+	ld de,03050h		;78e1   ; ...y los dibujos 0xC0-0xC3 en (0x50, 0x30)
 	ld bc,00202h		;78e4
 	jp 04eb5h		;78e7   ; p00:pinta_figura_sin_bancos: HL' = la casilla del mapa de la RAM de la esquina
 
@@ -3944,35 +3944,35 @@ DATA_dibujos_del_suceso_2A:
 
 suma_b_al_mp:
 	ld hl,0c12fh		;78ee   ; 0xC12F: el MP, en BCD, hasta 99
-	ld a,(hl)			;78f1
+	ld a,(hl)			;78f1   ; MP + B (BCD)...
 	add a,b			;78f2
 	daa			;78f3
-	jr nc,L_78F8		;78f4
+	jr nc,L_78F8		;78f4   ; ...hasta 99
 	ld a,099h		;78f6
 L_78F8:
 	ld (hl),a			;78f8
 	jp escribe_mp		;78f9
 L_78FC:
 	ld ix,0c400h		;78fc   ; apunta a los objetos del suelo (4 fichas de 16 bytes)
-	ld b,004h		;7900
+	ld b,004h		;7900   ; las 4 fichas de objetos
 L_7902:
 	ld a,(ix+000h)		;7902   ; lee el numero de objeto
 	and a			;7905
-	call nz,guarda_las_casillas_del_objeto		;7906
+	call nz,guarda_las_casillas_del_objeto		;7906   ; lo que tapan
 	ld de,00010h		;7909
 	add ix,de		;790c
 	djnz L_7902		;790e
 	ret			;7910
 guarda_las_casillas_del_objeto:
 	call esquina_de_la_ficha		;7911   ; esquina_de_la_ficha: medio ancho hacia la izquierda (C columnas)...
-	ex de,hl			;7914
+	ex de,hl			;7914   ; la casilla de la esquina
 	call 0431fh		;7915   ; p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
-	ld a,(hl)			;7918
+	ld a,(hl)			;7918   ; las dos de arriba...
 	ld (ix+00ch),a		;7919
 	inc hl			;791c
 	ld a,(hl)			;791d
 	ld (ix+00dh),a		;791e
-	ld de,0001fh		;7921
+	ld de,0001fh		;7921   ; ...y las dos de abajo, en ix+0x0C..0x0F
 	add hl,de			;7924
 	ld a,(hl)			;7925
 	ld (ix+00eh),a		;7926
@@ -3982,32 +3982,32 @@ guarda_las_casillas_del_objeto:
 	ret			;792e
 L_792F:
 	ld ix,0c400h		;792f   ; apunta a los objetos del suelo (4 fichas de 16 bytes)
-	ld b,004h		;7933
+	ld b,004h		;7933   ; las 4 fichas de objetos
 L_7935:
 	push bc			;7935
-	call pinta_los_objetos		;7936
+	call pinta_los_objetos		;7936   ; pinta_los_objetos: sin objeto, nada
 	ld de,00010h		;7939
 	add ix,de		;793c
 	pop bc			;793e
 	djnz L_7935		;793f
 	ret			;7941
 pinta_los_objetos:
-	ld a,(ix+000h)		;7942
+	ld a,(ix+000h)		;7942   ; sin objeto, nada
 	and a			;7945
 	ret z			;7946
-	ld a,(ix+007h)		;7947
+	ld a,(ix+007h)		;7947   ; ix+7: cuenta hasta cero
 	and a			;794a
 	jr z,L_794E		;794b
 	dec a			;794d
 L_794E:
 	ld (ix+007h),a		;794e
-	ld a,(ix+001h)		;7951
+	ld a,(ix+001h)		;7951   ; con tiempo (no 0xFF), un cuadro menos...
 	inc a			;7954
 	jr z,L_795C		;7955
 	dec (ix+001h)		;7957
-	jr z,quita_un_objeto_del_suelo		;795a
+	jr z,quita_un_objeto_del_suelo		;795a   ; ...y al acabar, desaparece
 L_795C:
-	call esquina_de_la_ficha		;795c   ; esquina_de_la_ficha: medio ancho hacia la izquierda (C columnas)...
+	call esquina_de_la_ficha		;795c   ; el icono en su sitio
 	ld a,(ix+000h)		;795f
 pinta_icono:
 	cp 026h		;7962   ; el 0x26 (oro) se pinta con el dibujo del 6 (la bolsa)
@@ -4030,42 +4030,42 @@ L_7968:
 	ld a,048h		;797a
 	jp 0481bh		;797c   ; 16x16 con transparencia
 quita_un_objeto_del_suelo:
-	ld (ix+000h),000h		;797f
+	ld (ix+000h),000h		;797f   ; el objeto se quita: vuelven las cuatro casillas de debajo
 	call esquina_de_la_ficha		;7983   ; esquina_de_la_ficha: medio ancho hacia la izquierda (C columnas)...
-	ld a,(ix+00ch)		;7986
-	call casilla_especial		;7989
+	ld a,(ix+00ch)		;7986   ; arriba a la izquierda...
+	call casilla_especial		;7989   ; casilla_especial: la casilla 0xF1 se pinta con el dibujo 0x62; NZ si hay que pintarla
 	call nz,0497bh		;798c   ; p00:pon_dibujo: el dibujo A de la hoja (pagina 1) en (D, E) de la pagina 0
 	ld a,008h		;798f
 	add a,d			;7991
 	ld d,a			;7992
-	ld a,(ix+00dh)		;7993
-	call casilla_especial		;7996
+	ld a,(ix+00dh)		;7993   ; ...arriba a la derecha...
+	call casilla_especial		;7996   ; casilla_especial: la casilla 0xF1 se pinta con el dibujo 0x62; NZ si hay que pintarla
 	call nz,0497bh		;7999   ; p00:pon_dibujo: el dibujo A de la hoja (pagina 1) en (D, E) de la pagina 0
 	ld a,008h		;799c
 	add a,e			;799e
 	ld e,a			;799f
-	ld a,(ix+00fh)		;79a0
-	call casilla_especial		;79a3
+	ld a,(ix+00fh)		;79a0   ; ...abajo a la derecha...
+	call casilla_especial		;79a3   ; casilla_especial: la casilla 0xF1 se pinta con el dibujo 0x62; NZ si hay que pintarla
 	call nz,0497bh		;79a6   ; p00:pon_dibujo: el dibujo A de la hoja (pagina 1) en (D, E) de la pagina 0
 	ld a,d			;79a9
 	sub 008h		;79aa
 	ld d,a			;79ac
-	ld a,(ix+00eh)		;79ad
-	call casilla_especial		;79b0
+	ld a,(ix+00eh)		;79ad   ; ...abajo a la izquierda
+	call casilla_especial		;79b0   ; casilla_especial: la casilla 0xF1 se pinta con el dibujo 0x62; NZ si hay que pintarla
 	jp nz,0497bh		;79b3   ; p00:pon_dibujo: el dibujo A de la hoja (pagina 1) en (D, E) de la pagina 0
 	ret			;79b6
 casilla_especial:
-	cp 0f1h		;79b7
+	cp 0f1h		;79b7   ; la casilla 0xF1 se pinta con el dibujo 0x62; NZ si hay que pintarla
 	ret nz			;79b9
 	ld a,062h		;79ba
 	cp 0f0h		;79bc
 	ret			;79be
 esquina_de_la_ficha:
 	push af			;79bf
-	ld a,(ix+003h)		;79c0
+	ld a,(ix+003h)		;79c0   ; E = la y - 8
 	sub 008h		;79c3
 	ld e,a			;79c5
-	ld a,(ix+005h)		;79c6
+	ld a,(ix+005h)		;79c6   ; D = la x - 8
 	sub 008h		;79c9
 	ld d,a			;79cb
 	pop af			;79cc
@@ -4081,7 +4081,7 @@ da_un_objeto:
 ; ----------------------------------------------------------------------
 da_objeto:
 	cp 00fh		;79d0   ; el 0x0F...
-	jr nz,L_79D9		;79d2
+	jr nz,L_79D9		;79d2   ; el 0x0F pone 0xC144 = 1
 	ld hl,0c144h		;79d4   ; ...pone 0xC144
 	ld (hl),001h		;79d7
 L_79D9:
@@ -4090,7 +4090,7 @@ L_79D9:
 	ld d,000h		;79dd
 	ld hl,0c33fh		;79df   ; 0xC33F + objeto: cuantos hay
 	add hl,de			;79e2
-	ld de,l7a35h		;79e3
+	ld de,l7a35h		;79e3   ; la clase de p01:7A35
 	call 0425ah		;79e6   ; p00:de_mas_a
 	ld a,(de)			;79e9
 	add a,a			;79ea   ; bit 7 de p01:7A35 + objeto: sin cuenta
@@ -4106,8 +4106,8 @@ L_79F4:
 L_79F7:
 	ld (hl),0ffh		;79f7   ; sin cuenta: 0xFF
 L_79F9:
-	call elige_lista		;79f9   ; elige_lista: La lista del objeto: la de SHOT1 (0xC2A0, 12 casillas) si el nibble
-	ld a,(0e80eh)		;79fc
+	call elige_lista		;79f9   ; lo apunta en su lista (SHOT1 o SHOT2)
+	ld a,(0e80eh)		;79fc   ; los zuecos (0x1E), la llave de madera (0x23) y la carta (0x20) no van a ninguna: se usan solos
 	cp 01eh		;79ff   ; 0x1E, 0x23 y 0x20 no van a ninguna lista
 	ret z			;7a01
 	cp 023h		;7a02
@@ -4116,15 +4116,15 @@ L_79F9:
 	ret z			;7a07
 	ld c,a			;7a08
 L_7A09:
-	ld a,(hl)			;7a09
+	ld a,(hl)			;7a09   ; si ya esta en la lista, nada
 	cp c			;7a0a
 	jr z,L_7A1D		;7a0b
 	inc l			;7a0d
 	inc l			;7a0e
 	djnz L_7A09		;7a0f
-	call elige_lista		;7a11   ; elige_lista: La lista del objeto: la de SHOT1 (0xC2A0, 12 casillas) si el nibble
+	call elige_lista		;7a11   ; elige_lista: la lista de SHOT1 (0xC2A0, 12 casillas)...
 L_7A14:
-	ld a,(hl)			;7a14
+	ld a,(hl)			;7a14   ; si no, en el primer hueco
 	and a			;7a15
 	jr z,L_7A1D		;7a16
 	inc l			;7a18
@@ -4140,15 +4140,15 @@ L_7A1D:
 ; bajo de p01:7A35 + objeto es 0; si no, la de SHOT2 (0xC2C0, 21).
 ; ----------------------------------------------------------------------
 elige_lista:
-	ld hl,0c2a0h		;7a1f
+	ld hl,0c2a0h		;7a1f   ; la lista de SHOT1 (0xC2A0, 12 casillas)...
 	ld b,00ch		;7a22
 	ld a,(0e80eh)		;7a24
 	ld de,l7a35h		;7a27
 	call 0425ah		;7a2a   ; p00:de_mas_a
 	ld a,(de)			;7a2d
-	and 00fh		;7a2e
+	and 00fh		;7a2e   ; ...o, si el nibble bajo de su clase no es 0...
 	ret z			;7a30
-	ld l,0c0h		;7a31
+	ld l,0c0h		;7a31   ; ...la de SHOT2 (0xC2C0, 21)
 	ld b,015h		;7a33
 L_7A35:
 	ret			;7a35
@@ -4168,16 +4168,22 @@ DATA_clase_de_cada_objeto:
 ; ======================================================================
 
 
+
+; ----------------------------------------------------------------------
+; LOS DIAS. Se llama en uno de cada dos cuadros (p00:5CBF): cada 1024 veces
+; (2048 cuadros, unos 34 segundos a 60 Hz) DAYS sube uno. Los 366 dias del
+; final 0 (p06:A845) son unas tres horas y media.
+; ----------------------------------------------------------------------
 L_7A5A:
-	ld hl,(0c202h)		;7a5a
+	ld hl,(0c202h)		;7a5a   ; la cuenta de 0xC202...
 	inc hl			;7a5d
 	ld (0c202h),hl		;7a5e
-	ld a,h			;7a61
+	ld a,h			;7a61   ; ...cada 1024...
 	and 003h		;7a62
 	or l			;7a64
 	ret nz			;7a65
 	ld hl,0c127h		;7a66   ; apunta a DAYS, los dias (BCD)
-	ld a,(hl)			;7a69
+	ld a,(hl)			;7a69   ; ...DAYS + 1 (BCD)
 	add a,001h		;7a6a
 	daa			;7a6c
 	ld (hl),a			;7a6d
@@ -4189,15 +4195,15 @@ L_7A5A:
 	jp escribe_days		;7a74   ; escribe_days: DAYS: 2 bytes en (0x28, 0xD8)
 fin_del_suceso_de_shot2:
 	ld a,(0c141h)		;7a77   ; lee SHOT2, el objeto que se lleva
-	sub 00ch		;7a7a
+	sub 00ch		;7a7a   ; el conjuro 0x0C (てむさ)...
 	jr z,L_7AA6		;7a7c
-	dec a			;7a7e
+	dec a			;7a7e   ; ...el 0x0D (ねむり)...
 	jp z,L_7AC3		;7a7f
-	ld hl,0c313h		;7a82
+	ld hl,0c313h		;7a82   ; ...y el 0x0E (まかぷら): 0xC313 cuadros...
 	dec (hl)			;7a85
 	ret nz			;7a86
 	ld ix,0d000h		;7a87   ; apunta a las fichas de los enemigos (13 de 0x80)
-	ld b,00dh		;7a8b
+	ld b,00dh		;7a8b   ; ...y en las 13 fichas, a los tipos 0x2A y 0x2B (THE NASTY y BADPRIEST)...
 	ld de,00080h		;7a8d
 L_7A90:
 	ld a,(ix+000h)		;7a90   ; lee el tipo del enemigo
@@ -4209,18 +4215,18 @@ L_7A90:
 	djnz L_7A90		;7a9d
 	jr L_7AB4		;7a9f
 L_7AA1:
-	call 05da8h		;7aa1   ; p00:mata_la_ficha: el enemigo muere: guarda su tipo en ix+0x1F y se convierte en la explosion de p15:A3CA
+	call 05da8h		;7aa1   ; ...p00:5DA8: los mata
 	jr L_7AB4		;7aa4
 L_7AA6:
-	ld a,(0c080h)		;7aa6   ; lee el sonido que suena (para no pisarlo con uno menor)
+	ld a,(0c080h)		;7aa6   ; てむさ: con el sonido acabado...
 	and a			;7aa9
 	ret nz			;7aaa
-	ld a,004h		;7aab
+	ld a,004h		;7aab   ; ...el suceso 4: quita las rocas de su tipo (p15:BD3A)
 	ld (0c560h),a		;7aad   ; guarda el SUCESO: el tipo de decorado que hay que quitar
 	xor a			;7ab0
 	ld (0c561h),a		;7ab1   ; guarda el paso del suceso
 L_7AB4:
-	xor a			;7ab4
+	xor a			;7ab4   ; vuelve al estado de antes
 	ld (0c380h),a		;7ab5   ; guarda lo que lanza Mitchel (su ficha)
 	jp L_7746		;7ab8
 
@@ -4236,31 +4242,31 @@ DATA_pasos_7ABB:
 
 
 L_7AC3:
-	ld hl,0c313h		;7ac3
+	ld hl,0c313h		;7ac3   ; ねむり: al acabar, 0xC147 = 0xFF: los enemigos se quedan quietos
 	dec (hl)			;7ac6
 	ret nz			;7ac7
 	ld a,0ffh		;7ac8
 	ld (0c147h),a		;7aca
 	jp L_7AB4		;7acd
 L_7AD0:
-	ld (ix+00bh),00dh		;7ad0
+	ld (ix+00bh),00dh		;7ad0   ; la figura 0x81: cuadro 0x0D, se mueve...
 	ld (ix+006h),001h		;7ad4
 	ld bc,00000h		;7ad8
 	call apunta_a_mitchel		;7adb   ; apunta_a_mitchel: APUNTA: la velocidad C...
 	ld (ix+015h),a		;7ade
-	ld hl,0bf62h		;7ae1
+	ld hl,0bf62h		;7ae1   ; ...con la velocidad de p03:BF62
 	jp 0bf19h		;7ae4
 L_7AE7:
-	ld a,(ix+001h)		;7ae7
+	ld a,(ix+001h)		;7ae7   ; la figura 0x82
 	dec a			;7aea
 	jp z,L_7B2C		;7aeb
 	ld a,(ix+00ch)		;7aee
-	cp 020h		;7af1
+	cp 020h		;7af1   ; cada 0x20 cuadros, el paso siguiente
 	jr nz,L_7AFC		;7af3
 	inc (ix+001h)		;7af5
 	ld (ix+00ch),000h		;7af8
 L_7AFC:
-	ld a,(ix+015h)		;7afc
+	ld a,(ix+015h)		;7afc   ; cae: la velocidad vertical + 0x40...
 	and 001h		;7aff
 	jr nz,L_7B1B		;7b01
 	ld bc,00040h		;7b03
@@ -4274,7 +4280,7 @@ L_7AFC:
 	ld (ix+007h),l		;7b17
 	ret			;7b1a
 L_7B1B:
-	ld bc,00030h		;7b1b
+	ld bc,00030h		;7b1b   ; ...o + 0x30
 	ld h,(ix+008h)		;7b1e
 	ld l,(ix+007h)		;7b21
 	add hl,bc			;7b24
@@ -4282,19 +4288,19 @@ L_7B1B:
 	ld (ix+007h),l		;7b28
 	ret			;7b2b
 L_7B2C:
-	ld (ix+00eh),000h		;7b2c
+	ld (ix+00eh),000h		;7b2c   ; al acabar, a los 16 cuadros se borra
 	call 0bf00h		;7b30
 	ld a,(ix+00ch)		;7b33
 	cp 010h		;7b36
 	ret nz			;7b38
 	jp L_694B		;7b39
 L_7B3C:
-	ld (ix+00bh),00ch		;7b3c
+	ld (ix+00bh),00ch		;7b3c   ; la figura 0x84: va hacia Mitchel a 0x30...
 	ld a,030h		;7b40
 	call rumbo_hacia_mitchel		;7b42   ; rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
 	jp 08bdch		;7b45   ; p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
 L_7B48:
-	ld l,(ix+003h)		;7b48
+	ld l,(ix+003h)		;7b48   ; ...y se borra al pisar una casilla por debajo de 0x5F
 	ld h,(ix+005h)		;7b4b
 	call 0431fh		;7b4e   ; p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
 	ld a,(hl)			;7b51
@@ -4302,7 +4308,7 @@ L_7B48:
 	ret nc			;7b54
 	jp L_694B		;7b55
 L_7B58:
-	xor a			;7b58
+	xor a			;7b58   ; la figura 0x85: quieta, cuadro 9
 	ld (ix+01ch),a		;7b59
 	ld (ix+006h),a		;7b5c
 	ld (ix+014h),a		;7b5f
@@ -4311,7 +4317,7 @@ L_7B58:
 	ld (ix+013h),004h		;7b6a
 	ret			;7b6e
 L_7B6F:
-	dec (ix+013h)		;7b6f
+	dec (ix+013h)		;7b6f   ; cada 4 cuadros cambia de dibujo
 	jr nz,L_7B77		;7b72
 	call paso_de_la_ficha_7BB9		;7b74
 L_7B77:
@@ -4324,7 +4330,7 @@ L_7B77:
 	jr nz,L_7B88		;7b83
 	inc (ix+001h)		;7b85
 L_7B88:
-	push ix		;7b88
+	push ix		;7b88   ; va pegada a la ficha de 0xDFB6
 	ld a,(0dfb6h)		;7b8a
 	ld c,a			;7b8d
 	call 09edfh		;7b8e   ; p02:sps_recorre_las_fichas
@@ -4339,7 +4345,7 @@ L_7BA2:
 	pop ix		;7ba2
 	ret			;7ba4
 L_7BA5:
-	inc (ix+001h)		;7ba5
+	inc (ix+001h)		;7ba5   ; luego va hacia Mitchel a 0x20
 	ld a,020h		;7ba8
 L_7BAA:
 	call rumbo_hacia_mitchel		;7baa   ; rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
@@ -4352,7 +4358,7 @@ L_7BB5:
 paso_de_la_ficha_7BB9:
 	ld (ix+013h),004h		;7bb9
 	ld a,(ix+014h)		;7bbd
-	xor 001h		;7bc0
+	xor 001h		;7bc0   ; alterna entre los cuadros 9 y 10
 	ld (ix+014h),a		;7bc2
 	ld b,009h		;7bc5
 	dec a			;7bc7
@@ -4368,12 +4374,12 @@ L_7BCF:
 	ld (ix+012h),010h		;7bdb
 	ret			;7bdf
 L_7BE0:
-	ld a,(ix+001h)		;7be0
+	ld a,(ix+001h)		;7be0   ; la figura 0x83: espera ix+0x12 cuadros...
 	dec a			;7be3
 	jr z,L_7BB5		;7be4
 	dec (ix+012h)		;7be6
 	jr nz,L_7BB5		;7be9
-	inc (ix+001h)		;7beb
+	inc (ix+001h)		;7beb   ; ...y luego se mueve hacia Mitchel
 	inc (ix+006h)		;7bee
 	jr L_7BAA		;7bf1
 usa_shot2:
@@ -4384,7 +4390,7 @@ usa_shot2:
 	cp 019h		;7bfc   ; el objeto 0x19, むせんき?
 	ret nz			;7bfe
 L_7BFF:
-	sub 00ch		;7bff
+	sub 00ch		;7bff   ; solo del 0x0C en adelante
 	ret c			;7c01
 	call 0425fh		;7c02   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
@@ -4427,17 +4433,17 @@ DATA_tabla_7C05:
 
 gasta_uno_de_shot2:
 	ld a,(0c141h)		;7c37   ; 0xC141: el objeto de SHOT2
-	ld hl,0c33fh		;7c3a
+	ld hl,0c33fh		;7c3a   ; 0xC33F + objeto: cuantos quedan
 	call 04255h		;7c3d   ; p00:hl_mas_a
 	ld a,(hl)			;7c40
 	cp 0ffh		;7c41   ; sin cuenta (0xFF): no se gasta
-	ret z			;7c43
-	sub 001h		;7c44
+	ret z			;7c43   ; sin cuenta (0xFF), no se gasta
+	sub 001h		;7c44   ; uno menos (BCD)
 	daa			;7c46
 	ld (hl),a			;7c47
 	ret nz			;7c48
 	ld (0c141h),a		;7c49   ; el ultimo: SHOT2 vuelve a 0
-	jp L_62DE		;7c4c
+	jp L_62DE		;7c4c   ; el ultimo: SHOT2 se vacia y el icono se repinta
 conjuro_0x0C:
 	ld c,003h		;7c4f   ; 3 de MP
 	jr L_7C59		;7c51
@@ -4447,20 +4453,20 @@ conjuro_0x0D:
 conjuro_0x0E:
 	ld c,010h		;7c57   ; 10 de MP (BCD)
 L_7C59:
-	push bc			;7c59
+	push bc			;7c59   ; si hay algo lanzado, nada
 	call hay_algo_lanzado		;7c5a   ; hay_algo_lanzado: 0xC380: la ficha de lo que Mitchel lanza
 	pop bc			;7c5d
 	ret nz			;7c5e
 	ld hl,0c12fh		;7c5f   ; 0xC12F: MP
-	ld a,(hl)			;7c62
+	ld a,(hl)			;7c62   ; MP - C (BCD)...
 	sub c			;7c63
 	daa			;7c64
 	jr c,no_hay_mp		;7c65   ; sin MP bastante: p01:7C96
 	ld (hl),a			;7c67
-	ld a,021h		;7c68
+	ld a,021h		;7c68   ; ...el sonido 0x21...
 	call 05488h		;7c6a   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 	ld hl,0c300h		;7c6d   ; apunta a el estado de Mitchel
-	ld a,(hl)			;7c70
+	ld a,(hl)			;7c70   ; ...Mitchel al estado 6 (conjuro), 0x1E cuadros...
 	ld (hl),006h		;7c71
 	ld (0c314h),a		;7c73
 	ld a,01eh		;7c76
@@ -4468,15 +4474,15 @@ L_7C59:
 	ld a,0ffh		;7c7b
 	ld (0c380h),a		;7c7d   ; guarda lo que lanza Mitchel (su ficha)
 	call sitio_del_golpe		;7c80
-	ld a,001h		;7c83
+	ld a,001h		;7c83   ; ...con el dibujo del conjuro (patrones 1 y 0x0E)...
 	ld (0c38ch),a		;7c85
 	ld a,00eh		;7c88
 	ld (0c38eh),a		;7c8a
-	call pose_quieto		;7c8d
+	call pose_quieto		;7c8d   ; ...y su pose
 	call 050eah		;7c90
-	jp escribe_mp		;7c93
+	jp escribe_mp		;7c93   ; y el MP nuevo en el panel
 no_hay_mp:
-	call borra_la_ventana_de_texto		;7c96   ; borra_la_ventana_de_texto: 160x24 puntos en (8, 0xB0): debajo del decorado
+	call borra_la_ventana_de_texto		;7c96   ; sin MP bastante: el aviso, 0x3C cuadros
 	ld a,03ch		;7c99
 	ld (0c162h),a		;7c9b
 	ld hl,07ca4h		;7c9e   ; el aviso de p01:7CA4
@@ -4501,19 +4507,19 @@ DATA_codigo_7CB1:
 
 
 usa_el_0x10:
-	call gasta_uno_de_shot2		;7cb5   ; gasta_uno_de_shot2: 0xC141: el objeto de SHOT2
+	call gasta_uno_de_shot2		;7cb5   ; LAS HIERBAS: se gasta una...
 	ld hl,0c146h		;7cb8   ; 0xC146: la enfermedad; si la hay, la quita y nada mas
-	ld a,(hl)			;7cbb
+	ld a,(hl)			;7cbb   ; ...si hay enfermedad, se cura y nada mas
 	and a			;7cbc
 	jr z,L_7CC5		;7cbd
 	ld (hl),000h		;7cbf
 L_7CC1:
 	ret			;7cc1
 come:
-	call gasta_uno_de_shot2		;7cc2   ; gasta_uno_de_shot2: 0xC141: el objeto de SHOT2
+	call gasta_uno_de_shot2		;7cc2   ; LA CARNE: se gasta una
 L_7CC5:
 	ld hl,(0c129h)		;7cc5   ; LIFE (0xC129) + 10...
-	ld a,010h		;7cc8
+	ld a,010h		;7cc8   ; LIFE + 10 (BCD)...
 	add a,l			;7cca
 	daa			;7ccb
 	ld e,a			;7ccc
@@ -4522,7 +4528,7 @@ L_7CC5:
 	daa			;7cd0
 	ld d,a			;7cd1
 	ld a,(0c12eh)		;7cd2   ; ...hasta 30 + 16*LEVEL (0xC12E), en BCD; 999 como mucho
-	ld l,a			;7cd5
+	ld l,a			;7cd5   ; ...sin pasar de 16*LEVEL + 30...
 	ld h,000h		;7cd6
 	add hl,hl			;7cd8
 	add hl,hl			;7cd9
@@ -4537,9 +4543,9 @@ L_7CC5:
 	daa			;7ce4
 	ld h,a			;7ce5
 	jr nc,L_7CEB		;7ce6
-	ld hl,00999h		;7ce8
+	ld hl,00999h		;7ce8   ; ...ni de 999
 L_7CEB:
-	rst 20h			;7ceb
+	rst 20h			;7ceb   ; la menor de las dos
 	jr c,L_7CEF		;7cec
 	ex de,hl			;7cee
 L_7CEF:
@@ -4548,11 +4554,11 @@ L_7CEF:
 usa_el_0x12:
 	ld a,(0c125h)		;7cf5   ; solo en la pantalla 0x68
 	cp 068h		;7cf8   ; la pantalla 0x68?
-	ret nz			;7cfa
+	ret nz			;7cfa   ; el colmillo (0x12), solo en la pantalla 0x68: 0xC16F = 1...
 	ld a,001h		;7cfb
 	ld (0c16fh),a		;7cfd
 L_7D00:
-	ld a,005h		;7d00
+	ld a,005h		;7d00   ; ...y el suceso de la partida 5
 	ld (0c201h),a		;7d02   ; guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
 	xor a			;7d05
 	ld (0c567h),a		;7d06
@@ -4560,30 +4566,30 @@ L_7D00:
 usa_el_0x1B:
 	ld a,(0c125h)		;7d0a   ; solo en la pantalla 0x56
 	cp 056h		;7d0d   ; la pantalla 0x56?
-	ret nz			;7d0f
+	ret nz			;7d0f   ; la 0x1B (さけび) en la pantalla 0x56: suceso 9
 	ld a,009h		;7d10
 	jr L_7D21		;7d12
 usa_el_0x13:
 	ld a,(0c125h)		;7d14   ; lee la PANTALLA
-	ld c,a			;7d17
+	ld c,a			;7d17   ; la 0x13 (ささやき) en la 0x34, con 0xC58E: suceso 3
 	cp 034h		;7d18   ; la pantalla 0x34?
 	ld a,(0c58eh)		;7d1a
 	and a			;7d1d
 	ret z			;7d1e
 	ld a,003h		;7d1f
 L_7D21:
-	ld (0c560h),a		;7d21   ; guarda el SUCESO: el tipo de decorado que hay que quitar
+	ld (0c560h),a		;7d21   ; el suceso a 0xC560: p15 quita el decorado de ese tipo
 	xor a			;7d24
 	ld (0c561h),a		;7d25   ; guarda el paso del suceso
 	ret			;7d28
 usa_el_0x11:
 	ld a,(0c125h)		;7d29   ; solo en la pantalla 0x38
 	cp 038h		;7d2c   ; la pantalla 0x38?
-	ret nz			;7d2e
+	ret nz			;7d2e   ; la 0x11 (ちからのたま) en la 0x38: suceso 5
 	ld a,005h		;7d2f
 	jr L_7D21		;7d31
 usa_el_0x17:
-	ld a,(0c132h)		;7d33
+	ld a,(0c132h)		;7d33   ; el durian (0x17) en (0x68, 0x58-0x70): el estado 6 de la partida
 	and a			;7d36
 	ret nz			;7d37
 	call 04308h		;7d38   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
@@ -4645,10 +4651,10 @@ usa_el_0x22:
 	ld a,(hl)			;7d9c
 	sub 001h		;7d9d
 	daa			;7d9f
-	jp c,no_hay_mp		;7da0
+	jp c,no_hay_mp		;7da0   ; no_hay_mp: sin MP bastante: el aviso, 0x3C cuadros
 	ld (hl),a			;7da3
 L_7DA4:
-	call usa_shot1		;7da4   ; usa_shot1: El arma de SHOT1 (0xC140): 0 el puno; 1-3 golpes 0x11-0x13; 4 solo en las
+	call usa_shot1		;7da4   ; usa_shot1: con 0xC132 solo el 0x19 (y el puno)
 	ld a,008h		;7da7
 	ld (0c300h),a		;7da9   ; guarda el estado de Mitchel
 	xor a			;7dac

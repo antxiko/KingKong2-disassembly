@@ -40,11 +40,9 @@ B 0x7469 El arma de SHOT1 (0xC140): 0 el puno; 1-3 golpes 0x11-0x13; 4 solo en l
 B 0x7469 pantallas 0x63-0x89 (fuera, SHOT1 vuelve a 0); 5 solo con LEVEL (0xC12E)
 B 0x7469 5 o mas; 6 y 7 el golpe 0x17; 8 gasta uno de 0xC347; 9 uno de 0xC348;
 B 0x7469 0x0A uno de 0xC349; 0x0B el golpe 0x1B; 0x1F gasta uno de 0xC35E.
-C 0x7474 0x1F: p01:74D4
 L 0x7497 golpe_del_puno
 L 0x74AB golpe_del_4
 C 0x74AB solo en las pantallas 0x63-0x89
-C 0x74BB fuera: se suelta (SHOT1 = 0) y va el puno
 L 0x74C5 golpe_del_5
 C 0x74C5 0xC12E: LEVEL; hace falta 5
 L 0x74D0 golpe_del_6_y_7
@@ -713,6 +711,215 @@ C 0x73C8 acarreo: no se puede
 C 0x73CB se puede
 C 0x73ED el limite del juego de dibujos; la casilla de la ficha
 C 0x73F7 D por encima
+C 0x7401 D a la derecha
+C 0x740D D por debajo
+C 0x7419 D a la izquierda
+C 0x7423 choca: da la vuelta (ix+0x17)
+C 0x7437 hacia abajo: 2 por cuadro
+C 0x7446 hacia la izquierda: -2
+C 0x7455 hacia arriba: -2
+C 0x745F hacia la derecha: 2
+C 0x7469 con 0xC132 solo el 0x19 (y el puno)
+C 0x7474 el 0x1F aparte
+C 0x7479 del 0x0C en adelante no son armas
+C 0x7497 el puno: el golpe (y su sonido) 0x10
+C 0x749C el cuchillo (1): 0x11
+C 0x74A1 ROD (2): 0x12
+C 0x74A6 el garrote (3): 0x13
+C 0x74B0 la espada de luz (4), solo en 0x63-0x89: 0x14
+C 0x74BB fuera, se suelta y se golpea con el puno
+C 0x74C8 el hacha (5), con LEVEL 5 o mas: 0x15
+C 0x74D0 la espada (6) y la garra (7): 0x17
+C 0x74D7 el 0x1F: se gasta uno y se lanza con B = 4
+C 0x74DE las piedras (8): se gasta una y se lanza
+C 0x74E3 si ya hay algo lanzado, nada
+C 0x74E5 una menos (BCD); sin ninguna, nada
+C 0x74EC se lanza
+C 0x74EF la ultima: SHOT1 se queda vacio y el icono se repinta
+C 0x74F6 lo lanzado 0x18 (piedra)
+C 0x74FD la bola de fuego (9): lo mismo con 0xC348
+C 0x750E lo lanzado 0x19, B = 2
+C 0x7516 el boomerang (0x0A): con alguno en la mano...
+C 0x751C ...se lanza (0x1A, B = 3)...
+C 0x7525 ...y queda uno menos en la mano (vuelve solo, p01:769B)
+C 0x752B el arpon (0x0B): 0x1B
+C 0x7534 EL GOLPE: si hay algo lanzado, nada
+C 0x753A el sonido del golpe
+C 0x7541 el estado de Mitchel se guarda y pasa al 5 (golpe)...
+C 0x7547 ...8 cuadros
+C 0x754F lo de 0xC140 en 0xC301
+C 0x7554 y con arma, 0xC38F y 0xC380 = 0xFF
+C 0x755C los sprites del arma (p00:5046)
+C 0x7566 el estado de Mitchel se guarda y pasa al 7 (lanzar), 8 cuadros
+C 0x7574 IY = la ficha de lo lanzado
+C 0x7577 [B]: cuantos rebotes o vueltas
+C 0x757D la y de Mitchel...
+C 0x7585 ...su x...
+C 0x758B ...se mueve...
+C 0x758D ...con su velocidad
+C 0x7599 los 4 bytes de su tipo (p01:75DA + 4*tipo)...
+C 0x75AD ...y la direccion de Mitchel
+C 0x75AE el boomerang (3) va a un punto: 0x10 por delante de Mitchel
+C 0x75CD sin velocidad propia (0xC398)
+C 0x75EF 3 por cuadro...
+C 0x75F6 ...negativo hacia arriba y la izquierda...
+C 0x75FE ...en el eje de la direccion (y para 0 y 1, x para 2 y 3)
+C 0x7607 LO LANZADO, CADA CUADRO: sin nada, nada
+C 0x760B por su tipo, con la tabla de p01:7613
+C 0x761B piedra y bola de fuego: contra el mapa se acaba...
+C 0x7621 ...y a los 16 cuadros tambien
+C 0x762C avanza
+C 0x7631 EL BOOMERANG: su sonido cada 4 cuadros...
+C 0x763B ...contra el mapa, rebota...
+C 0x7640 ...va hacia su punto...
+C 0x7643 ...0x38 cuadros de vuelo...
+C 0x764D ...y al acabar se deja en el suelo (el objeto 0x0A)...
+C 0x765D ...y la ficha se borra
+C 0x7663 si no queda ninguno en la mano, SHOT1 se vacia
+C 0x7668 a la mitad (0x1C cuadros) da la vuelta...
+C 0x766F ...los cuadros que le quedan...
+C 0x7676 ...y las velocidades al reves
+C 0x7694 avanza, con su cuadro
+C 0x769B y si vuelve a Mitchel, uno mas en la mano (0xC349)
+C 0x76A0 cada dos cuadros, uno de los 4 dibujos de p01:76CC
+C 0x76B0 el segundo sprite, 4 patrones mas alla
+C 0x76B5 fuera de la pantalla se borra
+C 0x76D0 la casilla de delante, segun la velocidad
+C 0x76D6 moviendose en vertical, 8 arriba o abajo...
+C 0x76F0 ...en horizontal, 8 a un lado
+C 0x76FC el limite del juego de dibujos
+C 0x7706 0 pasa, 0xF0 no, y los demas segun el limite
+C 0x770F la velocidad vertical + (destino - y)...
+C 0x7721 ...y la horizontal + (destino - x)
+C 0x7733 HL = A con signo
+C 0x773D ESTADO 5, EL GOLPE: 8 cuadros...
+C 0x7746 ...y vuelve al estado de antes
+C 0x774D ESTADO 6: dando vueltas (0xC316)...
+C 0x775A ...cada 4 cuadros, otra direccion
+C 0x7777 ESTADO 7, LANZAR: con arma que se ve...
+C 0x777D ...su sitio y la pose de golpe...
+C 0x7783 ...y el golpe de la tabla de p01:77D5
+C 0x7794 8 cuadros
+C 0x7799 y al estado 0
+C 0x77A8 la pose: 0x0C + direccion
+C 0x77B1 los dos sprites del arma: patrones 8 + 8*direccion...
+C 0x77C2 ...y su punto, a un lado de Mitchel (p01:77ED)
+C 0x77F5 LOS SPRITES DE LO LANZADO: los huecos 2 y 3 (0xE608)...
+C 0x7806 ...si hay algo...
+C 0x780C ...en y-8...
+C 0x7814 ...y x-8...
+C 0x781C ...con el patron del primero (ix+0x0B)...
+C 0x7826 ...y el del segundo (ix+0x0D)
+C 0x782A sus dos colores (ix+0x0C e ix+0x0E), 16 lineas cada uno
+C 0x783D sin nada, fuera de la pantalla
+C 0x784A del 0x27 en adelante (sucesos), con 0xC170 = 1
+C 0x7856 del 0x27 en adelante, un suceso
+C 0x785C B = 0 vale 1
+C 0x7861 la posicion, alineada a 8
+C 0x786A cuantas unidades (0xE80D)
+C 0x7870 busca una de las 4 fichas libres de 0xC400
+C 0x787D no hay sitio: el objeto se pierde
+C 0x7881 [objeto]...
+C 0x7886 ...[0x78 cuadros para el boomerang y el oro; 0xFF los demas]...
+C 0x7895 ...[y]...
+C 0x7898 ...[x]...
+C 0x789A ...[cuantos]...
+C 0x789F ...y 0x10
+C 0x78B1 el suceso 1
+C 0x78B5 el 5 (el 8 en la pantalla 0x5D)
+C 0x78C1 con 0xC170 (de p01:784A), va a 0xC171...
+C 0x78CD ...y el 1 tambien a 0xC58F
+C 0x78D1 sin 0xC170, el suceso va a 0xC560 (p15:BD3A lo quitara)
+C 0x78DA el 0x2A: 0xC59F = 0...
+C 0x78E1 ...y los dibujos 0xC0-0xC3 en (0x50, 0x30)
+C 0x78F1 MP + B (BCD)...
+C 0x78F4 ...hasta 99
+C 0x7900 las 4 fichas de objetos
+C 0x7906 lo que tapan
+C 0x7914 la casilla de la esquina
+C 0x7918 las dos de arriba...
+C 0x7921 ...y las dos de abajo, en ix+0x0C..0x0F
+C 0x7933 las 4 fichas de objetos
+C 0x7942 sin objeto, nada
+C 0x7947 ix+7: cuenta hasta cero
+C 0x7951 con tiempo (no 0xFF), un cuadro menos...
+C 0x795A ...y al acabar, desaparece
+C 0x795C el icono en su sitio
+C 0x797F el objeto se quita: vuelven las cuatro casillas de debajo
+C 0x7986 arriba a la izquierda...
+C 0x7993 ...arriba a la derecha...
+C 0x79A0 ...abajo a la derecha...
+C 0x79AD ...abajo a la izquierda
+C 0x79B7 la casilla 0xF1 se pinta con el dibujo 0x62; NZ si hay que pintarla
+C 0x79C0 E = la y - 8
+C 0x79C6 D = la x - 8
+C 0x79D2 el 0x0F pone 0xC144 = 1
+C 0x79E3 la clase de p01:7A35
+C 0x79F9 lo apunta en su lista (SHOT1 o SHOT2)
+C 0x79FC los zuecos (0x1E), la llave de madera (0x23) y la carta (0x20) no van a ninguna: se usan solos
+C 0x7A09 si ya esta en la lista, nada
+C 0x7A14 si no, en el primer hueco
+C 0x7A1F la lista de SHOT1 (0xC2A0, 12 casillas)...
+C 0x7A2E ...o, si el nibble bajo de su clase no es 0...
+C 0x7A31 ...la de SHOT2 (0xC2C0, 21)
+B 0x7A5A LOS DIAS. Se llama en uno de cada dos cuadros (p00:5CBF): cada 1024 veces
+B 0x7A5A (2048 cuadros, unos 34 segundos a 60 Hz) DAYS sube uno. Los 366 dias del
+B 0x7A5A final 0 (p06:A845) son unas tres horas y media.
+C 0x7A5A la cuenta de 0xC202...
+C 0x7A61 ...cada 1024...
+C 0x7A69 ...DAYS + 1 (BCD)
+C 0x7A7A el conjuro 0x0C (てむさ)...
+C 0x7A7E ...el 0x0D (ねむり)...
+C 0x7A82 ...y el 0x0E (まかぷら): 0xC313 cuadros...
+C 0x7A8B ...y en las 13 fichas, a los tipos 0x2A y 0x2B (THE NASTY y BADPRIEST)...
+C 0x7AA1 ...p00:5DA8: los mata
+C 0x7AA6 てむさ: con el sonido acabado...
+C 0x7AAB ...el suceso 4: quita las rocas de su tipo (p15:BD3A)
+C 0x7AB4 vuelve al estado de antes
+C 0x7AC3 ねむり: al acabar, 0xC147 = 0xFF: los enemigos se quedan quietos
+C 0x7AD0 la figura 0x81: cuadro 0x0D, se mueve...
+C 0x7AE1 ...con la velocidad de p03:BF62
+C 0x7AE7 la figura 0x82
+C 0x7AF1 cada 0x20 cuadros, el paso siguiente
+C 0x7AFC cae: la velocidad vertical + 0x40...
+C 0x7B1B ...o + 0x30
+C 0x7B2C al acabar, a los 16 cuadros se borra
+C 0x7B3C la figura 0x84: va hacia Mitchel a 0x30...
+C 0x7B48 ...y se borra al pisar una casilla por debajo de 0x5F
+C 0x7B58 la figura 0x85: quieta, cuadro 9
+C 0x7B6F cada 4 cuadros cambia de dibujo
+C 0x7B88 va pegada a la ficha de 0xDFB6
+C 0x7BA5 luego va hacia Mitchel a 0x20
+C 0x7BC0 alterna entre los cuadros 9 y 10
+C 0x7BE0 la figura 0x83: espera ix+0x12 cuadros...
+C 0x7BEB ...y luego se mueve hacia Mitchel
+C 0x7BFF solo del 0x0C en adelante
+C 0x7C3A 0xC33F + objeto: cuantos quedan
+C 0x7C43 sin cuenta (0xFF), no se gasta
+C 0x7C44 uno menos (BCD)
+C 0x7C4C el ultimo: SHOT2 se vacia y el icono se repinta
+C 0x7C59 si hay algo lanzado, nada
+C 0x7C62 MP - C (BCD)...
+C 0x7C68 ...el sonido 0x21...
+C 0x7C70 ...Mitchel al estado 6 (conjuro), 0x1E cuadros...
+C 0x7C83 ...con el dibujo del conjuro (patrones 1 y 0x0E)...
+C 0x7C8D ...y su pose
+C 0x7C93 y el MP nuevo en el panel
+C 0x7C96 sin MP bastante: el aviso, 0x3C cuadros
+C 0x7CB5 LAS HIERBAS: se gasta una...
+C 0x7CBB ...si hay enfermedad, se cura y nada mas
+C 0x7CC2 LA CARNE: se gasta una
+C 0x7CC8 LIFE + 10 (BCD)...
+C 0x7CD5 ...sin pasar de 16*LEVEL + 30...
+C 0x7CE8 ...ni de 999
+C 0x7CEB la menor de las dos
+C 0x7CFA el colmillo (0x12), solo en la pantalla 0x68: 0xC16F = 1...
+C 0x7D00 ...y el suceso de la partida 5
+C 0x7D0F la 0x1B (さけび) en la pantalla 0x56: suceso 9
+C 0x7D17 la 0x13 (ささやき) en la 0x34, con 0xC58E: suceso 3
+C 0x7D21 el suceso a 0xC560: p15 quita el decorado de ese tipo
+C 0x7D2E la 0x11 (ちからのたま) en la 0x38: suceso 5
+C 0x7D33 el durian (0x17) en (0x68, 0x58-0x70): el estado 6 de la partida
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x611F 0x6143 salidas_especiales  12 salidas especiales (0xF0-0xFB): pantalla de llegada y punto (x, y) donde aparece Mitchel; p01:60FA con 0x611F + 3*(n-0xF0); lo leen p01:6109 (36 bytes)
@@ -986,7 +1193,7 @@ C 0x6C25 p00:de_mas_a
 C 0x6C29 guarda la POSE de Mitchel
 C 0x6C35 lee las teclas nuevas del cuadro (bit 4 SHOT1, bit 5 SHOT2)
 C 0x6C47 lee las teclas nuevas del cuadro (bit 4 SHOT1, bit 5 SHOT2)
-C 0x6C56 usa_shot1: El arma de SHOT1 (0xC140): 0 el puno; 1-3 golpes 0x11-0x13; 4 solo en las
+C 0x6C56 usa_shot1: con 0xC132 solo el 0x19 (y el puno)
 C 0x6C59 lee la ENFERMEDAD (la picadura)
 C 0x6C63 apunta a LIFE, la vida de Mitchel (BCD)
 C 0x6C72 escribe_life: LIFE: 2 bytes en (0x30, 0xD8)
@@ -1115,12 +1322,14 @@ C 0x747C p00:despacha: Salta a la entrada A de la tabla de palabras que va pegad
 C 0x74AE la pantalla 0x63?
 C 0x74B2 la pantalla 0x8A?
 C 0x74BC guarda SHOT1, el arma que se lleva (0 el puno)
+C 0x74BF golpe_del_puno: el puno: el golpe (y su sonido) 0x10
 C 0x74D4 apunta a cuantos objetos 0x1F se llevan (BCD; 0xFF sin cuenta)
 C 0x74DB apunta a cuantos objetos 0x08 se llevan (BCD; 0xFF sin cuenta)
 C 0x74E0 hay_algo_lanzado: 0xC380: la ficha de lo que Mitchel lanza
 C 0x74F0 guarda SHOT1, el arma que se lleva (0 el puno)
 C 0x74FA hay_algo_lanzado: 0xC380: la ficha de lo que Mitchel lanza
 C 0x74FE apunta a cuantos objetos 0x09 se llevan (BCD; 0xFF sin cuenta)
+C 0x7509 lanza_el_0x19: lo lanzado 0x19, B = 2
 C 0x7518 hay_algo_lanzado: 0xC380: la ficha de lo que Mitchel lanza
 C 0x751F lanza: la ficha de lo lanzado (0xC380): el sonido C, B unidades, sale de Mitchel hacia donde mira
 C 0x7522 apunta a cuantos objetos 0x0A se llevan (BCD; 0xFF sin cuenta)
@@ -1129,7 +1338,6 @@ C 0x753B p00:sonido: pone los bancos 4 y 5 y pide el sonido A a p04:6032
 C 0x753E apunta a el estado de Mitchel
 C 0x754C lee SHOT1, el arma que se lleva (0 el puno)
 C 0x7559 guarda lo que lanza Mitchel (su ficha)
-C 0x755C p00:sube_el_arma
 C 0x7560 p00:sonido: pone los bancos 4 y 5 y pide el sonido A a p04:6032
 C 0x7563 apunta a el estado de Mitchel
 C 0x7571 apunta a lo que lanza Mitchel (su ficha)
@@ -1142,20 +1350,21 @@ C 0x75B9 salida_de_lo_lanzado: 4 parejas [dx][dy] segun la direccion 0xC306: des
 C 0x75BC p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
 C 0x75F2 lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 C 0x75F7 niega_de: DE = -DE
-C 0x7607 apunta a lo que lanza Mitchel (su ficha)
 C 0x7610 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 C 0x7638 p00:sonido: pone los bancos 4 y 5 y pide el sonido A a p04:6032
 C 0x7658 pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 C 0x7660 lee cuantos objetos 0x0A se llevan (BCD; 0xFF sin cuenta)
 C 0x767C niega_de: DE = -DE
 C 0x768B niega_de: DE = -DE
-C 0x769B apunta a cuantos objetos 0x0A se llevan (BCD; 0xFF sin cuenta)
+C 0x7697 mueve_el_boomerang: cada dos cuadros, uno de los 4 dibujos de p01:76CC
 C 0x76A6 cuadro_del_boomerang: 4 bytes: el cuadro (ix+0x0B) segun el paso (p01:76A6)
 C 0x76A9 p00:hl_mas_a
 C 0x76F9 p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
 C 0x76FD lee el juego de dibujos de la pantalla
 C 0x7700 byte_por_juego_de_dibujos: un byte por juego de dibujos (0xC148, 13): lo que p01:7332 pone en 0xE802
 C 0x7703 p00:hl_mas_a
+C 0x771B signo_a_h: HL = A con signo
+C 0x772D signo_a_h: HL = A con signo
 C 0x7749 guarda el estado de Mitchel
 C 0x7766 apunta a hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 C 0x776A direccion_contraria: 4 bytes: la direccion contraria a cada una (p01:776A)
@@ -1176,7 +1385,6 @@ C 0x7847 p00:de_mas_a
 C 0x7859 suceso_en_vez_de_objeto: 0x27 nada; 0x28 suceso 5 (8 en la pantalla 0x5D); 0x29 nada; 0x2A pinta
 C 0x786D apunta a los objetos del suelo (4 fichas de 16 bytes)
 C 0x78A2 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
-C 0x78B5 lee la PANTALLA
 C 0x78B8 la pantalla 0x5D?
 C 0x78C8 guarda el decorado que hay que dar por quitado
 C 0x78D2 guarda el SUCESO: el tipo de decorado que hay que quitar
@@ -1188,15 +1396,18 @@ C 0x7902 lee el numero de objeto
 C 0x7911 esquina_de_la_ficha: medio ancho hacia la izquierda (C columnas)...
 C 0x7915 p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
 C 0x792F apunta a los objetos del suelo (4 fichas de 16 bytes)
-C 0x795C esquina_de_la_ficha: medio ancho hacia la izquierda (C columnas)...
+C 0x7936 pinta_los_objetos: sin objeto, nada
 C 0x7983 esquina_de_la_ficha: medio ancho hacia la izquierda (C columnas)...
+C 0x7989 casilla_especial: la casilla 0xF1 se pinta con el dibujo 0x62; NZ si hay que pintarla
 C 0x798C p00:pon_dibujo: el dibujo A de la hoja (pagina 1) en (D, E) de la pagina 0
+C 0x7996 casilla_especial: la casilla 0xF1 se pinta con el dibujo 0x62; NZ si hay que pintarla
 C 0x7999 p00:pon_dibujo: el dibujo A de la hoja (pagina 1) en (D, E) de la pagina 0
+C 0x79A3 casilla_especial: la casilla 0xF1 se pinta con el dibujo 0x62; NZ si hay que pintarla
 C 0x79A6 p00:pon_dibujo: el dibujo A de la hoja (pagina 1) en (D, E) de la pagina 0
+C 0x79B0 casilla_especial: la casilla 0xF1 se pinta con el dibujo 0x62; NZ si hay que pintarla
 C 0x79B3 p00:pon_dibujo: el dibujo A de la hoja (pagina 1) en (D, E) de la pagina 0
 C 0x79E6 p00:de_mas_a
-C 0x79F9 elige_lista: La lista del objeto: la de SHOT1 (0xC2A0, 12 casillas) si el nibble
-C 0x7A11 elige_lista: La lista del objeto: la de SHOT1 (0xC2A0, 12 casillas) si el nibble
+C 0x7A11 elige_lista: la lista de SHOT1 (0xC2A0, 12 casillas)...
 C 0x7A2A p00:de_mas_a
 C 0x7A66 apunta a DAYS, los dias (BCD)
 C 0x7A74 escribe_days: DAYS: 2 bytes en (0x28, 0xD8)
@@ -1205,8 +1416,6 @@ C 0x7A87 apunta a las fichas de los enemigos (13 de 0x80)
 C 0x7A90 lee el tipo del enemigo
 C 0x7A93 THE NASTY (tipo 0x2A)?
 C 0x7A97 BADPRIEST (tipo 0x2B)?
-C 0x7AA1 p00:mata_la_ficha: el enemigo muere: guarda su tipo en ix+0x1F y se convierte en la explosion de p15:A3CA
-C 0x7AA6 lee el sonido que suena (para no pisarlo con uno menor)
 C 0x7AAD guarda el SUCESO: el tipo de decorado que hay que quitar
 C 0x7AB1 guarda el paso del suceso
 C 0x7AB5 guarda lo que lanza Mitchel (su ficha)
@@ -1226,10 +1435,7 @@ C 0x7C5A hay_algo_lanzado: 0xC380: la ficha de lo que Mitchel lanza
 C 0x7C6A p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 C 0x7C6D apunta a el estado de Mitchel
 C 0x7C7D guarda lo que lanza Mitchel (su ficha)
-C 0x7C96 borra_la_ventana_de_texto: 160x24 puntos en (8, 0xB0): debajo del decorado
 C 0x7CA1 p00:rotulo: [x][y] letras, 0xFE [x][y] otro sitio, 0xFF acaba
-C 0x7CB5 gasta_uno_de_shot2: 0xC141: el objeto de SHOT2
-C 0x7CC2 gasta_uno_de_shot2: 0xC141: el objeto de SHOT2
 C 0x7CEF guarda LIFE, los dos bytes (BCD)
 C 0x7CF2 escribe_life: LIFE: 2 bytes en (0x30, 0xD8)
 C 0x7CF8 la pantalla 0x68?
@@ -1237,7 +1443,6 @@ C 0x7D02 guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conv
 C 0x7D0D la pantalla 0x56?
 C 0x7D14 lee la PANTALLA
 C 0x7D18 la pantalla 0x34?
-C 0x7D21 guarda el SUCESO: el tipo de decorado que hay que quitar
 C 0x7D25 guarda el paso del suceso
 C 0x7D2C la pantalla 0x38?
 C 0x7D38 p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
@@ -1253,7 +1458,8 @@ C 0x7D8F lee SHOT1, el arma que se lleva (0 el puno)
 C 0x7D92 el objeto 0x0B, もり?
 C 0x7D96 el objeto 0x08, いし?
 C 0x7D99 apunta a MP, la magia (BCD, hasta 99)
-C 0x7DA4 usa_shot1: El arma de SHOT1 (0xC140): 0 el puno; 1-3 golpes 0x11-0x13; 4 solo en las
+C 0x7DA0 no_hay_mp: sin MP bastante: el aviso, 0x3C cuadros
+C 0x7DA4 usa_shot1: con 0xC132 solo el 0x19 (y el puno)
 C 0x7DA9 guarda el estado de Mitchel
 C 0x7DB6 lee la PANTALLA
 C 0x7DB9 la pantalla 0x0D?

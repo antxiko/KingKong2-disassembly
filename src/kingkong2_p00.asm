@@ -197,13 +197,13 @@ puente_mata_la_ficha:
 	call mata_la_ficha		;4152   ; mata_la_ficha: el enemigo muere: guarda su tipo en ix+0x1F y se convierte en la explosion de p15:A3CA
 	jp L_4215		;4155
 puente_rebota_lo_lanzado:
-	call 07668h		;4158   ; p01:rebota_lo_lanzado
+	call 07668h		;4158   ; p01:rebota_lo_lanzado: a la mitad (0x1C cuadros) da la vuelta...
 	jp L_4215		;415b
 puente_escribe_life:
 	call 0634eh		;415e   ; p01:escribe_life: LIFE: 2 bytes en (0x30, 0xD8)
 	jp L_4215		;4161
 puente_quita_un_objeto_del_suelo:
-	call 0797fh		;4164   ; p01:quita_un_objeto_del_suelo
+	call 0797fh		;4164   ; p01:quita_un_objeto_del_suelo: el objeto se quita: vuelven las cuatro casillas de debajo
 	jp L_4215		;4167
 puente_escribe_gold:
 	call 06376h		;416a   ; p01:escribe_gold: GOLD: 2 bytes en (0x50, 0xD8)

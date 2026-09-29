@@ -1146,9 +1146,9 @@ C 0x4140 p01:cambia_el_enemigo_del_panel: el enemigo C golpeado: en el panel se 
 C 0x4146 p01:escribe_level
 C 0x414C p01:escribe_exp: EXP: 3 bytes en (0x38, 0xC8)
 C 0x4152 mata_la_ficha: el enemigo muere: guarda su tipo en ix+0x1F y se convierte en la explosion de p15:A3CA
-C 0x4158 p01:rebota_lo_lanzado
+C 0x4158 p01:rebota_lo_lanzado: a la mitad (0x1C cuadros) da la vuelta...
 C 0x415E p01:escribe_life: LIFE: 2 bytes en (0x30, 0xD8)
-C 0x4164 p01:quita_un_objeto_del_suelo
+C 0x4164 p01:quita_un_objeto_del_suelo: el objeto se quita: vuelven las cuatro casillas de debajo
 C 0x416A p01:escribe_gold: GOLD: 2 bytes en (0x50, 0xD8)
 C 0x4170 p01:conversacion_de_la_pantalla
 C 0x417C marco: cuatro rayas: un marco de E por D en HL
