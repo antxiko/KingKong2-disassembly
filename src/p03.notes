@@ -87,6 +87,72 @@ C 0xBFB2 en marcha hacia la x de Mitchel, a 2, con el cuadro 0x0C y 0x20 cuadros
 L 0xBFD8 muere_al_acabar_ix1a
 C 0xBFD8 cuenta ix+0x1A y a 0 se borra la ficha
 C 0xBF72 salvo con ix+0x19 = 4, cada ix+0x16 cuadros el cuadro alterna entre los dos de HL + 2*ix+0x19
+C 0xA00B PASO 1: parada ix+0x12 cuadros y vuelta al paso 0 con otro rumbo...
+C 0xA01E ...salvo si tocaron su ficha 0x0D: apunta donde esta (0xDFB1, 0xDFB2), quieta 0x30 cuadros (paso 2)...
+C 0xA03A ...y REDSPIDER saldra en vertical hacia la mitad de Mitchel; BIGSPIDER, hacia el a 0x90
+C 0xA095 ...entonces quieta 0x10 cuadros y con la velocidad al reves (paso 4)
+C 0xA0C3 PASO 4: quieta, y en marcha (de vuelta) al paso 5
+C 0xA0C6 PASO 2: quieta ix+0x14 cuadros; luego en marcha
+C 0xA0D2 PASO 5: de vuelta hasta su y (REDSPIDER) o su x (BIGSPIDER) de antes...
+C 0xA0EB ...alli, en su sitio y al paso 0; si su ficha 0x0D sigue tocada, quieta...
+C 0xA10F ...si no, REDSPIDER hacia la derecha o la izquierda (lo contrario del lado en que esta)
+C 0xA127 su cuadro de p03:BFB0, alternando cada ix+0x16 cuadros
+C 0xA131 si una ficha del tipo 0x0D esta en el paso 2, 0xDFB0 = 1
+C 0xA152 AL CREAR la ficha: 0x14 en ix+0x13, cuadro 8, en marcha, sonido 4, hacia Mitchel a 0x60
+C 0xA165 rumbo hacia Mitchel: DE horizontal y HL vertical
+C 0xA16F LA FICHA 0x0D (la que sueltan las aranas): paso 1 (p03:A192), paso 2 pegada a Mitchel (p02:870C)...
+C 0xA179 ...paso 0: cuando algo la toca (bit 0 de ix+0x1E), al paso 1...
+C 0xA183 ...y si es de REDSPIDER, en la mitad izquierda desaparece
+C 0xA192 PASO 1: 0xDFB0 = 1 (la arana lo ve) y quieta
+C 0xA1A1 AL CREAR GROUNDER: el primero (0xDFB0 = 0) con Mitchel a la izquierda aparece en (0x50, 0xA0)...
+C 0xA1BB ...mirando hacia Mitchel, apunta su sitio (0xDFB1, 0xDFB2), cuadro 0x0E, 6 en ix+0x1C
+C 0xA1E8 los otros: su numero (0xDFB0) en ix+0x15 y su direccion (numero & 3); cuadro 0x0E
+C 0xA212 GROUNDER: los que no son el primero, por p03:A2E0
+C 0xA21A sin ix+0x1C, ix+0x0E sube de 2 en 2
+C 0xA22D alineado a 16 en el eje por el que va (0xDFB4 = 1)...
+C 0xA241 ...prueba el rumbo; si quedan menos de 6, crea otro
+C 0xA262 si choca, p03:A2A9; si no, hacia Mitchel salvo si es dar media vuelta...
+C 0xA284 ...en ese caso la primera direccion por la que se pueda, sin dar media vuelta
+C 0xA2A9 choca: dentro de x 0x30-0x7F, hacia Mitchel; fuera, una vez si y otra no (0xDFB5)
+C 0xA058 PASO 3: en marcha hasta salirse de la zona (y 0x28-0x88, 0x18-0x88 BIGSPIDER; x 0x18-0x98) o tocar a Mitchel (+-0x10)...
+C 0xA2CC otro GROUNDER (0xDFB0 + 1) en el sitio del primero (0xDFB1, 0xDFB2)
+C 0xA2E0 LOS DEMAS GROUNDER: cada 4 cuadros el cuadro siguiente de los 4 de p03:A366...
+C 0xA313 ...y cuando el primero esta alineado (0xDFB4), siguen al de delante (ix+0x15 - 1)...
+C 0xA336 ...tomando la direccion que el llevaba antes (su ix+0x14): van en fila
+C 0xA346 la direccion A en ix+0x13 (la de antes en ix+0x14), su cuadro de p03:A362 y sus velocidades de p03:BF42
+C 0xA36A AL CREARLOS: paso 3 (esperando 0x0F cuadros), mirando abajo (2), 8 pasos
+C 0xA389 BLOWMIRE y FALCONER: en el paso 5, sin mas...
+C 0xA390 ...si no, en diagonal exacta con Mitchel (redondeado a 8)...
+C 0xA3AF ...BLOWMIRE tira (cuadro 7); FALCONER suelta un FALCONBAT (tipo 0x28) y espera 0x3C cuadros en el paso 5
+C 0xA3D6 CLINGMAN: si toca a Mitchel (bit 0 de ix+0x1E), se le pega (paso 4)
+C 0xA3E8 LOS QUE TIRAN Y SALTAN, por pasos: 0 (p03:A3FA), 1 (A442), 2 el salto (A48F), 3 espera (A4F4), 4 pegado (A505), 5 tras tirar (A511)
+C 0xA3FA PASO 0, alineado a 8: si choca, se aparta de Mitchel...
+C 0xA40B ...en la columna de Mitchel (salvo FALCONER, JUMPMAN y CLINGMAN) o en su fila, puede tirar o saltar...
+C 0xA41D ...y a los 8 pasos se aparta de Mitchel (paso 1), o hacia una esquina al azar si no puede
+C 0xA442 PASO 1: si choca, hacia Mitchel...
+C 0xA45B ...lo mismo de tirar o saltar...
+C 0xA46D ...y a los 8 pasos, al paso 0 hacia la y de Mitchel (arriba o abajo)
+C 0xA48F PASO 2, EL SALTO: al volver a la y de salida (ix+0x16), al paso 1...
+C 0xA49C ...si no, si choca en x se queda en su x (alineada a 8 salvo CLINGMAN) sin velocidad horizontal...
+C 0xA4C2 ...y la velocidad vertical de la curva: p03:A6A0 (CLINGMAN, 0x18 puntos) o p03:A6B8 (0x10), subiendo y luego al reves bajando
+C 0xA4F4 PASO 3: espera ix+0x18 cuadros y a andar
+C 0xA505 PASO 4: pegado a Mitchel
+C 0xA511 PASO 5: espera ix+0x17 cuadros y a andar
+C 0xA51D hacia una esquina al azar de p02:93EF
+C 0xA535 la direccion en ix+0x19 y sus velocidades de p02:9AB9
+C 0xA53E EL CUADRO: POLEMAN, BOOMERANG y FALCONER, direccion*2 y el siguiente cada 4 cuadros...
+C 0xA54F ...JUMPMAN y CLINGMAN, los de p03:A6C8 por direccion...
+C 0xA577 ...BLOWMIRE, 3, 4, 5 y 5
+C 0xA58B EN SU COLUMNA: si Mitchel esta en la misma x (redondeada a 8) y a 0x30 o mas...
+C 0xA5A2 ...la mitad de las veces TIRA: mira a Mitchel (BLOWMIRE, cuadro 7)...
+C 0xA5BD ...sin volver a quien llamo: al paso 5, quieto 0x20 cuadros (BOOMERANG 0x48, con los cuadros + 8)...
+C 0xA5E5 ...y la figura de su tipo + 0x70 en su sitio
+C 0xA5F4 EN SU FILA: si Mitchel esta en la misma y y a menos de 0x30, se aparta...
+C 0xA60C ...a 0x30 o mas: POLEMAN, BOOMERANG y BLOWMIRE tiran; FALCONER no hace nada...
+C 0xA628 ...JUMPMAN y CLINGMAN SALTAN hacia Mitchel (CLINGMAN, con la figura 0x8D), con el sonido 0x0B...
+C 0xA640 ...desde su y (ix+0x16), por la curva de p03:A6A0 o p03:A6B8, a -2 (CLINGMAN) o -3 en x...
+C 0xA670 ...o a la derecha si Mitchel esta a su derecha (cuadro 0x0A)
+C 0xA67F SE APARTA: cambia entre los pasos 0 y 1 y se va al lado contrario de Mitchel (o a una esquina si no puede)
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA3EE 0xA3FA tabla_A3EE  6 destinos del despachador de 0x425F (call en p03:A3EB): 0xA3FA, 0xA442, 0xA48F, 0xA4F4, 0xA505, 0xA511; lo leen p03:A3EB (12 bytes)
@@ -132,16 +198,13 @@ F 0xBE34 2
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
 C 0xA002 velocidades: 16 entradas de 4 bytes que p03:BF19 pone en ix+8, ix+7, ix+0x0A e ix+9 (dos velocidades de 16 bits) segun A; se entra por 0xBF32, 0xBF42, 0xBF52 y 0xBF62
 C 0xA008 velocidad_de_la_tabla_4: las dos velocidades de las 4 bytes HL + 4*A: [vy alta][vy baja][vx alta][vx baja]
-C 0xA00B REDSPIDER y BIGSPIDER, paso 1
 C 0xA018 baja el paso en que va
 C 0xA022 lee la y del enemigo
 C 0xA028 lee la x del enemigo
 C 0xA02E el paso en que va = 0x02
 C 0xA036 si se mueve = 0x00
-C 0xA03A lee el tipo del enemigo
 C 0xA03D REDSPIDER (tipo 0x0B)?
 C 0xA043 lee la Y de Mitchel
-C 0xA058 REDSPIDER y BIGSPIDER, paso 3
 C 0xA05D lee el tipo del enemigo
 C 0xA060 REDSPIDER (tipo 0x0B)?
 C 0xA066 lee la y del enemigo
@@ -152,7 +215,6 @@ C 0xA082 compara con la y del enemigo
 C 0xA086 lee la X de Mitchel
 C 0xA08B compara con la x del enemigo
 C 0xA091 compara con la x del enemigo
-C 0xA095 sube el paso en que va
 C 0xA09C si se mueve = 0x00
 C 0xA0A0 lee la velocidad vertical
 C 0xA0A5 lee la velocidad vertical (baja)
@@ -162,11 +224,8 @@ C 0xA0B1 lee la velocidad horizontal
 C 0xA0B6 lee la velocidad horizontal (baja)
 C 0xA0BC guarda la velocidad horizontal
 C 0xA0BF guarda la velocidad horizontal (baja)
-C 0xA0C3 REDSPIDER y BIGSPIDER, paso 4
-C 0xA0C6 REDSPIDER y BIGSPIDER, paso 2
 C 0xA0CA si se mueve = 0x01
 C 0xA0CE sube el paso en que va
-C 0xA0D2 REDSPIDER y BIGSPIDER, paso 5
 C 0xA0D5 lee el tipo del enemigo
 C 0xA0D8 REDSPIDER (tipo 0x0B)?
 C 0xA0DF compara con la x del enemigo
@@ -174,18 +233,16 @@ C 0xA0E7 compara con la y del enemigo
 C 0xA0EC guarda el paso en que va
 C 0xA0F8 guarda la y del enemigo
 C 0xA0FE guarda la x del enemigo
+C 0xA103 spider_recorre_las_fichas: si una ficha del tipo 0x0D esta en el paso 2, 0xDFB0 = 1
 C 0xA10C para_la_ficha: las dos velocidades a 0
 C 0xA12E cuadro_cada_ix16: salvo con ix+0x19 = 4, cada ix+0x16 cuadros el cuadro alterna entre los dos de HL + 2*ix+0x19
-C 0xA131 apunta a las fichas de los enemigos (13 de 0x80)
 C 0xA13C compara con el tipo del enemigo
 C 0xA146 lee el paso en que va
 C 0xA156 el cuadro del enemigo = 0x08
 C 0xA15A si se mueve = 0x01
 C 0xA160 p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
-C 0xA165 p01:rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
 C 0xA168 p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 C 0xA16C p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
-C 0xA16F ENTRADA de tipo 0x0D (tipo 0x0D), con su ficha en IX
 C 0xA17F sube el paso en que va
 C 0xA189 lee la x del enemigo
 C 0xA18F p01:quita_la_ficha: se borra la ficha y sus sprites se dejan libres (y = 0xE0)
@@ -194,20 +251,24 @@ C 0xA1A8 lee la X de Mitchel
 C 0xA1AF la y del enemigo = 0x50
 C 0xA1B3 la x del enemigo = 0xA0
 C 0xA1BE p01:apunta_a_mitchel: APUNTA: la velocidad C...
+C 0xA1C4 grounder_cuadro: la direccion A en ix+0x13 (la de antes en ix+0x14), su cuadro de p03:A362 y sus velocidades de p03:BF42
 C 0xA1C7 lee la y del enemigo
 C 0xA1CD lee la x del enemigo
 C 0xA1D3 si se mueve = 0x01
 C 0xA1DB el cuadro del enemigo = 0x0E
 C 0xA1FB si se mueve = 0x01
 C 0xA1FF el cuadro del enemigo = 0x0E
-C 0xA212 ENTRADA de GROUNDER (tipo 0x2C), con su ficha en IX
-C 0xA22D lee la y del enemigo
 C 0xA236 lee la x del enemigo
+C 0xA24D grounder_prueba_rumbo: si choca, p03:A2A9; si no, hacia Mitchel salvo si es dar media vuelta...
+C 0xA257 grounder_crea_otro: otro GROUNDER (0xDFB0 + 1) en el sitio del primero (0xDFB1, 0xDFB2)
 C 0xA26C p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 C 0xA274 p01:apunta_a_mitchel: APUNTA: la velocidad C...
+C 0xA281 grounder_cuadro: la direccion A en ix+0x13 (la de antes en ix+0x14), su cuadro de p03:A362 y sus velocidades de p03:BF42
 C 0xA292 p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
-C 0xA2A9 lee la x del enemigo
+C 0xA295 grounder_cuadro: la direccion A en ix+0x13 (la de antes en ix+0x14), su cuadro de p03:A362 y sus velocidades de p03:BF42
+C 0xA2A6 grounder_cuadro: la direccion A en ix+0x13 (la de antes en ix+0x14), su cuadro de p03:A362 y sus velocidades de p03:BF42
 C 0xA2C6 p01:apunta_a_mitchel: APUNTA: la velocidad C...
+C 0xA2C9 grounder_cuadro: la direccion A en ix+0x13 (la de antes en ix+0x14), su cuadro de p03:A362 y sus velocidades de p03:BF42
 C 0xA2DD p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
 C 0xA30C p00:hl_mas_a
 C 0xA310 guarda el cuadro del enemigo
@@ -217,44 +278,39 @@ C 0xA325 GROUNDER (tipo 0x2C)?
 C 0xA34F cuadros_A362: 8 bytes: el cuadro (ix+0x0B) segun ix+0x13 (p03:A34F) o ix+0x1A (desde 0xA366, p03:A309)
 C 0xA352 p00:hl_mas_a
 C 0xA35F velocidad_de_la_tabla_4: las dos velocidades de las 4 bytes HL + 4*A: [vy alta][vy baja][vx alta][vx baja]
-C 0xA36A el paso en que va = 0x03
 C 0xA36F guarda la velocidad vertical (baja)
 C 0xA372 guarda la velocidad horizontal (baja)
-C 0xA389 ENTRADA de BLOWMIRE y FALCONER (tipos 0x19, 0x24), con su ficha en IX
-C 0xA390 p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
+C 0xA37D saltarines_elige: EL CUADRO: POLEMAN, BOOMERANG y FALCONER, direccion*2 y el siguiente cada 4 cuadros...
 C 0xA398 le resta la y del enemigo
 C 0xA3A5 le resta la x del enemigo
-C 0xA3AF lee el tipo del enemigo
 C 0xA3B2 BLOWMIRE (tipo 0x19)?
 C 0xA3BB lee la y del enemigo
 C 0xA3BE lee la x del enemigo
 C 0xA3C3 p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
-C 0xA3D6 ENTRADA de CLINGMAN (tipo 0x37), con su ficha en IX
-C 0xA3E8 ENTRADA de POLEMAN, BOOMERANG y JUMPMAN (tipos 0x17, 0x18, 0x36), con su ficha en IX
 C 0xA3EB p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 C 0xA3FD p02:sigue_si_esta_en_casilla: si la ficha no esta alineada a 8 en x e y, vuelve al que llamo al que llamo
 C 0xA405 p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
+C 0xA417 saltarines_alineado_en_x: EN SU COLUMNA: si Mitchel esta en la misma x (redondeada a 8) y a 0x30 o mas...
+C 0xA41A saltarines_alineado_en_y: EN SU FILA: si Mitchel esta en la misma y y a menos de 0x30, se aparta...
 C 0xA430 p01:apunta_a_mitchel: APUNTA: la velocidad C...
 C 0xA439 p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 C 0xA445 p02:sigue_si_esta_en_casilla: si la ficha no esta alineada a 8 en x e y, vuelve al que llamo al que llamo
 C 0xA44D p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 C 0xA455 p01:apunta_a_mitchel: APUNTA: la velocidad C...
-C 0xA45B lee el tipo del enemigo
 C 0xA45E FALCONER (tipo 0x24)?
+C 0xA467 saltarines_alineado_en_x: EN SU COLUMNA: si Mitchel esta en la misma x (redondeada a 8) y a 0x30 o mas...
+C 0xA46A saltarines_alineado_en_y: EN SU FILA: si Mitchel esta en la misma y y a menos de 0x30, se aparta...
 C 0xA475 el paso en que va = 0x00
 C 0xA479 lee la Y de Mitchel
 C 0xA47C compara con la y del enemigo
 C 0xA486 p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
-C 0xA48F lee la y del enemigo
 C 0xA495 el paso en que va = 0x01
-C 0xA49C el paso en que va = 0x02
 C 0xA4A3 lee el tipo del enemigo
 C 0xA4A6 CLINGMAN (tipo 0x37)?
 C 0xA4A8 lee la x del enemigo
 C 0xA4B6 p01:choca_desde_hl: desde (L, H) = (y, x): acarreo si hacia la direccion A no se puede pasar
 C 0xA4BB guarda la x del enemigo
 C 0xA4BE la velocidad horizontal = 0x00
-C 0xA4C2 lee el tipo del enemigo
 C 0xA4C5 tablas_A6A0: tres tablas de 16 bytes: 0xA6A0 (tipo 0x37) y 0xA6B8 (los demas) segun ix+0x18 (p03:A4C2), y parejas desde 0xA6C8 segun ix+0x19 (p03:A553)
 C 0xA4CB CLINGMAN (tipo 0x37)?
 C 0xA4DE p00:hl_mas_a
@@ -263,25 +319,22 @@ C 0xA4E9 p00:hl_mas_a
 C 0xA4ED guarda la velocidad vertical
 C 0xA4FB el paso en que va = 0x00
 C 0xA4FF si se mueve = 0x01
-C 0xA505 p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
 C 0xA508 guarda la y del enemigo
 C 0xA50B guarda la x del enemigo
+C 0xA50E saltarines_elige: EL CUADRO: POLEMAN, BOOMERANG y FALCONER, direccion*2 y el siguiente cada 4 cuadros...
 C 0xA515 el paso en que va = 0x00
 C 0xA519 si se mueve = 0x01
 C 0xA522 XOR con la cuenta de cuadros
 C 0xA52A p00:hl_mas_a
 C 0xA532 p01:apunta_a_mitchel: APUNTA: la velocidad C...
 C 0xA53B p02:velocidad_de_la_tabla: la pareja A de la tabla de HL en ix+8 e ix+0x0A
-C 0xA53E lee el tipo del enemigo
 C 0xA556 p00:hl_mas_a
 C 0xA559 lee la cuenta de cuadros
 C 0xA562 guarda el cuadro del enemigo
 C 0xA56A guarda el cuadro del enemigo
 C 0xA56D lee la cuenta de cuadros
 C 0xA573 sube el cuadro del enemigo
-C 0xA577 lee la cuenta de cuadros
 C 0xA587 guarda el cuadro del enemigo
-C 0xA58B p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
 C 0xA593 compara con la x del enemigo
 C 0xA598 le resta la y del enemigo
 C 0xA5A4 XOR con la cuenta de cuadros
@@ -294,23 +347,18 @@ C 0xA5C7 lee el tipo del enemigo
 C 0xA5CA BOOMERANG (tipo 0x18)?
 C 0xA5D1 guarda el cuadro del enemigo
 C 0xA5E1 si se mueve = 0x00
-C 0xA5E5 lee la y del enemigo
 C 0xA5E8 lee la x del enemigo
 C 0xA5EB lee el tipo del enemigo
 C 0xA5F1 p01:crea_una_figura: CREA UNA FIGURA: el tipo C en DE
-C 0xA5F4 p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
 C 0xA5FC compara con la y del enemigo
 C 0xA601 le resta la x del enemigo
-C 0xA60C lee el tipo del enemigo
 C 0xA622 lee el tipo del enemigo
 C 0xA625 FALCONER (tipo 0x24)?
-C 0xA628 el paso en que va = 0x02
 C 0xA62C JUMPMAN (tipo 0x36)?
 C 0xA632 lee la y del enemigo
 C 0xA635 lee la x del enemigo
 C 0xA638 p01:crea_una_figura: CREA UNA FIGURA: el tipo C en DE
 C 0xA63D p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
-C 0xA640 lee la y del enemigo
 C 0xA64A lee el tipo del enemigo
 C 0xA64D tablas_A6A0: tres tablas de 16 bytes: 0xA6A0 (tipo 0x37) y 0xA6B8 (los demas) segun ix+0x18 (p03:A4C2), y parejas desde 0xA6C8 segun ix+0x19 (p03:A553)
 C 0xA652 CLINGMAN (tipo 0x37)?

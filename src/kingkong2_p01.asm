@@ -4333,7 +4333,7 @@ L_7B88:
 	push ix		;7b88   ; va pegada a la ficha de 0xDFB6
 	ld a,(0dfb6h)		;7b8a
 	ld c,a			;7b8d
-	call 09edfh		;7b8e   ; p02:sps_recorre_las_fichas
+	call 09edfh		;7b8e   ; p02:sps_recorre_las_fichas: IX = la ficha SPS con ix+0x15 = C; acarreo si no la hay
 	jr c,L_7BA2		;7b91
 	ld d,(ix+003h)		;7b93
 	ld e,(ix+005h)		;7b96

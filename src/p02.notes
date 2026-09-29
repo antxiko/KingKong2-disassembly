@@ -375,6 +375,85 @@ C 0x977F ...y al llegar o chocar, da media vuelta y al paso 1
 C 0x97A3 Z si Mitchel (redondeado a 8) esta en una diagonal exacta; D la diagonal: bit 1 abajo, bit 0 izquierda
 C 0x97CB las velocidades de la diagonal A, de p02:97F6
 C 0x97DC acarreo si choca por alguno de los dos lados de su diagonal (p02:9804)
+C 0x980C LOS CAVERNICOLAS, AL CREARLOS: paso 2; ix+0x16 = el tipo - 0x1D (0-10)...
+C 0x9818 ...CAVERNBIG (6) al paso 3, en (0x30, 0x88), con 0x5A cuadros de espera
+C 0x9830 su byte de p02:9AAE: el nibble alto a ix+0x18 (bit 0: grande, con grafico de jefe; bit 1: anda sin parar)...
+C 0x9843 ...el bajo, cuantos pasos da antes de cambiar de rumbo (con algo de azar, salvo si es 6)...
+C 0x9855 ...en ix+0x17 e ix+0x19; 0x96 cuadros en ix+0x12, 0x14 en ix+0x14
+C 0x9870 el cuadro de su tipo (p02:9AC3, p02:9ACE); los grandes, con el grafico de jefe y el cuadro 0x3F
+C 0x9891 direccion 2 (abajo), tambien en ix+0x7F
+C 0x989C GRIZZLY, CAVERNBIG, BIGGUARD y SAVAGE son jefes
+C 0x98B1 las velocidades de la direccion A, de p02:9AB9
+C 0x98C1 el cuadro: el de su tipo (p02:9AC3) + 2*direccion, y el siguiente cada 8 cuadros (16 los grandes)
+C 0x98F8 MRRUINS y CAVERNMAN...
+C 0x9903 ...si les dan (bit 1 de ix+0x1E) por un lado que no es el suyo ni el contrario, pasan a andar a medias (ix+0x18 = 1)...
+C 0x992A ...durante 0x96 cuadros; luego, otra vez sin parar (3)
+C 0x994B PASO 0: sin el bit 1 de ix+0x18, se mueve un cuadro si y otro no...
+C 0x995A ...alineado a 8: los grandes, cada ix+0x13 pasos se paran (paso 2)...
+C 0x9977 ...si choca o se acaban los pasos de ix+0x19, nuevo rumbo; hacia Mitchel, al paso 1
+C 0x9996 PASO 1 (hacia Mitchel): como el 0...
+C 0x99C1 ...si choca, media vuelta; si Mitchel ya no esta por delante, al paso 0
+C 0x99E9 PASO 2 (parado): 0x1E cuadros; luego vuelve al paso de antes, 8 pasos hasta la parada siguiente
+C 0x9A12 PASO 3, CAVERNBIG: tras la espera, sonido 9 y al paso 4...
+C 0x9A23 ...y si Mitchel esta por encima de y 0x61, aparece abajo (y 0x90) mirando arriba
+C 0x9A31 PASO 4: 0x3C cuadros parpadeando (colores 0x01/0x44 o 0)...
+C 0x9A44 ...y en marcha en el paso 0
+C 0x9A5A media vuelta
+C 0x9A61 la direccion en ix+0x1A e ix+0x7F, y sus velocidades
+C 0x9A6A NUEVO RUMBO: con 6 pasos de su tabla, siempre hacia Mitchel...
+C 0x9A7D ...si no, una vez hacia Mitchel y otra hacia una esquina al azar de p02:93EF
+C 0x9AFE AL CREARLO: cuadro 0x18, ix+0x1B al azar (0-15), en marcha, 8 cuadros por dibujo, parado
+C 0x9B27 pasos 1 (p02:9B5A) y 2 (p02:9B96); el 0 sigue aqui
+C 0x9B30 PASO 0, parado ix+0x1B cuadros; luego al paso 1...
+C 0x9B45 ...y a 10 de acabar, una vez de cada 4 tira la figura 0x8E
+C 0x9B5A PASO 1: si acaba de chocar con otro STONEOGRE (ix+0x15 = 1), por donde vino si puede...
+C 0x9B6F ...si no, una direccion al azar por la que se pueda
+C 0x9B7B la direccion en ix+0x12, sus velocidades de p03:BF52, su cuadro, y 4 pasos en el paso 2
+C 0x9B96 PASO 2, alineado a 8: al acabar los pasos o chocar con el mapa, parado (paso 0)...
+C 0x9BBA ...y si no, busca otro STONEOGRE a menos de 0x20 en y y en x...
+C 0x9C09 ...si lo hay, los dos con ix+0x15 = 1 y parados
+C 0x9C13 parado, al paso 0, con 0-63 cuadros al azar de espera
+C 0x9C2A AL CREARLO: hay jefe; 0xDFB1 = 1 (la parte que va), 0xDFB4 = 0 (el retraso)...
+C 0x9C41 ...4 partes en la pantalla 0x53, 8 en las demas (ix+0x1C, 0xDFB6, 0xDFB7)...
+C 0x9C4F ...el sitio de la primera, 0x18 por encima (0xDFB3, 0xDFB2)...
+C 0x9C5D ...guarda el fondo 5x5, pinta su figura...
+C 0x9C69 ...y crea la ficha de la primera parte, SPS (tipo 0x2D), 8 mas abajo
+C 0x9C78 AL CREAR CADA SPS: si ya hay cabeza (0xDFB5), es una parte mas...
+C 0x9C82 ...en marcha, 0x12 en ix+0x13, 8 en ix+0x19...
+C 0x9C9F ...su numero (0xDFB1) en ix+0x15 y su retraso (0xDFB4, de 8 en 8) en ix+0x18...
+C 0x9CB7 ...y crea la siguiente hasta tenerlas todas
+C 0x9CC4 la primera (ix+0x15 = 0): parada, 0xDFB5 = 1, y crea la siguiente
+C 0x9CE7 B = 4 en la pantalla 0x53, 8 en las demas
+C 0x9CF2 la cabeza (ix+0x15 = 0) por p02:9D79, la primera parte por p02:9DA4, las demas por p02:9E30
+C 0x9D06 PASO 0: espera a que le den (bit 1 de ix+0x1E; con partes, el golpe que dejan en 0xDFB8)...
+C 0x9D17 ...y entonces pinta su figura y al paso 1
+C 0x9D21 PASO 1: al cuadro 5 suelta la figura 0x82 debajo; al 0x10, vuelve al paso 0 con el fondo repintado
+C 0x9D60 la figura 0x82, 2 por debajo
+C 0x9D6E el golpe de esta parte (bit 1 de ix+0x1E) a 0xDFB8, para REVOLVER
+C 0x9D79 LA CABEZA (ix+0x15 = 0): lleva la cuenta de las partes que quedan (0xDFB7 -> 0xDFB6)...
+C 0x9D8B ...y cada 0x100 cuadros, al 0x80, la figura 0x8F donde esta la ultima parte
+C 0x9DA4 LA PRIMERA PARTE: paso 0, espera 0x3A cuadros (0x1A en la pantalla 0x53)...
+C 0x9DC4 ...paso 1: en su sitio (0xDFB3 + 8, 0xDFB2)...
+C 0x9DD2 ...y da vueltas por el circulo de p02:9EFE (36 puntos de radio 16): la mitad del punto como velocidad, y el punto al que va en ix+0x1A, ix+0x1B...
+C 0x9DF5 ...un punto cada ix+0x19 cuadros (p02:9E22 en la pantalla 0x53, p02:9E27 en las demas, segun ix+0x1C)...
+C 0x9E10 ...con el sonido 0x0A en cada vuelta
+C 0x9E30 LAS DEMAS PARTES, por pasos
+C 0x9E41 parada; su espera de p02:9E62 segun su numero (ix+0x15 - 2 en la pantalla 0x5D, + 2 en las demas)
+C 0x9E69 espera, y 8 cuadros para el paso 3
+C 0x9E75 sube (-1 en y) ix+0x18 cuadros
+C 0x9E84 va al punto al que va la parte de delante (ix+0x15 - 1)...
+C 0x9E97 ...y cada ix+0x18 cuadros gira su circulo un punto a un lado u otro al azar, sin pasar de +-5 (ix+0x16)
+C 0x9EDB IX = la parte ix+0x15 - 1
+C 0x9EDF IX = la ficha SPS con ix+0x15 = C; acarreo si no la hay
+C 0x9F46 AL CREAR LAS ARANAS: 0xDFB5 = su tipo, cuadro 0x23, en marcha, 4 cuadros por dibujo, hay jefe
+C 0x9F6A REDSPIDER: a la derecha o a la izquierda al azar (la contraria si choca)
+C 0x9D32 el fondo: 0x18x0x10 puntos desde (0xD8, 0xD0) de la pagina 1 con HMMM, 0x0C arriba y a la izquierda de el
+C 0x9D49 su figura: 0x28x0x28 puntos desde (0xD8, 0xA8) con LMMM, 0x14 arriba y a la izquierda
+C 0x9F9D PASO 0, alineado a 8 en el eje por el que va (bit 0 de ix+0x15: la x)...
+C 0x9FB6 ...si algo toco su ficha 0x0D (0xDFB0 = 1), a por Mitchel (p02:A01E)...
+C 0x9FBF ...cada 4 pasos, parada 0x20 cuadros en el paso 1...
+C 0x9FD2 ...y cada 4, suelta una ficha del tipo 0x0D en su sitio
+C 0x9FE8 REDSPIDER sigue a un lado hasta chocar y da la vuelta; BIGSPIDER, hacia Mitchel (p03:BF32)
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x8000 0x8008 tabla_7FFC_cola  6 destinos del despachador de 0x425F (call en p01:7FF9): 0x8008, 0x8017, 0x8025, 0x8039, 0x8065, 0x8039 (sigue del banco anterior, 0x7FFC); lo leen p01:7FF9 (8 bytes)
@@ -982,7 +1061,6 @@ C 0x97E0 parejas_9804: 4 parejas [C][A] segun ix+0x16 que p02:97E0 pasa a p01:73
 C 0x97E3 p00:hl_mas_a
 C 0x97EC p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 C 0x97F3 p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
-C 0x980C el paso en que va = 0x02
 C 0x9810 lee el tipo del enemigo
 C 0x981C el paso en que va = 0x03
 C 0x9820 la y del enemigo = 0x30
@@ -996,7 +1074,7 @@ C 0x9876 p00:hl_mas_a
 C 0x987F p00:hl_mas_a
 C 0x9889 guarda el grafico de jefe que hay subido
 C 0x988E guarda el cuadro del enemigo
-C 0x989C lee el tipo del enemigo
+C 0x9899 cavernicolas_velocidad: las velocidades de la direccion A, de p02:9AB9
 C 0x989F GRIZZLY (tipo 0x1E)?
 C 0x98A3 CAVERNBIG (tipo 0x23)?
 C 0x98A7 BIGGUARD (tipo 0x26)?
@@ -1004,28 +1082,24 @@ C 0x98AB SAVAGE (tipo 0x27)?
 C 0x98AE p01:hay_jefe: 0xC151 = 1: hay jefe
 C 0x98B8 guarda la velocidad vertical
 C 0x98BD guarda la velocidad horizontal
-C 0x98C1 ENTRADA de THICKSKIN, GRIZZLY y 8 mas (tipos 0x1D, 0x1E, 0x1F, 0x20, 0x21, 0x22, 0x23, 0x25, 0x26, 0x27), con su ficha en IX
 C 0x98C7 p00:hl_mas_a
 C 0x98DC AND con la cuenta de cuadros
 C 0x98E6 p00:hl_mas_a
 C 0x98F0 guarda el grafico de jefe que hay subido
 C 0x98F5 guarda el cuadro del enemigo
-C 0x98F8 lee el tipo del enemigo
 C 0x98FB MRRUINS (tipo 0x1F)?
 C 0x98FF CAVERNMAN (tipo 0x21)?
 C 0x992F si se mueve = 0x01
 C 0x993B lee el paso en que va
 C 0x993E p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
-C 0x994B THICKSKIN, GRIZZLY y 8 mas, paso 0
 C 0x9952 lee si se mueve
 C 0x9957 guarda si se mueve
-C 0x995A sigue_si_esta_en_casilla: si la ficha no esta alineada a 8 en x e y, vuelve al que llamo al que llamo
 C 0x9968 lee el paso en que va
 C 0x996E el paso en que va = 0x02
 C 0x9972 si se mueve = 0x00
 C 0x9980 p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
+C 0x9989 cavernicolas_elige_rumbo: NUEVO RUMBO: con 6 pasos de su tabla, siempre hacia Mitchel...
 C 0x998F el paso en que va = 0x01
-C 0x9996 THICKSKIN, GRIZZLY y 8 mas, paso 1
 C 0x999D lee si se mueve
 C 0x99A2 guarda si se mueve
 C 0x99A5 sigue_si_esta_en_casilla: si la ficha no esta alineada a 8 en x e y, vuelve al que llamo al que llamo
@@ -1035,20 +1109,18 @@ C 0x99BD baja si se mueve
 C 0x99CA p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 C 0x99D8 p01:apunta_a_mitchel: APUNTA: la velocidad C...
 C 0x99E2 el paso en que va = 0x00
-C 0x99E9 THICKSKIN, GRIZZLY y 8 mas, paso 2
 C 0x99F4 guarda el paso en que va
 C 0x99F7 si se mueve = 0x01
 C 0x9A08 p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
-C 0x9A12 THICKSKIN, GRIZZLY y 8 mas, paso 3
+C 0x9A0C cavernicolas_elige_rumbo: NUEVO RUMBO: con 6 pasos de su tabla, siempre hacia Mitchel...
 C 0x9A16 el paso en que va = 0x04
 C 0x9A20 p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
-C 0x9A23 lee la Y de Mitchel
 C 0x9A29 la y del enemigo = 0x90
-C 0x9A31 THICKSKIN, GRIZZLY y 8 mas, paso 4
 C 0x9A3D colores_a_4: cuatro parejas de colores B y C en los 8 sprites de la ficha
 C 0x9A47 colores_a_4: cuatro parejas de colores B y C en los 8 sprites de la ficha
 C 0x9A4A el paso en que va = 0x00
 C 0x9A4E sube si se mueve
+C 0x9A67 cavernicolas_velocidad: las velocidades de la direccion A, de p02:9AB9
 C 0x9A7A p01:apunta_a_mitchel: APUNTA: la velocidad C...
 C 0x9A85 p01:apunta_a_mitchel: APUNTA: la velocidad C...
 C 0x9A8C XOR con la cuenta de cuadros
@@ -1056,11 +1128,9 @@ C 0x9A94 p00:hl_mas_a
 C 0x9A9C p01:apunta_a_mitchel: APUNTA: la velocidad C...
 C 0x9AA0 lee la y del enemigo
 C 0x9AA6 lee la x del enemigo
-C 0x9AFE el cuadro del enemigo = 0x18
 C 0x9B02 p03:al_azar: A al azar: el registro R, con los nibbles cambiados, XOR el contador de cuadros
 C 0x9B0A si se mueve = 0x01
 C 0x9B24 p03:para_la_ficha: las dos velocidades a 0
-C 0x9B27 ENTRADA de STONEOGRE (tipo 0x3C), con su ficha en IX
 C 0x9B33 p03:cuadro_cada_ix16: salvo con ix+0x19 = 4, cada ix+0x16 cuadros el cuadro alterna entre los dos de HL + 2*ix+0x19
 C 0x9B41 sube el paso en que va
 C 0x9B48 p03:al_azar: A al azar: el registro R, con los nibbles cambiados, XOR el contador de cuadros
@@ -1068,7 +1138,6 @@ C 0x9B51 lee la y del enemigo
 C 0x9B54 lee la x del enemigo
 C 0x9B57 p01:crea_una_figura: CREA UNA FIGURA: el tipo C en DE
 C 0x9B67 p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
-C 0x9B6F p03:al_azar: A al azar: el registro R, con los nibbles cambiados, XOR el contador de cuadros
 C 0x9B76 p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 C 0x9B81 p03:velocidad_de_la_tabla_4: las dos velocidades de las 4 bytes HL + 4*A: [vy alta][vy baja][vx alta][vx baja]
 C 0x9B8B p03:cuadro_cada_ix16: salvo con ix+0x19 = 4, cada ix+0x16 cuadros el cuadro alterna entre los dos de HL + 2*ix+0x19
@@ -1087,22 +1156,22 @@ C 0x9BFD lee la x del enemigo
 C 0x9C17 p03:al_azar: A al azar: el registro R, con los nibbles cambiados, XOR el contador de cuadros
 C 0x9C1F p03:para_la_ficha: las dos velocidades a 0
 C 0x9C22 lee la x del enemigo
-C 0x9C2A p01:hay_jefe: 0xC151 = 1: hay jefe
-C 0x9C4F lee la y del enemigo
 C 0x9C57 lee la x del enemigo
 C 0x9C60 p00:guarda_el_fondo: GUARDA EL FONDO: lo que hay debajo de la ficha, desde su esquina
+C 0x9C63 revolver_pinta_su_figura: su figura: 0x28x0x28 puntos desde (0xD8, 0xA8) con LMMM, 0x14 arriba y a la izquierda
+C 0x9C66 revolver_guarda_el_fondo: el fondo: 0x18x0x10 puntos desde (0xD8, 0xD0) de la pagina 1 con HMMM, 0x0C arriba y a la izquierda de el
 C 0x9C75 p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
 C 0x9C86 guarda el cuadro del enemigo
 C 0x9C8C si se mueve = 0x01
+C 0x9C9C espera_segun_la_pantalla_53: B = 4 en la pantalla 0x53, 8 en las demas
+C 0x9CC8 espera_segun_la_pantalla_53: B = 4 en la pantalla 0x53, 8 en las demas
 C 0x9CCF guarda el cuadro del enemigo
 C 0x9CD2 guarda si se mueve
 C 0x9CE9 lee la PANTALLA
 C 0x9CEC la pantalla 0x53?
-C 0x9CF2 ENTRADA de SPS (tipo 0x2D), con su ficha en IX
 C 0x9D00 ENTRADA de REVOLVER (tipos 0x38, 0x39), con su ficha en IX
-C 0x9D17 sube el paso en que va
 C 0x9D1A la cuenta de cuadros = 0x00
-C 0x9D21 lee la cuenta de cuadros
+C 0x9D1E revolver_pinta_su_figura: su figura: 0x28x0x28 puntos desde (0xD8, 0xA8) con LMMM, 0x14 arriba y a la izquierda
 C 0x9D2C guarda el paso en que va
 C 0x9D38 lee la y del enemigo
 C 0x9D3E lee la x del enemigo
@@ -1110,10 +1179,10 @@ C 0x9D46 p00:hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A 
 C 0x9D4F lee la y del enemigo
 C 0x9D55 lee la x del enemigo
 C 0x9D5D p00:lmmm: orden LMMM del V9938: lo mismo con operacion logica (A: paginas y operacion; 8 = TIMP)
-C 0x9D60 lee la y del enemigo
 C 0x9D66 lee la x del enemigo
 C 0x9D6B p01:crea_una_figura: CREA UNA FIGURA: el tipo C en DE
 C 0x9D8C lee la cuenta de cuadros
+C 0x9D94 sps_recorre_las_fichas: IX = la ficha SPS con ix+0x15 = C; acarreo si no la hay
 C 0x9D97 lee la y del enemigo
 C 0x9D9A lee la x del enemigo
 C 0x9DA1 p01:crea_una_figura: CREA UNA FIGURA: el tipo C en DE
@@ -1137,34 +1206,27 @@ C 0x9E09 p00:hl_mas_a
 C 0x9E1A p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 C 0x9E33 lee el paso en que va
 C 0x9E36 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
-C 0x9E41 SPS, paso 1
 C 0x9E47 lee la PANTALLA
 C 0x9E4A la pantalla 0x5D?
 C 0x9E54 byte_18_9E62: 7 bytes: lo que p02:9E54 pone en ix+0x18 segun ix+0x15 + B
 C 0x9E57 p00:hl_mas_a
 C 0x9E5E sube el paso en que va
-C 0x9E69 SPS, paso 2
 C 0x9E6D sube el paso en que va
-C 0x9E75 SPS, paso 0
 C 0x9E78 la velocidad vertical = 0xFF
 C 0x9E80 sube el paso en que va
-C 0x9E84 SPS, paso 3
+C 0x9E86 sps_cuenta: IX = la parte ix+0x15 - 1
 C 0x9E9C p03:para_la_ficha: las dos velocidades a 0
 C 0x9EA2 p03:al_azar: A al azar: el registro R, con los nibbles cambiados, XOR el contador de cuadros
-C 0x9EDF apunta a las fichas de los enemigos (13 de 0x80)
 C 0x9EE5 lee el tipo del enemigo
 C 0x9EE8 SPS (tipo 0x2D)?
-C 0x9F46 lee el tipo del enemigo
 C 0x9F54 el cuadro del enemigo = 0x23
 C 0x9F58 sube si se mueve
 C 0x9F67 p01:hay_jefe: 0xC151 = 1: hay jefe
-C 0x9F6A lee el tipo del enemigo
 C 0x9F6D REDSPIDER (tipo 0x0B)?
 C 0x9F74 p03:al_azar: A al azar: el registro R, con los nibbles cambiados, XOR el contador de cuadros
 C 0x9F80 p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 C 0x9F8B ENTRADA de REDSPIDER y BIGSPIDER (tipos 0x0B, 0x0C), con su ficha en IX
 C 0x9F8E p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
-C 0x9F9D REDSPIDER y BIGSPIDER, paso 0
 C 0x9FA0 lee la y del enemigo
 C 0x9FAC lee la x del enemigo
 C 0x9FC8 sube el paso en que va
@@ -1172,7 +1234,6 @@ C 0x9FCF p03:para_la_ficha: las dos velocidades a 0
 C 0x9FDD lee la x del enemigo
 C 0x9FE0 lee la y del enemigo
 C 0x9FE5 p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
-C 0x9FE8 lee el tipo del enemigo
 C 0x9FEB REDSPIDER (tipo 0x0B)?
 C 0x9FF4 p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 # --- fin de las anotaciones de anota.py ---

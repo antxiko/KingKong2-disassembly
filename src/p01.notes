@@ -1490,7 +1490,7 @@ C 0x7B42 rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
 C 0x7B45 p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
 C 0x7B4E p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
 C 0x7B55 quita_la_ficha: se borra la ficha y sus sprites se dejan libres (y = 0xE0)
-C 0x7B8E p02:sps_recorre_las_fichas
+C 0x7B8E p02:sps_recorre_las_fichas: IX = la ficha SPS con ix+0x15 = C; acarreo si no la hay
 C 0x7BAA rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
 C 0x7BAD p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad horizontal y HL de vertical
 C 0x7BB2 p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
