@@ -2008,7 +2008,7 @@ fuerza_segun_level:
 	ld a,(0c12eh)		;b7ef   ; lee LEVEL, el nivel de Mitchel (BCD)
 	add a,010h		;b7f2
 	ld h,a			;b7f4
-	jp 0413ah		;b7f5
+	jp 0413ah		;b7f5   ; p00:puente_multiplica_en_bcd
 direccion_del_golpe:
 	ld a,(0c38fh)		;b7f8
 	cp 002h		;b7fb
@@ -2064,7 +2064,7 @@ DATA_tabla_B83B:
 lo_lanzado_da_a_la_ficha:
 	ld c,(ix+000h)		;b84b
 	call ficha_numero		;b84e   ; ficha_numero: IX = la ficha ix+0x1C (1-13) de 0xD000
-	call 04140h		;b851
+	call 04140h		;b851   ; p00:puente_cambia_el_enemigo_del_panel
 	call direccion_del_golpe		;b854
 	set 1,(ix+01eh)		;b857
 	ld hl,0c380h		;b85b   ; apunta a lo que lanza Mitchel (su ficha)
@@ -2089,21 +2089,21 @@ L_B878:
 	ret z			;b880
 	ld (0c398h),a		;b881
 	ld a,01eh		;b884
-	call 040e6h		;b886
+	call 040e6h		;b886   ; p00:puente_sonido_si_juega
 	ld e,018h		;b889
 	call golpea_a_la_ficha		;b88b   ; golpea_a_la_ficha: resta la fuerza (en BCD) de la vida de la ficha (ix+0x0D); a cero, muere
 	ret nc			;b88e
 	jr mitchel_golpea		;b88f
 L_B891:
 	ld a,01eh		;b891
-	call 040e6h		;b893
+	call 040e6h		;b893   ; p00:puente_sonido_si_juega
 	ld e,006h		;b896
 	call golpea_a_la_ficha		;b898   ; golpea_a_la_ficha: resta la fuerza (en BCD) de la vida de la ficha (ix+0x0D); a cero, muere
 	ret nc			;b89b
 	jr mitchel_golpea		;b89c
 L_B89E:
 	ld a,01eh		;b89e
-	call 040e6h		;b8a0
+	call 040e6h		;b8a0   ; p00:puente_sonido_si_juega
 	ld e,015h		;b8a3
 	call golpea_a_la_ficha		;b8a5   ; golpea_a_la_ficha: resta la fuerza (en BCD) de la vida de la ficha (ix+0x0D); a cero, muere
 	ld hl,0c380h		;b8a8   ; apunta a lo que lanza Mitchel (su ficha)
@@ -2154,17 +2154,17 @@ L_B8E8:
 	daa			;b8f7
 	jr c,L_B90C		;b8f8
 	ld (hl),a			;b8fa
-	call 04146h		;b8fb
-	call 04050h		;b8fe
+	call 04146h		;b8fb   ; p00:puente_escribe_level
+	call 04050h		;b8fe   ; p00:puente_borra_la_ventana_de_texto: LOS PUENTES. De seis bytes, `call X / jp 0x4215`: se llaman desde cualquier
 	ld hl,0bcb3h		;b901   ; subes_de_nivel: [x][y] "LEVEL が あがりました。" 0xFF: lo que p09:B901 escribe al subir de nivel
-	call 04056h		;b904
+	call 04056h		;b904   ; p00:puente_rotulo
 	ld a,080h		;b907
 	ld (0c162h),a		;b909
 L_B90C:
-	call 0414ch		;b90c
+	call 0414ch		;b90c   ; p00:puente_escribe_exp
 L_B90F:
 	ld c,(ix+000h)		;b90f
-	jp 04152h		;b912
+	jp 04152h		;b912   ; p00:puente_mata_la_ficha
 
 ; ----------------------------------------------------------------------
 ; DATOS level_de_cada_enemigo: 68 bytes, uno por tipo de enemigo (BCD): el
@@ -2185,7 +2185,7 @@ DATA_level_de_cada_enemigo:
 
 L_B959:
 	ld a,01fh		;b959
-	call 040e6h		;b95b
+	call 040e6h		;b95b   ; p00:puente_sonido_si_juega
 	ld hl,0c380h		;b95e   ; apunta a lo que lanza Mitchel (su ficha)
 	ld a,(hl)			;b961
 	sub 002h		;b962
@@ -2197,7 +2197,7 @@ efecto_sobre_lo_lanzado:
 	push ix		;b96a
 	push hl			;b96c
 	pop ix		;b96d
-	call 04158h		;b96f
+	call 04158h		;b96f   ; p00:puente_rebota_lo_lanzado
 	pop ix		;b972
 	ret			;b974
 efecto_de_lo_lanzado:
@@ -2306,10 +2306,10 @@ la_ficha_toca_a_mitchel:
 	ld c,(ix+000h)		;ba04
 	ld a,c			;ba07
 	cp 041h		;ba08
-	jp z,041a0h		;ba0a
+	jp z,041a0h		;ba0a   ; p00:puente_persigue_a_mitchel_83A7
 	cp 03dh		;ba0d
-	jp z,041dch		;ba0f
-	call 04140h		;ba12
+	jp z,041dch		;ba0f   ; p00:puente_cerca_de_mitchel_84C3
+	call 04140h		;ba12   ; p00:puente_cambia_el_enemigo_del_panel
 	set 0,(ix+01eh)		;ba15
 	ld a,(ix+000h)		;ba19
 	cp 00dh		;ba1c
@@ -2321,7 +2321,7 @@ la_ficha_toca_a_mitchel:
 	ld (hl),014h		;ba26
 	call empuja_a_mitchel		;ba28
 	ld a,00fh		;ba2b
-	call 040e6h		;ba2d
+	call 040e6h		;ba2d   ; p00:puente_sonido_si_juega
 	ld hl,0bc4eh		;ba30
 	ld a,(ix+000h)		;ba33
 	bit 7,a		;ba36
@@ -2329,7 +2329,7 @@ la_ficha_toca_a_mitchel:
 	ld hl,0bc92h		;ba3a
 L_BA3D:
 	and 07fh		;ba3d
-	call 0408ch		;ba3f
+	call 0408ch		;ba3f   ; p00:puente_hl_mas_a
 	ld de,0c129h		;ba42   ; apunta a LIFE, la vida de Mitchel (BCD)
 	ld a,(de)			;ba45
 	sub (hl)			;ba46
@@ -2340,19 +2340,19 @@ L_BA3D:
 	sbc a,000h		;ba4b
 	daa			;ba4d
 	ld (de),a			;ba4e
-	jp c,041a6h		;ba4f
-	jp nz,0415eh		;ba52
+	jp c,041a6h		;ba4f   ; p00:puente_mitchel_muere
+	jp nz,0415eh		;ba52   ; p00:puente_escribe_life
 	dec e			;ba55
 	ld a,(de)			;ba56
 	and a			;ba57
-	jp z,041a6h		;ba58
+	jp z,041a6h		;ba58   ; p00:puente_mitchel_muere
 	cp 006h		;ba5b
-	jp nc,0415eh		;ba5d
+	jp nc,0415eh		;ba5d   ; p00:puente_escribe_life
 	ld a,028h		;ba60
-	call 040e6h		;ba62
-	jp 0415eh		;ba65
+	call 040e6h		;ba62   ; p00:puente_sonido_si_juega
+	jp 0415eh		;ba65   ; p00:puente_escribe_life
 empuja_a_mitchel:
-	call 040e0h		;ba68
+	call 040e0h		;ba68   ; p00:puente_posicion_de_mitchel
 	ld hl,0c163h		;ba6b
 	ld (hl),004h		;ba6e
 	inc hl			;ba70
@@ -2393,13 +2393,13 @@ L_BA99:
 	ret			;ba9e
 golpe_a_la_ficha:
 	ld a,01eh		;ba9f
-	call 040e6h		;baa1
+	call 040e6h		;baa1   ; p00:puente_sonido_si_juega
 	ld c,(ix+000h)		;baa4
 	call ficha_numero		;baa7   ; ficha_numero: IX = la ficha ix+0x1C (1-13) de 0xD000
-	call 04140h		;baaa
+	call 04140h		;baaa   ; p00:puente_cambia_el_enemigo_del_panel
 	ld a,(0c306h)		;baad   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	ld hl,0bae4h		;bab0   ; byte_7e_BAE4: 4 bytes: lo que p09:BAB0 pone en ix+0x7E segun la direccion de Mitchel (0xC306)
-	call 0408ch		;bab3
+	call 0408ch		;bab3   ; p00:puente_hl_mas_a
 	ld a,(hl)			;bab6
 	ld (ix+07eh),a		;bab7
 	set 1,(ix+01eh)		;baba
@@ -2407,13 +2407,13 @@ golpe_a_la_ficha:
 	ld (0c324h),a		;bac0
 	call sirve_el_arma		;bac3
 	ld a,01fh		;bac6
-	jp nc,040e6h		;bac8
+	jp nc,040e6h		;bac8   ; p00:puente_sonido_si_juega
 	call armas_especiales		;bacb   ; armas_especiales: la espada de luz (4), el hacha (5) y el arpon (0x0B) van aparte
 	ld a,01fh		;bace
-	jp nc,040e6h		;bad0
+	jp nc,040e6h		;bad0   ; p00:puente_sonido_si_juega
 	ld a,(0c140h)		;bad3   ; lee SHOT1, el arma que se lleva (0 el puno)
 	ld hl,0bca7h		;bad6   ; fuerza_de_cada_arma: 12 bytes (BCD), uno por arma de SHOT1 (0xC140, 0 el puno): lo que p09:BAD6 pasa a p09:B7D6 al golpear
-	call 0408ch		;bad9
+	call 0408ch		;bad9   ; p00:puente_hl_mas_a
 	ld e,(hl)			;badc
 	call golpea_a_la_ficha		;badd   ; golpea_a_la_ficha: resta la fuerza (en BCD) de la vida de la ficha (ix+0x0D); a cero, muere
 	ret nc			;bae0
@@ -2635,16 +2635,16 @@ L_BBFF:
 	ld b,(ix+006h)		;bc00
 	call 04176h		;bc03   ; p00:puente_da_objeto_b: p01:79D0: da el objeto A, B unidades (al recogerlo del suelo, p09:BC03)
 	ld a,027h		;bc06
-	call 040e6h		;bc08
+	call 040e6h		;bc08   ; p00:puente_sonido_si_juega
 	ld a,03ch		;bc0b
 	ld (0c16dh),a		;bc0d
-	call 04050h		;bc10
+	call 04050h		;bc10   ; p00:puente_borra_la_ventana_de_texto: LOS PUENTES. De seis bytes, `call X / jp 0x4215`: se llaman desde cualquier
 	ld a,(ix+000h)		;bc13
-	call 041fah		;bc16
-	jp 04164h		;bc19
+	call 041fah		;bc16   ; p00:puente_escribe_has_cogido
+	jp 04164h		;bc19   ; p00:puente_quita_un_objeto_del_suelo
 recoge_oro:
 	ld a,026h		;bc1c
-	call 040e6h		;bc1e
+	call 040e6h		;bc1e   ; p00:puente_sonido_si_juega
 	ld hl,0c135h		;bc21   ; GOLD (0xC135-0xC136, BCD) + B; 9999 como mucho
 	ld a,(hl)			;bc24
 	add a,(ix+006h)		;bc25
@@ -2659,15 +2659,15 @@ recoge_oro:
 	ld hl,09999h		;bc33
 	ld (0c135h),hl		;bc36   ; guarda GOLD, los dos bytes bajos (BCD)
 L_BC39:
-	call 04164h		;bc39
-	jp 0416ah		;bc3c
+	call 04164h		;bc39   ; p00:puente_quita_un_objeto_del_suelo
+	jp 0416ah		;bc3c   ; p00:puente_escribe_gold
 L_BC3F:
 	ld a,(ix+002h)		;bc3f
 	and a			;bc42
 	ret nz			;bc43
 	ld (ix+002h),001h		;bc44
 	ld (ix+001h),002h		;bc48
-	jp 04170h		;bc4c
+	jp 04170h		;bc4c   ; p00:puente_conversacion_de_la_pantalla
 
 ; ----------------------------------------------------------------------
 ; DATOS fuerza_de_cada_enemigo: 68 bytes, uno por tipo de enemigo: la fuerza
@@ -2799,7 +2799,7 @@ pantallas_73_a_77:
 	cp 005h		;bdbe
 	ret nz			;bdc0
 L_BDC1:
-	call 040e0h		;bdc1
+	call 040e0h		;bdc1   ; p00:puente_posicion_de_mitchel
 	ld a,e			;bdc4
 	and 007h		;bdc5
 	ret nz			;bdc7
@@ -2818,7 +2818,7 @@ L_BDD5:
 	sub 008h		;bdda
 	ld h,a			;bddc
 	ld d,a			;bddd
-	call 041cah		;bdde
+	call 041cah		;bdde   ; p00:puente_casilla_en_ram
 	ld a,(hl)			;bde1
 	cp 0f0h		;bde2
 	ret nz			;bde4
@@ -2830,14 +2830,14 @@ L_BDEA:
 	inc hl			;bded
 	ld (hl),a			;bdee
 	ld a,01fh		;bdef
-	call 0408ch		;bdf1
+	call 0408ch		;bdf1   ; p00:puente_hl_mas_a
 	djnz L_BDEA		;bdf4
 	ld a,020h		;bdf6
-	call 040e6h		;bdf8
+	call 040e6h		;bdf8   ; p00:puente_sonido_si_juega
 	ld hl,010a8h		;bdfb
 	ld bc,01018h		;bdfe
 	ld a,001h		;be01
-	jp 041f4h		;be03
+	jp 041f4h		;be03   ; p00:puente_hmmm
 delante_segun_la_direccion:
 	ld a,(0c306h)		;be06   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	and a			;be09
@@ -2896,7 +2896,7 @@ L_BE55:
 	djnz L_BE2F		;be5c
 	ret			;be5e
 lo_lanzado_toca_a_mitchel:
-	call 040e0h		;be5f
+	call 040e0h		;be5f   ; p00:puente_posicion_de_mitchel
 	ld ix,0c380h		;be62   ; apunta a lo que lanza Mitchel (su ficha)
 	ld a,(ix+000h)		;be66
 	cp 003h		;be69
@@ -2930,7 +2930,7 @@ L_BE92:
 	ld a,(0c372h)		;be97
 	and a			;be9a
 	ret z			;be9b
-	call 040e0h		;be9c
+	call 040e0h		;be9c   ; p00:puente_posicion_de_mitchel
 	ld a,e			;be9f
 	sub 020h		;bea0
 	cp 021h		;bea2
@@ -2944,7 +2944,7 @@ L_BE92:
 	ld de,07828h		;beaf
 	ld hl,0bec4h		;beb2   ; figura_BEC4: 2x2 dibujos 0x62 que p09:BEB2 pinta en (0x28, 0x78) antes de poner alli el objeto 0x13
 	ld bc,00202h		;beb5
-	call 041c4h		;beb8
+	call 041c4h		;beb8   ; p00:puente_pinta_figura_sin_bancos
 	ld de,08030h		;bebb
 	ld bc,00113h		;bebe
 	jp 0419ah		;bec1   ; p00:puente_pon_objeto: p01:7852: pone el objeto C (B unidades) en (E, D) de la pantalla
@@ -2962,7 +2962,7 @@ DATA_figura_BEC4:
 
 
 toca_los_objetos:
-	call 040e0h		;bec8
+	call 040e0h		;bec8   ; p00:puente_posicion_de_mitchel
 	ld ix,0c400h		;becb   ; apunta a los objetos del suelo (4 fichas de 16 bytes)
 	ld b,004h		;becf
 	ld hl,01c0eh		;bed1
@@ -3035,7 +3035,7 @@ fichas_contra_mitchel:
 	xor a			;bf47
 	ld (0c168h),a		;bf48
 	ld (0c161h),a		;bf4b
-	call 040e0h		;bf4e
+	call 040e0h		;bf4e   ; p00:puente_posicion_de_mitchel
 	ld ix,0d000h		;bf51   ; apunta a las fichas de los enemigos (13 de 0x80)
 	ld b,00dh		;bf55
 L_BF57:
@@ -3111,11 +3111,11 @@ L_BFC7:
 	djnz L_BFA0		;bfce
 	ret			;bfd0
 delante_de_mitchel:
-	call 040e0h		;bfd1
+	call 040e0h		;bfd1   ; p00:puente_posicion_de_mitchel
 	ld a,(0c306h)		;bfd4   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	add a,a			;bfd7
 	ld hl,0bfe6h		;bfd8   ; pasos_BFE6: 4 parejas [dx][dy] segun la direccion de Mitchel (p09:BFD8)
-	call 0408ch		;bfdb
+	call 0408ch		;bfdb   ; p00:puente_hl_mas_a
 	ld a,e			;bfde
 	add a,(hl)			;bfdf
 	ld e,a			;bfe0

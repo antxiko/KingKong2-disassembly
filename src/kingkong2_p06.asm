@@ -251,7 +251,7 @@ L_A649:
 	ld a,(0c139h)		;a649   ; lee el paso del suceso de p06:A649
 	ld hl,0a658h		;a64c   ; tabla_A658: 6 palabras: a donde salta p06:A649 segun 0xC139 (p06:A664, A674, A683, A699, A6A0 y A6AC)
 	add a,a			;a64f
-	call 0408ch		;a650
+	call 0408ch		;a650   ; p00:puente_hl_mas_a
 	ld e,(hl)			;a653
 	inc hl			;a654
 	ld d,(hl)			;a655
@@ -273,7 +273,7 @@ DATA_tabla_A658:
 L_A664:
 	ld bc,00404h		;a664
 	ld de,04888h		;a667
-	call 0410ah		;a66a
+	call 0410ah		;a66a   ; p00:puente_pinta_figura_BA05
 	ld a,002h		;a66d
 	ld (0c307h),a		;a66f
 	jr L_A67E		;a672
@@ -295,7 +295,7 @@ L_A683:
 	jr z,L_A67B		;a689
 	ld a,(hl)			;a68b
 	ld hl,0a6bfh		;a68c   ; saltito_A6BF: 16 bytes que p06:A68C suma a la y de Mitchel (0xC303) segun 0xC13A: un saltito arriba y abajo
-	call 0408ch		;a68f
+	call 0408ch		;a68f   ; p00:puente_hl_mas_a
 	ld a,(hl)			;a692
 	ld hl,0c303h		;a693   ; apunta a la Y de Mitchel
 	add a,(hl)			;a696
@@ -311,7 +311,7 @@ L_A6A0:
 	cp 059h		;a6a3
 	jr c,L_A67E		;a6a5
 	ld a,001h		;a6a7
-	jp 04104h		;a6a9
+	jp 04104h		;a6a9   ; p00:puente_guarda_las_teclas
 L_A6AC:
 	ld a,0f0h		;a6ac
 	ld (0e22ah),a		;a6ae
@@ -339,7 +339,7 @@ L_A6CF:
 	call aclara_la_paleta		;a6d1
 	ret nc			;a6d4
 	call limpia_para_el_final		;a6d5
-	call 04206h		;a6d8
+	call 04206h		;a6d8   ; p00:puente_sube_los_colores_de_sprite
 	call elige_el_final		;a6db   ; elige_el_final: Sube los 77 dibujos de la escena (p06:AF41) y elige el final (0xC137):
 	ld a,020h		;a6de
 L_A6E0:
@@ -350,14 +350,14 @@ L_A6E3:
 	ret			;a6e7
 L_A6E8:
 	djnz L_A702		;a6e8
-	call 041d6h		;a6ea
-	call 04206h		;a6ed
+	call 041d6h		;a6ea   ; p00:puente_copia_lineas_a_la_pagina_1
+	call 04206h		;a6ed   ; p00:puente_sube_los_colores_de_sprite
 	call escena_del_final		;a6f0   ; escena_del_final: 0xC137: el final (0, 1 o 2)
 	ld a,(0c137h)		;a6f3   ; lee en el final, cual de los tres (0, 1 o 2; 3 acabado)
 	cp 003h		;a6f6
 	ret nz			;a6f8
 	ld hl,0a879h		;a6f9   ; paleta_A879: paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00
-	call 040f2h		;a6fc
+	call 040f2h		;a6fc   ; p00:puente_pon_paleta
 	jp L_A6E3		;a6ff
 L_A702:
 	djnz L_A71D		;a702
@@ -365,7 +365,7 @@ L_A702:
 	ret nc			;a707
 	call limpia_para_el_final		;a708
 	ld hl,0a879h		;a70b   ; paleta_A879: paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00
-	call 040f2h		;a70e
+	call 040f2h		;a70e   ; p00:puente_pon_paleta
 	ld hl,0af39h		;a711   ; texto_AF39: texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD)
 	ld de,06060h		;a714
 	call empieza_texto		;a717   ; empieza_texto: HL el texto, DE donde; una letra cada 4 cuadros
@@ -377,7 +377,7 @@ L_A71D:
 	and a			;a725
 	ret z			;a726
 	ld a,0ffh		;a727
-	call 040e6h		;a729
+	call 040e6h		;a729   ; p00:puente_sonido_si_juega
 	xor a			;a72c
 	jp L_A6E0		;a72d
 L_A730:
@@ -398,9 +398,9 @@ L_A749:
 	djnz L_A769		;a749
 	call aclara_la_paleta		;a74b
 	ret nc			;a74e
-	call 0409eh		;a74f
-	call 04116h		;a752
-	call 04188h		;a755
+	call 0409eh		;a74f   ; p00:puente_limpia_la_pantalla
+	call 04116h		;a752   ; p00:puente_espera_al_vdp
+	call 04188h		;a755   ; p00:puente_paleta_inicial
 	xor a			;a758
 	ld (0c102h),a		;a759   ; guarda las banderas de la partida (bit 6: de verdad, no la demostracion)
 	ld (0c100h),a		;a75c   ; guarda el ESTADO del juego
@@ -416,8 +416,8 @@ L_A769:
 	call paleta_del_final_A794		;a76e
 	jp L_A6E3		;a771
 limpia_para_el_final:
-	call 0409eh		;a774
-	call 04116h		;a777
+	call 0409eh		;a774   ; p00:puente_limpia_la_pantalla
+	call 04116h		;a777   ; p00:puente_espera_al_vdp
 	ld hl,0e600h		;a77a   ; apunta a los atributos de los sprites, para la VRAM
 	ld de,0e601h		;a77d
 	ld (hl),0e0h		;a780
@@ -462,7 +462,7 @@ DATA_paleta_A794:
 aclara_la_paleta:
 	call sube_un_tono		;a7c5
 	ld hl,0cf00h		;a7c8
-	call 040f2h		;a7cb
+	call 040f2h		;a7cb   ; p00:puente_pon_paleta
 	ld hl,0cf01h		;a7ce
 	ld b,010h		;a7d1
 	xor a			;a7d3
@@ -534,7 +534,7 @@ L_A824:
 	inc hl			;a826
 	ld e,(hl)			;a827
 	ld a,00eh		;a828
-	call 040f8h		;a82a
+	call 040f8h		;a82a   ; p00:puente_pon_un_color
 	ld a,(0cf00h)		;a82d
 	ld hl,0cf01h		;a830
 	or (hl)			;a833
@@ -552,8 +552,8 @@ elige_el_final:
 	ld de,08004h		;a837
 	ld hl,0af41h		;a83a   ; dibujos_del_final: 77 dibujos de 8x8 a 4 bits de la escena del final; p06:A83F los sube a la hoja de la pagina 1 desde (8, 0) con p00:48A6
 	ld b,04dh		;a83d
-	call 0411ch		;a83f
-	call 041b8h		;a842
+	call 0411ch		;a83f   ; p00:puente_sube_dibujos
+	call 041b8h		;a842   ; p00:puente_sube_sprites_4C92
 	ld hl,(0c127h)		;a845   ; DAYS
 	ld a,h			;a848
 	cp 003h		;a849   ; las centenas: 3...
@@ -579,9 +579,9 @@ L_A869:
 	ld h,000h		;a86a
 	ld (0c137h),hl		;a86c   ; 0xC137 = final, 0xC138 = 0 (el paso)
 	ld a,c			;a86f
-	call 040e6h		;a870
+	call 040e6h		;a870   ; p00:puente_sonido_si_juega
 	ld hl,0a879h		;a873   ; paleta_A879: paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00
-	jp 040f2h		;a876
+	jp 040f2h		;a876   ; p00:puente_pon_paleta
 
 ; ----------------------------------------------------------------------
 ; DATOS paleta_A879: paleta del final: [color][RB][G] ... 0xFF (p00:46CF);
@@ -616,7 +616,7 @@ escena_del_final:
 	ld hl,0a8b9h		;a8ad   ; finales: 3 palabras: la escena de cada final (0xC137 = 0, 1 o 2) que reparte p06:A8AA
 salta_por_la_tabla:
 	add a,a			;a8b0
-	call 0408ch		;a8b1
+	call 0408ch		;a8b1   ; p00:puente_hl_mas_a
 	ld e,(hl)			;a8b4
 	inc hl			;a8b5
 	ld d,(hl)			;a8b6
@@ -697,10 +697,10 @@ L_A930:
 L_A933:
 	call aclara_la_paleta		;a933
 	ret nc			;a936
-	call 0409eh		;a937
-	call 04116h		;a93a
+	call 0409eh		;a937   ; p00:puente_limpia_la_pantalla
+	call 04116h		;a93a   ; p00:puente_espera_al_vdp
 	ld hl,0a879h		;a93d   ; paleta_A879: paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00
-	call 040f2h		;a940
+	call 040f2h		;a940   ; p00:puente_pon_paleta
 	ld hl,0ade1h		;a943   ; texto_ADE1: texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD)
 	ld de,03098h		;a946
 	call empieza_texto		;a949   ; empieza_texto: HL el texto, DE donde; una letra cada 4 cuadros
@@ -770,7 +770,7 @@ L_A99B:
 	ld e,a			;a9b8
 	ld bc,00801h		;a9b9
 	ld a,048h		;a9bc
-	call 04182h		;a9be
+	call 04182h		;a9be   ; p00:puente_lmmm
 	pop bc			;a9c1
 	ld a,c			;a9c2
 	ld h,010h		;a9c3
@@ -780,7 +780,7 @@ L_A99B:
 	ld e,a			;a9ca
 	ld bc,00801h		;a9cb
 	ld a,048h		;a9ce
-	jp 04182h		;a9d0
+	jp 04182h		;a9d0   ; p00:puente_lmmm
 L_A9D3:
 	ld hl,0ae6fh		;a9d3   ; texto_AE6F: texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD)
 	ld de,02098h		;a9d6
@@ -793,28 +793,28 @@ L_A9E2:
 L_A9E5:
 	call aclara_la_paleta		;a9e5
 	ret nc			;a9e8
-	call 0409eh		;a9e9
-	call 04116h		;a9ec
+	call 0409eh		;a9e9   ; p00:puente_limpia_la_pantalla
+	call 04116h		;a9ec   ; p00:puente_espera_al_vdp
 	ld hl,0a879h		;a9ef   ; paleta_A879: paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00
-	call 040f2h		;a9f2
+	call 040f2h		;a9f2   ; p00:puente_pon_paleta
 	ld hl,05b3eh		;a9f5
 	ld de,04a2ah		;a9f8
 	ld c,00ch		;a9fb
-	call 0417ch		;a9fd
+	call 0417ch		;a9fd   ; p00:puente_marco
 	ld hl,05a3dh		;aa00
 	ld de,04c2ch		;aa03
 	ld c,003h		;aa06
-	call 0417ch		;aa08
+	call 0417ch		;aa08   ; p00:puente_marco
 	ld hl,0593ch		;aa0b
 	ld de,04e2eh		;aa0e
 	ld c,00dh		;aa11
-	call 0417ch		;aa13
+	call 0417ch		;aa13   ; p00:puente_marco
 	ld hl,05c3fh		;aa16
 	ld bc,04828h		;aa19
 	ld a,088h		;aa1c
 	ld d,000h		;aa1e
-	call 0407ah		;aa20
-	call 04128h		;aa23
+	call 0407ah		;aa20   ; p00:puente_hmmv
+	call 04128h		;aa23   ; p00:puente_pinta_figura_BA38
 	ld hl,0aea4h		;aa26   ; texto_AEA4: texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD)
 	ld de,02098h		;aa29
 	call empieza_texto		;aa2c   ; empieza_texto: HL el texto, DE donde; una letra cada 4 cuadros
@@ -871,9 +871,9 @@ L_AA98:
 L_AA9B:
 	call oscurece_la_paleta		;aa9b
 	ret nc			;aa9e
-	call 04110h		;aa9f
+	call 04110h		;aa9f   ; p00:puente_borra_la_parte_de_abajo
 	ld hl,0a879h		;aaa2   ; paleta_A879: paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00
-	call 040f2h		;aaa5
+	call 040f2h		;aaa5   ; p00:puente_pon_paleta
 	ld a,010h		;aaa8
 	ld (0cf39h),a		;aaaa
 	ld hl,0af03h		;aaad   ; texto_AF03: texto del final: letras de la fuente, 0xFE [x] salta de renglon, 0xFF acaba (p06:AADD)
@@ -915,7 +915,7 @@ escribe_una_letra:
 	ld a,c			;aaf3
 	ld c,0ffh		;aaf4
 	ld de,(0cf33h)		;aaf6
-	call 040feh		;aafa
+	call 040feh		;aafa   ; p00:puente_escribe_una_letra
 	ld hl,(0cf31h)		;aafd
 	inc hl			;ab00
 	ld (0cf31h),hl		;ab01
@@ -959,22 +959,22 @@ L_AB33:
 	ld (hl),007h		;ab41
 	jp L_A957		;ab43
 escena_del_final_AB46:
-	call 04110h		;ab46
+	call 04110h		;ab46   ; p00:puente_borra_la_parte_de_abajo
 	ld hl,0a879h		;ab49   ; paleta_A879: paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00
-	call 040f2h		;ab4c
+	call 040f2h		;ab4c   ; p00:puente_pon_paleta
 	ld hl,05b3eh		;ab4f
 	ld de,04a2ah		;ab52
 	ld c,00ch		;ab55
-	call 0417ch		;ab57
+	call 0417ch		;ab57   ; p00:puente_marco
 	ld hl,05a3dh		;ab5a
 	ld de,04c2ch		;ab5d
 	ld c,003h		;ab60
-	call 0417ch		;ab62
+	call 0417ch		;ab62   ; p00:puente_marco
 	ld hl,0593ch		;ab65
 	ld de,04e2eh		;ab68
 	ld c,00dh		;ab6b
-	call 0417ch		;ab6d
-	jp 04122h		;ab70
+	call 0417ch		;ab6d   ; p00:puente_marco
+	jp 04122h		;ab70   ; p00:puente_pinta_figura_BA15
 L_AB73:
 	ld hl,0c104h		;ab73   ; apunta a la espera del estado, en cuadros
 	dec (hl)			;ab76
@@ -985,52 +985,52 @@ L_AB73:
 	ldir		;ab81
 	jp L_A957		;ab83
 escena_del_final_AB86:
-	call 0409eh		;ab86
-	call 04116h		;ab89
+	call 0409eh		;ab86   ; p00:puente_limpia_la_pantalla
+	call 04116h		;ab89   ; p00:puente_espera_al_vdp
 	ld hl,0a879h		;ab8c   ; paleta_A879: paleta del final: [color][RB][G] ... 0xFF (p00:46CF); p06:A73B y p06:A788 la copian a 0xCF00
-	call 040f2h		;ab8f
+	call 040f2h		;ab8f   ; p00:puente_pon_paleta
 	ld hl,0371eh		;ab92
 	ld de,09262h		;ab95
 	ld c,00ch		;ab98
-	call 0417ch		;ab9a
+	call 0417ch		;ab9a   ; p00:puente_marco
 	ld hl,0361dh		;ab9d
 	ld de,09464h		;aba0
 	ld c,003h		;aba3
-	call 0417ch		;aba5
+	call 0417ch		;aba5   ; p00:puente_marco
 	ld hl,0351ch		;aba8
 	ld de,09666h		;abab
 	ld c,00dh		;abae
-	call 0417ch		;abb0
+	call 0417ch		;abb0   ; p00:puente_marco
 	ld hl,0381fh		;abb3
 	ld bc,09060h		;abb6
 	ld a,0ffh		;abb9
 	ld d,000h		;abbb
-	call 0407ah		;abbd
+	call 0407ah		;abbd   ; p00:puente_hmmv
 	ld de,03860h		;abc0
-	call 0412eh		;abc3
+	call 0412eh		;abc3   ; p00:puente_pinta_figura_BA4C
 	ld de,07060h		;abc6
-	call 0412eh		;abc9
-	call 04134h		;abcc
+	call 0412eh		;abc9   ; p00:puente_pinta_figura_BA4C
+	call 04134h		;abcc   ; p00:puente_pinta_figura_BA68
 	ld hl,04810h		;abcf
 	ld de,05030h		;abd2
 	ld bc,01808h		;abd5
 	ld a,048h		;abd8
-	call 04182h		;abda
+	call 04182h		;abda   ; p00:puente_lmmm
 	ld hl,04810h		;abdd
 	ld de,09840h		;abe0
 	ld bc,01808h		;abe3
 	ld a,048h		;abe6
-	call 04182h		;abe8
+	call 04182h		;abe8   ; p00:puente_lmmm
 	ld hl,04010h		;abeb   ; p00:cabecera_de_konami: 'CD', 0x07 y 0x45: la cabecera que lee el Konami Game Master (RC-745)
 	ld de,05838h		;abee
 	ld bc,00808h		;abf1
 	ld a,048h		;abf4
-	call 04182h		;abf6
+	call 04182h		;abf6   ; p00:puente_lmmm
 	ld hl,04010h		;abf9   ; p00:cabecera_de_konami: 'CD', 0x07 y 0x45: la cabecera que lee el Konami Game Master (RC-745)
 	ld de,0a048h		;abfc
 	ld bc,00808h		;abff
 	ld a,048h		;ac02
-	jp 04182h		;ac04
+	jp 04182h		;ac04   ; p00:puente_lmmm
 fin_de_la_escena:
 	ld hl,0c104h		;ac07   ; apunta a la espera del estado, en cuadros
 	dec (hl)			;ac0a
@@ -2035,7 +2035,7 @@ prepara_el_titulo:
 	call 0409eh		;b970   ; borra la pagina 0, pone la paleta de p06:BA6F y sube las letras del rotulo
 	ld bc,00007h		;b973
 	call 00047h		;b976   ; BIOS WRTVDP - Writes data in the VDP-register
-	call 041ach		;b979
+	call 041ach		;b979   ; p00:puente_modo_de_pantalla
 	ld b,00bh		;b97c
 	ld hl,0ba6eh		;b97e   ; paleta_del_titulo: 11 bytes que p06:B97C copia a 0xDFB0 (contador y [color][RB][G] x3 + 0xFF), la lista de p06:B98D
 	ld de,0dfb0h		;b981
@@ -2046,22 +2046,22 @@ L_B984:
 	inc de			;b987
 	djnz L_B984		;b988
 	ld hl,0ba6fh		;b98a
-	call 040f2h		;b98d
+	call 040f2h		;b98d   ; p00:puente_pon_paleta
 	call banco_5_en_8000		;b990
 	ld hl,0a2a1h		;b993   ; titulo_A2A1: 36 letras de 1 bit del rotulo del titulo (color 6); p06:B993
 	ld de,00800h		;b996
 	ld bc,02406h		;b999
-	call 041b2h		;b99c
+	call 041b2h		;b99c   ; p00:puente_sube_letras
 	call banco_5_en_8000		;b99f
 	ld hl,0a3c1h		;b9a2   ; titulo_A3C1: 52 letras de 1 bit del rotulo del titulo (color 5); p06:B993
 	ld de,02808h		;b9a5
 	ld bc,03405h		;b9a8
-	call 041b2h		;b9ab
+	call 041b2h		;b9ab   ; p00:puente_sube_letras
 	call banco_5_en_8000		;b9ae
 	ld hl,0a561h		;b9b1   ; titulo_A561: 29 letras de 1 bit del rotulo del titulo (color 8); p06:B993
 	ld de,0c810h		;b9b4
 	ld bc,01d08h		;b9b7
-	jp 041b2h		;b9ba
+	jp 041b2h		;b9ba   ; p00:puente_sube_letras
 banco_5_en_8000:
 	di			;b9bd
 	ld a,005h		;b9be
@@ -2101,9 +2101,9 @@ L_B9F4:
 	jr L_BA40		;b9f6
 L_B9F8:
 	ld a,003h		;b9f8
-	call 0408ch		;b9fa
+	call 0408ch		;b9fa   ; p00:puente_hl_mas_a
 	ld a,003h		;b9fd
-	call 04098h		;b9ff
+	call 04098h		;b9ff   ; p00:puente_de_mas_a
 	jr L_B9E7		;ba02
 L_BA04:
 	ld a,002h		;ba04
@@ -2127,9 +2127,9 @@ L_BA1E:
 	jr L_BA40		;ba20
 L_BA22:
 	ld a,003h		;ba22
-	call 0408ch		;ba24
+	call 0408ch		;ba24   ; p00:puente_hl_mas_a
 	ld a,003h		;ba27
-	call 04098h		;ba29
+	call 04098h		;ba29   ; p00:puente_de_mas_a
 	jr L_BA13		;ba2c
 L_BA2E:
 	xor a			;ba2e
@@ -2144,7 +2144,7 @@ L_BA2E:
 	jr L_BA13		;ba3e
 L_BA40:
 	ld hl,0dfb1h		;ba40
-	jp 040f2h		;ba43
+	jp 040f2h		;ba43   ; p00:puente_pon_paleta
 L_BA46:
 	ld a,(0c104h)		;ba46   ; lee la espera del estado, en cuadros
 	ld b,a			;ba49
@@ -2155,7 +2155,7 @@ L_BA46:
 	jr z,L_BA57		;ba52
 	ld hl,0ba64h		;ba54   ; brillo_BA64: [color][RB][G] ... 0xFF: a donde sube (y con que parpadea) el rotulo (p06:B9C8, p06:BA46)
 L_BA57:
-	jp 040f2h		;ba57
+	jp 040f2h		;ba57   ; p00:puente_pon_paleta
 
 ; ----------------------------------------------------------------------
 ; DATOS brillo_BA5A: [color][RB][G] ... 0xFF: a donde sube (y con que
@@ -2196,7 +2196,7 @@ L_BA79:
 	ld de,06606h		;ba7e
 L_BA81:
 	ld a,00fh		;ba81
-	call 040f8h		;ba83
+	call 040f8h		;ba83   ; p00:puente_pon_un_color
 	dec e			;ba86
 	dec e			;ba87
 	ld a,d			;ba88
@@ -2209,19 +2209,19 @@ L_BA8F:
 	or l			;ba91
 	jr nz,L_BA8F		;ba92
 	djnz L_BA81		;ba94
-	call 0406eh		;ba96
+	call 0406eh		;ba96   ; p00:puente_apaga_la_pantalla
 	ld bc,00405h		;ba99
 	ld hl,0b8e8h		;ba9c   ; titulo_figura_B8E8: 4 columnas x 5 filas de dibujos del rotulo (p06:BA99, con transparencia)
 	ld de,01820h		;ba9f
-	call 041c4h		;baa2
+	call 041c4h		;baa2   ; p00:puente_pinta_figura_sin_bancos
 	ld bc,00305h		;baa5
 	ld hl,0b91fh		;baa8   ; titulo_figura_B91F: 3 columnas x 5 filas de dibujos del rotulo (p06:BA99, con transparencia)
 	ld de,07020h		;baab
-	call 041c4h		;baae
+	call 041c4h		;baae   ; p00:puente_pinta_figura_sin_bancos
 	ld bc,00506h		;bab1
 	ld hl,0b92eh		;bab4   ; titulo_figura_B92E: 5 columnas x 6 filas de dibujos del rotulo (p06:BA99, con transparencia)
 	ld de,0c020h		;bab7
-	call 041c4h		;baba
+	call 041c4h		;baba   ; p00:puente_pinta_figura_sin_bancos
 	ld de,03820h		;babd
 	call pinta_figura_del_titulo_B8FC		;bac0
 	ld de,08820h		;bac3
@@ -2229,14 +2229,14 @@ L_BA8F:
 	ld bc,00c03h		;bac9
 	ld hl,0b94ch		;bacc   ; titulo_figura_B94C: 12 columnas x 3 filas de dibujos del rotulo (p06:BA99, con transparencia)
 	ld de,05058h		;bacf
-	call 041c4h		;bad2
+	call 041c4h		;bad2   ; p00:puente_pinta_figura_sin_bancos
 	ld hl,0bae7h		;bad5   ; creditos: los creditos del titulo: [x][y] letras, 0xFE otra posicion, 0xFF acaba (p00:4915)
-	call 04056h		;bad8
-	jp 04086h		;badb
+	call 04056h		;bad8   ; p00:puente_rotulo
+	jp 04086h		;badb   ; p00:puente_enciende_la_pantalla
 pinta_figura_del_titulo_B8FC:
 	ld bc,00705h		;bade
 	ld hl,0b8fch		;bae1   ; titulo_figura_B8FC: 7 columnas x 5 filas de dibujos del rotulo (p06:BA99, con transparencia)
-	jp 041c4h		;bae4
+	jp 041c4h		;bae4   ; p00:puente_pinta_figura_sin_bancos
 
 ; ----------------------------------------------------------------------
 ; DATOS creditos: los creditos del titulo: [x][y] letras, 0xFE otra posicion,
@@ -2339,7 +2339,7 @@ L_BBEF:
 	ld hl,0bc05h		;bbf9   ; figura_BC05: 2x2 numeros de dibujo que p06:BBF9 pinta en (0x28, 0x78) mientras no se tiene el objeto 0x13 (0xC352)
 	ld de,07828h		;bbfc
 	ld bc,00202h		;bbff
-	jp 041c4h		;bc02
+	jp 041c4h		;bc02   ; p00:puente_pinta_figura_sin_bancos
 
 ; ----------------------------------------------------------------------
 ; DATOS figura_BC05: 2x2 numeros de dibujo que p06:BBF9 pinta en (0x28, 0x78)
@@ -2431,12 +2431,12 @@ L_BD64:
 	ld a,(0c133h)		;bd69
 	and a			;bd6c
 	ret nz			;bd6d
-	call 040e0h		;bd6e
+	call 040e0h		;bd6e   ; p00:puente_posicion_de_mitchel
 	ex de,hl			;bd71
 	ld a,0f8h		;bd72
 	add a,l			;bd74
 	ld l,a			;bd75
-	call 041cah		;bd76
+	call 041cah		;bd76   ; p00:puente_casilla_en_ram
 	ld a,(hl)			;bd79
 	inc a			;bd7a
 	ret nz			;bd7b
@@ -2455,7 +2455,7 @@ L_BD64:
 	ret nz			;bd8a
 	ld a,(0c303h)		;bd8b   ; lee la Y de Mitchel
 	and 007h		;bd8e
-	jp z,041a6h		;bd90
+	jp z,041a6h		;bd90   ; p00:puente_mitchel_muere
 	add hl,de			;bd93
 	ld a,(hl)			;bd94
 	inc a			;bd95
@@ -2463,7 +2463,7 @@ L_BD64:
 	ld a,(hl)			;bd97
 	inc a			;bd98
 	ret nz			;bd99
-	jp 041a6h		;bd9a
+	jp 041a6h		;bd9a   ; p00:puente_mitchel_muere
 L_BD9D:
 	ld a,(0c133h)		;bd9d
 	and a			;bda0
@@ -2479,7 +2479,7 @@ L_BD9D:
 	ld h,a			;bdb2
 	and 007h		;bdb3
 	ret nz			;bdb5
-	call 041cah		;bdb6
+	call 041cah		;bdb6   ; p00:puente_casilla_en_ram
 	ld a,(hl)			;bdb9
 	sub 0c0h		;bdba
 	cp 004h		;bdbc
@@ -2525,7 +2525,7 @@ L_BDE7:
 	ld (0c201h),a		;bdf4   ; guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
 	ld (0c14fh),a		;bdf7
 	ld a,024h		;bdfa
-	jp 040e6h		;bdfc
+	jp 040e6h		;bdfc   ; p00:puente_sonido_si_juega
 
 ; ----------------------------------------------------------------------
 ; DATOS codigo_BDFF: codigo al que no se llega (p06:BDFC acaba en un jp): mira
@@ -2579,7 +2579,7 @@ L_BE87:
 	cp (hl)			;be90
 	ret nz			;be91
 	inc hl			;be92
-	call 040e0h		;be93
+	call 040e0h		;be93   ; p00:puente_posicion_de_mitchel
 	ld a,e			;be96
 	cp (hl)			;be97
 	ret c			;be98

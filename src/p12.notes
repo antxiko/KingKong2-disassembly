@@ -515,6 +515,7 @@ C 0xB566 guarda la linea de la conversacion
 C 0xB56C elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
 C 0xB577 p00:puente_da_un_objeto: p01:79CE: da el objeto A, una unidad (lo usan las conversaciones de p12)
 C 0xB57E guarda MP, la magia (BCD, hasta 99)
+C 0xB581 p00:puente_pinta_el_panel
 C 0xB587 elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
 C 0xB593 cobra: Cobra DE (BCD) del oro 0xC135-0xC137. Acarreo = no hay bastante; con
 C 0xB59A guarda la linea de la conversacion
@@ -560,6 +561,7 @@ C 0xB6DA guarda la linea de la conversacion
 C 0xB6DF guarda la linea a la que se salta tras la accion
 C 0xB6E5 elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
 C 0xB6EE gasta_un_0x15: 0xC354: el objeto 0x15
+C 0xB6F4 p00:puente_borra_la_ventana_de_texto: LOS PUENTES. De seis bytes, `call X / jp 0x4215`: se llaman desde cualquier
 C 0xB703 guarda la linea de la conversacion
 C 0xB715 guarda la ENFERMEDAD (la picadura)
 C 0xB71B lee cuantos objetos 0x21 se llevan (BCD; 0xFF sin cuenta)
@@ -591,6 +593,7 @@ C 0xB7EB cobra: Cobra DE (BCD) del oro 0xC135-0xC137. Acarreo = no hay bastante;
 C 0xB7F7 guarda la linea a la que se salta tras la accion
 C 0xB7FD elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
 C 0xB809 cobra: Cobra DE (BCD) del oro 0xC135-0xC137. Acarreo = no hay bastante; con
+C 0xB82F p00:puente_pinta_el_panel
 C 0xB834 guarda la linea de la conversacion
 C 0xB842 guarda la linea de la conversacion
 C 0xB847 p00:puente_da_un_objeto: p01:79CE: da el objeto A, una unidad (lo usan las conversaciones de p12)
@@ -612,45 +615,93 @@ C 0xB8B1 elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera,
 C 0xB8BC guarda la PANTALLA
 C 0xB8C1 guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
 C 0xB8CA guarda el punto de entrada (y, x)
+C 0xB8CD p00:puente_borra_la_ventana_de_texto: LOS PUENTES. De seis bytes, `call X / jp 0x4215`: se llaman desde cualquier
 C 0xB8D0 el objeto 0x0E, まかぷら
 C 0xB8D2 p00:puente_da_un_objeto: p01:79CE: da el objeto A, una unidad (lo usan las conversaciones de p12)
 C 0xB8D8 lee cuantos objetos 0x21 se llevan (BCD; 0xFF sin cuenta)
 C 0xB8E0 guarda la linea de la conversacion
 C 0xB8E8 guarda la linea a la que se salta tras la accion
 C 0xB8EE lee las teclas nuevas del cuadro (bit 4 SHOT1, bit 5 SHOT2)
+C 0xB8F6 p00:puente_sonido_si_juega
+C 0xB902 p00:puente_sonido_si_juega
 C 0xB90B guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
 C 0xB913 vida_maxima: 30 + 16*LEVEL en BCD; 999 como mucho
 C 0xB916 guarda LIFE, los dos bytes (BCD)
+C 0xB919 p00:puente_pinta_el_panel
 C 0xB937 apunta a MP, la magia (BCD, hasta 99)
+C 0xB943 p00:puente_pinta_el_panel
 C 0xB949 lee LIFE, los dos bytes (BCD)
 C 0xB96E guarda LIFE, los dos bytes (BCD)
+C 0xB971 p00:puente_pinta_el_panel
 C 0xB98F apunta a en el final, cual de los tres (0, 1 o 2; 3 acabado)
 C 0xB99E apunta a GOLD, el oro (tres bytes BCD)
+C 0xB9B0 p00:puente_pinta_el_panel
 C 0xB9B6 lee las teclas del teclado (bits 3-5: 1, 2 y 3; bit 2: F5)
 C 0xB9D0 apunta a el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
 C 0xB9D6 lee las teclas del teclado (bits 3-5: 1, 2 y 3; bit 2: F5)
+C 0xB9F0 p00:puente_apaga_la_pantalla
 C 0xB9F3 apunta a el mapa de casillas de la pantalla en RAM (32 por fila)
+C 0xB9FE p00:puente_pon_la_paleta_de_la_pantalla
+C 0xBA01 p00:puente_guarda_el_fondo_del_jefe
 C 0xBA20 lee SHOT1, el arma que se lleva (0 el puno)
 C 0xBA2E lee SHOT2, el objeto que se lleva
 C 0xBA3C lee los zuecos puestos
+C 0xBA52 p00:puente_oculta_los_sprites
+C 0xBA5C p00:puente_hmmv
+C 0xBA67 p00:puente_rellena_la_vram
+C 0xBA72 p00:puente_rellena_la_vram
 C 0xBA75 patrones_de_la_ventana: [VRAM 0xF800] y un RLE de p00:45EF: los patrones de sprite que p12:BA75 sube para la ventana
+C 0xBA78 p00:puente_rle_con_destino
 C 0xBA7B rotulos_de_la_ventana: [x][y] "SHOT 2", "MITCHEL" y "SPEED" (0xFE entre uno y otro, 0xFF acaba): la ventana de p12:BA20 (p12:BA7B)
+C 0xBA7E p00:puente_rotulo
 C 0xBA81 rotulo_shot1: [x][y] "SHOT 1" 0xFF (p12:BA81 y p12:BC14)
+C 0xBA84 p00:puente_rotulo
+C 0xBA90 p00:puente_enciende_la_pantalla
+C 0xBACC p00:puente_hl_mas_a
 C 0xBADB lee las teclas del teclado (bits 3-5: 1, 2 y 3; bit 2: F5)
 C 0xBAE3 lee las teclas nuevas del cuadro (bit 4 SHOT1, bit 5 SHOT2)
+C 0xBB26 p00:puente_sonido_si_juega
 C 0xBB29 apunta a SHOT1, el arma que se lleva (0 el puno)
 C 0xBB33 apunta a SHOT2, el objeto que se lleva
 C 0xBB48 lee cuantos objetos 0x1E se llevan (BCD; 0xFF sin cuenta)
 C 0xBB54 guarda los zuecos puestos
+C 0xBB5B p00:puente_sonido_si_juega
 C 0xBB5E lee LEVEL, el nivel de Mitchel (BCD)
+C 0xBB80 p00:puente_escribe_numero_bcd
+C 0xBB9E p00:puente_de_mas_a
+C 0xBBB0 p00:puente_de_mas_a
 C 0xBBB4 guarda el decorado que se quita (3 fichas de 32 bytes)
+C 0xBBBD p00:puente_limpia_la_pantalla
+C 0xBBC0 p00:puente_apaga_la_pantalla
+C 0xBBC3 p00:puente_pinta_los_bordes
+C 0xBBC6 p00:puente_borra_el_hueco_de_la_derecha
+C 0xBBC9 p00:puente_pinta_el_panel
+C 0xBBCC p00:puente_enemigos_en_el_panel
+C 0xBBCF p00:puente_paleta_de_las_pantallas_oscuras
+C 0xBBD2 p00:puente_monta_la_pantalla
+C 0xBBD5 p00:puente_repone_el_fondo_del_jefe
+C 0xBBD8 p00:puente_decorado_de_la_pantalla
 C 0xBBDE guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
+C 0xBBE1 p00:puente_enciende_la_pantalla
 C 0xBC14 rotulo_shot1: [x][y] "SHOT 1" 0xFF (p12:BA81 y p12:BC14)
+C 0xBC17 p00:puente_rotulo
+C 0xBC3D p00:puente_hmmv
 C 0xBC43 lee las teclas nuevas del cuadro (bit 4 SHOT1, bit 5 SHOT2)
 C 0xBC59 lee las teclas nuevas del cuadro (bit 4 SHOT1, bit 5 SHOT2)
+C 0xBCE2 p00:puente_sitio_de_la_casilla
+C 0xBCED p00:puente_pinta_icono
+C 0xBCF0 p00:puente_escribe_nombre_de_la_casilla
+C 0xBCFF p00:puente_sitio_de_la_casilla
+C 0xBD11 p00:puente_escribe_numero_bcd
+C 0xBD21 p00:puente_sitio_de_la_casilla
+C 0xBD51 p00:puente_sitio_de_la_casilla
 C 0xBD66 lee cuantos objetos 0x1E se llevan (BCD; 0xFF sin cuenta)
+C 0xBD70 p00:puente_pinta_icono
 C 0xBD73 rotulo_mizugeta: [x][y] "みずげた" 0xFF: lo que p12:BD73 escribe si se tienen los zuecos (0xC35D)
+C 0xBD76 p00:puente_rotulo
 C 0xBD7C apunta a cuantos objetos 0x1E se llevan (BCD; 0xFF sin cuenta)
+C 0xBD81 p00:puente_escribe_numero_bcd
+C 0xBD90 p00:puente_vram_para_escribir
 C 0xBDE2 lee el plano de la pantalla (0, el exterior)
 C 0xBDEB apunta a la PANTALLA
 C 0xBDFD lee la PANTALLA
@@ -666,14 +717,18 @@ C 0xBE95 lee la X de Mitchel
 C 0xBEA0 lee la Y de Mitchel
 C 0xBEB8 lee la Y de Mitchel
 C 0xBEBB apunta a la X de Mitchel
+C 0xBEC4 p00:puente_sonido_si_juega
 C 0xBEC7 lee la Y de Mitchel
 C 0xBED4 lee la X de Mitchel
 C 0xBEDF lee la Y de Mitchel
 C 0xBEEA lee la X de Mitchel
 C 0xBEFB lee la X de Mitchel
+C 0xBF24 p00:puente_pantalla_vecina
 C 0xBFA0 lee la PANTALLA
 C 0xBFAC apunta a las fichas de los enemigos (13 de 0x80)
+C 0xBFB2 p00:puente_posicion_de_mitchel
 C 0xBFB5 lee el tipo del enemigo
 C 0xBFB8 SHUT ALL (tipo 0x40)?
 C 0xBFED guarda la X de Mitchel
+C 0xBFF0 p00:puente_mitchel_contra_el_decorado
 # --- fin de las anotaciones de anota.py ---

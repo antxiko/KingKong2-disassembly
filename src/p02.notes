@@ -94,6 +94,10 @@ L 0x9D49 revolver_pinta_su_figura
 L 0x9D6E sps_suelta_dfb8
 L 0x9EDB sps_cuenta
 L 0x9EDF sps_recorre_las_fichas
+L 0x813E decorado_de_la_pantalla
+L 0x83A7 persigue_a_mitchel_83A7
+L 0x84C3 cerca_de_mitchel_84C3
+L 0x8456 mitchel_contra_el_decorado
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x8000 0x8008 tabla_7FFC_cola  6 destinos del despachador de 0x425F (call en p01:7FF9): 0x8008, 0x8017, 0x8025, 0x8039, 0x8065, 0x8039 (sigue del banco anterior, 0x7FFC); lo leen p01:7FF9 (8 bytes)
@@ -159,7 +163,7 @@ C 0x813E lee la PANTALLA
 C 0x815E lee el plano de la pantalla (0, el exterior)
 C 0x8165 lee el plano de la pantalla (0, el exterior)
 C 0x816D busca_el_decorado_de_la_pantalla: p09:B3FD: las pantallas con decorado que se quita
-C 0x8173 p00:bancos_1_2_3
+C 0x8173 p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 C 0x8179 el mapper: el banco de A en 0xA000
 C 0x817C guarda la copia del banco de 0xA000
 C 0x819D p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
@@ -176,7 +180,7 @@ C 0x81F8 lee cuantas filas
 C 0x81FB lee cuantas columnas
 C 0x81FE lee la y del decorado
 C 0x8201 lee la x del decorado
-C 0x8204 p00:pinta_figura_sin_bancos
+C 0x8204 p00:pinta_figura_sin_bancos: HL' = la casilla del mapa de la RAM de la esquina
 C 0x8207 lee el tipo del enemigo
 C 0x820A MUDARMOR (tipo 0x05)?
 C 0x820E lee el paso en que va
@@ -192,7 +196,7 @@ C 0x824F guarda cuantos objetos 0x17 se llevan (BCD; 0xFF sin cuenta)
 C 0x8252 guarda SHOT2, el objeto que se lleva
 C 0x8255 guarda SHOT1, el arma que se lleva (0 el puno)
 C 0x826C p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
-C 0x8271 p00:hay_musica
+C 0x8271 p00:hay_musica: Z si no suena nada que importe: sin fundido (0xC08B) ni musica (0xC08D)
 C 0x8277 guarda la PANTALLA
 C 0x827D guarda el punto de entrada (y, x)
 C 0x8282 guarda el lado por el que se entra en una salida especial
@@ -257,6 +261,7 @@ C 0x8462 p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa 
 C 0x8465 lee el juego de dibujos de la pantalla
 C 0x8468 p01:byte_por_juego_de_dibujos: un byte por juego de dibujos (0xC148, 13): lo que p01:7332 pone en 0xE802
 C 0x846B p00:de_mas_a
+C 0x8472 p01:mitchel_muere: LIFE a cero, lo lanzado se borra y 0x50 cuadros de espera
 C 0x847C p00:de_mas_a
 C 0x8483 lee la Y de Mitchel
 C 0x848B p00:de_mas_a

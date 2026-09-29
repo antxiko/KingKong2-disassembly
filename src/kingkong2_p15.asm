@@ -1990,7 +1990,7 @@ L_BD88:
 	dec a			;bd8b
 	jr z,L_BDA7		;bd8c
 	ld a,01dh		;bd8e
-	call 040e6h		;bd90
+	call 040e6h		;bd90   ; p00:puente_sonido_si_juega
 	call borra_el_decorado		;bd93
 	ld hl,0c561h		;bd96   ; apunta a el paso del suceso
 	inc (hl)			;bd99
@@ -2052,13 +2052,13 @@ L_BDCC:
 	ret nz			;be00
 	ld hl,0c580h		;be01   ; apunta a las banderas del decorado ya quitado
 	ld a,(ix+008h)		;be04
-	call 0408ch		;be07
+	call 0408ch		;be07   ; p00:puente_hl_mas_a
 	ld (hl),000h		;be0a
 	jp decorado_quitado		;be0c
 borra_el_decorado:
 	ld l,(ix+001h)		;be0f
 	ld h,(ix+002h)		;be12
-	call 041cah		;be15
+	call 041cah		;be15   ; p00:puente_casilla_en_ram
 	ld e,(ix+005h)		;be18
 	ld d,(ix+006h)		;be1b
 	ld c,(ix+003h)		;be1e
@@ -2073,7 +2073,7 @@ L_BE25:
 	djnz L_BE25		;be29
 	pop hl			;be2b
 	ld a,020h		;be2c
-	call 0408ch		;be2e
+	call 0408ch		;be2e   ; p00:puente_hl_mas_a
 	dec c			;be31
 	jr nz,L_BE21		;be32
 	ret			;be34
@@ -2123,7 +2123,7 @@ copia_el_trozo:
 	set 7,h		;be72
 	ld a,(0c564h)		;be74
 	srl a		;be77
-	call 0408ch		;be79
+	call 0408ch		;be79   ; p00:puente_hl_mas_a
 	call 00174h		;be7c   ; BIOS NRDVRM - Reads VRAM like in RDVRM (with 16-bit VRAM-address)
 	ld l,a			;be7f
 	ld a,(0c564h)		;be80
@@ -2191,7 +2191,7 @@ L_BEDE:
 	jr z,L_BEEF		;beeb
 	ld a,023h		;beed
 L_BEEF:
-	jp 040e6h		;beef
+	jp 040e6h		;beef   ; p00:puente_sonido_si_juega
 L_BEF2:
 	ld e,(ix+005h)		;bef2
 	ld d,(ix+006h)		;bef5
@@ -2199,7 +2199,7 @@ L_BEF2:
 	cp 007h		;befb
 	jr z,L_BF4F		;befd
 	ld a,(0c566h)		;beff
-	call 04098h		;bf02
+	call 04098h		;bf02   ; p00:puente_de_mas_a
 	xor a			;bf05
 	ld (0c565h),a		;bf06
 L_BF09:
@@ -2214,7 +2214,7 @@ L_BF0B:
 	pop de			;bf17
 	djnz L_BF0B		;bf18
 	ld a,(ix+004h)		;bf1a
-	call 04098h		;bf1d
+	call 04098h		;bf1d   ; p00:puente_de_mas_a
 	ld hl,0c565h		;bf20
 	inc (hl)			;bf23
 	ld a,(hl)			;bf24
@@ -2236,7 +2236,7 @@ L_BF38:
 L_BF3D:
 	ld hl,0c580h		;bf3d   ; apunta a las banderas del decorado ya quitado
 	ld a,(ix+008h)		;bf40
-	call 0408ch		;bf43
+	call 0408ch		;bf43   ; p00:puente_hl_mas_a
 	xor a			;bf46
 	ld (hl),a			;bf47
 	ld (0c201h),a		;bf48   ; guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
@@ -2244,7 +2244,7 @@ L_BF3D:
 	ret			;bf4e
 L_BF4F:
 	ld a,(0c565h)		;bf4f
-	call 04098h		;bf52
+	call 04098h		;bf52   ; p00:puente_de_mas_a
 	xor a			;bf55
 	ld (0c564h),a		;bf56
 L_BF59:
@@ -2282,7 +2282,7 @@ orden_del_vdp:
 	push hl			;bf8d
 	push de			;bf8e
 	push af			;bf8f
-	call 04116h		;bf90
+	call 04116h		;bf90   ; p00:puente_espera_al_vdp
 	ld l,d			;bf93
 	ld h,000h		;bf94
 	ld a,(0faf6h)		;bf96

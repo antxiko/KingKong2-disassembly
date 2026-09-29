@@ -209,7 +209,7 @@ L_812A:
 	ret z			;8139
 	ld (0c14dh),a		;813a   ; guarda la linea de la conversacion
 	ret			;813d
-L_813E:
+decorado_de_la_pantalla:
 	ld a,(0c125h)		;813e   ; lee la PANTALLA
 	dec a			;8141
 	jr z,L_815E		;8142
@@ -239,7 +239,7 @@ L_816A:
 	call banco_9_en_a000		;816a
 	call busca_el_decorado_de_la_pantalla		;816d   ; busca_el_decorado_de_la_pantalla: p09:B3FD: las pantallas con decorado que se quita
 	call pinta_el_decorado_que_cambia		;8170
-	jp 042bch		;8173   ; p00:bancos_1_2_3
+	jp 042bch		;8173   ; p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 banco_9_en_a000:
 	di			;8176
 	ld a,009h		;8177
@@ -323,7 +323,7 @@ pinta_una_cosa_de_decorado:
 	ld b,(ix+004h)		;81fb   ; lee cuantas columnas
 	ld e,(ix+001h)		;81fe   ; lee la y del decorado
 	ld d,(ix+002h)		;8201   ; lee la x del decorado
-	jp 04eb5h		;8204   ; p00:pinta_figura_sin_bancos
+	jp 04eb5h		;8204   ; p00:pinta_figura_sin_bancos: HL' = la casilla del mapa de la RAM de la esquina
 guarda_lo_de_debajo:
 	ld a,(ix+000h)		;8207   ; lee el tipo del enemigo
 	cp 005h		;820a   ; MUDARMOR (tipo 0x05)?
@@ -393,7 +393,7 @@ L_8265:
 	call 05488h		;826c   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 	jr L_8260		;826f
 L_8271:
-	call 054bdh		;8271   ; p00:hay_musica
+	call 054bdh		;8271   ; p00:hay_musica: Z si no suena nada que importe: sin fundido (0xC08B) ni musica (0xC08D)
 	ret nz			;8274
 	ld a,05fh		;8275
 	ld (0c125h),a		;8277   ; guarda la PANTALLA
@@ -573,7 +573,7 @@ L_839A:
 	jr z,L_838A		;83a3
 	xor a			;83a5
 	ret			;83a6
-L_83A7:
+persigue_a_mitchel_83A7:
 	call 04308h		;83a7   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
 	call tipo_segun_la_pantalla_73		;83aa
 	call distancia_en_x		;83ad
@@ -634,7 +634,7 @@ L_840D:
 	ld a,b			;8414
 	and a			;8415
 	ret z			;8416
-	jr L_8456		;8417
+	jr mitchel_contra_el_decorado		;8417
 L_8419:
 	call 04308h		;8419   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
 	ld a,(ix+005h)		;841c   ; lee la x del enemigo
@@ -668,7 +668,7 @@ L_844F:
 	ld a,(ix+005h)		;844f   ; lee la x del enemigo
 	add a,c			;8452
 	ld (0c305h),a		;8453   ; guarda la X de Mitchel
-L_8456:
+mitchel_contra_el_decorado:
 	ld a,(0c303h)		;8456   ; lee la Y de Mitchel
 	sub 008h		;8459
 	ld l,a			;845b
@@ -681,7 +681,7 @@ L_8456:
 	call 0425ah		;846b   ; p00:de_mas_a
 	ex de,hl			;846e
 	call choca_con_el_decorado		;846f
-	jp c,06c7bh		;8472
+	jp c,06c7bh		;8472   ; p01:mitchel_muere: LIFE a cero, lo lanzado se borra y 0x50 cuadros de espera
 	ret			;8475
 choca_con_el_decorado:
 	call casilla_libre_para_la_ficha		;8476
@@ -736,7 +736,7 @@ L_84BF:
 	add a,018h		;84bf
 	ld d,a			;84c1
 	ret			;84c2
-L_84C3:
+cerca_de_mitchel_84C3:
 	ld a,(0c303h)		;84c3   ; lee la Y de Mitchel
 	sub (ix+003h)		;84c6   ; le resta la y del enemigo
 	jr c,L_84CE		;84c9

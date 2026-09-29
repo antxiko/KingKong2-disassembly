@@ -2061,7 +2061,7 @@ L_B575:
 rechaza_la_carta:
 	xor a			;b57d   ; rechazar: el MP se queda a 0
 	ld (0c12fh),a		;b57e   ; guarda MP, la magia (BCD, hasta 99)
-	call 04062h		;b581
+	call 04062h		;b581   ; p00:puente_pinta_el_panel
 	jp L_B531		;b584
 accion_05_comida:
 	call elige_1_2_o_3		;b587   ; elige_1_2_o_3: Detras del `call` van tres palabras: salta a la primera, la segunda o la
@@ -2315,7 +2315,7 @@ DATA_tabla_B6E8:
 L_B6EE:
 	call gasta_un_0x15		;b6ee   ; gasta_un_0x15: 0xC354: el objeto 0x15
 	jp c,L_B531		;b6f1
-	call 04050h		;b6f4
+	call 04050h		;b6f4   ; p00:puente_borra_la_ventana_de_texto: LOS PUENTES. De seis bytes, `call X / jp 0x4215`: se llaman desde cualquier
 	ld a,001h		;b6f7
 	ld (0c15fh),a		;b6f9
 	ld a,001h		;b6fc
@@ -2554,7 +2554,7 @@ L_B825:
 	sbc a,d			;b82c
 	daa			;b82d
 	ld (hl),a			;b82e
-	call 04062h		;b82f
+	call 04062h		;b82f   ; p00:puente_pinta_el_panel
 	ld a,003h		;b832
 	ld (0c14dh),a		;b834   ; guarda la linea de la conversacion
 	jp L_B7DA		;b837
@@ -2654,7 +2654,7 @@ L_B8BA:
 	ld (0c14fh),a		;b8c4
 	ld hl,03858h		;b8c7
 	ld (0c321h),hl		;b8ca   ; guarda el punto de entrada (y, x)
-	jp 04050h		;b8cd
+	jp 04050h		;b8cd   ; p00:puente_borra_la_ventana_de_texto: LOS PUENTES. De seis bytes, `call X / jp 0x4215`: se llaman desde cualquier
 accion_1B_da_el_0x0E:
 	ld a,00eh		;b8d0   ; el objeto 0x0E, まかぷら
 	call 04068h		;b8d2   ; p00:puente_da_un_objeto: p01:79CE: da el objeto A, una unidad (lo usan las conversaciones de p12)
@@ -2675,13 +2675,13 @@ accion_21_espera:
 	and 010h		;b8f1
 	ret z			;b8f3
 	ld a,0ffh		;b8f4
-	call 040e6h		;b8f6
+	call 040e6h		;b8f6   ; p00:puente_sonido_si_juega
 	jp L_B531		;b8f9
 accion_22_el_final:
 	call 04212h		;b8fc
 	ret nz			;b8ff
 	ld a,08bh		;b900
-	call 040e6h		;b902
+	call 040e6h		;b902   ; p00:puente_sonido_si_juega
 	xor a			;b905
 	ld (0c167h),a		;b906
 	ld a,007h		;b909
@@ -2692,7 +2692,7 @@ accion_22_el_final:
 vida_llena:
 	call vida_maxima		;b913   ; vida_maxima: 30 + 16*LEVEL en BCD; 999 como mucho
 	ld (0c129h),hl		;b916   ; guarda LIFE, los dos bytes (BCD)
-	jp 04062h		;b919
+	jp 04062h		;b919   ; p00:puente_pinta_el_panel
 vida_maxima:
 	ld a,(0c12eh)		;b91c   ; 30 + 16*LEVEL en BCD; 999 como mucho
 	ld h,000h		;b91f
@@ -2722,7 +2722,7 @@ mp_mas_20:
 	ld a,099h		;b940
 L_B942:
 	ld (hl),a			;b942
-	jp 04062h		;b943
+	jp 04062h		;b943   ; p00:puente_pinta_el_panel
 media_vida:
 	call vida_maxima		;b946   ; cura la mitad de lo que falta hasta la vida maxima
 	ld de,(0c129h)		;b949   ; lee LIFE, los dos bytes (BCD)
@@ -2754,7 +2754,7 @@ L_B960:
 	daa			;b96c
 	ld h,a			;b96d
 	ld (0c129h),hl		;b96e   ; guarda LIFE, los dos bytes (BCD)
-	jp 04062h		;b971
+	jp 04062h		;b971   ; p00:puente_pinta_el_panel
 
 ; ----------------------------------------------------------------------
 ; DATOS codigo_B974: codigo que no llama nadie: si LEVEL (0xC12E) pasa del MP
@@ -2810,7 +2810,7 @@ L_B99E:
 	sbc a,000h		;b9ac
 	daa			;b9ae
 	ld (hl),a			;b9af
-	jp 04062h		;b9b0
+	jp 04062h		;b9b0   ; p00:puente_pinta_el_panel
 
 ; ----------------------------------------------------------------------
 ; Detras del `call` van tres palabras: salta a la primera, la segunda o la
@@ -2861,13 +2861,13 @@ L_B9E7:
 	and a			;b9eb
 	jp nz,L_BAD8		;b9ec
 	inc (hl)			;b9ef
-	call 0406eh		;b9f0
+	call 0406eh		;b9f0   ; p00:puente_apaga_la_pantalla
 	ld hl,0e000h		;b9f3   ; apunta a el mapa de casillas de la pantalla en RAM (32 por fila)
 	ld de,0ca00h		;b9f6
 	ld bc,00300h		;b9f9
 	ldir		;b9fc
-	call 04200h		;b9fe
-	call 041e2h		;ba01
+	call 04200h		;b9fe   ; p00:puente_pon_la_paleta_de_la_pantalla
+	call 041e2h		;ba01   ; p00:puente_guarda_el_fondo_del_jefe
 	call cuentas_de_las_listas		;ba04
 	call junta_las_listas		;ba07
 	ld a,(0c307h)		;ba0a
@@ -2898,31 +2898,31 @@ L_BA43:
 	ld (0c29dh),hl		;ba49
 	ld hl,068e8h		;ba4c
 	ld (0c29dh),hl		;ba4f
-	call 04074h		;ba52
+	call 04074h		;ba52   ; p00:puente_oculta_los_sprites
 	ld hl,00000h		;ba55
 	ld b,l			;ba58
 	ld c,l			;ba59
 	xor a			;ba5a
 	ld d,a			;ba5b
-	call 0407ah		;ba5c
+	call 0407ah		;ba5c   ; p00:puente_hmmv
 	ld a,00eh		;ba5f
 	ld hl,0f400h		;ba61
 	ld bc,00010h		;ba64
-	call 04080h		;ba67
+	call 04080h		;ba67   ; p00:puente_rellena_la_vram
 	ld a,008h		;ba6a
 	ld hl,0f410h		;ba6c
 	ld bc,00030h		;ba6f
-	call 04080h		;ba72
+	call 04080h		;ba72   ; p00:puente_rellena_la_vram
 	ld de,0bf6fh		;ba75   ; patrones_de_la_ventana: [VRAM 0xF800] y un RLE de p00:45EF: los patrones de sprite que p12:BA75 sube para la ventana
-	call 0418eh		;ba78
+	call 0418eh		;ba78   ; p00:puente_rle_con_destino
 	ld hl,0ba93h		;ba7b   ; rotulos_de_la_ventana: [x][y] "SHOT 2", "MITCHEL" y "SPEED" (0xFE entre uno y otro, 0xFF acaba): la ventana de p12:BA20 (p12:BA7B)
-	call 04056h		;ba7e
+	call 04056h		;ba7e   ; p00:puente_rotulo
 	ld hl,0baaeh		;ba81   ; rotulo_shot1: [x][y] "SHOT 1" 0xFF (p12:BA81 y p12:BC14)
-	call 04056h		;ba84
+	call 04056h		;ba84   ; p00:puente_rotulo
 	call iconos_de_shot1		;ba87
 	call iconos_de_shot2		;ba8a
 	call pinta_los_zuecos		;ba8d
-	jp 04086h		;ba90
+	jp 04086h		;ba90   ; p00:puente_enciende_la_pantalla
 
 ; ----------------------------------------------------------------------
 ; DATOS rotulos_de_la_ventana: [x][y] "SHOT 2", "MITCHEL" y "SPEED" (0xFE
@@ -2955,7 +2955,7 @@ cuenta_de_cada_objeto:
 	and a			;bac6
 	jr z,L_BAD5		;bac7
 	ld hl,0c33fh		;bac9
-	call 0408ch		;bacc
+	call 0408ch		;bacc   ; p00:puente_hl_mas_a
 	ld a,(hl)			;bacf
 	ld (de),a			;bad0
 L_BAD1:
@@ -3011,7 +3011,7 @@ L_BB0E:
 	add a,008h		;bb21
 	ld (hl),a			;bb23
 	ld a,025h		;bb24
-	call 040e6h		;bb26
+	call 040e6h		;bb26   ; p00:puente_sonido_si_juega
 L_BB29:
 	ld hl,0c140h		;bb29   ; apunta a SHOT1, el arma que se lleva (0 el puno)
 	ld a,(0c291h)		;bb2c
@@ -3043,7 +3043,7 @@ L_BB40:
 	and a			;bb57
 	ret z			;bb58
 	ld a,025h		;bb59
-	jp 040e6h		;bb5b
+	jp 040e6h		;bb5b   ; p00:puente_sonido_si_juega
 L_BB5E:
 	ld a,(0c12eh)		;bb5e   ; lee LEVEL, el nivel de Mitchel (BCD)
 	rra			;bb61
@@ -3067,7 +3067,7 @@ pinta_la_casilla_c2f0:
 	ld hl,0c2f0h		;bb78
 	ld b,001h		;bb7b
 	ld de,048f0h		;bb7d
-	jp 04092h		;bb80
+	jp 04092h		;bb80   ; p00:puente_escribe_numero_bcd
 elige_en_la_ventana:
 	ld a,(0c291h)		;bb83
 	cp 004h		;bb86
@@ -3085,7 +3085,7 @@ elige_en_la_ventana:
 	add a,a			;bb9b
 	sub b			;bb9c
 	add a,c			;bb9d
-	jp 04098h		;bb9e
+	jp 04098h		;bb9e   ; p00:puente_de_mas_a
 L_BBA1:
 	ld hl,0c294h		;bba1
 	ld de,0c2a0h		;bba4
@@ -3096,25 +3096,25 @@ L_BBA1:
 	add a,a			;bbad
 	add a,a			;bbae
 	add a,c			;bbaf
-	jp 04098h		;bbb0
+	jp 04098h		;bbb0   ; p00:puente_de_mas_a
 L_BBB3:
 	xor a			;bbb3
 	ld (0c500h),a		;bbb4   ; guarda el decorado que se quita (3 fichas de 32 bytes)
 	ld (0c520h),a		;bbb7
 	ld (0c540h),a		;bbba
-	call 0409eh		;bbbd
-	call 0406eh		;bbc0
-	call 040a4h		;bbc3
-	call 040b0h		;bbc6
-	call 04062h		;bbc9
-	call 040b6h		;bbcc
-	call 041eeh		;bbcf
-	call 040bch		;bbd2
-	call 041e8h		;bbd5
-	call 040dah		;bbd8
+	call 0409eh		;bbbd   ; p00:puente_limpia_la_pantalla
+	call 0406eh		;bbc0   ; p00:puente_apaga_la_pantalla
+	call 040a4h		;bbc3   ; p00:puente_pinta_los_bordes
+	call 040b0h		;bbc6   ; p00:puente_borra_el_hueco_de_la_derecha
+	call 04062h		;bbc9   ; p00:puente_pinta_el_panel
+	call 040b6h		;bbcc   ; p00:puente_enemigos_en_el_panel
+	call 041eeh		;bbcf   ; p00:puente_paleta_de_las_pantallas_oscuras
+	call 040bch		;bbd2   ; p00:puente_monta_la_pantalla
+	call 041e8h		;bbd5   ; p00:puente_repone_el_fondo_del_jefe
+	call 040dah		;bbd8   ; p00:puente_decorado_de_la_pantalla
 	ld a,(0c172h)		;bbdb
 	ld (0c201h),a		;bbde   ; guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
-	jp 04086h		;bbe1
+	jp 04086h		;bbe1   ; p00:puente_enciende_la_pantalla
 L_BBE4:
 	ld a,(0c291h)		;bbe4
 	cp 004h		;bbe7
@@ -3148,7 +3148,7 @@ L_BC0D:
 	jp 00047h		;bc11   ; BIOS WRTVDP - Writes data in the VDP-register
 ventana_shot1:
 	ld hl,0baaeh		;bc14   ; rotulo_shot1: [x][y] "SHOT 1" 0xFF (p12:BA81 y p12:BC14)
-	call 04056h		;bc17
+	call 04056h		;bc17   ; p00:puente_rotulo
 	ld hl,0c2a0h		;bc1a
 	ld bc,00000h		;bc1d
 	call pinta_los_iconos_de_la_lista		;bc20
@@ -3163,7 +3163,7 @@ borra_la_parte_de_arriba:
 	ld bc,00020h		;bc38
 	xor a			;bc3b
 	ld d,a			;bc3c
-	jp 0407ah		;bc3d
+	jp 0407ah		;bc3d   ; p00:puente_hmmv
 cursor_horizontal:
 	ld hl,0c291h		;bc40
 	ld a,(0c106h)		;bc43   ; lee las teclas nuevas del cuadro (bit 4 SHOT1, bit 5 SHOT2)
@@ -3283,21 +3283,21 @@ pinta_los_iconos_de_la_lista:
 	ld (0e80ch),a		;bcdd
 	ld l,c			;bce0
 	ld h,b			;bce1
-	call 040c2h		;bce2
+	call 040c2h		;bce2   ; p00:puente_sitio_de_la_casilla
 	ld a,h			;bce5
 	add a,008h		;bce6
 	ld h,a			;bce8
 	ex de,hl			;bce9
 	ld a,(0e80ch)		;bcea
-	call 040c8h		;bced
-	call 040ceh		;bcf0
+	call 040c8h		;bced   ; p00:puente_pinta_icono
+	call 040ceh		;bcf0   ; p00:puente_escribe_nombre_de_la_casilla
 	ld hl,(0e808h)		;bcf3
 	inc hl			;bcf6
 	ld a,(hl)			;bcf7
 	cp 0ffh		;bcf8
 	jr z,L_BD14		;bcfa
 	ld hl,(0e80ah)		;bcfc
-	call 040c2h		;bcff
+	call 040c2h		;bcff   ; p00:puente_sitio_de_la_casilla
 	ld a,h			;bd02
 	add a,038h		;bd03
 	ld h,a			;bd05
@@ -3308,7 +3308,7 @@ pinta_los_iconos_de_la_lista:
 	ld hl,(0e808h)		;bd0b
 	inc hl			;bd0e
 	ld b,001h		;bd0f
-	call 04092h		;bd11
+	call 04092h		;bd11   ; p00:puente_escribe_numero_bcd
 L_BD14:
 	ld hl,(0e808h)		;bd14
 	ld bc,(0e80ah)		;bd17
@@ -3317,7 +3317,7 @@ L_BD14:
 	ret			;bd1d
 sitio_del_cursor:
 	ld hl,(0c291h)		;bd1e
-	jp 040c2h		;bd21
+	jp 040c2h		;bd21   ; p00:puente_sitio_de_la_casilla
 pon_si_no_es_cero:
 	and a			;bd24
 	jr nz,L_BD29		;bd25
@@ -3354,7 +3354,7 @@ L_BD46:
 L_BD4F:
 	ld l,b			;bd4f
 	ld h,d			;bd50
-	call 040c2h		;bd51
+	call 040c2h		;bd51   ; p00:puente_sitio_de_la_casilla
 	ld a,h			;bd54
 	add a,008h		;bd55
 	ld h,a			;bd57
@@ -3373,13 +3373,13 @@ pinta_los_zuecos:
 	ret z			;bd6a
 	ld a,01eh		;bd6b
 	ld de,068e8h		;bd6d
-	call 040c8h		;bd70
+	call 040c8h		;bd70   ; p00:puente_pinta_icono
 	ld hl,0bd84h		;bd73   ; rotulo_mizugeta: [x][y] "みずげた" 0xFF: lo que p12:BD73 escribe si se tienen los zuecos (0xC35D)
-	call 04056h		;bd76
+	call 04056h		;bd76   ; p00:puente_rotulo
 	ld de,090f0h		;bd79
 	ld hl,0c35dh		;bd7c   ; apunta a cuantos objetos 0x1E se llevan (BCD; 0xFF sin cuenta)
 	ld b,001h		;bd7f
-	jp 04092h		;bd81
+	jp 04092h		;bd81   ; p00:puente_escribe_numero_bcd
 
 ; ----------------------------------------------------------------------
 ; DATOS rotulo_mizugeta: [x][y] "みずげた" 0xFF: lo que p12:BD73 escribe si se
@@ -3395,7 +3395,7 @@ DATA_rotulo_mizugeta:
 
 cursor_de_la_ventana:
 	ld hl,0f600h		;bd8d
-	call 040d4h		;bd90
+	call 040d4h		;bd90   ; p00:puente_vram_para_escribir
 	call sitio_del_cursor		;bd93
 	ld a,(00007h)		;bd96
 	ld c,a			;bd99
@@ -3566,7 +3566,7 @@ L_BEAF:
 	and 007h		;bebf
 	ret nz			;bec1
 	ld a,00eh		;bec2
-	jp 040e6h		;bec4
+	jp 040e6h		;bec4   ; p00:puente_sonido_si_juega
 L_BEC7:
 	ld a,(0c303h)		;bec7   ; lee la Y de Mitchel
 	sub (ix+001h)		;beca
@@ -3621,7 +3621,7 @@ L_BF1D:
 L_BF21:
 	ld (0c802h),a		;bf21
 L_BF24:
-	call 040ech		;bf24
+	call 040ech		;bf24   ; p00:puente_pantalla_vecina
 	ld (0c153h),a		;bf27
 	xor a			;bf2a
 	ld (0c800h),a		;bf2b
@@ -3697,7 +3697,7 @@ L_BF9B:
 	ld (0c166h),a		;bfa9
 	ld ix,0d000h		;bfac   ; apunta a las fichas de los enemigos (13 de 0x80)
 	ld b,00dh		;bfb0
-	call 040e0h		;bfb2
+	call 040e0h		;bfb2   ; p00:puente_posicion_de_mitchel
 L_BFB5:
 	ld a,(ix+000h)		;bfb5   ; lee el tipo del enemigo
 	cp 040h		;bfb8   ; SHUT ALL (tipo 0x40)?
@@ -3731,7 +3731,7 @@ L_BFE0:
 L_BFEA:
 	add a,(ix+017h)		;bfea
 	ld (0c305h),a		;bfed   ; guarda la X de Mitchel
-	jp 0420ch		;bff0
+	jp 0420ch		;bff0   ; p00:puente_mitchel_contra_el_decorado
 
 ; ----------------------------------------------------------------------
 ; DATOS relleno_p12: 0xFF hasta el final del banco

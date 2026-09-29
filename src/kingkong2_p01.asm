@@ -52,7 +52,7 @@ L_6000:
 	ld de,05040h		;6035
 	call 04867h		;6038   ; p00:sube_letras: B letras de 1 bit de HL, en color C, a la hoja de la pagina 1 desde (D, E)
 L_603B:
-	call 042bch		;603b   ; p00:bancos_1_2_3
+	call 042bch		;603b   ; p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 	xor a			;603e
 	ld (0faf6h),a		;603f
 	ret			;6042
@@ -246,7 +246,7 @@ pantalla_vecina:
 	ld b,000h		;6180
 	add hl,bc			;6182
 	ld a,(hl)			;6183
-	jp 042bch		;6184   ; p00:bancos_1_2_3
+	jp 042bch		;6184   ; p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 
 ; ----------------------------------------------------------------------
 ; DATOS banco_15_en_a000: codigo que no llama nadie: di / pone el banco 15 en
@@ -260,7 +260,7 @@ DATA_banco_15_en_a000:
 ; ======================================================================
 
 
-L_6192:
+enemigos_en_el_panel:
 	call enemigos_del_panel		;6192
 	ld b,003h		;6195
 	ld hl,0c220h		;6197
@@ -276,7 +276,7 @@ L_619A:
 	inc hl			;61a8
 	pop bc			;61a9
 	djnz L_619A		;61aa
-	jp 042bch		;61ac   ; p00:bancos_1_2_3
+	jp 042bch		;61ac   ; p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 enemigo_en_el_panel:
 	call sitio_del_enemigo_en_el_panel		;61af
 	call escribe_nombre_del_enemigo		;61b2   ; escribe_nombre_del_enemigo: p15:BA76 + 2*tipo, con el banco 15 en 0xA000
@@ -363,7 +363,7 @@ L_6240:
 	ld de,00080h		;6247
 	add ix,de		;624a
 	djnz L_6240		;624c
-	jp 042bch		;624e   ; p00:bancos_1_2_3
+	jp 042bch		;624e   ; p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 apunta_enemigo_en_el_panel:
 	inc a			;6251
 	ld c,a			;6252
@@ -406,7 +406,7 @@ L_6271:
 	call 0425ah		;6287   ; p00:de_mas_a
 	ld a,(de)			;628a
 	ld (hl),a			;628b
-	jp 042bch		;628c   ; p00:bancos_1_2_3
+	jp 042bch		;628c   ; p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 
 ; ----------------------------------------------------------------------
 ; DATOS life_y_str: "LIFE" y "STR" (0xFF acaba cada uno): lo que p01:61F5 y
@@ -452,8 +452,8 @@ DATA_valores_de_c120:
 ; ======================================================================
 
 
-L_62C3:
-	ld hl,0631ch		;62c3   ; rotulos_del_panel_2: lo mismo: DAYS, MP, GOLD, LIFE, EXP y LEVEL; p01:62C3
+pinta_el_panel:
+	ld hl,0631ch		;62c3   ; los rotulos y las seis cifras (DAYS, LIFE, EXP, LEVEL, MP, GOLD)
 	call 0490bh		;62c6
 	call 04450h		;62c9
 	call escribe_days		;62cc
@@ -479,7 +479,7 @@ L_62F5:
 	ld bc,01010h		;62fa
 	xor a			;62fd
 	ld d,a			;62fe
-	jp 0479bh		;62ff   ; p00:hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
+	jp 0479bh		;62ff   ; p00:hmmv: el color, a un lado
 
 ; ----------------------------------------------------------------------
 ; DATOS rotulos_del_panel_1: [x][y] letras, 0xFE [x][y] sigue en otro sitio,
@@ -563,7 +563,7 @@ L_639C:
 	add a,008h		;63a3
 	ld d,a			;63a5
 	ret			;63a6
-L_63A7:
+pinta_los_bordes:
 	call bordes_de_arriba_y_abajo		;63a7
 	call bordes_de_los_lados		;63aa
 	call borra_el_rotulo_del_panel		;63ad
@@ -614,32 +614,32 @@ borra_el_rotulo_del_panel:
 	ld bc,04810h		;640a
 	xor a			;640d
 	ld d,a			;640e
-	jp 0479bh		;640f   ; p00:hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
+	jp 0479bh		;640f   ; p00:hmmv: el color, a un lado
 L_6412:
 	ld hl,0b020h		;6412
 	ld bc,04858h		;6415
 	xor a			;6418
 	ld d,a			;6419
-	jp 0479bh		;641a   ; p00:hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
-L_641D:
+	jp 0479bh		;641a   ; p00:hmmv: el color, a un lado
+borra_el_hueco_de_la_derecha:
 	ld hl,0b080h		;641d
 	ld bc,04848h		;6420
 	xor a			;6423
 	ld d,a			;6424
-	jp 0479bh		;6425   ; p00:hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
+	jp 0479bh		;6425   ; p00:hmmv: el color, a un lado
 borra_la_ventana_de_texto:
 	ld hl,008b0h		;6428   ; 160x24 puntos en (8, 0xB0): debajo del decorado
 	ld bc,0a018h		;642b
 	xor a			;642e
 	ld d,a			;642f
-	jp 0479bh		;6430   ; p00:hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
+	jp 0479bh		;6430   ; p00:hmmv: el color, a un lado
 L_6433:
 	ld hl,00808h		;6433
 	ld bc,0a0a0h		;6436
 	xor a			;6439
 	ld d,a			;643a
-	jp 0479bh		;643b   ; p00:hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
-L_643E:
+	jp 0479bh		;643b   ; p00:hmmv: el color, a un lado
+cambia_el_enemigo_del_panel:
 	bit 7,c		;643e
 	ret nz			;6440
 	ld hl,0c208h		;6441
@@ -694,7 +694,7 @@ raya_de_la_ventana:
 	jp 04706h		;648f   ; p00:raya_horizontal: orden LINE del V9938 (MAJ = 0): de (H, L), B-1 puntos
 L_6492:
 	call 054e3h		;6492
-	call 0465ch		;6495   ; p00:apaga_los_sprites: bit 1 (SPD) del registro 8 del VDP a uno: no se ven los sprites
+	call 0465ch		;6495   ; p00:apaga_los_sprites: la copia de R#8 (0xFFE7)...
 	ld a,005h		;6498
 	call 0005fh		;649a   ; BIOS CHGMOD - Switches to given screen mode
 	call 0462dh		;649d   ; p00:apaga_la_pantalla: bit 6 del registro 1 del VDP a cero
@@ -705,7 +705,7 @@ L_6492:
 	ld b,a			;64a6
 	ld c,a			;64a7
 	ld d,001h		;64a8
-	call 0479bh		;64aa   ; p00:hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
+	call 0479bh		;64aa   ; p00:hmmv: el color, a un lado
 	call 046ddh		;64ad   ; p00:espera_al_vdp: espera a que el V9938 acabe la orden (bit 0 de S#2)
 	ld b,004h		;64b0
 	ld hl,064c8h		;64b2   ; registros_del_vdp: 4 parejas [registro][valor] que p01:64B5 escribe con WRTVDP: R1 0x62, R5 0xEF, R6 0x1F, R11 0x01
@@ -721,7 +721,7 @@ L_64B5:
 	pop bc			;64bf
 	djnz L_64B5		;64c0
 	call 04651h		;64c2   ; p00:oculta_los_sprites: los 128 bytes de atributos de sprite (0xF600) a 0xE0
-	jp 04620h		;64c5   ; p00:enciende_la_pantalla: bit 6 del registro 1 del VDP a uno
+	jp 04620h		;64c5   ; p00:enciende_la_pantalla: la copia de R#1 (0xF3E0), con la pantalla encendida
 
 ; ----------------------------------------------------------------------
 ; DATOS registros_del_vdp: 4 parejas [registro][valor] que p01:64B5 escribe
@@ -742,7 +742,7 @@ borra_la_pagina_entera:
 	ld b,a			;64d3
 	ld c,a			;64d4
 	ld d,a			;64d5
-	jp 0479bh		;64d6   ; p00:hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
+	jp 0479bh		;64d6   ; p00:hmmv: el color, a un lado
 teclas_del_cuadro:
 	ld a,(0c102h)		;64d9   ; sin el bit 6 de 0xC102 (la demostracion), las teclas salen del guion (p01:69D7)
 	and 040h		;64dc
@@ -854,7 +854,7 @@ L_6578:
 	ld a,(0c133h)		;6578
 	and a			;657b
 	ret nz			;657c
-	call 054bdh		;657d   ; p00:hay_musica
+	call 054bdh		;657d   ; p00:hay_musica: Z si no suena nada que importe: sin fundido (0xC08B) ni musica (0xC08D)
 	jr z,L_658E		;6580
 	cp 085h		;6582
 	ret z			;6584
@@ -880,7 +880,7 @@ L_658E:
 	ld b,080h		;65a7
 L_65A9:
 	ld hl,0c154h		;65a9
-	call 054bdh		;65ac   ; p00:hay_musica
+	call 054bdh		;65ac   ; p00:hay_musica: Z si no suena nada que importe: sin fundido (0xC08B) ni musica (0xC08D)
 	jr z,L_65BC		;65af
 	cp b			;65b1
 	ret z			;65b2
@@ -935,7 +935,7 @@ L_65EA:
 	ld a,(0c202h)		;65ef
 	or a			;65f2
 	ret z			;65f3
-	call 05ffah		;65f4   ; p00:modo_de_pantalla
+	call 05ffah		;65f4   ; p00:modo_de_pantalla: 0xFAF6 = 1...
 	xor a			;65f7
 	jr L_664C		;65f8
 L_65FA:
@@ -947,18 +947,18 @@ L_65FA:
 	ld a,006h		;6602
 	call 05d9ch		;6604   ; p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
 	call 0ba79h		;6607
-	call 042bch		;660a   ; p00:bancos_1_2_3
+	call 042bch		;660a   ; p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 	xor a			;660d
 	jp L_668A		;660e
 L_6611:
-	call 04612h		;6611   ; p00:limpia_la_pantalla
+	call 04612h		;6611   ; p00:limpia_la_pantalla: LIMPIA: sin sprites, pantalla apagada...
 	call 05f3fh		;6614   ; p00:logotipo_de_konami
 	jr L_664F		;6617
 L_6619:
 	ld a,006h		;6619
 	call 05d9ch		;661b   ; p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
 	call 0b9c8h		;661e
-	call 042bch		;6621   ; p00:bancos_1_2_3
+	call 042bch		;6621   ; p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 	ld hl,0c104h		;6624   ; apunta a la espera del estado, en cuadros
 	dec (hl)			;6627
 	ret nz			;6628
@@ -978,7 +978,7 @@ L_663A:
 	ld (0c104h),a		;663f   ; guarda la espera del estado, en cuadros
 	jr L_6691		;6642
 L_6644:
-	call 04612h		;6644   ; p00:limpia_la_pantalla
+	call 04612h		;6644   ; p00:limpia_la_pantalla: LIMPIA: sin sprites, pantalla apagada...
 	call empieza_la_demostracion		;6647
 	ld a,020h		;664a
 L_664C:
@@ -992,7 +992,7 @@ L_6654:
 	ld a,006h		;6656
 	call 05d9ch		;6658   ; p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
 	call 0ba46h		;665b
-	call 042bch		;665e   ; p00:bancos_1_2_3
+	call 042bch		;665e   ; p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 	ld hl,0c104h		;6661   ; apunta a la espera del estado, en cuadros
 	dec (hl)			;6664
 	ret nz			;6665
@@ -1004,12 +1004,12 @@ L_666B:
 	ld a,050h		;6670
 	jr L_664C		;6672
 L_6674:
-	call 04612h		;6674   ; p00:limpia_la_pantalla
-	call 0533dh		;6677   ; p00:empieza_la_partida
+	call 04612h		;6674   ; p00:limpia_la_pantalla: LIMPIA: sin sprites, pantalla apagada...
+	call 0533dh		;6677   ; p00:empieza_la_partida: EMPIEZA LA PARTIDA: pantalla limpia...
 	di			;667a
 	ld a,006h		;667b
 	call 05d9ch		;667d   ; p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
-	call 042bch		;6680   ; p00:bancos_1_2_3
+	call 042bch		;6680   ; p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 	ld hl,0c123h		;6683
 	ld (hl),001h		;6686
 L_6688:
@@ -1070,7 +1070,7 @@ continuar:
 	ld hl,0bfech		;66ee   ; p03:continue_f5: [x][y] "CONTINUE F5" 0xFF: p01:66EE
 	call 04913h		;66f1
 L_66F4:
-	call 054bdh		;66f4   ; p00:hay_musica
+	call 054bdh		;66f4   ; p00:hay_musica: Z si no suena nada que importe: sin fundido (0xC08B) ni musica (0xC08D)
 	ret nz			;66f7
 	ld a,(0c11ah)		;66f8
 	and a			;66fb
@@ -1112,7 +1112,7 @@ L_6713:
 	ld a,005h		;6731
 	jp L_663A		;6733
 L_6736:
-	call 04612h		;6736   ; p00:limpia_la_pantalla
+	call 04612h		;6736   ; p00:limpia_la_pantalla: LIMPIA: sin sprites, pantalla apagada...
 	xor a			;6739
 	ld (0c11ah),a		;673a
 	ld hl,0bfdfh		;673d   ; p03:game_over: [x][y] "GAME  OVER" y 0xFE, que sigue con p03:BFEC: p01:673D escribe las dos lineas
@@ -1123,7 +1123,7 @@ L_6746:
 	ld a,006h		;6747
 	call 05d9ch		;6749   ; p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
 	call 0a6cfh		;674c
-	jp 042bch		;674f   ; p00:bancos_1_2_3
+	jp 042bch		;674f   ; p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 L_6752:
 	call teclas_del_cuadro		;6752   ; teclas_del_cuadro: sin el bit 6 de 0xC102 (la demostracion), las teclas salen del guion (p01:69D7)
 	ld a,(0c112h)		;6755   ; lee las teclas del teclado (bits 3-5: 1, 2 y 3; bit 2: F5)
@@ -1168,7 +1168,7 @@ L_679D:
 	ld a,006h		;67a4
 	call 05d9ch		;67a6   ; p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
 	call 0ba79h		;67a9
-	jp 042bch		;67ac   ; p00:bancos_1_2_3
+	jp 042bch		;67ac   ; p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 ventana_de_pausa:
 	ld hl,05054h		;67af
 	ld bc,03010h		;67b2
@@ -1210,7 +1210,7 @@ borra_la_ventana:
 	ld d,000h		;67e9
 	push bc			;67eb
 	push hl			;67ec
-	call 0479bh		;67ed   ; p00:hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
+	call 0479bh		;67ed   ; p00:hmmv: el color, a un lado
 	pop hl			;67f0
 	pop de			;67f1
 	ret			;67f2
@@ -1278,7 +1278,7 @@ L_6859:
 	push bc			;6859
 	ld a,(ix+000h)		;685a   ; lee el tipo del enemigo
 	and a			;685d
-	call nz,050f9h		;685e   ; p00:cuadro_de_la_ficha
+	call nz,050f9h		;685e   ; p00:cuadro_de_la_ficha: sin sprites, nada
 	ld de,00080h		;6861
 	add ix,de		;6864
 	pop bc			;6866
@@ -1484,7 +1484,7 @@ empieza_la_demostracion:
 	inc hl			;69b8
 	ld d,(hl)			;69b9
 	ld (0c10dh),de		;69ba   ; guarda el guion de la demostracion
-	call 0533dh		;69be   ; p00:empieza_la_partida
+	call 0533dh		;69be   ; p00:empieza_la_partida: EMPIEZA LA PARTIDA: pantalla limpia...
 	ld a,004h		;69c1
 	ld (0c307h),a		;69c3
 	ld a,099h		;69c6
@@ -1517,11 +1517,11 @@ L_69E3:
 	cp 0ffh		;69e6
 	jr z,L_69F0		;69e8
 	call guarda_las_teclas		;69ea
-	jp 042bch		;69ed   ; p00:bancos_1_2_3
+	jp 042bch		;69ed   ; p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 L_69F0:
 	xor a			;69f0
 	ld (0c123h),a		;69f1
-	jp 042bch		;69f4   ; p00:bancos_1_2_3
+	jp 042bch		;69f4   ; p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 L_69F7:
 	inc hl			;69f7
 	inc hl			;69f8
@@ -1935,14 +1935,14 @@ L_6C59:
 	ld a,(hl)			;6c6c
 	sbc a,000h		;6c6d
 	ld (hl),a			;6c6f
-	jr c,L_6C7B		;6c70
+	jr c,mitchel_muere		;6c70
 	jp nz,escribe_life		;6c72
 	dec e			;6c75
 	ld a,(de)			;6c76
 	and a			;6c77
 	jp nz,escribe_life		;6c78
-L_6C7B:
-	ld hl,04201h		;6c7b
+mitchel_muere:
+	ld hl,04201h		;6c7b   ; LIFE a cero, lo lanzado se borra y 0x50 cuadros de espera
 	ld (0c309h),hl		;6c7e   ; guarda el color del primer sprite de Mitchel
 	xor a			;6c81
 	ld l,a			;6c82
@@ -2709,7 +2709,7 @@ L_7136:
 	add a,005h		;713a
 	ld l,a			;713c
 	djnz L_7136		;713d
-	call 042bch		;713f   ; p00:bancos_1_2_3
+	call 042bch		;713f   ; p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 	ld a,(ix+000h)		;7142
 	sub 081h		;7145
 	call 0425fh		;7147   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
@@ -2820,7 +2820,7 @@ L_71E7:
 	rlca			;71e9
 	and 007h		;71ea
 	add a,e			;71ec
-	ld hl,0721eh		;71ed   ; razon_para_apuntar: 8 filas de 8: la razon entre las dos distancias en 32avos (la diagonal es 0x20); p01:71ED, y p00:5235 desde 0x7230 o 0x7250
+	ld hl,0721eh		;71ed   ; razon_para_apuntar: 8 filas de 8: la razon entre las dos distancias en 32avos (la diagonal es 0x20); p01:71ED
 	call 04255h		;71f0   ; p00:hl_mas_a
 	ld a,(hl)			;71f3
 	ld (0e815h),a		;71f4
@@ -2863,7 +2863,7 @@ L_721B:
 
 ; ----------------------------------------------------------------------
 ; DATOS razon_para_apuntar: 8 filas de 8: la razon entre las dos distancias en
-;   32avos (la diagonal es 0x20); p01:71ED, y p00:5235 desde 0x7230 o 0x7250
+;   32avos (la diagonal es 0x20); p01:71ED
 ;   0x721e..0x725e  (64 bytes)
 DATA_razon_para_apuntar:
 	defb 020h,008h,004h,003h,002h,002h,001h,001h,038h,020h,015h,00fh,00ch,009h,008h,007h	; 721e   .......8 ......
@@ -3480,7 +3480,7 @@ L_7631:
 	ld a,01ah		;7636
 	call z,05490h		;7638   ; p00:sonido: pone los bancos 4 y 5 y pide el sonido A a p04:6032
 	call lo_lanzado_contra_el_mapa		;763b
-	jr c,L_7668		;763e
+	jr c,rebota_lo_lanzado		;763e
 	call va_hacia_su_destino		;7640
 	inc (ix+001h)		;7643
 	ld a,(ix+001h)		;7646
@@ -3497,7 +3497,7 @@ L_7631:
 	and a			;7663
 	ret nz			;7664
 	jp L_74EF		;7665
-L_7668:
+rebota_lo_lanzado:
 	ld a,(ix+001h)		;7668
 	cp 01ch		;766b
 	jr nc,L_7694		;766d
@@ -3910,7 +3910,7 @@ L_78DA:
 	ld hl,078eah		;78de   ; dibujos_del_suceso_2A: 2x2 numeros de dibujo que p01:78E7 pinta en (0x50, 0x30) (el suceso 0x2A)
 	ld de,03050h		;78e1
 	ld bc,00202h		;78e4
-	jp 04eb5h		;78e7   ; p00:pinta_figura_sin_bancos
+	jp 04eb5h		;78e7   ; p00:pinta_figura_sin_bancos: HL' = la casilla del mapa de la RAM de la esquina
 
 ; ----------------------------------------------------------------------
 ; DATOS dibujos_del_suceso_2A: 2x2 numeros de dibujo que p01:78E7 pinta en
@@ -3946,7 +3946,7 @@ L_7902:
 	djnz L_7902		;790e
 	ret			;7910
 guarda_las_casillas_del_objeto:
-	call esquina_de_la_ficha		;7911
+	call esquina_de_la_ficha		;7911   ; esquina_de_la_ficha: medio ancho hacia la izquierda (C columnas)...
 	ex de,hl			;7914
 	call 0431fh		;7915   ; p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
 	ld a,(hl)			;7918
@@ -3987,9 +3987,9 @@ L_794E:
 	inc a			;7954
 	jr z,L_795C		;7955
 	dec (ix+001h)		;7957
-	jr z,L_797F		;795a
+	jr z,quita_un_objeto_del_suelo		;795a
 L_795C:
-	call esquina_de_la_ficha		;795c
+	call esquina_de_la_ficha		;795c   ; esquina_de_la_ficha: medio ancho hacia la izquierda (C columnas)...
 	ld a,(ix+000h)		;795f
 pinta_icono:
 	cp 026h		;7962   ; el 0x26 (oro) se pinta con el dibujo del 6 (la bolsa)
@@ -4011,9 +4011,9 @@ L_7968:
 	ld bc,01010h		;7977
 	ld a,048h		;797a
 	jp 0481bh		;797c   ; 16x16 con transparencia
-L_797F:
+quita_un_objeto_del_suelo:
 	ld (ix+000h),000h		;797f
-	call esquina_de_la_ficha		;7983
+	call esquina_de_la_ficha		;7983   ; esquina_de_la_ficha: medio ancho hacia la izquierda (C columnas)...
 	ld a,(ix+00ch)		;7986
 	call casilla_especial		;7989
 	call nz,0497bh		;798c   ; p00:pon_dibujo: el dibujo A de la hoja (pagina 1) en (D, E) de la pagina 0
@@ -4655,7 +4655,7 @@ usa_el_0x24:
 	ret nz			;7dd3
 L_7DD4:
 	jp L_7D00		;7dd4
-L_7DD7:
+paleta_de_las_pantallas_oscuras:
 	ld a,(0c141h)		;7dd7   ; lee SHOT2, el objeto que se lleva
 	cp 01ah		;7dda   ; el objeto 0x1A, ひとみ?
 	ret z			;7ddc
@@ -4924,7 +4924,7 @@ L_7F7A:
 	ld de,05818h		;7f8e
 	ld c,001h		;7f91
 	call 0bde7h		;7f93
-	call 042bch		;7f96   ; p00:bancos_1_2_3
+	call 042bch		;7f96   ; p00:bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 	jr L_7FA5		;7f99
 L_7F9B:
 	ld hl,0c32ah		;7f9b
