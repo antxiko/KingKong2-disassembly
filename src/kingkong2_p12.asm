@@ -2736,14 +2736,14 @@ media_vida:
 	ld h,a			;b954
 	ret c			;b955
 	ld a,l			;b956
-	call L_B985		;b957
+	call media_en_bcd		;b957
 	bit 0,h		;b95a
 	jr z,L_B960		;b95c
 	add a,005h		;b95e
 L_B960:
 	ld l,a			;b960
 	ld a,h			;b961
-	call L_B985		;b962
+	call media_en_bcd		;b962
 	ld h,a			;b965
 	ld a,l			;b966
 	add a,e			;b967
@@ -2769,7 +2769,7 @@ DATA_codigo_B974:
 ; ======================================================================
 
 
-L_B985:
+media_en_bcd:
 	srl a		;b985
 	bit 3,a		;b987
 	ret z			;b989
@@ -2868,8 +2868,8 @@ L_B9E7:
 	ldir		;b9fc
 	call 04200h		;b9fe
 	call 041e2h		;ba01
-	call L_BAB7		;ba04
-	call L_BC6E		;ba07
+	call cuentas_de_las_listas		;ba04
+	call junta_las_listas		;ba07
 	ld a,(0c307h)		;ba0a
 	sub 004h		;ba0d
 	ld (0c2f0h),a		;ba0f
@@ -2882,12 +2882,12 @@ L_B9E7:
 	ld c,004h		;ba23
 	ld hl,0c2a0h		;ba25
 	ld de,0c294h		;ba28
-	call L_BD24		;ba2b
+	call pon_si_no_es_cero		;ba2b
 	ld a,(0c141h)		;ba2e
 	ld c,007h		;ba31
 	ld hl,0c2c0h		;ba33
 	ld de,0c298h		;ba36
-	call L_BD24		;ba39
+	call pon_si_no_es_cero		;ba39
 	ld a,(0c142h)		;ba3c
 	and a			;ba3f
 	jr z,L_BA43		;ba40
@@ -2919,9 +2919,9 @@ L_BA43:
 	call 04056h		;ba7e
 	ld hl,0baaeh		;ba81
 	call 04056h		;ba84
-	call L_BCA1		;ba87
-	call L_BCAA		;ba8a
-	call L_BD63		;ba8d
+	call iconos_de_shot1		;ba87
+	call iconos_de_shot2		;ba8a
+	call pinta_los_zuecos		;ba8d
 	jp 04086h		;ba90
 
 ; ----------------------------------------------------------------------
@@ -2943,13 +2943,13 @@ DATA_rotulo_shot1:
 ; ======================================================================
 
 
-L_BAB7:
+cuentas_de_las_listas:
 	ld de,0c2a0h		;bab7
 	ld b,00ch		;baba
-	call L_BAC4		;babc
+	call cuenta_de_cada_objeto		;babc
 	ld b,015h		;babf
 	ld de,0c2c0h		;bac1
-L_BAC4:
+cuenta_de_cada_objeto:
 	ld a,(de)			;bac4
 	inc de			;bac5
 	and a			;bac6
@@ -2960,27 +2960,27 @@ L_BAC4:
 	ld (de),a			;bad0
 L_BAD1:
 	inc de			;bad1
-	djnz L_BAC4		;bad2
+	djnz cuenta_de_cada_objeto		;bad2
 	ret			;bad4
 L_BAD5:
 	ld (de),a			;bad5
 	jr L_BAD1		;bad6
 L_BAD8:
-	call L_BD8D		;bad8
+	call cursor_de_la_ventana		;bad8
 	ld a,(0c112h)		;badb
 	and 002h		;bade
 	jp nz,L_BBB3		;bae0
 	ld a,(0c106h)		;bae3
 	bit 4,a		;bae6
 	jr nz,L_BAF3		;bae8
-	call L_BC40		;baea
-	call L_BC56		;baed
+	call cursor_horizontal		;baea
+	call cursor_vertical		;baed
 	jp L_BBE4		;baf0
 L_BAF3:
 	ld a,(0c291h)		;baf3
 	cp 00bh		;baf6
 	jr z,L_BB40		;baf8
-	call L_BB83		;bafa
+	call elige_en_la_ventana		;bafa
 	ld a,(hl)			;bafd
 	and a			;bafe
 	jr z,L_BB0E		;baff
@@ -2990,11 +2990,11 @@ L_BAF3:
 	ld a,(hl)			;bb04
 	sub 008h		;bb05
 	ld d,a			;bb07
-	call L_BD1E		;bb08
+	call sitio_del_cursor		;bb08
 	rst 20h			;bb0b
 	jr z,L_BB38		;bb0c
 L_BB0E:
-	call L_BB83		;bb0e
+	call elige_en_la_ventana		;bb0e
 	ld a,(de)			;bb11
 	and a			;bb12
 	ret z			;bb13
@@ -3002,7 +3002,7 @@ L_BB0E:
 	ld c,a			;bb15
 	ld (hl),001h		;bb16
 	ex de,hl			;bb18
-	call L_BD1E		;bb19
+	call sitio_del_cursor		;bb19
 	ex de,hl			;bb1c
 	inc hl			;bb1d
 	ld (hl),e			;bb1e
@@ -3022,7 +3022,7 @@ L_BB36:
 	ld (hl),c			;bb36
 	ret			;bb37
 L_BB38:
-	call L_BB83		;bb38
+	call elige_en_la_ventana		;bb38
 	ld c,000h		;bb3b
 	ld (hl),c			;bb3d
 	jr L_BB29		;bb3e
@@ -3063,12 +3063,12 @@ L_BB72:
 	ld (hl),a			;bb72
 	add a,004h		;bb73
 	ld (0c307h),a		;bb75
-L_BB78:
+pinta_la_casilla_c2f0:
 	ld hl,0c2f0h		;bb78
 	ld b,001h		;bb7b
 	ld de,048f0h		;bb7d
 	jp 04092h		;bb80
-L_BB83:
+elige_en_la_ventana:
 	ld a,(0c291h)		;bb83
 	cp 004h		;bb86
 	jr c,L_BBA1		;bb88
@@ -3131,7 +3131,7 @@ L_BBEF:
 	push hl			;bbfa
 	ld a,(hl)			;bbfb
 	cp 020h		;bbfc
-	call z,L_BC14		;bbfe
+	call z,ventana_shot1		;bbfe
 	pop hl			;bc01
 	jr L_BC0D		;bc02
 L_BC04:
@@ -3139,32 +3139,32 @@ L_BC04:
 	push hl			;bc05
 	ld a,(hl)			;bc06
 	cp 020h		;bc07
-	call z,L_BC35		;bc09
+	call z,borra_la_parte_de_arriba		;bc09
 	pop hl			;bc0c
 L_BC0D:
 	ld a,(hl)			;bc0d
 	ld b,a			;bc0e
 	ld c,017h		;bc0f
 	jp 00047h		;bc11   ; BIOS WRTVDP - Writes data in the VDP-register
-L_BC14:
+ventana_shot1:
 	ld hl,0baaeh		;bc14
 	call 04056h		;bc17
 	ld hl,0c2a0h		;bc1a
 	ld bc,00000h		;bc1d
-	call L_BCD3		;bc20
+	call pinta_los_iconos_de_la_lista		;bc20
 	ld bc,00100h		;bc23
 	ld hl,0c2a8h		;bc26
-	call L_BCD3		;bc29
+	call pinta_los_iconos_de_la_lista		;bc29
 	ld bc,00200h		;bc2c
 	ld hl,0c2b0h		;bc2f
-	jp L_BCD3		;bc32
-L_BC35:
+	jp pinta_los_iconos_de_la_lista		;bc32
+borra_la_parte_de_arriba:
 	ld hl,00000h		;bc35
 	ld bc,00020h		;bc38
 	xor a			;bc3b
 	ld d,a			;bc3c
 	jp 0407ah		;bc3d
-L_BC40:
+cursor_horizontal:
 	ld hl,0c291h		;bc40
 	ld a,(0c106h)		;bc43
 	rra			;bc46
@@ -3182,7 +3182,7 @@ L_BC52:
 	ret p			;bc53
 	inc (hl)			;bc54
 	ret			;bc55
-L_BC56:
+cursor_vertical:
 	ld hl,0c292h		;bc56
 	ld a,(0c106h)		;bc59
 	bit 2,a		;bc5c
@@ -3200,13 +3200,13 @@ L_BC6A:
 	ret p			;bc6b
 	inc (hl)			;bc6c
 	ret			;bc6d
-L_BC6E:
+junta_las_listas:
 	ld hl,0c2a0h		;bc6e
 	ld b,00bh		;bc71
-	call L_BC7B		;bc73
+	call junta_una_lista		;bc73
 	ld hl,0c2c0h		;bc76
 	ld b,014h		;bc79
-L_BC7B:
+junta_una_lista:
 	ld e,l			;bc7b
 	ld d,h			;bc7c
 	inc de			;bc7d
@@ -3241,14 +3241,14 @@ L_BC95:
 	ld (hl),a			;bc9c
 L_BC9D:
 	inc hl			;bc9d
-	djnz L_BC7B		;bc9e
+	djnz junta_una_lista		;bc9e
 	ret			;bca0
-L_BCA1:
+iconos_de_shot1:
 	ld hl,0c2a0h		;bca1
 	ld a,004h		;bca4
 	ld c,000h		;bca6
 	jr L_BCB3		;bca8
-L_BCAA:
+iconos_de_shot2:
 	ld hl,0c2c0h		;bcaa
 	ld a,00bh		;bcad
 	ld c,004h		;bcaf
@@ -3263,7 +3263,7 @@ L_BCBC:
 	ld c,a			;bcbf
 L_BCC0:
 	push bc			;bcc0
-	call L_BCD3		;bcc1
+	call pinta_los_iconos_de_la_lista		;bcc1
 	pop bc			;bcc4
 	inc c			;bcc5
 	ld a,(0e800h)		;bcc6
@@ -3274,7 +3274,7 @@ L_BCC0:
 	cp 003h		;bcce
 	jr nz,L_BCBC		;bcd0
 	ret			;bcd2
-L_BCD3:
+pinta_los_iconos_de_la_lista:
 	ld a,(hl)			;bcd3
 	and a			;bcd4
 	ret z			;bcd5
@@ -3315,10 +3315,10 @@ L_BD14:
 	inc hl			;bd1b
 	inc hl			;bd1c
 	ret			;bd1d
-L_BD1E:
+sitio_del_cursor:
 	ld hl,(0c291h)		;bd1e
 	jp 040c2h		;bd21
-L_BD24:
+pon_si_no_es_cero:
 	and a			;bd24
 	jr nz,L_BD29		;bd25
 	ld (de),a			;bd27
@@ -3366,8 +3366,8 @@ L_BD4F:
 	inc l			;bd60
 	ld (hl),d			;bd61
 	ret			;bd62
-L_BD63:
-	call L_BB78		;bd63
+pinta_los_zuecos:
+	call pinta_la_casilla_c2f0		;bd63
 	ld a,(0c35dh)		;bd66
 	and a			;bd69
 	ret z			;bd6a
@@ -3393,10 +3393,10 @@ DATA_rotulo_mizugeta:
 ; ======================================================================
 
 
-L_BD8D:
+cursor_de_la_ventana:
 	ld hl,0f600h		;bd8d
 	call 040d4h		;bd90
-	call L_BD1E		;bd93
+	call sitio_del_cursor		;bd93
 	ld a,(00007h)		;bd96
 	ld c,a			;bd99
 	out (c),l		;bd9a
@@ -3482,15 +3482,15 @@ L_BE0F:
 	sub d			;be27
 	add a,012h		;be28
 	cp 024h		;be2a
-	call c,L_BE3D		;be2c
+	call c,pon_c800_delante_de_mitchel		;be2c
 L_BE2F:
 	ld a,001h		;be2f
 	ld (0c800h),a		;be31
 	ld a,(0c125h)		;be34
 	ld (0c153h),a		;be37
 	jp L_BF37		;be3a
-L_BE3D:
-	call 040e0h		;be3d
+pon_c800_delante_de_mitchel:
+	call 040e0h		;be3d   ; la posicion de 0xC800 a 0x10 de Mitchel, hacia donde mira
 	ld a,(0c306h)		;be40
 	dec a			;be43
 	jr z,L_BE53		;be44
@@ -3661,9 +3661,9 @@ L_BF53:
 	djnz L_BF53		;bf5c
 	ld hl,0e5e0h		;bf5e
 	ld a,001h		;bf61
-	call L_BF68		;bf63
+	call dieciseis_bytes		;bf63
 	ld a,04ch		;bf66
-L_BF68:
+dieciseis_bytes:
 	ld b,010h		;bf68
 L_BF6A:
 	ld (hl),a			;bf6a

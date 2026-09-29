@@ -27,7 +27,7 @@ L_A005:
 	ld (ix+015h),a		;a005
 	jp L_BF19		;a008
 L_A00B:
-	call L_A127		;a00b
+	call spider_cuadros		;a00b
 	ld a,(0dfb0h)		;a00e
 	dec a			;a011
 	jr z,L_A01E		;a012
@@ -61,7 +61,7 @@ L_A053:
 	ld a,090h		;a053
 	jp L_A165		;a055
 L_A058:
-	call L_A127		;a058
+	call spider_cuadros		;a058
 	ld b,09fh		;a05b
 	ld a,(ix+000h)		;a05d
 	cp 00bh		;a060
@@ -114,7 +114,7 @@ L_A095:
 	ld (ix+009h),l		;a0bf
 	ret			;a0c2
 L_A0C3:
-	call L_A127		;a0c3
+	call spider_cuadros		;a0c3
 L_A0C6:
 	dec (ix+014h)		;a0c6
 	ret nz			;a0c9
@@ -122,7 +122,7 @@ L_A0C6:
 	inc (ix+001h)		;a0ce
 	ret			;a0d1
 L_A0D2:
-	call L_A127		;a0d2
+	call spider_cuadros		;a0d2
 	ld a,(ix+000h)		;a0d5
 	cp 00bh		;a0d8
 	jr z,L_A0E4		;a0da
@@ -143,7 +143,7 @@ L_A0EB:
 	ld a,(0dfb2h)		;a0fb
 	ld (ix+005h),a		;a0fe
 	push ix		;a101
-	call L_A131		;a103
+	call spider_recorre_las_fichas		;a103
 	pop ix		;a106
 	ld a,(0dfb0h)		;a108
 	and a			;a10b
@@ -159,11 +159,11 @@ L_A0EB:
 L_A123:
 	ld a,b			;a123
 	jp L_A002		;a124
-L_A127:
+spider_cuadros:
 	ld hl,0bfb0h		;a127
 	ld (ix+019h),000h		;a12a
 	jp L_BF72		;a12e
-L_A131:
+spider_recorre_las_fichas:
 	ld ix,0d000h		;a131
 	ld de,00080h		;a135
 	ld b,00dh		;a138
@@ -236,7 +236,7 @@ L_A1BB:
 	ld bc,00000h		;a1bb
 	call 0729eh		;a1be
 	ld (ix+013h),a		;a1c1
-	call L_A346		;a1c4
+	call grounder_cuadro		;a1c4
 	ld a,(ix+003h)		;a1c7
 	ld (0dfb1h),a		;a1ca
 	ld a,(ix+005h)		;a1cd
@@ -286,19 +286,19 @@ L_A239:
 	ld (0dfb4h),a		;a23e
 	ld a,(ix+012h)		;a241
 	and 001h		;a244
-	jr z,L_A262		;a246
+	jr z,grounder_prueba_rumbo		;a246
 	ld a,(ix+015h)		;a248
 	cp 002h		;a24b
-	call nc,L_A262		;a24d
+	call nc,grounder_prueba_rumbo		;a24d
 	ld a,(0dfb0h)		;a250
 	cp 006h		;a253
 	push ix		;a255
-	call c,L_A2CC		;a257
+	call c,grounder_crea_otro		;a257
 	pop ix		;a25a
 	ld a,(ix+015h)		;a25c
 	cp 002h		;a25f
 	ret nc			;a261
-L_A262:
+grounder_prueba_rumbo:
 	ld a,001h		;a262
 	ld (ix+012h),a		;a264
 	ld e,000h		;a267
@@ -314,7 +314,7 @@ L_A271:
 	cp b			;a27d
 	jr z,L_A284		;a27e
 	ld a,b			;a280
-	jp L_A346		;a281
+	jp grounder_cuadro		;a281
 L_A284:
 	ld (ix+016h),a		;a284
 	xor a			;a287
@@ -324,7 +324,7 @@ L_A28B:
 	jr z,L_A298		;a28e
 	ld e,000h		;a290
 	call 07303h		;a292
-	jp nc,L_A346		;a295
+	jp nc,grounder_cuadro		;a295
 L_A298:
 	ld a,(0dfb3h)		;a298
 	inc a			;a29b
@@ -332,7 +332,7 @@ L_A298:
 	cp 004h		;a29f
 	jr c,L_A28B		;a2a1
 	ld a,(ix+016h)		;a2a3
-	jp L_A346		;a2a6
+	jp grounder_cuadro		;a2a6
 L_A2A9:
 	ld a,(ix+005h)		;a2a9
 	add a,080h		;a2ac
@@ -349,8 +349,8 @@ L_A2BE:
 	ld (0dfb5h),a		;a2c0
 	ld bc,00000h		;a2c3
 	call 0729eh		;a2c6
-	jp L_A346		;a2c9
-L_A2CC:
+	jp grounder_cuadro		;a2c9
+grounder_crea_otro:
 	ld a,(0dfb0h)		;a2cc
 	inc a			;a2cf
 	ld (0dfb0h),a		;a2d0
@@ -410,7 +410,7 @@ L_A330:
 	ld (ix+014h),b		;a33e
 	ld (ix+013h),a		;a341
 	jr L_A35C		;a344
-L_A346:
+grounder_cuadro:
 	ld b,(ix+013h)		;a346
 	ld (ix+014h),b		;a349
 	ld (ix+013h),a		;a34c
@@ -442,7 +442,7 @@ L_A36A:
 	ld (ix+009h),a		;a372
 	ld (ix+018h),00fh		;a375
 	ld (ix+019h),002h		;a379
-	call L_A53E		;a37d
+	call saltarines_elige		;a37d
 	ld (ix+01ah),008h		;a380
 	ld (ix+01bh),008h		;a384
 	ret			;a388
@@ -513,7 +513,7 @@ DATA_tabla_A3EE:
 
 
 L_A3FA:
-	call L_A53E		;a3fa
+	call saltarines_elige		;a3fa
 	call 09a9fh		;a3fd
 	ld a,(ix+019h)		;a400
 	ld e,000h		;a403
@@ -525,9 +525,9 @@ L_A3FA:
 	sub 036h		;a412
 	jr z,L_A41A		;a414
 	dec a			;a416
-	call nz,L_A58B		;a417
+	call nz,saltarines_alineado_en_x		;a417
 L_A41A:
-	call L_A5F4		;a41a
+	call saltarines_alineado_en_y		;a41a
 	dec (ix+01ah)		;a41d
 	ret nz			;a420
 	ld (ix+001h),001h		;a421
@@ -542,7 +542,7 @@ L_A41A:
 	jp nc,L_A535		;a43c
 	jp L_A51D		;a43f
 L_A442:
-	call L_A53E		;a442
+	call saltarines_elige		;a442
 	call 09a9fh		;a445
 	ld a,(ix+019h)		;a448
 	ld e,000h		;a44b
@@ -558,9 +558,9 @@ L_A45B:
 	sub 036h		;a462
 	jr z,L_A46A		;a464
 	dec a			;a466
-	call nz,L_A58B		;a467
+	call nz,saltarines_alineado_en_x		;a467
 L_A46A:
-	call L_A5F4		;a46a
+	call saltarines_alineado_en_y		;a46a
 	dec (ix+01ah)		;a46d
 	ret nz			;a470
 	ld (ix+01ah),008h		;a471
@@ -623,7 +623,7 @@ L_A4F0:
 	inc (ix+018h)		;a4f0
 	ret			;a4f3
 L_A4F4:
-	call L_A53E		;a4f4
+	call saltarines_elige		;a4f4
 	dec (ix+018h)		;a4f7
 	ret nz			;a4fa
 	ld (ix+001h),000h		;a4fb
@@ -633,7 +633,7 @@ L_A505:
 	call 04308h		;a505
 	ld (ix+003h),e		;a508
 	ld (ix+005h),d		;a50b
-	jp L_A53E		;a50e
+	jp saltarines_elige		;a50e
 L_A511:
 	dec (ix+017h)		;a511
 	ret nz			;a514
@@ -656,7 +656,7 @@ L_A535:
 	ld (ix+019h),a		;a535
 	ld hl,09ab9h		;a538
 	jp 098b4h		;a53b
-L_A53E:
+saltarines_elige:
 	ld a,(ix+000h)		;a53e
 	sub 017h		;a541
 	jr z,L_A566		;a543
@@ -699,7 +699,7 @@ L_A577:
 L_A587:
 	ld (ix+00bh),a		;a587
 	ret			;a58a
-L_A58B:
+saltarines_alineado_en_x:
 	call 04308h		;a58b
 	ld a,004h		;a58e
 	add a,d			;a590
@@ -751,7 +751,7 @@ L_A5D6:
 	add a,070h		;a5ee
 	ld c,a			;a5f0
 	jp 0709ah		;a5f1
-L_A5F4:
+saltarines_alineado_en_y:
 	call 04308h		;a5f4
 	ld a,004h		;a5f7
 	add a,e			;a5f9
@@ -1071,19 +1071,19 @@ L_A890:
 	ret nz			;a893
 	bit 0,(ix+019h)		;a894
 	jr nz,L_A8A1		;a898
-	call L_AA8F		;a89a
+	call ranas_siguiente_movimiento		;a89a
 	cp 002h		;a89d
 	jr nz,L_A8B8		;a89f
 L_A8A1:
 	ld (ix+001h),006h		;a8a1
-	call L_AA62		;a8a5
+	call ranas_espera_segun_el_tipo		;a8a5
 	ld (ix+019h),000h		;a8a8
 	ld de,00200h		;a8ac
 	call 04311h		;a8af
 	ld de,00000h		;a8b2
 	jp 04318h		;a8b5
 L_A8B8:
-	call L_AAF8		;a8b8
+	call ranas_velocidad		;a8b8
 	ld (ix+013h),00ch		;a8bb
 	ret			;a8bf
 L_A8C0:
@@ -1093,19 +1093,19 @@ L_A8C4:
 	ret nz			;a8c7
 	bit 0,(ix+019h)		;a8c8
 	jr nz,L_A8D5		;a8cc
-	call L_AA8F		;a8ce
+	call ranas_siguiente_movimiento		;a8ce
 	cp 003h		;a8d1
 	jr nz,L_A8EC		;a8d3
 L_A8D5:
 	ld (ix+001h),007h		;a8d5
-	call L_AA62		;a8d9
+	call ranas_espera_segun_el_tipo		;a8d9
 	ld (ix+019h),000h		;a8dc
 	ld de,00000h		;a8e0
 	call 04311h		;a8e3
 	ld de,0fe00h		;a8e6
 	jp 04318h		;a8e9
 L_A8EC:
-	call L_AAF8		;a8ec
+	call ranas_velocidad		;a8ec
 	ld (ix+013h),00ch		;a8ef
 	ret			;a8f3
 L_A8F4:
@@ -1115,19 +1115,19 @@ L_A8F8:
 	ret nz			;a8fb
 	bit 0,(ix+019h)		;a8fc
 	jr nz,L_A909		;a900
-	call L_AA8F		;a902
+	call ranas_siguiente_movimiento		;a902
 	cp 001h		;a905
 	jr nz,L_A920		;a907
 L_A909:
 	ld (ix+001h),008h		;a909
-	call L_AA62		;a90d
+	call ranas_espera_segun_el_tipo		;a90d
 	ld (ix+019h),000h		;a910
 	ld de,00000h		;a914
 	call 04311h		;a917
 	ld de,00200h		;a91a
 	jp 04318h		;a91d
 L_A920:
-	call L_AAF8		;a920
+	call ranas_velocidad		;a920
 	ld (ix+013h),00ch		;a923
 	ret			;a927
 L_A928:
@@ -1137,19 +1137,19 @@ L_A92C:
 	ret nz			;a92f
 	bit 0,(ix+019h)		;a930
 	jr nz,L_A93C		;a934
-	call L_AA8F		;a936
+	call ranas_siguiente_movimiento		;a936
 	and a			;a939
 	jr nz,L_A953		;a93a
 L_A93C:
 	ld (ix+001h),009h		;a93c
-	call L_AA62		;a940
+	call ranas_espera_segun_el_tipo		;a940
 	ld (ix+019h),000h		;a943
 	ld de,0fe00h		;a947
 	call 04311h		;a94a
 	ld de,00000h		;a94d
 	jp 04318h		;a950
 L_A953:
-	call L_AAF8		;a953
+	call ranas_velocidad		;a953
 	ld (ix+013h),00ch		;a956
 	ret			;a95a
 L_A95B:
@@ -1158,9 +1158,9 @@ L_A95F:
 	dec (ix+013h)		;a95f
 	bit 0,(ix+018h)		;a962
 	jr nz,L_A96B		;a966
-	call L_AB15		;a968
+	call ranas_suma_velocidad		;a968
 L_A96B:
-	call L_AB3C		;a96b
+	call ranas_recorrido_segun_el_tipo		;a96b
 	ld a,(ix+013h)		;a96e
 	and 003h		;a971
 	jr nz,L_A988		;a973
@@ -1186,9 +1186,9 @@ L_A9A1:
 	dec (ix+013h)		;a9a1
 	bit 0,(ix+018h)		;a9a4
 	jr nz,L_A9AD		;a9a8
-	call L_AB15		;a9aa
+	call ranas_suma_velocidad		;a9aa
 L_A9AD:
-	call L_AB3C		;a9ad
+	call ranas_recorrido_segun_el_tipo		;a9ad
 	ld a,(ix+013h)		;a9b0
 	and 003h		;a9b3
 	jr nz,L_A9CA		;a9b5
@@ -1214,9 +1214,9 @@ L_A9E3:
 	dec (ix+013h)		;a9e3
 	bit 0,(ix+018h)		;a9e6
 	jr nz,L_A9EF		;a9ea
-	call L_AB15		;a9ec
+	call ranas_suma_velocidad		;a9ec
 L_A9EF:
-	call L_AB3C		;a9ef
+	call ranas_recorrido_segun_el_tipo		;a9ef
 	ld a,(ix+013h)		;a9f2
 	and 003h		;a9f5
 	jr nz,L_AA0C		;a9f7
@@ -1242,9 +1242,9 @@ L_AA25:
 	dec (ix+013h)		;aa25
 	bit 0,(ix+018h)		;aa28
 	jr nz,L_AA31		;aa2c
-	call L_AB15		;aa2e
+	call ranas_suma_velocidad		;aa2e
 L_AA31:
-	call L_AB3C		;aa31
+	call ranas_recorrido_segun_el_tipo		;aa31
 	ld a,(ix+013h)		;aa34
 	and 003h		;aa37
 	jr nz,L_AA4D		;aa39
@@ -1264,7 +1264,7 @@ L_AA4D:
 	ld (ix+018h),000h		;aa5a
 	inc (ix+012h)		;aa5e
 	ret			;aa61
-L_AA62:
+ranas_espera_segun_el_tipo:
 	ld a,(ix+000h)		;aa62
 	cp 006h		;aa65
 	ld c,00ch		;aa67
@@ -1287,7 +1287,7 @@ L_AA62:
 L_AA8B:
 	ld (ix+013h),c		;aa8b
 	ret			;aa8e
-L_AA8F:
+ranas_siguiente_movimiento:
 	inc (ix+01ah)		;aa8f
 	ld a,(ix+01ah)		;aa92
 	and 01fh		;aa95
@@ -1342,7 +1342,7 @@ DATA_tablas_AAD4:
 ; ======================================================================
 
 
-L_AAF8:
+ranas_velocidad:
 	and a			;aaf8
 	ld c,005h		;aaf9
 	jr z,L_AB09		;aafb
@@ -1358,7 +1358,7 @@ L_AB09:
 	ld (ix+013h),00ch		;ab0c
 	ld (ix+019h),001h		;ab10
 	ret			;ab14
-L_AB15:
+ranas_suma_velocidad:
 	ld l,(ix+014h)		;ab15
 	ld h,(ix+015h)		;ab18
 	ld e,(ix+007h)		;ab1b
@@ -1374,7 +1374,7 @@ L_AB15:
 	ld (ix+016h),l		;ab35
 	ld (ix+017h),h		;ab38
 	ret			;ab3b
-L_AB3C:
+ranas_recorrido_segun_el_tipo:
 	ld a,(ix+000h)		;ab3c
 	cp 006h		;ab3f
 	ld hl,0ab88h		;ab41
@@ -1701,7 +1701,7 @@ DATA_byte_12_ADC1:
 
 L_ADC9:
 	dec (ix+012h)		;adc9
-	call z,L_AE96		;adcc
+	call z,dungroll_empieza_a_rodar		;adcc
 	ld a,(ix+001h)		;adcf
 	call 0425fh		;add2
 
@@ -1720,7 +1720,7 @@ DATA_tabla_ADD5:
 
 
 L_ADDB:
-	call L_AE76		;addb
+	call dungroll_cuadro		;addb
 	ld a,(ix+005h)		;adde
 	and 007h		;ade1
 	ld a,003h		;ade3
@@ -1731,7 +1731,7 @@ L_ADDB:
 	ld de,00100h		;adee
 	jp 04318h		;adf1
 L_ADF4:
-	call L_AE76		;adf4
+	call dungroll_cuadro		;adf4
 	ld a,(ix+005h)		;adf7
 	and 007h		;adfa
 	ld a,001h		;adfc
@@ -1791,7 +1791,7 @@ L_AE6E:
 	add a,e			;ae71
 	ld e,a			;ae72
 	jp 0709ah		;ae73
-L_AE76:
+dungroll_cuadro:
 	ld a,(ix+00ch)		;ae76
 	and 008h		;ae79
 	rra			;ae7b
@@ -1819,7 +1819,7 @@ DATA_cuadros_AE92:
 ; ======================================================================
 
 
-L_AE96:
+dungroll_empieza_a_rodar:
 	ld (ix+012h),0ffh		;ae96
 	ld (ix+014h),018h		;ae9a
 	ld a,(ix+001h)		;ae9e
@@ -1931,7 +1931,7 @@ L_AF4F:
 	ret nz			;af5c
 	ld a,(ix+018h)		;af5d
 	and a			;af60
-	call nz,L_B05D		;af61
+	call nz,firetotem_lanza		;af61
 	ret			;af64
 L_AF65:
 	ld (ix+018h),000h		;af65
@@ -1964,15 +1964,15 @@ L_AFAC:
 	xor a			;afac
 L_AFAD:
 	push af			;afad
-	call L_B032		;afae
-	call L_B00B		;afb1
-	call L_AFE2		;afb4
+	call firetotem_cuadro		;afae
+	call firetotem_suma_velocidad		;afb1
+	call firetotem_altura		;afb4
 	pop af			;afb7
 	dec (ix+014h)		;afb8
 	ret nz			;afbb
 	ld (ix+001h),a		;afbc
 	ld (ix+014h),010h		;afbf
-	call L_B04F		;afc3
+	call firetotem_cuenta		;afc3
 	ld a,(ix+019h)		;afc6
 	xor 001h		;afc9
 	ld (ix+019h),a		;afcb
@@ -1986,7 +1986,7 @@ L_AFCF:
 L_AFDE:
 	ld a,003h		;afde
 	jr L_AFAD		;afe0
-L_AFE2:
+firetotem_altura:
 	ld hl,0affch		;afe2
 	ld a,(ix+014h)		;afe5
 	call 04255h		;afe8
@@ -2011,7 +2011,7 @@ DATA_alturas_AFFC:
 ; ======================================================================
 
 
-L_B00B:
+firetotem_suma_velocidad:
 	ld l,(ix+016h)		;b00b
 	ld h,(ix+017h)		;b00e
 	ld e,(ix+007h)		;b011
@@ -2027,7 +2027,7 @@ L_B00B:
 	ld (ix+004h),l		;b02b
 	ld (ix+005h),h		;b02e
 	ret			;b031
-L_B032:
+firetotem_cuadro:
 	ld hl,0b040h		;b032
 	ld a,(ix+014h)		;b035
 	call 04255h		;b038
@@ -2046,14 +2046,14 @@ DATA_cuadros_B040:
 ; ======================================================================
 
 
-L_B04F:
+firetotem_cuenta:
 	inc (ix+015h)		;b04f
 	ld a,(ix+015h)		;b052
 	and 003h		;b055
 	ret nz			;b057
 	ld (ix+018h),001h		;b058
 	ret			;b05c
-L_B05D:
+firetotem_lanza:
 	ld c,08ch		;b05d
 	ld e,(ix+003h)		;b05f
 	ld d,(ix+005h)		;b062
@@ -2203,7 +2203,7 @@ L_B145:
 	dec (ix+013h)		;b14b
 	ret			;b14e
 L_B14F:
-	call L_B22F		;b14f
+	call gusanos_cuadro		;b14f
 	call 06913h		;b152
 	dec (ix+012h)		;b155
 	ret nz			;b158
@@ -2316,7 +2316,7 @@ DATA_tablas_B1FB:
 ; ======================================================================
 
 
-L_B22F:
+gusanos_cuadro:
 	ld a,(ix+012h)		;b22f
 	dec a			;b232
 	ld hl,0b23eh		;b233
@@ -2393,7 +2393,7 @@ L_B297:
 	jr L_B273		;b2a1
 L_B2A3:
 	ld c,000h		;b2a3
-	call L_B2E3		;b2a5
+	call buckler_cuadros		;b2a5
 	ld c,002h		;b2a8
 L_B2AA:
 	call 06913h		;b2aa
@@ -2409,23 +2409,23 @@ L_B2AA:
 	jp L_B2DE		;b2c0
 L_B2C3:
 	ld c,001h		;b2c3
-	call L_B2E3		;b2c5
+	call buckler_cuadros		;b2c5
 	ld c,003h		;b2c8
 	jr L_B2AA		;b2ca
 L_B2CC:
 	ld c,002h		;b2cc
-	call L_B2E3		;b2ce
+	call buckler_cuadros		;b2ce
 	ld c,001h		;b2d1
 	jr L_B2AA		;b2d3
 L_B2D5:
 	ld c,003h		;b2d5
-	call L_B2E3		;b2d7
+	call buckler_cuadros		;b2d7
 	ld c,000h		;b2da
 	jr L_B2AA		;b2dc
 L_B2DE:
 	ld a,0fbh		;b2de
 	jp L_B16D		;b2e0
-L_B2E3:
+buckler_cuadros:
 	ld hl,0b2e9h		;b2e3
 	jp L_B34B		;b2e6
 
@@ -2467,7 +2467,7 @@ DATA_tabla_B301:
 
 L_B30B:
 	ld c,000h		;b30b
-	call L_B348		;b30d
+	call grassogre_cuadros		;b30d
 	ld c,002h		;b310
 L_B312:
 	call 06913h		;b312
@@ -2483,20 +2483,20 @@ L_B312:
 	jp L_B16B		;b328
 L_B32B:
 	ld c,001h		;b32b
-	call L_B348		;b32d
+	call grassogre_cuadros		;b32d
 	ld c,003h		;b330
 	jr L_B312		;b332
 L_B334:
 	ld c,002h		;b334
-	call L_B348		;b336
+	call grassogre_cuadros		;b336
 	ld c,001h		;b339
 	jp L_B312		;b33b
 L_B33E:
 	ld c,003h		;b33e
-	call L_B348		;b340
+	call grassogre_cuadros		;b340
 	ld c,000h		;b343
 	jp L_B312		;b345
-L_B348:
+grassogre_cuadros:
 	ld hl,0b35fh		;b348
 L_B34B:
 	bit 3,(ix+00ch)		;b34b
@@ -2705,7 +2705,7 @@ DATA_tabla_B4CB:
 
 
 L_B4D1:
-	call L_B61A		;b4d1
+	call gusanos_color		;b4d1
 L_B4D4:
 	ld a,(ix+013h)		;b4d4
 	inc a			;b4d7
@@ -2764,7 +2764,7 @@ L_B549:
 	ld (ix+014h),a		;b54e
 	xor a			;b551
 	ld (0e800h),a		;b552
-	call L_B65E		;b555
+	call gusanos_paso		;b555
 	ld hl,0dd00h		;b558
 	ld a,(ix+013h)		;b55b
 	add a,a			;b55e
@@ -2780,7 +2780,7 @@ L_B549:
 	inc (ix+001h)		;b571
 	ret			;b574
 L_B575:
-	call L_B61A		;b575
+	call gusanos_color		;b575
 L_B578:
 	ld a,(ix+013h)		;b578
 	inc a			;b57b
@@ -2839,7 +2839,7 @@ L_B5ED:
 	ld (ix+014h),a		;b5f2
 	ld a,001h		;b5f5
 	ld (0e800h),a		;b5f7
-	call L_B65E		;b5fa
+	call gusanos_paso		;b5fa
 	ld hl,0dd00h		;b5fd
 	ld a,(ix+013h)		;b600
 	add a,a			;b603
@@ -2854,7 +2854,7 @@ L_B5ED:
 	ret nz			;b615
 	dec (ix+001h)		;b616
 	ret			;b619
-L_B61A:
+gusanos_color:
 	ld a,(ix+00ch)		;b61a
 	and 010h		;b61d
 	ld a,011h		;b61f
@@ -2902,7 +2902,7 @@ DATA_sumas_B659:
 ; ======================================================================
 
 
-L_B65E:
+gusanos_paso:
 	ld a,(ix+01bh)		;b65e
 	ld d,a			;b661
 	ld e,004h		;b662
@@ -2929,7 +2929,7 @@ L_B686:
 	xor a			;b689
 	sub b			;b68a
 L_B68B:
-	call L_B6EA		;b68b
+	call gusanos_de_la_tabla		;b68b
 	jr c,L_B695		;b68e
 	add a,(ix+015h)		;b690
 	jr L_B69A		;b693
@@ -2969,7 +2969,7 @@ L_B6CC:
 	ld c,000h		;b6cc
 	sub 0c0h		;b6ce
 L_B6D0:
-	call L_B6EA		;b6d0
+	call gusanos_de_la_tabla		;b6d0
 	jr c,L_B6DA		;b6d3
 	add a,(ix+014h)		;b6d5
 	jr L_B6DF		;b6d8
@@ -2984,7 +2984,7 @@ L_B6E2:
 	add a,d			;b6e5
 	ld (ix+012h),a		;b6e6
 	ret			;b6e9
-L_B6EA:
+gusanos_de_la_tabla:
 	call 04255h		;b6ea
 	ld a,(hl)			;b6ed
 	ld b,e			;b6ee
@@ -3021,7 +3021,7 @@ L_B71E:
 	ld c,001h		;b71e
 	sub 0c0h		;b720
 L_B722:
-	call L_B6EA		;b722
+	call gusanos_de_la_tabla		;b722
 	jr c,L_B72C		;b725
 	add a,(ix+014h)		;b727
 	jr L_B731		;b72a
@@ -3099,10 +3099,10 @@ DATA_tabla_B7D3:
 
 
 L_B7D9:
-	call L_B7F6		;b7d9
+	call centipede_color		;b7d9
 	jp L_B4D4		;b7dc
 L_B7DF:
-	call L_B7F6		;b7df
+	call centipede_color		;b7df
 	jp L_B578		;b7e2
 L_B7E5:
 	ld a,(ix+00ch)		;b7e5
@@ -3113,7 +3113,7 @@ L_B7E5:
 L_B7F0:
 	ld (ix+00bh),a		;b7f0
 	jp L_B629		;b7f3
-L_B7F6:
+centipede_color:
 	ld a,(ix+00ch)		;b7f6
 	and 010h		;b7f9
 	ld a,010h		;b7fb
@@ -3232,7 +3232,7 @@ DATA_cuadros_B8B2:
 L_B8B6:
 	ld a,040h		;b8b6
 	call 0716fh		;b8b8
-	call L_B8D9		;b8bb
+	call para_y_cuadro_8		;b8bb
 	ld d,(ix+005h)		;b8be
 	ld e,(ix+003h)		;b8c1
 	push de			;b8c4
@@ -3248,7 +3248,7 @@ L_B8D4:
 	add a,00ah		;b8d4
 L_B8D6:
 	call 07186h		;b8d6
-L_B8D9:
+para_y_cuadro_8:
 	call 08bdch		;b8d9
 	ld (ix+00bh),008h		;b8dc
 	ret			;b8e0
@@ -3488,7 +3488,7 @@ DATA_lo_que_suelta_cada_enemigo:
 L_BAAB:
 	push ix		;baab
 	ld b,049h		;baad
-	call L_BB32		;baaf
+	call suelta_piedras		;baaf
 	pop ix		;bab2
 L_BAB4:
 	ld c,028h		;bab4
@@ -3534,8 +3534,8 @@ L_BAF8:
 	ret nz			;bafc
 	ld (hl),006h		;bafd
 	ld b,001h		;baff
-L_BB01:
-	ld c,015h		;bb01
+suelta_carne:
+	ld c,015h		;bb01   ; el objeto 0x15 (carne), B unidades
 	jp 07852h		;bb03
 L_BB06:
 	ld a,b			;bb06
@@ -3549,8 +3549,8 @@ L_BB06:
 L_BB13:
 	ld c,010h		;bb13
 	jp 07852h		;bb15
-L_BB18:
-	ld c,025h		;bb18
+suelta_alguien_que_habla:
+	ld c,025h		;bb18   ; el objeto 0x25: al tocarlo sale la conversacion de la pantalla (p01:7EF5)
 	ld b,000h		;bb1a
 	jp 07852h		;bb1c
 L_BB1F:
@@ -3564,11 +3564,11 @@ L_BB1F:
 	ret z			;bb2a
 	dec a			;bb2b
 	ret nz			;bb2c
-	jp L_BB18		;bb2d
+	jp suelta_alguien_que_habla		;bb2d
 L_BB30:
 	ld b,099h		;bb30
-L_BB32:
-	ld c,008h		;bb32
+suelta_piedras:
+	ld c,008h		;bb32   ; el objeto 8 (piedras), B unidades
 	jp 07852h		;bb34
 L_BB37:
 	ld hl,0dfc1h		;bb37
@@ -3581,17 +3581,17 @@ L_BB37:
 	ret z			;bb42
 	dec a			;bb43
 	ret nz			;bb44
-	jp L_BB18		;bb45
+	jp suelta_alguien_que_habla		;bb45
 L_BB48:
 	ld b,099h		;bb48
-	jp L_BB32		;bb4a
+	jp suelta_piedras		;bb4a
 L_BB4D:
 	ld hl,0dfd3h		;bb4d
 	dec (hl)			;bb50
 	ret nz			;bb51
 	ld (hl),005h		;bb52
 	ld b,099h		;bb54
-	jp L_BB32		;bb56
+	jp suelta_piedras		;bb56
 L_BB59:
 	ld a,(0c103h)		;bb59
 	and 002h		;bb5c
@@ -3638,7 +3638,7 @@ L_BB9A:
 	dec (hl)			;bba2
 	ret nz			;bba3
 	ld (hl),005h		;bba4
-	jp L_BB18		;bba6
+	jp suelta_alguien_que_habla		;bba6
 L_BBA9:
 	ld hl,0dfc2h		;bba9
 	dec (hl)			;bbac
@@ -3684,17 +3684,17 @@ L_BBED:
 	cp 01fh		;bbf2
 	ret nz			;bbf4
 	ld b,002h		;bbf5
-	jp L_BB01		;bbf7
+	jp suelta_carne		;bbf7
 L_BBFA:
 	push ix		;bbfa
-	call L_BB18		;bbfc
+	call suelta_alguien_que_habla		;bbfc
 	pop ix		;bbff
 	jp L_BAB4		;bc01
 L_BC04:
 	ld a,b			;bc04
 	cp 03ah		;bc05
 	ret nz			;bc07
-	jp L_BB18		;bc08
+	jp suelta_alguien_que_habla		;bc08
 L_BC0B:
 	ld hl,0dfd8h		;bc0b
 	dec (hl)			;bc0e
@@ -3741,7 +3741,7 @@ L_BC4F:
 	and 004h		;bc52
 	ret nz			;bc54
 	ld b,001h		;bc55
-	jp L_BB01		;bc57
+	jp suelta_carne		;bc57
 L_BC5A:
 	ld hl,0dfc3h		;bc5a
 	dec (hl)			;bc5d
@@ -3763,7 +3763,7 @@ L_BC6D:
 L_BC7B:
 	push ix		;bc7b
 	ld b,004h		;bc7d
-	call L_BB01		;bc7f
+	call suelta_carne		;bc7f
 	pop ix		;bc82
 	jp L_BAB4		;bc84
 L_BC87:
@@ -3783,7 +3783,7 @@ L_BC99:
 	ret nz			;bc9d
 	ld (hl),002h		;bc9e
 	ld de,02080h		;bca0
-	jp L_BB18		;bca3
+	jp suelta_alguien_que_habla		;bca3
 L_BCA6:
 	ld a,(0c346h)		;bca6
 	and a			;bca9
@@ -3811,7 +3811,7 @@ L_BCC8:
 	dec (hl)			;bccf
 	ret nz			;bcd0
 	ld (hl),006h		;bcd1
-	jp L_BB18		;bcd3
+	jp suelta_alguien_que_habla		;bcd3
 L_BCD6:
 	ld a,(0c353h)		;bcd6
 	and a			;bcd9
@@ -4010,7 +4010,7 @@ DATA_tabla_BE34:
 
 L_BE38:
 	dec (ix+012h)		;be38
-	jr nz,L_BEB8		;be3b
+	jr nz,ruinsbat_anima		;be3b
 	inc (ix+001h)		;be3d
 	ld a,(0c303h)		;be40
 	ld e,a			;be43
@@ -4039,7 +4039,7 @@ L_BE59:
 	ld (ix+00ah),d		;be77
 	ret			;be7a
 L_BE7B:
-	call L_BEB8		;be7b
+	call ruinsbat_anima		;be7b
 	call 06913h		;be7e
 	ld e,(ix+003h)		;be81
 	ld d,(ix+005h)		;be84
@@ -4071,7 +4071,7 @@ L_BEAD:
 	ld (ix+012h),010h		;beb0
 	dec (ix+001h)		;beb4
 	ret			;beb7
-L_BEB8:
+ruinsbat_anima:
 	ld a,(ix+00ch)		;beb8
 	and 003h		;bebb
 	ret nz			;bebd

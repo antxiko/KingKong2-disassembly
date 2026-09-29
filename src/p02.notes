@@ -32,6 +32,68 @@ D 0x9E62 0x9E69 byte_18_9E62  7 bytes: lo que p02:9E54 pone en ix+0x18 segun ix+
 D 0x9EF5 0x9EF7 codigo_9EF5  un jr hacia atras al que no se llega
 D 0x9EFE 0x9F46 circulo_9EFE  36 parejas [dx][dy]: un circulo de radio 16, que p02:9DD5 divide por 2 (paso ix+0x13)
 D 0x9FFF 0xA000 call_partido  el primer byte (0xCD) de call 0x729E: p02:9FFC sigue de largo y el resto de la instruccion esta en p03:A000
+L 0x80E7 escribe_la_conversacion
+C 0x80E7 una letra cada 5 cuadros (0xC156), con su sonido; 0xFD salta de renglon, 0xFF acaba la linea
+L 0x8176 banco_9_en_a000
+L 0x8181 busca_el_decorado_de_la_pantalla
+C 0x8181 p09:B3FD: las pantallas con decorado que se quita
+L 0x8199 copia_la_ficha_de_decorado
+L 0x81BC hueco_para_decorado
+C 0x81BC el primero libre de 0xC500, 0xC520 y 0xC540 (acarreo si no hay)
+L 0x81CD pinta_el_decorado_que_cambia
+L 0x81DF pinta_una_cosa_de_decorado
+L 0x8207 guarda_lo_de_debajo
+L 0x836B suceso_de_la_que_sigue
+L 0x8476 choca_con_el_decorado
+L 0x848E casilla_libre_para_la_ficha
+L 0x849D tipo_segun_la_pantalla_73
+L 0x84B7 distancia_en_x
+L 0x87A1 batt_cambia_de_cuadro
+L 0x89CC bowler_se_para
+L 0x8A1D vuelve_al_paso_0
+L 0x8A2D bowler_mira_a_mitchel
+L 0x8A6D bowler_paso_3
+L 0x8A73 alterna_el_cuadro
+C 0x8A73 cada 8 cuadros (ix+0x0C) cambia el bit 0 del cuadro (ix+0x0B)
+L 0x8BC6 cuenta_las_fichas
+L 0x8BD9 falconbat_velocidad
+L 0x8BDC pon_velocidades
+C 0x8BDC la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
+L 0x8CB4 colores_de_los_sprites_de_la_ficha
+C 0x8CB4 HL = ix+0x25 (el color del primer sprite), DE = 5 (de uno al siguiente)
+L 0x8CC1 colores_a_4
+L 0x8E1E shut_all_casillas
+L 0x8E99 cuantos_segun_ix14
+L 0x8EE1 pinta_dos_casillas
+L 0x8F06 casillas_2x3
+L 0x9038 cerca_de_mitchel_en_x
+C 0x9038 la x de Mitchel +/- 0x20 (al azar) y dentro de la pantalla
+L 0x904B cerca_de_mitchel_en_y
+L 0x905E veinte_a_un_lado
+L 0x906A dentro_de_la_pantalla
+L 0x9102 invierte_la_velocidad_x
+L 0x910B invierte_la_velocidad_y
+L 0x92CB wildboar_elige_rumbo
+L 0x9326 wildboar_cuadro_9326
+L 0x933F wildboar_cuadro_933F
+L 0x93B7 wildboar_en_la_pantalla_3
+L 0x9564 rockman_coordenada
+L 0x95F1 crow_anima
+L 0x97A3 whitefire_hacia_mitchel
+L 0x97CB whitefire_velocidad
+L 0x97DC whitefire_prueba_rumbo
+L 0x98B1 cavernicolas_velocidad
+L 0x98B4 velocidad_de_la_tabla
+C 0x98B4 la pareja A de la tabla de HL en ix+8 e ix+0x0A
+L 0x9A6A cavernicolas_elige_rumbo
+L 0x9A9F sigue_si_esta_en_casilla
+C 0x9A9F si la ficha no esta alineada a 8 en x e y, vuelve al que llamo al que llamo
+L 0x9CE7 espera_segun_la_pantalla_53
+L 0x9D32 revolver_guarda_el_fondo
+L 0x9D49 revolver_pinta_su_figura
+L 0x9D6E sps_suelta_dfb8
+L 0x9EDB sps_cuenta
+L 0x9EDF sps_recorre_las_fichas
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x8000 0x8008 tabla_7FFC_cola  6 destinos del despachador de 0x425F (call en p01:7FF9): 0x8008, 0x8017, 0x8025, 0x8039, 0x8065, 0x8039 (sigue del banco anterior, 0x7FFC); lo leen p01:7FF9 (8 bytes)

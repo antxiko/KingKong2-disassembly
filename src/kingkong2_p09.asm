@@ -1955,8 +1955,8 @@ DATA_figura_de_decorado_1A:
 ; ======================================================================
 
 
-L_B7D6:
-	call L_B7EF		;b7d6
+golpea_a_la_ficha:
+	call fuerza_segun_level		;b7d6   ; resta la fuerza (en BCD) de la vida de la ficha (ix+0x0D); a cero, muere
 	ld a,(ix+01dh)		;b7d9
 	sub l			;b7dc
 	daa			;b7dd
@@ -1970,12 +1970,12 @@ L_B7D6:
 	ret nz			;b7ec
 	scf			;b7ed
 	ret			;b7ee
-L_B7EF:
+fuerza_segun_level:
 	ld a,(0c12eh)		;b7ef
 	add a,010h		;b7f2
 	ld h,a			;b7f4
 	jp 0413ah		;b7f5
-L_B7F8:
+direccion_del_golpe:
 	ld a,(0c38fh)		;b7f8
 	cp 002h		;b7fb
 	jr c,L_B80D		;b7fd
@@ -1994,8 +1994,8 @@ L_B80D:
 L_B816:
 	ld (ix+07eh),a		;b816
 	ret			;b819
-L_B81A:
-	ld d,(ix+01ch)		;b81a
+ficha_numero:
+	ld d,(ix+01ch)		;b81a   ; IX = la ficha ix+0x1C (1-13) de 0xD000
 	ld a,d			;b81d
 	dec a			;b81e
 	ret m			;b81f
@@ -2005,7 +2005,7 @@ L_B81A:
 	ld ix,0d000h		;b826
 	add ix,de		;b82a
 	ret			;b82c
-L_B82D:
+tabla_B83B:
 	add a,a			;b82d
 	add a,a			;b82e
 	add a,(ix+07fh)		;b82f
@@ -2027,17 +2027,17 @@ DATA_tabla_B83B:
 ; ======================================================================
 
 
-L_B84B:
+lo_lanzado_da_a_la_ficha:
 	ld c,(ix+000h)		;b84b
-	call L_B81A		;b84e
+	call ficha_numero		;b84e
 	call 04140h		;b851
-	call L_B7F8		;b854
+	call direccion_del_golpe		;b854
 	set 1,(ix+01eh)		;b857
 	ld hl,0c380h		;b85b
 	ld a,(hl)			;b85e
 	cp 003h		;b85f
-	call z,L_B96A		;b861
-	call L_B975		;b864
+	call z,efecto_sobre_lo_lanzado		;b861
+	call efecto_de_lo_lanzado		;b864
 	jp nc,L_B959		;b867
 	ld a,(0c380h)		;b86a
 	dec a			;b86d
@@ -2057,26 +2057,26 @@ L_B878:
 	ld a,01eh		;b884
 	call 040e6h		;b886
 	ld e,018h		;b889
-	call L_B7D6		;b88b
+	call golpea_a_la_ficha		;b88b
 	ret nc			;b88e
-	jr L_B8AE		;b88f
+	jr mitchel_golpea		;b88f
 L_B891:
 	ld a,01eh		;b891
 	call 040e6h		;b893
 	ld e,006h		;b896
-	call L_B7D6		;b898
+	call golpea_a_la_ficha		;b898
 	ret nc			;b89b
-	jr L_B8AE		;b89c
+	jr mitchel_golpea		;b89c
 L_B89E:
 	ld a,01eh		;b89e
 	call 040e6h		;b8a0
 	ld e,015h		;b8a3
-	call L_B7D6		;b8a5
+	call golpea_a_la_ficha		;b8a5
 	ld hl,0c380h		;b8a8
 	ld (hl),000h		;b8ab
 	ret nc			;b8ad
-L_B8AE:
-	ld a,(ix+000h)		;b8ae
+mitchel_golpea:
+	ld a,(ix+000h)		;b8ae   ; con LEVEL por debajo del que pide el enemigo (p09:B914), solo sigue uno de cada 16 golpes
 	ld c,a			;b8b1
 	add a,a			;b8b2
 	jr c,L_B90F		;b8b3
@@ -2159,14 +2159,14 @@ L_B959:
 	ret c			;b966
 	ld (hl),000h		;b967
 	ret			;b969
-L_B96A:
+efecto_sobre_lo_lanzado:
 	push ix		;b96a
 	push hl			;b96c
 	pop ix		;b96d
 	call 04158h		;b96f
 	pop ix		;b972
 	ret			;b974
-L_B975:
+efecto_de_lo_lanzado:
 	ld hl,0c380h		;b975
 	ld a,(ix+000h)		;b978
 	sub 002h		;b97b
@@ -2245,11 +2245,11 @@ L_B9D8:
 	xor a			;b9dd
 	ret			;b9de
 L_B9DF:
-	call L_B9E8		;b9df
-	call L_B82D		;b9e2
+	call lo_lanzado_hacia_donde		;b9df
+	call tabla_B83B		;b9e2
 	sub 001h		;b9e5
 	ret			;b9e7
-L_B9E8:
+lo_lanzado_hacia_donde:
 	ld hl,0c388h		;b9e8
 	ld c,000h		;b9eb
 	bit 7,(hl)		;b9ed
@@ -2268,7 +2268,7 @@ L_B9E8:
 L_BA02:
 	ld a,c			;ba02
 	ret			;ba03
-L_BA04:
+la_ficha_toca_a_mitchel:
 	ld c,(ix+000h)		;ba04
 	ld a,c			;ba07
 	cp 041h		;ba08
@@ -2285,7 +2285,7 @@ L_BA04:
 	and a			;ba24
 	ret nz			;ba25
 	ld (hl),014h		;ba26
-	call L_BA68		;ba28
+	call empuja_a_mitchel		;ba28
 	ld a,00fh		;ba2b
 	call 040e6h		;ba2d
 	ld hl,0bc4eh		;ba30
@@ -2317,7 +2317,7 @@ L_BA3D:
 	ld a,028h		;ba60
 	call 040e6h		;ba62
 	jp 0415eh		;ba65
-L_BA68:
+empuja_a_mitchel:
 	call 040e0h		;ba68
 	ld hl,0c163h		;ba6b
 	ld (hl),004h		;ba6e
@@ -2357,11 +2357,11 @@ L_BA99:
 	ld a,001h		;ba99
 	ld (0c161h),a		;ba9b
 	ret			;ba9e
-L_BA9F:
+golpe_a_la_ficha:
 	ld a,01eh		;ba9f
 	call 040e6h		;baa1
 	ld c,(ix+000h)		;baa4
-	call L_B81A		;baa7
+	call ficha_numero		;baa7
 	call 04140h		;baaa
 	ld a,(0c306h)		;baad
 	ld hl,0bae4h		;bab0
@@ -2371,19 +2371,19 @@ L_BA9F:
 	set 1,(ix+01eh)		;baba
 	ld a,001h		;babe
 	ld (0c324h),a		;bac0
-	call L_BB14		;bac3
+	call sirve_el_arma		;bac3
 	ld a,01fh		;bac6
 	jp nc,040e6h		;bac8
-	call L_BAE8		;bacb
+	call armas_especiales		;bacb
 	ld a,01fh		;bace
 	jp nc,040e6h		;bad0
 	ld a,(0c140h)		;bad3
 	ld hl,0bca7h		;bad6
 	call 0408ch		;bad9
 	ld e,(hl)			;badc
-	call L_B7D6		;badd
+	call golpea_a_la_ficha		;badd
 	ret nc			;bae0
-	jp L_B8AE		;bae1
+	jp mitchel_golpea		;bae1
 
 ; ----------------------------------------------------------------------
 ; DATOS byte_7e_BAE4: 4 bytes: lo que p09:BAB0 pone en ix+0x7E segun la
@@ -2397,8 +2397,8 @@ DATA_byte_7e_BAE4:
 ; ======================================================================
 
 
-L_BAE8:
-	ld c,(ix+000h)		;bae8
+armas_especiales:
+	ld c,(ix+000h)		;bae8   ; la espada de luz (4), el hacha (5) y el arpon (0x0B) van aparte
 	ld a,(0c140h)		;baeb
 	cp 004h		;baee
 	jr z,L_BAFC		;baf0
@@ -2432,7 +2432,7 @@ L_BB0B:
 	ret z			;bb11
 	xor a			;bb12
 	ret			;bb13
-L_BB14:
+sirve_el_arma:
 	ld a,(0c140h)		;bb14
 	ld c,a			;bb17
 	ld a,(ix+000h)		;bb18
@@ -2562,7 +2562,7 @@ L_BBB9:
 	ret			;bbbf
 L_BBC0:
 	ld a,(0c306h)		;bbc0
-	call L_B82D		;bbc3
+	call tabla_B83B		;bbc3
 	sub 001h		;bbc6
 	ret			;bbc8
 recoge_objeto:
@@ -2679,15 +2679,15 @@ L_BCC7:
 	ld a,(0c133h)		;bcc7
 	and a			;bcca
 	ret nz			;bccb
-	call L_BEC8		;bccc
-	call L_BE5F		;bccf
-	call L_BF07		;bcd2
-	call L_BF88		;bcd5
-	call L_BE1A		;bcd8
-	call L_BF47		;bcdb
-	call L_BDAA		;bcde
+	call toca_los_objetos		;bccc
+	call lo_lanzado_toca_a_mitchel		;bccf
+	call lo_lanzado_contra_las_fichas		;bcd2
+	call golpeando		;bcd5
+	call lo_de_0xC800		;bcd8
+	call fichas_contra_mitchel		;bcdb
+	call pantallas_73_a_77		;bcde
 	jp L_BE92		;bce1
-L_BCE4:
+caja_de_la_ficha:
 	ld a,(ix+000h)		;bce4
 	and a			;bce7
 	jp m,L_BCFD		;bce8
@@ -2736,7 +2736,7 @@ DATA_caja_de_cada_enemigo:
 ; ======================================================================
 
 
-L_BD96:
+distancia_en_y:
 	ld a,(ix+003h)		;bd96
 	sub e			;bd99
 	jr nc,L_BD9E		;bd9a
@@ -2751,7 +2751,7 @@ L_BD9E:
 L_BDA8:
 	cp h			;bda8
 	ret			;bda9
-L_BDAA:
+pantallas_73_a_77:
 	ld a,(0c125h)		;bdaa
 	sub 073h		;bdad
 	cp 005h		;bdaf
@@ -2788,7 +2788,7 @@ L_BDD5:
 	ld a,(hl)			;bde1
 	cp 0f0h		;bde2
 	ret nz			;bde4
-	call L_BE06		;bde5
+	call delante_segun_la_direccion		;bde5
 	ld b,003h		;bde8
 L_BDEA:
 	ld a,0f1h		;bdea
@@ -2804,7 +2804,7 @@ L_BDEA:
 	ld bc,01018h		;bdfe
 	ld a,001h		;be01
 	jp 041f4h		;be03
-L_BE06:
+delante_segun_la_direccion:
 	ld a,(0c306h)		;be06
 	and a			;be09
 	jr z,L_BE11		;be0a
@@ -2819,7 +2819,7 @@ L_BE11:
 	sub 018h		;be16
 	ld e,a			;be18
 	ret			;be19
-L_BE1A:
+lo_de_0xC800:
 	ld a,(0c152h)		;be1a
 	and a			;be1d
 	ret z			;be1e
@@ -2850,7 +2850,7 @@ L_BE2F:
 	push ix		;be4a
 	push bc			;be4c
 	push de			;be4d
-	call L_B8AE		;be4e
+	call mitchel_golpea		;be4e
 	pop de			;be51
 	pop bc			;be52
 	pop ix		;be53
@@ -2861,7 +2861,7 @@ L_BE55:
 	exx			;be5b
 	djnz L_BE2F		;be5c
 	ret			;be5e
-L_BE5F:
+lo_lanzado_toca_a_mitchel:
 	call 040e0h		;be5f
 	ld ix,0c380h		;be62
 	ld a,(ix+000h)		;be66
@@ -2927,7 +2927,7 @@ DATA_figura_BEC4:
 ; ======================================================================
 
 
-L_BEC8:
+toca_los_objetos:
 	call 040e0h		;bec8
 	ld ix,0c400h		;becb
 	ld b,004h		;becf
@@ -2960,7 +2960,7 @@ L_BEFD:
 	exx			;bf03
 	djnz L_BEDE		;bf04
 	ret			;bf06
-L_BF07:
+lo_lanzado_contra_las_fichas:
 	ld a,(0c380h)		;bf07
 	dec a			;bf0a
 	ret m			;bf0b
@@ -2976,18 +2976,18 @@ L_BF1A:
 	jr z,L_BF3D		;bf1e
 	bit 1,(ix+00eh)		;bf20
 	jr z,L_BF3D		;bf24
-	call L_BCE4		;bf26
+	call caja_de_la_ficha		;bf26
 	ld a,l			;bf29
 	add a,004h		;bf2a
 	ld l,a			;bf2c
 	ld a,h			;bf2d
 	add a,004h		;bf2e
 	ld h,a			;bf30
-	call L_BD96		;bf31
+	call distancia_en_y		;bf31
 	jr nc,L_BF3D		;bf34
 	push bc			;bf36
 	push de			;bf37
-	call L_B84B		;bf38
+	call lo_lanzado_da_a_la_ficha		;bf38
 	pop de			;bf3b
 	pop bc			;bf3c
 L_BF3D:
@@ -2997,7 +2997,7 @@ L_BF3D:
 	exx			;bf43
 	djnz L_BF1A		;bf44
 	ret			;bf46
-L_BF47:
+fichas_contra_mitchel:
 	xor a			;bf47
 	ld (0c168h),a		;bf48
 	ld (0c161h),a		;bf4b
@@ -3011,19 +3011,19 @@ L_BF57:
 	ld a,(ix+00eh)		;bf5d
 	rra			;bf60
 	jr nc,L_BF7E		;bf61
-	call L_BCE4		;bf63
+	call caja_de_la_ficha		;bf63
 	ld a,l			;bf66
 	add a,006h		;bf67
 	ld l,a			;bf69
 	ld a,h			;bf6a
 	add a,006h		;bf6b
 	ld h,a			;bf6d
-	call L_BD96		;bf6e
+	call distancia_en_y		;bf6e
 	jr nc,L_BF7E		;bf71
 	push ix		;bf73
 	push bc			;bf75
 	push de			;bf76
-	call L_BA04		;bf77
+	call la_ficha_toca_a_mitchel		;bf77
 	pop de			;bf7a
 	pop bc			;bf7b
 	pop ix		;bf7c
@@ -3034,7 +3034,7 @@ L_BF7E:
 	exx			;bf84
 	djnz L_BF57		;bf85
 	ret			;bf87
-L_BF88:
+golpeando:
 	ld a,(0c324h)		;bf88
 	and a			;bf8b
 	ret nz			;bf8c
@@ -3044,7 +3044,7 @@ L_BF88:
 	cp 005h		;bf94
 	ret nz			;bf96
 L_BF97:
-	call L_BFD1		;bf97
+	call delante_de_mitchel		;bf97
 	ld ix,0d000h		;bf9a
 	ld b,00dh		;bf9e
 L_BFA0:
@@ -3053,19 +3053,19 @@ L_BFA0:
 	jr z,L_BFC7		;bfa4
 	bit 1,(ix+00eh)		;bfa6
 	jr z,L_BFC7		;bfaa
-	call L_BCE4		;bfac
+	call caja_de_la_ficha		;bfac
 	ld a,l			;bfaf
 	add a,005h		;bfb0
 	ld l,a			;bfb2
 	ld a,h			;bfb3
 	add a,005h		;bfb4
 	ld h,a			;bfb6
-	call L_BD96		;bfb7
+	call distancia_en_y		;bfb7
 	jr nc,L_BFC7		;bfba
 	push ix		;bfbc
 	push de			;bfbe
 	push bc			;bfbf
-	call L_BA9F		;bfc0
+	call golpe_a_la_ficha		;bfc0
 	pop bc			;bfc3
 	pop de			;bfc4
 	pop ix		;bfc5
@@ -3076,7 +3076,7 @@ L_BFC7:
 	exx			;bfcd
 	djnz L_BFA0		;bfce
 	ret			;bfd0
-L_BFD1:
+delante_de_mitchel:
 	call 040e0h		;bfd1
 	ld a,(0c306h)		;bfd4
 	add a,a			;bfd7

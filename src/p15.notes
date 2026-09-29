@@ -4,6 +4,21 @@
 D 0xA000 0xA047 nibbles_A000  71 bytes, dos nibbles cada uno: uno por pantalla (0x8E); no se ha visto quien los lee, ni en el codigo ni en los volcados
 D 0xBE8E 0xBE98 codigo_BE8E  codigo que no llama nadie: 0xC201 = 5 y 0xC567 = 0 (lo mismo que hace p01:7D00)
 D 0xBFF3 0xC000 relleno_p15  0xFF hasta el final del banco
+L 0xBD3A quita_el_decorado_del_suceso
+B 0xBD3A El suceso de 0xC560 (lo dejan los objetos y los conjuros al usarse: el
+B 0xBD3A 4 el conjuro 0x0C, p01:7AAB) busca en 0xC500, 0xC520 y 0xC540 una cosa de
+B 0xBD3A decorado del mismo tipo y la va quitando; si no la hay, lo borra.
+L 0xBD5D decorado_quitado
+L 0xBE0F borra_el_decorado
+L 0xBE35 sitio_del_trozo
+L 0xBE55 copia_el_trozo
+L 0xBE98 suceso_BE98
+L 0xBF8C orden_del_vdp
+L 0xBFB0 registros_de_la_orden
+L 0xBFCB puerto_del_vdp
+L 0xBFD4 escribe_r44
+L 0xBFDD escribe_r45
+L 0xBFE6 escribe_r46
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA047 0xA062 rotulo_del_panel  numeros de dibujo, 0xFE otra fila, 0xFF acaba: el rotulo del panel que p00:4A6F pinta con p00:492B en (0xA8, 0); lo leen p00:4A6F (27 bytes)

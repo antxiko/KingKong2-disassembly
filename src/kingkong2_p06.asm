@@ -336,9 +336,9 @@ DATA_saltito_A6BF:
 
 L_A6CF:
 	djnz L_A6E8		;a6cf
-	call L_A7C5		;a6d1
+	call aclara_la_paleta		;a6d1
 	ret nc			;a6d4
-	call L_A774		;a6d5
+	call limpia_para_el_final		;a6d5
 	call 04206h		;a6d8
 	call elige_el_final		;a6db
 	ld a,020h		;a6de
@@ -361,9 +361,9 @@ L_A6E8:
 	jp L_A6E3		;a6ff
 L_A702:
 	djnz L_A71D		;a702
-	call L_A7C5		;a704
+	call aclara_la_paleta		;a704
 	ret nc			;a707
-	call L_A774		;a708
+	call limpia_para_el_final		;a708
 	ld hl,0a879h		;a70b
 	call 040f2h		;a70e
 	ld hl,0af39h		;a711
@@ -396,7 +396,7 @@ L_A736:
 	jp L_A6E3		;a746
 L_A749:
 	djnz L_A769		;a749
-	call L_A7C5		;a74b
+	call aclara_la_paleta		;a74b
 	ret nc			;a74e
 	call 0409eh		;a74f
 	call 04116h		;a752
@@ -413,9 +413,9 @@ L_A769:
 	ld hl,0c104h		;a769
 	dec (hl)			;a76c
 	ret nz			;a76d
-	call L_A788		;a76e
+	call paleta_del_final_A794		;a76e
 	jp L_A6E3		;a771
-L_A774:
+limpia_para_el_final:
 	call 0409eh		;a774
 	call 04116h		;a777
 	ld hl,0e600h		;a77a
@@ -424,7 +424,7 @@ L_A774:
 	ld bc,0007fh		;a782
 	ldir		;a785
 	ret			;a787
-L_A788:
+paleta_del_final_A794:
 	ld hl,0a794h		;a788
 	ld de,0cf00h		;a78b
 	ld bc,00031h		;a78e
@@ -459,8 +459,8 @@ DATA_paleta_A794:
 ; ======================================================================
 
 
-L_A7C5:
-	call L_A7DF		;a7c5
+aclara_la_paleta:
+	call sube_un_tono		;a7c5
 	ld hl,0cf00h		;a7c8
 	call 040f2h		;a7cb
 	ld hl,0cf01h		;a7ce
@@ -477,7 +477,7 @@ L_A7D4:
 	ret nz			;a7dc
 	scf			;a7dd
 	ret			;a7de
-L_A7DF:
+sube_un_tono:
 	ld a,(0c103h)		;a7df
 	and 003h		;a7e2
 	ret nz			;a7e4
@@ -506,7 +506,7 @@ L_A800:
 	inc hl			;a801
 	djnz L_A7EA		;a802
 	ret			;a804
-L_A805:
+oscurece_la_paleta:
 	ld a,(0c103h)		;a805
 	and 003h		;a808
 	ret nz			;a80a
@@ -663,9 +663,9 @@ L_A8EB:
 L_A8EE:
 	jp L_AB33		;a8ee
 L_A8F1:
-	call L_A805		;a8f1
+	call oscurece_la_paleta		;a8f1
 	ret nc			;a8f4
-	call L_AB46		;a8f5
+	call escena_del_final_AB46		;a8f5
 	ld hl,0ad8ah		;a8f8
 	ld de,04098h		;a8fb
 	call empieza_texto		;a8fe
@@ -675,9 +675,9 @@ L_A904:
 L_A907:
 	jp L_AB73		;a907
 L_A90A:
-	call L_A7C5		;a90a
+	call aclara_la_paleta		;a90a
 	ret nc			;a90d
-	call L_AB86		;a90e
+	call escena_del_final_AB86		;a90e
 	ld a,010h		;a911
 	ld (0cf38h),a		;a913
 	ld hl,0adb6h		;a916
@@ -688,14 +688,14 @@ L_A921:
 	ld a,(0cf36h)		;a921
 	and a			;a924
 	call z,escribe_una_letra		;a925
-	call L_AC68		;a928
+	call cuenta_cf38		;a928
 	ret nc			;a92b
 	ld a,080h		;a92c
 	jr L_A954		;a92e
 L_A930:
 	jp L_AB73		;a930
 L_A933:
-	call L_A7C5		;a933
+	call aclara_la_paleta		;a933
 	ret nc			;a936
 	call 0409eh		;a937
 	call 04116h		;a93a
@@ -742,9 +742,9 @@ L_A98A:
 L_A98D:
 	jp L_AB33		;a98d
 L_A990:
-	call L_A805		;a990
+	call oscurece_la_paleta		;a990
 	ret nc			;a993
-	call L_AB46		;a994
+	call escena_del_final_AB46		;a994
 	xor a			;a997
 	jp L_A954		;a998
 L_A99B:
@@ -791,7 +791,7 @@ L_A9DF:
 L_A9E2:
 	jp L_AB73		;a9e2
 L_A9E5:
-	call L_A7C5		;a9e5
+	call aclara_la_paleta		;a9e5
 	ret nc			;a9e8
 	call 0409eh		;a9e9
 	call 04116h		;a9ec
@@ -824,9 +824,9 @@ L_AA32:
 L_AA35:
 	jp L_AB73		;aa35
 L_AA38:
-	call L_A7C5		;aa38
+	call aclara_la_paleta		;aa38
 	ret nc			;aa3b
-	call L_AB86		;aa3c
+	call escena_del_final_AB86		;aa3c
 	ld a,010h		;aa3f
 	ld (0cf37h),a		;aa41
 	ld a,030h		;aa44
@@ -841,8 +841,8 @@ L_AA59:
 	ld a,(0cf36h)		;aa59
 	and a			;aa5c
 	call z,escribe_una_letra		;aa5d
-	call L_AC56		;aa60
-	call L_AC68		;aa63
+	call cuenta_cf37		;aa60
+	call cuenta_cf38		;aa63
 	ret nc			;aa66
 	ld a,080h		;aa67
 	jp L_A954		;aa69
@@ -869,7 +869,7 @@ DATA_pasos_del_final_2:
 L_AA98:
 	jp L_AB33		;aa98
 L_AA9B:
-	call L_A805		;aa9b
+	call oscurece_la_paleta		;aa9b
 	ret nc			;aa9e
 	call 04110h		;aa9f
 	ld hl,0a879h		;aaa2
@@ -884,7 +884,7 @@ L_AAB9:
 	ld a,(0cf36h)		;aab9
 	and a			;aabc
 	call z,escribe_una_letra		;aabd
-	call L_ACE5		;aac0
+	call cuenta_cf39		;aac0
 	ret nc			;aac3
 	ld a,080h		;aac4
 	jp L_A954		;aac6
@@ -958,7 +958,7 @@ L_AB33:
 	inc hl			;ab40
 	ld (hl),007h		;ab41
 	jp L_A957		;ab43
-L_AB46:
+escena_del_final_AB46:
 	call 04110h		;ab46
 	ld hl,0a879h		;ab49
 	call 040f2h		;ab4c
@@ -984,7 +984,7 @@ L_AB73:
 	ld bc,00031h		;ab7e
 	ldir		;ab81
 	jp L_A957		;ab83
-L_AB86:
+escena_del_final_AB86:
 	call 0409eh		;ab86
 	call 04116h		;ab89
 	ld hl,0a879h		;ab8c
@@ -1076,7 +1076,7 @@ L_AC4D:
 	jr nz,L_AC45		;ac52
 	and a			;ac54
 	ret			;ac55
-L_AC56:
+cuenta_cf37:
 	ld hl,0cf37h		;ac56
 	ld a,(hl)			;ac59
 	and a			;ac5a
@@ -1089,7 +1089,7 @@ L_AC56:
 L_AC63:
 	ld hl,0e621h		;ac63
 	jr L_AC78		;ac66
-L_AC68:
+cuenta_cf38:
 	ld hl,0cf38h		;ac68
 	ld a,(hl)			;ac6b
 	and a			;ac6c
@@ -1106,7 +1106,7 @@ L_AC78:
 	rra			;ac7b
 	ret nc			;ac7c
 	push hl			;ac7d
-	call L_AC9F		;ac7e
+	call parpadeo_AC9F		;ac7e
 	pop hl			;ac81
 	ld b,008h		;ac82
 L_AC84:
@@ -1133,7 +1133,7 @@ L_AC95:
 	djnz L_AC95		;ac9b
 	scf			;ac9d
 	ret			;ac9e
-L_AC9F:
+parpadeo_AC9F:
 	ld a,(0c103h)		;ac9f
 	bit 4,a		;aca2
 	ld a,020h		;aca4
@@ -1151,7 +1151,7 @@ L_ACAC:
 	inc hl			;acb2
 	djnz L_ACAC		;acb3
 	ret			;acb5
-L_ACB6:
+parpadeo_ACB6:
 	ld a,(0c103h)		;acb6
 	bit 3,a		;acb9
 	ld a,040h		;acbb
@@ -1179,7 +1179,7 @@ L_ACCE:
 	ld de,00144h		;acdd
 	ld c,001h		;ace0
 	jp L_AC45		;ace2
-L_ACE5:
+cuenta_cf39:
 	ld hl,0cf39h		;ace5
 	ld a,(hl)			;ace8
 	and a			;ace9
@@ -1195,7 +1195,7 @@ L_ACF2:
 	rra			;acf8
 	ret nc			;acf9
 	push hl			;acfa
-	call L_ACB6		;acfb
+	call parpadeo_ACB6		;acfb
 	pop hl			;acfe
 	ld b,002h		;acff
 L_AD01:
@@ -2031,8 +2031,8 @@ DATA_titulo_figura_B94C:
 ; ======================================================================
 
 
-L_B970:
-	call 0409eh		;b970
+prepara_el_titulo:
+	call 0409eh		;b970   ; borra la pagina 0, pone la paleta de p06:BA6F y sube las letras del rotulo
 	ld bc,00007h		;b973
 	call 00047h		;b976   ; BIOS WRTVDP - Writes data in the VDP-register
 	call 041ach		;b979
@@ -2047,22 +2047,22 @@ L_B984:
 	djnz L_B984		;b988
 	ld hl,0ba6fh		;b98a
 	call 040f2h		;b98d
-	call L_B9BD		;b990
+	call banco_5_en_8000		;b990
 	ld hl,0a2a1h		;b993
 	ld de,00800h		;b996
 	ld bc,02406h		;b999
 	call 041b2h		;b99c
-	call L_B9BD		;b99f
+	call banco_5_en_8000		;b99f
 	ld hl,0a3c1h		;b9a2
 	ld de,02808h		;b9a5
 	ld bc,03405h		;b9a8
 	call 041b2h		;b9ab
-	call L_B9BD		;b9ae
+	call banco_5_en_8000		;b9ae
 	ld hl,0a561h		;b9b1
 	ld de,0c810h		;b9b4
 	ld bc,01d08h		;b9b7
 	jp 041b2h		;b9ba
-L_B9BD:
+banco_5_en_8000:
 	di			;b9bd
 	ld a,005h		;b9be
 	ld (08000h),a		;b9c0
@@ -2191,7 +2191,7 @@ DATA_paleta_del_titulo:
 
 
 L_BA79:
-	call L_B970		;ba79
+	call prepara_el_titulo		;ba79
 	ld b,003h		;ba7c
 	ld de,06606h		;ba7e
 L_BA81:
@@ -2223,9 +2223,9 @@ L_BA8F:
 	ld de,0c020h		;bab7
 	call 041c4h		;baba
 	ld de,03820h		;babd
-	call L_BADE		;bac0
+	call pinta_figura_del_titulo_B8FC		;bac0
 	ld de,08820h		;bac3
-	call L_BADE		;bac6
+	call pinta_figura_del_titulo_B8FC		;bac6
 	ld bc,00c03h		;bac9
 	ld hl,0b94ch		;bacc
 	ld de,05058h		;bacf
@@ -2233,7 +2233,7 @@ L_BA8F:
 	ld hl,0bae7h		;bad5
 	call 04056h		;bad8
 	jp 04086h		;badb
-L_BADE:
+pinta_figura_del_titulo_B8FC:
 	ld bc,00705h		;bade
 	ld hl,0b8fch		;bae1
 	jp 041c4h		;bae4

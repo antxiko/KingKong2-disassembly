@@ -1,5 +1,18 @@
 # Notas del banco 04: comentarios (C), etiquetas (L) y datos (D) anclados a direccion.
 
+# --- A MANO: comentarios, nombres y bloques (cada uno de lo que hace ESE codigo) ---
+L 0x6015 canales_en_reposo
+L 0x6291 salta_al_canal
+C 0x6291 0xC07E el canal del PSG, 0xC07F el numero; salta al manejador HL
+L 0x62BF pon_el_tono
+C 0x62BF el periodo DE en los registros de tono del canal
+L 0x62CB pon_el_volumen
+L 0x62D3 mezclador_silencio
+L 0x62D9 mezclador_tono_y_ruido
+L 0x62DF mezclador_solo_ruido
+L 0x62E5 mezclador_solo_tono
+L 0x6592 envolvente_del_cuadro
+
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x60BC 0x60D0 canal_en_reposo  20 bytes que p04:605D copia a cada canal al empezar una pieza o un efecto; lo leen p04:6060 (20 bytes)
 F 0x60BC 16

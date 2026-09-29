@@ -91,6 +91,27 @@ D 0xBAAE 0xBAB7 rotulo_shot1  [x][y] "SHOT 1" 0xFF (p12:BA81 y p12:BC14)
 D 0xBD84 0xBD8D rotulo_mizugeta  [x][y] "みずげた" 0xFF: lo que p12:BD73 escribe si se tienen los zuecos (0xC35D)
 D 0xBF6F 0xBF9B patrones_de_la_ventana  [VRAM 0xF800] y un RLE de p00:45EF: los patrones de sprite que p12:BA75 sube para la ventana
 D 0xBFF3 0xC000 relleno_p12  0xFF hasta el final del banco
+L 0xB985 media_en_bcd
+L 0xBAB7 cuentas_de_las_listas
+L 0xBAC4 cuenta_de_cada_objeto
+L 0xBB78 pinta_la_casilla_c2f0
+L 0xBB83 elige_en_la_ventana
+L 0xBC14 ventana_shot1
+L 0xBC35 borra_la_parte_de_arriba
+L 0xBC40 cursor_horizontal
+L 0xBC56 cursor_vertical
+L 0xBC6E junta_las_listas
+L 0xBC7B junta_una_lista
+L 0xBCA1 iconos_de_shot1
+L 0xBCAA iconos_de_shot2
+L 0xBCD3 pinta_los_iconos_de_la_lista
+L 0xBD1E sitio_del_cursor
+L 0xBD24 pon_si_no_es_cero
+L 0xBD63 pinta_los_zuecos
+L 0xBD8D cursor_de_la_ventana
+L 0xBF68 dieciseis_bytes
+L 0xBE3D pon_c800_delante_de_mitchel
+C 0xBE3D la posicion de 0xC800 a 0x10 de Mitchel, hacia donde mira
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA000 0xA09E dibujos_9F9E_cola  8 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 56); los sube p00:48A6 por la lista 0x55BD (sigue del banco anterior, 0x9F9E); lo leen p00:48A6 (158 bytes)

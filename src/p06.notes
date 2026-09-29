@@ -45,6 +45,22 @@ D 0xBE16 0xBE62 pasadizos  15 fichas [pantalla][a donde][x][y][C] y un 0: p06:BD
 D 0xBEB1 0xBEC5 zonas_BEB1  4 fichas [direccion][x min][x max][y min][y max]: donde tiene que estar Mitchel, y mirando a donde, para lo de p06:BE87
 D 0xBFDA 0xBFF6 contadores_iniciales  28 bytes que p06:BF86 copia a 0xDE00 al empezar la partida
 D 0xBFF6 0xC000 relleno_p06  0xFF hasta el final del banco
+L 0xA774 limpia_para_el_final
+L 0xA788 paleta_del_final_A794
+L 0xA7C5 aclara_la_paleta
+L 0xA7DF sube_un_tono
+L 0xA805 oscurece_la_paleta
+L 0xAB46 escena_del_final_AB46
+L 0xAB86 escena_del_final_AB86
+L 0xAC56 cuenta_cf37
+L 0xAC68 cuenta_cf38
+L 0xAC9F parpadeo_AC9F
+L 0xACB6 parpadeo_ACB6
+L 0xACE5 cuenta_cf39
+L 0xB970 prepara_el_titulo
+C 0xB970 borra la pagina 0, pone la paleta de p06:BA6F y sube las letras del rotulo
+L 0xB9BD banco_5_en_8000
+L 0xBADE pinta_figura_del_titulo_B8FC
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA000 0xA299 fuente_cola  96 letras de 1 bit (desde el '0', 0x30): la fuente; p01:6010 la sube dos veces (color 14 y color 3) (sigue del banco anterior, 0x9F99); lo leen p00:48ED (665 bytes)

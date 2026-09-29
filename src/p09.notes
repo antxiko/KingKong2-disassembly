@@ -19,6 +19,36 @@ D 0xBD0E 0xBD96 caja_de_cada_enemigo  68 parejas [ancho][alto], una por tipo de 
 D 0xBEC4 0xBEC8 figura_BEC4  2x2 dibujos 0x62 que p09:BEB2 pinta en (0x28, 0x78) antes de poner alli el objeto 0x13
 D 0xBFE6 0xBFEE pasos_BFE6  4 parejas [dx][dy] segun la direccion de Mitchel (p09:BFD8)
 D 0xBFEE 0xC000 relleno_p09  0xFF hasta el final del banco
+L 0xB7D6 golpea_a_la_ficha
+C 0xB7D6 resta la fuerza (en BCD) de la vida de la ficha (ix+0x0D); a cero, muere
+L 0xB7EF fuerza_segun_level
+L 0xB7F8 direccion_del_golpe
+L 0xB81A ficha_numero
+C 0xB81A IX = la ficha ix+0x1C (1-13) de 0xD000
+L 0xB82D tabla_B83B
+L 0xB84B lo_lanzado_da_a_la_ficha
+L 0xB8AE mitchel_golpea
+C 0xB8AE con LEVEL por debajo del que pide el enemigo (p09:B914), solo sigue uno de cada 16 golpes
+L 0xB96A efecto_sobre_lo_lanzado
+L 0xB975 efecto_de_lo_lanzado
+L 0xB9E8 lo_lanzado_hacia_donde
+L 0xBA04 la_ficha_toca_a_mitchel
+L 0xBA68 empuja_a_mitchel
+L 0xBA9F golpe_a_la_ficha
+L 0xBAE8 armas_especiales
+C 0xBAE8 la espada de luz (4), el hacha (5) y el arpon (0x0B) van aparte
+L 0xBB14 sirve_el_arma
+L 0xBCE4 caja_de_la_ficha
+L 0xBD96 distancia_en_y
+L 0xBDAA pantallas_73_a_77
+L 0xBE06 delante_segun_la_direccion
+L 0xBE1A lo_de_0xC800
+L 0xBE5F lo_lanzado_toca_a_mitchel
+L 0xBEC8 toca_los_objetos
+L 0xBF07 lo_lanzado_contra_las_fichas
+L 0xBF47 fichas_contra_mitchel
+L 0xBF88 golpeando
+L 0xBFD1 delante_de_mitchel
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA000 0xA31B dibujos_9F5B_cola  30 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 96); los sube p00:48A6 por la lista 0x5506 (sigue del banco anterior, 0x9F5B); lo leen p00:48A6 (795 bytes)

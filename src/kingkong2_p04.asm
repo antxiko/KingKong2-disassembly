@@ -23,7 +23,7 @@ L_6000:
 	ld (0c08dh),a		;600c
 	ld (0c090h),a		;600f
 	ld (0c094h),a		;6012
-L_6015:
+canales_en_reposo:
 	xor a			;6015
 	ld (0c080h),a		;6016
 	ld (0c08fh),a		;6019
@@ -155,7 +155,7 @@ L_60F7:
 	ld (0c016h),hl		;6101
 	jr $-73		;6104
 L_6106:
-	call L_6015		;6106
+	call canales_en_reposo		;6106
 	jr $-78		;6109
 L_610B:
 	jp z,L_6125		;610b
@@ -315,20 +315,20 @@ L_6270:
 	xor a			;6270
 	ld b,a			;6271
 	ld hl,(0c010h)		;6272
-	call L_6291		;6275
+	call salta_al_canal		;6275
 	ld a,001h		;6278
 	ld b,a			;627a
 	ld hl,(0c012h)		;627b
-	call L_6291		;627e
+	call salta_al_canal		;627e
 	ld a,002h		;6281
 	ld b,a			;6283
 	ld hl,(0c014h)		;6284
-	call L_6291		;6287
+	call salta_al_canal		;6287
 	ld a,002h		;628a
 	ld b,003h		;628c
 	ld hl,(0c016h)		;628e
-L_6291:
-	ld (0c07eh),a		;6291
+salta_al_canal:
+	ld (0c07eh),a		;6291   ; 0xC07E el canal del PSG, 0xC07F el numero; salta al manejador HL
 	ld a,b			;6294
 	ld (0c07fh),a		;6295
 	jp (hl)			;6298
@@ -352,36 +352,36 @@ L_62B0:
 	inc hl			;62b4
 	ld (hl),d			;62b5
 	ld e,000h		;62b6
-	jr L_62CB		;62b8
+	jr pon_el_volumen		;62b8
 L_62BA:
 	ret			;62ba
 L_62BB:
 	ld hl,(0c018h)		;62bb
 	jp (hl)			;62be
-L_62BF:
-	ld a,(0c07eh)		;62bf
+pon_el_tono:
+	ld a,(0c07eh)		;62bf   ; el periodo DE en los registros de tono del canal
 	rlca			;62c2
 	call 00093h		;62c3   ; BIOS WRTPSG - Writes data to PSG-register
 	inc a			;62c6
 	ld e,d			;62c7
 	jp 00093h		;62c8   ; BIOS WRTPSG - Writes data to PSG-register
-L_62CB:
+pon_el_volumen:
 	ld a,(0c07eh)		;62cb
 	add a,008h		;62ce
 	jp 00093h		;62d0   ; BIOS WRTPSG - Writes data to PSG-register
-L_62D3:
+mezclador_silencio:
 	push hl			;62d3
 	ld hl,06314h		;62d4
 	jr L_62E9		;62d7
-L_62D9:
+mezclador_tono_y_ruido:
 	push hl			;62d9
 	ld hl,0630eh		;62da
 	jr L_62E9		;62dd
-L_62DF:
+mezclador_solo_ruido:
 	push hl			;62df
 	ld hl,06308h		;62e0
 	jr L_62E9		;62e3
-L_62E5:
+mezclador_solo_tono:
 	push hl			;62e5
 	ld hl,06302h		;62e6
 L_62E9:
@@ -462,17 +462,17 @@ L_635D:
 	ld (ix+00ah),e		;6362
 	bit 5,(ix+002h)		;6365
 	ret nz			;6369
-	jp L_62CB		;636a
+	jp pon_el_volumen		;636a
 L_636D:
 	bit 5,(ix+002h)		;636d
 	ret nz			;6371
 	bit 7,(ix+002h)		;6372
 	ret nz			;6376
-	call L_6592		;6377
+	call envolvente_del_cuadro		;6377
 	ret nc			;637a
 	set 7,(ix+002h)		;637b
 	ld e,000h		;637f
-	jp L_62CB		;6381
+	jp pon_el_volumen		;6381
 L_6384:
 	ld l,(ix+000h)		;6384
 	ld h,(ix+001h)		;6387
@@ -534,7 +534,7 @@ L_63E5:
 	inc de			;63f1
 	inc de			;63f2
 L_63F3:
-	call L_62BF		;63f3
+	call pon_el_tono		;63f3
 	ld a,(0c08ch)		;63f6
 	add a,(ix+004h)		;63f9
 	jp p,L_6400		;63fc
@@ -542,8 +542,8 @@ L_63F3:
 L_6400:
 	ld (ix+00ah),a		;6400
 	ld e,a			;6403
-	call L_62CB		;6404
-	jp L_62E5		;6407
+	call pon_el_volumen		;6404
+	jp mezclador_solo_tono		;6407
 L_640A:
 	ld a,(ix+008h)		;640a
 	cp 000h		;640d
@@ -636,7 +636,7 @@ L_6484:
 	ret nz			;648e
 	ld e,000h		;648f
 	ld (ix+00ah),e		;6491
-	jp L_62CB		;6494
+	jp pon_el_volumen		;6494
 L_6497:
 	and 0f0h		;6497
 	cp 0d0h		;6499
@@ -776,10 +776,10 @@ L_6579:
 	jp L_6299		;6584
 L_6587:
 	ld ix,0c056h		;6587
-	call L_6592		;658b
+	call envolvente_del_cuadro		;658b
 	ret nc			;658e
 	jp L_6299		;658f
-L_6592:
+envolvente_del_cuadro:
 	dec (ix+00eh)		;6592
 	jp nz,L_6682		;6595
 	ld a,(ix+00fh)		;6598
@@ -839,7 +839,7 @@ L_65EF:
 L_65FE:
 	ld e,a			;65fe
 L_65FF:
-	call L_62CB		;65ff
+	call pon_el_volumen		;65ff
 L_6602:
 	ld a,c			;6602
 	and 00fh		;6603
@@ -848,7 +848,7 @@ L_6602:
 	inc hl			;6607
 	ld (ix+00ch),l		;6608
 	ld (ix+00dh),h		;660b
-	jp L_62BF		;660e
+	jp pon_el_tono		;660e
 L_6611:
 	ld a,(ix+011h)		;6611
 	dec a			;6614
@@ -875,25 +875,25 @@ L_6630:
 	jr nz,L_6642		;6632
 	bit 1,c		;6634
 	jr nz,L_663D		;6636
-	call L_62D3		;6638
+	call mezclador_silencio		;6638
 	jr L_664E		;663b
 L_663D:
-	call L_62E5		;663d
+	call mezclador_solo_tono		;663d
 	jr L_664E		;6640
 L_6642:
 	bit 1,c		;6642
 	jr nz,L_664B		;6644
-	call L_62DF		;6646
+	call mezclador_solo_ruido		;6646
 	jr L_664E		;6649
 L_664B:
-	call L_62D9		;664b
+	call mezclador_tono_y_ruido		;664b
 L_664E:
 	ld a,c			;664e
 	rlca			;664f
 	and 010h		;6650
 	ld (ix+00ah),a		;6652
 	ld e,a			;6655
-	call L_62CB		;6656
+	call pon_el_volumen		;6656
 	ld a,(hl)			;6659
 	inc hl			;665a
 	ld (ix+00eh),a		;665b

@@ -1943,7 +1943,13 @@ DATA_nombre_68:
 ; ======================================================================
 
 
-L_BD3A:
+
+; ----------------------------------------------------------------------
+; El suceso de 0xC560 (lo dejan los objetos y los conjuros al usarse: el
+; 4 el conjuro 0x0C, p01:7AAB) busca en 0xC500, 0xC520 y 0xC540 una cosa de
+; decorado del mismo tipo y la va quitando; si no la hay, lo borra.
+; ----------------------------------------------------------------------
+quita_el_decorado_del_suceso:
 	ld a,(0c560h)		;bd3a
 	ld ix,0c500h		;bd3d
 	cp (ix+000h)		;bd41
@@ -1957,7 +1963,7 @@ L_BD3A:
 	xor a			;bd58
 	ld (0c560h),a		;bd59
 	ret			;bd5c
-L_BD5D:
+decorado_quitado:
 	xor a			;bd5d
 	ld (ix+000h),a		;bd5e
 	ld (0c561h),a		;bd61
@@ -1985,7 +1991,7 @@ L_BD88:
 	jr z,L_BDA7		;bd8c
 	ld a,01dh		;bd8e
 	call 040e6h		;bd90
-	call L_BE0F		;bd93
+	call borra_el_decorado		;bd93
 	ld hl,0c561h		;bd96
 	inc (hl)			;bd99
 	xor a			;bd9a
@@ -2015,11 +2021,11 @@ L_BDC4:
 	ld b,008h		;bdca
 L_BDCC:
 	push de			;bdcc
-	call L_BE55		;bdcd
+	call copia_el_trozo		;bdcd
 	push af			;bdd0
-	call L_BE35		;bdd1
+	call sitio_del_trozo		;bdd1
 	pop af			;bdd4
-	call L_BF8C		;bdd5
+	call orden_del_vdp		;bdd5
 	ld hl,0c564h		;bdd8
 	ld a,(hl)			;bddb
 	add a,003h		;bddc
@@ -2048,8 +2054,8 @@ L_BDCC:
 	ld a,(ix+008h)		;be04
 	call 0408ch		;be07
 	ld (hl),000h		;be0a
-	jp L_BD5D		;be0c
-L_BE0F:
+	jp decorado_quitado		;be0c
+borra_el_decorado:
 	ld l,(ix+001h)		;be0f
 	ld h,(ix+002h)		;be12
 	call 041cah		;be15
@@ -2071,7 +2077,7 @@ L_BE25:
 	dec c			;be31
 	jr nz,L_BE21		;be32
 	ret			;be34
-L_BE35:
+sitio_del_trozo:
 	ld a,b			;be35
 	sub 008h		;be36
 	neg		;be38
@@ -2092,7 +2098,7 @@ L_BE35:
 	add a,(hl)			;be52
 	ld d,a			;be53
 	ret			;be54
-L_BE55:
+copia_el_trozo:
 	ld a,(de)			;be55
 	ld e,a			;be56
 	and 01fh		;be57
@@ -2144,7 +2150,7 @@ DATA_codigo_BE8E:
 ; ======================================================================
 
 
-L_BE98:
+suceso_BE98:
 	ld ix,0c500h		;be98
 	ld a,(ix+000h)		;be9c
 	cp 006h		;be9f
@@ -2163,7 +2169,7 @@ L_BEBA:
 	ld a,(0c567h)		;beba
 	and a			;bebd
 	jr nz,L_BEF2		;bebe
-	call L_BE0F		;bec0
+	call borra_el_decorado		;bec0
 	ld hl,00000h		;bec3
 	ld (0c563h),hl		;bec6
 	ld (0c565h),hl		;bec9
@@ -2200,11 +2206,11 @@ L_BF09:
 	ld b,008h		;bf09
 L_BF0B:
 	push de			;bf0b
-	call L_BE55		;bf0c
+	call copia_el_trozo		;bf0c
 	push af			;bf0f
-	call L_BE35		;bf10
+	call sitio_del_trozo		;bf10
 	pop af			;bf13
-	call L_BF8C		;bf14
+	call orden_del_vdp		;bf14
 	pop de			;bf17
 	djnz L_BF0B		;bf18
 	ld a,(ix+004h)		;bf1a
@@ -2247,11 +2253,11 @@ L_BF59:
 	sub 008h		;bf5d
 	neg		;bf5f
 	ld b,a			;bf61
-	call L_BE55		;bf62
+	call copia_el_trozo		;bf62
 	push af			;bf65
-	call L_BE35		;bf66
+	call sitio_del_trozo		;bf66
 	pop af			;bf69
-	call L_BF8C		;bf6a
+	call orden_del_vdp		;bf6a
 	pop de			;bf6d
 	ld hl,0c564h		;bf6e
 	inc (hl)			;bf71
@@ -2271,7 +2277,7 @@ L_BF85:
 	dec (hl)			;bf88
 	ret nz			;bf89
 	jr L_BF3D		;bf8a
-L_BF8C:
+orden_del_vdp:
 	push bc			;bf8c
 	push hl			;bf8d
 	push de			;bf8e
@@ -2282,20 +2288,20 @@ L_BF8C:
 	ld a,(0faf6h)		;bf96
 	and 003h		;bf99
 	ld d,a			;bf9b
-	call L_BFB0		;bf9c
+	call registros_de_la_orden		;bf9c
 	xor a			;bf9f
-	call L_BFDD		;bfa0
+	call escribe_r45		;bfa0
 	pop af			;bfa3
-	call L_BFD4		;bfa4
+	call escribe_r44		;bfa4
 	ld a,050h		;bfa7
-	call L_BFE6		;bfa9
+	call escribe_r46		;bfa9
 	pop de			;bfac
 	pop hl			;bfad
 	pop bc			;bfae
 	ret			;bfaf
-L_BFB0:
+registros_de_la_orden:
 	ld b,024h		;bfb0
-	call L_BFCB		;bfb2
+	call puerto_del_vdp		;bfb2
 	out (c),b		;bfb5
 	ld a,091h		;bfb7
 	out (c),a		;bfb9
@@ -2311,7 +2317,7 @@ L_BFB0:
 	out (c),a		;bfc7
 	ei			;bfc9
 	ret			;bfca
-L_BFCB:
+puerto_del_vdp:
 	push af			;bfcb
 	ld a,(00007h)		;bfcc
 	inc a			;bfcf
@@ -2319,18 +2325,18 @@ L_BFCB:
 	pop af			;bfd1
 	di			;bfd2
 	ret			;bfd3
-L_BFD4:
-	call L_BFCB		;bfd4
+escribe_r44:
+	call puerto_del_vdp		;bfd4
 	out (c),a		;bfd7
 	ld a,0ach		;bfd9
 	jr L_BFEF		;bfdb
-L_BFDD:
-	call L_BFCB		;bfdd
+escribe_r45:
+	call puerto_del_vdp		;bfdd
 	out (c),a		;bfe0
 	ld a,0adh		;bfe2
 	jr L_BFEF		;bfe4
-L_BFE6:
-	call L_BFCB		;bfe6
+escribe_r46:
+	call puerto_del_vdp		;bfe6
 	out (c),a		;bfe9
 	ld a,0aeh		;bfeb
 	jr L_BFEF		;bfed
