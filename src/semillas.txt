@@ -125,3 +125,4 @@ p04 0x6328 4 5 3  # a mano: p04:60A0: ld hl,0x6328 / ld (0xC012),hl
 p04 0x632F 4 5 3  # a mano: p04:60A6: ld hl,0x632F / ld (0xC014),hl
 p04 0x6587 4 5 3  # a mano: p04:60FE: ld hl,0x6587 / ld (0xC016),hl
 p04 0x631A 4 5 3  # a mano: p04:61A8: ld hl,0x631A / ld (0xC018),hl
+p04 0x62BA 4 5 3  # a mano: p04:62B0: ld de,0x62BA / ld (hl),e / ld (hl),d en 0xC010+2*canal (el canal que acaba se queda en un ret)

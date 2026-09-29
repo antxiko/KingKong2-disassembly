@@ -112,13 +112,15 @@ L_60BB:
 	ret			;60bb
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x60bc..0x60d0  (20 bytes)
-DATA_60BC:
+; DATOS canal_en_reposo: 20 bytes que p04:605D copia a cada canal al empezar
+;   una pieza o un efecto; lo leen p04:6060 (20 bytes)
+;   0x60bc..0x60d0  (20 bytes)
+DATA_canal_en_reposo:
 	defb 000h,000h,001h,000h,000h,000h,000h,000h,000h,001h,000h,000h,000h,000h,001h,001h	; 60bc  ................
 	defb 000h,000h,000h,000h	; 60cc
 
 ; ======================================================================
-; CODIGO 0x60d0..0x62ba  (490 bytes)
+; CODIGO 0x60d0..0x6302  (562 bytes)
 ; ======================================================================
 
 
@@ -345,23 +347,14 @@ L_62A7:
 	jr nc,L_62B0		;62ad
 	inc h			;62af
 L_62B0:
-	ld de,062bah		;62b0
+	ld de,L_62BA		;62b0
 	ld (hl),e			;62b3
 	inc hl			;62b4
 	ld (hl),d			;62b5
 	ld e,000h		;62b6
-	jr $+19		;62b8
-
-; ----------------------------------------------------------------------
-; DATOS sin identificar  0x62ba..0x62bb  (1 bytes)
-DATA_62BA:
-	defb 0c9h	; 62ba
-
-; ======================================================================
-; CODIGO 0x62bb..0x6302  (71 bytes)
-; ======================================================================
-
-
+	jr L_62CB		;62b8
+L_62BA:
+	ret			;62ba
 L_62BB:
 	ld hl,(0c018h)		;62bb
 	jp (hl)			;62be
@@ -410,10 +403,23 @@ L_62F2:
 	jp 00093h		;62ff   ; BIOS WRTPSG - Writes data to PSG-register
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x6302..0x631a  (24 bytes)
-DATA_6302:
-	defb 0feh,008h,0fdh,010h,0fbh,020h,0f7h,001h,0efh,002h,0dfh,004h,0f6h,000h,0edh,000h	; 6302  ..... ..........
-	defb 0dbh,000h,0ffh,009h,0ffh,012h,0ffh,024h	; 6312  .......$
+; DATOS mezclador: 4 parejas [y][o] por canal: lo que p04:62E9 hace con el
+;   registro 7 del PSG (tono, ruido, los dos o nada); lo leen p04:62F5 (24
+;   bytes)
+;   0x6302..0x631a  (24 bytes)
+DATA_mezclador:
+	defb 0feh,008h	; 6302
+	defb 0fdh,010h	; 6304
+	defb 0fbh,020h	; 6306
+	defb 0f7h,001h	; 6308
+	defb 0efh,002h	; 630a
+	defb 0dfh,004h	; 630c
+	defb 0f6h,000h	; 630e
+	defb 0edh,000h	; 6310
+	defb 0dbh,000h	; 6312
+	defb 0ffh,009h	; 6314
+	defb 0ffh,012h	; 6316
+	defb 0ffh,024h	; 6318
 
 ; ======================================================================
 ; CODIGO 0x631a..0x6464  (330 bytes)
@@ -593,10 +599,23 @@ L_645F:
 	jr L_642D		;6462
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x6464..0x647c  (24 bytes)
-DATA_6464:
-	defb 0b8h,01ah,038h,019h,0d0h,017h,078h,016h,034h,015h,004h,014h,0e4h,012h,0d4h,011h	; 6464  ..8...x.4.......
-	defb 0d4h,010h,0e4h,00fh,000h,00fh,028h,00eh	; 6474  ......(.
+; DATOS periodos_de_las_notas: 12 palabras: el periodo del PSG de cada
+;   semitono en la octava mas grave; p04:63E5 lo divide por 2 una vez por
+;   octava; lo leen p04:63DF (24 bytes)
+;   0x6464..0x647c  (24 bytes)
+DATA_periodos_de_las_notas:
+	defb 0b8h,01ah	; 6464
+	defb 038h,019h	; 6466
+	defb 0d0h,017h	; 6468
+	defb 078h,016h	; 646a
+	defb 034h,015h	; 646c
+	defb 004h,014h	; 646e
+	defb 0e4h,012h	; 6470
+	defb 0d4h,011h	; 6472
+	defb 0d4h,010h	; 6474
+	defb 0e4h,00fh	; 6476
+	defb 000h,00fh	; 6478
+	defb 028h,00eh	; 647a
 
 ; ======================================================================
 ; CODIGO 0x647c..0x6686  (522 bytes)
@@ -904,310 +923,1093 @@ L_6684:
 	ret			;6685
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x6686..0x7e76  (6128 bytes)
-DATA_6686:
-	defb 02fh,067h,097h,067h,00bh,06ah,040h,06ah,094h,06ah,0f7h,06ah,032h,06bh,045h,06bh	; 6686  /g.g.j@j.j.j2kEk
-	defb 058h,06bh,083h,06bh,071h,069h,08eh,069h,0b3h,069h,0dfh,069h,039h,067h,098h,067h	; 6696  Xk.kqi.i.i.i9g.g
-	defb 0b6h,067h,0d4h,067h,0efh,067h,00ah,068h,01fh,068h,03ch,068h,03ch,068h,05ah,068h	; 66a6  .g.g.g.h.h<h<hZh
-	defb 067h,068h,07ah,068h,08ch,068h,0b9h,06ah,0b0h,06ch,04ah,069h,064h,069h,0a0h,068h	; 66b6  ghzh.h.j.lJidi.h
-	defb 0b7h,068h,0eah,06bh,01ah,06ch,071h,06ch,044h,067h,051h,067h,06ah,067h,057h,069h	; 66c6  .h.k.lqlDgQgjgWi
-	defb 02eh,067h,061h,06dh,079h,06eh,040h,06fh,052h,071h,097h,071h,0c5h,071h,02bh,072h	; 66d6  .gamyn@oRq.q.q+r
-	defb 01ah,073h,0d8h,073h,0c3h,074h,06bh,075h,0a1h,075h,0beh,075h,03dh,076h,06ah,076h	; 66e6  .s.s.tku.u.u=vjv
-	defb 032h,06dh,033h,06eh,00ch,06fh,097h,076h,098h,076h,099h,076h,09ah,076h,042h,077h	; 66f6  2m3n.o.v.v.v.vBw
-	defb 0b8h,077h,05dh,078h,0ffh,078h,066h,079h,0e9h,079h,029h,07ah,042h,07ah,074h,07ah	; 6706  .w]x.xfy.y)zBztz
-	defb 08bh,07ah,0a2h,07ah,004h,06dh,00fh,06dh,01ah,06dh,0efh,06ch,0f6h,06ch,0fdh,06ch	; 6716  .z.z.m.m.m.l.l.l
-	defb 0bch,07ah,0bch,07ah,0bch,07ah,0bch,07ah,0ffh,023h,001h,01ah,0e0h,000h,022h,001h	; 6726  .z.z.z.z.#....".
-	defb 0b0h,043h,0ffh,02ah,002h,000h,001h,0e3h,000h,0e1h,000h,0e0h,080h,0ffh,02ah,001h	; 6736  .C.*..........*.
-	defb 000h,001h,0e0h,010h,02ah,010h,004h,000h,080h,060h,0ffh,022h,003h,0e1h,050h,0e1h	; 6746  ....*....`."..P.
-	defb 010h,0e0h,0d0h,0d0h,090h,0d1h,010h,0d0h,0d0h,0c0h,090h,0d0h,040h,0c0h,050h,080h	; 6756  ............@.P.
-	defb 050h,040h,050h,0ffh,022h,002h,0e0h,080h,0b0h,078h,0e0h,070h,0b0h,068h,0e0h,060h	; 6766  P@P."....x.p.h.`
-	defb 0b0h,058h,022h,001h,0e0h,070h,0b0h,078h,0e0h,070h,0b0h,068h,0e0h,060h,0b0h,058h	; 6776  .X"..p.x.p.h.`.X
-	defb 090h,040h,0e0h,070h,0b0h,068h,0e0h,060h,0b0h,058h,090h,040h,050h,040h,030h,040h	; 6786  .@.p.h.`.X.@P@0@
-	defb 0ffh,0ffh,022h,001h,0e4h,000h,0f6h,000h,023h,001h,018h,0f0h,000h,017h,0e0h,000h	; 6796  ..".....#.......
-	defb 016h,0d0h,000h,015h,0c0h,000h,014h,0b0h,000h,013h,0a0h,000h,014h,090h,000h,0ffh	; 67a6  ................
+; DATOS efectos: 41 palabras: la pista de cada efecto de sonido (1-0x29);
+;   p04:60EF con 0x6684 + 2*efecto; lo leen p04:60F7 (82 bytes)
+;   0x6686..0x66d8  (82 bytes)
+DATA_efectos:
+	defb 02fh,067h	; 6686
+	defb 097h,067h	; 6688
+	defb 00bh,06ah	; 668a
+	defb 040h,06ah	; 668c
+	defb 094h,06ah	; 668e
+	defb 0f7h,06ah	; 6690
+	defb 032h,06bh	; 6692
+	defb 045h,06bh	; 6694
+	defb 058h,06bh	; 6696
+	defb 083h,06bh	; 6698
+	defb 071h,069h	; 669a
+	defb 08eh,069h	; 669c
+	defb 0b3h,069h	; 669e
+	defb 0dfh,069h	; 66a0
+	defb 039h,067h	; 66a2
+	defb 098h,067h	; 66a4
+	defb 0b6h,067h	; 66a6
+	defb 0d4h,067h	; 66a8
+	defb 0efh,067h	; 66aa
+	defb 00ah,068h	; 66ac
+	defb 01fh,068h	; 66ae
+	defb 03ch,068h	; 66b0
+	defb 03ch,068h	; 66b2
+	defb 05ah,068h	; 66b4
+	defb 067h,068h	; 66b6
+	defb 07ah,068h	; 66b8
+	defb 08ch,068h	; 66ba
+	defb 0b9h,06ah	; 66bc
+	defb 0b0h,06ch	; 66be
+	defb 04ah,069h	; 66c0
+	defb 064h,069h	; 66c2
+	defb 0a0h,068h	; 66c4
+	defb 0b7h,068h	; 66c6
+	defb 0eah,06bh	; 66c8
+	defb 01ah,06ch	; 66ca
+	defb 071h,06ch	; 66cc
+	defb 044h,067h	; 66ce
+	defb 051h,067h	; 66d0
+	defb 06ah,067h	; 66d2
+	defb 057h,069h	; 66d4
+	defb 02eh,067h	; 66d6
+
+; ----------------------------------------------------------------------
+; DATOS piezas: 14 piezas de musica (0x80-0x8D): las pistas de los canales A,
+;   B y C; p04:607B con 0x66D8 + 6*(pieza & 0x7F); lo leen p04:6083 (84 bytes)
+;   0x66d8..0x672c  (84 bytes)
+DATA_piezas:
+	defb 061h,06dh,079h,06eh,040h,06fh	; 66d8
+	defb 052h,071h,097h,071h,0c5h,071h	; 66de
+	defb 02bh,072h,01ah,073h,0d8h,073h	; 66e4
+	defb 0c3h,074h,06bh,075h,0a1h,075h	; 66ea
+	defb 0beh,075h,03dh,076h,06ah,076h	; 66f0
+	defb 032h,06dh,033h,06eh,00ch,06fh	; 66f6
+	defb 097h,076h,098h,076h,099h,076h	; 66fc
+	defb 09ah,076h,042h,077h,0b8h,077h	; 6702
+	defb 05dh,078h,0ffh,078h,066h,079h	; 6708
+	defb 0e9h,079h,029h,07ah,042h,07ah	; 670e
+	defb 074h,07ah,08bh,07ah,0a2h,07ah	; 6714
+	defb 004h,06dh,00fh,06dh,01ah,06dh	; 671a
+	defb 0efh,06ch,0f6h,06ch,0fdh,06ch	; 6720
+	defb 0bch,07ah,0bch,07ah,0bch,07ah	; 6726
+
+; ----------------------------------------------------------------------
+; DATOS pieza_8E: una palabra mas, 0x7ABC (la pista vacia de la 0x8D): el
+;   principio de una pieza 0x8E que nadie pide; lo leen p04:6083 (2 bytes)
+;   0x672c..0x672e  (2 bytes)
+DATA_pieza_8E:
+	defb 0bch,07ah	; 672c
+
+; ----------------------------------------------------------------------
+; DATOS sonido_672E: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (1 bytes)
+;   0x672e..0x672f  (1 bytes)
+DATA_sonido_672E:
+	defb 0ffh	; 672e
+
+; ----------------------------------------------------------------------
+; DATOS sonido_672F: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (10 bytes)
+;   0x672f..0x6739  (10 bytes)
+DATA_sonido_672F:
+	defb 023h,001h,01ah,0e0h,000h,022h,001h,0b0h,043h,0ffh	; 672f  #...."..C.
+
+; ----------------------------------------------------------------------
+; DATOS sonido_6739: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (11 bytes)
+;   0x6739..0x6744  (11 bytes)
+DATA_sonido_6739:
+	defb 02ah,002h,000h,001h,0e3h,000h,0e1h,000h,0e0h,080h,0ffh	; 6739  *..........
+
+; ----------------------------------------------------------------------
+; DATOS sonido_6744: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (13 bytes)
+;   0x6744..0x6751  (13 bytes)
+DATA_sonido_6744:
+	defb 02ah,001h,000h,001h,0e0h,010h,02ah,010h,004h,000h,080h,060h,0ffh	; 6744  *.....*....`.
+
+; ----------------------------------------------------------------------
+; DATOS sonido_6751: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (25 bytes)
+;   0x6751..0x676a  (25 bytes)
+DATA_sonido_6751:
+	defb 022h,003h,0e1h,050h,0e1h,010h,0e0h,0d0h,0d0h,090h,0d1h,010h,0d0h,0d0h,0c0h,090h	; 6751  "..P............
+	defb 0d0h,040h,0c0h,050h,080h,050h,040h,050h,0ffh	; 6761  .@.P.P@P.
+
+; ----------------------------------------------------------------------
+; DATOS sonido_676A: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (45 bytes)
+;   0x676a..0x6797  (45 bytes)
+DATA_sonido_676A:
+	defb 022h,002h,0e0h,080h,0b0h,078h,0e0h,070h,0b0h,068h,0e0h,060h,0b0h,058h,022h,001h	; 676a  "....x.p.h.`.X".
+	defb 0e0h,070h,0b0h,078h,0e0h,070h,0b0h,068h,0e0h,060h,0b0h,058h,090h,040h,0e0h,070h	; 677a  .p.x.p.h.`.X.@.p
+	defb 0b0h,068h,0e0h,060h,0b0h,058h,090h,040h,050h,040h,030h,040h,0ffh	; 678a  .h.`.X.@P@0@.
+
+; ----------------------------------------------------------------------
+; DATOS sonido_6797: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (1 bytes)
+;   0x6797..0x6798  (1 bytes)
+DATA_sonido_6797:
+	defb 0ffh	; 6797
+
+; ----------------------------------------------------------------------
+; DATOS sonido_6798: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (30 bytes)
+;   0x6798..0x67b6  (30 bytes)
+DATA_sonido_6798:
+	defb 022h,001h,0e4h,000h,0f6h,000h,023h,001h,018h,0f0h,000h,017h,0e0h,000h,016h,0d0h	; 6798  ".....#.........
+	defb 000h,015h,0c0h,000h,014h,0b0h,000h,013h,0a0h,000h,014h,090h,000h,0ffh	; 67a8  ..............
+
+; ----------------------------------------------------------------------
+; DATOS sonido_67B6: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (30 bytes)
+;   0x67b6..0x67d4  (30 bytes)
+DATA_sonido_67B6:
 	defb 023h,001h,01ch,0d0h,004h,01ah,0e0h,004h,017h,0f0h,004h,016h,0e0h,004h,015h,0d0h	; 67b6  #...............
-	defb 004h,014h,0c0h,004h,013h,0b0h,000h,013h,0a0h,000h,014h,090h,000h,0ffh,023h,001h	; 67c6  ..............#.
-	defb 011h,0d2h,000h,012h,0e8h,000h,013h,0f4h,000h,014h,0e3h,000h,015h,0d2h,080h,016h	; 67d6  ................
-	defb 0c2h,040h,017h,0b2h,020h,018h,0a2h,010h,0ffh,023h,001h,018h,0d1h,000h,018h,0e4h	; 67e6  .@.. ....#......
-	defb 000h,017h,0f2h,000h,016h,0e1h,080h,015h,0d1h,040h,014h,0c1h,020h,013h,0b1h,010h	; 67f6  .........@.. ...
-	defb 012h,0a1h,008h,0ffh,02ah,004h,002h,000h,0e0h,0c0h,02ah,001h,000h,001h,0e0h,0c0h	; 6806  ....*.....*.....
-	defb 0e0h,080h,0e0h,060h,0e0h,040h,0e0h,020h,0ffh,021h,002h,01dh,0e0h,000h,01bh,0c0h	; 6816  ...`.@. .!......
-	defb 000h,01dh,0e0h,000h,023h,001h,014h,0d0h,020h,013h,0b0h,020h,012h,090h,020h,011h	; 6826  ....#... .. .. .
-	defb 070h,020h,010h,060h,020h,0ffh,023h,001h,010h,0d0h,004h,012h,0e0h,008h,013h,0f0h	; 6836  p .` .#.........
-	defb 00ch,014h,0e0h,010h,015h,0d0h,014h,016h,0c0h,018h,017h,0b0h,01ch,018h,0a0h,020h	; 6846  ...............
-	defb 019h,090h,024h,0ffh,02ah,001h,000h,001h,080h,0c0h,080h,0d0h,080h,0e0h,080h,0f0h	; 6856  ..$.*...........
-	defb 0ffh,022h,002h,0d8h,020h,0e4h,020h,0f2h,020h,0e1h,020h,0d0h,0a0h,0c0h,060h,0b0h	; 6866  .".. . . . ...`.
-	defb 000h,0a0h,030h,0ffh,022h,001h,0a2h,000h,0a1h,020h,0a1h,0d0h,0c1h,030h,0b1h,080h	; 6876  ..0.".... ...0..
-	defb 082h,000h,061h,0b0h,0ffh,0ffh,02bh,001h,000h,001h,010h,084h,000h,083h,000h,082h	; 6886  ..a...+.........
-	defb 000h,081h,000h,080h,080h,080h,040h,080h,020h,0ffh,022h,002h,0d2h,020h,0e1h,020h	; 6896  ......@. .".. .
-	defb 0f0h,0a0h,0e0h,060h,0d0h,040h,0c2h,020h,0d1h,020h,0e0h,0a0h,0d0h,060h,0c0h,040h	; 68a6  ...`.@. . ...`.@
-	defb 0ffh,022h,001h,0e0h,0e0h,0e1h,060h,0e1h,0e0h,0e2h,060h,0e2h,0e0h,0e3h,060h,0e3h	; 68b6  ."....`...`...`.
-	defb 0e0h,0e0h,060h,0d0h,0e0h,0d1h,060h,0d1h,0e0h,0d2h,060h,0d2h,0e0h,0d3h,060h,0d3h	; 68c6  ..`...`...`...`.
-	defb 0e0h,0d0h,060h,0c0h,0e0h,0c1h,060h,0c1h,0e0h,0c2h,060h,0c2h,0e0h,0c3h,060h,0c3h	; 68d6  ..`...`...`...`.
-	defb 0e0h,0c0h,060h,0b0h,0e0h,0b1h,060h,0b1h,0e0h,0b2h,060h,0b2h,0e0h,0b3h,060h,0b3h	; 68e6  ..`...`...`...`.
-	defb 0e0h,0b0h,060h,0a0h,0e0h,0a1h,060h,0a1h,0e0h,0a2h,060h,0a2h,0e0h,0a3h,060h,0a3h	; 68f6  ..`...`...`...`.
-	defb 0e0h,0a0h,060h,090h,0e0h,091h,060h,091h,0e0h,092h,060h,092h,0e0h,093h,060h,093h	; 6906  ..`...`...`...`.
-	defb 0e0h,090h,060h,080h,0e0h,081h,060h,081h,0e0h,082h,060h,082h,0e0h,083h,060h,083h	; 6916  ..`...`...`...`.
-	defb 0e0h,080h,060h,070h,0e0h,071h,060h,071h,0e0h,072h,060h,072h,0e0h,073h,060h,073h	; 6926  ..`p.q`q.r`r.s`s
-	defb 0e0h,070h,060h,060h,0e0h,061h,060h,061h,0e0h,062h,060h,062h,0e0h,063h,060h,063h	; 6936  .p``.a`a.b`b.c`c
-	defb 0e0h,060h,060h,0ffh,022h,001h,0e0h,080h,0f4h,000h,0d2h,000h,0b1h,000h,0a0h,080h	; 6946  .``."...........
-	defb 0ffh,02ah,004h,000h,003h,0c0h,008h,040h,006h,0feh,004h,057h,069h,0ffh,022h,001h	; 6956  .*.....@...Wi.".
-	defb 0e2h,000h,0c2h,000h,02ah,040h,010h,000h,092h,000h,0ffh,022h,001h,090h,0d0h,0b0h	; 6966  ....*@....."....
-	defb 0a0h,0c0h,0b5h,022h,002h,0c0h,0d0h,0b0h,0d2h,0a0h,0d4h,0a0h,0b5h,0c0h,0d0h,0b0h	; 6976  ..."............
-	defb 0d2h,0a0h,0d4h,090h,0d7h,090h,0dch,0ffh,022h,001h,0d4h,000h,0d3h,000h,0d2h,000h	; 6986  ........".......
-	defb 0d4h,000h,0d3h,000h,0e4h,000h,0f2h,000h,0f3h,000h,0f5h,000h,0e2h,000h,0d3h,000h	; 6996  ................
-	defb 0c4h,000h,0b5h,000h,0b3h,000h,0a4h,000h,0a3h,000h,084h,000h,0ffh,021h,001h,010h	; 69a6  .............!..
-	defb 0c0h,000h,013h,0e0h,000h,012h,0d0h,000h,011h,0d0h,000h,010h,0c0h,000h,021h,002h	; 69b6  ..............!.
-	defb 012h,0d0h,000h,0f0h,000h,011h,0e0h,000h,0d0h,000h,010h,0c0h,000h,0b0h,000h,0a0h	; 69c6  ................
-	defb 000h,090h,000h,080h,000h,070h,000h,0ffh,0ffh,022h,001h,0e3h,0fch,0b3h,0fch,093h	; 69d6  .....p..."......
-	defb 0fch,0e3h,0c3h,0b3h,0c3h,093h,0c3h,0e3h,093h,093h,093h,0e3h,064h,0b3h,064h,093h	; 69e6  ............d.d.
-	defb 064h,0e3h,039h,0b3h,039h,093h,039h,0e3h,012h,0b3h,012h,093h,012h,0e2h,0f6h,0b2h	; 69f6  d.9.9.9.........
-	defb 0f6h,092h,0f6h,0ffh,0ffh,022h,001h,0e1h,080h,0e1h,0c0h,0e2h,000h,0e2h,040h,0e2h	; 6a06  ....."........@.
-	defb 080h,0e2h,0c0h,0e3h,000h,0e3h,000h,0d3h,000h,0c3h,000h,0b3h,000h,0a3h,000h,093h	; 6a16  ................
-	defb 000h,083h,000h,073h,000h,063h,000h,053h,000h,043h,000h,053h,000h,043h,000h,053h	; 6a26  ...s.c.S.C.S.C.S
-	defb 000h,043h,000h,053h,000h,053h,000h,053h,000h,0ffh,023h,001h,010h,0f0h,030h,0f0h	; 6a36  .C.S.S.S..#...0.
-	defb 02eh,0e0h,02ch,0e0h,02ah,0d0h,028h,0d0h,026h,0c0h,024h,0c0h,022h,0e0h,024h,0e0h	; 6a46  ..,.*.(.&.$.".$.
-	defb 026h,0d0h,028h,0d0h,02ah,0c0h,02ch,0c0h,02eh,0b0h,030h,0b0h,032h,0d0h,030h,0d0h	; 6a56  &.(.*.,...0.2.0.
-	defb 02eh,0c0h,02ch,0c0h,02ah,0b0h,028h,0b0h,026h,0a0h,024h,0a0h,022h,0c0h,024h,0c0h	; 6a66  ..,.*.(.&.$.".$.
-	defb 026h,0b0h,028h,0b0h,02ah,0a0h,02ch,0a0h,02eh,090h,030h,090h,02eh,0b0h,02ch,0b0h	; 6a76  &.(.*.,...0...,.
-	defb 02ah,0a0h,028h,0a0h,026h,090h,024h,090h,022h,080h,020h,080h,01eh,0ffh,023h,001h	; 6a86  *.(.&.$.". ...#.
-	defb 018h,0a3h,000h,01dh,0b2h,000h,01eh,0b3h,000h,01ch,0e1h,080h,01fh,0d3h,000h,0d1h	; 6a96  ................
-	defb 080h,0e2h,000h,0f2h,080h,0c1h,080h,0b2h,000h,023h,005h,01fh,091h,0c0h,082h,060h	; 6aa6  .........#.....`
-	defb 073h,000h,0ffh,023h,002h,010h,0f0h,080h,022h,001h,0e0h,080h,0e1h,000h,0e1h,080h	; 6ab6  s..#....".......
-	defb 0efh,0f0h,0e0h,070h,0e0h,0f0h,0e1h,070h,0efh,0e0h,0d0h,060h,0d0h,0e0h,0d1h,060h	; 6ac6  ...p...p...`...`
-	defb 0dfh,0d0h,0d0h,050h,0d1h,050h,0dfh,0c0h,0c0h,040h,0c1h,040h,0cfh,0b0h,0c0h,030h	; 6ad6  ...P.P...@.@...0
-	defb 0c1h,030h,0cfh,0a0h,0b0h,020h,0b1h,020h,0bfh,090h,0a0h,010h,091h,010h,08fh,080h	; 6ae6  .0... . ........
-	defb 0ffh,022h,001h,070h,080h,070h,090h,070h,080h,070h,08fh,0f0h,080h,0f0h,08fh,0e0h	; 6af6  .".p.p.p.p......
-	defb 07eh,0e0h,08dh,0d0h,07ch,0d0h,08bh,0d0h,07ah,0d0h,089h,0c0h,078h,0c0h,089h,0c0h	; 6b06  ~...|...z...x...
-	defb 07ah,0c0h,08bh,0b0h,07ch,0b0h,08dh,0b0h,07eh,0b0h,08fh,0a0h,080h,0a0h,093h,0a0h	; 6b16  z...|...~.......
-	defb 084h,090h,096h,090h,088h,080h,096h,060h,098h,040h,09bh,0ffh,022h,002h,0f8h,000h	; 6b26  .......`.@.."...
-	defb 0f7h,000h,0f6h,000h,0f5h,000h,0f4h,000h,0f3h,000h,0e4h,000h,0c5h,000h,0ffh,022h	; 6b36  ..............."
-	defb 001h,0e2h,015h,090h,00ch,0c4h,000h,000h,000h,022h,001h,0c3h,0c0h,0a3h,080h,083h	; 6b46  ........."......
-	defb 050h,0ffh,023h,003h,01fh,0c6h,0fah,0c6h,0dah,01bh,0c6h,0cah,0c6h,0aah,017h,0c6h	; 6b56  P.#.............
-	defb 09ah,0c6h,07ah,014h,0c6h,01ah,06ah,0c6h,04ah,012h,0c6h,03ah,0c6h,01ah,023h,006h	; 6b66  ..z...j.J..:..#.
-	defb 011h,0b6h,01ah,0a6h,01ah,010h,096h,01ah,086h,01ah,046h,01ah,0ffh,022h,001h,0d0h	; 6b76  ..........F.."..
-	defb 0fah,0d0h,07ah,0e0h,0f8h,0e0h,078h,0f0h,0f6h,0f0h,076h,0f0h,0f4h,0f0h,074h,0e0h	; 6b86  ..z...x...v...t.
-	defb 0f2h,0e0h,072h,0d0h,0f0h,0d0h,070h,0c0h,0eeh,0c0h,07eh,0b0h,0ech,0b0h,07ch,0a0h	; 6b96  ..r...p...~...|.
-	defb 0eah,0a0h,07ah,090h,0e8h,090h,078h,080h,0e6h,080h,076h,090h,0e4h,090h,074h,0a0h	; 6ba6  ..z...x...v...t.
-	defb 0e2h,0a0h,072h,0b0h,0e0h,0b0h,070h,0c0h,0deh,0c0h,06eh,0d0h,0dch,0d0h,06ch,0e0h	; 6bb6  ..r...p...n...l.
-	defb 0dah,0e0h,06ah,0f0h,0d8h,0f0h,068h,0e0h,0d6h,0e0h,066h,0d0h,0d4h,0d0h,064h,0c0h	; 6bc6  ..j...h...f...d.
-	defb 0d2h,0c0h,062h,0b0h,0d0h,0b0h,060h,0a0h,0ceh,0a0h,05eh,090h,0cdh,090h,05dh,080h	; 6bd6  ..b...`...^...].
-	defb 0cbh,080h,05bh,0ffh,022h,001h,0e1h,093h,0b1h,093h,091h,093h,0e1h,064h,0b1h,064h	; 6be6  ..[."........d.d
-	defb 091h,064h,0e1h,039h,0b1h,039h,091h,039h,0e1h,012h,0b1h,012h,091h,012h,0e0h,0f6h	; 6bf6  .d.9.9.9........
-	defb 0b0h,0f6h,090h,0f6h,0e0h,0edh,0b0h,0edh,090h,0edh,0e0h,0e0h,0b0h,0e0h,090h,0e0h	; 6c06  ................
-	defb 0feh,002h,0eah,06bh,022h,001h,0e1h,039h,0b1h,039h,081h,039h,0e1h,012h,0b1h,012h	; 6c16  ...k"..9.9.9....
-	defb 091h,012h,0e0h,0f6h,0b0h,0f6h,090h,0f6h,0e0h,0edh,0b0h,0edh,090h,0edh,0e0h,0e0h	; 6c26  ................
-	defb 0b0h,0e0h,090h,0e0h,0e0h,0d8h,0b0h,0d8h,090h,0d8h,0e0h,0c8h,0b0h,0c8h,090h,0c8h	; 6c36  ................
-	defb 0e0h,0f6h,0b0h,0f6h,090h,0f6h,0e0h,0edh,0b0h,0edh,090h,0edh,0e0h,0e0h,0b0h,0e0h	; 6c46  ................
-	defb 090h,0e0h,0e0h,0d8h,0b0h,0d8h,090h,0d8h,0e0h,0c8h,0b0h,0c8h,090h,0c8h,0e0h,0c0h	; 6c56  ................
-	defb 0b0h,0c0h,090h,0c0h,0e0h,0b0h,0b0h,0b0h,090h,0b0h,0ffh,022h,001h,0d1h,033h,0d1h	; 6c66  ..........."..3.
-	defb 003h,0d0h,0d3h,0d0h,0a3h,0d0h,073h,0d1h,007h,0d0h,0d7h,0d0h,0a7h,0d0h,077h,0d0h	; 6c76  ......s.......w.
-	defb 047h,0c1h,007h,0c0h,0d7h,0c0h,0a7h,0c0h,077h,0c0h,047h,0b1h,007h,0b0h,0d7h,0b0h	; 6c86  G.......w.G.....
-	defb 0a7h,0b0h,077h,0b0h,047h,0a1h,007h,0a0h,0d7h,090h,0a7h,090h,077h,080h,047h,081h	; 6c96  ..w.G.......w.G.
-	defb 007h,070h,0d7h,070h,0a7h,060h,077h,060h,047h,0ffh,023h,001h,010h,0d0h,020h,012h	; 6ca6  .p.p.`w`G.#... .
-	defb 0d0h,040h,0feh,004h,0b2h,06ch,010h,0e0h,020h,012h,0e0h,040h,0feh,004h,0bch,06ch	; 6cb6  .@...l.. ..@...l
-	defb 010h,0d0h,020h,012h,0d0h,040h,0feh,004h,0c6h,06ch,010h,0b0h,020h,012h,0b0h,040h	; 6cc6  .. ..@...l.. ..@
-	defb 0feh,004h,0d0h,06ch,010h,090h,020h,012h,090h,040h,0feh,004h,0dah,06ch,010h,070h	; 6cd6  ...l.. ..@...l.p
-	defb 020h,012h,070h,040h,0feh,004h,0e4h,06ch,0ffh,0d1h,0fch,000h,0e8h,006h,037h,0ffh	; 6ce6   .p@...l......7.
-	defb 0d1h,0fch,000h,0e8h,006h,047h,0ffh,0d1h,0fch,000h,0e8h,006h,057h,0ffh,0dfh,0fch	; 6cf6  .....G......W...
-	defb 033h,0e8h,006h,00fh,06fh,0feh,0feh,00ah,06dh,0dfh,0fch,033h,0e8h,006h,01fh,07fh	; 6d06  3...o...m..3....
-	defb 0feh,0feh,015h,06dh,0dfh,0fch,033h,0e8h,006h,02fh,08fh,0feh,0feh,020h,06dh,0d1h	; 6d16  ...m..3../... m.
-	defb 0fdh,088h,0e1h,004h,074h,044h,074h,0fdh,023h,0e0h,009h,0ffh,0e9h,0d6h,0edh,014h	; 6d26  ....tDt.#.......
-	defb 070h,0edh,021h,070h,0edh,02ch,070h,0edh,021h,070h,0fbh,022h,0e2h,027h,057h,077h	; 6d36  p.!p.,p.!p.".'Ww
-	defb 047h,027h,057h,0fch,023h,071h,0fbh,023h,071h,0fah,023h,071h,0f9h,023h,071h,0fch	; 6d46  G'W.#q.#q.#q.#q.
-	defb 044h,091h,0fbh,044h,091h,0fah,044h,091h,0f9h,044h,091h,0e9h,0d6h,0edh,037h,070h	; 6d56  D..D..D..D....7p
-	defb 0fch,044h,021h,0c0h,0fch,033h,0e3h,090h,0fah,010h,093h,0f7h,000h,093h,0f5h,000h	; 6d66  .D!..3..........
-	defb 093h,0edh,037h,070h,0fah,010h,023h,0f7h,000h,023h,0f5h,000h,023h,0edh,05ah,070h	; 6d76  ..7p..#..#..#.Zp
-	defb 0fch,044h,0e2h,051h,0c1h,0fbh,033h,02ah,0c0h,0edh,05ah,070h,0fbh,044h,0e2h,091h	; 6d86  .D.Q..3*..Zp.D..
-	defb 0c1h,0fbh,033h,027h,0fbh,033h,0e1h,0c1h,020h,040h,050h,040h,000h,020h,0fbh,022h	; 6d96  ..3'.3.. @P@. ."
-	defb 050h,040h,000h,020h,0c1h,053h,041h,000h,022h,0feh,002h,0a4h,06dh,050h,040h,000h	; 6da6  P@. .SA."...mP@.
-	defb 020h,0c1h,053h,041h,050h,040h,050h,070h,092h,072h,041h,0f9h,000h,0e2h,092h,072h	; 6db6   .SAP@Pp.rA....r
-	defb 041h,0fch,022h,0e1h,020h,0fbh,033h,020h,0fah,033h,020h,0fch,022h,090h,0fbh,033h	; 6dc6  A.". .3 .3 ."..3
-	defb 090h,0fah,033h,090h,0fch,022h,040h,0fbh,033h,040h,0fah,033h,040h,0f9h,033h,040h	; 6dd6  ..3.."@.3@.3@.3@
-	defb 0f8h,033h,040h,0f7h,033h,040h,0fch,022h,020h,0fbh,033h,040h,0fch,022h,050h,0fbh	; 6de6  .3@.3@." .3@."P.
-	defb 033h,050h,0feh,002h,0c7h,06dh,0fbh,023h,022h,042h,051h,072h,042h,001h,0fah,010h	; 6df6  3P...m.#"BQrB...
-	defb 021h,0f9h,000h,021h,0f7h,000h,021h,0f5h,000h,021h,0fah,044h,0e0h,020h,0f8h,044h	; 6e06  !..!..!..!.D. .D
-	defb 0e1h,050h,0f8h,044h,0e0h,020h,0f6h,044h,0e1h,050h,0f6h,044h,0e0h,020h,0f4h,044h	; 6e16  .P.D. .D.P.D. .D
-	defb 0e1h,050h,0f4h,044h,0e0h,020h,0f2h,044h,0e1h,050h,0eah,061h,06dh,0e9h,0d6h,0fdh	; 6e26  .P.D. .D.P.am...
-	defb 023h,0e3h,02fh,00fh,0e4h,0afh,0fdh,035h,093h,093h,091h,091h,091h,091h,0fdh,054h	; 6e36  #./....5.......T
-	defb 021h,020h,020h,0feh,003h,044h,06eh,020h,021h,020h,021h,020h,020h,021h,020h,020h	; 6e46  !  ..Dn ! !  !
-	defb 020h,020h,020h,020h,021h,020h,090h,0fch,035h,0e3h,021h,020h,020h,021h,020h,020h	; 6e56      ! ..5.!  !
-	defb 020h,021h,020h,020h,020h,020h,020h,021h,020h,020h,021h,020h,020h,020h,020h,021h	; 6e66   !     !  !    !
-	defb 021h,020h,020h,0e9h,0d6h,0edh,0a6h,070h,0e4h,021h,0edh,0a6h,070h,0c0h,020h,0fch	; 6e76  !  ....p.!..p. .
-	defb 044h,0e4h,021h,021h,0e3h,021h,0e4h,021h,0feh,007h,085h,06eh,021h,021h,0e3h,021h	; 6e86  D.!!.!.!...n!!.!
-	defb 0c0h,020h,0e4h,021h,021h,0e3h,021h,0e4h,021h,0feh,006h,098h,06eh,022h,020h,0e3h	; 6e96  . .!!.!.!...n" .
-	defb 021h,0e4h,021h,0c1h,0e4h,020h,020h,0e3h,020h,0e4h,020h,020h,020h,0fbh,022h,0e4h	; 6ea6  !.!..  . .   .".
-	defb 020h,0e3h,020h,0feh,008h,0b3h,06eh,0e4h,0a0h,0e3h,0a0h,0feh,008h,0bdh,06eh,0e4h	; 6eb6   . ...n.......n.
-	defb 070h,0e3h,070h,0feh,008h,0c5h,06eh,0e4h,090h,0e3h,090h,0feh,008h,0cdh,06eh,0e3h	; 6ec6  p.p...n.......n.
-	defb 020h,0e2h,020h,0feh,008h,0d5h,06eh,0e3h,000h,0e2h,000h,0feh,008h,0ddh,06eh,0e4h	; 6ed6   . ...n.......n.
-	defb 0a1h,0a0h,0a0h,0e3h,0a0h,0e4h,0a0h,0a0h,0a0h,091h,090h,090h,0e3h,090h,0e4h,090h	; 6ee6  ................
-	defb 090h,090h,020h,020h,020h,020h,0e3h,020h,0e4h,020h,020h,020h,021h,020h,020h,0e3h	; 6ef6  ..    . .   !  .
-	defb 021h,0e4h,021h,0eah,079h,06eh,0e9h,0d6h,0e7h,0edh,014h,070h,0edh,021h,070h,0edh	; 6f06  !.!.yn.....p.!p.
-	defb 02ch,070h,0edh,021h,070h,0e9h,0f9h,022h,0e3h,097h,0e2h,007h,027h,0e3h,0b7h,097h	; 6f16  ,p.!p.."....'...
-	defb 0e2h,007h,0fah,023h,021h,0f9h,023h,021h,0f8h,023h,021h,0f7h,023h,021h,0fah,044h	; 6f26  ...#!.#!.#!.#!.D
-	defb 041h,0f9h,044h,041h,0f8h,044h,041h,0f7h,044h,041h,0e9h,0d6h,0edh,0ddh,070h,0fbh	; 6f36  A.DA.DA.DA....p.
-	defb 044h,051h,0c0h,0fbh,033h,050h,0f9h,010h,053h,0f6h,000h,053h,0f4h,000h,053h,0edh	; 6f46  DQ..3P..S..S..S.
-	defb 0ddh,070h,0f9h,010h,053h,0f6h,000h,053h,0f4h,000h,053h,0edh,0ffh,070h,0e9h,0fbh	; 6f56  .p..S..S..S..p..
-	defb 044h,0e2h,021h,0c1h,0fah,033h,0e3h,09ah,0c0h,0edh,0ffh,070h,0e9h,0fah,033h,0e2h	; 6f66  D.!..3.....p..3.
-	defb 051h,0c1h,0fah,033h,0e3h,097h,0c1h,0e8h,000h,0b0h,0b0h,020h,0b0h,0b0h,0b0h,0e9h	; 6f76  Q..3....... ....
-	defb 0fah,022h,0e2h,090h,070h,040h,050h,0c1h,093h,071h,040h,052h,0feh,002h,085h,06fh	; 6f86  ."..p@P..q@R...o
-	defb 090h,070h,040h,050h,0c1h,093h,071h,090h,070h,090h,0b0h,0e1h,012h,012h,011h,0e7h	; 6f96  .p@P..q.p.......
-	defb 0f9h,000h,0e2h,092h,072h,041h,0e9h,0fbh,022h,0e2h,050h,0fah,033h,050h,0f9h,033h	; 6fa6  ....rA..".P.3P.3
-	defb 050h,0fbh,022h,0e1h,000h,0fah,033h,000h,0f9h,033h,000h,0fbh,022h,0e2h,070h,0fah	; 6fb6  P."...3..3..".p.
-	defb 033h,070h,0f9h,033h,070h,0f8h,033h,070h,0f7h,033h,070h,0f6h,033h,070h,0fbh,022h	; 6fc6  3p.3p.3p.3p.3p."
-	defb 050h,0fah,033h,070h,0fbh,022h,090h,0fah,033h,090h,0feh,002h,0adh,06fh,0fah,023h	; 6fd6  P.3p."..3....o.#
-	defb 052h,072h,091h,0a2h,072h,041h,0f9h,010h,051h,0f8h,000h,051h,0f6h,000h,051h,0f4h	; 6fe6  Rr..rA..Q..Q..Q.
-	defb 000h,051h,0f9h,044h,0e1h,090h,0f7h,044h,020h,0f7h,044h,090h,0f5h,044h,020h,0f5h	; 6ff6  .Q.D...D .D..D .
-	defb 044h,090h,0f3h,044h,020h,0f3h,044h,090h,0f1h,044h,020h,0eah,040h,06fh,0fah,000h	; 7006  D..D .D..D .@o..
-	defb 0e1h,020h,0e2h,090h,050h,020h,0feh,004h,014h,070h,0eeh,0e1h,040h,000h,0e2h,070h	; 7016  . ..P ...p..@..p
-	defb 040h,0feh,004h,021h,070h,0eeh,0e1h,050h,020h,0e2h,0a0h,050h,0feh,004h,02ch,070h	; 7026  @..!p..P ..P..,p
-	defb 0eeh,0fbh,022h,0e3h,095h,0e2h,021h,051h,093h,0e1h,001h,0fch,044h,0e2h,0b1h,0c0h	; 7036  .."...!Q....D...
-	defb 0fch,033h,090h,0fah,010h,073h,0f7h,000h,073h,0f5h,000h,073h,0fbh,022h,025h,051h	; 7046  .3...s..s..s."%Q
-	defb 041h,023h,001h,0eeh,0fch,033h,0e3h,091h,0c0h,0fbh,033h,090h,0fch,044h,0e2h,023h	; 7056  A#...3....3..D.#
-	defb 0fbh,010h,091h,0f8h,000h,091h,0fah,044h,0e1h,092h,0f7h,044h,090h,0fch,033h,0e3h	; 7066  .......D...D..3.
-	defb 091h,0c0h,0fbh,033h,090h,0fch,044h,0e2h,023h,0fbh,010h,081h,0f8h,000h,081h,0fah	; 7076  ...3..D.#.......
-	defb 044h,0e1h,082h,0f7h,044h,080h,0fch,033h,0e3h,091h,0c0h,0fbh,033h,090h,0fch,044h	; 7086  D...D..3....3..D
-	defb 0e2h,023h,0fbh,010h,071h,0f8h,000h,071h,0fah,044h,0e1h,072h,0f7h,044h,070h,0eeh	; 7096  .#..q..q.D.r.Dp.
+	defb 004h,014h,0c0h,004h,013h,0b0h,000h,013h,0a0h,000h,014h,090h,000h,0ffh	; 67c6  ..............
+
+; ----------------------------------------------------------------------
+; DATOS sonido_67D4: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (27 bytes)
+;   0x67d4..0x67ef  (27 bytes)
+DATA_sonido_67D4:
+	defb 023h,001h,011h,0d2h,000h,012h,0e8h,000h,013h,0f4h,000h,014h,0e3h,000h,015h,0d2h	; 67d4  #...............
+	defb 080h,016h,0c2h,040h,017h,0b2h,020h,018h,0a2h,010h,0ffh	; 67e4  ...@.. ....
+
+; ----------------------------------------------------------------------
+; DATOS sonido_67EF: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (27 bytes)
+;   0x67ef..0x680a  (27 bytes)
+DATA_sonido_67EF:
+	defb 023h,001h,018h,0d1h,000h,018h,0e4h,000h,017h,0f2h,000h,016h,0e1h,080h,015h,0d1h	; 67ef  #...............
+	defb 040h,014h,0c1h,020h,013h,0b1h,010h,012h,0a1h,008h,0ffh	; 67ff  @.. .......
+
+; ----------------------------------------------------------------------
+; DATOS sonido_680A: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (21 bytes)
+;   0x680a..0x681f  (21 bytes)
+DATA_sonido_680A:
+	defb 02ah,004h,002h,000h,0e0h,0c0h,02ah,001h,000h,001h,0e0h,0c0h,0e0h,080h,0e0h,060h	; 680a  *.....*........`
+	defb 0e0h,040h,0e0h,020h,0ffh	; 681a
+
+; ----------------------------------------------------------------------
+; DATOS sonido_681F: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (29 bytes)
+;   0x681f..0x683c  (29 bytes)
+DATA_sonido_681F:
+	defb 021h,002h,01dh,0e0h,000h,01bh,0c0h,000h,01dh,0e0h,000h,023h,001h,014h,0d0h,020h	; 681f  !..........#...
+	defb 013h,0b0h,020h,012h,090h,020h,011h,070h,020h,010h,060h,020h,0ffh	; 682f  .. .. .p .` .
+
+; ----------------------------------------------------------------------
+; DATOS sonido_683C: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (30 bytes)
+;   0x683c..0x685a  (30 bytes)
+DATA_sonido_683C:
+	defb 023h,001h,010h,0d0h,004h,012h,0e0h,008h,013h,0f0h,00ch,014h,0e0h,010h,015h,0d0h	; 683c  #...............
+	defb 014h,016h,0c0h,018h,017h,0b0h,01ch,018h,0a0h,020h,019h,090h,024h,0ffh	; 684c  ......... ..$.
+
+; ----------------------------------------------------------------------
+; DATOS sonido_685A: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (13 bytes)
+;   0x685a..0x6867  (13 bytes)
+DATA_sonido_685A:
+	defb 02ah,001h,000h,001h,080h,0c0h,080h,0d0h,080h,0e0h,080h,0f0h,0ffh	; 685a  *............
+
+; ----------------------------------------------------------------------
+; DATOS sonido_6867: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (19 bytes)
+;   0x6867..0x687a  (19 bytes)
+DATA_sonido_6867:
+	defb 022h,002h,0d8h,020h,0e4h,020h,0f2h,020h,0e1h,020h,0d0h,0a0h,0c0h,060h,0b0h,000h	; 6867  ".. . . . ...`..
+	defb 0a0h,030h,0ffh	; 6877
+
+; ----------------------------------------------------------------------
+; DATOS sonido_687A: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (17 bytes)
+;   0x687a..0x688b  (17 bytes)
+DATA_sonido_687A:
+	defb 022h,001h,0a2h,000h,0a1h,020h,0a1h,0d0h,0c1h,030h,0b1h,080h,082h,000h,061h,0b0h	; 687a  ".... ...0....a.
+	defb 0ffh	; 688a
+
+; ----------------------------------------------------------------------
+; DATOS ff_de_mas_688B: otro 0xFF detras del que acaba la pista: no se llega;
+;   lo leen p04:65A4 (1 bytes)
+;   0x688b..0x688c  (1 bytes)
+DATA_ff_de_mas_688B:
+	defb 0ffh	; 688b
+
+; ----------------------------------------------------------------------
+; DATOS sonido_688C: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (20 bytes)
+;   0x688c..0x68a0  (20 bytes)
+DATA_sonido_688C:
+	defb 02bh,001h,000h,001h,010h,084h,000h,083h,000h,082h,000h,081h,000h,080h,080h,080h	; 688c  +...............
+	defb 040h,080h,020h,0ffh	; 689c
+
+; ----------------------------------------------------------------------
+; DATOS sonido_68A0: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (23 bytes)
+;   0x68a0..0x68b7  (23 bytes)
+DATA_sonido_68A0:
+	defb 022h,002h,0d2h,020h,0e1h,020h,0f0h,0a0h,0e0h,060h,0d0h,040h,0c2h,020h,0d1h,020h	; 68a0  ".. . ...`.@. .
+	defb 0e0h,0a0h,0d0h,060h,0c0h,040h,0ffh	; 68b0
+
+; ----------------------------------------------------------------------
+; DATOS sonido_68B7: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (147 bytes)
+;   0x68b7..0x694a  (147 bytes)
+DATA_sonido_68B7:
+	defb 022h,001h,0e0h,0e0h,0e1h,060h,0e1h,0e0h,0e2h,060h,0e2h,0e0h,0e3h,060h,0e3h,0e0h	; 68b7  "....`...`...`..
+	defb 0e0h,060h,0d0h,0e0h,0d1h,060h,0d1h,0e0h,0d2h,060h,0d2h,0e0h,0d3h,060h,0d3h,0e0h	; 68c7  .`...`...`...`..
+	defb 0d0h,060h,0c0h,0e0h,0c1h,060h,0c1h,0e0h,0c2h,060h,0c2h,0e0h,0c3h,060h,0c3h,0e0h	; 68d7  .`...`...`...`..
+	defb 0c0h,060h,0b0h,0e0h,0b1h,060h,0b1h,0e0h,0b2h,060h,0b2h,0e0h,0b3h,060h,0b3h,0e0h	; 68e7  .`...`...`...`..
+	defb 0b0h,060h,0a0h,0e0h,0a1h,060h,0a1h,0e0h,0a2h,060h,0a2h,0e0h,0a3h,060h,0a3h,0e0h	; 68f7  .`...`...`...`..
+	defb 0a0h,060h,090h,0e0h,091h,060h,091h,0e0h,092h,060h,092h,0e0h,093h,060h,093h,0e0h	; 6907  .`...`...`...`..
+	defb 090h,060h,080h,0e0h,081h,060h,081h,0e0h,082h,060h,082h,0e0h,083h,060h,083h,0e0h	; 6917  .`...`...`...`..
+	defb 080h,060h,070h,0e0h,071h,060h,071h,0e0h,072h,060h,072h,0e0h,073h,060h,073h,0e0h	; 6927  .`p.q`q.r`r.s`s.
+	defb 070h,060h,060h,0e0h,061h,060h,061h,0e0h,062h,060h,062h,0e0h,063h,060h,063h,0e0h	; 6937  p``.a`a.b`b.c`c.
+	defb 060h,060h,0ffh	; 6947
+
+; ----------------------------------------------------------------------
+; DATOS sonido_694A: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (13 bytes)
+;   0x694a..0x6957  (13 bytes)
+DATA_sonido_694A:
+	defb 022h,001h,0e0h,080h,0f4h,000h,0d2h,000h,0b1h,000h,0a0h,080h,0ffh	; 694a  "............
+
+; ----------------------------------------------------------------------
+; DATOS sonido_6957: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (13 bytes)
+;   0x6957..0x6964  (13 bytes)
+DATA_sonido_6957:
+	defb 02ah,004h,000h,003h,0c0h,008h,040h,006h,0feh,004h,057h,069h,0ffh	; 6957  *.....@...Wi.
+
+; ----------------------------------------------------------------------
+; DATOS sonido_6964: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (13 bytes)
+;   0x6964..0x6971  (13 bytes)
+DATA_sonido_6964:
+	defb 022h,001h,0e2h,000h,0c2h,000h,02ah,040h,010h,000h,092h,000h,0ffh	; 6964  ".....*@.....
+
+; ----------------------------------------------------------------------
+; DATOS sonido_6971: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (29 bytes)
+;   0x6971..0x698e  (29 bytes)
+DATA_sonido_6971:
+	defb 022h,001h,090h,0d0h,0b0h,0a0h,0c0h,0b5h,022h,002h,0c0h,0d0h,0b0h,0d2h,0a0h,0d4h	; 6971  ".......".......
+	defb 0a0h,0b5h,0c0h,0d0h,0b0h,0d2h,0a0h,0d4h,090h,0d7h,090h,0dch,0ffh	; 6981  .............
+
+; ----------------------------------------------------------------------
+; DATOS sonido_698E: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (37 bytes)
+;   0x698e..0x69b3  (37 bytes)
+DATA_sonido_698E:
+	defb 022h,001h,0d4h,000h,0d3h,000h,0d2h,000h,0d4h,000h,0d3h,000h,0e4h,000h,0f2h,000h	; 698e  "...............
+	defb 0f3h,000h,0f5h,000h,0e2h,000h,0d3h,000h,0c4h,000h,0b5h,000h,0b3h,000h,0a4h,000h	; 699e  ................
+	defb 0a3h,000h,084h,000h,0ffh	; 69ae
+
+; ----------------------------------------------------------------------
+; DATOS sonido_69B3: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (43 bytes)
+;   0x69b3..0x69de  (43 bytes)
+DATA_sonido_69B3:
+	defb 021h,001h,010h,0c0h,000h,013h,0e0h,000h,012h,0d0h,000h,011h,0d0h,000h,010h,0c0h	; 69b3  !...............
+	defb 000h,021h,002h,012h,0d0h,000h,0f0h,000h,011h,0e0h,000h,0d0h,000h,010h,0c0h,000h	; 69c3  .!..............
+	defb 0b0h,000h,0a0h,000h,090h,000h,080h,000h,070h,000h,0ffh	; 69d3  ........p..
+
+; ----------------------------------------------------------------------
+; DATOS ff_de_mas_69DE: otro 0xFF detras del que acaba la pista: no se llega;
+;   lo leen p04:65A4 (1 bytes)
+;   0x69de..0x69df  (1 bytes)
+DATA_ff_de_mas_69DE:
+	defb 0ffh	; 69de
+
+; ----------------------------------------------------------------------
+; DATOS sonido_69DF: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (43 bytes)
+;   0x69df..0x6a0a  (43 bytes)
+DATA_sonido_69DF:
+	defb 022h,001h,0e3h,0fch,0b3h,0fch,093h,0fch,0e3h,0c3h,0b3h,0c3h,093h,0c3h,0e3h,093h	; 69df  "...............
+	defb 093h,093h,0e3h,064h,0b3h,064h,093h,064h,0e3h,039h,0b3h,039h,093h,039h,0e3h,012h	; 69ef  ...d.d.d.9.9.9..
+	defb 0b3h,012h,093h,012h,0e2h,0f6h,0b2h,0f6h,092h,0f6h,0ffh	; 69ff  ...........
+
+; ----------------------------------------------------------------------
+; DATOS ff_de_mas_6A0A: otro 0xFF detras del que acaba la pista: no se llega;
+;   lo leen p04:65A4 (1 bytes)
+;   0x6a0a..0x6a0b  (1 bytes)
+DATA_ff_de_mas_6A0A:
+	defb 0ffh	; 6a0a
+
+; ----------------------------------------------------------------------
+; DATOS sonido_6A0B: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (53 bytes)
+;   0x6a0b..0x6a40  (53 bytes)
+DATA_sonido_6A0B:
+	defb 022h,001h,0e1h,080h,0e1h,0c0h,0e2h,000h,0e2h,040h,0e2h,080h,0e2h,0c0h,0e3h,000h	; 6a0b  "........@......
+	defb 0e3h,000h,0d3h,000h,0c3h,000h,0b3h,000h,0a3h,000h,093h,000h,083h,000h,073h,000h	; 6a1b  ..............s.
+	defb 063h,000h,053h,000h,043h,000h,053h,000h,043h,000h,053h,000h,043h,000h,053h,000h	; 6a2b  c.S.C.S.C.S.C.S.
+	defb 053h,000h,053h,000h,0ffh	; 6a3b
+
+; ----------------------------------------------------------------------
+; DATOS sonido_6A40: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (84 bytes)
+;   0x6a40..0x6a94  (84 bytes)
+DATA_sonido_6A40:
+	defb 023h,001h,010h,0f0h,030h,0f0h,02eh,0e0h,02ch,0e0h,02ah,0d0h,028h,0d0h,026h,0c0h	; 6a40  #...0...,.*.(.&.
+	defb 024h,0c0h,022h,0e0h,024h,0e0h,026h,0d0h,028h,0d0h,02ah,0c0h,02ch,0c0h,02eh,0b0h	; 6a50  $.".$.&.(.*.,...
+	defb 030h,0b0h,032h,0d0h,030h,0d0h,02eh,0c0h,02ch,0c0h,02ah,0b0h,028h,0b0h,026h,0a0h	; 6a60  0.2.0...,.*.(.&.
+	defb 024h,0a0h,022h,0c0h,024h,0c0h,026h,0b0h,028h,0b0h,02ah,0a0h,02ch,0a0h,02eh,090h	; 6a70  $.".$.&.(.*.,...
+	defb 030h,090h,02eh,0b0h,02ch,0b0h,02ah,0a0h,028h,0a0h,026h,090h,024h,090h,022h,080h	; 6a80  0...,.*.(.&.$.".
+	defb 020h,080h,01eh,0ffh	; 6a90
+
+; ----------------------------------------------------------------------
+; DATOS sonido_6A94: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (37 bytes)
+;   0x6a94..0x6ab9  (37 bytes)
+DATA_sonido_6A94:
+	defb 023h,001h,018h,0a3h,000h,01dh,0b2h,000h,01eh,0b3h,000h,01ch,0e1h,080h,01fh,0d3h	; 6a94  #...............
+	defb 000h,0d1h,080h,0e2h,000h,0f2h,080h,0c1h,080h,0b2h,000h,023h,005h,01fh,091h,0c0h	; 6aa4  ...........#....
+	defb 082h,060h,073h,000h,0ffh	; 6ab4
+
+; ----------------------------------------------------------------------
+; DATOS sonido_6AB9: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (62 bytes)
+;   0x6ab9..0x6af7  (62 bytes)
+DATA_sonido_6AB9:
+	defb 023h,002h,010h,0f0h,080h,022h,001h,0e0h,080h,0e1h,000h,0e1h,080h,0efh,0f0h,0e0h	; 6ab9  #...."..........
+	defb 070h,0e0h,0f0h,0e1h,070h,0efh,0e0h,0d0h,060h,0d0h,0e0h,0d1h,060h,0dfh,0d0h,0d0h	; 6ac9  p...p...`...`...
+	defb 050h,0d1h,050h,0dfh,0c0h,0c0h,040h,0c1h,040h,0cfh,0b0h,0c0h,030h,0c1h,030h,0cfh	; 6ad9  P.P...@.@...0.0.
+	defb 0a0h,0b0h,020h,0b1h,020h,0bfh,090h,0a0h,010h,091h,010h,08fh,080h,0ffh	; 6ae9  .. . .........
+
+; ----------------------------------------------------------------------
+; DATOS sonido_6AF7: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (59 bytes)
+;   0x6af7..0x6b32  (59 bytes)
+DATA_sonido_6AF7:
+	defb 022h,001h,070h,080h,070h,090h,070h,080h,070h,08fh,0f0h,080h,0f0h,08fh,0e0h,07eh	; 6af7  ".p.p.p.p......~
+	defb 0e0h,08dh,0d0h,07ch,0d0h,08bh,0d0h,07ah,0d0h,089h,0c0h,078h,0c0h,089h,0c0h,07ah	; 6b07  ...|...z...x...z
+	defb 0c0h,08bh,0b0h,07ch,0b0h,08dh,0b0h,07eh,0b0h,08fh,0a0h,080h,0a0h,093h,0a0h,084h	; 6b17  ...|...~........
+	defb 090h,096h,090h,088h,080h,096h,060h,098h,040h,09bh,0ffh	; 6b27  ......`.@..
+
+; ----------------------------------------------------------------------
+; DATOS sonido_6B32: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (19 bytes)
+;   0x6b32..0x6b45  (19 bytes)
+DATA_sonido_6B32:
+	defb 022h,002h,0f8h,000h,0f7h,000h,0f6h,000h,0f5h,000h,0f4h,000h,0f3h,000h,0e4h,000h	; 6b32  "...............
+	defb 0c5h,000h,0ffh	; 6b42
+
+; ----------------------------------------------------------------------
+; DATOS sonido_6B45: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (19 bytes)
+;   0x6b45..0x6b58  (19 bytes)
+DATA_sonido_6B45:
+	defb 022h,001h,0e2h,015h,090h,00ch,0c4h,000h,000h,000h,022h,001h,0c3h,0c0h,0a3h,080h	; 6b45  ".........".....
+	defb 083h,050h,0ffh	; 6b55
+
+; ----------------------------------------------------------------------
+; DATOS sonido_6B58: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (43 bytes)
+;   0x6b58..0x6b83  (43 bytes)
+DATA_sonido_6B58:
+	defb 023h,003h,01fh,0c6h,0fah,0c6h,0dah,01bh,0c6h,0cah,0c6h,0aah,017h,0c6h,09ah,0c6h	; 6b58  #...............
+	defb 07ah,014h,0c6h,01ah,06ah,0c6h,04ah,012h,0c6h,03ah,0c6h,01ah,023h,006h,011h,0b6h	; 6b68  z...j.J..:..#...
+	defb 01ah,0a6h,01ah,010h,096h,01ah,086h,01ah,046h,01ah,0ffh	; 6b78  ........F..
+
+; ----------------------------------------------------------------------
+; DATOS sonido_6B83: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (103 bytes)
+;   0x6b83..0x6bea  (103 bytes)
+DATA_sonido_6B83:
+	defb 022h,001h,0d0h,0fah,0d0h,07ah,0e0h,0f8h,0e0h,078h,0f0h,0f6h,0f0h,076h,0f0h,0f4h	; 6b83  "....z...x...v..
+	defb 0f0h,074h,0e0h,0f2h,0e0h,072h,0d0h,0f0h,0d0h,070h,0c0h,0eeh,0c0h,07eh,0b0h,0ech	; 6b93  .t...r...p...~..
+	defb 0b0h,07ch,0a0h,0eah,0a0h,07ah,090h,0e8h,090h,078h,080h,0e6h,080h,076h,090h,0e4h	; 6ba3  .|...z...x...v..
+	defb 090h,074h,0a0h,0e2h,0a0h,072h,0b0h,0e0h,0b0h,070h,0c0h,0deh,0c0h,06eh,0d0h,0dch	; 6bb3  .t...r...p...n..
+	defb 0d0h,06ch,0e0h,0dah,0e0h,06ah,0f0h,0d8h,0f0h,068h,0e0h,0d6h,0e0h,066h,0d0h,0d4h	; 6bc3  .l...j...h...f..
+	defb 0d0h,064h,0c0h,0d2h,0c0h,062h,0b0h,0d0h,0b0h,060h,0a0h,0ceh,0a0h,05eh,090h,0cdh	; 6bd3  .d...b...`...^..
+	defb 090h,05dh,080h,0cbh,080h,05bh,0ffh	; 6be3
+
+; ----------------------------------------------------------------------
+; DATOS sonido_6BEA: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (135 bytes)
+;   0x6bea..0x6c71  (135 bytes)
+DATA_sonido_6BEA:
+	defb 022h,001h,0e1h,093h,0b1h,093h,091h,093h,0e1h,064h,0b1h,064h,091h,064h,0e1h,039h	; 6bea  "........d.d.d.9
+	defb 0b1h,039h,091h,039h,0e1h,012h,0b1h,012h,091h,012h,0e0h,0f6h,0b0h,0f6h,090h,0f6h	; 6bfa  .9.9............
+	defb 0e0h,0edh,0b0h,0edh,090h,0edh,0e0h,0e0h,0b0h,0e0h,090h,0e0h,0feh,002h,0eah,06bh	; 6c0a  ...............k
+	defb 022h,001h,0e1h,039h,0b1h,039h,081h,039h,0e1h,012h,0b1h,012h,091h,012h,0e0h,0f6h	; 6c1a  "..9.9.9........
+	defb 0b0h,0f6h,090h,0f6h,0e0h,0edh,0b0h,0edh,090h,0edh,0e0h,0e0h,0b0h,0e0h,090h,0e0h	; 6c2a  ................
+	defb 0e0h,0d8h,0b0h,0d8h,090h,0d8h,0e0h,0c8h,0b0h,0c8h,090h,0c8h,0e0h,0f6h,0b0h,0f6h	; 6c3a  ................
+	defb 090h,0f6h,0e0h,0edh,0b0h,0edh,090h,0edh,0e0h,0e0h,0b0h,0e0h,090h,0e0h,0e0h,0d8h	; 6c4a  ................
+	defb 0b0h,0d8h,090h,0d8h,0e0h,0c8h,0b0h,0c8h,090h,0c8h,0e0h,0c0h,0b0h,0c0h,090h,0c0h	; 6c5a  ................
+	defb 0e0h,0b0h,0b0h,0b0h,090h,0b0h,0ffh	; 6c6a
+
+; ----------------------------------------------------------------------
+; DATOS sonido_6C71: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (63 bytes)
+;   0x6c71..0x6cb0  (63 bytes)
+DATA_sonido_6C71:
+	defb 022h,001h,0d1h,033h,0d1h,003h,0d0h,0d3h,0d0h,0a3h,0d0h,073h,0d1h,007h,0d0h,0d7h	; 6c71  "..3.......s....
+	defb 0d0h,0a7h,0d0h,077h,0d0h,047h,0c1h,007h,0c0h,0d7h,0c0h,0a7h,0c0h,077h,0c0h,047h	; 6c81  ...w.G.......w.G
+	defb 0b1h,007h,0b0h,0d7h,0b0h,0a7h,0b0h,077h,0b0h,047h,0a1h,007h,0a0h,0d7h,090h,0a7h	; 6c91  .......w.G......
+	defb 090h,077h,080h,047h,081h,007h,070h,0d7h,070h,0a7h,060h,077h,060h,047h,0ffh	; 6ca1  .w.G..p.p.`w`G.
+
+; ----------------------------------------------------------------------
+; DATOS sonido_6CB0: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (63 bytes)
+;   0x6cb0..0x6cef  (63 bytes)
+DATA_sonido_6CB0:
+	defb 023h,001h,010h,0d0h,020h,012h,0d0h,040h,0feh,004h,0b2h,06ch,010h,0e0h,020h,012h	; 6cb0  #... ..@...l.. .
+	defb 0e0h,040h,0feh,004h,0bch,06ch,010h,0d0h,020h,012h,0d0h,040h,0feh,004h,0c6h,06ch	; 6cc0  .@...l.. ..@...l
+	defb 010h,0b0h,020h,012h,0b0h,040h,0feh,004h,0d0h,06ch,010h,090h,020h,012h,090h,040h	; 6cd0  .. ..@...l.. ..@
+	defb 0feh,004h,0dah,06ch,010h,070h,020h,012h,070h,040h,0feh,004h,0e4h,06ch,0ffh	; 6ce0  ...l.p .p@...l.
+
+; ----------------------------------------------------------------------
+; DATOS pista_6CEF: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (7 bytes)
+;   0x6cef..0x6cf6  (7 bytes)
+DATA_pista_6CEF:
+	defb 0d1h,0fch,000h,0e8h,006h,037h,0ffh	; 6cef
+
+; ----------------------------------------------------------------------
+; DATOS pista_6CF6: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (7 bytes)
+;   0x6cf6..0x6cfd  (7 bytes)
+DATA_pista_6CF6:
+	defb 0d1h,0fch,000h,0e8h,006h,047h,0ffh	; 6cf6
+
+; ----------------------------------------------------------------------
+; DATOS pista_6CFD: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (7 bytes)
+;   0x6cfd..0x6d04  (7 bytes)
+DATA_pista_6CFD:
+	defb 0d1h,0fch,000h,0e8h,006h,057h,0ffh	; 6cfd
+
+; ----------------------------------------------------------------------
+; DATOS pista_6D04: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (46 bytes)
+;   0x6d04..0x6d32  (46 bytes)
+DATA_pista_6D04:
+	defb 0dfh,0fch,033h,0e8h,006h,00fh,06fh,0feh,0feh,00ah,06dh,0dfh,0fch,033h,0e8h,006h	; 6d04  ..3...o...m..3..
+	defb 01fh,07fh,0feh,0feh,015h,06dh,0dfh,0fch,033h,0e8h,006h,02fh,08fh,0feh,0feh,020h	; 6d14  .....m..3../...
+	defb 06dh,0d1h,0fdh,088h,0e1h,004h,074h,044h,074h,0fdh,023h,0e0h,009h,0ffh	; 6d24  m.....tDt.#...
+
+; ----------------------------------------------------------------------
+; DATOS pista_6D32: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (47 bytes)
+;   0x6d32..0x6d61  (47 bytes)
+DATA_pista_6D32:
+	defb 0e9h,0d6h,0edh,014h,070h,0edh,021h,070h,0edh,02ch,070h,0edh,021h,070h,0fbh,022h	; 6d32  ....p.!p.,p.!p."
+	defb 0e2h,027h,057h,077h,047h,027h,057h,0fch,023h,071h,0fbh,023h,071h,0fah,023h,071h	; 6d42  .'WwG'W.#q.#q.#q
+	defb 0f9h,023h,071h,0fch,044h,091h,0fbh,044h,091h,0fah,044h,091h,0f9h,044h,091h	; 6d52  .#q.D..D..D..D.
+
+; ----------------------------------------------------------------------
+; DATOS pista_6D61: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (210 bytes)
+;   0x6d61..0x6e33  (210 bytes)
+DATA_pista_6D61:
+	defb 0e9h,0d6h,0edh,037h,070h,0fch,044h,021h,0c0h,0fch,033h,0e3h,090h,0fah,010h,093h	; 6d61  ...7p.D!..3.....
+	defb 0f7h,000h,093h,0f5h,000h,093h,0edh,037h,070h,0fah,010h,023h,0f7h,000h,023h,0f5h	; 6d71  .......7p..#..#.
+	defb 000h,023h,0edh,05ah,070h,0fch,044h,0e2h,051h,0c1h,0fbh,033h,02ah,0c0h,0edh,05ah	; 6d81  .#.Zp.D.Q..3*..Z
+	defb 070h,0fbh,044h,0e2h,091h,0c1h,0fbh,033h,027h,0fbh,033h,0e1h,0c1h,020h,040h,050h	; 6d91  p.D....3'.3.. @P
+	defb 040h,000h,020h,0fbh,022h,050h,040h,000h,020h,0c1h,053h,041h,000h,022h,0feh,002h	; 6da1  @. ."P@. .SA."..
+	defb 0a4h,06dh,050h,040h,000h,020h,0c1h,053h,041h,050h,040h,050h,070h,092h,072h,041h	; 6db1  .mP@. .SAP@Pp.rA
+	defb 0f9h,000h,0e2h,092h,072h,041h,0fch,022h,0e1h,020h,0fbh,033h,020h,0fah,033h,020h	; 6dc1  ....rA.". .3 .3
+	defb 0fch,022h,090h,0fbh,033h,090h,0fah,033h,090h,0fch,022h,040h,0fbh,033h,040h,0fah	; 6dd1  ."..3..3.."@.3@.
+	defb 033h,040h,0f9h,033h,040h,0f8h,033h,040h,0f7h,033h,040h,0fch,022h,020h,0fbh,033h	; 6de1  3@.3@.3@.3@." .3
+	defb 040h,0fch,022h,050h,0fbh,033h,050h,0feh,002h,0c7h,06dh,0fbh,023h,022h,042h,051h	; 6df1  @."P.3P...m.#"BQ
+	defb 072h,042h,001h,0fah,010h,021h,0f9h,000h,021h,0f7h,000h,021h,0f5h,000h,021h,0fah	; 6e01  rB...!..!..!..!.
+	defb 044h,0e0h,020h,0f8h,044h,0e1h,050h,0f8h,044h,0e0h,020h,0f6h,044h,0e1h,050h,0f6h	; 6e11  D. .D.P.D. .D.P.
+	defb 044h,0e0h,020h,0f4h,044h,0e1h,050h,0f4h,044h,0e0h,020h,0f2h,044h,0e1h,050h,0eah	; 6e21  D. .D.P.D. .D.P.
+	defb 061h,06dh	; 6e31
+
+; ----------------------------------------------------------------------
+; DATOS pista_6E33: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (70 bytes)
+;   0x6e33..0x6e79  (70 bytes)
+DATA_pista_6E33:
+	defb 0e9h,0d6h,0fdh,023h,0e3h,02fh,00fh,0e4h,0afh,0fdh,035h,093h,093h,091h,091h,091h	; 6e33  ...#./....5.....
+	defb 091h,0fdh,054h,021h,020h,020h,0feh,003h,044h,06eh,020h,021h,020h,021h,020h,020h	; 6e43  ..T!  ..Dn ! !
+	defb 021h,020h,020h,020h,020h,020h,020h,021h,020h,090h,0fch,035h,0e3h,021h,020h,020h	; 6e53  !      ! ..5.!
+	defb 021h,020h,020h,020h,021h,020h,020h,020h,020h,020h,021h,020h,020h,021h,020h,020h	; 6e63  !   !     !  !
+	defb 020h,020h,021h,021h,020h,020h	; 6e73
+
+; ----------------------------------------------------------------------
+; DATOS pista_6E79: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (147 bytes)
+;   0x6e79..0x6f0c  (147 bytes)
+DATA_pista_6E79:
+	defb 0e9h,0d6h,0edh,0a6h,070h,0e4h,021h,0edh,0a6h,070h,0c0h,020h,0fch,044h,0e4h,021h	; 6e79  ....p.!..p. .D.!
+	defb 021h,0e3h,021h,0e4h,021h,0feh,007h,085h,06eh,021h,021h,0e3h,021h,0c0h,020h,0e4h	; 6e89  !.!.!...n!!.!. .
+	defb 021h,021h,0e3h,021h,0e4h,021h,0feh,006h,098h,06eh,022h,020h,0e3h,021h,0e4h,021h	; 6e99  !!.!.!...n" .!.!
+	defb 0c1h,0e4h,020h,020h,0e3h,020h,0e4h,020h,020h,020h,0fbh,022h,0e4h,020h,0e3h,020h	; 6ea9  ..  . .   .". .
+	defb 0feh,008h,0b3h,06eh,0e4h,0a0h,0e3h,0a0h,0feh,008h,0bdh,06eh,0e4h,070h,0e3h,070h	; 6eb9  ...n.......n.p.p
+	defb 0feh,008h,0c5h,06eh,0e4h,090h,0e3h,090h,0feh,008h,0cdh,06eh,0e3h,020h,0e2h,020h	; 6ec9  ...n.......n. .
+	defb 0feh,008h,0d5h,06eh,0e3h,000h,0e2h,000h,0feh,008h,0ddh,06eh,0e4h,0a1h,0a0h,0a0h	; 6ed9  ...n.......n....
+	defb 0e3h,0a0h,0e4h,0a0h,0a0h,0a0h,091h,090h,090h,0e3h,090h,0e4h,090h,090h,090h,020h	; 6ee9  ...............
+	defb 020h,020h,020h,0e3h,020h,0e4h,020h,020h,020h,021h,020h,020h,0e3h,021h,0e4h,021h	; 6ef9     . .   !  .!.!
+	defb 0eah,079h,06eh	; 6f09
+
+; ----------------------------------------------------------------------
+; DATOS pista_6F0C: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (52 bytes)
+;   0x6f0c..0x6f40  (52 bytes)
+DATA_pista_6F0C:
+	defb 0e9h,0d6h,0e7h,0edh,014h,070h,0edh,021h,070h,0edh,02ch,070h,0edh,021h,070h,0e9h	; 6f0c  .....p.!p.,p.!p.
+	defb 0f9h,022h,0e3h,097h,0e2h,007h,027h,0e3h,0b7h,097h,0e2h,007h,0fah,023h,021h,0f9h	; 6f1c  ."....'......#!.
+	defb 023h,021h,0f8h,023h,021h,0f7h,023h,021h,0fah,044h,041h,0f9h,044h,041h,0f8h,044h	; 6f2c  #!.#!.#!.DA.DA.D
+	defb 041h,0f7h,044h,041h	; 6f3c
+
+; ----------------------------------------------------------------------
+; DATOS pista_6F40: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (212 bytes)
+;   0x6f40..0x7014  (212 bytes)
+DATA_pista_6F40:
+	defb 0e9h,0d6h,0edh,0ddh,070h,0fbh,044h,051h,0c0h,0fbh,033h,050h,0f9h,010h,053h,0f6h	; 6f40  ....p.DQ..3P..S.
+	defb 000h,053h,0f4h,000h,053h,0edh,0ddh,070h,0f9h,010h,053h,0f6h,000h,053h,0f4h,000h	; 6f50  .S..S..p..S..S..
+	defb 053h,0edh,0ffh,070h,0e9h,0fbh,044h,0e2h,021h,0c1h,0fah,033h,0e3h,09ah,0c0h,0edh	; 6f60  S..p..D.!..3....
+	defb 0ffh,070h,0e9h,0fah,033h,0e2h,051h,0c1h,0fah,033h,0e3h,097h,0c1h,0e8h,000h,0b0h	; 6f70  .p..3.Q..3......
+	defb 0b0h,020h,0b0h,0b0h,0b0h,0e9h,0fah,022h,0e2h,090h,070h,040h,050h,0c1h,093h,071h	; 6f80  . ....."..p@P..q
+	defb 040h,052h,0feh,002h,085h,06fh,090h,070h,040h,050h,0c1h,093h,071h,090h,070h,090h	; 6f90  @R...o.p@P..q.p.
+	defb 0b0h,0e1h,012h,012h,011h,0e7h,0f9h,000h,0e2h,092h,072h,041h,0e9h,0fbh,022h,0e2h	; 6fa0  ..........rA..".
+	defb 050h,0fah,033h,050h,0f9h,033h,050h,0fbh,022h,0e1h,000h,0fah,033h,000h,0f9h,033h	; 6fb0  P.3P.3P."...3..3
+	defb 000h,0fbh,022h,0e2h,070h,0fah,033h,070h,0f9h,033h,070h,0f8h,033h,070h,0f7h,033h	; 6fc0  ..".p.3p.3p.3p.3
+	defb 070h,0f6h,033h,070h,0fbh,022h,050h,0fah,033h,070h,0fbh,022h,090h,0fah,033h,090h	; 6fd0  p.3p."P.3p."..3.
+	defb 0feh,002h,0adh,06fh,0fah,023h,052h,072h,091h,0a2h,072h,041h,0f9h,010h,051h,0f8h	; 6fe0  ...o.#Rr..rA..Q.
+	defb 000h,051h,0f6h,000h,051h,0f4h,000h,051h,0f9h,044h,0e1h,090h,0f7h,044h,020h,0f7h	; 6ff0  .Q..Q..Q.D...D .
+	defb 044h,090h,0f5h,044h,020h,0f5h,044h,090h,0f3h,044h,020h,0f3h,044h,090h,0f1h,044h	; 7000  D..D .D..D .D..D
+	defb 020h,0eah,040h,06fh	; 7010
+
+; ----------------------------------------------------------------------
+; DATOS pista_7014: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (13 bytes)
+;   0x7014..0x7021  (13 bytes)
+DATA_pista_7014:
+	defb 0fah,000h,0e1h,020h,0e2h,090h,050h,020h,0feh,004h,014h,070h,0eeh	; 7014  ... ..P ...p.
+
+; ----------------------------------------------------------------------
+; DATOS pista_7021: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (11 bytes)
+;   0x7021..0x702c  (11 bytes)
+DATA_pista_7021:
+	defb 0e1h,040h,000h,0e2h,070h,040h,0feh,004h,021h,070h,0eeh	; 7021  .@..p@..!p.
+
+; ----------------------------------------------------------------------
+; DATOS pista_702C: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (11 bytes)
+;   0x702c..0x7037  (11 bytes)
+DATA_pista_702C:
+	defb 0e1h,050h,020h,0e2h,0a0h,050h,0feh,004h,02ch,070h,0eeh	; 702c  .P ..P..,p.
+
+; ----------------------------------------------------------------------
+; DATOS pista_7037: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (35 bytes)
+;   0x7037..0x705a  (35 bytes)
+DATA_pista_7037:
+	defb 0fbh,022h,0e3h,095h,0e2h,021h,051h,093h,0e1h,001h,0fch,044h,0e2h,0b1h,0c0h,0fch	; 7037  ."...!Q....D....
+	defb 033h,090h,0fah,010h,073h,0f7h,000h,073h,0f5h,000h,073h,0fbh,022h,025h,051h,041h	; 7047  3...s..s..s."%QA
+	defb 023h,001h,0eeh	; 7057
+
+; ----------------------------------------------------------------------
+; DATOS pista_705A: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (76 bytes)
+;   0x705a..0x70a6  (76 bytes)
+DATA_pista_705A:
+	defb 0fch,033h,0e3h,091h,0c0h,0fbh,033h,090h,0fch,044h,0e2h,023h,0fbh,010h,091h,0f8h	; 705a  .3....3..D.#....
+	defb 000h,091h,0fah,044h,0e1h,092h,0f7h,044h,090h,0fch,033h,0e3h,091h,0c0h,0fbh,033h	; 706a  ...D...D..3....3
+	defb 090h,0fch,044h,0e2h,023h,0fbh,010h,081h,0f8h,000h,081h,0fah,044h,0e1h,082h,0f7h	; 707a  ..D.#.......D...
+	defb 044h,080h,0fch,033h,0e3h,091h,0c0h,0fbh,033h,090h,0fch,044h,0e2h,023h,0fbh,010h	; 708a  D..3....3..D.#..
+	defb 071h,0f8h,000h,071h,0fah,044h,0e1h,072h,0f7h,044h,070h,0eeh	; 709a  q..q.D.r.Dp.
+
+; ----------------------------------------------------------------------
+; DATOS pista_70A6: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (55 bytes)
+;   0x70a6..0x70dd  (55 bytes)
+DATA_pista_70A6:
 	defb 0fch,044h,0e4h,022h,020h,0e3h,021h,0e4h,021h,021h,020h,020h,0e3h,021h,0e4h,021h	; 70a6  .D." .!.!!  .!.!
 	defb 072h,070h,0e3h,071h,0e4h,071h,071h,070h,070h,0e3h,071h,0e4h,071h,0a2h,0a0h,0e3h	; 70b6  rp.q.qqpp.q.q...
 	defb 0a1h,0e4h,0a1h,0e3h,002h,000h,0e2h,001h,0e3h,001h,0e4h,022h,020h,0e3h,021h,0e4h	; 70c6  ..........." .!.
-	defb 021h,021h,020h,020h,0e3h,021h,0eeh,0fah,022h,0e3h,055h,051h,091h,0e2h,003h,041h	; 70d6  !!  .!..".UQ...A
-	defb 0fbh,044h,021h,0c0h,0fbh,033h,000h,0f9h,010h,0e3h,0b3h,0f6h,000h,0b3h,0f4h,000h	; 70e6  .D!..3..........
-	defb 0b3h,0fah,022h,055h,091h,071h,053h,041h,0eeh,0fbh,033h,0e3h,051h,0c0h,0fah,033h	; 70f6  .."U.qSA..3.Q..3
-	defb 050h,0fbh,044h,093h,0fah,010h,0e2h,051h,0f7h,000h,051h,0e7h,0fah,044h,0e1h,092h	; 7106  P.D....Q..Q..D..
-	defb 0f7h,044h,090h,0e9h,0fah,033h,0e3h,051h,0c0h,0f9h,033h,050h,0fbh,044h,0e3h,093h	; 7116  .D...3.Q..3P.D..
-	defb 0fah,010h,0e2h,041h,0f7h,000h,041h,0e7h,0fah,044h,0e1h,082h,0f7h,044h,080h,0e9h	; 7126  ...A..A..D...D..
-	defb 0fah,033h,0e3h,051h,0c0h,0f9h,033h,050h,0fbh,044h,0e3h,093h,0fah,010h,0e2h,041h	; 7136  .3.Q..3P.D.....A
-	defb 0f7h,000h,041h,0e7h,0fah,044h,0e1h,072h,0f7h,044h,070h,0eeh,0e9h,0d4h,0fch,022h	; 7146  ..A..D.r.Dp...."
-	defb 0e2h,023h,053h,023h,0edh,00ah,072h,0e9h,0e1h,027h,0e2h,053h,0edh,00ah,072h,0e9h	; 7156  .#S#..r..'.S..r.
-	defb 0fah,000h,0e2h,0a1h,0f7h,000h,0a1h,0fah,000h,0e1h,020h,0f7h,000h,020h,0fah,000h	; 7166  .......... .. ..
-	defb 052h,0f7h,000h,052h,0fah,000h,041h,0f7h,000h,041h,0fah,000h,070h,0f7h,000h,070h	; 7176  R..R..A..A..p..p
-	defb 0fah,000h,0e0h,001h,0f9h,000h,001h,0f8h,000h,001h,0f6h,000h,000h,0f5h,000h,000h	; 7186  ................
-	defb 0ffh,0e9h,0d4h,0fbh,012h,0edh,013h,072h,0edh,01ch,072h,0edh,013h,072h,0edh,01ch	; 7196  .......r..r..r..
-	defb 072h,0e4h,071h,0e3h,021h,071h,0a1h,0e2h,021h,071h,0e3h,051h,0e2h,001h,051h,0f9h	; 71a6  r.q.!q..!q.Q..Q.
-	defb 000h,091h,0f8h,000h,091h,0f7h,000h,091h,0f5h,000h,090h,0f4h,000h,090h,0ffh,0e9h	; 71b6  ................
-	defb 0d4h,0fbh,022h,0e3h,0a3h,0e2h,023h,0e3h,0a3h,0edh,025h,072h,0e9h,0e2h,0a7h,023h	; 71c6  .."...#...%r...#
-	defb 0edh,025h,072h,0e9h,0f9h,000h,0e2h,051h,0f6h,000h,051h,0fah,000h,0a0h,0f6h,000h	; 71d6  .%r....Q..Q.....
-	defb 0a0h,0f9h,000h,0e1h,022h,0f6h,000h,022h,0f9h,000h,001h,0f6h,000h,001h,0f9h,000h	; 71e6  ....".."........
-	defb 040h,0f6h,000h,040h,0f9h,000h,071h,0f8h,000h,071h,0f7h,000h,071h,0f5h,000h,070h	; 71f6  @..@..q..q..q..p
-	defb 0f4h,000h,070h,0ffh,0e8h,002h,045h,073h,0e9h,0e8h,001h,001h,0eeh,0e4h,071h,0e3h	; 7206  ..p...Es......q.
-	defb 071h,0feh,003h,013h,072h,0eeh,0e4h,091h,0e3h,091h,0feh,003h,01ch,072h,0eeh,0e8h	; 7216  q...r........r..
-	defb 002h,005h,043h,071h,0eeh,0e9h,0d5h,0fch,035h,0e1h,0c3h,0e9h,0d5h,0edh,00bh,073h	; 7226  ..Cq....5......s
-	defb 021h,0edh,00bh,073h,0e2h,0b1h,0fah,000h,0e3h,09ah,0d1h,0fch,033h,0e2h,000h,040h	; 7236  !..s........3..@
-	defb 090h,0e1h,000h,040h,0d5h,09bh,0fch,032h,091h,083h,043h,0e2h,0b3h,089h,0fah,000h	; 7246  ...@...2..C.....
-	defb 0e3h,07ah,0d1h,0fch,033h,0a0h,0e2h,020h,070h,0a0h,0e1h,020h,0d5h,07bh,0fch,032h	; 7256  .z..3.. p.. .{.2
-	defb 071h,063h,023h,0e2h,093h,069h,0fah,000h,0e3h,05ah,0d1h,0fch,033h,090h,0e2h,000h	; 7266  qc#..i...Z..3...
-	defb 050h,090h,0e1h,000h,0d5h,05bh,0fch,032h,051h,043h,003h,0e2h,073h,049h,0fah,011h	; 7276  P....[.2QC..sI..
-	defb 0e3h,0b1h,0a1h,0b1h,0e2h,011h,031h,041h,061h,081h,091h,081h,091h,061h,041h,061h	; 7286  ......1Aa....aAa
-	defb 081h,091h,0b1h,0e1h,001h,021h,041h,061h,081h,091h,0b1h,0fbh,012h,0e1h,041h,021h	; 7296  .....!Aa......A!
-	defb 041h,023h,001h,051h,0c1h,041h,0c1h,021h,001h,021h,003h,0e2h,0b1h,0e1h,041h,0c1h	; 72a6  A#.Q.A.!.!....A.
-	defb 021h,0c1h,001h,0e2h,0b1h,0e1h,001h,0e2h,0b3h,091h,0e1h,021h,0c1h,001h,0c1h,0fah	; 72b6  !..........!....
-	defb 000h,0e2h,0b9h,0d1h,0e1h,000h,010h,020h,030h,040h,050h,060h,070h,080h,090h,0d5h	; 72c6  ....... 0@P`p...
-	defb 0bbh,0fbh,012h,0e1h,001h,001h,001h,023h,041h,051h,021h,071h,0c1h,0e2h,0b1h,0b1h	; 72d6  .......#AQ!q....
-	defb 0b1h,0e1h,003h,021h,041h,001h,051h,0c1h,0e2h,091h,0b1h,0e1h,007h,0e2h,0b1h,0e1h	; 72e6  ...!A.Q.........
-	defb 001h,027h,0fah,011h,0e2h,041h,061h,081h,091h,0b1h,0e1h,001h,021h,041h,061h,081h	; 72f6  .'...Aa.....!Aa.
-	defb 091h,0b1h,0eah,03ch,072h,0fch,033h,0e1h,042h,040h,041h,041h,041h,021h,002h,000h	; 7306  ...<r.3.B@AAA!..
-	defb 001h,001h,001h,0eeh,0e9h,0d5h,0fch,022h,0e3h,0c3h,0e9h,0d5h,0edh,0c1h,073h,071h	; 7316  ......."......sq
-	defb 0edh,0c1h,073h,041h,0fch,033h,0e4h,091h,091h,0e3h,041h,0feh,004h,02ah,073h,0e3h	; 7326  ..sA.3....A..*s.
-	defb 0edh,0d0h,073h,0e4h,071h,071h,0e3h,021h,0feh,004h,039h,073h,021h,021h,091h,0feh	; 7336  ..s.qq.!..9s!!..
-	defb 004h,042h,073h,0e4h,051h,051h,0e3h,001h,0feh,004h,049h,073h,001h,001h,071h,0feh	; 7346  .Bs.QQ....Is..q.
-	defb 004h,052h,073h,0e4h,0b1h,0b1h,0e3h,061h,0feh,004h,059h,073h,0e4h,0edh,0d0h,073h	; 7356  .Rs....a..Ys...s
-	defb 0e4h,091h,0feh,006h,066h,073h,051h,051h,051h,051h,071h,0feh,006h,070h,073h,041h	; 7366  ....fsQQQQq..psA
-	defb 041h,041h,041h,051h,0feh,006h,079h,073h,021h,021h,021h,021h,041h,040h,040h,0feh	; 7376  AAAQ..ys!!!!A@@.
-	defb 006h,082h,073h,091h,090h,090h,0feh,003h,089h,073h,0e3h,021h,020h,020h,021h,020h	; 7386  ..s......s.!  !
-	defb 020h,0e4h,071h,070h,070h,0feh,003h,097h,073h,0e3h,001h,000h,000h,001h,000h,000h	; 7396   .qpp...s.......
-	defb 0e4h,051h,050h,050h,0feh,003h,0a6h,073h,0b1h,0b0h,0b0h,0feh,003h,0aeh,073h,0e4h	; 73a6  .QPP...s......s.
-	defb 041h,0e3h,040h,040h,0feh,006h,0b5h,073h,0eah,02ah,073h,0fch,033h,0e4h,092h,090h	; 73b6  A.@@...s.*s.3...
-	defb 091h,091h,091h,071h,052h,050h,051h,051h,051h,0eeh,041h,041h,0b1h,0feh,004h,0d0h	; 73c6  ...qRPQQQ.AA....
-	defb 073h,0eeh,0e9h,0d5h,0fch,025h,0e1h,0c3h,0e9h,0d5h,0edh,0b3h,074h,0b1h,0edh,0b3h	; 73d6  s....%......t...
-	defb 074h,081h,0f9h,000h,0e5h,09ah,0d1h,0fbh,033h,0e3h,040h,090h,0e2h,000h,040h,090h	; 73e6  t.......3.@...@.
-	defb 0d5h,0e1h,00bh,0fbh,032h,001h,0e2h,0b3h,083h,043h,049h,0f9h,000h,0e5h,07ah,0d1h	; 73f6  ....2....CI...z.
-	defb 0fbh,033h,0e3h,020h,070h,0a0h,0e2h,020h,070h,0d5h,0abh,0fbh,032h,0a1h,093h,063h	; 7406  .3. p.. p...2..c
-	defb 023h,029h,0f9h,000h,0e5h,05ah,0d1h,0fbh,033h,0e3h,000h,050h,090h,0e2h,000h,050h	; 7416  #)...Z..3..P...P
-	defb 0d5h,09bh,0fbh,032h,091h,073h,043h,003h,009h,0e3h,031h,011h,031h,041h,061h,081h	; 7426  ...2.sC...1.1Aa.
-	defb 091h,0b1h,0e2h,001h,0e3h,0b1h,0e2h,001h,0e3h,091h,081h,091h,0b1h,0e2h,001h,021h	; 7436  ...............!
-	defb 041h,061h,081h,091h,0b1h,0e1h,001h,021h,0fah,012h,0e2h,001h,0e3h,0b1h,0e2h,001h	; 7446  Aa.....!........
-	defb 0e3h,0b3h,091h,0e2h,021h,0c1h,001h,0c1h,0e3h,0b1h,091h,0b1h,093h,071h,0e2h,001h	; 7456  ....!........q..
-	defb 0c1h,0e3h,0b1h,0c1h,091h,071h,091h,073h,051h,0b1h,0c1h,091h,0c1h,0f9h,000h,0e2h	; 7466  .....q.sQ.......
-	defb 049h,0d1h,050h,060h,070h,080h,090h,0a0h,0b0h,0e1h,000h,010h,020h,0d5h,04bh,0fah	; 7476  I.P`p....... .K.
-	defb 012h,0e3h,041h,041h,041h,053h,071h,091h,051h,0b1h,0c1h,021h,021h,021h,043h,051h	; 7486  ..AAASq.Q..!!!CQ
-	defb 071h,041h,091h,0c1h,001h,021h,047h,021h,041h,057h,0f9h,011h,081h,091h,0b1h,0e2h	; 7496  qA...!G!AW......
-	defb 001h,021h,041h,061h,081h,091h,0b1h,0e1h,001h,021h,0eah,0e8h,073h,0fbh,022h,0e1h	; 74a6  .!Aa.....!..s.".
-	defb 002h,000h,001h,001h,001h,0e2h,0b1h,092h,090h,091h,091h,091h,0eeh,0e9h,0dbh,0fah	; 74b6  ................
-	defb 023h,0e1h,0edh,0deh,074h,0e8h,002h,031h,0e9h,0c0h,0feh,002h,0c3h,074h,0edh,03ch	; 74c6  #...t..1.....t.<
-	defb 075h,0e8h,001h,091h,0e9h,0eah,0c3h,074h,0e8h,002h,0b1h,0e9h,0e8h,001h,0b1h,0e9h	; 74d6  u......t........
-	defb 0e8h,002h,021h,0e9h,0e8h,001h,021h,0e9h,0e8h,002h,0b1h,0e9h,0e8h,001h,000h,0e9h	; 74e6  ..!...!.........
-	defb 0e8h,002h,0b1h,091h,072h,0e9h,0e8h,001h,071h,0e9h,0e8h,002h,041h,0e9h,0e8h,001h	; 74f6  ....r...q...A...
-	defb 041h,0e8h,002h,071h,0e9h,0e8h,001h,071h,0e9h,0e8h,002h,070h,092h,0b1h,0e9h,0e8h	; 7506  A..q...q...p....
-	defb 001h,0b1h,0e9h,0e8h,002h,021h,0e9h,0e8h,001h,021h,041h,020h,0e9h,0e8h,002h,0b1h	; 7516  .....!...!A ....
-	defb 091h,072h,0e9h,0e8h,001h,071h,0e9h,0e8h,002h,041h,0e9h,0e8h,001h,040h,0e9h,0e8h	; 7526  .r...q...A...@..
-	defb 002h,0a1h,091h,071h,0e9h,0eeh,0e9h,0e8h,002h,021h,0e9h,0e8h,001h,021h,0e9h,0e8h	; 7536  ...q.....!...!..
-	defb 002h,021h,0e9h,0e8h,001h,021h,0e9h,0e8h,002h,061h,0e9h,0e8h,001h,061h,0e9h,0e8h	; 7546  .!...!...a...a..
-	defb 002h,091h,0e9h,0e8h,001h,091h,001h,021h,0e9h,0e8h,002h,091h,0e9h,0e8h,001h,001h	; 7556  .......!........
-	defb 021h,061h,071h,0e9h,0eeh,0e9h,0dbh,0fbh,038h,0e3h,071h,0fah,038h,071h,071h,071h	; 7566  !aq.....8.q.8qqq
-	defb 0fbh,038h,051h,0fah,038h,051h,051h,051h,0fbh,038h,041h,0fah,038h,041h,041h,041h	; 7576  .8Q.8QQQ.8A.8AAA
-	defb 0fbh,038h,031h,0fah,038h,031h,031h,031h,0feh,004h,06bh,075h,0fbh,038h,021h,0fah	; 7586  .81.8111..ku.8!.
-	defb 038h,021h,021h,021h,0feh,004h,092h,075h,0eah,06bh,075h,0e9h,0dbh,0fah,023h,0e1h	; 7596  8!!!...u.ku...#.
-	defb 0c0h,0edh,0deh,074h,0e8h,002h,031h,0e9h,0feh,002h,0a1h,075h,0e9h,0c0h,0edh,03ch	; 75a6  ...t..1....u...<
-	defb 075h,0e8h,001h,090h,0e9h,0eah,0a1h,075h,0edh,0ffh,075h,0edh,0ffh,075h,0f6h,000h	; 75b6  u......u..u..u..
-	defb 000h,0f9h,000h,000h,0f6h,000h,040h,0f9h,000h,040h,0f6h,000h,070h,0f9h,000h,070h	; 75c6  ......@..@..p..p
-	defb 0f6h,000h,090h,0f9h,000h,090h,0feh,004h,0c4h,075h,0f6h,000h,020h,0f9h,000h,020h	; 75d6  .........u.. ..
-	defb 0f6h,000h,050h,0f9h,000h,050h,0f6h,000h,090h,0f9h,000h,090h,0f6h,000h,0a0h,0f9h	; 75e6  ..P..P..........
-	defb 000h,0a0h,0feh,004h,0e0h,075h,0eah,0beh,075h,0e9h,0d4h,0f6h,000h,0e2h,090h,0f9h	; 75f6  .....u..u.......
-	defb 000h,090h,0f6h,000h,0e1h,020h,0f9h,000h,020h,0f6h,000h,050h,0f9h,000h,050h,0f6h	; 7606  ..... .. ..P..P.
-	defb 000h,090h,0f9h,000h,090h,0feh,008h,0ffh,075h,0f6h,000h,0a0h,0f9h,000h,0a0h,0f6h	; 7616  ........u.......
-	defb 000h,0e1h,020h,0f9h,000h,020h,0f6h,000h,050h,0f9h,000h,050h,0f6h,000h,090h,0f9h	; 7626  .. .. ..P..P....
-	defb 000h,090h,0feh,008h,01fh,076h,0eeh,0edh,052h,076h,0edh,052h,076h,0e4h,097h,0e3h	; 7636  .....v..Rv.Rv...
-	defb 047h,027h,007h,0e4h,0a7h,0e3h,057h,047h,007h,0eah,03dh,076h,0e9h,0d4h,0fch,035h	; 7646  G'....WG..=v...5
-	defb 0e3h,027h,057h,047h,007h,0feh,002h,052h,076h,0e4h,0a7h,0e3h,057h,047h,007h,0feh	; 7656  .'WG...Rv...WG..
-	defb 002h,05fh,076h,0eeh,0edh,07fh,076h,0edh,07fh,076h,0e5h,097h,0e4h,047h,027h,007h	; 7666  ._v...v..v...G'.
-	defb 0e5h,0a7h,0e4h,057h,047h,007h,0eah,06ah,076h,0e9h,0d4h,0fch,035h,0e4h,027h,057h	; 7676  ...WG..jv...5.'W
-	defb 047h,007h,0feh,002h,07fh,076h,0e5h,0a7h,0e4h,057h,047h,007h,0feh,002h,08ch,076h	; 7686  G....v...WG....v
-	defb 0eeh,0ffh,0ffh,0ffh,0e9h,0d6h,0fbh,000h,0e2h,041h,0f9h,001h,041h,0fbh,000h,0b1h	; 7696  .........A..A...
-	defb 0f9h,001h,0b1h,0edh,0fbh,076h,0fbh,000h,0e1h,021h,0f9h,000h,021h,0f7h,001h,021h	; 76a6  .....v...!..!..!
-	defb 0fbh,001h,0e2h,051h,0fbh,000h,093h,0f9h,000h,093h,0f7h,000h,093h,0f6h,000h,093h	; 76b6  ...Q............
-	defb 0fbh,001h,0e1h,011h,0e2h,0b1h,091h,0b1h,0fbh,000h,0b3h,0f9h,000h,0b3h,0f7h,001h	; 76c6  ................
-	defb 0b1h,0fbh,001h,0e2h,061h,081h,091h,0fbh,000h,0e1h,011h,0f9h,000h,011h,0fbh,001h	; 76d6  ....a...........
-	defb 0e2h,0b1h,0b1h,0fbh,000h,041h,0f9h,001h,041h,0fbh,000h,0b1h,0f9h,001h,0b1h,0edh	; 76e6  .....A..A.......
-	defb 0fbh,076h,0eah,0ach,076h,0d6h,0fbh,001h,0e1h,011h,0f9h,000h,011h,0f7h,001h,011h	; 76f6  .v..v...........
-	defb 0fbh,001h,0e2h,041h,0fbh,000h,043h,0f9h,000h,043h,0f7h,000h,043h,0f6h,001h,043h	; 7706  ...A..C..C..C..C
-	defb 0fbh,000h,041h,0f9h,001h,041h,0fbh,000h,0b1h,0f9h,001h,0b1h,0fbh,000h,0e1h,011h	; 7716  ..A..A..........
-	defb 0f9h,000h,011h,0f7h,001h,011h,0fbh,001h,021h,0fbh,000h,013h,0f9h,000h,013h,0f7h	; 7726  ........!.......
-	defb 000h,013h,0f6h,000h,013h,0fbh,001h,041h,021h,011h,021h,0eeh,0e9h,0d6h,0fah,010h	; 7736  .......A!.!.....
-	defb 0e1h,041h,0f8h,001h,041h,0fah,010h,0b1h,0f8h,010h,0b1h,0edh,086h,077h,0d6h,0fdh	; 7746  .A..A........w..
-	defb 035h,0e4h,051h,051h,051h,051h,051h,051h,091h,051h,041h,041h,041h,041h,041h,041h	; 7756  5.QQQQQQ.QAAAAAA
-	defb 091h,0fch,035h,040h,040h,0fdh,035h,031h,031h,031h,031h,091h,091h,031h,031h,041h	; 7766  ..5@@.51111..11A
-	defb 041h,041h,041h,041h,061h,081h,0fch,035h,040h,040h,0edh,086h,077h,0eah,054h,077h	; 7776  AAAAa..5@@..w.Tw
+	defb 021h,021h,020h,020h,0e3h,021h,0eeh	; 70d6
+
+; ----------------------------------------------------------------------
+; DATOS pista_70DD: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (34 bytes)
+;   0x70dd..0x70ff  (34 bytes)
+DATA_pista_70DD:
+	defb 0fah,022h,0e3h,055h,051h,091h,0e2h,003h,041h,0fbh,044h,021h,0c0h,0fbh,033h,000h	; 70dd  .".UQ...A.D!..3.
+	defb 0f9h,010h,0e3h,0b3h,0f6h,000h,0b3h,0f4h,000h,0b3h,0fah,022h,055h,091h,071h,053h	; 70ed  ..........."U.qS
+	defb 041h,0eeh	; 70fd
+
+; ----------------------------------------------------------------------
+; DATOS pista_70FF: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (83 bytes)
+;   0x70ff..0x7152  (83 bytes)
+DATA_pista_70FF:
+	defb 0fbh,033h,0e3h,051h,0c0h,0fah,033h,050h,0fbh,044h,093h,0fah,010h,0e2h,051h,0f7h	; 70ff  .3.Q..3P.D....Q.
+	defb 000h,051h,0e7h,0fah,044h,0e1h,092h,0f7h,044h,090h,0e9h,0fah,033h,0e3h,051h,0c0h	; 710f  .Q..D...D...3.Q.
+	defb 0f9h,033h,050h,0fbh,044h,0e3h,093h,0fah,010h,0e2h,041h,0f7h,000h,041h,0e7h,0fah	; 711f  .3P.D.....A..A..
+	defb 044h,0e1h,082h,0f7h,044h,080h,0e9h,0fah,033h,0e3h,051h,0c0h,0f9h,033h,050h,0fbh	; 712f  D...D...3.Q..3P.
+	defb 044h,0e3h,093h,0fah,010h,0e2h,041h,0f7h,000h,041h,0e7h,0fah,044h,0e1h,072h,0f7h	; 713f  D.....A..A..D.r.
+	defb 044h,070h,0eeh	; 714f
+
+; ----------------------------------------------------------------------
+; DATOS pista_7152: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (69 bytes)
+;   0x7152..0x7197  (69 bytes)
+DATA_pista_7152:
+	defb 0e9h,0d4h,0fch,022h,0e2h,023h,053h,023h,0edh,00ah,072h,0e9h,0e1h,027h,0e2h,053h	; 7152  ...".#S#..r..'.S
+	defb 0edh,00ah,072h,0e9h,0fah,000h,0e2h,0a1h,0f7h,000h,0a1h,0fah,000h,0e1h,020h,0f7h	; 7162  ..r........... .
+	defb 000h,020h,0fah,000h,052h,0f7h,000h,052h,0fah,000h,041h,0f7h,000h,041h,0fah,000h	; 7172  . ..R..R..A..A..
+	defb 070h,0f7h,000h,070h,0fah,000h,0e0h,001h,0f9h,000h,001h,0f8h,000h,001h,0f6h,000h	; 7182  p..p............
+	defb 000h,0f5h,000h,000h,0ffh	; 7192
+
+; ----------------------------------------------------------------------
+; DATOS pista_7197: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (46 bytes)
+;   0x7197..0x71c5  (46 bytes)
+DATA_pista_7197:
+	defb 0e9h,0d4h,0fbh,012h,0edh,013h,072h,0edh,01ch,072h,0edh,013h,072h,0edh,01ch,072h	; 7197  ......r..r..r..r
+	defb 0e4h,071h,0e3h,021h,071h,0a1h,0e2h,021h,071h,0e3h,051h,0e2h,001h,051h,0f9h,000h	; 71a7  .q.!q..!q.Q..Q..
+	defb 091h,0f8h,000h,091h,0f7h,000h,091h,0f5h,000h,090h,0f4h,000h,090h,0ffh	; 71b7  ..............
+
+; ----------------------------------------------------------------------
+; DATOS pista_71C5: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (69 bytes)
+;   0x71c5..0x720a  (69 bytes)
+DATA_pista_71C5:
+	defb 0e9h,0d4h,0fbh,022h,0e3h,0a3h,0e2h,023h,0e3h,0a3h,0edh,025h,072h,0e9h,0e2h,0a7h	; 71c5  ..."...#...%r...
+	defb 023h,0edh,025h,072h,0e9h,0f9h,000h,0e2h,051h,0f6h,000h,051h,0fah,000h,0a0h,0f6h	; 71d5  #.%r....Q..Q....
+	defb 000h,0a0h,0f9h,000h,0e1h,022h,0f6h,000h,022h,0f9h,000h,001h,0f6h,000h,001h,0f9h	; 71e5  ....."..".......
+	defb 000h,040h,0f6h,000h,040h,0f9h,000h,071h,0f8h,000h,071h,0f7h,000h,071h,0f5h,000h	; 71f5  .@..@..q..q..q..
+	defb 070h,0f4h,000h,070h,0ffh	; 7205
+
+; ----------------------------------------------------------------------
+; DATOS pista_720A: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (9 bytes)
+;   0x720a..0x7213  (9 bytes)
+DATA_pista_720A:
+	defb 0e8h,002h,045h,073h,0e9h,0e8h,001h,001h,0eeh	; 720a  ..Es.....
+
+; ----------------------------------------------------------------------
+; DATOS pista_7213: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (9 bytes)
+;   0x7213..0x721c  (9 bytes)
+DATA_pista_7213:
+	defb 0e4h,071h,0e3h,071h,0feh,003h,013h,072h,0eeh	; 7213  .q.q...r.
+
+; ----------------------------------------------------------------------
+; DATOS pista_721C: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (9 bytes)
+;   0x721c..0x7225  (9 bytes)
+DATA_pista_721C:
+	defb 0e4h,091h,0e3h,091h,0feh,003h,01ch,072h,0eeh	; 721c  .......r.
+
+; ----------------------------------------------------------------------
+; DATOS pista_7225: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (6 bytes)
+;   0x7225..0x722b  (6 bytes)
+DATA_pista_7225:
+	defb 0e8h,002h,005h,043h,071h,0eeh	; 7225
+
+; ----------------------------------------------------------------------
+; DATOS pista_722B: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (224 bytes)
+;   0x722b..0x730b  (224 bytes)
+DATA_pista_722B:
+	defb 0e9h,0d5h,0fch,035h,0e1h,0c3h,0e9h,0d5h,0edh,00bh,073h,021h,0edh,00bh,073h,0e2h	; 722b  ...5......s!..s.
+	defb 0b1h,0fah,000h,0e3h,09ah,0d1h,0fch,033h,0e2h,000h,040h,090h,0e1h,000h,040h,0d5h	; 723b  .......3..@...@.
+	defb 09bh,0fch,032h,091h,083h,043h,0e2h,0b3h,089h,0fah,000h,0e3h,07ah,0d1h,0fch,033h	; 724b  ..2..C......z..3
+	defb 0a0h,0e2h,020h,070h,0a0h,0e1h,020h,0d5h,07bh,0fch,032h,071h,063h,023h,0e2h,093h	; 725b  .. p.. .{.2qc#..
+	defb 069h,0fah,000h,0e3h,05ah,0d1h,0fch,033h,090h,0e2h,000h,050h,090h,0e1h,000h,0d5h	; 726b  i...Z..3...P....
+	defb 05bh,0fch,032h,051h,043h,003h,0e2h,073h,049h,0fah,011h,0e3h,0b1h,0a1h,0b1h,0e2h	; 727b  [.2QC..sI.......
+	defb 011h,031h,041h,061h,081h,091h,081h,091h,061h,041h,061h,081h,091h,0b1h,0e1h,001h	; 728b  .1Aa....aAa.....
+	defb 021h,041h,061h,081h,091h,0b1h,0fbh,012h,0e1h,041h,021h,041h,023h,001h,051h,0c1h	; 729b  !Aa......A!A#.Q.
+	defb 041h,0c1h,021h,001h,021h,003h,0e2h,0b1h,0e1h,041h,0c1h,021h,0c1h,001h,0e2h,0b1h	; 72ab  A.!.!....A.!....
+	defb 0e1h,001h,0e2h,0b3h,091h,0e1h,021h,0c1h,001h,0c1h,0fah,000h,0e2h,0b9h,0d1h,0e1h	; 72bb  ......!.........
+	defb 000h,010h,020h,030h,040h,050h,060h,070h,080h,090h,0d5h,0bbh,0fbh,012h,0e1h,001h	; 72cb  .. 0@P`p........
+	defb 001h,001h,023h,041h,051h,021h,071h,0c1h,0e2h,0b1h,0b1h,0b1h,0e1h,003h,021h,041h	; 72db  ..#AQ!q.......!A
+	defb 001h,051h,0c1h,0e2h,091h,0b1h,0e1h,007h,0e2h,0b1h,0e1h,001h,027h,0fah,011h,0e2h	; 72eb  .Q..........'...
+	defb 041h,061h,081h,091h,0b1h,0e1h,001h,021h,041h,061h,081h,091h,0b1h,0eah,03ch,072h	; 72fb  Aa.....!Aa....<r
+
+; ----------------------------------------------------------------------
+; DATOS pista_730B: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (15 bytes)
+;   0x730b..0x731a  (15 bytes)
+DATA_pista_730B:
+	defb 0fch,033h,0e1h,042h,040h,041h,041h,041h,021h,002h,000h,001h,001h,001h,0eeh	; 730b  .3.B@AAA!......
+
+; ----------------------------------------------------------------------
+; DATOS pista_731A: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (167 bytes)
+;   0x731a..0x73c1  (167 bytes)
+DATA_pista_731A:
+	defb 0e9h,0d5h,0fch,022h,0e3h,0c3h,0e9h,0d5h,0edh,0c1h,073h,071h,0edh,0c1h,073h,041h	; 731a  ..."......sq..sA
+	defb 0fch,033h,0e4h,091h,091h,0e3h,041h,0feh,004h,02ah,073h,0e3h,0edh,0d0h,073h,0e4h	; 732a  .3....A..*s...s.
+	defb 071h,071h,0e3h,021h,0feh,004h,039h,073h,021h,021h,091h,0feh,004h,042h,073h,0e4h	; 733a  qq.!..9s!!...Bs.
+	defb 051h,051h,0e3h,001h,0feh,004h,049h,073h,001h,001h,071h,0feh,004h,052h,073h,0e4h	; 734a  QQ....Is..q..Rs.
+	defb 0b1h,0b1h,0e3h,061h,0feh,004h,059h,073h,0e4h,0edh,0d0h,073h,0e4h,091h,0feh,006h	; 735a  ...a..Ys...s....
+	defb 066h,073h,051h,051h,051h,051h,071h,0feh,006h,070h,073h,041h,041h,041h,041h,051h	; 736a  fsQQQQq..psAAAAQ
+	defb 0feh,006h,079h,073h,021h,021h,021h,021h,041h,040h,040h,0feh,006h,082h,073h,091h	; 737a  ..ys!!!!A@@...s.
+	defb 090h,090h,0feh,003h,089h,073h,0e3h,021h,020h,020h,021h,020h,020h,0e4h,071h,070h	; 738a  .....s.!  !  .qp
+	defb 070h,0feh,003h,097h,073h,0e3h,001h,000h,000h,001h,000h,000h,0e4h,051h,050h,050h	; 739a  p...s........QPP
+	defb 0feh,003h,0a6h,073h,0b1h,0b0h,0b0h,0feh,003h,0aeh,073h,0e4h,041h,0e3h,040h,040h	; 73aa  ...s......s.A.@@
+	defb 0feh,006h,0b5h,073h,0eah,02ah,073h	; 73ba
+
+; ----------------------------------------------------------------------
+; DATOS pista_73C1: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (15 bytes)
+;   0x73c1..0x73d0  (15 bytes)
+DATA_pista_73C1:
+	defb 0fch,033h,0e4h,092h,090h,091h,091h,091h,071h,052h,050h,051h,051h,051h,0eeh	; 73c1  .3......qRPQQQ.
+
+; ----------------------------------------------------------------------
+; DATOS pista_73D0: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (8 bytes)
+;   0x73d0..0x73d8  (8 bytes)
+DATA_pista_73D0:
+	defb 041h,041h,0b1h,0feh,004h,0d0h,073h,0eeh	; 73d0  AA....s.
+
+; ----------------------------------------------------------------------
+; DATOS pista_73D8: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (219 bytes)
+;   0x73d8..0x74b3  (219 bytes)
+DATA_pista_73D8:
+	defb 0e9h,0d5h,0fch,025h,0e1h,0c3h,0e9h,0d5h,0edh,0b3h,074h,0b1h,0edh,0b3h,074h,081h	; 73d8  ...%......t...t.
+	defb 0f9h,000h,0e5h,09ah,0d1h,0fbh,033h,0e3h,040h,090h,0e2h,000h,040h,090h,0d5h,0e1h	; 73e8  ......3.@...@...
+	defb 00bh,0fbh,032h,001h,0e2h,0b3h,083h,043h,049h,0f9h,000h,0e5h,07ah,0d1h,0fbh,033h	; 73f8  ..2....CI...z..3
+	defb 0e3h,020h,070h,0a0h,0e2h,020h,070h,0d5h,0abh,0fbh,032h,0a1h,093h,063h,023h,029h	; 7408  . p.. p...2..c#)
+	defb 0f9h,000h,0e5h,05ah,0d1h,0fbh,033h,0e3h,000h,050h,090h,0e2h,000h,050h,0d5h,09bh	; 7418  ...Z..3..P...P..
+	defb 0fbh,032h,091h,073h,043h,003h,009h,0e3h,031h,011h,031h,041h,061h,081h,091h,0b1h	; 7428  .2.sC...1.1Aa...
+	defb 0e2h,001h,0e3h,0b1h,0e2h,001h,0e3h,091h,081h,091h,0b1h,0e2h,001h,021h,041h,061h	; 7438  .............!Aa
+	defb 081h,091h,0b1h,0e1h,001h,021h,0fah,012h,0e2h,001h,0e3h,0b1h,0e2h,001h,0e3h,0b3h	; 7448  .....!..........
+	defb 091h,0e2h,021h,0c1h,001h,0c1h,0e3h,0b1h,091h,0b1h,093h,071h,0e2h,001h,0c1h,0e3h	; 7458  ..!........q....
+	defb 0b1h,0c1h,091h,071h,091h,073h,051h,0b1h,0c1h,091h,0c1h,0f9h,000h,0e2h,049h,0d1h	; 7468  ...q.sQ.......I.
+	defb 050h,060h,070h,080h,090h,0a0h,0b0h,0e1h,000h,010h,020h,0d5h,04bh,0fah,012h,0e3h	; 7478  P`p....... .K...
+	defb 041h,041h,041h,053h,071h,091h,051h,0b1h,0c1h,021h,021h,021h,043h,051h,071h,041h	; 7488  AAASq.Q..!!!CQqA
+	defb 091h,0c1h,001h,021h,047h,021h,041h,057h,0f9h,011h,081h,091h,0b1h,0e2h,001h,021h	; 7498  ...!G!AW.......!
+	defb 041h,061h,081h,091h,0b1h,0e1h,001h,021h,0eah,0e8h,073h	; 74a8  Aa.....!..s
+
+; ----------------------------------------------------------------------
+; DATOS pista_74B3: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (16 bytes)
+;   0x74b3..0x74c3  (16 bytes)
+DATA_pista_74B3:
+	defb 0fbh,022h,0e1h,002h,000h,001h,001h,001h,0e2h,0b1h,092h,090h,091h,091h,091h,0eeh	; 74b3  ."..............
+
+; ----------------------------------------------------------------------
+; DATOS pista_74C3: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (27 bytes)
+;   0x74c3..0x74de  (27 bytes)
+DATA_pista_74C3:
+	defb 0e9h,0dbh,0fah,023h,0e1h,0edh,0deh,074h,0e8h,002h,031h,0e9h,0c0h,0feh,002h,0c3h	; 74c3  ...#...t..1.....
+	defb 074h,0edh,03ch,075h,0e8h,001h,091h,0e9h,0eah,0c3h,074h	; 74d3  t.<u......t
+
+; ----------------------------------------------------------------------
+; DATOS pista_74DE: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (94 bytes)
+;   0x74de..0x753c  (94 bytes)
+DATA_pista_74DE:
+	defb 0e8h,002h,0b1h,0e9h,0e8h,001h,0b1h,0e9h,0e8h,002h,021h,0e9h,0e8h,001h,021h,0e9h	; 74de  ..........!...!.
+	defb 0e8h,002h,0b1h,0e9h,0e8h,001h,000h,0e9h,0e8h,002h,0b1h,091h,072h,0e9h,0e8h,001h	; 74ee  ............r...
+	defb 071h,0e9h,0e8h,002h,041h,0e9h,0e8h,001h,041h,0e8h,002h,071h,0e9h,0e8h,001h,071h	; 74fe  q...A...A..q...q
+	defb 0e9h,0e8h,002h,070h,092h,0b1h,0e9h,0e8h,001h,0b1h,0e9h,0e8h,002h,021h,0e9h,0e8h	; 750e  ...p.........!..
+	defb 001h,021h,041h,020h,0e9h,0e8h,002h,0b1h,091h,072h,0e9h,0e8h,001h,071h,0e9h,0e8h	; 751e  .!A .....r...q..
+	defb 002h,041h,0e9h,0e8h,001h,040h,0e9h,0e8h,002h,0a1h,091h,071h,0e9h,0eeh	; 752e  .A...@.....q..
+
+; ----------------------------------------------------------------------
+; DATOS pista_753C: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (47 bytes)
+;   0x753c..0x756b  (47 bytes)
+DATA_pista_753C:
+	defb 0e9h,0e8h,002h,021h,0e9h,0e8h,001h,021h,0e9h,0e8h,002h,021h,0e9h,0e8h,001h,021h	; 753c  ...!...!...!...!
+	defb 0e9h,0e8h,002h,061h,0e9h,0e8h,001h,061h,0e9h,0e8h,002h,091h,0e9h,0e8h,001h,091h	; 754c  ...a...a........
+	defb 001h,021h,0e9h,0e8h,002h,091h,0e9h,0e8h,001h,001h,021h,061h,071h,0e9h,0eeh	; 755c  .!........!aq..
+
+; ----------------------------------------------------------------------
+; DATOS pista_756B: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (54 bytes)
+;   0x756b..0x75a1  (54 bytes)
+DATA_pista_756B:
+	defb 0e9h,0dbh,0fbh,038h,0e3h,071h,0fah,038h,071h,071h,071h,0fbh,038h,051h,0fah,038h	; 756b  ...8.q.8qqq.8Q.8
+	defb 051h,051h,051h,0fbh,038h,041h,0fah,038h,041h,041h,041h,0fbh,038h,031h,0fah,038h	; 757b  QQQ.8A.8AAA.81.8
+	defb 031h,031h,031h,0feh,004h,06bh,075h,0fbh,038h,021h,0fah,038h,021h,021h,021h,0feh	; 758b  111..ku.8!.8!!!.
+	defb 004h,092h,075h,0eah,06bh,075h	; 759b
+
+; ----------------------------------------------------------------------
+; DATOS pista_75A1: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (29 bytes)
+;   0x75a1..0x75be  (29 bytes)
+DATA_pista_75A1:
+	defb 0e9h,0dbh,0fah,023h,0e1h,0c0h,0edh,0deh,074h,0e8h,002h,031h,0e9h,0feh,002h,0a1h	; 75a1  ...#....t..1....
+	defb 075h,0e9h,0c0h,0edh,03ch,075h,0e8h,001h,090h,0e9h,0eah,0a1h,075h	; 75b1  u...<u......u
+
+; ----------------------------------------------------------------------
+; DATOS pista_75BE: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (65 bytes)
+;   0x75be..0x75ff  (65 bytes)
+DATA_pista_75BE:
+	defb 0edh,0ffh,075h,0edh,0ffh,075h,0f6h,000h,000h,0f9h,000h,000h,0f6h,000h,040h,0f9h	; 75be  ..u..u........@.
+	defb 000h,040h,0f6h,000h,070h,0f9h,000h,070h,0f6h,000h,090h,0f9h,000h,090h,0feh,004h	; 75ce  .@..p..p........
+	defb 0c4h,075h,0f6h,000h,020h,0f9h,000h,020h,0f6h,000h,050h,0f9h,000h,050h,0f6h,000h	; 75de  .u.. .. ..P..P..
+	defb 090h,0f9h,000h,090h,0f6h,000h,0a0h,0f9h,000h,0a0h,0feh,004h,0e0h,075h,0eah,0beh	; 75ee  .............u..
+	defb 075h	; 75fe
+
+; ----------------------------------------------------------------------
+; DATOS pista_75FF: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (62 bytes)
+;   0x75ff..0x763d  (62 bytes)
+DATA_pista_75FF:
+	defb 0e9h,0d4h,0f6h,000h,0e2h,090h,0f9h,000h,090h,0f6h,000h,0e1h,020h,0f9h,000h,020h	; 75ff  ............ ..
+	defb 0f6h,000h,050h,0f9h,000h,050h,0f6h,000h,090h,0f9h,000h,090h,0feh,008h,0ffh,075h	; 760f  ..P..P.........u
+	defb 0f6h,000h,0a0h,0f9h,000h,0a0h,0f6h,000h,0e1h,020h,0f9h,000h,020h,0f6h,000h,050h	; 761f  ......... .. ..P
+	defb 0f9h,000h,050h,0f6h,000h,090h,0f9h,000h,090h,0feh,008h,01fh,076h,0eeh	; 762f  ..P.........v.
+
+; ----------------------------------------------------------------------
+; DATOS pista_763D: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (21 bytes)
+;   0x763d..0x7652  (21 bytes)
+DATA_pista_763D:
+	defb 0edh,052h,076h,0edh,052h,076h,0e4h,097h,0e3h,047h,027h,007h,0e4h,0a7h,0e3h,057h	; 763d  .Rv.Rv...G'....W
+	defb 047h,007h,0eah,03dh,076h	; 764d
+
+; ----------------------------------------------------------------------
+; DATOS pista_7652: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (24 bytes)
+;   0x7652..0x766a  (24 bytes)
+DATA_pista_7652:
+	defb 0e9h,0d4h,0fch,035h,0e3h,027h,057h,047h,007h,0feh,002h,052h,076h,0e4h,0a7h,0e3h	; 7652  ...5.'WG...Rv...
+	defb 057h,047h,007h,0feh,002h,05fh,076h,0eeh	; 7662  WG..._v.
+
+; ----------------------------------------------------------------------
+; DATOS pista_766A: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (21 bytes)
+;   0x766a..0x767f  (21 bytes)
+DATA_pista_766A:
+	defb 0edh,07fh,076h,0edh,07fh,076h,0e5h,097h,0e4h,047h,027h,007h,0e5h,0a7h,0e4h,057h	; 766a  ..v..v...G'....W
+	defb 047h,007h,0eah,06ah,076h	; 767a
+
+; ----------------------------------------------------------------------
+; DATOS pista_767F: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (24 bytes)
+;   0x767f..0x7697  (24 bytes)
+DATA_pista_767F:
+	defb 0e9h,0d4h,0fch,035h,0e4h,027h,057h,047h,007h,0feh,002h,07fh,076h,0e5h,0a7h,0e4h	; 767f  ...5.'WG....v...
+	defb 057h,047h,007h,0feh,002h,08ch,076h,0eeh	; 768f  WG....v.
+
+; ----------------------------------------------------------------------
+; DATOS pista_7697: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (1 bytes)
+;   0x7697..0x7698  (1 bytes)
+DATA_pista_7697:
+	defb 0ffh	; 7697
+
+; ----------------------------------------------------------------------
+; DATOS pista_7698: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (1 bytes)
+;   0x7698..0x7699  (1 bytes)
+DATA_pista_7698:
+	defb 0ffh	; 7698
+
+; ----------------------------------------------------------------------
+; DATOS pista_7699: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (1 bytes)
+;   0x7699..0x769a  (1 bytes)
+DATA_pista_7699:
+	defb 0ffh	; 7699
+
+; ----------------------------------------------------------------------
+; DATOS pista_769A: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (97 bytes)
+;   0x769a..0x76fb  (97 bytes)
+DATA_pista_769A:
+	defb 0e9h,0d6h,0fbh,000h,0e2h,041h,0f9h,001h,041h,0fbh,000h,0b1h,0f9h,001h,0b1h,0edh	; 769a  .....A..A.......
+	defb 0fbh,076h,0fbh,000h,0e1h,021h,0f9h,000h,021h,0f7h,001h,021h,0fbh,001h,0e2h,051h	; 76aa  .v...!..!..!...Q
+	defb 0fbh,000h,093h,0f9h,000h,093h,0f7h,000h,093h,0f6h,000h,093h,0fbh,001h,0e1h,011h	; 76ba  ................
+	defb 0e2h,0b1h,091h,0b1h,0fbh,000h,0b3h,0f9h,000h,0b3h,0f7h,001h,0b1h,0fbh,001h,0e2h	; 76ca  ................
+	defb 061h,081h,091h,0fbh,000h,0e1h,011h,0f9h,000h,011h,0fbh,001h,0e2h,0b1h,0b1h,0fbh	; 76da  a...............
+	defb 000h,041h,0f9h,001h,041h,0fbh,000h,0b1h,0f9h,001h,0b1h,0edh,0fbh,076h,0eah,0ach	; 76ea  .A..A........v..
+	defb 076h	; 76fa
+
+; ----------------------------------------------------------------------
+; DATOS pista_76FB: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (71 bytes)
+;   0x76fb..0x7742  (71 bytes)
+DATA_pista_76FB:
+	defb 0d6h,0fbh,001h,0e1h,011h,0f9h,000h,011h,0f7h,001h,011h,0fbh,001h,0e2h,041h,0fbh	; 76fb  ..............A.
+	defb 000h,043h,0f9h,000h,043h,0f7h,000h,043h,0f6h,001h,043h,0fbh,000h,041h,0f9h,001h	; 770b  .C..C..C..C..A..
+	defb 041h,0fbh,000h,0b1h,0f9h,001h,0b1h,0fbh,000h,0e1h,011h,0f9h,000h,011h,0f7h,001h	; 771b  A...............
+	defb 011h,0fbh,001h,021h,0fbh,000h,013h,0f9h,000h,013h,0f7h,000h,013h,0f6h,000h,013h	; 772b  ...!............
+	defb 0fbh,001h,041h,021h,011h,021h,0eeh	; 773b
+
+; ----------------------------------------------------------------------
+; DATOS pista_7742: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (68 bytes)
+;   0x7742..0x7786  (68 bytes)
+DATA_pista_7742:
+	defb 0e9h,0d6h,0fah,010h,0e1h,041h,0f8h,001h,041h,0fah,010h,0b1h,0f8h,010h,0b1h,0edh	; 7742  .....A..A.......
+	defb 086h,077h,0d6h,0fdh,035h,0e4h,051h,051h,051h,051h,051h,051h,091h,051h,041h,041h	; 7752  .w..5.QQQQQQ.QAA
+	defb 041h,041h,041h,041h,091h,0fch,035h,040h,040h,0fdh,035h,031h,031h,031h,031h,091h	; 7762  AAAA..5@@.51111.
+	defb 091h,031h,031h,041h,041h,041h,041h,041h,061h,081h,0fch,035h,040h,040h,0edh,086h	; 7772  .11AAAAAa..5@@..
+	defb 077h,0eah,054h,077h	; 7782
+
+; ----------------------------------------------------------------------
+; DATOS pista_7786: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (50 bytes)
+;   0x7786..0x77b8  (50 bytes)
+DATA_pista_7786:
 	defb 0d6h,0fdh,035h,0e4h,091h,091h,091h,091h,091h,091h,0e3h,041h,0e4h,091h,081h,081h	; 7786  ..5........A....
 	defb 081h,081h,081h,081h,0e3h,041h,0fch,035h,0e4h,080h,080h,0fdh,035h,071h,071h,071h	; 7796  .....A.5....5qqq
 	defb 071h,071h,071h,0e3h,041h,0e4h,071h,061h,061h,061h,061h,061h,061h,0e3h,021h,0e4h	; 77a6  qqq.A.qaaaaaa.!.
-	defb 061h,0eeh,0e9h,0e7h,0d6h,0fah,000h,0e2h,041h,0f8h,000h,041h,0fah,000h,0b1h,0f8h	; 77b6  a.......A..A....
-	defb 001h,0b1h,0e9h,0edh,018h,078h,0d6h,0fah,000h,0e2h,051h,0f8h,000h,051h,0f6h,001h	; 77c6  .....x....Q..Q..
-	defb 051h,0fah,001h,021h,0fah,000h,053h,0f8h,000h,053h,0f6h,000h,043h,0f5h,000h,043h	; 77d6  Q..!..S..S..C..C
-	defb 0fah,001h,091h,081h,061h,081h,0fah,000h,063h,0f8h,000h,063h,0f6h,001h,061h,0fah	; 77e6  ....a...c..c..a.
-	defb 001h,031h,041h,061h,0fah,000h,091h,0f8h,000h,091h,0fah,001h,081h,081h,0e7h,0c0h	; 77f6  .1Aa............
-	defb 0fah,000h,041h,0f8h,001h,041h,0fah,000h,0b1h,0f8h,001h,0b0h,0edh,018h,078h,0eah	; 7806  ..A..A........x.
-	defb 0cch,077h,0fah,001h,091h,0f8h,000h,091h,0f6h,001h,091h,0fah,001h,011h,0fah,000h	; 7816  .w..............
-	defb 013h,0f8h,000h,013h,0f6h,000h,013h,0f5h,001h,013h,0fah,000h,011h,0f8h,001h,011h	; 7826  ................
-	defb 0fah,000h,081h,0f8h,001h,081h,0fah,000h,071h,0f8h,000h,071h,0f6h,001h,071h,0fah	; 7836  ........q..q..q.
-	defb 001h,091h,0fah,000h,073h,0f8h,000h,073h,0f6h,000h,063h,0f5h,000h,063h,0fah,001h	; 7846  ....s..s..c..c..
-	defb 0e1h,011h,0e2h,0b1h,091h,0b1h,0eeh,0e9h,0d8h,0fdh,034h,0e1h,041h,0fch,023h,041h	; 7856  ..........4.A.#A
-	defb 0fbh,023h,041h,0f9h,023h,040h,0f8h,023h,040h,0f7h,023h,040h,0f6h,023h,040h,0f5h	; 7866  .#A.#@.#@.#@.#@.
-	defb 023h,040h,0f4h,023h,040h,0fdh,034h,060h,0fah,012h,060h,0fdh,034h,070h,0fah,012h	; 7876  #@.#@.4`..`.4p..
-	defb 070h,0fdh,034h,061h,0fbh,023h,061h,0fah,023h,061h,0f9h,023h,060h,0f8h,023h,060h	; 7886  p.4a.#a.#a.#`.#`
-	defb 0f7h,023h,060h,0f6h,023h,060h,0f5h,023h,060h,0f4h,023h,060h,0fdh,034h,070h,0fah	; 7896  .#`.#`.#`.#`.4p.
-	defb 012h,070h,0fdh,034h,090h,0fah,012h,090h,0fdh,034h,071h,0fbh,023h,071h,0fah,023h	; 78a6  .p.4.....4q.#q.#
-	defb 071h,0f9h,023h,070h,0f8h,023h,070h,0f7h,023h,070h,0f6h,023h,070h,0f5h,023h,070h	; 78b6  q.#p.#p.#p.#p.#p
-	defb 0f4h,023h,070h,0fdh,034h,090h,0fah,012h,090h,0fdh,034h,0b0h,0fah,012h,0b0h,0fdh	; 78c6  .#p.4.....4.....
-	defb 034h,091h,0fbh,023h,091h,0f9h,023h,091h,0f8h,023h,090h,0f7h,023h,090h,0f6h,023h	; 78d6  4..#..#..#..#..#
-	defb 090h,0f5h,023h,090h,0fch,055h,090h,0fah,013h,090h,0fch,055h,070h,0fah,013h,070h	; 78e6  ..#..U.....Up..p
-	defb 0fch,055h,060h,0fah,013h,060h,0eah,05dh,078h,0e9h,0d8h,0fdh,035h,0e4h,040h,040h	; 78f6  .U`..`.]x...5.@@
-	defb 0b0h,0b0h,0e3h,060h,060h,070h,070h,0f9h,035h,070h,070h,0f8h,035h,070h,0f7h,035h	; 7906  ...``pp.5pp.5p.5
-	defb 070h,0f6h,035h,070h,0f5h,035h,070h,070h,070h,0feh,002h,0ffh,078h,0fdh,035h,0e4h	; 7916  p.5p.5ppp...x.5.
-	defb 040h,040h,0e3h,000h,000h,060h,060h,070h,070h,0f9h,035h,070h,0f9h,035h,070h,0f8h	; 7926  @@...``pp.5p.5p.
-	defb 035h,070h,0f7h,035h,070h,0f6h,035h,070h,0f5h,035h,070h,070h,070h,0fdh,035h,0e4h	; 7936  5p.5p.5p.5ppp.5.
-	defb 060h,060h,0e3h,010h,010h,070h,070h,090h,090h,0f9h,035h,090h,0f9h,035h,090h,0f8h	; 7946  ``...pp...5..5..
-	defb 035h,090h,0f7h,035h,090h,0f6h,035h,090h,0f5h,035h,090h,090h,090h,0eah,0ffh,078h	; 7956  5..5..5..5.....x
+	defb 061h,0eeh	; 77b6
+
+; ----------------------------------------------------------------------
+; DATOS pista_77B8: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (96 bytes)
+;   0x77b8..0x7818  (96 bytes)
+DATA_pista_77B8:
+	defb 0e9h,0e7h,0d6h,0fah,000h,0e2h,041h,0f8h,000h,041h,0fah,000h,0b1h,0f8h,001h,0b1h	; 77b8  ......A..A......
+	defb 0e9h,0edh,018h,078h,0d6h,0fah,000h,0e2h,051h,0f8h,000h,051h,0f6h,001h,051h,0fah	; 77c8  ...x....Q..Q..Q.
+	defb 001h,021h,0fah,000h,053h,0f8h,000h,053h,0f6h,000h,043h,0f5h,000h,043h,0fah,001h	; 77d8  .!..S..S..C..C..
+	defb 091h,081h,061h,081h,0fah,000h,063h,0f8h,000h,063h,0f6h,001h,061h,0fah,001h,031h	; 77e8  ..a...c..c..a..1
+	defb 041h,061h,0fah,000h,091h,0f8h,000h,091h,0fah,001h,081h,081h,0e7h,0c0h,0fah,000h	; 77f8  Aa..............
+	defb 041h,0f8h,001h,041h,0fah,000h,0b1h,0f8h,001h,0b0h,0edh,018h,078h,0eah,0cch,077h	; 7808  A..A........x..w
+
+; ----------------------------------------------------------------------
+; DATOS pista_7818: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (69 bytes)
+;   0x7818..0x785d  (69 bytes)
+DATA_pista_7818:
+	defb 0fah,001h,091h,0f8h,000h,091h,0f6h,001h,091h,0fah,001h,011h,0fah,000h,013h,0f8h	; 7818  ................
+	defb 000h,013h,0f6h,000h,013h,0f5h,001h,013h,0fah,000h,011h,0f8h,001h,011h,0fah,000h	; 7828  ................
+	defb 081h,0f8h,001h,081h,0fah,000h,071h,0f8h,000h,071h,0f6h,001h,071h,0fah,001h,091h	; 7838  ......q..q..q...
+	defb 0fah,000h,073h,0f8h,000h,073h,0f6h,000h,063h,0f5h,000h,063h,0fah,001h,0e1h,011h	; 7848  ..s..s..c..c....
+	defb 0e2h,0b1h,091h,0b1h,0eeh	; 7858
+
+; ----------------------------------------------------------------------
+; DATOS pista_785D: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (162 bytes)
+;   0x785d..0x78ff  (162 bytes)
+DATA_pista_785D:
+	defb 0e9h,0d8h,0fdh,034h,0e1h,041h,0fch,023h,041h,0fbh,023h,041h,0f9h,023h,040h,0f8h	; 785d  ...4.A.#A.#A.#@.
+	defb 023h,040h,0f7h,023h,040h,0f6h,023h,040h,0f5h,023h,040h,0f4h,023h,040h,0fdh,034h	; 786d  #@.#@.#@.#@.#@.4
+	defb 060h,0fah,012h,060h,0fdh,034h,070h,0fah,012h,070h,0fdh,034h,061h,0fbh,023h,061h	; 787d  `..`.4p..p.4a.#a
+	defb 0fah,023h,061h,0f9h,023h,060h,0f8h,023h,060h,0f7h,023h,060h,0f6h,023h,060h,0f5h	; 788d  .#a.#`.#`.#`.#`.
+	defb 023h,060h,0f4h,023h,060h,0fdh,034h,070h,0fah,012h,070h,0fdh,034h,090h,0fah,012h	; 789d  #`.#`.4p..p.4...
+	defb 090h,0fdh,034h,071h,0fbh,023h,071h,0fah,023h,071h,0f9h,023h,070h,0f8h,023h,070h	; 78ad  ..4q.#q.#q.#p.#p
+	defb 0f7h,023h,070h,0f6h,023h,070h,0f5h,023h,070h,0f4h,023h,070h,0fdh,034h,090h,0fah	; 78bd  .#p.#p.#p.#p.4..
+	defb 012h,090h,0fdh,034h,0b0h,0fah,012h,0b0h,0fdh,034h,091h,0fbh,023h,091h,0f9h,023h	; 78cd  ...4.....4..#..#
+	defb 091h,0f8h,023h,090h,0f7h,023h,090h,0f6h,023h,090h,0f5h,023h,090h,0fch,055h,090h	; 78dd  ..#..#..#..#..U.
+	defb 0fah,013h,090h,0fch,055h,070h,0fah,013h,070h,0fch,055h,060h,0fah,013h,060h,0eah	; 78ed  ....Up..p.U`..`.
+	defb 05dh,078h	; 78fd
+
+; ----------------------------------------------------------------------
+; DATOS pista_78FF: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (103 bytes)
+;   0x78ff..0x7966  (103 bytes)
+DATA_pista_78FF:
+	defb 0e9h,0d8h,0fdh,035h,0e4h,040h,040h,0b0h,0b0h,0e3h,060h,060h,070h,070h,0f9h,035h	; 78ff  ...5.@@...``pp.5
+	defb 070h,070h,0f8h,035h,070h,0f7h,035h,070h,0f6h,035h,070h,0f5h,035h,070h,070h,070h	; 790f  pp.5p.5p.5p.5ppp
+	defb 0feh,002h,0ffh,078h,0fdh,035h,0e4h,040h,040h,0e3h,000h,000h,060h,060h,070h,070h	; 791f  ...x.5.@@...``pp
+	defb 0f9h,035h,070h,0f9h,035h,070h,0f8h,035h,070h,0f7h,035h,070h,0f6h,035h,070h,0f5h	; 792f  .5p.5p.5p.5p.5p.
+	defb 035h,070h,070h,070h,0fdh,035h,0e4h,060h,060h,0e3h,010h,010h,070h,070h,090h,090h	; 793f  5ppp.5.``...pp..
+	defb 0f9h,035h,090h,0f9h,035h,090h,0f8h,035h,090h,0f7h,035h,090h,0f6h,035h,090h,0f5h	; 794f  .5..5..5..5..5..
+	defb 035h,090h,090h,090h,0eah,0ffh,078h	; 795f
+
+; ----------------------------------------------------------------------
+; DATOS pista_7966: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (131 bytes)
+;   0x7966..0x79e9  (131 bytes)
+DATA_pista_7966:
 	defb 0e9h,0d8h,0fch,034h,0e2h,0b1h,0fbh,023h,0b1h,0fah,023h,0b1h,0e8h,000h,000h,000h	; 7966  ...4...#..#.....
 	defb 000h,000h,010h,000h,0e9h,0fch,034h,0e1h,020h,0f9h,012h,020h,0fch,034h,020h,0f9h	; 7976  ......4. .. .4 .
 	defb 012h,020h,0fch,034h,021h,0fah,023h,021h,0f9h,023h,021h,0e8h,000h,000h,000h,000h	; 7986  . .4!.#!.#!.....
@@ -1216,79 +2018,311 @@ DATA_6686:
 	defb 000h,0e9h,0fch,034h,020h,0f9h,012h,020h,0fch,034h,020h,0f9h,012h,020h,0fch,034h	; 79b6  ...4 .. .4 .. .4
 	defb 021h,0fah,023h,021h,0f8h,023h,021h,0e8h,000h,000h,000h,010h,000h,0e9h,0fbh,055h	; 79c6  !.#!.#!........U
 	defb 020h,0f9h,013h,020h,0fbh,055h,020h,0f9h,013h,020h,0fbh,055h,020h,0f9h,013h,020h	; 79d6   .. .U .. .U ..
-	defb 0eah,066h,079h,0e9h,0d6h,0fah,000h,0e2h,0c3h,091h,0f7h,000h,091h,0fah,000h,0e1h	; 79e6  .fy.............
-	defb 021h,0f7h,000h,021h,0fah,000h,051h,0f7h,000h,051h,0fah,000h,070h,0f7h,000h,070h	; 79f6  !..!..Q..Q..p..p
-	defb 0fah,000h,090h,0f7h,000h,090h,0fah,000h,043h,0f7h,000h,043h,0d7h,0fbh,012h,051h	; 7a06  ........C..C...Q
-	defb 041h,0fah,000h,021h,0f7h,000h,021h,0d8h,0fah,000h,001h,0f7h,000h,001h,0f9h,000h	; 7a16  A..!..!.........
-	defb 02ah,0c3h,0ffh,0e9h,0d6h,0fah,022h,0e3h,0c3h,023h,0e2h,027h,0e3h,003h,0e2h,007h	; 7a26  *....."..#.'....
-	defb 0d7h,0e4h,0a3h,0a3h,0d8h,0e3h,003h,0f8h,000h,02ah,0c3h,0ffh,0e9h,0d6h,0f8h,000h	; 7a36  .........*......
-	defb 0e2h,0c3h,053h,0f5h,000h,053h,0f3h,000h,053h,0f8h,000h,0e1h,001h,0f5h,000h,001h	; 7a46  ..S..S..S.......
-	defb 0f8h,000h,0e2h,073h,0f5h,000h,073h,0d7h,0f9h,012h,091h,071h,0f8h,000h,051h,0f7h	; 7a56  ...s..s....q..Q.
-	defb 000h,051h,0d8h,0f8h,000h,041h,0f7h,000h,041h,0f8h,000h,06ah,0c3h,0ffh,0e9h,0e6h	; 7a66  .Q...A..A..j....
-	defb 0d3h,0fbh,022h,0e2h,0c7h,091h,051h,0a1h,071h,091h,051h,071h,041h,053h,0f7h,000h	; 7a76  .."...Q.q.QqAS..
-	defb 053h,0f4h,000h,053h,0ffh,0e9h,0e6h,0d3h,0fah,022h,0e1h,0c7h,091h,051h,0a1h,071h	; 7a86  S..S....."...Q.q
-	defb 091h,051h,071h,041h,053h,0f6h,000h,053h,0f4h,000h,053h,0ffh,0e9h,0e6h,0d3h,0fch	; 7a96  .QqAS..S..S.....
-	defb 035h,0e3h,0c7h,021h,021h,021h,021h,021h,021h,021h,021h,0fah,010h,023h,0f7h,010h	; 7aa6  5..!!!!!!!!..#..
-	defb 023h,0f5h,000h,021h,0c1h,0ffh,0ffh,065h,07bh,06bh,07bh,07bh,07bh,0cbh,07ch,0cbh	; 7ab6  #..!...e{k{{{.|.
-	defb 07ch,0cbh,07ch,0cbh,07ch,0cbh,07ch,0cbh,07ch,0cbh,07ch,0cbh,07ch,08dh,07bh,0a3h	; 7ac6  |.|.|.|.|.|.|.{.
-	defb 07bh,0cbh,07ch,0b5h,07bh,0cbh,07ch,0c7h,07bh,0cbh,07ch,0d9h,07bh,0ech,07bh,0cbh	; 7ad6  {.|.{.|.{.|.{.{.
-	defb 07ch,0feh,07bh,0cbh,07ch,010h,07ch,023h,07ch,0cbh,07ch,035h,07ch,048h,07ch,05bh	; 7ae6  |.{.|.|#|.|5|H|[
-	defb 07ch,0cbh,07ch,06dh,07ch,080h,07ch,0cbh,07ch,092h,07ch,0a5h,07ch,0b8h,07ch,0cbh	; 7af6  |.|m|.|.|.|.|.|.
-	defb 07ch,0cbh,07ch,0cbh,07ch,0cbh,07ch,0cbh,07ch,0cbh,07ch,0cbh,07ch,0cbh,07ch,0cbh	; 7b06  |.|.|.|.|.|.|.|.
-	defb 07ch,0cbh,07ch,0cbh,07ch,0cbh,07ch,0cbh,07ch,0cbh,07ch,0cbh,07ch,0cbh,07ch,0cbh	; 7b16  |.|.|.|.|.|.|.|.
-	defb 07ch,0cbh,07ch,0cbh,07ch,0cbh,07ch,0cbh,07ch,0cbh,07ch,0cbh,07ch,0cbh,07ch,0cbh	; 7b26  |.|.|.|.|.|.|.|.
-	defb 07ch,0cbh,07ch,0cbh,07ch,0cbh,07ch,0cbh,07ch,0cbh,07ch,0cbh,07ch,0cbh,07ch,0cbh	; 7b36  |.|.|.|.|.|.|.|.
-	defb 07ch,0cbh,07ch,0cbh,07ch,0cbh,07ch,0cch,07ch,03fh,07dh,099h,07dh,0f3h,07dh,075h	; 7b46  |.|.|.|.|?}.}.}u
-	defb 07eh,075h,07eh,028h,07dh,087h,07dh,0e1h,07dh,075h,07eh,075h,07eh,075h,07eh,021h	; 7b56  ~u~(}.}.}u~u~u~!
-	defb 001h,010h,0c0h,000h,0ffh,021h,002h,010h,090h,000h,021h,008h,010h,090h,000h,021h	; 7b66  .....!....!....!
-	defb 008h,010h,050h,000h,0ffh,023h,001h,010h,0bah,000h,021h,004h,010h,0b0h,000h,080h	; 7b76  ..P..#....!.....
-	defb 000h,070h,000h,060h,000h,050h,000h,021h,001h,015h,0b0h,006h,022h,001h,0b2h,000h	; 7b86  .p.`.P.!...."...
-	defb 021h,002h,018h,070h,006h,060h,006h,021h,001h,013h,060h,006h,0ffh,022h,004h,0a0h	; 7b96  !..p.`.!..`.."..
-	defb 036h,090h,036h,080h,036h,070h,036h,060h,036h,050h,036h,040h,036h,040h,036h,022h	; 7ba6  6.6.6p6`6P6@6@6"
-	defb 004h,0a0h,02fh,090h,02fh,080h,02fh,070h,02fh,060h,02fh,050h,02fh,040h,02fh,040h	; 7bb6  ../././p/`/P/@/@
-	defb 02fh,022h,004h,0a0h,02ah,090h,02ah,080h,02ah,070h,02ah,060h,02ah,050h,02ah,040h	; 7bc6  /"..*.*.*p*`*P*@
-	defb 02ah,040h,02ah,022h,004h,0a0h,026h,090h,026h,080h,026h,070h,026h,060h,026h,050h	; 7bd6  *@*"..&.&.&p&`&P
-	defb 026h,040h,026h,040h,026h,0ffh,022h,004h,0a0h,024h,090h,024h,080h,024h,070h,024h	; 7be6  &@&@&."..$.$.$p$
-	defb 060h,024h,050h,024h,040h,024h,040h,024h,022h,004h,0a0h,020h,090h,020h,080h,020h	; 7bf6  `$P$@$@$".. . .
-	defb 070h,020h,060h,020h,050h,020h,040h,020h,040h,020h,022h,004h,0a0h,01ch,090h,01ch	; 7c06  p ` P @ @ ".....
-	defb 080h,01ch,070h,01ch,060h,01ch,050h,01ch,040h,01ch,040h,01ch,0ffh,022h,004h,0a0h	; 7c16  ..p.`.P.@.@.."..
-	defb 06bh,090h,06bh,080h,06bh,070h,06bh,060h,06bh,050h,06bh,040h,06bh,040h,06bh,022h	; 7c26  k.k.kpk`kPk@k@k"
-	defb 004h,0a0h,05fh,090h,05fh,080h,05fh,070h,05fh,060h,05fh,050h,05fh,040h,05fh,040h	; 7c36  .._._._p_`_P_@_@
-	defb 05fh,0ffh,022h,004h,0a0h,05ah,090h,05ah,080h,05ah,070h,05ah,060h,05ah,050h,05ah	; 7c46  _."..Z.Z.ZpZ`ZPZ
-	defb 040h,05ah,040h,05ah,0ffh,022h,004h,0a0h,055h,090h,055h,080h,055h,070h,055h,060h	; 7c56  @Z@Z."..U.U.UpU`
-	defb 055h,050h,055h,040h,055h,040h,055h,022h,004h,0a0h,04ch,090h,04ch,080h,04ch,070h	; 7c66  UPU@U@U"..L.L.Lp
-	defb 04ch,060h,04ch,050h,04ch,040h,04ch,040h,04ch,0ffh,022h,004h,0a0h,047h,090h,047h	; 7c76  L`LPL@L@L."..G.G
-	defb 080h,047h,070h,047h,060h,047h,050h,047h,040h,047h,040h,047h,022h,004h,0a0h,040h	; 7c86  .GpG`GPG@G@G"..@
-	defb 090h,040h,080h,040h,070h,040h,060h,040h,050h,040h,040h,040h,040h,040h,0ffh,022h	; 7c96  .@.@p@`@P@@@@@."
-	defb 004h,0a0h,03ch,090h,03ch,080h,03ch,070h,03ch,060h,03ch,050h,03ch,040h,03ch,040h	; 7ca6  ..<.<.<p<`<P<@<@
-	defb 03ch,0ffh,022h,004h,0a0h,039h,090h,039h,080h,039h,070h,039h,060h,039h,050h,039h	; 7cb6  <."..9.9.9p9`9P9
-	defb 040h,039h,040h,039h,0ffh,0ffh,021h,001h,01dh,000h,000h,030h,000h,01ah,040h,000h	; 7cc6  @9@9..!....0..@.
-	defb 01dh,060h,000h,01ah,080h,000h,01dh,0a0h,000h,0feh,004h,0cch,07ch,021h,001h,01dh	; 7cd6  .`..........|!..
-	defb 000h,000h,040h,000h,01ah,060h,000h,01dh,080h,000h,01ah,0a0h,000h,01dh,0c0h,000h	; 7ce6  ..@..`..........
-	defb 0feh,004h,0e3h,07ch,021h,001h,01dh,000h,000h,050h,000h,01ah,070h,000h,01dh,090h	; 7cf6  ...|!....P..p...
-	defb 000h,01ah,0b0h,000h,01dh,0d0h,000h,0feh,004h,0fah,07ch,021h,001h,01dh,000h,000h	; 7d06  ..........|!....
-	defb 060h,000h,01ah,080h,000h,01dh,0a0h,000h,01ah,0c0h,000h,01dh,0e0h,000h,0feh,004h	; 7d16  `...............
-	defb 011h,07dh,021h,001h,01dh,000h,000h,070h,000h,01ah,090h,000h,01dh,0b0h,000h,01ah	; 7d26  .}!....p........
-	defb 0d0h,000h,01dh,0f0h,000h,0feh,0feh,028h,07dh,022h,001h,000h,000h,033h,080h,053h	; 7d36  .......(}"...3.S
-	defb 080h,073h,080h,093h,080h,0b3h,080h,0feh,004h,03fh,07dh,022h,001h,000h,000h,043h	; 7d46  .s.......?}"...C
-	defb 080h,063h,080h,083h,080h,0a3h,080h,0c3h,080h,0feh,004h,051h,07dh,022h,001h,000h	; 7d56  .c.........Q}"..
-	defb 000h,053h,080h,073h,080h,093h,080h,0b3h,080h,0d3h,080h,0feh,004h,063h,07dh,022h	; 7d66  .S.s.........c}"
-	defb 001h,000h,000h,063h,080h,083h,080h,0a3h,080h,0c3h,080h,0e3h,080h,0feh,004h,075h	; 7d76  ...c...........u
-	defb 07dh,022h,001h,000h,000h,073h,080h,093h,080h,0b3h,080h,0d3h,080h,0f3h,080h,0feh	; 7d86  }"...s..........
-	defb 0feh,087h,07dh,022h,001h,000h,000h,030h,050h,030h,050h,040h,050h,060h,050h,080h	; 7d96  ..}"...0P0P@P`P.
-	defb 050h,0feh,004h,099h,07dh,022h,001h,000h,000h,030h,050h,030h,050h,050h,050h,070h	; 7da6  P...}"...0P0PPPp
-	defb 050h,090h,050h,0feh,004h,0abh,07dh,022h,001h,000h,000h,030h,050h,040h,050h,050h	; 7db6  P.P...}"...0P@PP
-	defb 050h,080h,050h,0a0h,050h,0feh,004h,0bdh,07dh,022h,001h,000h,000h,030h,050h,050h	; 7dc6  P.P.P...}"...0PP
-	defb 050h,070h,050h,090h,050h,0b0h,050h,0feh,004h,0cfh,07dh,022h,001h,000h,000h,030h	; 7dd6  PpP.P.P...}"...0
-	defb 050h,060h,050h,080h,050h,0a0h,050h,0c0h,050h,0feh,0feh,0e1h,07dh,022h,001h,061h	; 7de6  P`P.P.P.P...}".a
-	defb 000h,0a0h,0a0h,0e0h,080h,0e1h,000h,0e1h,080h,0e2h,000h,0e2h,080h,0d3h,000h,0dbh	; 7df6  ................
-	defb 000h,0d3h,000h,0dbh,000h,0d3h,000h,0cbh,000h,0c3h,000h,0c3h,080h,0c4h,000h,0c4h	; 7e06  ................
-	defb 080h,0c5h,000h,0b5h,080h,0b6h,000h,0beh,000h,0b6h,000h,0beh,000h,0a6h,000h,0aeh	; 7e16  ................
-	defb 000h,0a6h,000h,0a6h,080h,0a7h,000h,097h,080h,098h,000h,098h,080h,099h,000h,091h	; 7e26  ................
-	defb 000h,099h,000h,081h,000h,089h,000h,081h,000h,089h,000h,089h,080h,07ah,000h,07ah	; 7e36  .............z.z
-	defb 080h,07bh,000h,07bh,080h,07ch,000h,064h,000h,06ch,000h,064h,000h,06ch,000h,064h	; 7e46  .{.{.|.d.l.d.l.d
-	defb 000h,06ch,000h,05ch,080h,05dh,000h,05dh,080h,05eh,000h,05eh,080h,04fh,000h,047h	; 7e56  .l.\.].].^.^.O.G
-	defb 000h,04fh,000h,047h,000h,04fh,000h,037h,000h,03fh,000h,03fh,080h,030h,000h,0ffh	; 7e66  .O.G.O.7.?.?.0..
+	defb 0eah,066h,079h	; 79e6
+
+; ----------------------------------------------------------------------
+; DATOS pista_79E9: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (64 bytes)
+;   0x79e9..0x7a29  (64 bytes)
+DATA_pista_79E9:
+	defb 0e9h,0d6h,0fah,000h,0e2h,0c3h,091h,0f7h,000h,091h,0fah,000h,0e1h,021h,0f7h,000h	; 79e9  .............!..
+	defb 021h,0fah,000h,051h,0f7h,000h,051h,0fah,000h,070h,0f7h,000h,070h,0fah,000h,090h	; 79f9  !..Q..Q..p..p...
+	defb 0f7h,000h,090h,0fah,000h,043h,0f7h,000h,043h,0d7h,0fbh,012h,051h,041h,0fah,000h	; 7a09  .....C..C...QA..
+	defb 021h,0f7h,000h,021h,0d8h,0fah,000h,001h,0f7h,000h,001h,0f9h,000h,02ah,0c3h,0ffh	; 7a19  !..!.........*..
+
+; ----------------------------------------------------------------------
+; DATOS pista_7A29: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (25 bytes)
+;   0x7a29..0x7a42  (25 bytes)
+DATA_pista_7A29:
+	defb 0e9h,0d6h,0fah,022h,0e3h,0c3h,023h,0e2h,027h,0e3h,003h,0e2h,007h,0d7h,0e4h,0a3h	; 7a29  ..."..#.'.......
+	defb 0a3h,0d8h,0e3h,003h,0f8h,000h,02ah,0c3h,0ffh	; 7a39  ......*..
+
+; ----------------------------------------------------------------------
+; DATOS pista_7A42: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (50 bytes)
+;   0x7a42..0x7a74  (50 bytes)
+DATA_pista_7A42:
+	defb 0e9h,0d6h,0f8h,000h,0e2h,0c3h,053h,0f5h,000h,053h,0f3h,000h,053h,0f8h,000h,0e1h	; 7a42  ......S..S..S...
+	defb 001h,0f5h,000h,001h,0f8h,000h,0e2h,073h,0f5h,000h,073h,0d7h,0f9h,012h,091h,071h	; 7a52  .......s..s....q
+	defb 0f8h,000h,051h,0f7h,000h,051h,0d8h,0f8h,000h,041h,0f7h,000h,041h,0f8h,000h,06ah	; 7a62  ..Q..Q...A..A..j
+	defb 0c3h,0ffh	; 7a72
+
+; ----------------------------------------------------------------------
+; DATOS pista_7A74: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (23 bytes)
+;   0x7a74..0x7a8b  (23 bytes)
+DATA_pista_7A74:
+	defb 0e9h,0e6h,0d3h,0fbh,022h,0e2h,0c7h,091h,051h,0a1h,071h,091h,051h,071h,041h,053h	; 7a74  ...."...Q.q.QqAS
+	defb 0f7h,000h,053h,0f4h,000h,053h,0ffh	; 7a84
+
+; ----------------------------------------------------------------------
+; DATOS pista_7A8B: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (23 bytes)
+;   0x7a8b..0x7aa2  (23 bytes)
+DATA_pista_7A8B:
+	defb 0e9h,0e6h,0d3h,0fah,022h,0e1h,0c7h,091h,051h,0a1h,071h,091h,051h,071h,041h,053h	; 7a8b  ...."...Q.q.QqAS
+	defb 0f6h,000h,053h,0f4h,000h,053h,0ffh	; 7a9b
+
+; ----------------------------------------------------------------------
+; DATOS pista_7AA2: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (26 bytes)
+;   0x7aa2..0x7abc  (26 bytes)
+DATA_pista_7AA2:
+	defb 0e9h,0e6h,0d3h,0fch,035h,0e3h,0c7h,021h,021h,021h,021h,021h,021h,021h,021h,0fah	; 7aa2  ....5..!!!!!!!!.
+	defb 010h,023h,0f7h,010h,023h,0f5h,000h,021h,0c1h,0ffh	; 7ab2  .#..#..!..
+
+; ----------------------------------------------------------------------
+; DATOS pista_7ABC: pista de musica (notas, silencios, tempo, octava, 0xE8
+;   envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen
+;   p04:638A (1 bytes)
+;   0x7abc..0x7abd  (1 bytes)
+DATA_pista_7ABC:
+	defb 0ffh	; 7abc
+
+; ----------------------------------------------------------------------
+; DATOS envolventes: 7 tablas de 12 palabras (una por nota): la envolvente de
+;   volumen de cada nota segun 0xE8 n; p04:640A; lo leen p04:6438 (168 bytes)
+;   0x7abd..0x7b65  (168 bytes)
+DATA_envolventes:
+	defb 065h,07bh	; 7abd
+	defb 06bh,07bh	; 7abf
+	defb 07bh,07bh	; 7ac1
+	defb 0cbh,07ch	; 7ac3
+	defb 0cbh,07ch	; 7ac5
+	defb 0cbh,07ch	; 7ac7
+	defb 0cbh,07ch	; 7ac9
+	defb 0cbh,07ch	; 7acb
+	defb 0cbh,07ch	; 7acd
+	defb 0cbh,07ch	; 7acf
+	defb 0cbh,07ch	; 7ad1
+	defb 08dh,07bh	; 7ad3
+	defb 0a3h,07bh	; 7ad5
+	defb 0cbh,07ch	; 7ad7
+	defb 0b5h,07bh	; 7ad9
+	defb 0cbh,07ch	; 7adb
+	defb 0c7h,07bh	; 7add
+	defb 0cbh,07ch	; 7adf
+	defb 0d9h,07bh	; 7ae1
+	defb 0ech,07bh	; 7ae3
+	defb 0cbh,07ch	; 7ae5
+	defb 0feh,07bh	; 7ae7
+	defb 0cbh,07ch	; 7ae9
+	defb 010h,07ch	; 7aeb
+	defb 023h,07ch	; 7aed
+	defb 0cbh,07ch	; 7aef
+	defb 035h,07ch	; 7af1
+	defb 048h,07ch	; 7af3
+	defb 05bh,07ch	; 7af5
+	defb 0cbh,07ch	; 7af7
+	defb 06dh,07ch	; 7af9
+	defb 080h,07ch	; 7afb
+	defb 0cbh,07ch	; 7afd
+	defb 092h,07ch	; 7aff
+	defb 0a5h,07ch	; 7b01
+	defb 0b8h,07ch	; 7b03
+	defb 0cbh,07ch	; 7b05
+	defb 0cbh,07ch	; 7b07
+	defb 0cbh,07ch	; 7b09
+	defb 0cbh,07ch	; 7b0b
+	defb 0cbh,07ch	; 7b0d
+	defb 0cbh,07ch	; 7b0f
+	defb 0cbh,07ch	; 7b11
+	defb 0cbh,07ch	; 7b13
+	defb 0cbh,07ch	; 7b15
+	defb 0cbh,07ch	; 7b17
+	defb 0cbh,07ch	; 7b19
+	defb 0cbh,07ch	; 7b1b
+	defb 0cbh,07ch	; 7b1d
+	defb 0cbh,07ch	; 7b1f
+	defb 0cbh,07ch	; 7b21
+	defb 0cbh,07ch	; 7b23
+	defb 0cbh,07ch	; 7b25
+	defb 0cbh,07ch	; 7b27
+	defb 0cbh,07ch	; 7b29
+	defb 0cbh,07ch	; 7b2b
+	defb 0cbh,07ch	; 7b2d
+	defb 0cbh,07ch	; 7b2f
+	defb 0cbh,07ch	; 7b31
+	defb 0cbh,07ch	; 7b33
+	defb 0cbh,07ch	; 7b35
+	defb 0cbh,07ch	; 7b37
+	defb 0cbh,07ch	; 7b39
+	defb 0cbh,07ch	; 7b3b
+	defb 0cbh,07ch	; 7b3d
+	defb 0cbh,07ch	; 7b3f
+	defb 0cbh,07ch	; 7b41
+	defb 0cbh,07ch	; 7b43
+	defb 0cbh,07ch	; 7b45
+	defb 0cbh,07ch	; 7b47
+	defb 0cbh,07ch	; 7b49
+	defb 0cbh,07ch	; 7b4b
+	defb 0cch,07ch	; 7b4d
+	defb 03fh,07dh	; 7b4f
+	defb 099h,07dh	; 7b51
+	defb 0f3h,07dh	; 7b53
+	defb 075h,07eh	; 7b55
+	defb 075h,07eh	; 7b57
+	defb 028h,07dh	; 7b59
+	defb 087h,07dh	; 7b5b
+	defb 0e1h,07dh	; 7b5d
+	defb 075h,07eh	; 7b5f
+	defb 075h,07eh	; 7b61
+	defb 075h,07eh	; 7b63
+
+; ----------------------------------------------------------------------
+; DATOS sonido_7B65: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (6 bytes)
+;   0x7b65..0x7b6b  (6 bytes)
+DATA_sonido_7B65:
+	defb 021h,001h,010h,0c0h,000h,0ffh	; 7b65
+
+; ----------------------------------------------------------------------
+; DATOS sonido_7B6B: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (16 bytes)
+;   0x7b6b..0x7b7b  (16 bytes)
+DATA_sonido_7B6B:
+	defb 021h,002h,010h,090h,000h,021h,008h,010h,090h,000h,021h,008h,010h,050h,000h,0ffh	; 7b6b  !....!....!..P..
+
+; ----------------------------------------------------------------------
+; DATOS sonido_7B7B: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (40 bytes)
+;   0x7b7b..0x7ba3  (40 bytes)
+DATA_sonido_7B7B:
+	defb 023h,001h,010h,0bah,000h,021h,004h,010h,0b0h,000h,080h,000h,070h,000h,060h,000h	; 7b7b  #....!......p.`.
+	defb 050h,000h,021h,001h,015h,0b0h,006h,022h,001h,0b2h,000h,021h,002h,018h,070h,006h	; 7b8b  P.!...."...!..p.
+	defb 060h,006h,021h,001h,013h,060h,006h,0ffh	; 7b9b  `.!..`..
+
+; ----------------------------------------------------------------------
+; DATOS sonido_7BA3: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (73 bytes)
+;   0x7ba3..0x7bec  (73 bytes)
+DATA_sonido_7BA3:
+	defb 022h,004h,0a0h,036h,090h,036h,080h,036h,070h,036h,060h,036h,050h,036h,040h,036h	; 7ba3  "..6.6.6p6`6P6@6
+	defb 040h,036h,022h,004h,0a0h,02fh,090h,02fh,080h,02fh,070h,02fh,060h,02fh,050h,02fh	; 7bb3  @6"../././p/`/P/
+	defb 040h,02fh,040h,02fh,022h,004h,0a0h,02ah,090h,02ah,080h,02ah,070h,02ah,060h,02ah	; 7bc3  @/@/"..*.*.*p*`*
+	defb 050h,02ah,040h,02ah,040h,02ah,022h,004h,0a0h,026h,090h,026h,080h,026h,070h,026h	; 7bd3  P*@*@*"..&.&.&p&
+	defb 060h,026h,050h,026h,040h,026h,040h,026h,0ffh	; 7be3  `&P&@&@&.
+
+; ----------------------------------------------------------------------
+; DATOS sonido_7BEC: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (55 bytes)
+;   0x7bec..0x7c23  (55 bytes)
+DATA_sonido_7BEC:
+	defb 022h,004h,0a0h,024h,090h,024h,080h,024h,070h,024h,060h,024h,050h,024h,040h,024h	; 7bec  "..$.$.$p$`$P$@$
+	defb 040h,024h,022h,004h,0a0h,020h,090h,020h,080h,020h,070h,020h,060h,020h,050h,020h	; 7bfc  @$".. . . p ` P
+	defb 040h,020h,040h,020h,022h,004h,0a0h,01ch,090h,01ch,080h,01ch,070h,01ch,060h,01ch	; 7c0c  @ @ ".......p.`.
+	defb 050h,01ch,040h,01ch,040h,01ch,0ffh	; 7c1c
+
+; ----------------------------------------------------------------------
+; DATOS sonido_7C23: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (37 bytes)
+;   0x7c23..0x7c48  (37 bytes)
+DATA_sonido_7C23:
+	defb 022h,004h,0a0h,06bh,090h,06bh,080h,06bh,070h,06bh,060h,06bh,050h,06bh,040h,06bh	; 7c23  "..k.k.kpk`kPk@k
+	defb 040h,06bh,022h,004h,0a0h,05fh,090h,05fh,080h,05fh,070h,05fh,060h,05fh,050h,05fh	; 7c33  @k".._._._p_`_P_
+	defb 040h,05fh,040h,05fh,0ffh	; 7c43
+
+; ----------------------------------------------------------------------
+; DATOS sonido_7C48: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (19 bytes)
+;   0x7c48..0x7c5b  (19 bytes)
+DATA_sonido_7C48:
+	defb 022h,004h,0a0h,05ah,090h,05ah,080h,05ah,070h,05ah,060h,05ah,050h,05ah,040h,05ah	; 7c48  "..Z.Z.ZpZ`ZPZ@Z
+	defb 040h,05ah,0ffh	; 7c58
+
+; ----------------------------------------------------------------------
+; DATOS sonido_7C5B: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (37 bytes)
+;   0x7c5b..0x7c80  (37 bytes)
+DATA_sonido_7C5B:
+	defb 022h,004h,0a0h,055h,090h,055h,080h,055h,070h,055h,060h,055h,050h,055h,040h,055h	; 7c5b  "..U.U.UpU`UPU@U
+	defb 040h,055h,022h,004h,0a0h,04ch,090h,04ch,080h,04ch,070h,04ch,060h,04ch,050h,04ch	; 7c6b  @U"..L.L.LpL`LPL
+	defb 040h,04ch,040h,04ch,0ffh	; 7c7b
+
+; ----------------------------------------------------------------------
+; DATOS sonido_7C80: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (37 bytes)
+;   0x7c80..0x7ca5  (37 bytes)
+DATA_sonido_7C80:
+	defb 022h,004h,0a0h,047h,090h,047h,080h,047h,070h,047h,060h,047h,050h,047h,040h,047h	; 7c80  "..G.G.GpG`GPG@G
+	defb 040h,047h,022h,004h,0a0h,040h,090h,040h,080h,040h,070h,040h,060h,040h,050h,040h	; 7c90  @G"..@.@.@p@`@P@
+	defb 040h,040h,040h,040h,0ffh	; 7ca0
+
+; ----------------------------------------------------------------------
+; DATOS sonido_7CA5: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (19 bytes)
+;   0x7ca5..0x7cb8  (19 bytes)
+DATA_sonido_7CA5:
+	defb 022h,004h,0a0h,03ch,090h,03ch,080h,03ch,070h,03ch,060h,03ch,050h,03ch,040h,03ch	; 7ca5  "..<.<.<p<`<P<@<
+	defb 040h,03ch,0ffh	; 7cb5
+
+; ----------------------------------------------------------------------
+; DATOS sonido_7CB8: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (19 bytes)
+;   0x7cb8..0x7ccb  (19 bytes)
+DATA_sonido_7CB8:
+	defb 022h,004h,0a0h,039h,090h,039h,080h,039h,070h,039h,060h,039h,050h,039h,040h,039h	; 7cb8  "..9.9.9p9`9P9@9
+	defb 040h,039h,0ffh	; 7cc8
+
+; ----------------------------------------------------------------------
+; DATOS sonido_7CCB: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (1 bytes)
+;   0x7ccb..0x7ccc  (1 bytes)
+DATA_sonido_7CCB:
+	defb 0ffh	; 7ccb
+
+; ----------------------------------------------------------------------
+; DATOS sonido_7CCC: envolvente o efecto: [volumen|tono alto][tono bajo] por
+;   cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen
+;   p04:65A4 (426 bytes)
+;   0x7ccc..0x7e76  (426 bytes)
+DATA_sonido_7CCC:
+	defb 021h,001h,01dh,000h,000h,030h,000h,01ah,040h,000h,01dh,060h,000h,01ah,080h,000h	; 7ccc  !....0..@..`....
+	defb 01dh,0a0h,000h,0feh,004h,0cch,07ch,021h,001h,01dh,000h,000h,040h,000h,01ah,060h	; 7cdc  ......|!....@..`
+	defb 000h,01dh,080h,000h,01ah,0a0h,000h,01dh,0c0h,000h,0feh,004h,0e3h,07ch,021h,001h	; 7cec  .............|!.
+	defb 01dh,000h,000h,050h,000h,01ah,070h,000h,01dh,090h,000h,01ah,0b0h,000h,01dh,0d0h	; 7cfc  ...P..p.........
+	defb 000h,0feh,004h,0fah,07ch,021h,001h,01dh,000h,000h,060h,000h,01ah,080h,000h,01dh	; 7d0c  ....|!....`.....
+	defb 0a0h,000h,01ah,0c0h,000h,01dh,0e0h,000h,0feh,004h,011h,07dh,021h,001h,01dh,000h	; 7d1c  ...........}!...
+	defb 000h,070h,000h,01ah,090h,000h,01dh,0b0h,000h,01ah,0d0h,000h,01dh,0f0h,000h,0feh	; 7d2c  .p..............
+	defb 0feh,028h,07dh,022h,001h,000h,000h,033h,080h,053h,080h,073h,080h,093h,080h,0b3h	; 7d3c  .(}"...3.S.s....
+	defb 080h,0feh,004h,03fh,07dh,022h,001h,000h,000h,043h,080h,063h,080h,083h,080h,0a3h	; 7d4c  ...?}"...C.c....
+	defb 080h,0c3h,080h,0feh,004h,051h,07dh,022h,001h,000h,000h,053h,080h,073h,080h,093h	; 7d5c  .....Q}"...S.s..
+	defb 080h,0b3h,080h,0d3h,080h,0feh,004h,063h,07dh,022h,001h,000h,000h,063h,080h,083h	; 7d6c  .......c}"...c..
+	defb 080h,0a3h,080h,0c3h,080h,0e3h,080h,0feh,004h,075h,07dh,022h,001h,000h,000h,073h	; 7d7c  .........u}"...s
+	defb 080h,093h,080h,0b3h,080h,0d3h,080h,0f3h,080h,0feh,0feh,087h,07dh,022h,001h,000h	; 7d8c  ............}"..
+	defb 000h,030h,050h,030h,050h,040h,050h,060h,050h,080h,050h,0feh,004h,099h,07dh,022h	; 7d9c  .0P0P@P`P.P...}"
+	defb 001h,000h,000h,030h,050h,030h,050h,050h,050h,070h,050h,090h,050h,0feh,004h,0abh	; 7dac  ...0P0PPPpP.P...
+	defb 07dh,022h,001h,000h,000h,030h,050h,040h,050h,050h,050h,080h,050h,0a0h,050h,0feh	; 7dbc  }"...0P@PPP.P.P.
+	defb 004h,0bdh,07dh,022h,001h,000h,000h,030h,050h,050h,050h,070h,050h,090h,050h,0b0h	; 7dcc  ..}"...0PPPpP.P.
+	defb 050h,0feh,004h,0cfh,07dh,022h,001h,000h,000h,030h,050h,060h,050h,080h,050h,0a0h	; 7ddc  P...}"...0P`P.P.
+	defb 050h,0c0h,050h,0feh,0feh,0e1h,07dh,022h,001h,061h,000h,0a0h,0a0h,0e0h,080h,0e1h	; 7dec  P.P...}".a......
+	defb 000h,0e1h,080h,0e2h,000h,0e2h,080h,0d3h,000h,0dbh,000h,0d3h,000h,0dbh,000h,0d3h	; 7dfc  ................
+	defb 000h,0cbh,000h,0c3h,000h,0c3h,080h,0c4h,000h,0c4h,080h,0c5h,000h,0b5h,080h,0b6h	; 7e0c  ................
+	defb 000h,0beh,000h,0b6h,000h,0beh,000h,0a6h,000h,0aeh,000h,0a6h,000h,0a6h,080h,0a7h	; 7e1c  ................
+	defb 000h,097h,080h,098h,000h,098h,080h,099h,000h,091h,000h,099h,000h,081h,000h,089h	; 7e2c  ................
+	defb 000h,081h,000h,089h,000h,089h,080h,07ah,000h,07ah,080h,07bh,000h,07bh,080h,07ch	; 7e3c  .......z.z.{.{.|
+	defb 000h,064h,000h,06ch,000h,064h,000h,06ch,000h,064h,000h,06ch,000h,05ch,080h,05dh	; 7e4c  .d.l.d.l.d.l.\.]
+	defb 000h,05dh,080h,05eh,000h,05eh,080h,04fh,000h,047h,000h,04fh,000h,047h,000h,04fh	; 7e5c  .].^.^.O.G.O.G.O
+	defb 000h,037h,000h,03fh,000h,03fh,080h,030h,000h,0ffh	; 7e6c  .7.?.?.0..
 
 ; ----------------------------------------------------------------------
 ; DATOS planos_alternos: 14 planos de 25 bloques: la parte que se ve de las

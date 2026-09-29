@@ -15,6 +15,7 @@
 0x6032   # p00:54A9 call
 0x6228   # p00:4233 call
 0x6299   # a mano: p04:6022 y p04:624C: ld hl,0x6299 / ld (0xC010..0xC016),hl (canal en reposo)
+0x62BA   # a mano: p04:62B0: ld de,0x62BA / ld (hl),e / ld (hl),d en 0xC010+2*canal (el canal que acaba se queda en un ret)
 0x631A   # a mano: p04:61A8: ld hl,0x631A / ld (0xC018),hl
 0x6321   # a mano: p04:609A: ld hl,0x6321 / ld (0xC010),hl
 0x6328   # a mano: p04:60A0: ld hl,0x6328 / ld (0xC012),hl

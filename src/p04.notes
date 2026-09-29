@@ -1,6 +1,254 @@
 # Notas del banco 04: comentarios (C), etiquetas (L) y datos (D) anclados a direccion.
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x60BC 0x60D0 canal_en_reposo  20 bytes que p04:605D copia a cada canal al empezar una pieza o un efecto; lo leen p04:6060 (20 bytes)
+F 0x60BC 16
+D 0x6302 0x631A mezclador  4 parejas [y][o] por canal: lo que p04:62E9 hace con el registro 7 del PSG (tono, ruido, los dos o nada); lo leen p04:62F5 (24 bytes)
+F 0x6302 2
+D 0x6464 0x647C periodos_de_las_notas  12 palabras: el periodo del PSG de cada semitono en la octava mas grave; p04:63E5 lo divide por 2 una vez por octava; lo leen p04:63DF (24 bytes)
+F 0x6464 2
+D 0x6686 0x66D8 efectos  41 palabras: la pista de cada efecto de sonido (1-0x29); p04:60EF con 0x6684 + 2*efecto; lo leen p04:60F7 (82 bytes)
+F 0x6686 2
+D 0x66D8 0x672C piezas  14 piezas de musica (0x80-0x8D): las pistas de los canales A, B y C; p04:607B con 0x66D8 + 6*(pieza & 0x7F); lo leen p04:6083 (84 bytes)
+F 0x66D8 6
+D 0x672C 0x672E pieza_8E  una palabra mas, 0x7ABC (la pista vacia de la 0x8D): el principio de una pieza 0x8E que nadie pide; lo leen p04:6083 (2 bytes)
+F 0x672C 2
+D 0x672E 0x672F sonido_672E  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (1 bytes)
+F 0x672E 16
+D 0x672F 0x6739 sonido_672F  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (10 bytes)
+F 0x672F 16
+D 0x6739 0x6744 sonido_6739  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (11 bytes)
+F 0x6739 16
+D 0x6744 0x6751 sonido_6744  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (13 bytes)
+F 0x6744 16
+D 0x6751 0x676A sonido_6751  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (25 bytes)
+F 0x6751 16
+D 0x676A 0x6797 sonido_676A  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (45 bytes)
+F 0x676A 16
+D 0x6797 0x6798 sonido_6797  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (1 bytes)
+F 0x6797 16
+D 0x6798 0x67B6 sonido_6798  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (30 bytes)
+F 0x6798 16
+D 0x67B6 0x67D4 sonido_67B6  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (30 bytes)
+F 0x67B6 16
+D 0x67D4 0x67EF sonido_67D4  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (27 bytes)
+F 0x67D4 16
+D 0x67EF 0x680A sonido_67EF  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (27 bytes)
+F 0x67EF 16
+D 0x680A 0x681F sonido_680A  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (21 bytes)
+F 0x680A 16
+D 0x681F 0x683C sonido_681F  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (29 bytes)
+F 0x681F 16
+D 0x683C 0x685A sonido_683C  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (30 bytes)
+F 0x683C 16
+D 0x685A 0x6867 sonido_685A  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (13 bytes)
+F 0x685A 16
+D 0x6867 0x687A sonido_6867  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (19 bytes)
+F 0x6867 16
+D 0x687A 0x688B sonido_687A  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (17 bytes)
+F 0x687A 16
+D 0x688B 0x688C ff_de_mas_688B  otro 0xFF detras del que acaba la pista: no se llega; lo leen p04:65A4 (1 bytes)
+F 0x688B 16
+D 0x688C 0x68A0 sonido_688C  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (20 bytes)
+F 0x688C 16
+D 0x68A0 0x68B7 sonido_68A0  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (23 bytes)
+F 0x68A0 16
+D 0x68B7 0x694A sonido_68B7  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (147 bytes)
+F 0x68B7 16
+D 0x694A 0x6957 sonido_694A  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (13 bytes)
+F 0x694A 16
+D 0x6957 0x6964 sonido_6957  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (13 bytes)
+F 0x6957 16
+D 0x6964 0x6971 sonido_6964  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (13 bytes)
+F 0x6964 16
+D 0x6971 0x698E sonido_6971  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (29 bytes)
+F 0x6971 16
+D 0x698E 0x69B3 sonido_698E  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (37 bytes)
+F 0x698E 16
+D 0x69B3 0x69DE sonido_69B3  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (43 bytes)
+F 0x69B3 16
+D 0x69DE 0x69DF ff_de_mas_69DE  otro 0xFF detras del que acaba la pista: no se llega; lo leen p04:65A4 (1 bytes)
+F 0x69DE 16
+D 0x69DF 0x6A0A sonido_69DF  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (43 bytes)
+F 0x69DF 16
+D 0x6A0A 0x6A0B ff_de_mas_6A0A  otro 0xFF detras del que acaba la pista: no se llega; lo leen p04:65A4 (1 bytes)
+F 0x6A0A 16
+D 0x6A0B 0x6A40 sonido_6A0B  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (53 bytes)
+F 0x6A0B 16
+D 0x6A40 0x6A94 sonido_6A40  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (84 bytes)
+F 0x6A40 16
+D 0x6A94 0x6AB9 sonido_6A94  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (37 bytes)
+F 0x6A94 16
+D 0x6AB9 0x6AF7 sonido_6AB9  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (62 bytes)
+F 0x6AB9 16
+D 0x6AF7 0x6B32 sonido_6AF7  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (59 bytes)
+F 0x6AF7 16
+D 0x6B32 0x6B45 sonido_6B32  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (19 bytes)
+F 0x6B32 16
+D 0x6B45 0x6B58 sonido_6B45  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (19 bytes)
+F 0x6B45 16
+D 0x6B58 0x6B83 sonido_6B58  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (43 bytes)
+F 0x6B58 16
+D 0x6B83 0x6BEA sonido_6B83  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (103 bytes)
+F 0x6B83 16
+D 0x6BEA 0x6C71 sonido_6BEA  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (135 bytes)
+F 0x6BEA 16
+D 0x6C71 0x6CB0 sonido_6C71  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (63 bytes)
+F 0x6C71 16
+D 0x6CB0 0x6CEF sonido_6CB0  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (63 bytes)
+F 0x6CB0 16
+D 0x6CEF 0x6CF6 pista_6CEF  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (7 bytes)
+F 0x6CEF 16
+D 0x6CF6 0x6CFD pista_6CF6  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (7 bytes)
+F 0x6CF6 16
+D 0x6CFD 0x6D04 pista_6CFD  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (7 bytes)
+F 0x6CFD 16
+D 0x6D04 0x6D32 pista_6D04  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (46 bytes)
+F 0x6D04 16
+D 0x6D32 0x6D61 pista_6D32  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (47 bytes)
+F 0x6D32 16
+D 0x6D61 0x6E33 pista_6D61  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (210 bytes)
+F 0x6D61 16
+D 0x6E33 0x6E79 pista_6E33  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (70 bytes)
+F 0x6E33 16
+D 0x6E79 0x6F0C pista_6E79  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (147 bytes)
+F 0x6E79 16
+D 0x6F0C 0x6F40 pista_6F0C  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (52 bytes)
+F 0x6F0C 16
+D 0x6F40 0x7014 pista_6F40  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (212 bytes)
+F 0x6F40 16
+D 0x7014 0x7021 pista_7014  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (13 bytes)
+F 0x7014 16
+D 0x7021 0x702C pista_7021  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (11 bytes)
+F 0x7021 16
+D 0x702C 0x7037 pista_702C  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (11 bytes)
+F 0x702C 16
+D 0x7037 0x705A pista_7037  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (35 bytes)
+F 0x7037 16
+D 0x705A 0x70A6 pista_705A  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (76 bytes)
+F 0x705A 16
+D 0x70A6 0x70DD pista_70A6  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (55 bytes)
+F 0x70A6 16
+D 0x70DD 0x70FF pista_70DD  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (34 bytes)
+F 0x70DD 16
+D 0x70FF 0x7152 pista_70FF  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (83 bytes)
+F 0x70FF 16
+D 0x7152 0x7197 pista_7152  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (69 bytes)
+F 0x7152 16
+D 0x7197 0x71C5 pista_7197  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (46 bytes)
+F 0x7197 16
+D 0x71C5 0x720A pista_71C5  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (69 bytes)
+F 0x71C5 16
+D 0x720A 0x7213 pista_720A  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (9 bytes)
+F 0x720A 16
+D 0x7213 0x721C pista_7213  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (9 bytes)
+F 0x7213 16
+D 0x721C 0x7225 pista_721C  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (9 bytes)
+F 0x721C 16
+D 0x7225 0x722B pista_7225  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (6 bytes)
+F 0x7225 16
+D 0x722B 0x730B pista_722B  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (224 bytes)
+F 0x722B 16
+D 0x730B 0x731A pista_730B  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (15 bytes)
+F 0x730B 16
+D 0x731A 0x73C1 pista_731A  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (167 bytes)
+F 0x731A 16
+D 0x73C1 0x73D0 pista_73C1  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (15 bytes)
+F 0x73C1 16
+D 0x73D0 0x73D8 pista_73D0  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (8 bytes)
+F 0x73D0 16
+D 0x73D8 0x74B3 pista_73D8  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (219 bytes)
+F 0x73D8 16
+D 0x74B3 0x74C3 pista_74B3  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (16 bytes)
+F 0x74B3 16
+D 0x74C3 0x74DE pista_74C3  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (27 bytes)
+F 0x74C3 16
+D 0x74DE 0x753C pista_74DE  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (94 bytes)
+F 0x74DE 16
+D 0x753C 0x756B pista_753C  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (47 bytes)
+F 0x753C 16
+D 0x756B 0x75A1 pista_756B  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (54 bytes)
+F 0x756B 16
+D 0x75A1 0x75BE pista_75A1  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (29 bytes)
+F 0x75A1 16
+D 0x75BE 0x75FF pista_75BE  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (65 bytes)
+F 0x75BE 16
+D 0x75FF 0x763D pista_75FF  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (62 bytes)
+F 0x75FF 16
+D 0x763D 0x7652 pista_763D  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (21 bytes)
+F 0x763D 16
+D 0x7652 0x766A pista_7652  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (24 bytes)
+F 0x7652 16
+D 0x766A 0x767F pista_766A  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (21 bytes)
+F 0x766A 16
+D 0x767F 0x7697 pista_767F  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (24 bytes)
+F 0x767F 16
+D 0x7697 0x7698 pista_7697  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (1 bytes)
+F 0x7697 16
+D 0x7698 0x7699 pista_7698  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (1 bytes)
+F 0x7698 16
+D 0x7699 0x769A pista_7699  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (1 bytes)
+F 0x7699 16
+D 0x769A 0x76FB pista_769A  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (97 bytes)
+F 0x769A 16
+D 0x76FB 0x7742 pista_76FB  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (71 bytes)
+F 0x76FB 16
+D 0x7742 0x7786 pista_7742  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (68 bytes)
+F 0x7742 16
+D 0x7786 0x77B8 pista_7786  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (50 bytes)
+F 0x7786 16
+D 0x77B8 0x7818 pista_77B8  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (96 bytes)
+F 0x77B8 16
+D 0x7818 0x785D pista_7818  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (69 bytes)
+F 0x7818 16
+D 0x785D 0x78FF pista_785D  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (162 bytes)
+F 0x785D 16
+D 0x78FF 0x7966 pista_78FF  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (103 bytes)
+F 0x78FF 16
+D 0x7966 0x79E9 pista_7966  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (131 bytes)
+F 0x7966 16
+D 0x79E9 0x7A29 pista_79E9  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (64 bytes)
+F 0x79E9 16
+D 0x7A29 0x7A42 pista_7A29  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (25 bytes)
+F 0x7A29 16
+D 0x7A42 0x7A74 pista_7A42  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (50 bytes)
+F 0x7A42 16
+D 0x7A74 0x7A8B pista_7A74  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (23 bytes)
+F 0x7A74 16
+D 0x7A8B 0x7AA2 pista_7A8B  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (23 bytes)
+F 0x7A8B 16
+D 0x7AA2 0x7ABC pista_7AA2  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (26 bytes)
+F 0x7AA2 16
+D 0x7ABC 0x7ABD pista_7ABC  pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, 0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba); lo leen p04:638A (1 bytes)
+F 0x7ABC 16
+D 0x7ABD 0x7B65 envolventes  7 tablas de 12 palabras (una por nota): la envolvente de volumen de cada nota segun 0xE8 n; p04:640A; lo leen p04:6438 (168 bytes)
+F 0x7ABD 2
+D 0x7B65 0x7B6B sonido_7B65  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (6 bytes)
+F 0x7B65 16
+D 0x7B6B 0x7B7B sonido_7B6B  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (16 bytes)
+F 0x7B6B 16
+D 0x7B7B 0x7BA3 sonido_7B7B  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (40 bytes)
+F 0x7B7B 16
+D 0x7BA3 0x7BEC sonido_7BA3  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (73 bytes)
+F 0x7BA3 16
+D 0x7BEC 0x7C23 sonido_7BEC  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (55 bytes)
+F 0x7BEC 16
+D 0x7C23 0x7C48 sonido_7C23  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (37 bytes)
+F 0x7C23 16
+D 0x7C48 0x7C5B sonido_7C48  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (19 bytes)
+F 0x7C48 16
+D 0x7C5B 0x7C80 sonido_7C5B  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (37 bytes)
+F 0x7C5B 16
+D 0x7C80 0x7CA5 sonido_7C80  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (37 bytes)
+F 0x7C80 16
+D 0x7CA5 0x7CB8 sonido_7CA5  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (19 bytes)
+F 0x7CA5 16
+D 0x7CB8 0x7CCB sonido_7CB8  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (19 bytes)
+F 0x7CB8 16
+D 0x7CCB 0x7CCC sonido_7CCB  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (1 bytes)
+F 0x7CCB 16
+D 0x7CCC 0x7E76 sonido_7CCC  envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba; lo leen p04:65A4 (426 bytes)
+F 0x7CCC 16
 D 0x7E76 0x7FD4 planos_alternos  14 planos de 25 bloques: la parte que se ve de las pantallas partidas (0xC131 = 1-14, que pone p06:BEC5); p00:4F0B los lee desde 0x7E76 + 25*(0xC131-1); lo leen p00:4F1B (350 bytes)
 F 0x7E76 25
 D 0x7FD4 0x8000 sprites_7FD4  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 3; lo leen p00:45EF (44 bytes)

@@ -385,6 +385,45 @@ def figuras_a_pelo(t, bl):
                      "RLE (p00:45EF) que p00:4C92 sube a la VRAM 0x%04X" % v, "p00:4C9B")
 
 
+def sonido(t, bl):
+    """tools/sonido.py: las tablas del banco 4 y todas las pistas."""
+    import sonido as S
+    B456 = S.S
+    bl.anota(B456, 0x60BC, 0x60BC + 20, "canal_en_reposo",
+             "20 bytes que p04:605D copia a cada canal al empezar una pieza o un efecto",
+             "p04:6060", ancho=16)
+    bl.anota(B456, 0x6302, 0x6302 + 24, "mezclador",
+             "4 parejas [y][o] por canal: lo que p04:62E9 hace con el registro 7 del PSG "
+             "(tono, ruido, los dos o nada)", "p04:62F5", ancho=2)
+    bl.anota(B456, S.NOTAS, S.NOTAS + 24, "periodos_de_las_notas",
+             "12 palabras: el periodo del PSG de cada semitono en la octava mas grave; "
+             "p04:63E5 lo divide por 2 una vez por octava", "p04:63DF", ancho=2)
+    bl.anota(B456, S.EFECTOS, S.EFECTOS + 2 * S.N_EFECTOS, "efectos",
+             "41 palabras: la pista de cada efecto de sonido (1-0x29); p04:60EF con "
+             "0x6684 + 2*efecto", "p04:60F7", ancho=2)
+    bl.anota(B456, S.PIEZAS, S.PIEZAS + 6 * S.N_PIEZAS, "piezas",
+             "14 piezas de musica (0x80-0x8D): las pistas de los canales A, B y C; "
+             "p04:607B con 0x66D8 + 6*(pieza & 0x7F)", "p04:6083", ancho=6)
+    bl.anota(B456, S.PIEZAS + 6 * S.N_PIEZAS, S.PIEZAS + 6 * S.N_PIEZAS + 2, "pieza_8E",
+             "una palabra mas, 0x7ABC (la pista vacia de la 0x8D): el principio de una "
+             "pieza 0x8E que nadie pide", "p04:6083", ancho=2)
+    bl.anota(B456, 0x7ABD, 0x7ABD + 24 * 7, "envolventes",
+             "7 tablas de 12 palabras (una por nota): la envolvente de volumen de cada "
+             "nota segun 0xE8 n; p04:640A", "p04:6438", ancho=2)
+    t = S.todo()
+    for i, j in t["musica"]:
+        bl.anota(B456, i, j, "pista_%04X" % i,
+                 "pista de musica (notas, silencios, tempo, octava, 0xE8 envolvente, "
+                 "0xEA salta, 0xED llama, 0xFE repite, 0xFF acaba)", "p04:638A")
+    for i, j in t["envolventes"]:
+        bl.anota(B456, i, j, "sonido_%04X" % i,
+                 "envolvente o efecto: [volumen|tono alto][tono bajo] por cuadro, 0x1X "
+                 "ruido, 0x2X mezclador, 0xFE repite, 0xFF acaba", "p04:65A4")
+    for a in (0x688B, 0x69DE, 0x6A0A):
+        bl.anota(B456, a, a + 1, "ff_de_mas_%04X" % a,
+                 "otro 0xFF detras del que acaba la pista: no se llega", "p04:65A4")
+
+
 def nombres_de_enemigos(t, bl):
     """p01:61D2: con el banco 15 en 0xA000, el nombre del tipo de enemigo t
     es la cadena (0xFF acaba) a la que apunta 0xBA76 + 2*t (t = 1..68; el 0
@@ -571,7 +610,7 @@ def conversaciones(t, bl):
 
 
 RECORRIDOS = [enemigos_de_cada_pantalla, nombres_de_enemigos, mitchel, cabecera, tablas_del_despachador, pantallas, vecinas, juegos_de_dibujos,
-              bloques_de_cada_juego, paletas, figuras_fijas, portadas, objetos, conversaciones, sprites_de_enemigos, el_final, sprites_de_mitchel, figuras_a_pelo]
+              bloques_de_cada_juego, paletas, figuras_fijas, portadas, objetos, conversaciones, sprites_de_enemigos, el_final, sprites_de_mitchel, figuras_a_pelo, sonido]
 
 
 # ------------------------------------------------------------------ escritura
