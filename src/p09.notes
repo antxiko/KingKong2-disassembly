@@ -121,8 +121,6 @@ C 0xBACB y la espada de luz, el hacha y el arpon, ademas, por su lado
 C 0xBAD3 la fuerza del arma (p09:BCA7)...
 C 0xBADD ...el dano...
 C 0xBAE1 ...y si muere, la experiencia
-C 0xBAFC la espada de luz: solo los tipos 0x59 en adelante (ninguno de los 68 que hay)
-C 0xBB07 el hacha: los tipos 0x1E (GRIZZLY) en adelante
 C 0xBB0B el arpon: solo 0x34 y 0x35 (B F MAN y D F MAN)
 C 0xBB14 QUE ARMA LE HACE DANO A CADA ENEMIGO: acarreo si sirve
 C 0xBB80 los tipos que no estan en la lista: cualquiera
@@ -219,6 +217,9 @@ C 0xB8C1 LEVEL por debajo o igual: siempre
 C 0xB8DE sin pasar de 9999
 C 0xB8F8 ya en 99, no sube
 C 0xB96D IX = lo lanzado
+C 0xBAFC la espada de luz: el scf deja siempre el acarreo, sirve contra todos (lo que manda es p09:BB14)
+C 0xBB02 acarreo solo si el tipo es A
+C 0xBB07 el hacha: solo contra GRIZZLY (0x1E); con cualquier otro, sin efecto
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA000 0xA31B dibujos_9F5B_cola  30 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 96); los sube p00:48A6 por la lista 0x5506 (sigue del banco anterior, 0x9F5B); lo leen p00:48A6 (795 bytes)

@@ -2443,19 +2443,19 @@ armas_especiales:
 	scf			;bafa
 	ret			;bafb
 L_BAFC:
-	ld a,058h		;bafc   ; la espada de luz: solo los tipos 0x59 en adelante (ninguno de los 68 que hay)
+	ld a,058h		;bafc   ; la espada de luz: el scf deja siempre el acarreo, sirve contra todos (lo que manda es p09:BB14)
 	cp c			;bafe
 	scf			;baff
 	ret c			;bb00
 	inc a			;bb01
 L_BB02:
-	cp c			;bb02
+	cp c			;bb02   ; acarreo solo si el tipo es A
 	scf			;bb03
 	ret z			;bb04
 	xor a			;bb05
 	ret			;bb06
 L_BB07:
-	ld a,01eh		;bb07   ; el hacha: los tipos 0x1E (GRIZZLY) en adelante
+	ld a,01eh		;bb07   ; el hacha: solo contra GRIZZLY (0x1E); con cualquier otro, sin efecto
 	jr L_BB02		;bb09
 L_BB0B:
 	ld a,c			;bb0b   ; el arpon: solo 0x34 y 0x35 (B F MAN y D F MAN)
