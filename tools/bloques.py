@@ -351,7 +351,27 @@ def nombres_de_enemigos(t, bl):
              "p01:6287 con 0xBC4F + tipo - 1", "p01:628A")
 
 
-RECORRIDOS = [nombres_de_enemigos, mitchel, cabecera, tablas_del_despachador, pantallas, vecinas, juegos_de_dibujos,
+def enemigos_de_cada_pantalla(t, bl):
+    """p00:5996: con los bancos 13-14-15, la palabra 0x6000 + 2*pantalla
+    (pantallas 0x00-0x89) apunta a la lista de enemigos: un contador y
+    entradas [tipo][x][y]; el bit 7 del tipo, que solo sale en el plano
+    alterno (0xC131). p00:5A69 da de alta cada uno en una ficha de 0xD000."""
+    bl.anota(B131415, 0x6000, 0x6000 + 2 * 0x8A, "enemigos_de_cada_pantalla",
+             "0x8A punteros, uno por pantalla (0x00-0x89), a su lista de enemigos",
+             "p00:59A5", ancho=2)
+    hechas = set()
+    for n in range(0x8A):
+        a = P.palabra(0x6000 + 2 * n, B131415)
+        if a in hechas:
+            continue
+        hechas.add(a)
+        c = P.lee(a, B131415)
+        bl.anota(B131415, a, a + 1 + 3 * c, "enemigos_%04X" % a,
+                 "%d enemigos: [tipo][x][y] (bit 7 del tipo: solo en el plano alterno)" % c,
+                 "p00:59A9", ancho=3)
+
+
+RECORRIDOS = [enemigos_de_cada_pantalla, nombres_de_enemigos, mitchel, cabecera, tablas_del_despachador, pantallas, vecinas, juegos_de_dibujos,
               bloques_de_cada_juego, paletas, figuras_fijas, portadas]
 
 
