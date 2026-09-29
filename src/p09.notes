@@ -427,6 +427,7 @@ C 0xBE2F lee el tipo del enemigo
 C 0xBE32 GRASSOGRE (tipo 0x43)?
 C 0xBE36 lee la y del enemigo
 C 0xBE40 lee la x del enemigo
+C 0xBE4E da_la_experiencia: EL ENEMIGO MUERE: la experiencia de p09:B915; con LEVEL por encima, solo una muerte de cada 16 la da
 C 0xBE5F p00:puente_posicion_de_mitchel
 C 0xBE62 apunta a lo que lanza Mitchel (su ficha)
 C 0xBE88 apunta a cuantos objetos 0x0A se llevan (BCD; 0xFF sin cuenta)

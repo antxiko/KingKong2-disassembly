@@ -2884,7 +2884,7 @@ L_BE2F:
 	push ix		;be4a
 	push bc			;be4c
 	push de			;be4d
-	call da_la_experiencia		;be4e
+	call da_la_experiencia		;be4e   ; da_la_experiencia: EL ENEMIGO MUERE: la experiencia de p09:B915; con LEVEL por encima, solo una muerte de cada 16 la da
 	pop de			;be51
 	pop bc			;be52
 	pop ix		;be53

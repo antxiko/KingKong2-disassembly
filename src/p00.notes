@@ -1473,6 +1473,7 @@ C 0x54B1 el mapper: el banco de A en 0x6000
 C 0x54B5 el mapper: el banco de A en 0x8000
 C 0x54D1 lee el fundido de la musica (se suma al volumen)
 C 0x54DA lee el fundido de la musica (se suma al volumen)
+C 0x54E6 p04:el_sonido_desde_cero: EL SONIDO DESDE CERO: el mezclador con todo apagado (0xBC)
 C 0x54E9 bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 C 0x5889 guarda el grafico de jefe que hay subido
 C 0x58CD lee la PANTALLA

@@ -12,6 +12,110 @@ L 0x62D9 mezclador_tono_y_ruido
 L 0x62DF mezclador_solo_ruido
 L 0x62E5 mezclador_solo_tono
 L 0x6592 envolvente_del_cuadro
+L 0x6000 el_sonido_desde_cero
+C 0x6000 EL SONIDO DESDE CERO: el mezclador con todo apagado (0xBC)
+C 0x6005 sin fundido y sin canales de musica sonando
+C 0x6015 ningun sonido ni pieza sonando, sin pausa...
+C 0x6022 ...y los cuatro manejadores al que no hace nada (p04:6299)
+L 0x6032 pide_un_sonido
+C 0x6032 PIDE EL SONIDO A: 0 lo para todo
+C 0x6036 0xFD, 0xFE y 0xFF son ordenes (pausa, sigue, fundido)
+C 0x603C menos de 0x80: un efecto
+C 0x603F UNA PIEZA: la 0x85 suena como la 0x80
+C 0x6046 la pieza que suena (0xC08F)
+C 0x6049 la 0x82 y de la 0x87 en adelante se funden despacio (0xC090 = 1)
+C 0x605A los tres canales de la musica (0xC01A, 0xC02E, 0xC042) en reposo
+C 0x6075 su entrada de p04:66D8: 6*(pieza & 0x7F)
+C 0x6083 la pista del canal A...
+C 0x608B ...la del B...
+C 0x6093 ...y la del C
+C 0x609A los manejadores de los tres canales de musica
+C 0x60AC sin fundido, y 0xC08D = 7: los tres canales de musica sonando
+C 0x60D0 UN EFECTO: con 0xC08E puesto no entra ninguno...
+C 0x60DA ...y si suena otro de numero mayor, se queda el otro
+C 0x60DF el efecto que suena
+C 0x60E3 el canal de los efectos (0xC056) en reposo...
+C 0x60EE ...su pista, de p04:6684 + 2*efecto...
+C 0x60FE ...y su manejador
+C 0x6106 0: todo en reposo
+C 0x610B 0xFD: la pausa
+C 0x610E 0xFE: se sigue tras la pausa
+C 0x6113 0xFF: fundido, despacio (un paso cada 0x2A cuadros) o deprisa (0x0A)
+L 0x6125 pausa_el_sonido
+C 0x6125 LA PAUSA (0xC082 = 1): se guarda el fundido, el mezclador y los canales...
+C 0x6142 ...se callan los canales y el mezclador...
+C 0x614B ...y se guardan los registros 0, 1 y 8 a 13 del PSG
+C 0x618A volumen 0 en los tres canales del PSG
+C 0x619F la musiquilla de la pausa va por el canal A del PSG, como canal 4...
+C 0x61AE ...en su canal en reposo (0xC06A)...
+C 0x61B9 ...con la pista de p04:6D25
+L 0x61C2 sigue_tras_la_pausa
+C 0x61C2 SE SIGUE: vuelve todo lo que guardo la pausa, tambien los registros del PSG
+L 0x6228 el_sonido_de_este_cuadro
+C 0x6228 CADA CUADRO: el mezclador al PSG
+C 0x6231 en pausa solo suena la musiquilla de la pausa
+C 0x6238 el fundido: 0xC08B cuenta los cuadros que faltan para el paso siguiente (0 = sin fundido)
+C 0x6241 un paso mas bajo (0xC08C se suma al volumen)...
+C 0x6248 ...y a -16 ya no se oye: fuera la musica
+C 0x6261 vuelve a contar: 0x2A cuadros si es despacio, 0x0A si no
+C 0x6270 los canales A, B y C de la musica en los canales 0, 1 y 2 del PSG...
+C 0x628A ...y los efectos (canal 3) en el C del PSG
+C 0x6299 EL CANAL CALLADO: si es el de los efectos, ya no suena ninguno...
+C 0x62A7 ...su manejador pasa a uno que solo vuelve (p04:62BA)...
+C 0x62B6 ...y el volumen a 0
+C 0x62CB el volumen E en el registro 8+canal
+C 0x62E9 aplica la pareja [y][o] del canal a la copia del mezclador y la escribe
+L 0x6333 toca_el_canal
+C 0x6333 UN CANAL, CADA CUADRO: si es el C de la musica y suena un efecto, el efecto le quita el PSG (bit 5)
+C 0x6344 cuando se acaba la nota, lee la siguiente de la pista
+C 0x634A bit 0: volumen de la orden 0xF0-0xFD en vez de envolvente
+C 0x6351 baja un punto al empezar la caida o al pasar el sostenido
+C 0x636D con envolvente: un paso de ella, y al acabar volumen 0
+C 0x638A LA PISTA: 0xD0 en adelante son ordenes
+C 0x6398 0xC0-0xCF: silencio
+C 0x639D NOTA: la duracion es (c & 15) + 1 veces el tempo
+C 0x63AB si ya no suena el efecto, el canal C recupera el PSG
+C 0x63C3 cuando empieza la caida
+C 0x63D1 la nota, c >> 4, en p04:6464...
+C 0x63E2 ...bajada tantas octavas como diga ix+7
+C 0x63EB bit 6 (orden 0xE7): el periodo 2 puntos mas largo
+C 0x63F6 el volumen con el fundido, sin bajar de 0
+C 0x640A con envolvente: la tabla que diga ix+8 (0-6), una palabra por nota
+C 0x647C SILENCIO de (c & 15) + 1 veces el tempo: volumen 0
+C 0x6497 LAS ORDENES: 0xD0-0xDF tempo, 0xE0-0xEF las de un byte
+C 0x64A3 0xFF acaba el canal
+C 0x64AB 0xFE [n][w]: repite n veces desde w
+C 0x64C7 acabadas las vueltas, sigue detras
+C 0x64D0 0xF0-0xFD [b]: volumen (c & 15) + 2 (0 con 0xC094, que nadie pone)...
+C 0x64E2 ...la caida (b >> 4) y el sostenido (b & 15) + 1
+C 0x64F7 0xD0-0xDF: tempo c & 15
+C 0x6500 0xE0-0xE5: octava 6 - (c & 15)
+C 0x651D 0xE8 [n]: la envolvente n
+C 0x652D 0xE9, 0xEC, 0xEF: volumen de la orden 0xF0-0xFD
+C 0x6534 las octavas: 6 - c
+C 0x653E 0xE6: desde aqui no entra ningun efecto (0xC08E = 1)...
+C 0x6546 ...0xEB: ya entran
+C 0x654D 0xE7: el periodo 2 puntos mas largo
+C 0x6554 0xEA [w]: salta a w
+C 0x655B 0xED [w]: llama a w...
+C 0x6569 ...0xEE: vuelve
+C 0x6572 0xFF: el canal deja de contar en 0xC08D y se calla
+L 0x6587 toca_el_efecto
+C 0x6587 EL CANAL DE LOS EFECTOS: un paso de su pista; al acabar, se calla
+C 0x6592 un paso cada ix+0x0F cuadros; acarreo al acabar
+C 0x65A4 0xFF acaba, 0xFE repite, 0x2X mezclador, 0x1X ruido
+C 0x65BD 0x1X: el ruido X*2 en el registro 6, y el byte siguiente como c
+C 0x65CC el volumen c >> 4; con el bit 4 del volumen, la envolvente del PSG (registro 13)
+C 0x65EF en los canales de musica, con el fundido
+C 0x6602 y el tono: c & 15 alto, el byte siguiente bajo
+C 0x6611 0xFE [n][w]: repite n veces desde w
+C 0x6630 0x2X: bit 0 ruido, bit 1 tono; el mezclador del canal
+C 0x664E bit 3 de c: el volumen lo lleva la envolvente del PSG
+C 0x6661 0x28-0x2F: y el periodo de la envolvente del PSG (registros 12 y 11)
+C 0x6682 no acabo
+C 0x6684 acabo
+C 0x667C 0x20: espera; el paso siguiente sigue aqui
+C 0x6659 cuantos cuadros dura cada paso
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x60BC 0x60D0 canal_en_reposo  20 bytes que p04:605D copia a cada canal al empezar una pieza o un efecto; lo leen p04:6060 (20 bytes)
@@ -269,7 +373,6 @@ F 0x7FD4 16
 # --- fin de los bloques de bloques.py ---
 
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
-C 0x6000 la copia del registro 7 del PSG (el mezclador) = 0xBC
 C 0x6002 guarda la copia del registro 7 del PSG (el mezclador)
 C 0x6009 guarda el fundido de la musica (se suma al volumen)
 C 0x6016 guarda el sonido que suena (para no pisarlo con uno menor)
@@ -289,6 +392,7 @@ C 0x60D7 lee el sonido que suena (para no pisarlo con uno menor)
 C 0x60E0 guarda el sonido que suena (para no pisarlo con uno menor)
 C 0x60E6 canal_en_reposo: 20 bytes que p04:605D copia a cada canal al empezar una pieza o un efecto
 C 0x6101 guarda el manejador del canal de los efectos
+C 0x6110 sigue_tras_la_pausa: SE SIGUE: vuelve todo lo que guardo la pausa, tambien los registros del PSG
 C 0x6130 lee el fundido de la musica (se suma al volumen)
 C 0x6136 lee la copia del registro 7 del PSG (el mezclador)
 C 0x6146 la copia del registro 7 del PSG (el mezclador) = 0xBF
@@ -300,8 +404,6 @@ C 0x61AB guarda el manejador de la musica de la pausa
 C 0x61B1 canal_en_reposo: 20 bytes que p04:605D copia a cada canal al empezar una pieza o un efecto
 C 0x61CF guarda el fundido de la musica (se suma al volumen)
 C 0x61D5 guarda la copia del registro 7 del PSG (el mezclador)
-C 0x6228 lee la copia del registro 7 del PSG (el mezclador)
-C 0x6241 lee el fundido de la musica (se suma al volumen)
 C 0x6245 guarda el fundido de la musica (se suma al volumen)
 C 0x624F guarda el manejador del canal A del sonido
 C 0x6252 guarda el manejador del canal B
@@ -314,48 +416,41 @@ C 0x6284 lee el manejador del canal C
 C 0x6287 salta_al_canal: 0xC07E el canal del PSG, 0xC07F el numero; salta al manejador HL
 C 0x628E lee el manejador del canal de los efectos
 C 0x6295 guarda el numero de canal
-C 0x6299 lee el numero de canal
 C 0x62A1 guarda el sonido que suena (para no pisarlo con uno menor)
 C 0x62A4 lee el numero de canal
 C 0x62A8 apunta a el manejador del canal A del sonido
 C 0x62BB lee el manejador de la musica de la pausa
-C 0x62CB lee el canal del PSG que se esta tocando
 C 0x62E6 mezclador: 4 parejas [y][o] por canal: lo que p04:62E9 hace con el registro 7 del PSG (tono, ruido, los dos o nada)
-C 0x62E9 lee el canal del PSG que se esta tocando
 C 0x62F2 lee la copia del registro 7 del PSG (el mezclador)
 C 0x62F8 guarda la copia del registro 7 del PSG (el mezclador)
-C 0x6333 lee el numero de canal
+C 0x631E toca_el_canal: UN CANAL, CADA CUADRO: si es el C de la musica y suena un efecto, el efecto le quita el PSG (bit 5)
+C 0x6325 toca_el_canal: UN CANAL, CADA CUADRO: si es el C de la musica y suena un efecto, el efecto le quita el PSG (bit 5)
+C 0x632C toca_el_canal: UN CANAL, CADA CUADRO: si es el C de la musica y suena un efecto, el efecto le quita el PSG (bit 5)
 C 0x633A lee el sonido que suena (para no pisarlo con uno menor)
 C 0x6340 pone a uno el bit 5 de las banderas del canal
-C 0x6344 baja la cuenta de la nota
-C 0x634A mira el bit 0 de las banderas del canal
-C 0x6351 lee la cuenta de la nota
 C 0x635D lee el volumen de ahora
 C 0x6362 guarda el volumen de ahora
 C 0x6365 mira el bit 5 de las banderas del canal
-C 0x636D mira el bit 5 de las banderas del canal
+C 0x636A pon_el_volumen: el volumen E en el registro 8+canal
 C 0x6372 mira el bit 7 de las banderas del canal
+C 0x6377 envolvente_del_cuadro: un paso cada ix+0x0F cuadros; acarreo al acabar
 C 0x637B pone a uno el bit 7 de las banderas del canal
+C 0x6381 pon_el_volumen: el volumen E en el registro 8+canal
 C 0x6384 lee la pista (baja)
 C 0x6387 lee la pista (alta)
 C 0x6392 guarda la pista (baja)
 C 0x6395 guarda la pista (alta)
 C 0x63A1 lee el tempo
 C 0x63A8 guarda la cuenta de la nota
-C 0x63AB lee el numero de canal
 C 0x63B2 lee el sonido que suena (para no pisarlo con uno menor)
 C 0x63B8 pone a cero el bit 5 de las banderas del canal
 C 0x63BC mira el bit 0 de las banderas del canal
-C 0x63C3 lee la cuenta de la nota
 C 0x63CC mira el bit 5 de las banderas del canal
 C 0x63D7 periodos_de_las_notas: 12 palabras: el periodo del PSG de cada semitono en la octava mas grave; p04:63E5 lo divide por 2 una vez por octava
-C 0x63E2 lee la octava
-C 0x63EB mira el bit 6 de las banderas del canal
 C 0x63F3 pon_el_tono: el periodo DE en los registros de tono del canal
-C 0x63F6 lee el fundido de la musica (se suma al volumen)
 C 0x63F9 le suma el volumen
 C 0x6400 guarda el volumen de ahora
-C 0x640A lee la envolvente
+C 0x6404 pon_el_volumen: el volumen E en el registro 8+canal
 C 0x642A envolventes: 7 tablas de 12 palabras (una por nota): la envolvente de volumen de cada nota segun 0xE8 n; p04:640A
 C 0x6439 guarda la envolvente que suena (baja)
 C 0x643E guarda la envolvente que suena (alta)
@@ -365,36 +460,32 @@ C 0x6480 lee el tempo
 C 0x6487 guarda la cuenta de la nota
 C 0x648A mira el bit 5 de las banderas del canal
 C 0x6491 guarda el volumen de ahora
+C 0x6494 pon_el_volumen: el volumen E en el registro 8+canal
 C 0x64B0 lee las vueltas que quedan de la repeticion
 C 0x64BD guarda las vueltas que quedan de la repeticion
-C 0x64C7 guarda las vueltas que quedan de la repeticion
 C 0x64DF guarda el volumen
 C 0x64FA guarda el tempo
 C 0x6521 pone a cero el bit 0 de las banderas del canal
 C 0x6527 guarda la envolvente
-C 0x652D pone a uno el bit 0 de las banderas del canal
 C 0x6538 guarda la octava
-C 0x654D pone a uno el bit 6 de las banderas del canal
 C 0x655F guarda la vuelta de la subrutina (baja)
 C 0x6562 guarda la vuelta de la subrutina (alta)
-C 0x6569 lee la vuelta de la subrutina (baja)
 C 0x656C lee la vuelta de la subrutina (alta)
-C 0x6572 lee el numero de canal
-C 0x6592 baja la cuenta de la envolvente
+C 0x658B envolvente_del_cuadro: un paso cada ix+0x0F cuadros; acarreo al acabar
 C 0x6598 lee cuanto dura cada paso de la envolvente
 C 0x659B guarda la cuenta de la envolvente
 C 0x659E lee la envolvente que suena (baja)
 C 0x65A1 lee la envolvente que suena (alta)
 C 0x65D1 mira el bit 4 de el volumen de ahora
 C 0x65DF mira el bit 0 de las banderas del canal
-C 0x65EF lee el numero de canal
 C 0x65F6 lee el fundido de la musica (se suma al volumen)
+C 0x65FF pon_el_volumen: el volumen E en el registro 8+canal
 C 0x6608 guarda la envolvente que suena (baja)
 C 0x660B guarda la envolvente que suena (alta)
 C 0x660E pon_el_tono: el periodo DE en los registros de tono del canal
 C 0x6652 guarda el volumen de ahora
+C 0x6656 pon_el_volumen: el volumen E en el registro 8+canal
 C 0x665B guarda la cuenta de la envolvente
 C 0x665E guarda cuanto dura cada paso de la envolvente
-C 0x667C guarda la envolvente que suena (baja)
 C 0x667F guarda la envolvente que suena (alta)
 # --- fin de las anotaciones de anota.py ---

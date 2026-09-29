@@ -3392,7 +3392,7 @@ L_54DA:
 	ret			;54e2
 L_54E3:
 	call bancos_4_5_6		;54e3   ; p04:6000: el sonido desde cero
-	call 06000h		;54e6
+	call 06000h		;54e6   ; p04:el_sonido_desde_cero: EL SONIDO DESDE CERO: el mezclador con todo apagado (0xBC)
 	jp bancos_1_2_3		;54e9   ; bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 
 ; ----------------------------------------------------------------------

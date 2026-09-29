@@ -6,8 +6,8 @@
            pista, que toca el canal C (0xC056, p04:6587). De 0x80 en adelante,
            una PIEZA: tres palabras en p04:66D8 + 6*(A & 0x7F), las pistas de
            los canales A, B y C (0xC01A, 0xC02E, 0xC042; p04:6321/6328/632F).
-           0xFE para la musica y toca la de pausa (p04:6D25, p04:61B9); 0xFF la
-           devuelve.
+           0xFD pausa la musica y toca la de pausa (p04:6125, p04:6D25); 0xFE
+           la devuelve (p04:61C2); 0xFF la funde (p04:6113).
   pista    (p04:638A) un byte c:
              0x00-0xBF  nota: c >> 4 es la nota (p04:6464, 12 semitonos) y la
                         duracion (c & 15) + 1 veces el tempo
