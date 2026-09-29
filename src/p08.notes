@@ -1,1 +1,32 @@
 # Notas del banco 08: comentarios (C), etiquetas (L) y datos (D) anclados a direccion.
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x8000 0x82BA bloques_juego_2_cola  los 64 bloques del juego de dibujos 2: 16 numeros de dibujo cada uno (4 filas de 4); hasta el mas alto que usa una pantalla (sigue del banco anterior, 0x7EBA); lo leen p00:4F5F (698 bytes)
+F 0x8000 16
+D 0x82BA 0x84CA bloques_juego_3  los 33 bloques del juego de dibujos 3: 16 numeros de dibujo cada uno (4 filas de 4); hasta el mas alto que usa una pantalla; lo leen p00:4F5F (528 bytes)
+F 0x82BA 16
+D 0x84DA 0x86BA bloques_juego_4  los 30 bloques del juego de dibujos 4: 16 numeros de dibujo cada uno (4 filas de 4); hasta el mas alto que usa una pantalla; lo leen p00:4F5F (480 bytes)
+F 0x84DA 16
+D 0x86BA 0x888A bloques_juego_5  los 29 bloques del juego de dibujos 5: 16 numeros de dibujo cada uno (4 filas de 4); hasta el mas alto que usa una pantalla; lo leen p00:4F5F (464 bytes)
+F 0x86BA 16
+D 0x888A 0x8C7A bloques_juego_6  los 63 bloques del juego de dibujos 6: 16 numeros de dibujo cada uno (4 filas de 4); hasta el mas alto que usa una pantalla; lo leen p00:4F5F (1008 bytes)
+F 0x888A 16
+D 0x8C7A 0x8D4A bloques_juego_7  los 13 bloques del juego de dibujos 7: 16 numeros de dibujo cada uno (4 filas de 4); hasta el mas alto que usa una pantalla; lo leen p00:4F5F (208 bytes)
+F 0x8C7A 16
+D 0x8D5A 0x954A bloques_juego_8  los 127 bloques del juego de dibujos 8: 16 numeros de dibujo cada uno (4 filas de 4); hasta el mas alto que usa una pantalla; lo leen p00:4F5F (2032 bytes)
+F 0x8D5A 16
+D 0x954A 0x9BFA bloques_juego_10  los 59 bloques del juego de dibujos 10: 16 numeros de dibujo cada uno (4 filas de 4); hasta el mas alto que usa una pantalla; se solapan 3 bloques (0x954A-0x98FA, 0x954A-0x9A7A, 0x954A-0x9BFA); lo leen p00:4F5F (1712 bytes)
+F 0x954A 16
+D 0x9BFA 0x9C3B konami_composicion  como se monta el logotipo de Konami: numeros de dibujo, 0xFE [dx] baja una fila, 0xFF acaba (p00:5FDA); lo leen p00:5FDB (65 bytes)
+F 0x9BFA 16
+D 0x9C3B 0x9CA3 konami_9C3B  13 letras de 1 bit del logotipo de Konami (color 1); p00:4867; lo leen p00:48ED (104 bytes)
+F 0x9C3B 8
+D 0x9CA3 0x9D0B konami_9CA3  13 letras de 1 bit del logotipo de Konami (color 2); p00:4867; lo leen p00:48ED (104 bytes)
+F 0x9CA3 8
+D 0x9D0B 0x9DDB konami_9D0B  26 letras de 1 bit del logotipo de Konami (color 3); p00:4867; lo leen p00:48ED (208 bytes)
+F 0x9D0B 8
+D 0x9DDB 0x9F5B dibujos_9DDB  12 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 1); los sube p00:48A6 por la lista 0x5506; lo leen p00:48A6 (384 bytes)
+F 0x9DDB 4
+D 0x9F5B 0xA000 dibujos_9F5B  30 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 96); los sube p00:48A6 por la lista 0x5506; lo leen p00:48A6 (165 bytes)
+F 0x9F5B 4
+# --- fin de los bloques de bloques.py ---

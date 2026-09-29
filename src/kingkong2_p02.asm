@@ -268,9 +268,13 @@ L_8234:
 	call 0425fh		;8237
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x823a..0x8240  (6 bytes)
-DATA_823A:
-	defb 040h,082h,065h,082h,071h,082h	; 823a
+; DATOS tabla_823A: 3 destinos del despachador de 0x425F (call en p02:8237):
+;   0x8240, 0x8265, 0x8271; lo leen p02:8237 (6 bytes)
+;   0x823a..0x8240  (6 bytes)
+DATA_tabla_823A:
+	defb 040h,082h	; 823a
+	defb 065h,082h	; 823c
+	defb 071h,082h	; 823e
 
 ; ======================================================================
 ; CODIGO 0x8240..0x8675  (1077 bytes)
@@ -1007,9 +1011,13 @@ L_8833:
 	call 0425fh		;8836
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8839..0x883f  (6 bytes)
-DATA_8839:
-	defb 03fh,088h,07eh,088h,00ch,087h	; 8839
+; DATOS tabla_8839: 3 destinos del despachador de 0x425F (call en p02:8836):
+;   0x883F, 0x887E, 0x870C; lo leen p02:8836 (6 bytes)
+;   0x8839..0x883f  (6 bytes)
+DATA_tabla_8839:
+	defb 03fh,088h	; 8839
+	defb 07eh,088h	; 883b
+	defb 00ch,087h	; 883d
 
 ; ======================================================================
 ; CODIGO 0x883f..0x8876  (55 bytes)
@@ -1126,9 +1134,14 @@ L_88F9:
 	call 0425fh		;88fc
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x88ff..0x8907  (8 bytes)
-DATA_88FF:
-	defb 007h,089h,086h,089h,0e2h,089h,015h,08ah	; 88ff  ........
+; DATOS tabla_88FF: 4 destinos del despachador de 0x425F (call en p02:88FC):
+;   0x8907, 0x8986, 0x89E2, 0x8A15; lo leen p02:88FC (8 bytes)
+;   0x88ff..0x8907  (8 bytes)
+DATA_tabla_88FF:
+	defb 007h,089h	; 88ff
+	defb 086h,089h	; 8901
+	defb 0e2h,089h	; 8903
+	defb 015h,08ah	; 8905
 
 ; ======================================================================
 ; CODIGO 0x8907..0x8a22  (283 bytes)
@@ -1397,9 +1410,14 @@ L_8AD4:
 	call 0425fh		;8ada
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8add..0x8ae5  (8 bytes)
-DATA_8ADD:
-	defb 0e5h,08ah,022h,08bh,053h,08bh,00ch,087h	; 8add  ..".S...
+; DATOS tabla_8ADD: 4 destinos del despachador de 0x425F (call en p02:8ADA):
+;   0x8AE5, 0x8B22, 0x8B53, 0x870C; lo leen p02:8ADA (8 bytes)
+;   0x8add..0x8ae5  (8 bytes)
+DATA_tabla_8ADD:
+	defb 0e5h,08ah	; 8add
+	defb 022h,08bh	; 8adf
+	defb 053h,08bh	; 8ae1
+	defb 00ch,087h	; 8ae3
 
 ; ======================================================================
 ; CODIGO 0x8ae5..0x8bba  (213 bytes)
@@ -1571,9 +1589,12 @@ L_8BE6:
 	call 0425fh		;8be9
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8bec..0x8bf0  (4 bytes)
-DATA_8BEC:
-	defb 0f0h,08bh,023h,08ch	; 8bec
+; DATOS tabla_8BEC: 2 destinos del despachador de 0x425F (call en p02:8BE9):
+;   0x8BF0, 0x8C23; lo leen p02:8BE9 (4 bytes)
+;   0x8bec..0x8bf0  (4 bytes)
+DATA_tabla_8BEC:
+	defb 0f0h,08bh	; 8bec
+	defb 023h,08ch	; 8bee
 
 ; ======================================================================
 ; CODIGO 0x8bf0..0x8c00  (16 bytes)
@@ -1650,9 +1671,14 @@ L_8C5D:
 	call 0425fh		;8c61
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x8c64..0x8c6c  (8 bytes)
-DATA_8C64:
-	defb 07fh,08ch,076h,08ch,089h,08ch,06ch,08ch	; 8c64  ..v...l.
+; DATOS tabla_8C64: 4 destinos del despachador de 0x425F (call en p02:8C61):
+;   0x8C7F, 0x8C76, 0x8C89, 0x8C6C; lo leen p02:8C61 (8 bytes)
+;   0x8c64..0x8c6c  (8 bytes)
+DATA_tabla_8C64:
+	defb 07fh,08ch	; 8c64
+	defb 076h,08ch	; 8c66
+	defb 089h,08ch	; 8c68
+	defb 06ch,08ch	; 8c6a
 
 ; ======================================================================
 ; CODIGO 0x8c6c..0x8d60  (244 bytes)
@@ -2481,9 +2507,14 @@ L_9246:
 	call 0425fh		;9249
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x924c..0x9254  (8 bytes)
-DATA_924C:
-	defb 054h,092h,04fh,093h,067h,093h,074h,093h	; 924c  T.O.g.t.
+; DATOS tabla_924C: 4 destinos del despachador de 0x425F (call en p02:9249):
+;   0x9254, 0x934F, 0x9367, 0x9374; lo leen p02:9249 (8 bytes)
+;   0x924c..0x9254  (8 bytes)
+DATA_tabla_924C:
+	defb 054h,092h	; 924c
+	defb 04fh,093h	; 924e
+	defb 067h,093h	; 9250
+	defb 074h,093h	; 9252
 
 ; ======================================================================
 ; CODIGO 0x9254..0x93e7  (403 bytes)
@@ -2986,9 +3017,15 @@ L_964C:
 	call 0425fh		;9659
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x965c..0x9666  (10 bytes)
-DATA_965C:
-	defb 066h,096h,07fh,096h,0d7h,096h,0fah,096h,039h,097h	; 965c  f.......9.
+; DATOS tabla_965C: 5 destinos del despachador de 0x425F (call en p02:9659):
+;   0x9666, 0x967F, 0x96D7, 0x96FA, 0x9739; lo leen p02:9659 (10 bytes)
+;   0x965c..0x9666  (10 bytes)
+DATA_tabla_965C:
+	defb 066h,096h	; 965c
+	defb 07fh,096h	; 965e
+	defb 0d7h,096h	; 9660
+	defb 0fah,096h	; 9662
+	defb 039h,097h	; 9664
 
 ; ======================================================================
 ; CODIGO 0x9666..0x97f6  (400 bytes)
@@ -3342,9 +3379,15 @@ L_993B:
 	call 0425fh		;993e
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9941..0x994b  (10 bytes)
-DATA_9941:
-	defb 04bh,099h,096h,099h,0e9h,099h,012h,09ah,031h,09ah	; 9941  K.......1.
+; DATOS tabla_9941: 5 destinos del despachador de 0x425F (call en p02:993E):
+;   0x994B, 0x9996, 0x99E9, 0x9A12, 0x9A31; lo leen p02:993E (10 bytes)
+;   0x9941..0x994b  (10 bytes)
+DATA_tabla_9941:
+	defb 04bh,099h	; 9941
+	defb 096h,099h	; 9943
+	defb 0e9h,099h	; 9945
+	defb 012h,09ah	; 9947
+	defb 031h,09ah	; 9949
 
 ; ======================================================================
 ; CODIGO 0x994b..0x9aae  (355 bytes)
@@ -3912,9 +3955,14 @@ L_9E30:
 	call 0425fh		;9e36
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9e39..0x9e41  (8 bytes)
-DATA_9E39:
-	defb 075h,09eh,041h,09eh,069h,09eh,084h,09eh	; 9e39  u.A.i...
+; DATOS tabla_9E39: 4 destinos del despachador de 0x425F (call en p02:9E36):
+;   0x9E75, 0x9E41, 0x9E69, 0x9E84; lo leen p02:9E36 (8 bytes)
+;   0x9e39..0x9e41  (8 bytes)
+DATA_tabla_9E39:
+	defb 075h,09eh	; 9e39
+	defb 041h,09eh	; 9e3b
+	defb 069h,09eh	; 9e3d
+	defb 084h,09eh	; 9e3f
 
 ; ======================================================================
 ; CODIGO 0x9e41..0x9e62  (33 bytes)
@@ -4081,9 +4129,17 @@ L_9F8B:
 	call 0425fh		;9f8e
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x9f91..0x9f9d  (12 bytes)
-DATA_9F91:
-	defb 09dh,09fh,00bh,0a0h,0c6h,0a0h,058h,0a0h,0c3h,0a0h,0d2h,0a0h	; 9f91  ......X.....
+; DATOS tabla_9F91: 6 destinos del despachador de 0x425F (call en p02:9F8E):
+;   0x9F9D, 0xA00B, 0xA0C6, 0xA058, 0xA0C3, 0xA0D2; lo leen p02:9F8E (12
+;   bytes)
+;   0x9f91..0x9f9d  (12 bytes)
+DATA_tabla_9F91:
+	defb 09dh,09fh	; 9f91
+	defb 00bh,0a0h	; 9f93
+	defb 0c6h,0a0h	; 9f95
+	defb 058h,0a0h	; 9f97
+	defb 0c3h,0a0h	; 9f99
+	defb 0d2h,0a0h	; 9f9b
 
 ; ======================================================================
 ; CODIGO 0x9f9d..0x9fff  (98 bytes)

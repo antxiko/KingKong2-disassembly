@@ -97,6 +97,11 @@ def sube_lista(a, dib, bancos):
         n = lee(a + 1, bancos)
         src = palabra(a + 2, bancos)
         a += 4
+        if src < 0x4000:
+            # la lista del juego 2 sube 10 dibujos desde 0x0A44, la ROM de la
+            # BIOS: lo que salga depende de la maquina. Ninguna pantalla los
+            # usa; se dejan sin dibujo.
+            continue
         for k in range(n or 256):
             t = (v + k) & 0xFF
             px = []

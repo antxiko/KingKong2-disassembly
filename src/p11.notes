@@ -1,1 +1,40 @@
 # Notas del banco 11: comentarios (C), etiquetas (L) y datos (D) anclados a direccion.
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x8000 0x811E dibujos_7E7E_cola  21 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 144); los sube p00:48A6 por la lista 0x55A4 (sigue del banco anterior, 0x7E7E); lo leen p00:48A6 (286 bytes)
+F 0x8000 4
+D 0x811E 0x827E dibujos_811E  7 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 53); los sube p00:48A6 por la lista 0x55A4; se solapan 2 bloques (0x811E-0x81FE, 0x81DE-0x827E); lo leen p00:48A6 (352 bytes)
+F 0x811E 4
+D 0x827E 0x837E dibujos_827E  8 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 180); los sube p00:48A6 por la lista 0x55A4; lo leen p00:48A6 (256 bytes)
+F 0x827E 4
+D 0x837E 0x84FE dibujos_837E  12 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 1); los sube p00:48A6 por la lista 0x55BD; lo leen p00:48A6 (384 bytes)
+F 0x837E 4
+D 0x84FE 0x881E dibujos_84FE  25 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 144); los sube p00:48A6 por la lista 0x55BD; lo leen p00:48A6 (800 bytes)
+F 0x84FE 4
+D 0x881E 0x893E dibujos_881E  9 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 37); los sube p00:48A6 por la lista 0x55BD; lo leen p00:48A6 (288 bytes)
+F 0x881E 4
+D 0x893E 0x8C7E dibujos_893E  18 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 174); los sube p00:48A6 por la lista 0x55BD; se solapan 2 bloques (0x893E-0x8B7E, 0x8B5E-0x8C7E); lo leen p00:48A6 (832 bytes)
+F 0x893E 4
+D 0x8C7E 0x8DFE dibujos_8C7E  12 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 1); los sube p00:48A6 por la lista 0x55EF; lo leen p00:48A6 (384 bytes)
+F 0x8C7E 4
+D 0x8DFE 0x919E dibujos_8DFE  29 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 96); los sube p00:48A6 por la lista 0x55EF; lo leen p00:48A6 (928 bytes)
+F 0x8DFE 4
+D 0x919E 0x931E dibujos_919E  12 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 1); los sube p00:48A6 por la lista 0x55F8; lo leen p00:48A6 (384 bytes)
+F 0x919E 4
+D 0x931E 0x991E dibujos_931E  48 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 144); los sube p00:48A6 por la lista 0x55F8; lo leen p00:48A6 (1536 bytes)
+F 0x931E 4
+D 0x991E 0x9A1E dibujos_991E  8 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 196); los sube p00:48A6 por la lista 0x55F8; lo leen p00:48A6 (256 bytes)
+F 0x991E 4
+D 0x9A1E 0x9A9E dibujos_9A1E  4 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 76); los sube p00:48A6 por la lista 0x55F8; lo leen p00:48A6 (128 bytes)
+F 0x9A1E 4
+D 0x9A9E 0x9C9E dibujos_9A9E  15 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 80); los sube p00:48A6 por la lista 0x55BD; se solapan 2 bloques (0x9A9E-0x9C7E, 0x9A9E-0x9C9E); lo leen p00:48A6 (512 bytes)
+F 0x9A9E 4
+D 0x9C9E 0x9D9E dibujos_9C9E  8 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 48); los sube p00:48A6 por la lista 0x5586; lo leen p00:48A6 (256 bytes)
+F 0x9C9E 4
+D 0x9D9E 0x9E9E dibujos_9D9E  8 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 64); los sube p00:48A6 por la lista 0x55BD; lo leen p00:48A6 (256 bytes)
+F 0x9D9E 4
+D 0x9E9E 0x9F9E dibujos_9E9E  8 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 64); los sube p00:48A6 por la lista 0x5506; lo leen p00:48A6 (256 bytes)
+F 0x9E9E 4
+D 0x9F9E 0xA000 dibujos_9F9E  8 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 56); los sube p00:48A6 por la lista 0x5586; lo leen p00:48A6 (98 bytes)
+F 0x9F9E 4
+# --- fin de los bloques de bloques.py ---

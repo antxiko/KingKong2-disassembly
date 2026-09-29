@@ -1,1 +1,26 @@
 # Notas del banco 02: comentarios (C), etiquetas (L) y datos (D) anclados a direccion.
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x823A 0x8240 tabla_823A  3 destinos del despachador de 0x425F (call en p02:8237): 0x8240, 0x8265, 0x8271; lo leen p02:8237 (6 bytes)
+F 0x823A 2
+D 0x8839 0x883F tabla_8839  3 destinos del despachador de 0x425F (call en p02:8836): 0x883F, 0x887E, 0x870C; lo leen p02:8836 (6 bytes)
+F 0x8839 2
+D 0x88FF 0x8907 tabla_88FF  4 destinos del despachador de 0x425F (call en p02:88FC): 0x8907, 0x8986, 0x89E2, 0x8A15; lo leen p02:88FC (8 bytes)
+F 0x88FF 2
+D 0x8ADD 0x8AE5 tabla_8ADD  4 destinos del despachador de 0x425F (call en p02:8ADA): 0x8AE5, 0x8B22, 0x8B53, 0x870C; lo leen p02:8ADA (8 bytes)
+F 0x8ADD 2
+D 0x8BEC 0x8BF0 tabla_8BEC  2 destinos del despachador de 0x425F (call en p02:8BE9): 0x8BF0, 0x8C23; lo leen p02:8BE9 (4 bytes)
+F 0x8BEC 2
+D 0x8C64 0x8C6C tabla_8C64  4 destinos del despachador de 0x425F (call en p02:8C61): 0x8C7F, 0x8C76, 0x8C89, 0x8C6C; lo leen p02:8C61 (8 bytes)
+F 0x8C64 2
+D 0x924C 0x9254 tabla_924C  4 destinos del despachador de 0x425F (call en p02:9249): 0x9254, 0x934F, 0x9367, 0x9374; lo leen p02:9249 (8 bytes)
+F 0x924C 2
+D 0x965C 0x9666 tabla_965C  5 destinos del despachador de 0x425F (call en p02:9659): 0x9666, 0x967F, 0x96D7, 0x96FA, 0x9739; lo leen p02:9659 (10 bytes)
+F 0x965C 2
+D 0x9941 0x994B tabla_9941  5 destinos del despachador de 0x425F (call en p02:993E): 0x994B, 0x9996, 0x99E9, 0x9A12, 0x9A31; lo leen p02:993E (10 bytes)
+F 0x9941 2
+D 0x9E39 0x9E41 tabla_9E39  4 destinos del despachador de 0x425F (call en p02:9E36): 0x9E75, 0x9E41, 0x9E69, 0x9E84; lo leen p02:9E36 (8 bytes)
+F 0x9E39 2
+D 0x9F91 0x9F9D tabla_9F91  6 destinos del despachador de 0x425F (call en p02:9F8E): 0x9F9D, 0xA00B, 0xA0C6, 0xA058, 0xA0C3, 0xA0D2; lo leen p02:9F8E (12 bytes)
+F 0x9F91 2
+# --- fin de los bloques de bloques.py ---

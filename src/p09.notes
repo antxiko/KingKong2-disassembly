@@ -1,1 +1,26 @@
 # Notas del banco 09: comentarios (C), etiquetas (L) y datos (D) anclados a direccion.
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0xA000 0xA31B dibujos_9F5B_cola  30 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 96); los sube p00:48A6 por la lista 0x5506 (sigue del banco anterior, 0x9F5B); lo leen p00:48A6 (795 bytes)
+F 0xA000 4
+D 0xA31B 0xA43B dibujos_A31B  9 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 42); los sube p00:48A6 por la lista 0x5506; lo leen p00:48A6 (288 bytes)
+F 0xA31B 4
+D 0xA43B 0xA5DB dibujos_A43B  13 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 131); los sube p00:48A6 por la lista 0x5506; lo leen p00:48A6 (416 bytes)
+F 0xA43B 4
+D 0xA5DB 0xA75B dibujos_A5DB  12 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 148); los sube p00:48A6 por la lista 0x5506; lo leen p00:48A6 (384 bytes)
+F 0xA5DB 4
+D 0xA75B 0xA89B dibujos_A75B  10 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 51); los sube p00:48A6 por la lista 0x5506; lo leen p00:48A6 (320 bytes)
+F 0xA75B 4
+D 0xA89B 0xA8DB dibujos_A89B  2 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 144); los sube p00:48A6 por la lista 0x5506; lo leen p00:48A6 (64 bytes)
+F 0xA89B 4
+D 0xA8DB 0xAA5B dibujos_A8DB  12 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 1); los sube p00:48A6 por la lista 0x5546; lo leen p00:48A6 (384 bytes)
+F 0xA8DB 4
+D 0xAA5B 0xACDB dibujos_AA5B  20 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 96); los sube p00:48A6 por la lista 0x5546; lo leen p00:48A6 (640 bytes)
+F 0xAA5B 4
+D 0xACDB 0xAD9B dibujos_ACDB  6 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 35); los sube p00:48A6 por la lista 0x5546; lo leen p00:48A6 (192 bytes)
+F 0xACDB 4
+D 0xAD9B 0xAF3B dibujos_AD9B  13 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 121); los sube p00:48A6 por la lista 0x5546; lo leen p00:48A6 (416 bytes)
+F 0xAD9B 4
+D 0xB1C5 0xB3FD vecinas  la pantalla a la que se sale por arriba, abajo, izquierda y derecha (0xFF no hay salida, 0xF0-0xFB especial); p01:6173 con 0xB1C5 + 4*pantalla + lado; lo leen p01:6183 (568 bytes)
+F 0xB1C5 4
+# --- fin de los bloques de bloques.py ---

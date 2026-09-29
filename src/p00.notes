@@ -1,1 +1,44 @@
 # Notas del banco 00: comentarios (C), etiquetas (L) y datos (D) anclados a direccion.
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x4000 0x4010 cabecera_ab  la cabecera del cartucho: 'AB', INIT (0x4269) y STATEMENT, DEVICE y TEXT a cero; lo leen la BIOS (16 bytes)
+F 0x4000 16
+D 0x4010 0x4014 cabecera_de_konami  'CD', 0x07 y 0x45: la cabecera que lee el Konami Game Master (RC-745); lo leen el Game Master (4 bytes)
+F 0x4010 4
+D 0x46AF 0x46CF paleta_inicial  los 16 colores [RB][G] que pone p00:469C; lo leen p00:46A2 (32 bytes)
+F 0x46AF 2
+D 0x4AFB 0x4B15 tabla_4AFB  13 destinos del despachador de 0x425F (call en p00:4AF8): 0x42DE, 0x42C2, 0x42DE, 0x42E4, 0x42E4, 0x42E4, 0x42E4, 0x42E4 ...; lo leen p00:4AF8 (26 bytes)
+F 0x4AFB 2
+D 0x4CE4 0x4CEC tabla_4CE4  4 destinos del despachador de 0x425F (call en p00:4CE1): 0x4D03, 0x4D1F, 0x4D2A, 0x4D35; lo leen p00:4CE1 (8 bytes)
+F 0x4CE4 2
+D 0x4F64 0x4F7E bloques_de_cada_juego  13 punteros, uno por juego de dibujos, a sus bloques de 4x4 dibujos; lo leen p00:4F4D (26 bytes)
+F 0x4F64 2
+D 0x54EC 0x5506 lista_de_cada_juego  13 punteros, uno por juego de dibujos, a su lista de subida; lo leen p00:4AB5 (26 bytes)
+F 0x54EC 2
+D 0x5506 0x5530 lista_hoja_5506  lista del juego 0: [destino][cuantos][fuente], 0xFE pasa a los bancos 10-11-12, 0xFF acaba (p00:4AB9); lo leen p00:4AB9 (42 bytes)
+F 0x5506 4
+D 0x5530 0x5546 lista_hoja_5530  lista del juego 1: [destino][cuantos][fuente], 0xFE pasa a los bancos 10-11-12, 0xFF acaba (p00:4AB9); lo leen p00:4AB9 (22 bytes)
+F 0x5530 4
+D 0x5546 0x5564 lista_hoja_5546  lista del juego 2: [destino][cuantos][fuente], 0xFE pasa a los bancos 10-11-12, 0xFF acaba (p00:4AB9); lo leen p00:4AB9 (30 bytes)
+F 0x5546 4
+D 0x5564 0x5586 lista_hoja_5564  lista del juego 3: [destino][cuantos][fuente], 0xFE pasa a los bancos 10-11-12, 0xFF acaba (p00:4AB9); lo leen p00:4AB9 (34 bytes)
+F 0x5564 4
+D 0x5586 0x55A4 lista_hoja_5586  lista del juego 4: [destino][cuantos][fuente], 0xFE pasa a los bancos 10-11-12, 0xFF acaba (p00:4AB9); lo leen p00:4AB9 (30 bytes)
+F 0x5586 4
+D 0x55A4 0x55BD lista_hoja_55A4  lista del juego 5: [destino][cuantos][fuente], 0xFE pasa a los bancos 10-11-12, 0xFF acaba (p00:4AB9); lo leen p00:4AB9 (25 bytes)
+F 0x55A4 4
+D 0x55BD 0x55EF lista_hoja_55BD  lista del juego 6: [destino][cuantos][fuente], 0xFE pasa a los bancos 10-11-12, 0xFF acaba (p00:4AB9); lo leen p00:4AB9 (50 bytes)
+F 0x55BD 4
+D 0x55EF 0x55F8 lista_hoja_55EF  lista del juego 7: [destino][cuantos][fuente], 0xFE pasa a los bancos 10-11-12, 0xFF acaba (p00:4AB9); lo leen p00:4AB9 (9 bytes)
+F 0x55EF 4
+D 0x55F8 0x5612 lista_hoja_55F8  lista del juego 8: [destino][cuantos][fuente], 0xFE pasa a los bancos 10-11-12, 0xFF acaba (p00:4AB9); lo leen p00:4AB9 (26 bytes)
+F 0x55F8 4
+D 0x5612 0x5630 lista_hoja_5612  lista del juego 9: [destino][cuantos][fuente], 0xFE pasa a los bancos 10-11-12, 0xFF acaba (p00:4AB9); lo leen p00:4AB9 (30 bytes)
+F 0x5612 4
+D 0x5B1E 0x5BA6 tabla_5B1E  68 destinos del despachador de 0x425F (call en p00:5B1B): 0xB0FD, 0xB367, 0xB39D, 0x8645, 0x8635, 0xA7A9, 0xAC1A, 0xABC4 ...; lo leen p00:5B1B (136 bytes)
+F 0x5B1E 2
+D 0x5C39 0x5C49 tabla_5C39  8 destinos del despachador de 0x425F (call en p00:5C36): 0x5C49, 0x539E, 0x5D91, 0x5D88, 0x5C49, 0x5D72, 0x8234, 0x5D53; lo leen p00:5C36 (16 bytes)
+F 0x5C39 2
+D 0x5FA7 0x5FB7 paleta_de_konami  [color][RB][G] ... 0xFF; lo leen p00:46CF (16 bytes)
+F 0x5FA7 3
+# --- fin de los bloques de bloques.py ---

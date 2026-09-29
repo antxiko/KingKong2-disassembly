@@ -1,1 +1,102 @@
 # Notas del banco 07: comentarios (C), etiquetas (L) y datos (D) anclados a direccion.
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x6000 0x6009 juego_de_cada_plano  18 nibbles, uno por plano alterno (0xC131 - 1; par = nibble alto): el juego de dibujos; lo leen p00:4A96 (9 bytes)
+F 0x6000 16
+D 0x6009 0x6050 juego_de_cada_pantalla  un nibble por pantalla (pantalla/2; par = nibble alto): el juego de dibujos (0xC148); lo leen p00:4A96 (71 bytes)
+F 0x6009 16
+D 0x6050 0x6059 lista_hoja_6050  lista comun: [destino][cuantos][fuente], 0xFE pasa a los bancos 10-11-12, 0xFF acaba (p00:4AB9); lo leen p00:4AB9 (9 bytes)
+F 0x6050 4
+D 0x6059 0x6073 paleta_de_cada_juego  13 punteros a la lista de colores de cada juego de dibujos; lo leen p00:4DE1 (26 bytes)
+F 0x6059 2
+D 0x6073 0x6080 colores_6073  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x6073 3
+D 0x6080 0x608D colores_6080  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x6080 3
+D 0x608D 0x609A colores_608D  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x608D 3
+D 0x609A 0x60A7 colores_609A  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x609A 3
+D 0x60A7 0x60B4 colores_60A7  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x60A7 3
+D 0x60B4 0x60CD colores_60B4  [color][RB][G] ... 0xFF; lo leen p00:46CF (25 bytes)
+F 0x60B4 3
+D 0x60CD 0x60DA colores_60CD  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x60CD 3
+D 0x60DA 0x60E7 colores_60DA  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x60DA 3
+D 0x60E7 0x60F4 colores_60E7  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x60E7 3
+D 0x60F4 0x6101 colores_60F4  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x60F4 3
+D 0x6101 0x610E colores_6101  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x6101 3
+D 0x610E 0x611B colores_610E  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x610E 3
+D 0x611B 0x6128 colores_611B  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x611B 3
+D 0x6128 0x6141 paleta_comun  [color][RB][G] ... 0xFF: la paleta de todas las pantallas; lo leen p00:46CF (25 bytes)
+F 0x6128 3
+D 0x6141 0x61CF paleta_de_cada_pantalla  un byte por pantalla: que lista de 0x61CF le toca; lo leen p00:4DF1 (142 bytes)
+F 0x6141 16
+D 0x61CF 0x61FD listas_de_pantalla  23 punteros a listas de colores por pantalla; lo leen p00:4DF5 (46 bytes)
+F 0x61CF 2
+D 0x61FD 0x620A colores_61FD  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x61FD 3
+D 0x620A 0x6217 colores_620A  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x620A 3
+D 0x6217 0x6224 colores_6217  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x6217 3
+D 0x6224 0x6231 colores_6224  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x6224 3
+D 0x6231 0x623E colores_6231  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x6231 3
+D 0x623E 0x624B colores_623E  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x623E 3
+D 0x624B 0x6258 colores_624B  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x624B 3
+D 0x6258 0x6265 colores_6258  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x6258 3
+D 0x6265 0x6272 colores_6265  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x6265 3
+D 0x6272 0x627F colores_6272  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x6272 3
+D 0x627F 0x628C colores_627F  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x627F 3
+D 0x628C 0x6299 colores_628C  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x628C 3
+D 0x6299 0x629A colores_6299  [color][RB][G] ... 0xFF; lo leen p00:46CF (1 bytes)
+F 0x6299 3
+D 0x629A 0x62A7 colores_629A  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x629A 3
+D 0x62A7 0x62A8 colores_62A7  [color][RB][G] ... 0xFF; lo leen p00:46CF (1 bytes)
+F 0x62A7 3
+D 0x62A8 0x62B5 colores_62A8  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x62A8 3
+D 0x62B5 0x62C2 colores_62B5  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x62B5 3
+D 0x62C2 0x62CF colores_62C2  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x62C2 3
+D 0x62CF 0x62DC colores_62CF  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x62CF 3
+D 0x62DC 0x62E9 colores_62DC  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x62DC 3
+D 0x62E9 0x62F6 colores_62E9  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x62E9 3
+D 0x62F6 0x6303 colores_62F6  [color][RB][G] ... 0xFF; lo leen p00:46CF (13 bytes)
+F 0x62F6 3
+D 0x6303 0x630A colores_6303  [color][RB][G] ... 0xFF; lo leen p00:46CF (7 bytes)
+F 0x6303 3
+D 0x758A 0x75CA dibujos_758A  2 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 240); los sube p00:48A6 por la lista 0x6050; lo leen p00:48A6 (64 bytes)
+F 0x758A 4
+D 0x75CA 0x764A dibujos_75CA  4 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 192); los sube p00:48A6 por la lista 0x5506; lo leen p00:48A6 (128 bytes)
+F 0x75CA 4
+D 0x764A 0x788A dibujos_764A  18 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 208); los sube p00:48A6 por la lista 0x6050; lo leen p00:48A6 (576 bytes)
+F 0x764A 4
+D 0x788A 0x7D3A bloques_juego_0  los 75 bloques del juego de dibujos 0: 16 numeros de dibujo cada uno (4 filas de 4); hasta el mas alto que usa una pantalla; lo leen p00:4F5F (1200 bytes)
+F 0x788A 16
+D 0x7D3A 0x7EBA bloques_juego_1  los 24 bloques del juego de dibujos 1: 16 numeros de dibujo cada uno (4 filas de 4); hasta el mas alto que usa una pantalla; lo leen p00:4F5F (384 bytes)
+F 0x7D3A 16
+D 0x7EBA 0x8000 bloques_juego_2  los 64 bloques del juego de dibujos 2: 16 numeros de dibujo cada uno (4 filas de 4); hasta el mas alto que usa una pantalla; lo leen p00:4F5F (326 bytes)
+F 0x7EBA 16
+# --- fin de los bloques de bloques.py ---

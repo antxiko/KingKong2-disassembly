@@ -1,1 +1,16 @@
 # Notas del banco 15: comentarios (C), etiquetas (L) y datos (D) anclados a direccion.
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0xB525 0xB625 dibujos_B525  8 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 1); los sube p00:48A6 por la lista 0x5612; lo leen p00:48A6 (256 bytes)
+F 0xB525 4
+D 0xB625 0xB6E5 dibujos_B625  6 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 9); los sube p00:48A6 por la lista 0x5612; lo leen p00:48A6 (192 bytes)
+F 0xB625 4
+D 0xB6E5 0xB925 dibujos_B6E5  18 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 96); los sube p00:48A6 por la lista 0x5612; lo leen p00:48A6 (576 bytes)
+F 0xB6E5 4
+D 0xB925 0xB9A5 dibujos_B925  4 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 24); los sube p00:48A6 por la lista 0x5612; lo leen p00:48A6 (128 bytes)
+F 0xB925 4
+D 0xB9A5 0xB9F6 figura_estatua  9x9 numeros de dibujo de la estatua de King Kong (0 = no pinta); p00:4EB5 la pinta con transparencia en 0x15, 0x28, 0x60 y 0x89; lo leen p00:4EC1 (81 bytes)
+F 0xB9A5 9
+D 0xB9F6 0xBA05 figura_de_la_60  3 columnas x 5 filas de dibujos: las dos piezas de la pantalla 0x60; lo leen p00:4EC1 (15 bytes)
+F 0xB9F6 3
+# --- fin de los bloques de bloques.py ---

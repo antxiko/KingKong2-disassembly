@@ -904,7 +904,7 @@ L_6684:
 	ret			;6685
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x6686..0x8000  (6522 bytes)
+; DATOS sin identificar  0x6686..0x7e76  (6128 bytes)
 DATA_6686:
 	defb 02fh,067h,097h,067h,00bh,06ah,040h,06ah,094h,06ah,0f7h,06ah,032h,06bh,045h,06bh	; 6686  /g.g.j@j.j.j2kEk
 	defb 058h,06bh,083h,06bh,071h,069h,08eh,069h,0b3h,069h,0dfh,069h,039h,067h,098h,067h	; 6696  Xk.kqi.i.i.i9g.g
@@ -1289,28 +1289,31 @@ DATA_6686:
 	defb 080h,07bh,000h,07bh,080h,07ch,000h,064h,000h,06ch,000h,064h,000h,06ch,000h,064h	; 7e46  .{.{.|.d.l.d.l.d
 	defb 000h,06ch,000h,05ch,080h,05dh,000h,05dh,080h,05eh,000h,05eh,080h,04fh,000h,047h	; 7e56  .l.\.].].^.^.O.G
 	defb 000h,04fh,000h,047h,000h,04fh,000h,037h,000h,03fh,000h,03fh,080h,030h,000h,0ffh	; 7e66  .O.G.O.7.?.?.0..
-	defb 041h,042h,045h,035h,00ah,043h,044h,00eh,00eh,00eh,037h,025h,025h,025h,025h,01fh	; 7e76  ABE5.CD...7%%%%.
-	defb 01fh,01fh,01fh,01fh,01fh,01fh,01fh,01fh,01fh,01fh,01fh,023h,03fh,003h,01fh,01fh	; 7e86  ...........#?...
-	defb 021h,04ah,00eh,01fh,01fh,021h,04ah,00eh,01fh,01fh,021h,04ah,00eh,01fh,01fh,021h	; 7e96  !J...!J...!J...!
-	defb 04ah,008h,01fh,01fh,021h,04ah,000h,01fh,01fh,021h,04ah,000h,01fh,01fh,021h,04ah	; 7ea6  J...!J...!J...!J
-	defb 02ah,01fh,01fh,021h,04ah,01bh,01fh,01fh,027h,040h,002h,01dh,01dh,01ch,000h,00ch	; 7eb6  *..!J...'@......
-	defb 01dh,01dh,01ch,000h,000h,01dh,01dh,01ch,000h,000h,01dh,01dh,01ch,000h,000h,01dh	; 7ec6  ................
-	defb 01dh,01ch,000h,00ah,002h,00bh,012h,03eh,03eh,002h,015h,013h,03eh,03eh,002h,016h	; 7ed6  .......>>...>>..
-	defb 013h,03eh,03eh,002h,000h,013h,03eh,03eh,002h,000h,013h,03eh,03eh,002h,000h,013h	; 7ee6  .>>...>>...>>...
-	defb 03eh,03eh,002h,000h,013h,03eh,03eh,002h,014h,013h,03eh,03eh,002h,016h,013h,03eh	; 7ef6  >>...>>...>>...>
-	defb 03eh,002h,000h,013h,03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh	; 7f06  >...>>>>>>>>>>>>
-	defb 03eh,03eh,022h,021h,004h,03eh,03eh,023h,01ch,020h,03eh,03eh,023h,01ch,001h,03eh	; 7f16  >>"!.>>#. >>#..>
-	defb 03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,026h,027h,027h,027h,027h,02ah,02bh	; 7f26  >>>>>>>>>&''''*+
-	defb 02ch,02ch,02ch,028h,029h,003h,003h,003h,03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh	; 7f36  ,,,()...>>>>>>>>
-	defb 03eh,03eh,027h,027h,027h,027h,027h,02ch,02ch,02ch,02ch,02ch,003h,003h,003h,003h	; 7f46  >>''''',,,,,....
-	defb 003h,07dh,07dh,051h,012h,012h,07dh,07dh,052h,012h,012h,07dh,07dh,053h,012h,056h	; 7f56  .}}Q..}}R..}}S.V
-	defb 07dh,07dh,051h,012h,02fh,07dh,07dh,052h,039h,04bh,07dh,07dh,050h,014h,02bh,07dh	; 7f66  }}Q./}}R9K}}P.+}
-	defb 07dh,051h,030h,02fh,07dh,07dh,052h,02ch,02eh,07dh,07dh,053h,054h,04fh,07dh,07dh	; 7f76  }Q0/}}R,.}}STO}}
-	defb 051h,055h,012h,005h,005h,005h,005h,005h,000h,000h,000h,000h,000h,033h,033h,033h	; 7f86  QU...........333
-	defb 033h,033h,03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh	; 7f96  33>>>>>>>>>>>>>>
-	defb 03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,035h,032h,032h,03eh,03eh,034h,011h,011h	; 7fa6  >>>>>>>>522>>4..
-	defb 03eh,03eh,006h,004h,004h,03eh,03eh,039h,023h,009h,03eh,03eh,037h,021h,002h,03eh	; 7fb6  >>...>>9#.>>7!.>
-	defb 03eh,037h,021h,002h,03eh,03eh,037h,021h,002h,03eh,03eh,037h,021h,002h,0a0h,00fh	; 7fc6  >7!.>>7!.>>7!...
-	defb 01fh,03fh,03fh,01fh,03fh,05fh,0bfh,0f8h,0ffh,0bfh,0ffh,07bh,03eh,022h,03ch,0e0h	; 7fd6  .??.?_.....{>"<.
-	defb 0f0h,0f8h,0f8h,0f0h,0f8h,0fch,0fah,01dh,0f9h,0fdh,0feh,0fch,054h,07ch,044h,006h	; 7fe6  ............T|D.
-	defb 000h,089h,020h,060h,047h,040h,040h,000h,004h,000h	; 7ff6  .. `G@@...
+
+; ----------------------------------------------------------------------
+; DATOS planos_alternos: 14 planos de 25 bloques: la parte que se ve de las
+;   pantallas partidas (0xC131 = 1-14, que pone p06:BEC5); p00:4F0B los lee
+;   desde 0x7E76 + 25*(0xC131-1); lo leen p00:4F1B (350 bytes)
+;   0x7e76..0x7fd4  (350 bytes)
+DATA_planos_alternos:
+	defb 041h,042h,045h,035h,00ah,043h,044h,00eh,00eh,00eh,037h,025h,025h,025h,025h,01fh,01fh,01fh,01fh,01fh,01fh,01fh,01fh,01fh,01fh	; 7e76  ABE5.CD...7%%%%..........
+	defb 01fh,01fh,023h,03fh,003h,01fh,01fh,021h,04ah,00eh,01fh,01fh,021h,04ah,00eh,01fh,01fh,021h,04ah,00eh,01fh,01fh,021h,04ah,008h	; 7e8f  ..#?...!J...!J...!J...!J.
+	defb 01fh,01fh,021h,04ah,000h,01fh,01fh,021h,04ah,000h,01fh,01fh,021h,04ah,02ah,01fh,01fh,021h,04ah,01bh,01fh,01fh,027h,040h,002h	; 7ea8  ..!J...!J...!J*..!J...'@.
+	defb 01dh,01dh,01ch,000h,00ch,01dh,01dh,01ch,000h,000h,01dh,01dh,01ch,000h,000h,01dh,01dh,01ch,000h,000h,01dh,01dh,01ch,000h,00ah	; 7ec1  .........................
+	defb 002h,00bh,012h,03eh,03eh,002h,015h,013h,03eh,03eh,002h,016h,013h,03eh,03eh,002h,000h,013h,03eh,03eh,002h,000h,013h,03eh,03eh	; 7eda  ...>>...>>...>>...>>...>>
+	defb 002h,000h,013h,03eh,03eh,002h,000h,013h,03eh,03eh,002h,014h,013h,03eh,03eh,002h,016h,013h,03eh,03eh,002h,000h,013h,03eh,03eh	; 7ef3  ...>>...>>...>>...>>...>>
+	defb 03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,022h,021h,004h,03eh,03eh,023h,01ch,020h,03eh,03eh,023h,01ch,001h	; 7f0c  >>>>>>>>>>>>"!.>>#. >>#..
+	defb 03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,026h,027h,027h,027h,027h,02ah,02bh,02ch,02ch,02ch,028h,029h,003h,003h,003h	; 7f25  >>>>>>>>>>&''''*+,,,()...
+	defb 03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,027h,027h,027h,027h,027h,02ch,02ch,02ch,02ch,02ch,003h,003h,003h,003h,003h	; 7f3e  >>>>>>>>>>''''',,,,,.....
+	defb 07dh,07dh,051h,012h,012h,07dh,07dh,052h,012h,012h,07dh,07dh,053h,012h,056h,07dh,07dh,051h,012h,02fh,07dh,07dh,052h,039h,04bh	; 7f57  }}Q..}}R..}}S.V}}Q./}}R9K
+	defb 07dh,07dh,050h,014h,02bh,07dh,07dh,051h,030h,02fh,07dh,07dh,052h,02ch,02eh,07dh,07dh,053h,054h,04fh,07dh,07dh,051h,055h,012h	; 7f70  }}P.+}}Q0/}}R,.}}STO}}QU.
+	defb 005h,005h,005h,005h,005h,000h,000h,000h,000h,000h,033h,033h,033h,033h,033h,03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh	; 7f89  ..........33333>>>>>>>>>>
+	defb 03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,03eh,035h,032h,032h,03eh,03eh,034h,011h,011h,03eh,03eh,006h,004h,004h	; 7fa2  >>>>>>>>>>>>522>>4..>>...
+	defb 03eh,03eh,039h,023h,009h,03eh,03eh,037h,021h,002h,03eh,03eh,037h,021h,002h,03eh,03eh,037h,021h,002h,03eh,03eh,037h,021h,002h	; 7fbb  >>9#.>>7!.>>7!.>>7!.>>7!.
+
+; ----------------------------------------------------------------------
+; DATOS sin identificar  0x7fd4..0x8000  (44 bytes)
+DATA_7FD4:
+	defb 0a0h,00fh,01fh,03fh,03fh,01fh,03fh,05fh,0bfh,0f8h,0ffh,0bfh,0ffh,07bh,03eh,022h	; 7fd4  ...??.?_.....{>"
+	defb 03ch,0e0h,0f0h,0f8h,0f8h,0f0h,0f8h,0fch,0fah,01dh,0f9h,0fdh,0feh,0fch,054h,07ch	; 7fe4  <.............T|
+	defb 044h,006h,000h,089h,020h,060h,047h,040h,040h,000h,004h,000h	; 7ff4  D... `G@@...

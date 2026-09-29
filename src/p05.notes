@@ -1,1 +1,14 @@
 # Notas del banco 05: comentarios (C), etiquetas (L) y datos (D) anclados a direccion.
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x9643 0x97C3 dibujos_9643  12 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 1); los sube p00:48A6 por la lista 0x5530; lo leen p00:48A6 (384 bytes)
+F 0x9643 4
+D 0x97C3 0x9A63 dibujos_97C3  21 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 96); los sube p00:48A6 por la lista 0x5530; lo leen p00:48A6 (672 bytes)
+F 0x97C3 4
+D 0x9A63 0x9B23 dibujos_9A63  6 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 37); los sube p00:48A6 por la lista 0x5530; lo leen p00:48A6 (192 bytes)
+F 0x9A63 4
+D 0x9B23 0x9D43 dibujos_9B23  17 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 123); los sube p00:48A6 por la lista 0x5530; lo leen p00:48A6 (544 bytes)
+F 0x9B23 4
+D 0x9F99 0xA000 fuente  96 letras de 1 bit (desde el '0', 0x30): la fuente; p01:6010 la sube dos veces (color 14 y color 3); lo leen p00:48ED (103 bytes)
+F 0x9F99 8
+# --- fin de los bloques de bloques.py ---

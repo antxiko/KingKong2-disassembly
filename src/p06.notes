@@ -1,1 +1,32 @@
 # Notas del banco 06: comentarios (C), etiquetas (L) y datos (D) anclados a direccion.
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0xA000 0xA299 fuente_cola  96 letras de 1 bit (desde el '0', 0x30): la fuente; p01:6010 la sube dos veces (color 14 y color 3) (sigue del banco anterior, 0x9F99); lo leen p00:48ED (665 bytes)
+F 0xA000 8
+D 0xA299 0xA2A1 letra_copyright  el (c) de los creditos: una letra de 1 bit que p01:602F pone en el sitio de la 0x3A; lo leen p00:48ED (8 bytes)
+F 0xA299 8
+D 0xA2A1 0xA3C1 titulo_A2A1  36 letras de 1 bit del rotulo del titulo (color 6); p06:B993; lo leen p00:48ED (288 bytes)
+F 0xA2A1 8
+D 0xA3C1 0xA561 titulo_A3C1  52 letras de 1 bit del rotulo del titulo (color 5); p06:B993; lo leen p00:48ED (416 bytes)
+F 0xA3C1 8
+D 0xA561 0xA649 titulo_A561  29 letras de 1 bit del rotulo del titulo (color 8); p06:B993; lo leen p00:48ED (232 bytes)
+F 0xA561 8
+D 0xB8E8 0xB8FC titulo_figura_B8E8  4 columnas x 5 filas de dibujos del rotulo (p06:BA99, con transparencia); lo leen p00:4EC1 (20 bytes)
+F 0xB8E8 4
+D 0xB8FC 0xB91F titulo_figura_B8FC  7 columnas x 5 filas de dibujos del rotulo (p06:BA99, con transparencia); lo leen p00:4EC1 (35 bytes)
+F 0xB8FC 7
+D 0xB91F 0xB92E titulo_figura_B91F  3 columnas x 5 filas de dibujos del rotulo (p06:BA99, con transparencia); lo leen p00:4EC1 (15 bytes)
+F 0xB91F 3
+D 0xB92E 0xB94C titulo_figura_B92E  5 columnas x 6 filas de dibujos del rotulo (p06:BA99, con transparencia); lo leen p00:4EC1 (30 bytes)
+F 0xB92E 5
+D 0xB94C 0xB970 titulo_figura_B94C  12 columnas x 3 filas de dibujos del rotulo (p06:BA99, con transparencia); lo leen p00:4EC1 (36 bytes)
+F 0xB94C 12
+D 0xBA5A 0xBA64 brillo_BA5A  [color][RB][G] ... 0xFF: a donde sube (y con que parpadea) el rotulo (p06:B9C8, p06:BA46); lo leen p00:46CF (10 bytes)
+F 0xBA5A 3
+D 0xBA64 0xBA6E brillo_BA64  [color][RB][G] ... 0xFF: a donde sube (y con que parpadea) el rotulo (p06:B9C8, p06:BA46); lo leen p00:46CF (10 bytes)
+F 0xBA64 3
+D 0xBA6E 0xBA79 paleta_del_titulo  11 bytes que p06:B97C copia a 0xDFB0 (contador y [color][RB][G] x3 + 0xFF), la lista de p06:B98D; lo leen p06:B984 (11 bytes)
+F 0xBA6E 16
+D 0xBAE7 0xBB57 creditos  los creditos del titulo: [x][y] letras, 0xFE otra posicion, 0xFF acaba (p00:4915); lo leen p00:4919 (112 bytes)
+F 0xBAE7 16
+# --- fin de los bloques de bloques.py ---

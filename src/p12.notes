@@ -1,1 +1,14 @@
 # Notas del banco 12: comentarios (C), etiquetas (L) y datos (D) anclados a direccion.
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0xA000 0xA09E dibujos_9F9E_cola  8 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 56); los sube p00:48A6 por la lista 0x55BD (sigue del banco anterior, 0x9F9E); lo leen p00:48A6 (158 bytes)
+F 0xA000 4
+D 0xA09E 0xA11E dibujos_A09E  4 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 16); los sube p00:48A6 por la lista 0x5612; lo leen p00:48A6 (128 bytes)
+F 0xA09E 4
+D 0xA11E 0xA15E dibujos_A11E  2 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 32); los sube p00:48A6 por la lista 0x5546; lo leen p00:48A6 (64 bytes)
+F 0xA11E 4
+D 0xA15E 0xA17E dibujos_A15E  1 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 34); los sube p00:48A6 por la lista 0x55BD; lo leen p00:48A6 (32 bytes)
+F 0xA15E 4
+D 0xA17E 0xAF5E volteados_A17E  17 dibujos de 8x8 que p00:4A1B sube del reves (desde el 16): la mitad derecha de la estatua; se solapan 4 bloques (0xA17E-0xA39E, 0xA17E-0xA51E, 0xA35E-0xAF5E, 0xA4FE-0xA5FE); lo leen p00:48A6, p00:4A24 (3552 bytes)
+F 0xA17E 4
+# --- fin de los bloques de bloques.py ---

@@ -1,1 +1,6 @@
 # Notas del banco 04: comentarios (C), etiquetas (L) y datos (D) anclados a direccion.
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x7E76 0x7FD4 planos_alternos  14 planos de 25 bloques: la parte que se ve de las pantallas partidas (0xC131 = 1-14, que pone p06:BEC5); p00:4F0B los lee desde 0x7E76 + 25*(0xC131-1); lo leen p00:4F1B (350 bytes)
+F 0x7E76 25
+# --- fin de los bloques de bloques.py ---
