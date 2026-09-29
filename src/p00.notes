@@ -30,6 +30,12 @@ D 0x4CE4 0x4CEC tabla_4CE4  4 destinos del despachador de 0x425F (call en p00:4C
 F 0x4CE4 2
 D 0x4F64 0x4F7E bloques_de_cada_juego  13 punteros, uno por juego de dibujos, a sus bloques de 4x4 dibujos; lo leen p00:4F4D (26 bytes)
 F 0x4F64 2
+D 0x5064 0x507A sprites_de_armas  11 punteros: el sprite del arma de SHOT1 (0xC140 - 1; de 11 en adelante, el 7); p00:5046 lo sube a 0xF840; lo leen p00:505E (22 bytes)
+F 0x5064 2
+D 0x50CA 0x50DA figura_que_sigue  8 parejas [dy][dx]: donde va cada uno de los 8 sprites de la figura que sigue a Mitchel (0xC600); p00:507A; lo leen p00:5090 (16 bytes)
+F 0x50CA 2
+D 0x50DA 0x50EA cuadros_de_la_que_sigue  8 punteros: los patrones de la figura que sigue a Mitchel segun 0xC606 (direccion*2 + paso, p02:82E6); p00:50B8; lo leen p00:50C4 (16 bytes)
+F 0x50DA 2
 D 0x54EC 0x5506 lista_de_cada_juego  13 punteros, uno por juego de dibujos, a su lista de subida; lo leen p00:4AB5 (26 bytes)
 F 0x54EC 2
 D 0x5506 0x5530 lista_hoja_5506  lista del juego 0: [destino][cuantos][fuente], 0xFE pasa a los bancos 10-11-12, 0xFF acaba (p00:4AB9); lo leen p00:4AB9 (42 bytes)

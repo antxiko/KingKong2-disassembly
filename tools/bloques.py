@@ -329,6 +329,62 @@ def mitchel(t, bl):
                      "0 acaba)" % (n, que), "p00:5010")
 
 
+def sprites_de_mitchel(t, bl):
+    """Otros RLE en el formato de las poses (p00:5010), con los bancos 13-14-15:
+    el arma de SHOT1 (p00:5046), la figura que sigue a Mitchel (p00:50B8,
+    0xC600) y el de p00:50EA."""
+    import figuras as F
+    bl.anota(B123, 0x5064, 0x5064 + 22, "sprites_de_armas",
+             "11 punteros: el sprite del arma de SHOT1 (0xC140 - 1; de 11 en adelante, "
+             "el 7); p00:5046 lo sube a 0xF840", "p00:505E", ancho=2)
+    for k in range(11):
+        a = P.palabra(0x5064 + 2 * k, B123)
+        _, fin = F.rle(a)
+        bl.anota(B131415, a, fin, "arma_%04X" % a,
+                 "el sprite del arma %d de SHOT1: RLE como el de las poses" % (k + 1), "p00:5010")
+    bl.anota(B123, 0x50CA, 0x50CA + 16, "figura_que_sigue",
+             "8 parejas [dy][dx]: donde va cada uno de los 8 sprites de la figura que "
+             "sigue a Mitchel (0xC600); p00:507A", "p00:5090", ancho=2)
+    bl.anota(B123, 0x50DA, 0x50DA + 16, "cuadros_de_la_que_sigue",
+             "8 punteros: los patrones de la figura que sigue a Mitchel segun 0xC606 "
+             "(direccion*2 + paso, p02:82E6); p00:50B8", "p00:50C4", ancho=2)
+    for k in range(8):
+        a = P.palabra(0x50DA + 2 * k, B123)
+        _, fin = F.rle(a)
+        bl.anota(B131415, a, fin, "la_que_sigue_%04X" % a,
+                 "el cuadro %d de la figura que sigue a Mitchel: RLE como el de las poses" % k,
+                 "p00:5010")
+    _, fin = F.rle(0x8804)
+    bl.anota(B131415, 0x8804, fin, "sprite_8804",
+             "RLE como el de las poses que p00:50EA sube a 0xF840", "p00:50F3")
+
+
+# p00:4BD0: figuras a pelo en siete pantallas. (estructura, pantallas); detras
+# de las que llevan el bit 7 en su codigo va una segunda.
+FIGURAS_A_PELO = [(0x9BA2, "0x31 y 0x34"), (0x90E4, "0x5C"), (0x94E9, "0x5C"),
+                  (0x8D1F, "0x57"), (0x9998, "0x29"), (0x9A9D, "0x29"),
+                  (0x95AE, "0x53 y 0x5D"), (0x98D3, "0x53 y 0x5D")]
+
+
+def figuras_a_pelo(t, bl):
+    """p00:4BD0 (bancos 13-14-15): [bandera][filas][bytes por fila][VRAM] y los
+    bytes tal cual, fila a fila (128 bytes de VRAM entre una y otra); con la
+    bandera, p00:4C57 los vuelve a escribir a la derecha en espejo. Y los
+    tres RLE de p00:4C92."""
+    for a, pant in FIGURAS_A_PELO:
+        c, b = P.lee(a + 1, B131415), P.lee(a + 2, B131415)
+        bl.anota(B131415, a, a + 5 + c * b, "figura_%04X" % a,
+                 "figura a pelo de la pantalla %s: [bandera de espejo][%d filas][%d bytes]"
+                 "[VRAM 0x%04X] y %d bytes" % (pant, c, b, P.palabra(a + 3, B131415), c * b),
+                 "p00:4C2C", ancho=16)
+    import figuras as F
+    for a, v in ((0xB069, 0xF800), (0xB144, 0xF900), (0xB3E5, 0xFA00)):
+        _, tramos = F.rle_con_saltos(a, B131415)
+        for i, j in tramos:
+            bl.anota(B131415, i, j, "sprites_%04X" % i,
+                     "RLE (p00:45EF) que p00:4C92 sube a la VRAM 0x%04X" % v, "p00:4C9B")
+
+
 def nombres_de_enemigos(t, bl):
     """p01:61D2: con el banco 15 en 0xA000, el nombre del tipo de enemigo t
     es la cadena (0xFF acaba) a la que apunta 0xBA76 + 2*t (t = 1..68; el 0
@@ -515,7 +571,7 @@ def conversaciones(t, bl):
 
 
 RECORRIDOS = [enemigos_de_cada_pantalla, nombres_de_enemigos, mitchel, cabecera, tablas_del_despachador, pantallas, vecinas, juegos_de_dibujos,
-              bloques_de_cada_juego, paletas, figuras_fijas, portadas, objetos, conversaciones, sprites_de_enemigos, el_final]
+              bloques_de_cada_juego, paletas, figuras_fijas, portadas, objetos, conversaciones, sprites_de_enemigos, el_final, sprites_de_mitchel, figuras_a_pelo]
 
 
 # ------------------------------------------------------------------ escritura

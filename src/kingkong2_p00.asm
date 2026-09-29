@@ -2641,10 +2641,22 @@ L_5056:
 	jp L_5008		;5061
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x5064..0x507a  (22 bytes)
-DATA_5064:
-	defb 0f9h,081h,095h,082h,07bh,087h,05eh,086h,02eh,083h,03fh,082h,0ddh,086h,0f0h,084h	; 5064  ....{.^...?.....
-	defb 08bh,085h,0f8h,083h,08fh,084h	; 5074
+; DATOS sprites_de_armas: 11 punteros: el sprite del arma de SHOT1 (0xC140 -
+;   1; de 11 en adelante, el 7); p00:5046 lo sube a 0xF840; lo leen p00:505E
+;   (22 bytes)
+;   0x5064..0x507a  (22 bytes)
+DATA_sprites_de_armas:
+	defb 0f9h,081h	; 5064
+	defb 095h,082h	; 5066
+	defb 07bh,087h	; 5068
+	defb 05eh,086h	; 506a
+	defb 02eh,083h	; 506c
+	defb 03fh,082h	; 506e
+	defb 0ddh,086h	; 5070
+	defb 0f0h,084h	; 5072
+	defb 08bh,085h	; 5074
+	defb 0f8h,083h	; 5076
+	defb 08fh,084h	; 5078
 
 ; ======================================================================
 ; CODIGO 0x507a..0x50ca  (80 bytes)
@@ -2703,10 +2715,34 @@ L_50B8:
 	jp L_5008		;50c7
 
 ; ----------------------------------------------------------------------
-; DATOS sin identificar  0x50ca..0x50ea  (32 bytes)
-DATA_50CA:
-	defb 0f0h,0f0h,0f0h,0f0h,0f0h,000h,0f0h,000h,000h,0f0h,000h,0f0h,000h,000h,000h,000h	; 50ca  ................
-	defb 0c1h,0ach,0abh,0adh,095h,0aeh,07fh,0afh,069h,0b0h,044h,0b1h,028h,0b2h,002h,0b3h	; 50da  ........i.D.(...
+; DATOS figura_que_sigue: 8 parejas [dy][dx]: donde va cada uno de los 8
+;   sprites de la figura que sigue a Mitchel (0xC600); p00:507A; lo leen
+;   p00:5090 (16 bytes)
+;   0x50ca..0x50da  (16 bytes)
+DATA_figura_que_sigue:
+	defb 0f0h,0f0h	; 50ca
+	defb 0f0h,0f0h	; 50cc
+	defb 0f0h,000h	; 50ce
+	defb 0f0h,000h	; 50d0
+	defb 000h,0f0h	; 50d2
+	defb 000h,0f0h	; 50d4
+	defb 000h,000h	; 50d6
+	defb 000h,000h	; 50d8
+
+; ----------------------------------------------------------------------
+; DATOS cuadros_de_la_que_sigue: 8 punteros: los patrones de la figura que
+;   sigue a Mitchel segun 0xC606 (direccion*2 + paso, p02:82E6); p00:50B8; lo
+;   leen p00:50C4 (16 bytes)
+;   0x50da..0x50ea  (16 bytes)
+DATA_cuadros_de_la_que_sigue:
+	defb 0c1h,0ach	; 50da
+	defb 0abh,0adh	; 50dc
+	defb 095h,0aeh	; 50de
+	defb 07fh,0afh	; 50e0
+	defb 069h,0b0h	; 50e2
+	defb 044h,0b1h	; 50e4
+	defb 028h,0b2h	; 50e6
+	defb 002h,0b3h	; 50e8
 
 ; ======================================================================
 ; CODIGO 0x50ea..0x519a  (176 bytes)

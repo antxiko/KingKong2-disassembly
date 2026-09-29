@@ -19,6 +19,30 @@ D 0x8185 0x81C7 pose_8185  la pose 15 de Mitchel (0xC160 = 0): RLE de los dos pa
 F 0x8185 16
 D 0x81C7 0x81F9 pose_81C7  la pose 16 de Mitchel (0xC160 = 0): RLE de los dos patrones de 16x16 (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lo leen p00:5010 (50 bytes)
 F 0x81C7 16
+D 0x81F9 0x823F arma_81F9  el sprite del arma 1 de SHOT1: RLE como el de las poses; lo leen p00:5010 (70 bytes)
+F 0x81F9 16
+D 0x823F 0x8295 arma_823F  el sprite del arma 6 de SHOT1: RLE como el de las poses; lo leen p00:5010 (86 bytes)
+F 0x823F 16
+D 0x8295 0x832E arma_8295  el sprite del arma 2 de SHOT1: RLE como el de las poses; lo leen p00:5010 (153 bytes)
+F 0x8295 16
+D 0x832E 0x83F8 arma_832E  el sprite del arma 5 de SHOT1: RLE como el de las poses; lo leen p00:5010 (202 bytes)
+F 0x832E 16
+D 0x83F8 0x848F arma_83F8  el sprite del arma 10 de SHOT1: RLE como el de las poses; lo leen p00:5010 (151 bytes)
+F 0x83F8 16
+D 0x848F 0x84F0 arma_848F  el sprite del arma 11 de SHOT1: RLE como el de las poses; lo leen p00:5010 (97 bytes)
+F 0x848F 16
+D 0x84F0 0x858B arma_84F0  el sprite del arma 8 de SHOT1: RLE como el de las poses; lo leen p00:5010 (155 bytes)
+F 0x84F0 16
+D 0x858B 0x865E arma_858B  el sprite del arma 9 de SHOT1: RLE como el de las poses; lo leen p00:5010 (211 bytes)
+F 0x858B 16
+D 0x865E 0x86DD arma_865E  el sprite del arma 4 de SHOT1: RLE como el de las poses; lo leen p00:5010 (127 bytes)
+F 0x865E 16
+D 0x86DD 0x877B arma_86DD  el sprite del arma 7 de SHOT1: RLE como el de las poses; lo leen p00:5010 (158 bytes)
+F 0x86DD 16
+D 0x877B 0x8804 arma_877B  el sprite del arma 3 de SHOT1: RLE como el de las poses; lo leen p00:5010 (137 bytes)
+F 0x877B 16
+D 0x8804 0x88EF sprite_8804  RLE como el de las poses que p00:50EA sube a 0xF840; lo leen p00:50F3 (235 bytes)
+F 0x8804 16
 D 0x88EF 0x892D pose_88EF  la pose 0 de Mitchel (0xC160 distinto de 0): RLE de los dos patrones de 16x16 (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lo leen p00:5010 (62 bytes)
 F 0x88EF 16
 D 0x892D 0x896E pose_892D  la pose 1 de Mitchel (0xC160 distinto de 0): RLE de los dos patrones de 16x16 (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lo leen p00:5010 (65 bytes)
@@ -53,4 +77,20 @@ D 0x8CA7 0x8CE8 pose_8CA7  la pose 15 de Mitchel (0xC160 distinto de 0): RLE de 
 F 0x8CA7 16
 D 0x8CE8 0x8D1F pose_8CE8  la pose 16 de Mitchel (0xC160 distinto de 0): RLE de los dos patrones de 16x16 (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0 acaba); lo leen p00:5010 (55 bytes)
 F 0x8CE8 16
+D 0x8D1F 0x90E4 figura_8D1F  figura a pelo de la pantalla 0x57: [bandera de espejo][40 filas][24 bytes][VRAM 0xD468] y 960 bytes; lo leen p00:4C2C (965 bytes)
+F 0x8D1F 16
+D 0x90E4 0x94E9 figura_90E4  figura a pelo de la pantalla 0x5C: [bandera de espejo][64 filas][16 bytes][VRAM 0xD460] y 1024 bytes; lo leen p00:4C2C (1029 bytes)
+F 0x90E4 16
+D 0x94E9 0x95AE figura_94E9  figura a pelo de la pantalla 0x5C: [bandera de espejo][24 filas][8 bytes][VRAM 0xD450] y 192 bytes; lo leen p00:4C2C (197 bytes)
+F 0x94E9 16
+D 0x95AE 0x98D3 figura_95AE  figura a pelo de la pantalla 0x53 y 0x5D: [bandera de espejo][40 filas][20 bytes][VRAM 0xD46C] y 800 bytes; lo leen p00:4C2C (805 bytes)
+F 0x95AE 16
+D 0x98D3 0x9998 figura_98D3  figura a pelo de la pantalla 0x53 y 0x5D: [bandera de espejo][16 filas][12 bytes][VRAM 0xE86C] y 192 bytes; lo leen p00:4C2C (197 bytes)
+F 0x98D3 16
+D 0x9998 0x9A9D figura_9998  figura a pelo de la pantalla 0x29: [bandera de espejo][32 filas][8 bytes][VRAM 0xD470] y 256 bytes; lo leen p00:4C2C (261 bytes)
+F 0x9998 16
+D 0x9A9D 0x9BA2 figura_9A9D  figura a pelo de la pantalla 0x29: [bandera de espejo][32 filas][8 bytes][VRAM 0xE470] y 256 bytes; lo leen p00:4C2C (261 bytes)
+F 0x9A9D 16
+D 0x9BA2 0x9EC7 figura_9BA2  figura a pelo de la pantalla 0x31 y 0x34: [bandera de espejo][40 filas][20 bytes][VRAM 0xD46C] y 800 bytes; lo leen p00:4C2C (805 bytes)
+F 0x9BA2 16
 # --- fin de los bloques de bloques.py ---

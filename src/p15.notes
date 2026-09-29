@@ -15,6 +15,24 @@ D 0xAAE0 0xABE4 sprites_AAE0  RLE de patrones de sprite (n con el bit 7 = n byte
 F 0xAAE0 16
 D 0xABE4 0xACC1 sprites_ABE4  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 23; lo leen p00:45EF (221 bytes)
 F 0xABE4 16
+D 0xACC1 0xADAB la_que_sigue_ACC1  el cuadro 0 de la figura que sigue a Mitchel: RLE como el de las poses; lo leen p00:5010 (234 bytes)
+F 0xACC1 16
+D 0xADAB 0xAE95 la_que_sigue_ADAB  el cuadro 1 de la figura que sigue a Mitchel: RLE como el de las poses; lo leen p00:5010 (234 bytes)
+F 0xADAB 16
+D 0xAE95 0xAF7F la_que_sigue_AE95  el cuadro 2 de la figura que sigue a Mitchel: RLE como el de las poses; lo leen p00:5010 (234 bytes)
+F 0xAE95 16
+D 0xAF7F 0xB069 la_que_sigue_AF7F  el cuadro 3 de la figura que sigue a Mitchel: RLE como el de las poses; lo leen p00:5010 (234 bytes)
+F 0xAF7F 16
+D 0xB069 0xB144 la_que_sigue_B069  el cuadro 4 de la figura que sigue a Mitchel: RLE como el de las poses; lo leen p00:4C9B, p00:5010 (219 bytes)
+F 0xB069 16
+D 0xB144 0xB228 la_que_sigue_B144  el cuadro 5 de la figura que sigue a Mitchel: RLE como el de las poses; lo leen p00:4C9B, p00:5010 (228 bytes)
+F 0xB144 16
+D 0xB228 0xB302 la_que_sigue_B228  el cuadro 6 de la figura que sigue a Mitchel: RLE como el de las poses; lo leen p00:5010 (218 bytes)
+F 0xB228 16
+D 0xB302 0xB3E5 la_que_sigue_B302  el cuadro 7 de la figura que sigue a Mitchel: RLE como el de las poses; lo leen p00:5010 (227 bytes)
+F 0xB302 16
+D 0xB3E5 0xB465 sprites_B3E5  RLE (p00:45EF) que p00:4C92 sube a la VRAM 0xFA00; lo leen p00:4C9B (128 bytes)
+F 0xB3E5 16
 D 0xB465 0xB525 sprites_B465  RLE de patrones de sprite (n con el bit 7 = n bytes tal cual; sin el, repetir el siguiente; 0x80 [palabra] sigue en otra direccion; 0 acaba); lista 21; lo leen p00:45EF (192 bytes)
 F 0xB465 16
 D 0xB525 0xB625 dibujos_B525  8 dibujos de 8x8 a 4 bits para la hoja de la pagina 1 (desde el dibujo 1); los sube p00:48A6 por la lista 0x5612; lo leen p00:48A6 (256 bytes)
