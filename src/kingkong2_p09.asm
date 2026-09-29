@@ -1334,7 +1334,7 @@ DATA_fichas_de_decorado:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B46D:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb46d..0xb476  (9 bytes)
@@ -1343,7 +1343,7 @@ DATA_ficha_B46D:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B476:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb476..0xb47f  (9 bytes)
@@ -1352,7 +1352,7 @@ DATA_ficha_B476:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B47F:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb47f..0xb488  (9 bytes)
@@ -1361,7 +1361,7 @@ DATA_ficha_B47F:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B488:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb488..0xb491  (9 bytes)
@@ -1370,7 +1370,7 @@ DATA_ficha_B488:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B491:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb491..0xb49a  (9 bytes)
@@ -1379,7 +1379,7 @@ DATA_ficha_B491:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B49A:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb49a..0xb4a3  (9 bytes)
@@ -1388,7 +1388,7 @@ DATA_ficha_B49A:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B4A3:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb4a3..0xb4ac  (9 bytes)
@@ -1397,7 +1397,7 @@ DATA_ficha_B4A3:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B4AC:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb4ac..0xb4b5  (9 bytes)
@@ -1406,7 +1406,7 @@ DATA_ficha_B4AC:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B4B5:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb4b5..0xb4be  (9 bytes)
@@ -1415,7 +1415,7 @@ DATA_ficha_B4B5:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B4BE:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb4be..0xb4c7  (9 bytes)
@@ -1424,7 +1424,7 @@ DATA_ficha_B4BE:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B4C7:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb4c7..0xb4d0  (9 bytes)
@@ -1433,7 +1433,7 @@ DATA_ficha_B4C7:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B4D0:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb4d0..0xb4d9  (9 bytes)
@@ -1442,7 +1442,7 @@ DATA_ficha_B4D0:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B4D9:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb4d9..0xb4e2  (9 bytes)
@@ -1451,7 +1451,7 @@ DATA_ficha_B4D9:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B4E2:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb4e2..0xb4eb  (9 bytes)
@@ -1460,7 +1460,7 @@ DATA_ficha_B4E2:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B4EB:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb4eb..0xb4f4  (9 bytes)
@@ -1469,7 +1469,7 @@ DATA_ficha_B4EB:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B4F4:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb4f4..0xb4fd  (9 bytes)
@@ -1478,7 +1478,7 @@ DATA_ficha_B4F4:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B4FD:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb4fd..0xb506  (9 bytes)
@@ -1487,7 +1487,7 @@ DATA_ficha_B4FD:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B506:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb506..0xb50f  (9 bytes)
@@ -1496,7 +1496,7 @@ DATA_ficha_B506:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B50F:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb50f..0xb518  (9 bytes)
@@ -1505,7 +1505,7 @@ DATA_ficha_B50F:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B518:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb518..0xb521  (9 bytes)
@@ -1514,7 +1514,7 @@ DATA_ficha_B518:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B521:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb521..0xb52a  (9 bytes)
@@ -1523,7 +1523,7 @@ DATA_ficha_B521:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B52A:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb52a..0xb533  (9 bytes)
@@ -1532,7 +1532,7 @@ DATA_ficha_B52A:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B533:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb533..0xb53c  (9 bytes)
@@ -1541,7 +1541,7 @@ DATA_ficha_B533:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B53C:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb53c..0xb545  (9 bytes)
@@ -1550,7 +1550,7 @@ DATA_ficha_B53C:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B545:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb545..0xb54e  (9 bytes)
@@ -1559,7 +1559,7 @@ DATA_ficha_B545:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B54E:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb54e..0xb557  (9 bytes)
@@ -1568,7 +1568,7 @@ DATA_ficha_B54E:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B557:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb557..0xb560  (9 bytes)
@@ -1577,7 +1577,7 @@ DATA_ficha_B557:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B560:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb560..0xb569  (9 bytes)
@@ -1586,7 +1586,7 @@ DATA_ficha_B560:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B569:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb569..0xb572  (9 bytes)
@@ -1595,7 +1595,7 @@ DATA_ficha_B569:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B572:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb572..0xb57b  (9 bytes)
@@ -1604,7 +1604,7 @@ DATA_ficha_B572:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B57B:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb57b..0xb584  (9 bytes)
@@ -1613,7 +1613,7 @@ DATA_ficha_B57B:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B584:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb584..0xb58d  (9 bytes)
@@ -1622,7 +1622,7 @@ DATA_ficha_B584:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B58D:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb58d..0xb596  (9 bytes)
@@ -1631,7 +1631,7 @@ DATA_ficha_B58D:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B596:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb596..0xb59f  (9 bytes)
@@ -1640,7 +1640,7 @@ DATA_ficha_B596:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B59F:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb59f..0xb5a8  (9 bytes)
@@ -1649,7 +1649,7 @@ DATA_ficha_B59F:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B5A8:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb5a8..0xb5b1  (9 bytes)
@@ -1658,7 +1658,7 @@ DATA_ficha_B5A8:
 
 ; ----------------------------------------------------------------------
 ; DATOS ficha_B5B1:
-;   [tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en 0xC580]:
+;   [tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en 0xC580]:
 ;   p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se queda sin tipo
 ;   (ya se quito); lo leen p02:81A5 (9 bytes)
 ;   0xb5b1..0xb5ba  (9 bytes)
@@ -1699,47 +1699,54 @@ DATA_figuras_de_decorado:
 	defb 0d2h,0b7h	; b5ee
 
 ; ----------------------------------------------------------------------
-; DATOS figura_de_decorado_16: 6 columnas x 3 filas de numeros de dibujo que
+; DATOS figura_de_decorado_16: 3 columnas x 6 filas de numeros de dibujo que
 ;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (18 bytes)
 ;   0xb5f0..0xb602  (18 bytes)
 DATA_figura_de_decorado_16:
-	defb 001h,002h,09ch,003h,004h,09eh	; b5f0
-	defb 001h,002h,09fh,003h,004h,09fh	; b5f6
-	defb 001h,002h,09fh,003h,004h,001h	; b5fc
+	defb 001h,002h,09ch	; b5f0
+	defb 003h,004h,09eh	; b5f3
+	defb 001h,002h,09fh	; b5f6
+	defb 003h,004h,09fh	; b5f9
+	defb 001h,002h,09fh	; b5fc
+	defb 003h,004h,001h	; b5ff
 
 ; ----------------------------------------------------------------------
-; DATOS figura_de_decorado_00: 4 columnas x 2 filas de numeros de dibujo que
+; DATOS figura_de_decorado_00: 2 columnas x 4 filas de numeros de dibujo que
 ;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (8 bytes)
 ;   0xb602..0xb60a  (8 bytes)
 DATA_figura_de_decorado_00:
-	defb 030h,031h,032h,033h	; b602
-	defb 034h,035h,036h,037h	; b606
+	defb 030h,031h	; b602
+	defb 032h,033h	; b604
+	defb 034h,035h	; b606
+	defb 036h,037h	; b608
 
 ; ----------------------------------------------------------------------
-; DATOS figura_de_decorado_05: 2 columnas x 4 filas de numeros de dibujo que
+; DATOS figura_de_decorado_05: 4 columnas x 2 filas de numeros de dibujo que
 ;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (8 bytes)
 ;   0xb60a..0xb612  (8 bytes)
 DATA_figura_de_decorado_05:
-	defb 038h,039h	; b60a
-	defb 03ah,03bh	; b60c
-	defb 03ch,03dh	; b60e
-	defb 03eh,03fh	; b610
+	defb 038h,039h,03ah,03bh	; b60a
+	defb 03ch,03dh,03eh,03fh	; b60e
 
 ; ----------------------------------------------------------------------
-; DATOS figura_de_decorado_03: 4 columnas x 2 filas de numeros de dibujo que
+; DATOS figura_de_decorado_03: 2 columnas x 4 filas de numeros de dibujo que
 ;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (8 bytes)
 ;   0xb612..0xb61a  (8 bytes)
 DATA_figura_de_decorado_03:
-	defb 040h,041h,042h,043h	; b612
-	defb 044h,045h,046h,047h	; b616
+	defb 040h,041h	; b612
+	defb 042h,043h	; b614
+	defb 044h,045h	; b616
+	defb 046h,047h	; b618
 
 ; ----------------------------------------------------------------------
-; DATOS figura_de_decorado_02: 4 columnas x 2 filas de numeros de dibujo que
+; DATOS figura_de_decorado_02: 2 columnas x 4 filas de numeros de dibujo que
 ;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (8 bytes)
 ;   0xb61a..0xb622  (8 bytes)
 DATA_figura_de_decorado_02:
-	defb 040h,041h,042h,043h	; b61a
-	defb 044h,045h,046h,047h	; b61e
+	defb 040h,041h	; b61a
+	defb 042h,043h	; b61c
+	defb 044h,045h	; b61e
+	defb 046h,047h	; b620
 
 ; ----------------------------------------------------------------------
 ; DATOS figura_de_decorado_06: 4 columnas x 4 filas de numeros de dibujo que
@@ -1752,97 +1759,124 @@ DATA_figura_de_decorado_06:
 	defb 05ch,05dh,05eh,05fh	; b62e
 
 ; ----------------------------------------------------------------------
-; DATOS figura_de_decorado_07: 11 columnas x 3 filas de numeros de dibujo que
+; DATOS figura_de_decorado_07: 3 columnas x 11 filas de numeros de dibujo que
 ;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (33 bytes)
 ;   0xb632..0xb653  (33 bytes)
 DATA_figura_de_decorado_07:
-	defb 09ch,09bh,09ah,096h,00bh,007h,097h,003h,0a4h,096h,004h	; b632  ...........
-	defb 0a3h,097h,003h,0a2h,096h,004h,0a3h,097h,003h,0a2h,096h	; b63d  ...........
-	defb 004h,0a3h,097h,003h,0a2h,007h,00bh,0a3h,0a0h,0a1h,0a4h	; b648  ...........
+	defb 09ch,09bh,09ah	; b632
+	defb 096h,00bh,007h	; b635
+	defb 097h,003h,0a4h	; b638
+	defb 096h,004h,0a3h	; b63b
+	defb 097h,003h,0a2h	; b63e
+	defb 096h,004h,0a3h	; b641
+	defb 097h,003h,0a2h	; b644
+	defb 096h,004h,0a3h	; b647
+	defb 097h,003h,0a2h	; b64a
+	defb 007h,00bh,0a3h	; b64d
+	defb 0a0h,0a1h,0a4h	; b650
 
 ; ----------------------------------------------------------------------
-; DATOS figura_de_decorado_08: 20 columnas x 3 filas de numeros de dibujo que
+; DATOS figura_de_decorado_08: 3 columnas x 20 filas de numeros de dibujo que
 ;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (60 bytes)
 ;   0xb653..0xb68f  (60 bytes)
 DATA_figura_de_decorado_08:
-	defb 09ch,09bh,09ah,096h,00bh,007h,097h,003h,0a4h,096h,004h,0a3h,097h,003h,0a2h,096h,004h,0a3h,097h,003h	; b653  ....................
-	defb 0a2h,096h,004h,0a3h,097h,003h,0a2h,096h,004h,0a3h,097h,003h,0a2h,096h,004h,0a3h,097h,003h,0a2h,096h	; b667  ....................
-	defb 004h,0a3h,097h,003h,0a2h,096h,004h,0a3h,097h,003h,0a2h,096h,004h,0a3h,097h,00ch,005h,09dh,098h,099h	; b67b  ....................
+	defb 09ch,09bh,09ah	; b653
+	defb 096h,00bh,007h	; b656
+	defb 097h,003h,0a4h	; b659
+	defb 096h,004h,0a3h	; b65c
+	defb 097h,003h,0a2h	; b65f
+	defb 096h,004h,0a3h	; b662
+	defb 097h,003h,0a2h	; b665
+	defb 096h,004h,0a3h	; b668
+	defb 097h,003h,0a2h	; b66b
+	defb 096h,004h,0a3h	; b66e
+	defb 097h,003h,0a2h	; b671
+	defb 096h,004h,0a3h	; b674
+	defb 097h,003h,0a2h	; b677
+	defb 096h,004h,0a3h	; b67a
+	defb 097h,003h,0a2h	; b67d
+	defb 096h,004h,0a3h	; b680
+	defb 097h,003h,0a2h	; b683
+	defb 096h,004h,0a3h	; b686
+	defb 097h,00ch,005h	; b689
+	defb 09dh,098h,099h	; b68c
 
 ; ----------------------------------------------------------------------
-; DATOS figura_de_decorado_0A: 7 columnas x 2 filas de numeros de dibujo que
+; DATOS figura_de_decorado_0A: 2 columnas x 7 filas de numeros de dibujo que
 ;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (14 bytes)
 ;   0xb68f..0xb69d  (14 bytes)
 DATA_figura_de_decorado_0A:
-	defb 002h,065h,001h,064h,002h,065h,001h	; b68f
-	defb 064h,002h,065h,00bh,064h,069h,06fh	; b696
+	defb 002h,065h	; b68f
+	defb 001h,064h	; b691
+	defb 002h,065h	; b693
+	defb 001h,064h	; b695
+	defb 002h,065h	; b697
+	defb 00bh,064h	; b699
+	defb 069h,06fh	; b69b
 
 ; ----------------------------------------------------------------------
-; DATOS figura_de_decorado_0B: 8 columnas x 4 filas de numeros de dibujo que
+; DATOS figura_de_decorado_0B: 4 columnas x 8 filas de numeros de dibujo que
 ;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (32 bytes)
 ;   0xb69d..0xb6bd  (32 bytes)
 DATA_figura_de_decorado_0B:
-	defb 00ch,00bh,009h,00ah,00ch,00ch,00ah,00bh	; b69d  ........
-	defb 00bh,00bh,009h,00ch,002h,00ch,00ah,003h	; b6a5  ........
-	defb 002h,00bh,00ch,003h,001h,00ch,00bh,004h	; b6ad  ........
-	defb 002h,00bh,00ch,003h,001h,00ch,00bh,004h	; b6b5  ........
+	defb 00ch,00bh,009h,00ah	; b69d
+	defb 00ch,00ch,00ah,00bh	; b6a1
+	defb 00bh,00bh,009h,00ch	; b6a5
+	defb 002h,00ch,00ah,003h	; b6a9
+	defb 002h,00bh,00ch,003h	; b6ad
+	defb 001h,00ch,00bh,004h	; b6b1
+	defb 002h,00bh,00ch,003h	; b6b5
+	defb 001h,00ch,00bh,004h	; b6b9
 
 ; ----------------------------------------------------------------------
-; DATOS figura_de_decorado_0F: 4 columnas x 2 filas de numeros de dibujo que
+; DATOS figura_de_decorado_0F: 2 columnas x 4 filas de numeros de dibujo que
 ;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (8 bytes)
 ;   0xb6bd..0xb6c5  (8 bytes)
 DATA_figura_de_decorado_0F:
-	defb 005h,006h,007h,008h	; b6bd
-	defb 005h,006h,007h,008h	; b6c1
+	defb 005h,006h	; b6bd
+	defb 007h,008h	; b6bf
+	defb 005h,006h	; b6c1
+	defb 007h,008h	; b6c3
 
 ; ----------------------------------------------------------------------
-; DATOS figura_de_decorado_10: 8 columnas x 3 filas de numeros de dibujo que
+; DATOS figura_de_decorado_10: 3 columnas x 8 filas de numeros de dibujo que
 ;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (24 bytes)
 ;   0xb6c5..0xb6dd  (24 bytes)
 DATA_figura_de_decorado_10:
-	defb 006h,009h,0a2h,097h,004h,0a3h,096h,003h	; b6c5  ........
-	defb 0a2h,097h,004h,0a3h,096h,003h,0a2h,097h	; b6cd  ........
-	defb 004h,0a3h,096h,003h,0a2h,097h,004h,0a3h	; b6d5  ........
+	defb 006h,009h,0a2h	; b6c5
+	defb 097h,004h,0a3h	; b6c8
+	defb 096h,003h,0a2h	; b6cb
+	defb 097h,004h,0a3h	; b6ce
+	defb 096h,003h,0a2h	; b6d1
+	defb 097h,004h,0a3h	; b6d4
+	defb 096h,003h,0a2h	; b6d7
+	defb 097h,004h,0a3h	; b6da
 
 ; ----------------------------------------------------------------------
-; DATOS figura_de_decorado_09: 3 columnas x 10 filas de numeros de dibujo que
+; DATOS figura_de_decorado_09: 10 columnas x 3 filas de numeros de dibujo que
 ;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (30 bytes)
 ;   0xb6dd..0xb6fb  (30 bytes)
 DATA_figura_de_decorado_09:
-	defb 06ah,06bh,06ah	; b6dd
-	defb 06bh,06ah,06bh	; b6e0
-	defb 06ah,06bh,06ah	; b6e3
-	defb 06eh,008h,007h	; b6e6
-	defb 008h,007h,008h	; b6e9
-	defb 007h,008h,007h	; b6ec
-	defb 00ch,065h,070h	; b6ef
-	defb 071h,070h,071h	; b6f2
-	defb 070h,071h,070h	; b6f5
-	defb 071h,001h,064h	; b6f8
+	defb 06ah,06bh,06ah,06bh,06ah,06bh,06ah,06bh,06ah,06eh	; b6dd  jkjkjkjkjn
+	defb 008h,007h,008h,007h,008h,007h,008h,007h,00ch,065h	; b6e7  .........e
+	defb 070h,071h,070h,071h,070h,071h,070h,071h,001h,064h	; b6f1  pqpqpqpq.d
 
 ; ----------------------------------------------------------------------
-; DATOS figura_de_decorado_0C: 3 columnas x 8 filas de numeros de dibujo que
+; DATOS figura_de_decorado_0C: 8 columnas x 3 filas de numeros de dibujo que
 ;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (24 bytes)
 ;   0xb6fb..0xb713  (24 bytes)
 DATA_figura_de_decorado_0C:
-	defb 00ch,00bh,009h	; b6fb
-	defb 00ah,00ch,00bh	; b6fe
-	defb 009h,00ah,00bh	; b701
-	defb 00ch,00ch,009h	; b704
-	defb 00bh,00ch,00ch	; b707
-	defb 009h,065h,066h	; b70a
-	defb 065h,066h,065h	; b70d
-	defb 066h,065h,066h	; b710
+	defb 00ch,00bh,009h,00ah,00ch,00bh,009h,00ah	; b6fb  ........
+	defb 00bh,00ch,00ch,009h,00bh,00ch,00ch,009h	; b703  ........
+	defb 065h,066h,065h,066h,065h,066h,065h,066h	; b70b  efefefef
 
 ; ----------------------------------------------------------------------
-; DATOS figura_de_decorado_0D: 2 columnas x 4 filas de numeros de dibujo que
+; DATOS figura_de_decorado_0D: 4 columnas x 2 filas de numeros de dibujo que
 ;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (8 bytes)
 ;   0xb713..0xb71b  (8 bytes)
 DATA_figura_de_decorado_0D:
-	defb 005h,006h	; b713
-	defb 005h,006h	; b715
-	defb 007h,008h	; b717
-	defb 007h,008h	; b719
+	defb 005h,006h,005h,006h	; b713
+	defb 007h,008h,007h,008h	; b717
 
 ; ----------------------------------------------------------------------
 ; DATOS figura_de_decorado_0E: 5 columnas x 5 filas de numeros de dibujo que
@@ -1856,81 +1890,81 @@ DATA_figura_de_decorado_0E:
 	defb 005h,006h,005h,006h,065h	; b72f
 
 ; ----------------------------------------------------------------------
-; DATOS figura_de_decorado_11: 11 columnas x 2 filas de numeros de dibujo que
+; DATOS figura_de_decorado_11: 2 columnas x 11 filas de numeros de dibujo que
 ;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (22 bytes)
 ;   0xb734..0xb74a  (22 bytes)
 DATA_figura_de_decorado_11:
-	defb 09ah,09eh,00ch,094h,001h,095h,002h,094h,001h,095h,002h	; b734  ...........
-	defb 094h,001h,095h,002h,094h,001h,095h,009h,007h,0a0h,0a1h	; b73f  ...........
+	defb 09ah,09eh	; b734
+	defb 00ch,094h	; b736
+	defb 001h,095h	; b738
+	defb 002h,094h	; b73a
+	defb 001h,095h	; b73c
+	defb 002h,094h	; b73e
+	defb 001h,095h	; b740
+	defb 002h,094h	; b742
+	defb 001h,095h	; b744
+	defb 009h,007h	; b746
+	defb 0a0h,0a1h	; b748
 
 ; ----------------------------------------------------------------------
-; DATOS figura_de_decorado_12: 8 columnas x 2 filas de numeros de dibujo que
+; DATOS figura_de_decorado_12: 2 columnas x 8 filas de numeros de dibujo que
 ;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (16 bytes)
 ;   0xb74a..0xb75a  (16 bytes)
 DATA_figura_de_decorado_12:
-	defb 00ah,005h,001h,094h,002h,095h,001h,094h	; b74a  ........
-	defb 002h,095h,001h,094h,00ah,095h,098h,09fh	; b752  ........
+	defb 00ah,005h	; b74a
+	defb 001h,094h	; b74c
+	defb 002h,095h	; b74e
+	defb 001h,094h	; b750
+	defb 002h,095h	; b752
+	defb 001h,094h	; b754
+	defb 00ah,095h	; b756
+	defb 098h,09fh	; b758
 
 ; ----------------------------------------------------------------------
-; DATOS figura_de_decorado_13: 5 columnas x 10 filas de numeros de dibujo que
+; DATOS figura_de_decorado_13: 10 columnas x 5 filas de numeros de dibujo que
 ;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (50 bytes)
 ;   0xb75a..0xb78c  (50 bytes)
 DATA_figura_de_decorado_13:
-	defb 005h,006h,005h,006h,005h	; b75a
-	defb 006h,005h,006h,064h,068h	; b75f
-	defb 068h,069h,068h,069h,068h	; b764
-	defb 069h,068h,069h,068h,069h	; b769
-	defb 067h,06bh,06ah,06bh,06ah	; b76e
-	defb 06bh,06ah,06bh,067h,06ah	; b773
-	defb 06ah,008h,007h,008h,007h	; b778
-	defb 008h,007h,008h,06ah,064h	; b77d
-	defb 067h,003h,06ch,06dh,06ch	; b782
-	defb 06dh,06ch,06dh,002h,065h	; b787
+	defb 005h,006h,005h,006h,005h,006h,005h,006h,064h,068h	; b75a  ........dh
+	defb 068h,069h,068h,069h,068h,069h,068h,069h,068h,069h	; b764  hihihihihi
+	defb 067h,06bh,06ah,06bh,06ah,06bh,06ah,06bh,067h,06ah	; b76e  gkjkjkjkgj
+	defb 06ah,008h,007h,008h,007h,008h,007h,008h,06ah,064h	; b778  j.......jd
+	defb 067h,003h,06ch,06dh,06ch,06dh,06ch,06dh,002h,065h	; b782  g.lmlmlm.e
 
 ; ----------------------------------------------------------------------
-; DATOS figura_de_decorado_14: 2 columnas x 4 filas de numeros de dibujo que
+; DATOS figura_de_decorado_14: 4 columnas x 2 filas de numeros de dibujo que
 ;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (8 bytes)
 ;   0xb78c..0xb794  (8 bytes)
 DATA_figura_de_decorado_14:
-	defb 020h,020h	; b78c
-	defb 020h,020h	; b78e
-	defb 021h,021h	; b790
-	defb 021h,021h	; b792
+	defb 020h,020h,020h,020h	; b78c
+	defb 021h,021h,021h,021h	; b790
 
 ; ----------------------------------------------------------------------
-; DATOS figura_de_decorado_15: 4 columnas x 1 filas de numeros de dibujo que
+; DATOS figura_de_decorado_15: 1 columnas x 4 filas de numeros de dibujo que
 ;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (4 bytes)
 ;   0xb794..0xb798  (4 bytes)
 DATA_figura_de_decorado_15:
-	defb 022h,022h,022h,022h	; b794
+	defb 022h	; b794
+	defb 022h	; b795
+	defb 022h	; b796
+	defb 022h	; b797
 
 ; ----------------------------------------------------------------------
-; DATOS figura_de_decorado_17: 3 columnas x 10 filas de numeros de dibujo que
+; DATOS figura_de_decorado_17: 10 columnas x 3 filas de numeros de dibujo que
 ;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (30 bytes)
 ;   0xb798..0xb7b6  (30 bytes)
 DATA_figura_de_decorado_17:
-	defb 06ch,06bh,06ah	; b798
-	defb 06bh,06ah,06bh	; b79b
-	defb 06ah,06bh,06ah	; b79e
-	defb 06eh,066h,00ah	; b7a1
-	defb 008h,008h,008h	; b7a4
-	defb 007h,008h,007h	; b7a7
-	defb 00ch,064h,067h	; b7aa
-	defb 003h,074h,070h	; b7ad
-	defb 071h,070h,071h	; b7b0
-	defb 070h,001h,065h	; b7b3
+	defb 06ch,06bh,06ah,06bh,06ah,06bh,06ah,06bh,06ah,06eh	; b798  lkjkjkjkjn
+	defb 066h,00ah,008h,008h,008h,007h,008h,007h,00ch,064h	; b7a2  f........d
+	defb 067h,003h,074h,070h,071h,070h,071h,070h,001h,065h	; b7ac  g.tpqpqp.e
 
 ; ----------------------------------------------------------------------
-; DATOS figura_de_decorado_18: 2 columnas x 6 filas de numeros de dibujo que
+; DATOS figura_de_decorado_18: 6 columnas x 2 filas de numeros de dibujo que
 ;   p00:4EB5 pinta con transparencia; lo leen p02:8204 (12 bytes)
 ;   0xb7b6..0xb7c2  (12 bytes)
 DATA_figura_de_decorado_18:
-	defb 020h,020h	; b7b6
-	defb 020h,020h	; b7b8
-	defb 020h,020h	; b7ba
-	defb 021h,021h	; b7bc
-	defb 021h,021h	; b7be
-	defb 021h,021h	; b7c0
+	defb 020h,020h,020h,020h,020h,020h	; b7b6
+	defb 021h,021h,021h,021h,021h,021h	; b7bc
 
 ; ----------------------------------------------------------------------
 ; DATOS figura_de_decorado_19: 4 columnas x 4 filas de numeros de dibujo que
@@ -1971,7 +2005,7 @@ golpea_a_la_ficha:
 	scf			;b7ed
 	ret			;b7ee
 fuerza_segun_level:
-	ld a,(0c12eh)		;b7ef
+	ld a,(0c12eh)		;b7ef   ; lee LEVEL, el nivel de Mitchel (BCD)
 	add a,010h		;b7f2
 	ld h,a			;b7f4
 	jp 0413ah		;b7f5
@@ -2002,14 +2036,14 @@ ficha_numero:
 	ld e,000h		;b820
 	srl d		;b822
 	rr e		;b824
-	ld ix,0d000h		;b826
+	ld ix,0d000h		;b826   ; apunta a las fichas de los enemigos (13 de 0x80)
 	add ix,de		;b82a
 	ret			;b82c
 tabla_B83B:
 	add a,a			;b82d
 	add a,a			;b82e
 	add a,(ix+07fh)		;b82f
-	ld hl,0b83bh		;b832
+	ld hl,0b83bh		;b832   ; tabla_B83B: 4x4 bytes: lo que p09:B82D devuelve segun 4*A + ix+0x7F
 	ld c,a			;b835
 	ld b,000h		;b836
 	add hl,bc			;b838
@@ -2029,17 +2063,17 @@ DATA_tabla_B83B:
 
 lo_lanzado_da_a_la_ficha:
 	ld c,(ix+000h)		;b84b
-	call ficha_numero		;b84e
+	call ficha_numero		;b84e   ; ficha_numero: IX = la ficha ix+0x1C (1-13) de 0xD000
 	call 04140h		;b851
 	call direccion_del_golpe		;b854
 	set 1,(ix+01eh)		;b857
-	ld hl,0c380h		;b85b
+	ld hl,0c380h		;b85b   ; apunta a lo que lanza Mitchel (su ficha)
 	ld a,(hl)			;b85e
 	cp 003h		;b85f
 	call z,efecto_sobre_lo_lanzado		;b861
 	call efecto_de_lo_lanzado		;b864
 	jp nc,L_B959		;b867
-	ld a,(0c380h)		;b86a
+	ld a,(0c380h)		;b86a   ; lee lo que lanza Mitchel (su ficha)
 	dec a			;b86d
 	jr z,L_B89E		;b86e
 	dec a			;b870
@@ -2057,22 +2091,22 @@ L_B878:
 	ld a,01eh		;b884
 	call 040e6h		;b886
 	ld e,018h		;b889
-	call golpea_a_la_ficha		;b88b
+	call golpea_a_la_ficha		;b88b   ; golpea_a_la_ficha: resta la fuerza (en BCD) de la vida de la ficha (ix+0x0D); a cero, muere
 	ret nc			;b88e
 	jr mitchel_golpea		;b88f
 L_B891:
 	ld a,01eh		;b891
 	call 040e6h		;b893
 	ld e,006h		;b896
-	call golpea_a_la_ficha		;b898
+	call golpea_a_la_ficha		;b898   ; golpea_a_la_ficha: resta la fuerza (en BCD) de la vida de la ficha (ix+0x0D); a cero, muere
 	ret nc			;b89b
 	jr mitchel_golpea		;b89c
 L_B89E:
 	ld a,01eh		;b89e
 	call 040e6h		;b8a0
 	ld e,015h		;b8a3
-	call golpea_a_la_ficha		;b8a5
-	ld hl,0c380h		;b8a8
+	call golpea_a_la_ficha		;b8a5   ; golpea_a_la_ficha: resta la fuerza (en BCD) de la vida de la ficha (ix+0x0D); a cero, muere
+	ld hl,0c380h		;b8a8   ; apunta a lo que lanza Mitchel (su ficha)
 	ld (hl),000h		;b8ab
 	ret nc			;b8ad
 mitchel_golpea:
@@ -2083,7 +2117,7 @@ mitchel_golpea:
 	ld b,000h		;b8b5
 	ld hl,0b914h		;b8b7
 	add hl,bc			;b8ba
-	ld a,(0c12eh)		;b8bb
+	ld a,(0c12eh)		;b8bb   ; lee LEVEL, el nivel de Mitchel (BCD)
 	cp (hl)			;b8be
 	ld a,(hl)			;b8bf
 	ld c,a			;b8c0
@@ -2097,7 +2131,7 @@ L_B8CB:
 	dec a			;b8ce
 	jp p,L_B90F		;b8cf
 	ld a,c			;b8d2
-	ld hl,(0c12bh)		;b8d3
+	ld hl,(0c12bh)		;b8d3   ; lee EXP, la experiencia (BCD)
 	add a,l			;b8d6
 	daa			;b8d7
 	ld l,a			;b8d8
@@ -2107,14 +2141,14 @@ L_B8CB:
 	ld h,a			;b8dd
 	jr nc,L_B8E8		;b8de
 	ld hl,09999h		;b8e0
-	ld (0c12bh),hl		;b8e3
+	ld (0c12bh),hl		;b8e3   ; guarda EXP, la experiencia (BCD)
 	jr L_B90C		;b8e6
 L_B8E8:
 	ld a,(0c12ch)		;b8e8
-	ld (0c12bh),hl		;b8eb
+	ld (0c12bh),hl		;b8eb   ; guarda EXP, la experiencia (BCD)
 	cp h			;b8ee
 	jr z,L_B90C		;b8ef
-	ld hl,0c12eh		;b8f1
+	ld hl,0c12eh		;b8f1   ; apunta a LEVEL, el nivel de Mitchel (BCD)
 	ld a,(hl)			;b8f4
 	add a,001h		;b8f5
 	daa			;b8f7
@@ -2122,7 +2156,7 @@ L_B8E8:
 	ld (hl),a			;b8fa
 	call 04146h		;b8fb
 	call 04050h		;b8fe
-	ld hl,0bcb3h		;b901
+	ld hl,0bcb3h		;b901   ; subes_de_nivel: [x][y] "LEVEL が あがりました。" 0xFF: lo que p09:B901 escribe al subir de nivel
 	call 04056h		;b904
 	ld a,080h		;b907
 	ld (0c162h),a		;b909
@@ -2152,7 +2186,7 @@ DATA_level_de_cada_enemigo:
 L_B959:
 	ld a,01fh		;b959
 	call 040e6h		;b95b
-	ld hl,0c380h		;b95e
+	ld hl,0c380h		;b95e   ; apunta a lo que lanza Mitchel (su ficha)
 	ld a,(hl)			;b961
 	sub 002h		;b962
 	cp 002h		;b964
@@ -2167,7 +2201,7 @@ efecto_sobre_lo_lanzado:
 	pop ix		;b972
 	ret			;b974
 efecto_de_lo_lanzado:
-	ld hl,0c380h		;b975
+	ld hl,0c380h		;b975   ; apunta a lo que lanza Mitchel (su ficha)
 	ld a,(ix+000h)		;b978
 	sub 002h		;b97b
 	ret z			;b97d
@@ -2296,7 +2330,7 @@ la_ficha_toca_a_mitchel:
 L_BA3D:
 	and 07fh		;ba3d
 	call 0408ch		;ba3f
-	ld de,0c129h		;ba42
+	ld de,0c129h		;ba42   ; apunta a LIFE, la vida de Mitchel (BCD)
 	ld a,(de)			;ba45
 	sub (hl)			;ba46
 	daa			;ba47
@@ -2361,10 +2395,10 @@ golpe_a_la_ficha:
 	ld a,01eh		;ba9f
 	call 040e6h		;baa1
 	ld c,(ix+000h)		;baa4
-	call ficha_numero		;baa7
+	call ficha_numero		;baa7   ; ficha_numero: IX = la ficha ix+0x1C (1-13) de 0xD000
 	call 04140h		;baaa
-	ld a,(0c306h)		;baad
-	ld hl,0bae4h		;bab0
+	ld a,(0c306h)		;baad   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+	ld hl,0bae4h		;bab0   ; byte_7e_BAE4: 4 bytes: lo que p09:BAB0 pone en ix+0x7E segun la direccion de Mitchel (0xC306)
 	call 0408ch		;bab3
 	ld a,(hl)			;bab6
 	ld (ix+07eh),a		;bab7
@@ -2374,16 +2408,16 @@ golpe_a_la_ficha:
 	call sirve_el_arma		;bac3
 	ld a,01fh		;bac6
 	jp nc,040e6h		;bac8
-	call armas_especiales		;bacb
+	call armas_especiales		;bacb   ; armas_especiales: la espada de luz (4), el hacha (5) y el arpon (0x0B) van aparte
 	ld a,01fh		;bace
 	jp nc,040e6h		;bad0
-	ld a,(0c140h)		;bad3
-	ld hl,0bca7h		;bad6
+	ld a,(0c140h)		;bad3   ; lee SHOT1, el arma que se lleva (0 el puno)
+	ld hl,0bca7h		;bad6   ; fuerza_de_cada_arma: 12 bytes (BCD), uno por arma de SHOT1 (0xC140, 0 el puno): lo que p09:BAD6 pasa a p09:B7D6 al golpear
 	call 0408ch		;bad9
 	ld e,(hl)			;badc
-	call golpea_a_la_ficha		;badd
+	call golpea_a_la_ficha		;badd   ; golpea_a_la_ficha: resta la fuerza (en BCD) de la vida de la ficha (ix+0x0D); a cero, muere
 	ret nc			;bae0
-	jp mitchel_golpea		;bae1
+	jp mitchel_golpea		;bae1   ; mitchel_golpea: con LEVEL por debajo del que pide el enemigo (p09:B914), solo sigue uno de cada 16 golpes
 
 ; ----------------------------------------------------------------------
 ; DATOS byte_7e_BAE4: 4 bytes: lo que p09:BAB0 pone en ix+0x7E segun la
@@ -2399,12 +2433,12 @@ DATA_byte_7e_BAE4:
 
 armas_especiales:
 	ld c,(ix+000h)		;bae8   ; la espada de luz (4), el hacha (5) y el arpon (0x0B) van aparte
-	ld a,(0c140h)		;baeb
-	cp 004h		;baee
+	ld a,(0c140h)		;baeb   ; lee SHOT1, el arma que se lleva (0 el puno)
+	cp 004h		;baee   ; el objeto 0x04, ひかりのけん?
 	jr z,L_BAFC		;baf0
-	cp 005h		;baf2
+	cp 005h		;baf2   ; el objeto 0x05, おの?
 	jr z,L_BB07		;baf4
-	cp 00bh		;baf6
+	cp 00bh		;baf6   ; el objeto 0x0B, もり?
 	jr z,L_BB0B		;baf8
 	scf			;bafa
 	ret			;bafb
@@ -2433,7 +2467,7 @@ L_BB0B:
 	xor a			;bb12
 	ret			;bb13
 sirve_el_arma:
-	ld a,(0c140h)		;bb14
+	ld a,(0c140h)		;bb14   ; lee SHOT1, el arma que se lleva (0 el puno)
 	ld c,a			;bb17
 	ld a,(ix+000h)		;bb18
 	cp 002h		;bb1b
@@ -2541,7 +2575,7 @@ L_BBA4:
 	xor a			;bba9
 	ret			;bbaa
 L_BBAB:
-	ld a,(0c357h)		;bbab
+	ld a,(0c357h)		;bbab   ; lee cuantos objetos 0x18 se llevan (BCD; 0xFF sin cuenta)
 	and a			;bbae
 	ret z			;bbaf
 	scf			;bbb0
@@ -2561,7 +2595,7 @@ L_BBB9:
 	xor a			;bbbe
 	ret			;bbbf
 L_BBC0:
-	ld a,(0c306h)		;bbc0
+	ld a,(0c306h)		;bbc0   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	call tabla_B83B		;bbc3
 	sub 001h		;bbc6
 	ret			;bbc8
@@ -2593,13 +2627,13 @@ L_BBF4:
 	ld a,c			;bbf4
 	cp 00ah		;bbf5   ; con cuatro boomerangs (0xC349) no se coge otro
 	jr nz,L_BBFF		;bbf7
-	ld a,(0c349h)		;bbf9
+	ld a,(0c349h)		;bbf9   ; lee cuantos objetos 0x0A se llevan (BCD; 0xFF sin cuenta)
 	cp 004h		;bbfc
 	ret nc			;bbfe
 L_BBFF:
 	ld a,c			;bbff
 	ld b,(ix+006h)		;bc00
-	call 04176h		;bc03
+	call 04176h		;bc03   ; p00:puente_da_objeto_b: p01:79D0: da el objeto A, B unidades (al recogerlo del suelo, p09:BC03)
 	ld a,027h		;bc06
 	call 040e6h		;bc08
 	ld a,03ch		;bc0b
@@ -2623,7 +2657,7 @@ recoge_oro:
 	ld (hl),a			;bc2f
 	jp nc,L_BC39		;bc30
 	ld hl,09999h		;bc33
-	ld (0c135h),hl		;bc36
+	ld (0c135h),hl		;bc36   ; guarda GOLD, los dos bytes bajos (BCD)
 L_BC39:
 	call 04164h		;bc39
 	jp 0416ah		;bc3c
@@ -2710,8 +2744,8 @@ L_BCFD:
 	ret			;bd00
 L_BD01:
 	ld hl,01212h		;bd01
-	ld a,(0c125h)		;bd04
-	cp 073h		;bd07
+	ld a,(0c125h)		;bd04   ; lee la PANTALLA
+	cp 073h		;bd07   ; la pantalla 0x73?
 	ret z			;bd09
 	ld hl,0121bh		;bd0a
 	ret			;bd0d
@@ -2752,14 +2786,14 @@ L_BDA8:
 	cp h			;bda8
 	ret			;bda9
 pantallas_73_a_77:
-	ld a,(0c125h)		;bdaa
+	ld a,(0c125h)		;bdaa   ; lee la PANTALLA
 	sub 073h		;bdad
 	cp 005h		;bdaf
 	ret nc			;bdb1
 	ld a,(0c324h)		;bdb2
 	and a			;bdb5
 	ret nz			;bdb6
-	ld a,(0c300h)		;bdb7
+	ld a,(0c300h)		;bdb7   ; lee el estado de Mitchel
 	cp 008h		;bdba
 	jr z,L_BDC1		;bdbc
 	cp 005h		;bdbe
@@ -2769,8 +2803,8 @@ L_BDC1:
 	ld a,e			;bdc4
 	and 007h		;bdc5
 	ret nz			;bdc7
-	ld a,(0c306h)		;bdc8
-	cp 002h		;bdcb
+	ld a,(0c306h)		;bdc8   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+	cp 002h		;bdcb   ; mira a la izquierda?
 	ret nc			;bdcd
 	and a			;bdce
 	ld a,0f6h		;bdcf
@@ -2805,7 +2839,7 @@ L_BDEA:
 	ld a,001h		;be01
 	jp 041f4h		;be03
 delante_segun_la_direccion:
-	ld a,(0c306h)		;be06
+	ld a,(0c306h)		;be06   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	and a			;be09
 	jr z,L_BE11		;be0a
 	ld a,e			;be0c
@@ -2831,18 +2865,18 @@ lo_de_0xC800:
 	ld e,(hl)			;be26
 	inc l			;be27
 	ld d,(hl)			;be28
-	ld ix,0d000h		;be29
+	ld ix,0d000h		;be29   ; apunta a las fichas de los enemigos (13 de 0x80)
 	ld b,00dh		;be2d
 L_BE2F:
-	ld a,(ix+000h)		;be2f
-	cp 043h		;be32
+	ld a,(ix+000h)		;be2f   ; lee el tipo del enemigo
+	cp 043h		;be32   ; GRASSOGRE (tipo 0x43)?
 	jr nz,L_BE55		;be34
-	ld a,(ix+003h)		;be36
+	ld a,(ix+003h)		;be36   ; lee la y del enemigo
 	sub e			;be39
 	add a,00eh		;be3a
 	cp 01ch		;be3c
 	jr nc,L_BE55		;be3e
-	ld a,(ix+005h)		;be40
+	ld a,(ix+005h)		;be40   ; lee la x del enemigo
 	sub d			;be43
 	add a,00eh		;be44
 	cp 01ch		;be46
@@ -2850,7 +2884,7 @@ L_BE2F:
 	push ix		;be4a
 	push bc			;be4c
 	push de			;be4d
-	call mitchel_golpea		;be4e
+	call mitchel_golpea		;be4e   ; mitchel_golpea: con LEVEL por debajo del que pide el enemigo (p09:B914), solo sigue uno de cada 16 golpes
 	pop de			;be51
 	pop bc			;be52
 	pop ix		;be53
@@ -2863,7 +2897,7 @@ L_BE55:
 	ret			;be5e
 lo_lanzado_toca_a_mitchel:
 	call 040e0h		;be5f
-	ld ix,0c380h		;be62
+	ld ix,0c380h		;be62   ; apunta a lo que lanza Mitchel (su ficha)
 	ld a,(ix+000h)		;be66
 	cp 003h		;be69
 	ret nz			;be6b
@@ -2881,7 +2915,7 @@ lo_lanzado_toca_a_mitchel:
 	cp 010h		;be81
 	ret nc			;be83
 	ld (ix+000h),000h		;be84
-	ld hl,0c349h		;be88
+	ld hl,0c349h		;be88   ; apunta a cuantos objetos 0x0A se llevan (BCD; 0xFF sin cuenta)
 	ld a,(hl)			;be8b
 	inc a			;be8c
 	jr nz,L_BE90		;be8d
@@ -2890,7 +2924,7 @@ L_BE90:
 	ld (hl),a			;be90
 	ret			;be91
 L_BE92:
-	ld a,(0c353h)		;be92
+	ld a,(0c353h)		;be92   ; lee cuantos objetos 0x14 se llevan (BCD; 0xFF sin cuenta)
 	and a			;be95
 	ret z			;be96
 	ld a,(0c372h)		;be97
@@ -2908,12 +2942,12 @@ L_BE92:
 	xor a			;beab
 	ld (0c372h),a		;beac
 	ld de,07828h		;beaf
-	ld hl,0bec4h		;beb2
+	ld hl,0bec4h		;beb2   ; figura_BEC4: 2x2 dibujos 0x62 que p09:BEB2 pinta en (0x28, 0x78) antes de poner alli el objeto 0x13
 	ld bc,00202h		;beb5
 	call 041c4h		;beb8
 	ld de,08030h		;bebb
 	ld bc,00113h		;bebe
-	jp 0419ah		;bec1
+	jp 0419ah		;bec1   ; p00:puente_pon_objeto: p01:7852: pone el objeto C (B unidades) en (E, D) de la pantalla
 
 ; ----------------------------------------------------------------------
 ; DATOS figura_BEC4: 2x2 dibujos 0x62 que p09:BEB2 pinta en (0x28, 0x78) antes
@@ -2929,26 +2963,26 @@ DATA_figura_BEC4:
 
 toca_los_objetos:
 	call 040e0h		;bec8
-	ld ix,0c400h		;becb
+	ld ix,0c400h		;becb   ; apunta a los objetos del suelo (4 fichas de 16 bytes)
 	ld b,004h		;becf
 	ld hl,01c0eh		;bed1
-	ld a,(0c125h)		;bed4
-	cp 089h		;bed7
+	ld a,(0c125h)		;bed4   ; lee la PANTALLA
+	cp 089h		;bed7   ; la pantalla 0x89?
 	jr nz,L_BEDE		;bed9
 	ld hl,03018h		;bedb
 L_BEDE:
-	ld a,(ix+000h)		;bede
+	ld a,(ix+000h)		;bede   ; lee el numero de objeto
 	and a			;bee1
 	jr z,L_BEFD		;bee2
 	ld a,(ix+007h)		;bee4
 	and a			;bee7
 	jr nz,L_BEFD		;bee8
-	ld a,(ix+003h)		;beea
+	ld a,(ix+003h)		;beea   ; lee la y del objeto
 	sub e			;beed
 	add a,l			;beee
 	cp h			;beef
 	jr nc,L_BEFD		;bef0
-	ld a,(ix+005h)		;bef2
+	ld a,(ix+005h)		;bef2   ; lee la x del objeto
 	sub d			;bef5
 	add a,00ch		;bef6
 	cp 018h		;bef8
@@ -2961,17 +2995,17 @@ L_BEFD:
 	djnz L_BEDE		;bf04
 	ret			;bf06
 lo_lanzado_contra_las_fichas:
-	ld a,(0c380h)		;bf07
+	ld a,(0c380h)		;bf07   ; lee lo que lanza Mitchel (su ficha)
 	dec a			;bf0a
 	ret m			;bf0b
 	ld a,(0c383h)		;bf0c
 	ld e,a			;bf0f
 	ld a,(0c385h)		;bf10
 	ld d,a			;bf13
-	ld ix,0d000h		;bf14
+	ld ix,0d000h		;bf14   ; apunta a las fichas de los enemigos (13 de 0x80)
 	ld b,00dh		;bf18
 L_BF1A:
-	ld a,(ix+000h)		;bf1a
+	ld a,(ix+000h)		;bf1a   ; lee el tipo del enemigo
 	and a			;bf1d
 	jr z,L_BF3D		;bf1e
 	bit 1,(ix+00eh)		;bf20
@@ -3002,10 +3036,10 @@ fichas_contra_mitchel:
 	ld (0c168h),a		;bf48
 	ld (0c161h),a		;bf4b
 	call 040e0h		;bf4e
-	ld ix,0d000h		;bf51
+	ld ix,0d000h		;bf51   ; apunta a las fichas de los enemigos (13 de 0x80)
 	ld b,00dh		;bf55
 L_BF57:
-	ld a,(ix+000h)		;bf57
+	ld a,(ix+000h)		;bf57   ; lee el tipo del enemigo
 	and a			;bf5a
 	jr z,L_BF7E		;bf5b
 	ld a,(ix+00eh)		;bf5d
@@ -3038,17 +3072,17 @@ golpeando:
 	ld a,(0c324h)		;bf88
 	and a			;bf8b
 	ret nz			;bf8c
-	ld a,(0c300h)		;bf8d
+	ld a,(0c300h)		;bf8d   ; lee el estado de Mitchel
 	cp 008h		;bf90
 	jr z,L_BF97		;bf92
 	cp 005h		;bf94
 	ret nz			;bf96
 L_BF97:
 	call delante_de_mitchel		;bf97
-	ld ix,0d000h		;bf9a
+	ld ix,0d000h		;bf9a   ; apunta a las fichas de los enemigos (13 de 0x80)
 	ld b,00dh		;bf9e
 L_BFA0:
-	ld a,(ix+000h)		;bfa0
+	ld a,(ix+000h)		;bfa0   ; lee el tipo del enemigo
 	and a			;bfa3
 	jr z,L_BFC7		;bfa4
 	bit 1,(ix+00eh)		;bfa6
@@ -3078,9 +3112,9 @@ L_BFC7:
 	ret			;bfd0
 delante_de_mitchel:
 	call 040e0h		;bfd1
-	ld a,(0c306h)		;bfd4
+	ld a,(0c306h)		;bfd4   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	add a,a			;bfd7
-	ld hl,0bfe6h		;bfd8
+	ld hl,0bfe6h		;bfd8   ; pasos_BFE6: 4 parejas [dx][dy] segun la direccion de Mitchel (p09:BFD8)
 	call 0408ch		;bfdb
 	ld a,e			;bfde
 	add a,(hl)			;bfdf

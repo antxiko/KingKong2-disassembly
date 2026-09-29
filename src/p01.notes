@@ -283,3 +283,537 @@ F 0x7EF5 2
 D 0x7FFC 0x8000 tabla_7FFC  6 destinos del despachador de 0x425F (call en p01:7FF9): 0x8008, 0x8017, 0x8025, 0x8039, 0x8065, 0x8039; lo leen p01:7FF9 (4 bytes)
 F 0x7FFC 2
 # --- fin de los bloques de bloques.py ---
+
+# --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
+C 0x6002 el mapper: el banco de A en 0x8000
+C 0x6005 guarda la copia del banco de 0x8000
+C 0x6009 el mapper: el banco de A en 0xA000
+C 0x600C guarda la copia del banco de 0xA000
+C 0x6013 p05:fuente: 96 letras de 1 bit (desde el '0', 0x30): la fuente; p01:6010 la sube dos veces (color 14 y color 3)
+C 0x6019 p00:sube_letras: B letras de 1 bit de HL, en color C, a la hoja de la pagina 1 desde (D, E)
+C 0x601F p05:fuente: 96 letras de 1 bit (desde el '0', 0x30): la fuente; p01:6010 la sube dos veces (color 14 y color 3)
+C 0x6025 p00:sube_letras: B letras de 1 bit de HL, en color C, a la hoja de la pagina 1 desde (D, E)
+C 0x6028 lee las banderas de la partida (bit 6: de verdad, no la demostracion)
+C 0x602F p06:letra_copyright: el (c) de los creditos: una letra de 1 bit que p01:602F pone en el sitio de la 0x3A
+C 0x6038 p00:sube_letras: B letras de 1 bit de HL, en color C, a la hoja de la pagina 1 desde (D, E)
+C 0x603B p00:bancos_1_2_3
+C 0x6048 lee la PANTALLA
+C 0x604B la pantalla 0x61?
+C 0x604F lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0x6055 lee la Y de Mitchel
+C 0x605C lee la X de Mitchel
+C 0x6067 guarda la PANTALLA
+C 0x606D guarda el punto de entrada (y, x)
+C 0x6071 guarda el lado por el que se entra en una salida especial
+C 0x6078 guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
+C 0x607C lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0x6084 lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0x608D lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0x6096 lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0x609C lee la X de Mitchel
+C 0x60A8 lee la X de Mitchel
+C 0x60B4 lee la Y de Mitchel
+C 0x60C2 lee la Y de Mitchel
+C 0x60CD pantalla_vecina: p09:B1C5 + 4*pantalla + C: arriba, abajo, izquierda, derecha
+C 0x60D4 lee la PANTALLA
+C 0x60DB guarda la PANTALLA
+C 0x60DF lado_de_la_salida: 4 bytes: lo que p01:60E5 pone en 0xC130 segun la salida especial por la que se entra (C, 0-3)
+C 0x60E2 p00:hl_mas_a
+C 0x60E6 guarda el lado por el que se entra en una salida especial
+C 0x60E9 donde_aparece_mitchel: el punto de entrada (0xC321) segun el lado C por el que se entra
+C 0x60EC salida_especial: pantallas 0xF0-0xFB: la de llegada y el punto de p01:611F
+C 0x60F1 guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
+C 0x6103 salidas_especiales: 12 salidas especiales (0xF0-0xFB): pantalla de llegada y punto (x, y) donde aparece Mitchel; p01:60FA con 0x611F + 3*(n-0xF0)
+C 0x6106 p00:hl_mas_a
+C 0x610A guarda la PANTALLA
+C 0x6112 guarda el punto de entrada (y, x)
+C 0x6147 lee la X de Mitchel
+C 0x6163 guarda el punto de entrada (y, x)
+C 0x617A el mapper: el banco de A en 0xA000
+C 0x617D guarda la copia del banco de 0xA000
+C 0x6184 p00:bancos_1_2_3
+C 0x61AC p00:bancos_1_2_3
+C 0x61B2 escribe_nombre_del_enemigo: p15:BA76 + 2*tipo, con el banco 15 en 0xA000
+C 0x61D5 el mapper: el banco de A en 0xA000
+C 0x61D8 guarda la copia del banco de 0xA000
+C 0x61E0 p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
+C 0x61EA p00:escribe_letras
+C 0x61F5 life_y_str: "LIFE" y "STR" (0xFF acaba cada uno): lo que p01:61F5 y p01:6203 escriben junto al enemigo en el panel
+C 0x61FB p00:escribe_letras
+C 0x6208 p00:escribe_letras
+C 0x623A apunta a las fichas de los enemigos (13 de 0x80)
+C 0x6240 lee el tipo del enemigo
+C 0x624E p00:bancos_1_2_3
+C 0x627B el mapper: el banco de A en 0xA000
+C 0x627E guarda la copia del banco de 0xA000
+C 0x6283 p09:fuerza_de_cada_enemigo: 68 bytes, uno por tipo de enemigo: la fuerza (STR) que se ve en el panel; p01:6287 con 0xBC4F + tipo - 1
+C 0x6287 p00:de_mas_a
+C 0x628C p00:bancos_1_2_3
+C 0x62A5 valores_de_c120: 3 bytes que p01:62AF copia a 0xC120-0xC122 al empezar la partida
+C 0x62B4 guarda el paso del suceso de p06:A649
+C 0x62C3 rotulos_del_panel_2: lo mismo: DAYS, MP, GOLD, LIFE, EXP y LEVEL; p01:62C3
+C 0x62DE rotulos_del_panel_1: [x][y] letras, 0xFE [x][y] sigue en otro sitio, 0xFF acaba: MITCHEL, SHOT1 y SHOT2; p01:62DE
+C 0x62E1 p00:rotulo: [x][y] letras, 0xFE [x][y] otro sitio, 0xFF acaba
+C 0x62E7 lee SHOT1, el arma que se lleva (0 el puno)
+C 0x62EF lee SHOT2, el objeto que se lleva
+C 0x62F6 pinta_icono: el 0x26 (oro) se pinta con el dibujo del 6 (la bolsa)
+C 0x62FF p00:hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
+C 0x6362 apunta a LEVEL, el nivel de Mitchel (BCD)
+C 0x636C apunta a MP, la magia (BCD, hasta 99)
+C 0x639F p00:escribe_una_letra
+C 0x63B0 borra_la_ventana_de_texto: 160x24 puntos en (8, 0xB0): debajo del decorado
+C 0x63DC p00:pon_dibujo: el dibujo A de la hoja (pagina 1) en (D, E) de la pagina 0
+C 0x63FD p00:pon_dibujo: el dibujo A de la hoja (pagina 1) en (D, E) de la pagina 0
+C 0x640F p00:hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
+C 0x641A p00:hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
+C 0x6425 p00:hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
+C 0x6430 p00:hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
+C 0x643B p00:hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
+C 0x6473 p00:raya_horizontal: orden LINE del V9938 (MAJ = 0): de (H, L), B-1 puntos
+C 0x648F p00:raya_horizontal: orden LINE del V9938 (MAJ = 0): de (H, L), B-1 puntos
+C 0x6495 p00:apaga_los_sprites: bit 1 (SPD) del registro 8 del VDP a uno: no se ven los sprites
+C 0x649D p00:apaga_la_pantalla: bit 6 del registro 1 del VDP a cero
+C 0x64AA p00:hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
+C 0x64AD p00:espera_al_vdp: espera a que el V9938 acabe la orden (bit 0 de S#2)
+C 0x64B2 registros_del_vdp: 4 parejas [registro][valor] que p01:64B5 escribe con WRTVDP: R1 0x62, R5 0xEF, R6 0x1F, R11 0x01
+C 0x64C2 p00:oculta_los_sprites: los 128 bytes de atributos de sprite (0xF600) a 0xE0
+C 0x64C5 p00:enciende_la_pantalla: bit 6 del registro 1 del VDP a uno
+C 0x64D6 p00:hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
+C 0x64E1 lee el paso del suceso de p06:A649
+C 0x64F0 teclas_nuevas: (HL) = las de ahora; (HL-1) = las que no estaban el cuadro anterior
+C 0x64F6 apunta a las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0x657D p00:hay_musica
+C 0x659E lee el juego de dibujos de la pantalla
+C 0x65A3 el juego de dibujos 5?
+C 0x65AC p00:hay_musica
+C 0x65B9 p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
+C 0x65BF p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
+C 0x65C2 apunta a el contador de cuadros
+C 0x65C6 lee el ESTADO del juego
+C 0x65D3 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0x65F4 p00:modo_de_pantalla
+C 0x65FC apunta a la espera del estado, en cuadros
+C 0x6604 p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
+C 0x660A p00:bancos_1_2_3
+C 0x6611 p00:limpia_la_pantalla
+C 0x6614 p00:logotipo_de_konami
+C 0x661B p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
+C 0x6621 p00:bancos_1_2_3
+C 0x6624 apunta a la espera del estado, en cuadros
+C 0x6637 guarda las banderas de la partida (bit 6: de verdad, no la demostracion)
+C 0x663A guarda el ESTADO del juego
+C 0x663F guarda la espera del estado, en cuadros
+C 0x6644 p00:limpia_la_pantalla
+C 0x664C guarda la espera del estado, en cuadros
+C 0x664F apunta a el paso del estado
+C 0x6658 p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
+C 0x665E p00:bancos_1_2_3
+C 0x6661 apunta a la espera del estado, en cuadros
+C 0x6666 borra_la_ram_de_la_partida: 0x2EE0 ceros desde 0xC120 y los tres bytes de p01:62C0
+C 0x666D p00:sonido: pone los bancos 4 y 5 y pide el sonido A a p04:6032
+C 0x6674 p00:limpia_la_pantalla
+C 0x6677 p00:empieza_la_partida
+C 0x667D p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
+C 0x6680 p00:bancos_1_2_3
+C 0x668A guarda la espera del estado, en cuadros
+C 0x668D apunta a el ESTADO del juego
+C 0x6692 guarda el paso del estado
+C 0x66B1 guarda el ESTADO del juego
+C 0x66B6 p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
+C 0x66D8 p00:sonido: pone los bancos 4 y 5 y pide el sonido A a p04:6032
+C 0x66DF teclas_del_cuadro: sin el bit 6 de 0xC102 (la demostracion), las teclas salen del guion (p01:69D7)
+C 0x66E5 lee las teclas del teclado (bits 3-5: 1, 2 y 3; bit 2: F5)
+C 0x66EE p03:continue_f5: [x][y] "CONTINUE F5" 0xFF: p01:66EE
+C 0x66F4 p00:hay_musica
+C 0x6703 lee LEVEL, el nivel de Mitchel (BCD)
+C 0x6726 guarda LIFE, los dos bytes (BCD)
+C 0x6736 p00:limpia_la_pantalla
+C 0x673D p03:game_over: [x][y] "GAME  OVER" y 0xFE, que sigue con p03:BFEC: p01:673D escribe las dos lineas
+C 0x6740 p00:rotulo: [x][y] letras, 0xFE [x][y] otro sitio, 0xFF acaba
+C 0x6749 p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
+C 0x674F p00:bancos_1_2_3
+C 0x6752 teclas_del_cuadro: sin el bit 6 de 0xC102 (la demostracion), las teclas salen del guion (p01:69D7)
+C 0x6755 lee las teclas del teclado (bits 3-5: 1, 2 y 3; bit 2: F5)
+C 0x6766 p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
+C 0x6774 teclas_nuevas: (HL) = las de ahora; (HL-1) = las que no estaban el cuadro anterior
+C 0x677D teclas_nuevas: (HL) = las de ahora; (HL-1) = las que no estaban el cuadro anterior
+C 0x6782 apunta a la espera del estado, en cuadros
+C 0x6787 apunta a el ESTADO del juego
+C 0x6795 guarda las banderas de la partida (bit 6: de verdad, no la demostracion)
+C 0x67A1 p00:sonido: pone los bancos 4 y 5 y pide el sonido A a p04:6032
+C 0x67A6 p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
+C 0x67AC p00:bancos_1_2_3
+C 0x67BC p00:hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
+C 0x67C4 pausa: [x][y] "PAUSE" 0xFF: lo que escribe p01:67C4 al parar la partida
+C 0x67C7 p00:rotulo: [x][y] letras, 0xFE [x][y] otro sitio, 0xFF acaba
+C 0x67DD p00:hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
+C 0x67E5 p00:marco: cuatro rayas: un marco de E por D en HL
+C 0x67ED p00:hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
+C 0x6821 lee la PANTALLA
+C 0x6824 la pantalla 0x8A?
+C 0x682E apunta a las fichas de los enemigos (13 de 0x80)
+C 0x6834 lee el tipo del enemigo
+C 0x683B mueve_una_ficha: las explosiones (0xF0 en adelante) a p00:5E4F; si no, por su tipo con la tabla de p01:6885
+C 0x6853 apunta a las fichas de los enemigos (13 de 0x80)
+C 0x685A lee el tipo del enemigo
+C 0x685E p00:cuadro_de_la_ficha
+C 0x6882 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0x698C apunta a la demostracion que toca (alterna)
+C 0x6995 demostraciones: 2 entradas de 4 bytes (0xC10C alterna): [pantalla][0xC103][palabra que lee p01:69B7]; p01:6995
+C 0x6998 p00:hl_mas_a
+C 0x699C guarda la PANTALLA
+C 0x69A1 guarda el contador de cuadros
+C 0x69A9 guarda la cuenta de la pulsacion de la demostracion
+C 0x69AD guarda las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0x69B0 guarda las teclas de la demostracion
+C 0x69BA guarda el guion de la demostracion
+C 0x69BE p00:empieza_la_partida
+C 0x69C8 guarda LEVEL, el nivel de Mitchel (BCD)
+C 0x69DA p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
+C 0x69DD apunta a la cuenta de la pulsacion de la demostracion
+C 0x69E3 lee las teclas de la demostracion
+C 0x69ED p00:bancos_1_2_3
+C 0x69F4 p00:bancos_1_2_3
+C 0x69FB lee el guion de la demostracion
+C 0x6A05 guarda la cuenta de la pulsacion de la demostracion
+C 0x6A0A guarda las teclas de la demostracion
+C 0x6A16 lee la PANTALLA
+C 0x6A19 la pantalla 0x11?
+C 0x6A3F posiciones_6A4D: 5 bytes que p01:6A3F lee de dos en dos segun B (se solapan): [x][y] para p00:5A69
+C 0x6A42 p00:hl_mas_a
+C 0x6A4A p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
+C 0x6A56 lee la Y de Mitchel
+C 0x6A7A p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
+C 0x6A85 apunta a las fichas de los enemigos (13 de 0x80)
+C 0x6A97 lee la Y de Mitchel
+C 0x6AB4 posiciones_6ACE: 5 bytes, uno por E (0-4): la x que p01:6AB4 da a p00:5A69 en dos alturas (0x18 y 0x98)
+C 0x6ABE p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
+C 0x6AC6 p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
+C 0x6AD7 lee la Y de Mitchel
+C 0x6AFA grupos_6B1B: grupos [cuantos] y ternas [x][y][y2] que p01:6AFA pinta con p00:5A69 (C = 0x40)
+C 0x6B08 p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
+C 0x6B12 p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
+C 0x6B32 p02:cuenta_las_fichas
+C 0x6B3C lee la Y de Mitchel
+C 0x6B5D p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
+C 0x6B65 p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
+C 0x6B75 p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
+C 0x6B87 apunta a el estado de Mitchel
+C 0x6B8B mitchel_en_el_agua: 0xC160 = 1 si la casilla que pisa es agua (juegos de dibujos 0, 4 y 7): con ella p00:4FF0 usa las poses de 0x7DBD
+C 0x6B97 dispara: bit 5 de 0xC106: SHOT2; bit 4: SHOT1
+C 0x6BA4 guarda Mitchel metido en el agua
+C 0x6BA7 p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
+C 0x6BAB p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
+C 0x6BAE lee el juego de dibujos de la pantalla
+C 0x6BC9 guarda Mitchel metido en el agua
+C 0x6BED apunta a la cuenta de los pasos de Mitchel
+C 0x6BFD p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
+C 0x6C01 apunta a hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0x6C10 guarda la POSE de Mitchel
+C 0x6C19 direccion_6C2D: 4 bytes: la nueva direccion segun la de ahora (p01:6C19)
+C 0x6C1C p00:de_mas_a
+C 0x6C22 pose_por_direccion: 4 bytes: la pose (0xC310) de cada direccion (p01:6C22)
+C 0x6C25 p00:de_mas_a
+C 0x6C29 guarda la POSE de Mitchel
+C 0x6C35 lee las teclas nuevas del cuadro (bit 4 SHOT1, bit 5 SHOT2)
+C 0x6C47 lee las teclas nuevas del cuadro (bit 4 SHOT1, bit 5 SHOT2)
+C 0x6C56 usa_shot1: El arma de SHOT1 (0xC140): 0 el puno; 1-3 golpes 0x11-0x13; 4 solo en las
+C 0x6C59 lee la ENFERMEDAD (la picadura)
+C 0x6C63 apunta a LIFE, la vida de Mitchel (BCD)
+C 0x6C7E guarda el color del primer sprite de Mitchel
+C 0x6C84 guarda LIFE, los dos bytes (BCD)
+C 0x6C87 guarda lo que lanza Mitchel (su ficha)
+C 0x6C90 guarda la cuenta de los pasos de Mitchel
+C 0x6C95 p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
+C 0x6CA3 p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
+C 0x6CAF pasos_6D1E: 4 parejas [dx][dy] segun 0xC164 (p01:6CAF)
+C 0x6CB2 p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
+C 0x6CB6 p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
+C 0x6CBC apunta a la Y de Mitchel
+C 0x6CCA apunta a la X de Mitchel
+C 0x6CF0 guarda la Y de Mitchel
+C 0x6CF4 guarda la X de Mitchel
+C 0x6D01 p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
+C 0x6D18 lee el estado de Mitchel
+C 0x6D2E lee el estado de Mitchel
+C 0x6D39 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0x6D51 lee el estado de Mitchel
+C 0x6D56 lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0x6D6A guarda hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0x6D6E lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0x6D71 mira a la izquierda?
+C 0x6D88 guarda el estado de Mitchel
+C 0x6D8B lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0x6D8E pose_de_cada_direccion: 4 bytes: la pose (0xC310) segun la direccion 0xC306 (p01:6D8E)
+C 0x6D91 p00:hl_mas_a
+C 0x6D95 guarda la POSE de Mitchel
+C 0x6DA0 lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0x6DCC lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0x6DFB lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0x6E2B lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0x6E58 apunta a la cuenta de los pasos de Mitchel
+C 0x6E61 paso_de_la_pose: 4 bytes que p01:6E61 suma a 3*direccion para la pose (0xC310)
+C 0x6E64 p00:hl_mas_a
+C 0x6E67 lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0x6E6E guarda la POSE de Mitchel
+C 0x6E76 lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0x6E83 lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0x6EBE guarda hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0x6EC2 guarda la cuenta de los pasos de Mitchel
+C 0x6EC9 lee el estado de Mitchel
+C 0x6F03 lee Mitchel metido en el agua
+C 0x6F08 lee el juego de dibujos de la pantalla
+C 0x6F0B el juego de dibujos 4?
+C 0x6F0E lee los zuecos puestos
+C 0x6F1B paso_de_mitchel: 0x40; la mitad (0x20) en el agua del juego de dibujos 4 sin los zuecos puestos (0xC142)
+C 0x6F22 lee el estado de Mitchel
+C 0x6F50 p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
+C 0x6F60 p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
+C 0x6F9D lee la PANTALLA
+C 0x6FA0 la pantalla 0x05?
+C 0x6FD4 pasos_7026: 4 parejas [dx][dy] segun C (p01:6FD4)
+C 0x6FD8 p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
+C 0x6FE5 p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
+C 0x6FE8 se_puede_pisar: el dibujo de la casilla contra el limite del juego de dibujos (p01:73D0)
+C 0x6FF5 se_puede_pisar: el dibujo de la casilla contra el limite del juego de dibujos (p01:73D0)
+C 0x7006 se_puede_pisar: el dibujo de la casilla contra el limite del juego de dibujos (p01:73D0)
+C 0x7014 byte_por_juego_de_dibujos: un byte por juego de dibujos (0xC148, 13): lo que p01:7332 pone en 0xE802
+C 0x7017 p00:de_mas_a
+C 0x7041 guarda el color del primer sprite de Mitchel
+C 0x7049 guarda el color del primer sprite de Mitchel
+C 0x704D guarda la POSE de Mitchel
+C 0x7056 apunta a lo que lanza Mitchel (su ficha)
+C 0x7060 lee el punto de entrada (y, x)
+C 0x7064 guarda la Y de Mitchel
+C 0x7068 guarda la X de Mitchel
+C 0x706E guarda hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0x7074 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0x70AD apunta a las fichas de los enemigos (13 de 0x80)
+C 0x70E2 p00:color_de_un_sprite
+C 0x711E p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
+C 0x7129 p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
+C 0x713F p00:bancos_1_2_3
+C 0x7147 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0x718E cuarto_de_seno: 64 bytes: un cuarto de seno de 0 a 0xFF; p01:718E
+C 0x71BC lee la Y de Mitchel
+C 0x71C2 lee la X de Mitchel
+C 0x71ED razon_para_apuntar: 8 filas de 8: la razon entre las dos distancias en 32avos (la diagonal es 0x20); p01:71ED, y p00:5235 desde 0x7230 o 0x7250
+C 0x71F0 p00:hl_mas_a
+C 0x72A6 lee la Y de Mitchel
+C 0x72AA lee la X de Mitchel
+C 0x7332 byte_por_juego_de_dibujos: un byte por juego de dibujos (0xC148, 13): lo que p01:7332 pone en 0xE802
+C 0x7335 lee el juego de dibujos de la pantalla
+C 0x7338 p00:hl_mas_a
+C 0x7342 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0x7369 p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
+C 0x73A5 p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
+C 0x73E4 lee el juego de dibujos de la pantalla
+C 0x73E7 byte_por_juego_de_dibujos: un byte por juego de dibujos (0xC148, 13): lo que p01:7332 pone en 0xE802
+C 0x73EA p00:hl_mas_a
+C 0x73FA p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
+C 0x7406 p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
+C 0x7412 p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
+C 0x741D p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
+C 0x7425 p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
+C 0x742C p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0x746D lee SHOT1, el arma que se lleva (0 el puno)
+C 0x747C p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0x74AE la pantalla 0x63?
+C 0x74B2 la pantalla 0x8A?
+C 0x74BC guarda SHOT1, el arma que se lleva (0 el puno)
+C 0x74D4 apunta a cuantos objetos 0x1F se llevan (BCD; 0xFF sin cuenta)
+C 0x74DB apunta a cuantos objetos 0x08 se llevan (BCD; 0xFF sin cuenta)
+C 0x74E0 hay_algo_lanzado: 0xC380: la ficha de lo que Mitchel lanza
+C 0x74F0 guarda SHOT1, el arma que se lleva (0 el puno)
+C 0x74FA hay_algo_lanzado: 0xC380: la ficha de lo que Mitchel lanza
+C 0x74FE apunta a cuantos objetos 0x09 se llevan (BCD; 0xFF sin cuenta)
+C 0x7518 hay_algo_lanzado: 0xC380: la ficha de lo que Mitchel lanza
+C 0x751F lanza: la ficha de lo lanzado (0xC380): el sonido C, B unidades, sale de Mitchel hacia donde mira
+C 0x7522 apunta a cuantos objetos 0x0A se llevan (BCD; 0xFF sin cuenta)
+C 0x7535 hay_algo_lanzado: 0xC380: la ficha de lo que Mitchel lanza
+C 0x753B p00:sonido: pone los bancos 4 y 5 y pide el sonido A a p04:6032
+C 0x753E apunta a el estado de Mitchel
+C 0x754C lee SHOT1, el arma que se lleva (0 el puno)
+C 0x7559 guarda lo que lanza Mitchel (su ficha)
+C 0x755C p00:sube_el_arma
+C 0x7560 p00:sonido: pone los bancos 4 y 5 y pide el sonido A a p04:6032
+C 0x7563 apunta a el estado de Mitchel
+C 0x7571 apunta a lo que lanza Mitchel (su ficha)
+C 0x757E lee la Y de Mitchel
+C 0x7586 lee la X de Mitchel
+C 0x75A1 p00:de_mas_a
+C 0x75AA lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0x75B6 lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0x75B9 salida_de_lo_lanzado: 4 parejas [dx][dy] segun la direccion 0xC306: desde donde sale lo que lanza Mitchel (p01:75B9)
+C 0x75BC p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
+C 0x75F2 lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0x7607 apunta a lo que lanza Mitchel (su ficha)
+C 0x7610 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0x7638 p00:sonido: pone los bancos 4 y 5 y pide el sonido A a p04:6032
+C 0x7658 pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0x7660 lee cuantos objetos 0x0A se llevan (BCD; 0xFF sin cuenta)
+C 0x769B apunta a cuantos objetos 0x0A se llevan (BCD; 0xFF sin cuenta)
+C 0x76A6 cuadro_del_boomerang: 4 bytes: el cuadro (ix+0x0B) segun el paso (p01:76A6)
+C 0x76A9 p00:hl_mas_a
+C 0x76F9 p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
+C 0x76FD lee el juego de dibujos de la pantalla
+C 0x7700 byte_por_juego_de_dibujos: un byte por juego de dibujos (0xC148, 13): lo que p01:7332 pone en 0xE802
+C 0x7703 p00:hl_mas_a
+C 0x7749 guarda el estado de Mitchel
+C 0x7766 apunta a hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0x776A direccion_contraria: 4 bytes: la direccion contraria a cada una (p01:776A)
+C 0x776D p00:de_mas_a
+C 0x7786 golpes_77D5: 12 palabras segun 0xC301: lo que p01:7786 pone en 0xC38C y 0xC38E
+C 0x7789 p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
+C 0x779A guarda lo que lanza Mitchel (su ficha)
+C 0x77A5 lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0x77AA guarda la POSE de Mitchel
+C 0x77AE lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0x77BF pasos_77ED: 4 parejas [dx][dy] segun la direccion (p01:77BF)
+C 0x77C3 p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
+C 0x77C6 lee la Y de Mitchel
+C 0x77CD lee la X de Mitchel
+C 0x77F9 p00:la_que_sigue_en_su_sitio
+C 0x7802 apunta a lo que lanza Mitchel (su ficha)
+C 0x7847 p00:de_mas_a
+C 0x7859 suceso_en_vez_de_objeto: 0x27 nada; 0x28 suceso 5 (8 en la pantalla 0x5D); 0x29 nada; 0x2A pinta
+C 0x786D apunta a los objetos del suelo (4 fichas de 16 bytes)
+C 0x78A2 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0x78B5 lee la PANTALLA
+C 0x78B8 la pantalla 0x5D?
+C 0x78C8 guarda el decorado que hay que dar por quitado
+C 0x78D2 guarda el SUCESO: el tipo de decorado que hay que quitar
+C 0x78D6 guarda el paso del suceso
+C 0x78DE dibujos_del_suceso_2A: 2x2 numeros de dibujo que p01:78E7 pinta en (0x50, 0x30) (el suceso 0x2A)
+C 0x78E7 p00:pinta_figura_sin_bancos
+C 0x78FC apunta a los objetos del suelo (4 fichas de 16 bytes)
+C 0x7902 lee el numero de objeto
+C 0x7915 p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
+C 0x792F apunta a los objetos del suelo (4 fichas de 16 bytes)
+C 0x798C p00:pon_dibujo: el dibujo A de la hoja (pagina 1) en (D, E) de la pagina 0
+C 0x7999 p00:pon_dibujo: el dibujo A de la hoja (pagina 1) en (D, E) de la pagina 0
+C 0x79A6 p00:pon_dibujo: el dibujo A de la hoja (pagina 1) en (D, E) de la pagina 0
+C 0x79B3 p00:pon_dibujo: el dibujo A de la hoja (pagina 1) en (D, E) de la pagina 0
+C 0x79E6 p00:de_mas_a
+C 0x79F9 elige_lista: La lista del objeto: la de SHOT1 (0xC2A0, 12 casillas) si el nibble
+C 0x7A11 elige_lista: La lista del objeto: la de SHOT1 (0xC2A0, 12 casillas) si el nibble
+C 0x7A2A p00:de_mas_a
+C 0x7A66 apunta a DAYS, los dias (BCD)
+C 0x7A77 lee SHOT2, el objeto que se lleva
+C 0x7A87 apunta a las fichas de los enemigos (13 de 0x80)
+C 0x7A90 lee el tipo del enemigo
+C 0x7A93 THE NASTY (tipo 0x2A)?
+C 0x7A97 BADPRIEST (tipo 0x2B)?
+C 0x7AA1 p00:mata_la_ficha: el enemigo muere: guarda su tipo en ix+0x1F y se convierte en la explosion de p15:A3CA
+C 0x7AA6 lee el sonido que suena (para no pisarlo con uno menor)
+C 0x7AAD guarda el SUCESO: el tipo de decorado que hay que quitar
+C 0x7AB1 guarda el paso del suceso
+C 0x7AB5 guarda lo que lanza Mitchel (su ficha)
+C 0x7B45 p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
+C 0x7B4E p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
+C 0x7B8E p02:sps_recorre_las_fichas
+C 0x7BAD p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
+C 0x7BB2 p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
+C 0x7BF7 lee SHOT2, el objeto que se lleva
+C 0x7BFC el objeto 0x19, むせんき?
+C 0x7C02 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0x7C3D p00:hl_mas_a
+C 0x7C5A hay_algo_lanzado: 0xC380: la ficha de lo que Mitchel lanza
+C 0x7C6A p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
+C 0x7C6D apunta a el estado de Mitchel
+C 0x7C7D guarda lo que lanza Mitchel (su ficha)
+C 0x7C96 borra_la_ventana_de_texto: 160x24 puntos en (8, 0xB0): debajo del decorado
+C 0x7CA1 p00:rotulo: [x][y] letras, 0xFE [x][y] otro sitio, 0xFF acaba
+C 0x7CB5 gasta_uno_de_shot2: 0xC141: el objeto de SHOT2
+C 0x7CC2 gasta_uno_de_shot2: 0xC141: el objeto de SHOT2
+C 0x7CEF guarda LIFE, los dos bytes (BCD)
+C 0x7CF8 la pantalla 0x68?
+C 0x7D02 guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
+C 0x7D0D la pantalla 0x56?
+C 0x7D14 lee la PANTALLA
+C 0x7D18 la pantalla 0x34?
+C 0x7D21 guarda el SUCESO: el tipo de decorado que hay que quitar
+C 0x7D25 guarda el paso del suceso
+C 0x7D2C la pantalla 0x38?
+C 0x7D38 p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
+C 0x7D45 lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0x7D4C guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
+C 0x7D57 la pantalla 0x51?
+C 0x7D5A lee la radio reparada
+C 0x7D5F lee la figura que sigue a Mitchel
+C 0x7D76 la pantalla 0x5E?
+C 0x7D87 p00:suceso_de_la_pantalla_5E
+C 0x7D8C p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
+C 0x7D8F lee SHOT1, el arma que se lleva (0 el puno)
+C 0x7D92 el objeto 0x0B, もり?
+C 0x7D96 el objeto 0x08, いし?
+C 0x7D99 apunta a MP, la magia (BCD, hasta 99)
+C 0x7DA4 usa_shot1: El arma de SHOT1 (0xC140): 0 el puno; 1-3 golpes 0x11-0x13; 4 solo en las
+C 0x7DA9 guarda el estado de Mitchel
+C 0x7DB6 lee la PANTALLA
+C 0x7DB9 la pantalla 0x0D?
+C 0x7DBD la pantalla 0x2D?
+C 0x7DC1 la pantalla 0x2E?
+C 0x7DC5 la pantalla 0x0B?
+C 0x7DC9 la pantalla 0x77?
+C 0x7DCD la pantalla 0x6F?
+C 0x7DD1 la pantalla 0x7B?
+C 0x7DD7 lee SHOT2, el objeto que se lleva
+C 0x7DDA el objeto 0x1A, ひとみ?
+C 0x7DDD lee la PANTALLA
+C 0x7DE0 la pantalla 0x52?
+C 0x7DE4 la pantalla 0x53?
+C 0x7DE8 la pantalla 0x63?
+C 0x7DEC la pantalla 0x64?
+C 0x7DF0 la pantalla 0x65?
+C 0x7DF4 la pantalla 0x66?
+C 0x7DF8 la pantalla 0x6B?
+C 0x7DFB paleta_7E01: [color][RB][G] ... 0xFF (p00:46CF): los colores que p01:7DFB cambia en las pantallas 0x52, 0x53, 0x63-0x66 y 0x6B
+C 0x7DFE p00:pon_paleta: lista [color][RB][G] ... 0xFF
+C 0x7E1D lee el estado de Mitchel
+C 0x7E23 lee la PANTALLA
+C 0x7E26 la pantalla 0x60?
+C 0x7E43 lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0x7E48 lee la Y de Mitchel
+C 0x7E4E lee la X de Mitchel
+C 0x7E57 lee la PANTALLA
+C 0x7E5D la pantalla 0x72?
+C 0x7E60 p00:hl_mas_a
+C 0x7E66 guarda la CONVERSACION
+C 0x7E69 lee la PANTALLA
+C 0x7E6C la pantalla 0x4A?
+C 0x7E6E lee la Y de Mitchel
+C 0x7E7B lee la X de Mitchel
+C 0x7E84 p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
+C 0x7E8F conversacion_por_el_sitio: en las pantallas 0x0D, 0x14, 0x23, 0x27, 0x2D, 0x2E y 0x3E la conversacion depende de donde este Mitchel
+C 0x7E97 guarda la POSE de Mitchel
+C 0x7E9B guarda la CONVERSACION
+C 0x7EA8 p00:sube_la_pose_de_mitchel
+C 0x7EAC guarda el paso de la conversacion
+C 0x7EB1 guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
+C 0x7EB7 guarda el color del primer sprite de Mitchel
+C 0x7EC1 lee la Y de Mitchel
+C 0x7EC7 lee la figura que sigue a Mitchel
+C 0x7ECF guarda la CONVERSACION
+C 0x7ED9 lee la PANTALLA
+C 0x7EEB guarda la CONVERSACION
+C 0x7F08 lee la CONVERSACION
+C 0x7F0C ya_se_dio: [conversacion][direccion de RAM] ... 0: si el byte de RAM no es 0 (ya se tiene el objeto), p01:7F08 no deja empezar esa conversacion
+C 0x7F52 lee la X de Mitchel
+C 0x7F56 lee la PANTALLA
+C 0x7F59 la pantalla 0x23?
+C 0x7F5D la pantalla 0x14?
+C 0x7F61 la pantalla 0x0D?
+C 0x7F65 la pantalla 0x27?
+C 0x7F69 la pantalla 0x2E?
+C 0x7F6D la pantalla 0x3E?
+C 0x7F71 la pantalla 0x2D?
+C 0x7F75 lee la CONVERSACION
+C 0x7F7A lee el plano de la pantalla (0, el exterior)
+C 0x7F80 lee cuantos objetos 0x23 se llevan (BCD; 0xFF sin cuenta)
+C 0x7F89 p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
+C 0x7F96 p00:bancos_1_2_3
+C 0x7FE9 lee el paso de la conversacion
+C 0x7FF1 lee las teclas nuevas del cuadro (bit 4 SHOT1, bit 5 SHOT2)
+C 0x7FF9 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+# --- fin de las anotaciones de anota.py ---

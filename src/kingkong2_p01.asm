@@ -30,29 +30,29 @@ l7a35h:	equ 0x07a35
 
 L_6000:
 	ld a,005h		;6000
-	ld (08000h),a		;6002
-	ld (0f0f2h),a		;6005
+	ld (08000h),a		;6002   ; el mapper: el banco de A en 0x8000
+	ld (0f0f2h),a		;6005   ; guarda la copia del banco de 0x8000
 	inc a			;6008
-	ld (0a000h),a		;6009
-	ld (0f0f3h),a		;600c
+	ld (0a000h),a		;6009   ; el mapper: el banco de A en 0xA000
+	ld (0f0f3h),a		;600c   ; guarda la copia del banco de 0xA000
 	ei			;600f
 	ld de,00040h		;6010
-	ld hl,09f99h		;6013
+	ld hl,09f99h		;6013   ; p05:fuente: 96 letras de 1 bit (desde el '0', 0x30): la fuente; p01:6010 la sube dos veces (color 14 y color 3)
 	ld bc,0600eh		;6016
-	call 04867h		;6019
+	call 04867h		;6019   ; p00:sube_letras: B letras de 1 bit de HL, en color C, a la hoja de la pagina 1 desde (D, E)
 	ld de,00058h		;601c
-	ld hl,09f99h		;601f
+	ld hl,09f99h		;601f   ; p05:fuente: 96 letras de 1 bit (desde el '0', 0x30): la fuente; p01:6010 la sube dos veces (color 14 y color 3)
 	ld bc,06003h		;6022
-	call 04867h		;6025
-	ld a,(0c102h)		;6028
+	call 04867h		;6025   ; p00:sube_letras: B letras de 1 bit de HL, en color C, a la hoja de la pagina 1 desde (D, E)
+	ld a,(0c102h)		;6028   ; lee las banderas de la partida (bit 6: de verdad, no la demostracion)
 	and 040h		;602b
 	jr nz,L_603B		;602d
-	ld hl,0a299h		;602f
+	ld hl,0a299h		;602f   ; p06:letra_copyright: el (c) de los creditos: una letra de 1 bit que p01:602F pone en el sitio de la 0x3A
 	ld bc,0010eh		;6032
 	ld de,05040h		;6035
-	call 04867h		;6038
+	call 04867h		;6038   ; p00:sube_letras: B letras de 1 bit de HL, en color C, a la hoja de la pagina 1 desde (D, E)
 L_603B:
-	call 042bch		;603b
+	call 042bch		;603b   ; p00:bancos_1_2_3
 	xor a			;603e
 	ld (0faf6h),a		;603f
 	ret			;6042
@@ -60,58 +60,58 @@ L_6043:
 	ld a,(0c133h)		;6043
 	and a			;6046
 	ret nz			;6047
-	ld a,(0c125h)		;6048
-	cp 061h		;604b
+	ld a,(0c125h)		;6048   ; lee la PANTALLA
+	cp 061h		;604b   ; la pantalla 0x61?
 	jr nz,L_607C		;604d
-	ld a,(0c306h)		;604f
+	ld a,(0c306h)		;604f   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	and a			;6052
 	jr nz,L_607C		;6053
-	ld a,(0c303h)		;6055
+	ld a,(0c303h)		;6055   ; lee la Y de Mitchel
 	cp 061h		;6058
 	jr nc,L_607C		;605a
-	ld a,(0c305h)		;605c
+	ld a,(0c305h)		;605c   ; lee la X de Mitchel
 	sub 040h		;605f
 	cp 030h		;6061
 	jr nc,L_607C		;6063
 	ld a,089h		;6065
-	ld (0c125h),a		;6067
+	ld (0c125h),a		;6067   ; guarda la PANTALLA
 	ld hl,058a0h		;606a
-	ld (0c321h),hl		;606d
+	ld (0c321h),hl		;606d   ; guarda el punto de entrada (y, x)
 	xor a			;6070
-	ld (0c130h),a		;6071
+	ld (0c130h),a		;6071   ; guarda el lado por el que se entra en una salida especial
 	ld (0c323h),a		;6074
 	inc a			;6077
-	ld (0c201h),a		;6078
+	ld (0c201h),a		;6078   ; guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
 	ret			;607b
 L_607C:
-	ld a,(0c107h)		;607c
+	ld a,(0c107h)		;607c   ; lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	rra			;607f
 	call c,sale_por_arriba		;6080
 	ret c			;6083
-	ld a,(0c107h)		;6084
+	ld a,(0c107h)		;6084   ; lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	bit 1,a		;6087
 	call nz,sale_por_abajo		;6089
 	ret c			;608c
-	ld a,(0c107h)		;608d
+	ld a,(0c107h)		;608d   ; lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	bit 2,a		;6090
 	call nz,sale_por_la_izquierda		;6092
 	ret c			;6095
-	ld a,(0c107h)		;6096
+	ld a,(0c107h)		;6096   ; lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	bit 3,a		;6099
 	ret z			;609b
-	ld a,(0c305h)		;609c
+	ld a,(0c305h)		;609c   ; lee la X de Mitchel
 	cp 0a0h		;609f
 	jr c,L_60C0		;60a1
 	ld bc,00103h		;60a3
 	jr L_60CC		;60a6
 sale_por_la_izquierda:
-	ld a,(0c305h)		;60a8
+	ld a,(0c305h)		;60a8   ; lee la X de Mitchel
 	cp 011h		;60ab
 	jr nc,L_60C0		;60ad
 	ld bc,00302h		;60af
 	jr L_60CC		;60b2
 sale_por_abajo:
-	ld a,(0c303h)		;60b4
+	ld a,(0c303h)		;60b4   ; lee la Y de Mitchel
 	cp 0a0h		;60b7
 	jr c,L_60C0		;60b9
 	ld bc,00201h		;60bb
@@ -120,29 +120,29 @@ L_60C0:
 	xor a			;60c0
 	ret			;60c1
 sale_por_arriba:
-	ld a,(0c303h)		;60c2
+	ld a,(0c303h)		;60c2   ; lee la Y de Mitchel
 	cp 011h		;60c5
 	jr nc,L_60C0		;60c7
 	ld bc,00000h		;60c9
 L_60CC:
 	ld a,b			;60cc
-	call pantalla_vecina		;60cd
+	call pantalla_vecina		;60cd   ; pantalla_vecina: p09:B1C5 + 4*pantalla + C: arriba, abajo, izquierda, derecha
 	cp 0ffh		;60d0
 	ret z			;60d2
 	push af			;60d3
-	ld a,(0c125h)		;60d4
+	ld a,(0c125h)		;60d4   ; lee la PANTALLA
 	ld (0c134h),a		;60d7
 	pop af			;60da
-	ld (0c125h),a		;60db
+	ld (0c125h),a		;60db   ; guarda la PANTALLA
 	ld a,c			;60de
-	ld hl,060f6h		;60df
-	call 04255h		;60e2
+	ld hl,060f6h		;60df   ; lado_de_la_salida: 4 bytes: lo que p01:60E5 pone en 0xC130 segun la salida especial por la que se entra (C, 0-3)
+	call 04255h		;60e2   ; p00:hl_mas_a
 	ld a,(hl)			;60e5
-	ld (0c130h),a		;60e6
-	call donde_aparece_mitchel		;60e9
-	call salida_especial		;60ec
+	ld (0c130h),a		;60e6   ; guarda el lado por el que se entra en una salida especial
+	call donde_aparece_mitchel		;60e9   ; donde_aparece_mitchel: el punto de entrada (0xC321) segun el lado C por el que se entra
+	call salida_especial		;60ec   ; salida_especial: pantallas 0xF0-0xFB: la de llegada y el punto de p01:611F
 	ld a,001h		;60ef
-	ld (0c201h),a		;60f1
+	ld (0c201h),a		;60f1   ; guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
 	scf			;60f4
 	ret			;60f5
 
@@ -165,16 +165,16 @@ salida_especial:
 	ld c,a			;6100
 	add a,a			;6101
 	add a,c			;6102
-	ld hl,0611fh		;6103
-	call 04255h		;6106
+	ld hl,0611fh		;6103   ; salidas_especiales: 12 salidas especiales (0xF0-0xFB): pantalla de llegada y punto (x, y) donde aparece Mitchel; p01:60FA con 0x611F + 3*(n-0xF0)
+	call 04255h		;6106   ; p00:hl_mas_a
 	ld a,(hl)			;6109
-	ld (0c125h),a		;610a
+	ld (0c125h),a		;610a   ; guarda la PANTALLA
 	inc hl			;610d
 	ld e,(hl)			;610e
 	inc hl			;610f
 	ld d,(hl)			;6110
 	inc hl			;6111
-	ld (0c321h),de		;6112
+	ld (0c321h),de		;6112   ; guarda el punto de entrada (y, x)
 	ld a,001h		;6116
 	ld (0c14fh),a		;6118
 	ld (0c323h),a		;611b
@@ -207,7 +207,7 @@ DATA_salidas_especiales:
 donde_aparece_mitchel:
 	ld a,(0c303h)		;6143   ; el punto de entrada (0xC321) segun el lado C por el que se entra
 	ld l,a			;6146
-	ld a,(0c305h)		;6147
+	ld a,(0c305h)		;6147   ; lee la X de Mitchel
 	ld h,a			;614a
 	ld a,c			;614b
 	dec a			;614c
@@ -227,7 +227,7 @@ L_615D:
 L_6161:
 	ld h,010h		;6161
 L_6163:
-	ld (0c321h),hl		;6163
+	ld (0c321h),hl		;6163   ; guarda el punto de entrada (y, x)
 	ld a,c			;6166
 	ld (0c323h),a		;6167
 	ret			;616a
@@ -241,12 +241,12 @@ pantalla_vecina:
 	add hl,de			;6176
 	ld a,009h		;6177
 	di			;6179
-	ld (0a000h),a		;617a
-	ld (0f0f3h),a		;617d
+	ld (0a000h),a		;617a   ; el mapper: el banco de A en 0xA000
+	ld (0f0f3h),a		;617d   ; guarda la copia del banco de 0xA000
 	ld b,000h		;6180
 	add hl,bc			;6182
 	ld a,(hl)			;6183
-	jp 042bch		;6184
+	jp 042bch		;6184   ; p00:bancos_1_2_3
 
 ; ----------------------------------------------------------------------
 ; DATOS banco_15_en_a000: codigo que no llama nadie: di / pone el banco 15 en
@@ -276,10 +276,10 @@ L_619A:
 	inc hl			;61a8
 	pop bc			;61a9
 	djnz L_619A		;61aa
-	jp 042bch		;61ac
+	jp 042bch		;61ac   ; p00:bancos_1_2_3
 enemigo_en_el_panel:
 	call sitio_del_enemigo_en_el_panel		;61af
-	call escribe_nombre_del_enemigo		;61b2
+	call escribe_nombre_del_enemigo		;61b2   ; escribe_nombre_del_enemigo: p15:BA76 + 2*tipo, con el banco 15 en 0xA000
 	call escribe_life_y_str		;61b5
 	call escribe_valores_del_enemigo		;61b8
 	jr L_6219		;61bb
@@ -301,32 +301,32 @@ sitio_del_enemigo_en_el_panel:
 escribe_nombre_del_enemigo:
 	di			;61d2   ; p15:BA76 + 2*tipo, con el banco 15 en 0xA000
 	ld a,00fh		;61d3
-	ld (0a000h),a		;61d5
-	ld (0f0f3h),a		;61d8
+	ld (0a000h),a		;61d5   ; el mapper: el banco de A en 0xA000
+	ld (0f0f3h),a		;61d8   ; guarda la copia del banco de 0xA000
 	ei			;61db
 	ld a,(hl)			;61dc
 	ld de,0ba76h		;61dd
-	call 042ffh		;61e0
+	call 042ffh		;61e0   ; p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
 	ex de,hl			;61e3
 	ld de,(0c204h)		;61e4
 	ld c,0ffh		;61e8
-	jp 04919h		;61ea
+	jp 04919h		;61ea   ; p00:escribe_letras
 escribe_life_y_str:
 	ld de,(0c204h)		;61ed
 	ld a,e			;61f1
 	add a,008h		;61f2
 	ld e,a			;61f4
-	ld hl,0628fh		;61f5
+	ld hl,0628fh		;61f5   ; life_y_str: "LIFE" y "STR" (0xFF acaba cada uno): lo que p01:61F5 y p01:6203 escriben junto al enemigo en el panel
 	ld c,080h		;61f8
 	push de			;61fa
-	call 04919h		;61fb
+	call 04919h		;61fb   ; p00:escribe_letras
 	pop de			;61fe
 	ld a,e			;61ff
 	add a,008h		;6200
 	ld e,a			;6202
 	ld hl,06294h		;6203
 	ld c,080h		;6206
-	jp 04919h		;6208
+	jp 04919h		;6208   ; p00:escribe_letras
 escribe_valores_del_enemigo:
 	ld hl,(0e800h)		;620b
 	inc l			;620e
@@ -354,16 +354,16 @@ enemigos_del_panel:
 	ld (0c220h),a		;6231
 	ld (0c223h),a		;6234
 	ld (0c226h),a		;6237
-	ld ix,0d000h		;623a
+	ld ix,0d000h		;623a   ; apunta a las fichas de los enemigos (13 de 0x80)
 	ld b,00dh		;623e
 L_6240:
-	ld a,(ix+000h)		;6240
+	ld a,(ix+000h)		;6240   ; lee el tipo del enemigo
 	dec a			;6243
 	call p,apunta_enemigo_en_el_panel		;6244
 	ld de,00080h		;6247
 	add ix,de		;624a
 	djnz L_6240		;624c
-	jp 042bch		;624e
+	jp 042bch		;624e   ; p00:bancos_1_2_3
 apunta_enemigo_en_el_panel:
 	inc a			;6251
 	ld c,a			;6252
@@ -397,16 +397,16 @@ L_6271:
 	inc l			;6277
 	di			;6278
 	ld a,009h		;6279
-	ld (0a000h),a		;627b
-	ld (0f0f3h),a		;627e
+	ld (0a000h),a		;627b   ; el mapper: el banco de A en 0xA000
+	ld (0f0f3h),a		;627e   ; guarda la copia del banco de 0xA000
 	ei			;6281
 	ld a,c			;6282
-	ld de,0bc4fh		;6283
+	ld de,0bc4fh		;6283   ; p09:fuerza_de_cada_enemigo: 68 bytes, uno por tipo de enemigo: la fuerza (STR) que se ve en el panel; p01:6287 con 0xBC4F + tipo - 1
 	dec a			;6286
-	call 0425ah		;6287
+	call 0425ah		;6287   ; p00:de_mas_a
 	ld a,(de)			;628a
 	ld (hl),a			;628b
-	jp 042bch		;628c
+	jp 042bch		;628c   ; p00:bancos_1_2_3
 
 ; ----------------------------------------------------------------------
 ; DATOS life_y_str: "LIFE" y "STR" (0xFF acaba cada uno): lo que p01:61F5 y
@@ -428,13 +428,13 @@ borra_la_ram_de_la_partida:
 	inc e			;62a0
 	ld (hl),000h		;62a1
 	ldir		;62a3
-	ld hl,062c0h		;62a5
+	ld hl,062c0h		;62a5   ; valores_de_c120: 3 bytes que p01:62AF copia a 0xC120-0xC122 al empezar la partida
 	ld de,0c120h		;62a8
 	ld bc,00003h		;62ab
 	ldir		;62ae
 	xor a			;62b0
 	ld (0c124h),a		;62b1
-	ld (0c139h),a		;62b4
+	ld (0c139h),a		;62b4   ; guarda el paso del suceso de p06:A649
 	ld (0c13bh),a		;62b7
 	ld a,040h		;62ba
 	ld (0c13ah),a		;62bc
@@ -453,7 +453,7 @@ DATA_valores_de_c120:
 
 
 L_62C3:
-	ld hl,0631ch		;62c3
+	ld hl,0631ch		;62c3   ; rotulos_del_panel_2: lo mismo: DAYS, MP, GOLD, LIFE, EXP y LEVEL; p01:62C3
 	call 0490bh		;62c6
 	call 04450h		;62c9
 	call escribe_days		;62cc
@@ -463,23 +463,23 @@ L_62C3:
 	call escribe_mp		;62d8
 	call escribe_gold		;62db
 L_62DE:
-	ld hl,06302h		;62de
-	call 0490fh		;62e1
+	ld hl,06302h		;62de   ; rotulos_del_panel_1: [x][y] letras, 0xFE [x][y] sigue en otro sitio, 0xFF acaba: MITCHEL, SHOT1 y SHOT2; p01:62DE
+	call 0490fh		;62e1   ; p00:rotulo: [x][y] letras, 0xFE [x][y] otro sitio, 0xFF acaba
 	call icono_de_shot2		;62e4
-	ld a,(0c140h)		;62e7
+	ld a,(0c140h)		;62e7   ; lee SHOT1, el arma que se lleva (0 el puno)
 	ld de,0e058h		;62ea
 	jr L_62F5		;62ed
 icono_de_shot2:
-	ld a,(0c141h)		;62ef
+	ld a,(0c141h)		;62ef   ; lee SHOT2, el objeto que se lleva
 	ld de,0e068h		;62f2
 L_62F5:
 	and a			;62f5
-	jp nz,pinta_icono		;62f6
+	jp nz,pinta_icono		;62f6   ; pinta_icono: el 0x26 (oro) se pinta con el dibujo del 6 (la bolsa)
 	ex de,hl			;62f9
 	ld bc,01010h		;62fa
 	xor a			;62fd
 	ld d,a			;62fe
-	jp 0479bh		;62ff
+	jp 0479bh		;62ff   ; p00:hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
 
 ; ----------------------------------------------------------------------
 ; DATOS rotulos_del_panel_1: [x][y] letras, 0xFE [x][y] sigue en otro sitio,
@@ -519,12 +519,12 @@ escribe_exp:
 	ld de,0c838h		;635d
 	jr escribe_numero_bcd		;6360
 escribe_level:
-	ld hl,0c12eh		;6362
+	ld hl,0c12eh		;6362   ; apunta a LEVEL, el nivel de Mitchel (BCD)
 	ld b,001h		;6365
 	ld de,0e840h		;6367
 	jr escribe_numero_bcd		;636a
 escribe_mp:
-	ld hl,0c12fh		;636c
+	ld hl,0c12fh		;636c   ; apunta a MP, la magia (BCD, hasta 99)
 	ld b,001h		;636f
 	ld de,0e848h		;6371
 	jr escribe_numero_bcd		;6374
@@ -558,7 +558,7 @@ escribe_cifra:
 L_639C:
 	add a,090h		;639c
 	and c			;639e
-	call 04952h		;639f
+	call 04952h		;639f   ; p00:escribe_una_letra
 	ld a,d			;63a2
 	add a,008h		;63a3
 	ld d,a			;63a5
@@ -567,7 +567,7 @@ L_63A7:
 	call bordes_de_arriba_y_abajo		;63a7
 	call bordes_de_los_lados		;63aa
 	call borra_el_rotulo_del_panel		;63ad
-	call borra_la_ventana_de_texto		;63b0
+	call borra_la_ventana_de_texto		;63b0   ; borra_la_ventana_de_texto: 160x24 puntos en (8, 0xB0): debajo del decorado
 	jr L_6412		;63b3
 bordes_de_arriba_y_abajo:
 	ld de,00000h		;63b5
@@ -586,7 +586,7 @@ bordes_de_arriba_y_abajo:
 	ld b,020h		;63d8
 fila_de_borde:
 	ld a,0f0h		;63da
-	call 0497bh		;63dc
+	call 0497bh		;63dc   ; p00:pon_dibujo: el dibujo A de la hoja (pagina 1) en (D, E) de la pagina 0
 	ld a,d			;63df
 	add a,008h		;63e0
 	ld d,a			;63e2
@@ -603,7 +603,7 @@ bordes_de_los_lados:
 	ld b,019h		;63f9
 columna_de_borde:
 	ld a,0f1h		;63fb
-	call 0497bh		;63fd
+	call 0497bh		;63fd   ; p00:pon_dibujo: el dibujo A de la hoja (pagina 1) en (D, E) de la pagina 0
 	ld a,e			;6400
 	add a,008h		;6401
 	ld e,a			;6403
@@ -614,31 +614,31 @@ borra_el_rotulo_del_panel:
 	ld bc,04810h		;640a
 	xor a			;640d
 	ld d,a			;640e
-	jp 0479bh		;640f
+	jp 0479bh		;640f   ; p00:hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
 L_6412:
 	ld hl,0b020h		;6412
 	ld bc,04858h		;6415
 	xor a			;6418
 	ld d,a			;6419
-	jp 0479bh		;641a
+	jp 0479bh		;641a   ; p00:hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
 L_641D:
 	ld hl,0b080h		;641d
 	ld bc,04848h		;6420
 	xor a			;6423
 	ld d,a			;6424
-	jp 0479bh		;6425
+	jp 0479bh		;6425   ; p00:hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
 borra_la_ventana_de_texto:
 	ld hl,008b0h		;6428   ; 160x24 puntos en (8, 0xB0): debajo del decorado
 	ld bc,0a018h		;642b
 	xor a			;642e
 	ld d,a			;642f
-	jp 0479bh		;6430
+	jp 0479bh		;6430   ; p00:hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
 L_6433:
 	ld hl,00808h		;6433
 	ld bc,0a0a0h		;6436
 	xor a			;6439
 	ld d,a			;643a
-	jp 0479bh		;643b
+	jp 0479bh		;643b   ; p00:hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
 L_643E:
 	bit 7,c		;643e
 	ret nz			;6440
@@ -673,7 +673,7 @@ L_645E:
 	ld b,038h		;646e
 	xor a			;6470
 	ld c,008h		;6471
-	jp 04706h		;6473
+	jp 04706h		;6473   ; p00:raya_horizontal: orden LINE del V9938 (MAJ = 0): de (H, L), B-1 puntos
 L_6476:
 	ld hl,0c206h		;6476
 	ld a,(hl)			;6479
@@ -691,13 +691,13 @@ raya_de_la_ventana:
 	xor a			;648b
 	ld c,a			;648c
 	ld b,038h		;648d
-	jp 04706h		;648f
+	jp 04706h		;648f   ; p00:raya_horizontal: orden LINE del V9938 (MAJ = 0): de (H, L), B-1 puntos
 L_6492:
 	call 054e3h		;6492
-	call 0465ch		;6495
+	call 0465ch		;6495   ; p00:apaga_los_sprites: bit 1 (SPD) del registro 8 del VDP a uno: no se ven los sprites
 	ld a,005h		;6498
 	call 0005fh		;649a   ; BIOS CHGMOD - Switches to given screen mode
-	call 0462dh		;649d
+	call 0462dh		;649d   ; p00:apaga_la_pantalla: bit 6 del registro 1 del VDP a cero
 	call borra_la_pagina_entera		;64a0
 	xor a			;64a3
 	ld h,a			;64a4
@@ -705,10 +705,10 @@ L_6492:
 	ld b,a			;64a6
 	ld c,a			;64a7
 	ld d,001h		;64a8
-	call 0479bh		;64aa
-	call 046ddh		;64ad
+	call 0479bh		;64aa   ; p00:hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
+	call 046ddh		;64ad   ; p00:espera_al_vdp: espera a que el V9938 acabe la orden (bit 0 de S#2)
 	ld b,004h		;64b0
-	ld hl,064c8h		;64b2
+	ld hl,064c8h		;64b2   ; registros_del_vdp: 4 parejas [registro][valor] que p01:64B5 escribe con WRTVDP: R1 0x62, R5 0xEF, R6 0x1F, R11 0x01
 L_64B5:
 	push bc			;64b5
 	ld c,(hl)			;64b6
@@ -720,8 +720,8 @@ L_64B5:
 	pop hl			;64be
 	pop bc			;64bf
 	djnz L_64B5		;64c0
-	call 04651h		;64c2
-	jp 04620h		;64c5
+	call 04651h		;64c2   ; p00:oculta_los_sprites: los 128 bytes de atributos de sprite (0xF600) a 0xE0
+	jp 04620h		;64c5   ; p00:enciende_la_pantalla: bit 6 del registro 1 del VDP a uno
 
 ; ----------------------------------------------------------------------
 ; DATOS registros_del_vdp: 4 parejas [registro][valor] que p01:64B5 escribe
@@ -742,12 +742,12 @@ borra_la_pagina_entera:
 	ld b,a			;64d3
 	ld c,a			;64d4
 	ld d,a			;64d5
-	jp 0479bh		;64d6
+	jp 0479bh		;64d6   ; p00:hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
 teclas_del_cuadro:
 	ld a,(0c102h)		;64d9   ; sin el bit 6 de 0xC102 (la demostracion), las teclas salen del guion (p01:69D7)
 	and 040h		;64dc
 	jp z,teclas_de_la_demostracion		;64de
-	ld a,(0c139h)		;64e1
+	ld a,(0c139h)		;64e1   ; lee el paso del suceso de p06:A649
 	inc a			;64e4
 	jr z,L_64EA		;64e5
 	xor a			;64e7
@@ -755,10 +755,10 @@ teclas_del_cuadro:
 L_64EA:
 	call lee_el_teclado		;64ea
 	ld hl,0c113h		;64ed
-	call teclas_nuevas		;64f0
+	call teclas_nuevas		;64f0   ; teclas_nuevas: (HL) = las de ahora; (HL-1) = las que no estaban el cuadro anterior
 	call lee_el_mando		;64f3
 guarda_las_teclas:
-	ld hl,0c107h		;64f6
+	ld hl,0c107h		;64f6   ; apunta a las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 teclas_nuevas:
 	ld c,(hl)			;64f9   ; (HL) = las de ahora; (HL-1) = las que no estaban el cuadro anterior
 	ld (hl),a			;64fa
@@ -854,7 +854,7 @@ L_6578:
 	ld a,(0c133h)		;6578
 	and a			;657b
 	ret nz			;657c
-	call 054bdh		;657d
+	call 054bdh		;657d   ; p00:hay_musica
 	jr z,L_658E		;6580
 	cp 085h		;6582
 	ret z			;6584
@@ -873,14 +873,14 @@ L_658E:
 	ld b,084h		;6599
 	and a			;659b
 	jr nz,L_65A9		;659c
-	ld a,(0c148h)		;659e
+	ld a,(0c148h)		;659e   ; lee el juego de dibujos de la pantalla
 	ld b,083h		;65a1
-	cp 005h		;65a3
+	cp 005h		;65a3   ; el juego de dibujos 5?
 	jr z,L_65A9		;65a5
 	ld b,080h		;65a7
 L_65A9:
 	ld hl,0c154h		;65a9
-	call 054bdh		;65ac
+	call 054bdh		;65ac   ; p00:hay_musica
 	jr z,L_65BC		;65af
 	cp b			;65b1
 	ret z			;65b2
@@ -889,23 +889,23 @@ L_65A9:
 	ret nz			;65b5
 	inc (hl)			;65b6
 	ld a,0ffh		;65b7
-	jp 05488h		;65b9
+	jp 05488h		;65b9   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 L_65BC:
 	xor a			;65bc
 	ld (hl),a			;65bd
 	ld a,b			;65be
-	jp 05488h		;65bf
+	jp 05488h		;65bf   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 L_65C2:
-	ld hl,0c103h		;65c2
+	ld hl,0c103h		;65c2   ; apunta a el contador de cuadros
 	inc (hl)			;65c5
-	ld bc,(0c100h)		;65c6
+	ld bc,(0c100h)		;65c6   ; lee el ESTADO del juego
 	ld a,c			;65ca
 	cp 003h		;65cb
 	jr nc,L_65D3		;65cd
 	ld hl,0676eh		;65cf
 	push hl			;65d2
 L_65D3:
-	call 0425fh		;65d3
+	call 0425fh		;65d3   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_65D6: 10 destinos del despachador de 0x425F (call en p01:65D3):
@@ -935,31 +935,31 @@ L_65EA:
 	ld a,(0c202h)		;65ef
 	or a			;65f2
 	ret z			;65f3
-	call 05ffah		;65f4
+	call 05ffah		;65f4   ; p00:modo_de_pantalla
 	xor a			;65f7
 	jr L_664C		;65f8
 L_65FA:
 	djnz L_6611		;65fa
-	ld hl,0c104h		;65fc
+	ld hl,0c104h		;65fc   ; apunta a la espera del estado, en cuadros
 	dec (hl)			;65ff
 	ret nz			;6600
 	di			;6601
 	ld a,006h		;6602
-	call 05d9ch		;6604
+	call 05d9ch		;6604   ; p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
 	call 0ba79h		;6607
-	call 042bch		;660a
+	call 042bch		;660a   ; p00:bancos_1_2_3
 	xor a			;660d
 	jp L_668A		;660e
 L_6611:
-	call 04612h		;6611
-	call 05f3fh		;6614
+	call 04612h		;6611   ; p00:limpia_la_pantalla
+	call 05f3fh		;6614   ; p00:logotipo_de_konami
 	jr L_664F		;6617
 L_6619:
 	ld a,006h		;6619
-	call 05d9ch		;661b
+	call 05d9ch		;661b   ; p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
 	call 0b9c8h		;661e
-	call 042bch		;6621
-	ld hl,0c104h		;6624
+	call 042bch		;6621   ; p00:bancos_1_2_3
+	ld hl,0c104h		;6624   ; apunta a la espera del estado, en cuadros
 	dec (hl)			;6627
 	ret nz			;6628
 	jp L_6688		;6629
@@ -971,56 +971,56 @@ L_662C:
 	ret nz			;6635
 L_6636:
 	xor a			;6636
-	ld (0c102h),a		;6637
+	ld (0c102h),a		;6637   ; guarda las banderas de la partida (bit 6: de verdad, no la demostracion)
 L_663A:
-	ld (0c100h),a		;663a
+	ld (0c100h),a		;663a   ; guarda el ESTADO del juego
 	ld a,020h		;663d
-	ld (0c104h),a		;663f
+	ld (0c104h),a		;663f   ; guarda la espera del estado, en cuadros
 	jr L_6691		;6642
 L_6644:
-	call 04612h		;6644
+	call 04612h		;6644   ; p00:limpia_la_pantalla
 	call empieza_la_demostracion		;6647
 	ld a,020h		;664a
 L_664C:
-	ld (0c104h),a		;664c
+	ld (0c104h),a		;664c   ; guarda la espera del estado, en cuadros
 L_664F:
-	ld hl,0c101h		;664f
+	ld hl,0c101h		;664f   ; apunta a el paso del estado
 	inc (hl)			;6652
 	ret			;6653
 L_6654:
 	djnz L_666B		;6654
 	ld a,006h		;6656
-	call 05d9ch		;6658
+	call 05d9ch		;6658   ; p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
 	call 0ba46h		;665b
-	call 042bch		;665e
-	ld hl,0c104h		;6661
+	call 042bch		;665e   ; p00:bancos_1_2_3
+	ld hl,0c104h		;6661   ; apunta a la espera del estado, en cuadros
 	dec (hl)			;6664
 	ret nz			;6665
-	call borra_la_ram_de_la_partida		;6666
+	call borra_la_ram_de_la_partida		;6666   ; borra_la_ram_de_la_partida: 0x2EE0 ceros desde 0xC120 y los tres bytes de p01:62C0
 	jr L_6688		;6669
 L_666B:
 	ld a,085h		;666b
-	call 05490h		;666d
+	call 05490h		;666d   ; p00:sonido: pone los bancos 4 y 5 y pide el sonido A a p04:6032
 	ld a,050h		;6670
 	jr L_664C		;6672
 L_6674:
-	call 04612h		;6674
-	call 0533dh		;6677
+	call 04612h		;6674   ; p00:limpia_la_pantalla
+	call 0533dh		;6677   ; p00:empieza_la_partida
 	di			;667a
 	ld a,006h		;667b
-	call 05d9ch		;667d
-	call 042bch		;6680
+	call 05d9ch		;667d   ; p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
+	call 042bch		;6680   ; p00:bancos_1_2_3
 	ld hl,0c123h		;6683
 	ld (hl),001h		;6686
 L_6688:
 	ld a,020h		;6688
 L_668A:
-	ld (0c104h),a		;668a
-	ld hl,0c100h		;668d
+	ld (0c104h),a		;668a   ; guarda la espera del estado, en cuadros
+	ld hl,0c100h		;668d   ; apunta a el ESTADO del juego
 	inc (hl)			;6690
 L_6691:
 	xor a			;6691
-	ld (0c101h),a		;6692
+	ld (0c101h),a		;6692   ; guarda el paso del estado
 	ret			;6695
 L_6696:
 	call 05c05h		;6696
@@ -1037,9 +1037,9 @@ L_6696:
 	jr L_6688		;66ad
 L_66AF:
 	ld a,007h		;66af
-	ld (0c100h),a		;66b1
+	ld (0c100h),a		;66b1   ; guarda el ESTADO del juego
 	ld a,0ffh		;66b4
-	call 05488h		;66b6
+	call 05488h		;66b6   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 	ld a,080h		;66b9
 	jp L_668A		;66bb
 L_66BE:
@@ -1057,27 +1057,27 @@ L_66D1:
 	jp L_663A		;66d3
 L_66D6:
 	ld a,089h		;66d6
-	call 05490h		;66d8
+	call 05490h		;66d8   ; p00:sonido: pone los bancos 4 y 5 y pide el sonido A a p04:6032
 	jr L_6688		;66db
 continuar:
 	djnz L_6736		;66dd
-	call teclas_del_cuadro		;66df
+	call teclas_del_cuadro		;66df   ; teclas_del_cuadro: sin el bit 6 de 0xC102 (la demostracion), las teclas salen del guion (p01:69D7)
 	ld hl,0c11ah		;66e2
-	ld a,(0c112h)		;66e5
+	ld a,(0c112h)		;66e5   ; lee las teclas del teclado (bits 3-5: 1, 2 y 3; bit 2: F5)
 	bit 2,a		;66e8   ; F5 (bit 2 de 0xC112): CONTINUE
 	jr z,L_66F4		;66ea
 	ld (hl),001h		;66ec
-	ld hl,0bfech		;66ee
+	ld hl,0bfech		;66ee   ; p03:continue_f5: [x][y] "CONTINUE F5" 0xFF: p01:66EE
 	call 04913h		;66f1
 L_66F4:
-	call 054bdh		;66f4
+	call 054bdh		;66f4   ; p00:hay_musica
 	ret nz			;66f7
 	ld a,(0c11ah)		;66f8
 	and a			;66fb
 	jp z,L_6636		;66fc
 	ld hl,0c16eh		;66ff   ; una vez mas (lo mira p06:A85C para el final)
 	inc (hl)			;6702
-	ld a,(0c12eh)		;6703
+	ld a,(0c12eh)		;6703   ; lee LEVEL, el nivel de Mitchel (BCD)
 	add a,003h		;6706
 	daa			;6708
 	jr nc,L_670D		;6709
@@ -1105,28 +1105,28 @@ L_6713:
 	adc a,000h		;6722
 	daa			;6724
 	ld h,a			;6725
-	ld (0c129h),hl		;6726
+	ld (0c129h),hl		;6726   ; guarda LIFE, los dos bytes (BCD)
 	call 0538dh		;6729
 	ld a,001h		;672c
 	ld (0c123h),a		;672e
 	ld a,005h		;6731
 	jp L_663A		;6733
 L_6736:
-	call 04612h		;6736
+	call 04612h		;6736   ; p00:limpia_la_pantalla
 	xor a			;6739
 	ld (0c11ah),a		;673a
-	ld hl,0bfdfh		;673d
-	call 0490fh		;6740
+	ld hl,0bfdfh		;673d   ; p03:game_over: [x][y] "GAME  OVER" y 0xFE, que sigue con p03:BFEC: p01:673D escribe las dos lineas
+	call 0490fh		;6740   ; p00:rotulo: [x][y] letras, 0xFE [x][y] otro sitio, 0xFF acaba
 	jp L_664F		;6743
 L_6746:
 	di			;6746
 	ld a,006h		;6747
-	call 05d9ch		;6749
+	call 05d9ch		;6749   ; p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
 	call 0a6cfh		;674c
-	jp 042bch		;674f
+	jp 042bch		;674f   ; p00:bancos_1_2_3
 L_6752:
-	call teclas_del_cuadro		;6752
-	ld a,(0c112h)		;6755
+	call teclas_del_cuadro		;6752   ; teclas_del_cuadro: sin el bit 6 de 0xC102 (la demostracion), las teclas salen del guion (p01:69D7)
+	ld a,(0c112h)		;6755   ; lee las teclas del teclado (bits 3-5: 1, 2 y 3; bit 2: F5)
 	rra			;6758
 	ret nc			;6759
 	ld hl,0c11bh		;675a
@@ -1135,28 +1135,28 @@ L_6752:
 	dec a			;6760
 	call z,quita_la_ventana_de_pausa		;6761
 	ld a,0feh		;6764
-	call 05488h		;6766
+	call 05488h		;6766   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 	ld a,005h		;6769
 	jp L_663A		;676b
 L_676E:
 	call lee_el_teclado		;676e
 	ld hl,0c11ch		;6771
-	call teclas_nuevas		;6774
+	call teclas_nuevas		;6774   ; teclas_nuevas: (HL) = las de ahora; (HL-1) = las que no estaban el cuadro anterior
 	call lee_el_mando		;6777
 	ld hl,0c111h		;677a
-	call teclas_nuevas		;677d
+	call teclas_nuevas		;677d   ; teclas_nuevas: (HL) = las de ahora; (HL-1) = las que no estaban el cuadro anterior
 	or a			;6780
 	ret z			;6781
-	ld hl,0c104h		;6782
+	ld hl,0c104h		;6782   ; apunta a la espera del estado, en cuadros
 	ld (hl),000h		;6785
-	ld hl,0c100h		;6787
+	ld hl,0c100h		;6787   ; apunta a el ESTADO del juego
 	ld b,(hl)			;678a
 	djnz L_679D		;678b
 	and 030h		;678d
 	ret z			;678f
 	call valor_de_c11e		;6790
 	ld a,040h		;6793
-	ld (0c102h),a		;6795
+	ld (0c102h),a		;6795   ; guarda las banderas de la partida (bit 6: de verdad, no la demostracion)
 	ld (hl),003h		;6798
 	inc hl			;679a
 	ld (hl),b			;679b
@@ -1164,11 +1164,11 @@ L_676E:
 L_679D:
 	ld (hl),001h		;679d
 	ld a,000h		;679f
-	call 05490h		;67a1
+	call 05490h		;67a1   ; p00:sonido: pone los bancos 4 y 5 y pide el sonido A a p04:6032
 	ld a,006h		;67a4
-	call 05d9ch		;67a6
+	call 05d9ch		;67a6   ; p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
 	call 0ba79h		;67a9
-	jp 042bch		;67ac
+	jp 042bch		;67ac   ; p00:bancos_1_2_3
 ventana_de_pausa:
 	ld hl,05054h		;67af
 	ld bc,03010h		;67b2
@@ -1176,12 +1176,12 @@ ventana_de_pausa:
 	ld a,004h		;67b8
 	push hl			;67ba
 	push bc			;67bb
-	call 047d7h		;67bc
+	call 047d7h		;67bc   ; p00:hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
 	pop bc			;67bf
 	pop hl			;67c0
 	call marco_de_la_ventana		;67c1
-	ld hl,067cah		;67c4
-	jp 0490fh		;67c7
+	ld hl,067cah		;67c4   ; pausa: [x][y] "PAUSE" 0xFF: lo que escribe p01:67C4 al parar la partida
+	jp 0490fh		;67c7   ; p00:rotulo: [x][y] letras, 0xFE [x][y] otro sitio, 0xFF acaba
 
 ; ----------------------------------------------------------------------
 ; DATOS pausa: [x][y] "PAUSE" 0xFF: lo que escribe p01:67C4 al parar la
@@ -1200,17 +1200,17 @@ quita_la_ventana_de_pausa:
 	ld bc,03010h		;67d5
 	ld hl,0d090h		;67d8
 	ld a,001h		;67db
-	jp 047d7h		;67dd
+	jp 047d7h		;67dd   ; p00:hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
 marco_de_la_ventana:
 	call borra_la_ventana		;67e0
 	ld c,00eh		;67e3
-	jp 0476dh		;67e5
+	jp 0476dh		;67e5   ; p00:marco: cuatro rayas: un marco de E por D en HL
 borra_la_ventana:
 	xor a			;67e8
 	ld d,000h		;67e9
 	push bc			;67eb
 	push hl			;67ec
-	call 0479bh		;67ed
+	call 0479bh		;67ed   ; p00:hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
 	pop hl			;67f0
 	pop de			;67f1
 	ret			;67f2
@@ -1245,20 +1245,20 @@ L_681C:
 	ld (0c11eh),a		;681d
 	ret			;6820
 L_6821:
-	ld a,(0c125h)		;6821
-	cp 08ah		;6824
+	ld a,(0c125h)		;6821   ; lee la PANTALLA
+	cp 08ah		;6824   ; la pantalla 0x8A?
 	ret nc			;6826
 	ld a,(0c147h)		;6827
 	and a			;682a
 	call z,05a2ah		;682b
-	ld ix,0d000h		;682e
+	ld ix,0d000h		;682e   ; apunta a las fichas de los enemigos (13 de 0x80)
 	ld b,00dh		;6832
 L_6834:
-	ld a,(ix+000h)		;6834
+	ld a,(ix+000h)		;6834   ; lee el tipo del enemigo
 	and a			;6837
 	jr z,L_684B		;6838
 	push bc			;683a
-	call mueve_una_ficha		;683b
+	call mueve_una_ficha		;683b   ; mueve_una_ficha: las explosiones (0xF0 en adelante) a p00:5E4F; si no, por su tipo con la tabla de p01:6885
 	ld a,(0c147h)		;683e
 	and a			;6841
 	jr nz,L_6847		;6842
@@ -1272,13 +1272,13 @@ L_684B:
 	djnz L_6834		;6850
 	ret			;6852
 L_6853:
-	ld ix,0d000h		;6853
+	ld ix,0d000h		;6853   ; apunta a las fichas de los enemigos (13 de 0x80)
 	ld b,00dh		;6857
 L_6859:
 	push bc			;6859
-	ld a,(ix+000h)		;685a
+	ld a,(ix+000h)		;685a   ; lee el tipo del enemigo
 	and a			;685d
-	call nz,050f9h		;685e
+	call nz,050f9h		;685e   ; p00:cuadro_de_la_ficha
 	ld de,00080h		;6861
 	add ix,de		;6864
 	pop bc			;6866
@@ -1298,7 +1298,7 @@ mueve_una_ficha:
 	ld a,c			;687d
 	jp c,L_7072		;687e
 	dec a			;6881
-	call 0425fh		;6882
+	call 0425fh		;6882   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_6885: 68 destinos del despachador de 0x425F (call en p01:6882):
@@ -1459,36 +1459,36 @@ empieza_la_demostracion:
 	inc e			;6987
 	ld (hl),000h		;6988
 	ldir		;698a
-	ld hl,0c10ch		;698c
+	ld hl,0c10ch		;698c   ; apunta a la demostracion que toca (alterna)
 	ld a,(hl)			;698f
 	inc (hl)			;6990
 	and 001h		;6991
 	add a,a			;6993
 	add a,a			;6994
-	ld hl,069cch		;6995
-	call 04255h		;6998
+	ld hl,069cch		;6995   ; demostraciones: 2 entradas de 4 bytes (0xC10C alterna): [pantalla][0xC103][palabra que lee p01:69B7]; p01:6995
+	call 04255h		;6998   ; p00:hl_mas_a
 	ld a,(hl)			;699b
-	ld (0c125h),a		;699c
+	ld (0c125h),a		;699c   ; guarda la PANTALLA
 	inc hl			;699f
 	ld a,(hl)			;69a0
-	ld (0c103h),a		;69a1
+	ld (0c103h),a		;69a1   ; guarda el contador de cuadros
 	ld a,001h		;69a4
 	ld (0c123h),a		;69a6
-	ld (0c109h),a		;69a9
+	ld (0c109h),a		;69a9   ; guarda la cuenta de la pulsacion de la demostracion
 	dec a			;69ac
-	ld (0c107h),a		;69ad
-	ld (0c10ah),a		;69b0
+	ld (0c107h),a		;69ad   ; guarda las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+	ld (0c10ah),a		;69b0   ; guarda las teclas de la demostracion
 	ld (0c10bh),a		;69b3
 	inc hl			;69b6
 	ld e,(hl)			;69b7
 	inc hl			;69b8
 	ld d,(hl)			;69b9
-	ld (0c10dh),de		;69ba
-	call 0533dh		;69be
+	ld (0c10dh),de		;69ba   ; guarda el guion de la demostracion
+	call 0533dh		;69be   ; p00:empieza_la_partida
 	ld a,004h		;69c1
 	ld (0c307h),a		;69c3
 	ld a,099h		;69c6
-	ld (0c12eh),a		;69c8
+	ld (0c12eh),a		;69c8   ; guarda LEVEL, el nivel de Mitchel (BCD)
 	ret			;69cb
 
 ; ----------------------------------------------------------------------
@@ -1508,43 +1508,43 @@ salta_a_5C05:
 teclas_de_la_demostracion:
 	di			;69d7
 	ld a,006h		;69d8
-	call 05d9ch		;69da
-	ld hl,0c109h		;69dd
+	call 05d9ch		;69da   ; p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
+	ld hl,0c109h		;69dd   ; apunta a la cuenta de la pulsacion de la demostracion
 	dec (hl)			;69e0
 	jr z,L_69F7		;69e1
 L_69E3:
-	ld a,(0c10ah)		;69e3
+	ld a,(0c10ah)		;69e3   ; lee las teclas de la demostracion
 	cp 0ffh		;69e6
 	jr z,L_69F0		;69e8
 	call guarda_las_teclas		;69ea
-	jp 042bch		;69ed
+	jp 042bch		;69ed   ; p00:bancos_1_2_3
 L_69F0:
 	xor a			;69f0
 	ld (0c123h),a		;69f1
-	jp 042bch		;69f4
+	jp 042bch		;69f4   ; p00:bancos_1_2_3
 L_69F7:
 	inc hl			;69f7
 	inc hl			;69f8
 	ld c,(hl)			;69f9
 	inc (hl)			;69fa
-	ld de,(0c10dh)		;69fb
+	ld de,(0c10dh)		;69fb   ; lee el guion de la demostracion
 	ld l,c			;69ff
 	ld h,000h		;6a00
 	add hl,hl			;6a02
 	add hl,de			;6a03
 	ld a,(hl)			;6a04
-	ld (0c109h),a		;6a05
+	ld (0c109h),a		;6a05   ; guarda la cuenta de la pulsacion de la demostracion
 	inc hl			;6a08
 	ld a,(hl)			;6a09
-	ld (0c10ah),a		;6a0a
+	ld (0c10ah),a		;6a0a   ; guarda las teclas de la demostracion
 	jr L_69E3		;6a0d
 L_6A0F:
 	ld hl,0dfa0h		;6a0f
 	dec (hl)			;6a12
 	ret nz			;6a13
 	ld (hl),050h		;6a14
-	ld a,(0c125h)		;6a16
-	cp 011h		;6a19
+	ld a,(0c125h)		;6a16   ; lee la PANTALLA
+	cp 011h		;6a19   ; la pantalla 0x11?
 	jr nz,L_6A21		;6a1b
 	ld b,001h		;6a1d
 	jr L_6A3E		;6a1f
@@ -1566,13 +1566,13 @@ L_6A33:
 	ld b,002h		;6a3c
 L_6A3E:
 	ld a,b			;6a3e
-	ld hl,06a4dh		;6a3f
-	call 04255h		;6a42
+	ld hl,06a4dh		;6a3f   ; posiciones_6A4D: 5 bytes que p01:6A3F lee de dos en dos segun B (se solapan): [x][y] para p00:5A69
+	call 04255h		;6a42   ; p00:hl_mas_a
 	ld e,(hl)			;6a45
 	inc hl			;6a46
 	ld d,(hl)			;6a47
 	ld c,01bh		;6a48
-	jp 05a69h		;6a4a
+	jp 05a69h		;6a4a   ; p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
 
 ; ----------------------------------------------------------------------
 ; DATOS posiciones_6A4D: 5 bytes que p01:6A3F lee de dos en dos segun B (se
@@ -1589,7 +1589,7 @@ DATA_posiciones_6A4D:
 L_6A52:
 	call mitchel_en_la_mitad_de_abajo		;6a52
 	or a			;6a55
-	ld a,(0c303h)		;6a56
+	ld a,(0c303h)		;6a56   ; lee la Y de Mitchel
 	jr nz,L_6A64		;6a59
 	cp 048h		;6a5b
 	jr nc,L_6A7D		;6a5d
@@ -1609,20 +1609,20 @@ L_6A6D:
 	set 0,(hl)		;6a73
 	ld c,040h		;6a75
 	ld de,01814h		;6a77
-	jp 05a69h		;6a7a
+	jp 05a69h		;6a7a   ; p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
 L_6A7D:
 	ld hl,0dff4h		;6a7d
 	bit 1,(hl)		;6a80
 	ret nz			;6a82
 	set 1,(hl)		;6a83
-	ld ix,0d000h		;6a85
+	ld ix,0d000h		;6a85   ; apunta a las fichas de los enemigos (13 de 0x80)
 	ld (ix+014h),000h		;6a89
 	ld de,0ff60h		;6a8d
 	jp 04311h		;6a90
 L_6A93:
 	call mitchel_en_la_mitad_de_abajo		;6a93
 	or a			;6a96
-	ld a,(0c303h)		;6a97
+	ld a,(0c303h)		;6a97   ; lee la Y de Mitchel
 	jr z,L_6AA1		;6a9a
 	cp 058h		;6a9c
 	ret nc			;6a9e
@@ -1642,17 +1642,17 @@ L_6AA4:
 	ret nc			;6ab0
 	ld e,a			;6ab1
 	ld d,000h		;6ab2
-	ld hl,06aceh		;6ab4
+	ld hl,06aceh		;6ab4   ; posiciones_6ACE: 5 bytes, uno por E (0-4): la x que p01:6AB4 da a p00:5A69 en dos alturas (0x18 y 0x98)
 	add hl,de			;6ab7
 	ld e,(hl)			;6ab8
 	push de			;6ab9
 	ld d,018h		;6aba
 	ld c,040h		;6abc
-	call 05a69h		;6abe
+	call 05a69h		;6abe   ; p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
 	pop de			;6ac1
 	ld d,098h		;6ac2
 	ld c,040h		;6ac4
-	call 05a69h		;6ac6
+	call 05a69h		;6ac6   ; p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
 L_6AC9:
 	ld hl,0dff4h		;6ac9
 	inc (hl)			;6acc
@@ -1673,7 +1673,7 @@ DATA_posiciones_6ACE:
 L_6AD3:
 	call mitchel_en_la_mitad_de_abajo		;6ad3
 	or a			;6ad6
-	ld a,(0c303h)		;6ad7
+	ld a,(0c303h)		;6ad7   ; lee la Y de Mitchel
 	jr z,L_6AE1		;6ada
 	cp 078h		;6adc
 	ret nc			;6ade
@@ -1699,7 +1699,7 @@ L_6AE4:
 	add a,d			;6af6
 	ld e,a			;6af7
 	ld d,000h		;6af8
-	ld hl,06b1bh		;6afa
+	ld hl,06b1bh		;6afa   ; grupos_6B1B: grupos [cuantos] y ternas [x][y][y2] que p01:6AFA pinta con p00:5A69 (C = 0x40)
 	add hl,de			;6afd
 	ld b,(hl)			;6afe
 L_6AFF:
@@ -1711,14 +1711,14 @@ L_6AFF:
 	push de			;6b04
 	push hl			;6b05
 	ld c,040h		;6b06
-	call 05a69h		;6b08
+	call 05a69h		;6b08   ; p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
 	pop hl			;6b0b
 	pop de			;6b0c
 	inc hl			;6b0d
 	ld d,(hl)			;6b0e
 	push hl			;6b0f
 	ld c,040h		;6b10
-	call 05a69h		;6b12
+	call 05a69h		;6b12   ; p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
 	pop hl			;6b15
 	pop bc			;6b16
 	djnz L_6AFF		;6b17
@@ -1739,12 +1739,12 @@ DATA_grupos_6B1B:
 
 L_6B30:
 	ld a,040h		;6b30
-	call 08bc6h		;6b32
+	call 08bc6h		;6b32   ; p02:cuenta_las_fichas
 	cp 003h		;6b35
 	ret nc			;6b37
 	call mitchel_en_la_mitad_de_abajo		;6b38
 	or a			;6b3b
-	ld a,(0c303h)		;6b3c
+	ld a,(0c303h)		;6b3c   ; lee la Y de Mitchel
 	jr nz,L_6B4A		;6b3f
 	cp 070h		;6b41
 	jr nc,L_6B6A		;6b43
@@ -1763,10 +1763,10 @@ L_6B53:
 	ret z			;6b57
 	ld de,01824h		;6b58
 	ld c,040h		;6b5b
-	call 05a69h		;6b5d
+	call 05a69h		;6b5d   ; p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
 	ld de,09824h		;6b60
 	ld c,040h		;6b63
-	call 05a69h		;6b65
+	call 05a69h		;6b65   ; p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
 	jr L_6B78		;6b68
 L_6B6A:
 	ld a,(0dff4h)		;6b6a
@@ -1774,7 +1774,7 @@ L_6B6A:
 	ret z			;6b6f
 	ld de,09864h		;6b70
 	ld c,040h		;6b73
-	call 05a69h		;6b75
+	call 05a69h		;6b75   ; p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
 L_6B78:
 	ld hl,0dff4h		;6b78
 	inc (hl)			;6b7b
@@ -1787,23 +1787,23 @@ mitchel_en_la_mitad_de_abajo:
 	inc a			;6b85
 	ret			;6b86
 L_6B87:
-	ld ix,0c300h		;6b87
-	call mitchel_en_el_agua		;6b8b
+	ld ix,0c300h		;6b87   ; apunta a el estado de Mitchel
+	call mitchel_en_el_agua		;6b8b   ; mitchel_en_el_agua: 0xC160 = 1 si la casilla que pisa es agua (juegos de dibujos 0, 4 y 7): con ella p00:4FF0 usa las poses de 0x7DBD
 	ld a,(0c133h)		;6b8e
 	and a			;6b91
 	jr nz,L_6BED		;6b92
 	call se_toca_una_tecla		;6b94
-	call dispara		;6b97
+	call dispara		;6b97   ; dispara: bit 5 de 0xC106: SHOT2; bit 4: SHOT1
 	call mueve_a_mitchel		;6b9a
 	call parpadeo_de_mitchel		;6b9d
 	jp L_6C59		;6ba0
 mitchel_en_el_agua:
 	xor a			;6ba3   ; 0xC160 = 1 si la casilla que pisa es agua (juegos de dibujos 0, 4 y 7): con ella p00:4FF0 usa las poses de 0x7DBD
-	ld (0c160h),a		;6ba4
-	call 04308h		;6ba7
+	ld (0c160h),a		;6ba4   ; guarda Mitchel metido en el agua
+	call 04308h		;6ba7   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
 	ex de,hl			;6baa
-	call 0431fh		;6bab
-	ld a,(0c148h)		;6bae
+	call 0431fh		;6bab   ; p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
+	ld a,(0c148h)		;6bae   ; lee el juego de dibujos de la pantalla
 	and a			;6bb1
 	jr z,L_6BCD		;6bb2
 	cp 004h		;6bb4
@@ -1819,7 +1819,7 @@ mitchel_en_el_agua:
 	ret nc			;6bc6
 L_6BC7:
 	ld a,001h		;6bc7
-	ld (0c160h),a		;6bc9
+	ld (0c160h),a		;6bc9   ; guarda Mitchel metido en el agua
 	ret			;6bcc
 L_6BCD:
 	ld a,(hl)			;6bcd
@@ -1842,7 +1842,7 @@ L_6BD9:
 	jr c,L_6BC7		;6bea
 	ret			;6bec
 L_6BED:
-	ld hl,0c311h		;6bed
+	ld hl,0c311h		;6bed   ; apunta a la cuenta de los pasos de Mitchel
 	dec (hl)			;6bf0
 	jr nz,L_6BF8		;6bf1
 	xor a			;6bf3
@@ -1852,9 +1852,9 @@ L_6BF8:
 	ld a,(hl)			;6bf8
 	cp 04bh		;6bf9
 	ld a,08ah		;6bfb
-	call z,05488h		;6bfd
+	call z,05488h		;6bfd   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 	ld a,(hl)			;6c00
-	ld hl,0c306h		;6c01
+	ld hl,0c306h		;6c01   ; apunta a hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	cp 030h		;6c04
 	jr nc,L_6C14		;6c06
 	ld c,a			;6c08
@@ -1863,22 +1863,22 @@ L_6BF8:
 	ld a,c			;6c0b
 	jr nz,L_6C14		;6c0c
 	ld a,010h		;6c0e
-	ld (0c310h),a		;6c10
+	ld (0c310h),a		;6c10   ; guarda la POSE de Mitchel
 	ret			;6c13
 L_6C14:
 	and 003h		;6c14
 	jr nz,L_6C21		;6c16
 	ld a,(hl)			;6c18
-	ld de,06c2dh		;6c19
-	call 0425ah		;6c1c
+	ld de,06c2dh		;6c19   ; direccion_6C2D: 4 bytes: la nueva direccion segun la de ahora (p01:6C19)
+	call 0425ah		;6c1c   ; p00:de_mas_a
 	ld a,(de)			;6c1f
 	ld (hl),a			;6c20
 L_6C21:
 	ld a,(hl)			;6c21
-	ld de,06c31h		;6c22
-	call 0425ah		;6c25
+	ld de,06c31h		;6c22   ; pose_por_direccion: 4 bytes: la pose (0xC310) de cada direccion (p01:6C22)
+	call 0425ah		;6c25   ; p00:de_mas_a
 	ld a,(de)			;6c28
-	ld (0c310h),a		;6c29
+	ld (0c310h),a		;6c29   ; guarda la POSE de Mitchel
 	ret			;6c2c
 
 ; ----------------------------------------------------------------------
@@ -1901,7 +1901,7 @@ DATA_pose_por_direccion:
 
 
 se_toca_una_tecla:
-	ld a,(0c106h)		;6c35
+	ld a,(0c106h)		;6c35   ; lee las teclas nuevas del cuadro (bit 4 SHOT1, bit 5 SHOT2)
 	and 00fh		;6c38
 	ret z			;6c3a
 	ld a,001h		;6c3b
@@ -1911,22 +1911,22 @@ dispara:
 	ld a,(0c300h)		;6c41   ; bit 5 de 0xC106: SHOT2; bit 4: SHOT1
 	cp 005h		;6c44
 	ret nc			;6c46
-	ld a,(0c106h)		;6c47
+	ld a,(0c106h)		;6c47   ; lee las teclas nuevas del cuadro (bit 4 SHOT1, bit 5 SHOT2)
 	bit 5,a		;6c4a
 	jp nz,usa_shot2		;6c4c
 	and 010h		;6c4f
 	ret z			;6c51
 	xor a			;6c52
 	ld (0c324h),a		;6c53
-	jp usa_shot1		;6c56
+	jp usa_shot1		;6c56   ; usa_shot1: El arma de SHOT1 (0xC140): 0 el puno; 1-3 golpes 0x11-0x13; 4 solo en las
 L_6C59:
-	ld a,(0c146h)		;6c59
+	ld a,(0c146h)		;6c59   ; lee la ENFERMEDAD (la picadura)
 	and a			;6c5c
 	ret z			;6c5d
 	ld a,(0c209h)		;6c5e
 	and a			;6c61
 	ret nz			;6c62
-	ld hl,0c129h		;6c63
+	ld hl,0c129h		;6c63   ; apunta a LIFE, la vida de Mitchel (BCD)
 	ld a,(hl)			;6c66
 	sub 001h		;6c67
 	daa			;6c69
@@ -1943,18 +1943,18 @@ L_6C59:
 	jp nz,escribe_life		;6c78
 L_6C7B:
 	ld hl,04201h		;6c7b
-	ld (0c309h),hl		;6c7e
+	ld (0c309h),hl		;6c7e   ; guarda el color del primer sprite de Mitchel
 	xor a			;6c81
 	ld l,a			;6c82
 	ld h,a			;6c83
-	ld (0c129h),hl		;6c84
-	ld (0c380h),a		;6c87
+	ld (0c129h),hl		;6c84   ; guarda LIFE, los dos bytes (BCD)
+	ld (0c380h),a		;6c87   ; guarda lo que lanza Mitchel (su ficha)
 	inc a			;6c8a
 	ld (0c133h),a		;6c8b
 	ld a,050h		;6c8e
-	ld (0c311h),a		;6c90
+	ld (0c311h),a		;6c90   ; guarda la cuenta de los pasos de Mitchel
 	ld a,00fh		;6c93
-	call 05488h		;6c95
+	call 05488h		;6c95   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 	jp escribe_life		;6c98
 mitchel_resbala:
 	ld hl,0c163h		;6c9b
@@ -1963,19 +1963,19 @@ mitchel_resbala:
 	ret z			;6ca0
 	dec (hl)			;6ca1
 	inc l			;6ca2
-	call 04308h		;6ca3
+	call 04308h		;6ca3   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
 	ld c,(hl)			;6ca6
 	call casilla_hacia		;6ca7
 	jr c,L_6D01		;6caa
 	ld a,(0c164h)		;6cac
-	ld de,06d1eh		;6caf
-	call 042ffh		;6cb2
+	ld de,06d1eh		;6caf   ; pasos_6D1E: 4 parejas [dx][dy] segun 0xC164 (p01:6CAF)
+	call 042ffh		;6cb2   ; p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
 	ex de,hl			;6cb5
-	call 04308h		;6cb6
+	call 04308h		;6cb6   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
 	ld a,e			;6cb9
 	add a,l			;6cba
 	ld l,a			;6cbb
-	ld bc,0c303h		;6cbc
+	ld bc,0c303h		;6cbc   ; apunta a la Y de Mitchel
 	cp 0a1h		;6cbf
 	jr nc,L_6CFE		;6cc1
 	cp 010h		;6cc3
@@ -1983,7 +1983,7 @@ mitchel_resbala:
 	ld a,d			;6cc7
 	add a,h			;6cc8
 	ld h,a			;6cc9
-	ld bc,0c305h		;6cca
+	ld bc,0c305h		;6cca   ; apunta a la X de Mitchel
 	cp 0a1h		;6ccd
 	jr nc,L_6CFE		;6ccf
 	cp 010h		;6cd1
@@ -2003,9 +2003,9 @@ mitchel_resbala:
 	jr c,L_6D01		;6ced
 L_6CEF:
 	ld a,l			;6cef
-	ld (0c303h),a		;6cf0
+	ld (0c303h),a		;6cf0   ; guarda la Y de Mitchel
 	ld a,h			;6cf3
-	ld (0c305h),a		;6cf4
+	ld (0c305h),a		;6cf4   ; guarda la X de Mitchel
 	jr L_6D18		;6cf7
 L_6CF9:
 	ld a,010h		;6cf9
@@ -2015,7 +2015,7 @@ L_6CFE:
 	ld a,0a0h		;6cfe
 	ld (bc),a			;6d00
 L_6D01:
-	call 04308h		;6d01
+	call 04308h		;6d01   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
 	ld a,e			;6d04
 	and 0f8h		;6d05
 	ld l,000h		;6d07
@@ -2028,7 +2028,7 @@ L_6D01:
 	xor a			;6d14
 	ld (0c326h),a		;6d15
 L_6D18:
-	ld a,(0c300h)		;6d18
+	ld a,(0c300h)		;6d18   ; lee el estado de Mitchel
 	cp 005h		;6d1b
 	ret			;6d1d
 
@@ -2048,14 +2048,14 @@ mueve_a_mitchel:
 	ret c			;6d29
 	ld a,(0c161h)		;6d2a
 	and a			;6d2d
-	ld a,(0c300h)		;6d2e
+	ld a,(0c300h)		;6d2e   ; lee el estado de Mitchel
 	jr z,L_6D39		;6d31
 	and a			;6d33
 	jr z,L_6D39		;6d34
 	cp 005h		;6d36
 	ret c			;6d38
 L_6D39:
-	call 0425fh		;6d39
+	call 0425fh		;6d39   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_6D3C: 9 destinos del despachador de 0x425F (call en p01:6D39):
@@ -2080,10 +2080,10 @@ DATA_tabla_6D3C:
 
 L_6D4E:
 	call mira_a_los_lados		;6d4e
-	ld a,(0c300h)		;6d51
+	ld a,(0c300h)		;6d51   ; lee el estado de Mitchel
 	and a			;6d54
 	ret nz			;6d55
-	ld a,(0c107h)		;6d56
+	ld a,(0c107h)		;6d56   ; lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	rra			;6d59
 	ld c,000h		;6d5a
 	jr c,L_6D69		;6d5c
@@ -2098,11 +2098,11 @@ L_6D4E:
 	ret nc			;6d68
 L_6D69:
 	ld a,c			;6d69
-	ld (0c306h),a		;6d6a
+	ld (0c306h),a		;6d6a   ; guarda hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	ret			;6d6d
 mira_a_los_lados:
-	ld a,(0c306h)		;6d6e
-	cp 002h		;6d71
+	ld a,(0c306h)		;6d6e   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+	cp 002h		;6d71   ; mira a la izquierda?
 	jr c,L_6D7F		;6d73
 L_6D75:
 	call teclas_arriba_abajo		;6d75
@@ -2117,13 +2117,13 @@ L_6D7F:
 	ret nc			;6d86
 L_6D87:
 	xor a			;6d87
-	ld (0c300h),a		;6d88
+	ld (0c300h),a		;6d88   ; guarda el estado de Mitchel
 pose_quieto:
-	ld a,(0c306h)		;6d8b
-	ld hl,06d99h		;6d8e
-	call 04255h		;6d91
+	ld a,(0c306h)		;6d8b   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+	ld hl,06d99h		;6d8e   ; pose_de_cada_direccion: 4 bytes: la pose (0xC310) segun la direccion 0xC306 (p01:6D8E)
+	call 04255h		;6d91   ; p00:hl_mas_a
 	ld a,(hl)			;6d94
-	ld (0c310h),a		;6d95
+	ld (0c310h),a		;6d95   ; guarda la POSE de Mitchel
 	ret			;6d98
 
 ; ----------------------------------------------------------------------
@@ -2140,7 +2140,7 @@ DATA_pose_de_cada_direccion:
 
 L_6D9D:
 	call pose_andando		;6d9d
-	ld a,(0c107h)		;6da0
+	ld a,(0c107h)		;6da0   ; lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	and 002h		;6da3
 	jr z,L_6DB1		;6da5
 	ld a,(0c327h)		;6da7
@@ -2162,7 +2162,7 @@ L_6DB1:
 	jr $-72		;6dc7
 L_6DC9:
 	call pose_andando		;6dc9
-	ld a,(0c107h)		;6dcc
+	ld a,(0c107h)		;6dcc   ; lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	and 001h		;6dcf
 	jr z,L_6DDD		;6dd1
 	ld a,(0c327h)		;6dd3
@@ -2184,7 +2184,7 @@ L_6DDD:
 	jp L_6D7F		;6df5
 L_6DF8:
 	call pose_andando		;6df8
-	ld a,(0c107h)		;6dfb
+	ld a,(0c107h)		;6dfb   ; lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	and 008h		;6dfe
 	jr z,L_6E0C		;6e00
 	ld a,(0c327h)		;6e02
@@ -2206,7 +2206,7 @@ L_6E0C:
 	jp L_6D75		;6e25
 L_6E28:
 	call pose_andando		;6e28
-	ld a,(0c107h)		;6e2b
+	ld a,(0c107h)		;6e2b   ; lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	and 004h		;6e2e
 	jr z,L_6E3C		;6e30
 	ld a,(0c327h)		;6e32
@@ -2227,20 +2227,20 @@ L_6E3C:
 	jp z,L_6D7F		;6e52
 	jp L_6D75		;6e55
 pose_andando:
-	ld hl,0c311h		;6e58
+	ld hl,0c311h		;6e58   ; apunta a la cuenta de los pasos de Mitchel
 	inc (hl)			;6e5b
 	ld a,(hl)			;6e5c
 	rra			;6e5d
 	rra			;6e5e
 	and 003h		;6e5f
-	ld hl,06e72h		;6e61
-	call 04255h		;6e64
-	ld a,(0c306h)		;6e67
+	ld hl,06e72h		;6e61   ; paso_de_la_pose: 4 bytes que p01:6E61 suma a 3*direccion para la pose (0xC310)
+	call 04255h		;6e64   ; p00:hl_mas_a
+	ld a,(0c306h)		;6e67   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	ld c,a			;6e6a
 	add a,a			;6e6b
 	add a,c			;6e6c
 	add a,(hl)			;6e6d
-	ld (0c310h),a		;6e6e
+	ld (0c310h),a		;6e6e   ; guarda la POSE de Mitchel
 	ret			;6e71
 
 ; ----------------------------------------------------------------------
@@ -2256,7 +2256,7 @@ DATA_paso_de_la_pose:
 
 
 teclas_izquierda_derecha:
-	ld a,(0c107h)		;6e76
+	ld a,(0c107h)		;6e76   ; lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	and 00ch		;6e79
 	scf			;6e7b
 	ret pe			;6e7c
@@ -2264,7 +2264,7 @@ teclas_izquierda_derecha:
 	jr nz,anda_a_la_derecha		;6e7f
 	jr anda_a_la_izquierda		;6e81
 teclas_arriba_abajo:
-	ld a,(0c107h)		;6e83
+	ld a,(0c107h)		;6e83   ; lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	and 003h		;6e86
 	scf			;6e88
 	ret pe			;6e89
@@ -2299,13 +2299,13 @@ L_6EB5:
 	jr z,L_6EC9		;6eb8
 	ld (ix+000h),a		;6eba
 	dec a			;6ebd
-	ld (0c306h),a		;6ebe
+	ld (0c306h),a		;6ebe   ; guarda hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	xor a			;6ec1
-	ld (0c311h),a		;6ec2
+	ld (0c311h),a		;6ec2   ; guarda la cuenta de los pasos de Mitchel
 	ld (0c327h),a		;6ec5
 	ret			;6ec8
 L_6EC9:
-	ld a,(0c300h)		;6ec9
+	ld a,(0c300h)		;6ec9   ; lee el estado de Mitchel
 	cp 003h		;6ecc
 	ld hl,0c302h		;6ece
 	jr c,$+4		;6ed1
@@ -2341,13 +2341,13 @@ L_6EF7:
 	ret			;6eff
 paso_de_mitchel:
 	ld de,00040h		;6f00   ; 0x40; la mitad (0x20) en el agua del juego de dibujos 4 sin los zuecos puestos (0xC142)
-	ld a,(0c160h)		;6f03
+	ld a,(0c160h)		;6f03   ; lee Mitchel metido en el agua
 	and a			;6f06
 	ret z			;6f07
-	ld a,(0c148h)		;6f08
-	cp 004h		;6f0b
+	ld a,(0c148h)		;6f08   ; lee el juego de dibujos de la pantalla
+	cp 004h		;6f0b   ; el juego de dibujos 4?
 	ret nz			;6f0d
-	ld a,(0c142h)		;6f0e
+	ld a,(0c142h)		;6f0e   ; lee los zuecos puestos
 	and a			;6f11
 	ret nz			;6f12
 	ld de,00020h		;6f13
@@ -2355,9 +2355,9 @@ paso_de_mitchel:
 cuantos_pasos:
 	ld b,(ix+007h)		;6f17
 	inc b			;6f1a
-	call paso_de_mitchel		;6f1b
+	call paso_de_mitchel		;6f1b   ; paso_de_mitchel: 0x40; la mitad (0x20) en el agua del juego de dibujos 4 sin los zuecos puestos (0xC142)
 	ld (0c16bh),de		;6f1e
-	ld a,(0c300h)		;6f22
+	ld a,(0c300h)		;6f22   ; lee el estado de Mitchel
 	rra			;6f25
 	call c,niega_de		;6f26
 L_6F29:
@@ -2391,7 +2391,7 @@ puede_andar_hacia:
 	push bc			;6f4a
 	ld a,001h		;6f4b
 	ld (0c173h),a		;6f4d
-	call 04308h		;6f50
+	call 04308h		;6f50   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
 	call alineado		;6f53
 	call z,casilla_hacia		;6f56
 	pop bc			;6f59
@@ -2399,7 +2399,7 @@ puede_andar_hacia:
 	ld a,(0c800h)		;6f5b
 	and a			;6f5e
 	ret z			;6f5f
-	call 04308h		;6f60
+	call 04308h		;6f60   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
 	ld hl,(0c801h)		;6f63
 	ld a,(0c800h)		;6f66
 	and a			;6f69
@@ -2442,8 +2442,8 @@ L_6F91:
 	sub l			;6f99
 	add a,014h		;6f9a
 	ret nc			;6f9c
-	ld a,(0c125h)		;6f9d
-	cp 005h		;6fa0
+	ld a,(0c125h)		;6f9d   ; lee la PANTALLA
+	cp 005h		;6fa0   ; la pantalla 0x05?
 	jr nz,L_6FBD		;6fa2
 	ld a,l			;6fa4
 	cp 098h		;6fa5
@@ -2479,9 +2479,9 @@ L_6FBD:
 	jr L_6FA9		;6fd1
 casilla_hacia:
 	push de			;6fd3
-	ld de,07026h		;6fd4
+	ld de,07026h		;6fd4   ; pasos_7026: 4 parejas [dx][dy] segun C (p01:6FD4)
 	ld a,c			;6fd7
-	call 042ffh		;6fd8
+	call 042ffh		;6fd8   ; p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
 	pop hl			;6fdb
 	ld (0e808h),hl		;6fdc
 	ld a,l			;6fdf
@@ -2490,15 +2490,15 @@ casilla_hacia:
 	ld a,h			;6fe2
 	add a,d			;6fe3
 	ld h,a			;6fe4
-	call 0431fh		;6fe5
-	call se_puede_pisar		;6fe8
+	call 0431fh		;6fe5   ; p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
+	call se_puede_pisar		;6fe8   ; se_puede_pisar: el dibujo de la casilla contra el limite del juego de dibujos (p01:73D0)
 	ret c			;6feb
 	ld a,c			;6fec
 	cp 002h		;6fed
 	jr c,L_7005		;6fef
 	ld bc,00020h		;6ff1
 	add hl,bc			;6ff4
-	call se_puede_pisar		;6ff5
+	call se_puede_pisar		;6ff5   ; se_puede_pisar: el dibujo de la casilla contra el limite del juego de dibujos (p01:73D0)
 	ret c			;6ff8
 	ld a,(0e808h)		;6ff9
 	and 007h		;6ffc
@@ -2508,7 +2508,7 @@ casilla_hacia:
 	jr se_puede_pisar		;7003
 L_7005:
 	inc hl			;7005
-	call se_puede_pisar		;7006
+	call se_puede_pisar		;7006   ; se_puede_pisar: el dibujo de la casilla contra el limite del juego de dibujos (p01:73D0)
 	ret c			;7009
 	ld a,(0e809h)		;700a
 	and 007h		;700d
@@ -2516,8 +2516,8 @@ L_7005:
 	inc hl			;7010
 se_puede_pisar:
 	ld a,(0c148h)		;7011   ; el dibujo de la casilla contra el limite del juego de dibujos (p01:73D0)
-	ld de,073d0h		;7014
-	call 0425ah		;7017
+	ld de,073d0h		;7014   ; byte_por_juego_de_dibujos: un byte por juego de dibujos (0xC148, 13): lo que p01:7332 pone en 0xE802
+	call 0425ah		;7017   ; p00:de_mas_a
 	ld a,(hl)			;701a
 	and a			;701b
 	ret z			;701c
@@ -2553,32 +2553,32 @@ parpadeo_de_mitchel:
 	jr z,L_7041		;703c
 	ld de,04402h		;703e
 L_7041:
-	ld (0c309h),de		;7041
+	ld (0c309h),de		;7041   ; guarda el color del primer sprite de Mitchel
 	ret			;7045
 mitchel_en_la_entrada:
 	ld hl,04201h		;7046
-	ld (0c309h),hl		;7049
+	ld (0c309h),hl		;7049   ; guarda el color del primer sprite de Mitchel
 	xor a			;704c
-	ld (0c310h),a		;704d
+	ld (0c310h),a		;704d   ; guarda la POSE de Mitchel
 	ld (0c302h),a		;7050
 	ld (0c304h),a		;7053
-	ld hl,0c380h		;7056
+	ld hl,0c380h		;7056   ; apunta a lo que lanza Mitchel (su ficha)
 	ld b,040h		;7059
 L_705B:
 	ld (hl),000h		;705b
 	inc hl			;705d
 	djnz L_705B		;705e
-	ld hl,(0c321h)		;7060
+	ld hl,(0c321h)		;7060   ; lee el punto de entrada (y, x)
 	ld a,l			;7063
-	ld (0c303h),a		;7064
+	ld (0c303h),a		;7064   ; guarda la Y de Mitchel
 	ld a,h			;7067
-	ld (0c305h),a		;7068
+	ld (0c305h),a		;7068   ; guarda la X de Mitchel
 	ld a,(0c323h)		;706b
-	ld (0c306h),a		;706e
+	ld (0c306h),a		;706e   ; guarda hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	ret			;7071
 L_7072:
 	sub 081h		;7072
-	call 0425fh		;7074
+	call 0425fh		;7074   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_7077: 17 destinos del despachador de 0x425F (call en p01:7074):
@@ -2622,7 +2622,7 @@ L_709A:
 	pop ix		;70aa
 	ret			;70ac
 recorre_las_fichas:
-	ld hl,0d000h		;70ad
+	ld hl,0d000h		;70ad   ; apunta a las fichas de los enemigos (13 de 0x80)
 	ld b,00dh		;70b0
 	xor a			;70b2
 	ld de,00080h		;70b3
@@ -2652,7 +2652,7 @@ L_70DC:
 	cp 0e0h		;70dd
 	jr nz,L_70E9		;70df
 	inc (hl)			;70e1
-	call 05bc6h		;70e2
+	call 05bc6h		;70e2   ; p00:color_de_un_sprite
 	inc e			;70e5
 	dec c			;70e6
 	jr z,L_70F2		;70e7
@@ -2690,11 +2690,11 @@ L_70F2:
 	ld (ix+01eh),000h		;7117
 	di			;711b
 	ld a,006h		;711c
-	call 05d9ch		;711e
+	call 05d9ch		;711e   ; p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
 	ld a,(ix+000h)		;7121
 	sub 080h		;7124
 	ld de,0bc07h		;7126
-	call 042ffh		;7129
+	call 042ffh		;7129   ; p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
 	ld hl,(0e804h)		;712c
 	set 5,l		;712f
 	ld b,(hl)			;7131
@@ -2709,10 +2709,10 @@ L_7136:
 	add a,005h		;713a
 	ld l,a			;713c
 	djnz L_7136		;713d
-	call 042bch		;713f
+	call 042bch		;713f   ; p00:bancos_1_2_3
 	ld a,(ix+000h)		;7142
 	sub 081h		;7145
-	call 0425fh		;7147
+	call 0425fh		;7147   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_714A: 17 destinos del despachador de 0x425F (call en p01:7147):
@@ -2766,7 +2766,7 @@ L_7186:
 	ld a,e			;7189
 	sub 03fh		;718a
 	neg		;718c
-	ld hl,0725eh		;718e
+	ld hl,0725eh		;718e   ; cuarto_de_seno: 64 bytes: un cuarto de seno de 0 a 0xFF; p01:718E
 	push hl			;7191
 	add hl,de			;7192
 	ld c,(hl)			;7193
@@ -2790,9 +2790,9 @@ L_7186:
 	ld hl,(0e812h)		;71b8
 	ret			;71bb
 mitchel_en_e800:
-	ld a,(0c303h)		;71bc
+	ld a,(0c303h)		;71bc   ; lee la Y de Mitchel
 	ld (0e800h),a		;71bf
-	ld a,(0c305h)		;71c2
+	ld a,(0c305h)		;71c2   ; lee la X de Mitchel
 	ld (0e801h),a		;71c5
 L_71C8:
 	ld hl,0e810h		;71c8
@@ -2820,8 +2820,8 @@ L_71E7:
 	rlca			;71e9
 	and 007h		;71ea
 	add a,e			;71ec
-	ld hl,0721eh		;71ed
-	call 04255h		;71f0
+	ld hl,0721eh		;71ed   ; razon_para_apuntar: 8 filas de 8: la razon entre las dos distancias en 32avos (la diagonal es 0x20); p01:71ED, y p00:5235 desde 0x7230 o 0x7250
+	call 04255h		;71f0   ; p00:hl_mas_a
 	ld a,(hl)			;71f3
 	ld (0e815h),a		;71f4
 	ret			;71f7
@@ -2890,9 +2890,9 @@ apunta_a_mitchel:
 	ld (0e808h),a		;729f
 	bit 1,b		;72a2
 	jr nz,L_72AE		;72a4
-	ld a,(0c303h)		;72a6
+	ld a,(0c303h)		;72a6   ; lee la Y de Mitchel
 	ld e,a			;72a9
-	ld a,(0c305h)		;72aa
+	ld a,(0c305h)		;72aa   ; lee la X de Mitchel
 	ld d,a			;72ad
 L_72AE:
 	bit 0,b		;72ae
@@ -2974,13 +2974,13 @@ L_7324:
 	ld b,004h		;732d
 L_732F:
 	ld (0e800h),a		;732f
-	ld hl,073d0h		;7332
-	ld a,(0c148h)		;7335
-	call 04255h		;7338
+	ld hl,073d0h		;7332   ; byte_por_juego_de_dibujos: un byte por juego de dibujos (0xC148, 13): lo que p01:7332 pone en 0xE802
+	ld a,(0c148h)		;7335   ; lee el juego de dibujos de la pantalla
+	call 04255h		;7338   ; p00:hl_mas_a
 	ld a,(hl)			;733b
 	ld (0e802h),a		;733c
 	ld a,(0e805h)		;733f
-	call 0425fh		;7342
+	call 0425fh		;7342   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_7345: 4 destinos del despachador de 0x425F (call en p01:7342):
@@ -3012,7 +3012,7 @@ L_7358:
 L_7363:
 	ld (0e804h),a		;7363
 	ld hl,(0e803h)		;7366
-	call 0431fh		;7369
+	call 0431fh		;7369   ; p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
 L_736C:
 	ld a,(0e802h)		;736c
 	cp (hl)			;736f
@@ -3045,7 +3045,7 @@ L_7394:
 L_739F:
 	ld (0e803h),a		;739f
 	ld hl,(0e803h)		;73a2
-	call 0431fh		;73a5
+	call 0431fh		;73a5   ; p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
 L_73A8:
 	ld a,(0e802h)		;73a8
 	cp (hl)			;73ab
@@ -3090,9 +3090,9 @@ L_73DD:
 	jp c,L_7423		;73e0
 	ret			;73e3
 ficha_contra_el_mapa:
-	ld a,(0c148h)		;73e4
-	ld hl,073d0h		;73e7
-	call 04255h		;73ea
+	ld a,(0c148h)		;73e4   ; lee el juego de dibujos de la pantalla
+	ld hl,073d0h		;73e7   ; byte_por_juego_de_dibujos: un byte por juego de dibujos (0xC148, 13): lo que p01:7332 pone en 0xE802
+	call 04255h		;73ea   ; p00:hl_mas_a
 	ld c,(hl)			;73ed
 	ld h,(ix+005h)		;73ee
 	ld l,(ix+003h)		;73f1
@@ -3101,7 +3101,7 @@ ficha_contra_el_mapa:
 	ld a,l			;73f7
 	sub d			;73f8
 	ld l,a			;73f9
-	call 0431fh		;73fa
+	call 0431fh		;73fa   ; p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
 	ld a,(hl)			;73fd
 	cp c			;73fe
 	pop hl			;73ff
@@ -3111,7 +3111,7 @@ ficha_contra_el_mapa:
 	ld a,h			;7403
 	add a,d			;7404
 	ld h,a			;7405
-	call 0431fh		;7406
+	call 0431fh		;7406   ; p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
 	ld a,(hl)			;7409
 	cp c			;740a
 	pop hl			;740b
@@ -3121,7 +3121,7 @@ ficha_contra_el_mapa:
 	ld a,l			;740f
 	add a,d			;7410
 	ld l,a			;7411
-	call 0431fh		;7412
+	call 0431fh		;7412   ; p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
 	ld a,(hl)			;7415
 	cp c			;7416
 	pop hl			;7417
@@ -3130,16 +3130,16 @@ ficha_contra_el_mapa:
 	ld a,h			;741a
 	sub d			;741b
 	ld h,a			;741c
-	call 0431fh		;741d
+	call 0431fh		;741d   ; p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
 	ld a,(hl)			;7420
 	cp c			;7421
 	ret			;7422
 L_7423:
 	ld a,008h		;7423
-	call 05488h		;7425
+	call 05488h		;7425   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 	dec (ix+017h)		;7428
 	ld a,b			;742b
-	call 0425fh		;742c
+	call 0425fh		;742c   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_742F: 4 destinos del despachador de 0x425F (call en p01:742C):
@@ -3192,7 +3192,7 @@ L_745F:
 usa_shot1:
 	ld a,(0c132h)		;7469
 	and a			;746c
-	ld a,(0c140h)		;746d
+	ld a,(0c140h)		;746d   ; lee SHOT1, el arma que se lleva (0 el puno)
 	jr z,L_7474		;7470
 	and a			;7472
 	ret nz			;7473
@@ -3201,7 +3201,7 @@ L_7474:
 	jp z,lanza_un_0x1F		;7476
 	cp 00ch		;7479
 	ret nc			;747b
-	call 0425fh		;747c
+	call 0425fh		;747c   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_747F: 12 destinos del despachador de 0x425F (call en p01:747C):
@@ -3241,15 +3241,15 @@ L_74A6:
 	jp L_7534		;74a8
 golpe_del_4:
 	ld a,(0c125h)		;74ab   ; solo en las pantallas 0x63-0x89
-	cp 063h		;74ae
+	cp 063h		;74ae   ; la pantalla 0x63?
 	jr c,L_74BB		;74b0
-	cp 08ah		;74b2
+	cp 08ah		;74b2   ; la pantalla 0x8A?
 	jr nc,L_74BB		;74b4
 	ld c,014h		;74b6
 	jp L_7534		;74b8
 L_74BB:
 	xor a			;74bb   ; fuera: se suelta (SHOT1 = 0) y va el puno
-	ld (0c140h),a		;74bc
+	ld (0c140h),a		;74bc   ; guarda SHOT1, el arma que se lleva (0 el puno)
 	call golpe_del_puno		;74bf
 	jp L_62DE		;74c2
 golpe_del_5:
@@ -3262,14 +3262,14 @@ golpe_del_6_y_7:
 	ld c,017h		;74d0
 	jr L_7534		;74d2
 lanza_un_0x1F:
-	ld hl,0c35eh		;74d4
+	ld hl,0c35eh		;74d4   ; apunta a cuantos objetos 0x1F se llevan (BCD; 0xFF sin cuenta)
 	ld b,004h		;74d7
 	jr L_74E0		;74d9
 lanza_un_8:
-	ld hl,0c347h		;74db
+	ld hl,0c347h		;74db   ; apunta a cuantos objetos 0x08 se llevan (BCD; 0xFF sin cuenta)
 	ld b,001h		;74de
 L_74E0:
-	call hay_algo_lanzado		;74e0
+	call hay_algo_lanzado		;74e0   ; hay_algo_lanzado: 0xC380: la ficha de lo que Mitchel lanza
 	ret nz			;74e3
 	ld a,(hl)			;74e4   ; gasta uno; sin ninguno, nada
 	sub 001h		;74e5
@@ -3280,15 +3280,15 @@ L_74E0:
 	call lanza_el_0x18		;74ec
 L_74EF:
 	xor a			;74ef
-	ld (0c140h),a		;74f0
+	ld (0c140h),a		;74f0   ; guarda SHOT1, el arma que se lleva (0 el puno)
 	jp L_62DE		;74f3
 lanza_el_0x18:
 	ld c,018h		;74f6
 	jr lanza		;74f8
 lanza_un_9:
-	call hay_algo_lanzado		;74fa
+	call hay_algo_lanzado		;74fa   ; hay_algo_lanzado: 0xC380: la ficha de lo que Mitchel lanza
 	ret nz			;74fd
-	ld hl,0c348h		;74fe
+	ld hl,0c348h		;74fe   ; apunta a cuantos objetos 0x09 se llevan (BCD; 0xFF sin cuenta)
 	ld a,(hl)			;7501
 	sub 001h		;7502
 	ret c			;7504
@@ -3304,11 +3304,11 @@ lanza_el_boomerang:
 	ld a,(0c349h)		;7513   ; 0xC349: cuantos boomerangs hay en la mano
 	and a			;7516
 	ret z			;7517
-	call hay_algo_lanzado		;7518
+	call hay_algo_lanzado		;7518   ; hay_algo_lanzado: 0xC380: la ficha de lo que Mitchel lanza
 	ret nz			;751b
 	ld bc,0031ah		;751c
-	call lanza		;751f
-	ld hl,0c349h		;7522
+	call lanza		;751f   ; lanza: la ficha de lo lanzado (0xC380): el sonido C, B unidades, sale de Mitchel hacia donde mira
+	ld hl,0c349h		;7522   ; apunta a cuantos objetos 0x0A se llevan (BCD; 0xFF sin cuenta)
 	ld a,(hl)			;7525
 	sub 001h		;7526
 	daa			;7528
@@ -3323,36 +3323,36 @@ hay_algo_lanzado:
 	ret			;7533
 L_7534:
 	push bc			;7534
-	call hay_algo_lanzado		;7535
+	call hay_algo_lanzado		;7535   ; hay_algo_lanzado: 0xC380: la ficha de lo que Mitchel lanza
 	pop bc			;7538
 	ret nz			;7539
 	ld a,c			;753a
-	call 05490h		;753b
-	ld hl,0c300h		;753e
+	call 05490h		;753b   ; p00:sonido: pone los bancos 4 y 5 y pide el sonido A a p04:6032
+	ld hl,0c300h		;753e   ; apunta a el estado de Mitchel
 	ld a,(hl)			;7541
 	ld (0c314h),a		;7542
 	ld (hl),005h		;7545
 	ld a,008h		;7547
 	ld (0c313h),a		;7549
-	ld a,(0c140h)		;754c
+	ld a,(0c140h)		;754c   ; lee SHOT1, el arma que se lleva (0 el puno)
 	ld (0c301h),a		;754f
 	and a			;7552
 	ret z			;7553
 	ld (0c38fh),a		;7554
 	ld a,0ffh		;7557
-	ld (0c380h),a		;7559
+	ld (0c380h),a		;7559   ; guarda lo que lanza Mitchel (su ficha)
 L_755C:
-	jp 05046h		;755c
+	jp 05046h		;755c   ; p00:sube_el_arma
 lanza:
 	ld a,c			;755f   ; la ficha de lo lanzado (0xC380): el sonido C, B unidades, sale de Mitchel hacia donde mira
-	call 05490h		;7560
-	ld hl,0c300h		;7563
+	call 05490h		;7560   ; p00:sonido: pone los bancos 4 y 5 y pide el sonido A a p04:6032
+	ld hl,0c300h		;7563   ; apunta a el estado de Mitchel
 	ld a,(hl)			;7566
 	ld (0c314h),a		;7567
 	ld (hl),007h		;756a
 	ld a,008h		;756c
 	ld (0c313h),a		;756e
-	ld hl,0c380h		;7571
+	ld hl,0c380h		;7571   ; apunta a lo que lanza Mitchel (su ficha)
 	push hl			;7574
 	pop iy		;7575
 	ld (hl),b			;7577
@@ -3362,12 +3362,12 @@ lanza:
 	inc l			;757b
 	ld (hl),a			;757c
 	inc l			;757d
-	ld a,(0c303h)		;757e
+	ld a,(0c303h)		;757e   ; lee la Y de Mitchel
 	ld (hl),a			;7581
 	inc l			;7582
 	ld (hl),000h		;7583
 	inc l			;7585
-	ld a,(0c305h)		;7586
+	ld a,(0c305h)		;7586   ; lee la X de Mitchel
 	ld (hl),a			;7589
 	inc l			;758a
 	ld (hl),001h		;758b
@@ -3385,18 +3385,18 @@ lanza:
 	add a,a			;759c
 	add a,a			;759d
 	ld de,075dah		;759e
-	call 0425ah		;75a1
+	call 0425ah		;75a1   ; p00:de_mas_a
 	ex de,hl			;75a4
 	ld bc,00004h		;75a5
 	ldir		;75a8
-	ld a,(0c306h)		;75aa
+	ld a,(0c306h)		;75aa   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	ld (de),a			;75ad
 	ld a,(iy+000h)		;75ae
 	cp 003h		;75b1
 	jp nz,L_755C		;75b3
-	ld a,(0c306h)		;75b6
-	ld de,075d6h		;75b9
-	call 042ffh		;75bc
+	ld a,(0c306h)		;75b6   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+	ld de,075d6h		;75b9   ; salida_de_lo_lanzado: 4 parejas [dx][dy] segun la direccion 0xC306: desde donde sale lo que lanza Mitchel (p01:75B9)
+	call 042ffh		;75bc   ; p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
 	ld a,(iy+003h)		;75bf
 	add a,e			;75c2
 	ld (iy+010h),a		;75c3
@@ -3429,7 +3429,7 @@ DATA_fichas_de_lo_lanzado:
 velocidad_de_lo_lanzado:
 	push hl			;75ee
 	ld de,00300h		;75ef
-	ld a,(0c306h)		;75f2
+	ld a,(0c306h)		;75f2   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	ld c,a			;75f5
 	rra			;75f6
 	call nc,niega_de		;75f7
@@ -3444,11 +3444,11 @@ L_7603:
 	pop hl			;7605
 	ret			;7606
 L_7607:
-	ld ix,0c380h		;7607
+	ld ix,0c380h		;7607   ; apunta a lo que lanza Mitchel (su ficha)
 	ld a,(ix+000h)		;760b
 	dec a			;760e
 	ret m			;760f
-	call 0425fh		;7610
+	call 0425fh		;7610   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_7613: 4 destinos del despachador de 0x425F (call en p01:7610):
@@ -3478,7 +3478,7 @@ L_7631:
 	ld a,(0c209h)		;7631
 	and 003h		;7634
 	ld a,01ah		;7636
-	call z,05490h		;7638
+	call z,05490h		;7638   ; p00:sonido: pone los bancos 4 y 5 y pide el sonido A a p04:6032
 	call lo_lanzado_contra_el_mapa		;763b
 	jr c,L_7668		;763e
 	call va_hacia_su_destino		;7640
@@ -3490,10 +3490,10 @@ L_7631:
 	ld d,(ix+005h)		;7650
 	ld bc,0010ah		;7653
 	push ix		;7656
-	call pon_objeto		;7658
+	call pon_objeto		;7658   ; pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
 	pop ix		;765b
 	call borra_la_ficha		;765d
-	ld a,(0c349h)		;7660
+	ld a,(0c349h)		;7660   ; lee cuantos objetos 0x0A se llevan (BCD; 0xFF sin cuenta)
 	and a			;7663
 	ret nz			;7664
 	jp L_74EF		;7665
@@ -3518,15 +3518,15 @@ L_7694:
 	call se_mueve		;7694
 	call mueve_el_boomerang		;7697
 	ret c			;769a
-	ld hl,0c349h		;769b
+	ld hl,0c349h		;769b   ; apunta a cuantos objetos 0x0A se llevan (BCD; 0xFF sin cuenta)
 	inc (hl)			;769e
 	ret			;769f
 mueve_el_boomerang:
 	ld a,(ix+001h)		;76a0
 	rra			;76a3
 	and 003h		;76a4
-	ld hl,076cch		;76a6
-	call 04255h		;76a9
+	ld hl,076cch		;76a6   ; cuadro_del_boomerang: 4 bytes: el cuadro (ix+0x0B) segun el paso (p01:76A6)
+	call 04255h		;76a9   ; p00:hl_mas_a
 	ld a,(hl)			;76ac
 	ld (ix+00bh),a		;76ad
 	add a,004h		;76b0
@@ -3580,11 +3580,11 @@ L_76F7:
 	add a,l			;76f7
 	ld l,a			;76f8
 L_76F9:
-	call 0431fh		;76f9
+	call 0431fh		;76f9   ; p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
 	ex de,hl			;76fc
-	ld a,(0c148h)		;76fd
-	ld hl,073d0h		;7700
-	call 04255h		;7703
+	ld a,(0c148h)		;76fd   ; lee el juego de dibujos de la pantalla
+	ld hl,073d0h		;7700   ; byte_por_juego_de_dibujos: un byte por juego de dibujos (0xC148, 13): lo que p01:7332 pone en 0xE802
+	call 04255h		;7703   ; p00:hl_mas_a
 	ld a,(de)			;7706
 	and a			;7707
 	ret z			;7708
@@ -3623,7 +3623,7 @@ L_773D:
 	jr c,$+97		;7744
 L_7746:
 	ld a,(0c314h)		;7746
-	ld (0c300h),a		;7749
+	ld (0c300h),a		;7749   ; guarda el estado de Mitchel
 	ret			;774c
 L_774D:
 	xor a			;774d
@@ -3639,10 +3639,10 @@ L_774D:
 	ld (0c313h),a		;7761
 	jr $+19		;7764
 da_la_vuelta:
-	ld hl,0c306h		;7766
+	ld hl,0c306h		;7766   ; apunta a hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	ld a,(hl)			;7769
-	ld de,07773h		;776a
-	call 0425ah		;776d
+	ld de,07773h		;776a   ; direccion_contraria: 4 bytes: la direccion contraria a cada una (p01:776A)
+	call 0425ah		;776d   ; p00:de_mas_a
 	ld a,(de)			;7770
 	ld (hl),a			;7771
 	ret			;7772
@@ -3666,8 +3666,8 @@ L_7777:
 	call sitio_del_golpe		;777d
 	call pose_de_golpe		;7780
 	ld a,(0c301h)		;7783
-	ld de,077d5h		;7786
-	call 042ffh		;7789
+	ld de,077d5h		;7786   ; golpes_77D5: 12 palabras segun 0xC301: lo que p01:7786 pone en 0xC38C y 0xC38E
+	call 042ffh		;7789   ; p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
 	ld a,e			;778c
 	ld (0c38ch),a		;778d
 	ld a,d			;7790
@@ -3677,19 +3677,19 @@ L_7777:
 	ret nz			;7798
 L_7799:
 	xor a			;7799
-	ld (0c380h),a		;779a
+	ld (0c380h),a		;779a   ; guarda lo que lanza Mitchel (su ficha)
 	jr $-87		;779d
 L_779F:
 	ld hl,0c313h		;779f
 	dec (hl)			;77a2
 	jr z,L_7799		;77a3
 pose_de_golpe:
-	ld a,(0c306h)		;77a5
+	ld a,(0c306h)		;77a5   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	add a,00ch		;77a8
-	ld (0c310h),a		;77aa
+	ld (0c310h),a		;77aa   ; guarda la POSE de Mitchel
 	ret			;77ad
 sitio_del_golpe:
-	ld a,(0c306h)		;77ae
+	ld a,(0c306h)		;77ae   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	ld c,a			;77b1
 	add a,a			;77b2
 	add a,a			;77b3
@@ -3698,13 +3698,13 @@ sitio_del_golpe:
 	ld (0c38bh),a		;77b7
 	add a,004h		;77ba
 	ld (0c38dh),a		;77bc
-	ld de,077edh		;77bf
+	ld de,077edh		;77bf   ; pasos_77ED: 4 parejas [dx][dy] segun la direccion (p01:77BF)
 	ld a,c			;77c2
-	call 042ffh		;77c3
-	ld a,(0c303h)		;77c6
+	call 042ffh		;77c3   ; p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
+	ld a,(0c303h)		;77c6   ; lee la Y de Mitchel
 	add a,e			;77c9
 	ld (0c383h),a		;77ca
-	ld a,(0c305h)		;77cd
+	ld a,(0c305h)		;77cd   ; lee la X de Mitchel
 	add a,d			;77d0
 	ld (0c385h),a		;77d1
 	ret			;77d4
@@ -3731,10 +3731,10 @@ DATA_pasos_77ED:
 L_77F5:
 	ld a,(0c132h)		;77f5
 	and a			;77f8
-	jp nz,0507ah		;77f9
+	jp nz,0507ah		;77f9   ; p00:la_que_sigue_en_su_sitio
 	ld hl,0e608h		;77fc
 	ld de,0e420h		;77ff
-	ld ix,0c380h		;7802
+	ld ix,0c380h		;7802   ; apunta a lo que lanza Mitchel (su ficha)
 	ld a,(ix+000h)		;7806
 	and a			;7809
 	jr z,L_783D		;780a
@@ -3779,7 +3779,7 @@ L_783D:
 	inc l			;7842
 	ld (hl),0e0h		;7843
 	ld a,020h		;7845
-	jp 0425ah		;7847
+	jp 0425ah		;7847   ; p00:de_mas_a
 L_784A:
 	ld a,c			;784a
 	cp 027h		;784b
@@ -3798,7 +3798,7 @@ L_7853:
 	ld (0c170h),a		;7853
 	ld a,c			;7856
 	sub 027h		;7857   ; 0x27 en adelante: sucesos (p01:78A2)
-	jp nc,suceso_en_vez_de_objeto		;7859
+	jp nc,suceso_en_vez_de_objeto		;7859   ; suceso_en_vez_de_objeto: 0x27 nada; 0x28 suceso 5 (8 en la pantalla 0x5D); 0x29 nada; 0x2A pinta
 	ld a,b			;785c
 	and a			;785d
 	jr nz,L_7861		;785e
@@ -3812,7 +3812,7 @@ L_7861:
 	ld d,a			;7868
 	ld a,b			;7869
 	ld (0e80dh),a		;786a
-	ld hl,0c400h		;786d
+	ld hl,0c400h		;786d   ; apunta a los objetos del suelo (4 fichas de 16 bytes)
 	ld b,004h		;7870
 	xor a			;7872
 L_7873:
@@ -3857,7 +3857,7 @@ L_7890:
 ; los dibujos 0xC0-0xC3 en (0x50, 0x30); 0x2B suceso 1; 0x2C suma B al MP.
 ; ----------------------------------------------------------------------
 suceso_en_vez_de_objeto:
-	call 0425fh		;78a2
+	call 0425fh		;78a2   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_78A5: 6 destinos del despachador de 0x425F (call en p01:78A2):
@@ -3881,8 +3881,8 @@ L_78B1:
 	ld a,001h		;78b1
 	jr L_78C0		;78b3
 L_78B5:
-	ld a,(0c125h)		;78b5
-	cp 05dh		;78b8
+	ld a,(0c125h)		;78b5   ; lee la PANTALLA
+	cp 05dh		;78b8   ; la pantalla 0x5D?
 	ld a,005h		;78ba
 	jr nz,L_78C0		;78bc
 	ld a,008h		;78be
@@ -3892,25 +3892,25 @@ L_78C0:
 	and a			;78c4
 	jr z,L_78D1		;78c5
 	ld a,c			;78c7
-	ld (0c171h),a		;78c8
+	ld (0c171h),a		;78c8   ; guarda el decorado que hay que dar por quitado
 	dec a			;78cb
 	ret nz			;78cc
 	ld (0c58fh),a		;78cd
 	ret			;78d0
 L_78D1:
 	ld a,c			;78d1
-	ld (0c560h),a		;78d2
+	ld (0c560h),a		;78d2   ; guarda el SUCESO: el tipo de decorado que hay que quitar
 	xor a			;78d5
-	ld (0c561h),a		;78d6
+	ld (0c561h),a		;78d6   ; guarda el paso del suceso
 L_78D9:
 	ret			;78d9
 L_78DA:
 	xor a			;78da
 	ld (0c59fh),a		;78db
-	ld hl,078eah		;78de
+	ld hl,078eah		;78de   ; dibujos_del_suceso_2A: 2x2 numeros de dibujo que p01:78E7 pinta en (0x50, 0x30) (el suceso 0x2A)
 	ld de,03050h		;78e1
 	ld bc,00202h		;78e4
-	jp 04eb5h		;78e7
+	jp 04eb5h		;78e7   ; p00:pinta_figura_sin_bancos
 
 ; ----------------------------------------------------------------------
 ; DATOS dibujos_del_suceso_2A: 2x2 numeros de dibujo que p01:78E7 pinta en
@@ -3935,10 +3935,10 @@ L_78F8:
 	ld (hl),a			;78f8
 	jp escribe_mp		;78f9
 L_78FC:
-	ld ix,0c400h		;78fc
+	ld ix,0c400h		;78fc   ; apunta a los objetos del suelo (4 fichas de 16 bytes)
 	ld b,004h		;7900
 L_7902:
-	ld a,(ix+000h)		;7902
+	ld a,(ix+000h)		;7902   ; lee el numero de objeto
 	and a			;7905
 	call nz,guarda_las_casillas_del_objeto		;7906
 	ld de,00010h		;7909
@@ -3948,7 +3948,7 @@ L_7902:
 guarda_las_casillas_del_objeto:
 	call esquina_de_la_ficha		;7911
 	ex de,hl			;7914
-	call 0431fh		;7915
+	call 0431fh		;7915   ; p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
 	ld a,(hl)			;7918
 	ld (ix+00ch),a		;7919
 	inc hl			;791c
@@ -3963,7 +3963,7 @@ guarda_las_casillas_del_objeto:
 	ld (ix+00fh),a		;792b
 	ret			;792e
 L_792F:
-	ld ix,0c400h		;792f
+	ld ix,0c400h		;792f   ; apunta a los objetos del suelo (4 fichas de 16 bytes)
 	ld b,004h		;7933
 L_7935:
 	push bc			;7935
@@ -4016,25 +4016,25 @@ L_797F:
 	call esquina_de_la_ficha		;7983
 	ld a,(ix+00ch)		;7986
 	call casilla_especial		;7989
-	call nz,0497bh		;798c
+	call nz,0497bh		;798c   ; p00:pon_dibujo: el dibujo A de la hoja (pagina 1) en (D, E) de la pagina 0
 	ld a,008h		;798f
 	add a,d			;7991
 	ld d,a			;7992
 	ld a,(ix+00dh)		;7993
 	call casilla_especial		;7996
-	call nz,0497bh		;7999
+	call nz,0497bh		;7999   ; p00:pon_dibujo: el dibujo A de la hoja (pagina 1) en (D, E) de la pagina 0
 	ld a,008h		;799c
 	add a,e			;799e
 	ld e,a			;799f
 	ld a,(ix+00fh)		;79a0
 	call casilla_especial		;79a3
-	call nz,0497bh		;79a6
+	call nz,0497bh		;79a6   ; p00:pon_dibujo: el dibujo A de la hoja (pagina 1) en (D, E) de la pagina 0
 	ld a,d			;79a9
 	sub 008h		;79aa
 	ld d,a			;79ac
 	ld a,(ix+00eh)		;79ad
 	call casilla_especial		;79b0
-	jp nz,0497bh		;79b3
+	jp nz,0497bh		;79b3   ; p00:pon_dibujo: el dibujo A de la hoja (pagina 1) en (D, E) de la pagina 0
 	ret			;79b6
 casilla_especial:
 	cp 0f1h		;79b7
@@ -4073,7 +4073,7 @@ L_79D9:
 	ld hl,0c33fh		;79df   ; 0xC33F + objeto: cuantos hay
 	add hl,de			;79e2
 	ld de,l7a35h		;79e3
-	call 0425ah		;79e6
+	call 0425ah		;79e6   ; p00:de_mas_a
 	ld a,(de)			;79e9
 	add a,a			;79ea   ; bit 7 de p01:7A35 + objeto: sin cuenta
 	jr c,L_79F7		;79eb
@@ -4088,7 +4088,7 @@ L_79F4:
 L_79F7:
 	ld (hl),0ffh		;79f7   ; sin cuenta: 0xFF
 L_79F9:
-	call elige_lista		;79f9
+	call elige_lista		;79f9   ; elige_lista: La lista del objeto: la de SHOT1 (0xC2A0, 12 casillas) si el nibble
 	ld a,(0e80eh)		;79fc
 	cp 01eh		;79ff   ; 0x1E, 0x23 y 0x20 no van a ninguna lista
 	ret z			;7a01
@@ -4104,7 +4104,7 @@ L_7A09:
 	inc l			;7a0d
 	inc l			;7a0e
 	djnz L_7A09		;7a0f
-	call elige_lista		;7a11
+	call elige_lista		;7a11   ; elige_lista: La lista del objeto: la de SHOT1 (0xC2A0, 12 casillas) si el nibble
 L_7A14:
 	ld a,(hl)			;7a14
 	and a			;7a15
@@ -4126,7 +4126,7 @@ elige_lista:
 	ld b,00ch		;7a22
 	ld a,(0e80eh)		;7a24
 	ld de,l7a35h		;7a27
-	call 0425ah		;7a2a
+	call 0425ah		;7a2a   ; p00:de_mas_a
 	ld a,(de)			;7a2d
 	and 00fh		;7a2e
 	ret z			;7a30
@@ -4158,7 +4158,7 @@ L_7A5A:
 	and 003h		;7a62
 	or l			;7a64
 	ret nz			;7a65
-	ld hl,0c127h		;7a66
+	ld hl,0c127h		;7a66   ; apunta a DAYS, los dias (BCD)
 	ld a,(hl)			;7a69
 	add a,001h		;7a6a
 	daa			;7a6c
@@ -4170,7 +4170,7 @@ L_7A5A:
 	ld (hl),a			;7a73
 	jp escribe_days		;7a74
 fin_del_suceso_de_shot2:
-	ld a,(0c141h)		;7a77
+	ld a,(0c141h)		;7a77   ; lee SHOT2, el objeto que se lleva
 	sub 00ch		;7a7a
 	jr z,L_7AA6		;7a7c
 	dec a			;7a7e
@@ -4178,32 +4178,32 @@ fin_del_suceso_de_shot2:
 	ld hl,0c313h		;7a82
 	dec (hl)			;7a85
 	ret nz			;7a86
-	ld ix,0d000h		;7a87
+	ld ix,0d000h		;7a87   ; apunta a las fichas de los enemigos (13 de 0x80)
 	ld b,00dh		;7a8b
 	ld de,00080h		;7a8d
 L_7A90:
-	ld a,(ix+000h)		;7a90
-	cp 02ah		;7a93
+	ld a,(ix+000h)		;7a90   ; lee el tipo del enemigo
+	cp 02ah		;7a93   ; THE NASTY (tipo 0x2A)?
 	jr z,L_7AA1		;7a95
-	cp 02bh		;7a97
+	cp 02bh		;7a97   ; BADPRIEST (tipo 0x2B)?
 	jr z,L_7AA1		;7a99
 	add ix,de		;7a9b
 	djnz L_7A90		;7a9d
 	jr L_7AB4		;7a9f
 L_7AA1:
-	call 05da8h		;7aa1
+	call 05da8h		;7aa1   ; p00:mata_la_ficha: el enemigo muere: guarda su tipo en ix+0x1F y se convierte en la explosion de p15:A3CA
 	jr L_7AB4		;7aa4
 L_7AA6:
-	ld a,(0c080h)		;7aa6
+	ld a,(0c080h)		;7aa6   ; lee el sonido que suena (para no pisarlo con uno menor)
 	and a			;7aa9
 	ret nz			;7aaa
 	ld a,004h		;7aab
-	ld (0c560h),a		;7aad
+	ld (0c560h),a		;7aad   ; guarda el SUCESO: el tipo de decorado que hay que quitar
 	xor a			;7ab0
-	ld (0c561h),a		;7ab1
+	ld (0c561h),a		;7ab1   ; guarda el paso del suceso
 L_7AB4:
 	xor a			;7ab4
-	ld (0c380h),a		;7ab5
+	ld (0c380h),a		;7ab5   ; guarda lo que lanza Mitchel (su ficha)
 	jp L_7746		;7ab8
 
 ; ----------------------------------------------------------------------
@@ -4274,11 +4274,11 @@ L_7B3C:
 	ld (ix+00bh),00ch		;7b3c
 	ld a,030h		;7b40
 	call rumbo_hacia_mitchel		;7b42
-	jp 08bdch		;7b45
+	jp 08bdch		;7b45   ; p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
 L_7B48:
 	ld l,(ix+003h)		;7b48
 	ld h,(ix+005h)		;7b4b
-	call 0431fh		;7b4e
+	call 0431fh		;7b4e   ; p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
 	ld a,(hl)			;7b51
 	cp 05fh		;7b52
 	ret nc			;7b54
@@ -4309,7 +4309,7 @@ L_7B88:
 	push ix		;7b88
 	ld a,(0dfb6h)		;7b8a
 	ld c,a			;7b8d
-	call 09edfh		;7b8e
+	call 09edfh		;7b8e   ; p02:sps_recorre_las_fichas
 	jr c,L_7BA2		;7b91
 	ld d,(ix+003h)		;7b93
 	ld e,(ix+005h)		;7b96
@@ -4325,9 +4325,9 @@ L_7BA5:
 	ld a,020h		;7ba8
 L_7BAA:
 	call rumbo_hacia_mitchel		;7baa
-	call 08bdch		;7bad
+	call 08bdch		;7bad   ; p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
 	ld a,005h		;7bb0
-	jp 05488h		;7bb2
+	jp 05488h		;7bb2   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 L_7BB5:
 	dec (ix+013h)		;7bb5
 	ret nz			;7bb8
@@ -4361,14 +4361,14 @@ L_7BE0:
 usa_shot2:
 	ld a,(0c132h)		;7bf3
 	and a			;7bf6
-	ld a,(0c141h)		;7bf7
+	ld a,(0c141h)		;7bf7   ; lee SHOT2, el objeto que se lleva
 	jr z,L_7BFF		;7bfa
-	cp 019h		;7bfc
+	cp 019h		;7bfc   ; el objeto 0x19, むせんき?
 	ret nz			;7bfe
 L_7BFF:
 	sub 00ch		;7bff
 	ret c			;7c01
-	call 0425fh		;7c02
+	call 0425fh		;7c02   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_7C05: 25 destinos del despachador de 0x425F (call en p01:7C02):
@@ -4410,7 +4410,7 @@ DATA_tabla_7C05:
 gasta_uno_de_shot2:
 	ld a,(0c141h)		;7c37   ; 0xC141: el objeto de SHOT2
 	ld hl,0c33fh		;7c3a
-	call 04255h		;7c3d
+	call 04255h		;7c3d   ; p00:hl_mas_a
 	ld a,(hl)			;7c40
 	cp 0ffh		;7c41   ; sin cuenta (0xFF): no se gasta
 	ret z			;7c43
@@ -4430,7 +4430,7 @@ conjuro_0x0E:
 	ld c,010h		;7c57   ; 10 de MP (BCD)
 L_7C59:
 	push bc			;7c59
-	call hay_algo_lanzado		;7c5a
+	call hay_algo_lanzado		;7c5a   ; hay_algo_lanzado: 0xC380: la ficha de lo que Mitchel lanza
 	pop bc			;7c5d
 	ret nz			;7c5e
 	ld hl,0c12fh		;7c5f   ; 0xC12F: MP
@@ -4440,15 +4440,15 @@ L_7C59:
 	jr c,no_hay_mp		;7c65   ; sin MP bastante: p01:7C96
 	ld (hl),a			;7c67
 	ld a,021h		;7c68
-	call 05488h		;7c6a
-	ld hl,0c300h		;7c6d
+	call 05488h		;7c6a   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
+	ld hl,0c300h		;7c6d   ; apunta a el estado de Mitchel
 	ld a,(hl)			;7c70
 	ld (hl),006h		;7c71
 	ld (0c314h),a		;7c73
 	ld a,01eh		;7c76
 	ld (0c313h),a		;7c78
 	ld a,0ffh		;7c7b
-	ld (0c380h),a		;7c7d
+	ld (0c380h),a		;7c7d   ; guarda lo que lanza Mitchel (su ficha)
 	call sitio_del_golpe		;7c80
 	ld a,001h		;7c83
 	ld (0c38ch),a		;7c85
@@ -4458,11 +4458,11 @@ L_7C59:
 	call 050eah		;7c90
 	jp escribe_mp		;7c93
 no_hay_mp:
-	call borra_la_ventana_de_texto		;7c96
+	call borra_la_ventana_de_texto		;7c96   ; borra_la_ventana_de_texto: 160x24 puntos en (8, 0xB0): debajo del decorado
 	ld a,03ch		;7c99
 	ld (0c162h),a		;7c9b
 	ld hl,07ca4h		;7c9e   ; el aviso de p01:7CA4
-	jp 0490fh		;7ca1
+	jp 0490fh		;7ca1   ; p00:rotulo: [x][y] letras, 0xFE [x][y] otro sitio, 0xFF acaba
 
 ; ----------------------------------------------------------------------
 ; DATOS no_hay_mp: [x][y] "MPが たりません。" 0xFF: el aviso de p01:7C9E
@@ -4483,7 +4483,7 @@ DATA_codigo_7CB1:
 
 
 usa_el_0x10:
-	call gasta_uno_de_shot2		;7cb5
+	call gasta_uno_de_shot2		;7cb5   ; gasta_uno_de_shot2: 0xC141: el objeto de SHOT2
 	ld hl,0c146h		;7cb8   ; 0xC146: la enfermedad; si la hay, la quita y nada mas
 	ld a,(hl)			;7cbb
 	and a			;7cbc
@@ -4492,7 +4492,7 @@ usa_el_0x10:
 L_7CC1:
 	ret			;7cc1
 come:
-	call gasta_uno_de_shot2		;7cc2
+	call gasta_uno_de_shot2		;7cc2   ; gasta_uno_de_shot2: 0xC141: el objeto de SHOT2
 L_7CC5:
 	ld hl,(0c129h)		;7cc5   ; LIFE (0xC129) + 10...
 	ld a,010h		;7cc8
@@ -4525,42 +4525,42 @@ L_7CEB:
 	jr c,L_7CEF		;7cec
 	ex de,hl			;7cee
 L_7CEF:
-	ld (0c129h),hl		;7cef
+	ld (0c129h),hl		;7cef   ; guarda LIFE, los dos bytes (BCD)
 	jp escribe_life		;7cf2
 usa_el_0x12:
 	ld a,(0c125h)		;7cf5   ; solo en la pantalla 0x68
-	cp 068h		;7cf8
+	cp 068h		;7cf8   ; la pantalla 0x68?
 	ret nz			;7cfa
 	ld a,001h		;7cfb
 	ld (0c16fh),a		;7cfd
 L_7D00:
 	ld a,005h		;7d00
-	ld (0c201h),a		;7d02
+	ld (0c201h),a		;7d02   ; guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
 	xor a			;7d05
 	ld (0c567h),a		;7d06
 	ret			;7d09
 usa_el_0x1B:
 	ld a,(0c125h)		;7d0a   ; solo en la pantalla 0x56
-	cp 056h		;7d0d
+	cp 056h		;7d0d   ; la pantalla 0x56?
 	ret nz			;7d0f
 	ld a,009h		;7d10
 	jr L_7D21		;7d12
 usa_el_0x13:
-	ld a,(0c125h)		;7d14
+	ld a,(0c125h)		;7d14   ; lee la PANTALLA
 	ld c,a			;7d17
-	cp 034h		;7d18
+	cp 034h		;7d18   ; la pantalla 0x34?
 	ld a,(0c58eh)		;7d1a
 	and a			;7d1d
 	ret z			;7d1e
 	ld a,003h		;7d1f
 L_7D21:
-	ld (0c560h),a		;7d21
+	ld (0c560h),a		;7d21   ; guarda el SUCESO: el tipo de decorado que hay que quitar
 	xor a			;7d24
-	ld (0c561h),a		;7d25
+	ld (0c561h),a		;7d25   ; guarda el paso del suceso
 	ret			;7d28
 usa_el_0x11:
 	ld a,(0c125h)		;7d29   ; solo en la pantalla 0x38
-	cp 038h		;7d2c
+	cp 038h		;7d2c   ; la pantalla 0x38?
 	ret nz			;7d2e
 	ld a,005h		;7d2f
 	jr L_7D21		;7d31
@@ -4568,7 +4568,7 @@ usa_el_0x17:
 	ld a,(0c132h)		;7d33
 	and a			;7d36
 	ret nz			;7d37
-	call 04308h		;7d38
+	call 04308h		;7d38   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
 	ld a,e			;7d3b
 	cp 068h		;7d3c
 	ret nz			;7d3e
@@ -4576,22 +4576,22 @@ usa_el_0x17:
 	sub 058h		;7d40
 	cp 019h		;7d42
 	ret nc			;7d44
-	ld a,(0c306h)		;7d45
+	ld a,(0c306h)		;7d45   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	and a			;7d48
 	ret nz			;7d49
 	ld a,006h		;7d4a
-	ld (0c201h),a		;7d4c
+	ld (0c201h),a		;7d4c   ; guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
 	xor a			;7d4f
 	ld (0c681h),a		;7d50
 	ret			;7d53
 usa_el_0x19:
 	ld a,(0c125h)		;7d54   ; solo en la pantalla 0x51, y reparado (0xC14E)
-	cp 051h		;7d57
+	cp 051h		;7d57   ; la pantalla 0x51?
 	ret nz			;7d59
-	ld a,(0c14eh)		;7d5a
+	ld a,(0c14eh)		;7d5a   ; lee la radio reparada
 	and a			;7d5d
 	ret z			;7d5e
-	ld a,(0c600h)		;7d5f
+	ld a,(0c600h)		;7d5f   ; lee la figura que sigue a Mitchel
 	and a			;7d62
 	ld a,037h		;7d63
 	jr z,L_7D68		;7d65
@@ -4603,7 +4603,7 @@ L_7D68:
 	jp L_7EAB		;7d70
 usa_el_0x16:
 	ld a,(0c125h)		;7d73   ; solo en la pantalla 0x5E
-	cp 05eh		;7d76
+	cp 05eh		;7d76   ; la pantalla 0x5E?
 	ret nz			;7d78
 	ld hl,0c810h		;7d79
 	ld a,(hl)			;7d7c
@@ -4614,69 +4614,69 @@ usa_el_0x16:
 	ld (hl),048h		;7d82
 	inc l			;7d84
 	ld (hl),048h		;7d85
-	call 04fabh		;7d87
+	call 04fabh		;7d87   ; p00:suceso_de_la_pantalla_5E
 	ld a,023h		;7d8a
-	jp 05488h		;7d8c
+	jp 05488h		;7d8c   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 usa_el_0x22:
-	ld a,(0c140h)		;7d8f
-	cp 00bh		;7d92
+	ld a,(0c140h)		;7d8f   ; lee SHOT1, el arma que se lleva (0 el puno)
+	cp 00bh		;7d92   ; el objeto 0x0B, もり?
 	jr z,L_7DA4		;7d94
-	cp 008h		;7d96
+	cp 008h		;7d96   ; el objeto 0x08, いし?
 	ret nc			;7d98
-	ld hl,0c12fh		;7d99
+	ld hl,0c12fh		;7d99   ; apunta a MP, la magia (BCD, hasta 99)
 	ld a,(hl)			;7d9c
 	sub 001h		;7d9d
 	daa			;7d9f
 	jp c,no_hay_mp		;7da0
 	ld (hl),a			;7da3
 L_7DA4:
-	call usa_shot1		;7da4
+	call usa_shot1		;7da4   ; usa_shot1: El arma de SHOT1 (0xC140): 0 el puno; 1-3 golpes 0x11-0x13; 4 solo en las
 	ld a,008h		;7da7
-	ld (0c300h),a		;7da9
+	ld (0c300h),a		;7da9   ; guarda el estado de Mitchel
 	xor a			;7dac
 	ld (0c316h),a		;7dad
 	jp escribe_mp		;7db0
 usa_el_0x24:
 	call gasta_uno_de_shot2		;7db3   ; solo en las pantallas 0x0B, 0x0D, 0x2D, 0x2E, 0x6F, 0x77 y 0x7B
-	ld a,(0c125h)		;7db6
-	cp 00dh		;7db9
+	ld a,(0c125h)		;7db6   ; lee la PANTALLA
+	cp 00dh		;7db9   ; la pantalla 0x0D?
 	jr z,L_7DD4		;7dbb
-	cp 02dh		;7dbd
+	cp 02dh		;7dbd   ; la pantalla 0x2D?
 	jr z,L_7DD4		;7dbf
-	cp 02eh		;7dc1
+	cp 02eh		;7dc1   ; la pantalla 0x2E?
 	jr z,L_7DD4		;7dc3
-	cp 00bh		;7dc5
+	cp 00bh		;7dc5   ; la pantalla 0x0B?
 	jr z,L_7DD4		;7dc7
-	cp 077h		;7dc9
+	cp 077h		;7dc9   ; la pantalla 0x77?
 	jr z,L_7DD4		;7dcb
-	cp 06fh		;7dcd
+	cp 06fh		;7dcd   ; la pantalla 0x6F?
 	jr z,L_7DD4		;7dcf
-	cp 07bh		;7dd1
+	cp 07bh		;7dd1   ; la pantalla 0x7B?
 	ret nz			;7dd3
 L_7DD4:
 	jp L_7D00		;7dd4
 L_7DD7:
-	ld a,(0c141h)		;7dd7
-	cp 01ah		;7dda
+	ld a,(0c141h)		;7dd7   ; lee SHOT2, el objeto que se lleva
+	cp 01ah		;7dda   ; el objeto 0x1A, ひとみ?
 	ret z			;7ddc
-	ld a,(0c125h)		;7ddd
-	cp 052h		;7de0
+	ld a,(0c125h)		;7ddd   ; lee la PANTALLA
+	cp 052h		;7de0   ; la pantalla 0x52?
 	jr z,L_7DFB		;7de2
-	cp 053h		;7de4
+	cp 053h		;7de4   ; la pantalla 0x53?
 	jr z,L_7DFB		;7de6
-	cp 063h		;7de8
+	cp 063h		;7de8   ; la pantalla 0x63?
 	jr z,L_7DFB		;7dea
-	cp 064h		;7dec
+	cp 064h		;7dec   ; la pantalla 0x64?
 	jr z,L_7DFB		;7dee
-	cp 065h		;7df0
+	cp 065h		;7df0   ; la pantalla 0x65?
 	jr z,L_7DFB		;7df2
-	cp 066h		;7df4
+	cp 066h		;7df4   ; la pantalla 0x66?
 	jr z,L_7DFB		;7df6
-	cp 06bh		;7df8
+	cp 06bh		;7df8   ; la pantalla 0x6B?
 	ret nz			;7dfa
 L_7DFB:
-	ld hl,07e01h		;7dfb
-	jp 046cfh		;7dfe
+	ld hl,07e01h		;7dfb   ; paleta_7E01: [color][RB][G] ... 0xFF (p00:46CF): los colores que p01:7DFB cambia en las pantallas 0x52, 0x53, 0x63-0x66 y 0x6B
+	jp 046cfh		;7dfe   ; p00:pon_paleta: lista [color][RB][G] ... 0xFF
 
 ; ----------------------------------------------------------------------
 ; DATOS paleta_7E01: [color][RB][G] ... 0xFF (p00:46CF): los colores que
@@ -4692,11 +4692,11 @@ DATA_paleta_7E01:
 
 
 busca_quien_habla:
-	ld a,(0c300h)		;7e1d
+	ld a,(0c300h)		;7e1d   ; lee el estado de Mitchel
 	cp 005h		;7e20
 	ret nc			;7e22
-	ld a,(0c125h)		;7e23
-	cp 060h		;7e26
+	ld a,(0c125h)		;7e23   ; lee la PANTALLA
+	cp 060h		;7e26   ; la pantalla 0x60?
 	jp z,conversacion_de_la_mesa		;7e28
 	sub 063h		;7e2b
 	cp 004h		;7e2d
@@ -4710,29 +4710,29 @@ busca_quien_habla:
 	ld a,030h		;7e3e
 	jp L_7E9B		;7e40
 L_7E43:
-	ld a,(0c306h)		;7e43
+	ld a,(0c306h)		;7e43   ; lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
 	and a			;7e46
 	ret nz			;7e47
-	ld a,(0c303h)		;7e48
+	ld a,(0c303h)		;7e48   ; lee la Y de Mitchel
 	and 007h		;7e4b
 	ret nz			;7e4d
-	ld a,(0c305h)		;7e4e
+	ld a,(0c305h)		;7e4e   ; lee la X de Mitchel
 	cp 0a0h		;7e51
 	ret nc			;7e53
 	and 007h		;7e54
 	ret nz			;7e56
-	ld a,(0c125h)		;7e57
+	ld a,(0c125h)		;7e57   ; lee la PANTALLA
 	ld hl,0a5feh		;7e5a   ; p12:A5FE + pantalla: la conversacion (0 = nadie)
-	cp 072h		;7e5d
+	cp 072h		;7e5d   ; la pantalla 0x72?
 	ret nc			;7e5f
-	call 04255h		;7e60
+	call 04255h		;7e60   ; p00:hl_mas_a
 	ld a,(hl)			;7e63
 	and a			;7e64
 	ret z			;7e65
-	ld (0c14ah),a		;7e66
-	ld a,(0c125h)		;7e69
-	cp 04ah		;7e6c
-	ld a,(0c303h)		;7e6e
+	ld (0c14ah),a		;7e66   ; guarda la CONVERSACION
+	ld a,(0c125h)		;7e69   ; lee la PANTALLA
+	cp 04ah		;7e6c   ; la pantalla 0x4A?
+	ld a,(0c303h)		;7e6e   ; lee la Y de Mitchel
 	jr nz,L_7E75		;7e71
 	sub 008h		;7e73
 L_7E75:
@@ -4740,12 +4740,12 @@ L_7E75:
 	sub 008h		;7e76
 	cp 0a0h		;7e78
 	ret nc			;7e7a
-	ld a,(0c305h)		;7e7b
+	ld a,(0c305h)		;7e7b   ; lee la X de Mitchel
 	ld h,a			;7e7e
 	sub 008h		;7e7f
 	cp 0a0h		;7e81
 	ret nc			;7e83
-	call 0431fh		;7e84
+	call 0431fh		;7e84   ; p00:casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
 	ld a,(hl)			;7e87
 	and a			;7e88
 	jr z,L_7E8F		;7e89
@@ -4754,49 +4754,49 @@ L_7E75:
 	and a			;7e8d
 	ret nz			;7e8e
 L_7E8F:
-	call conversacion_por_el_sitio		;7e8f
+	call conversacion_por_el_sitio		;7e8f   ; conversacion_por_el_sitio: en las pantallas 0x0D, 0x14, 0x23, 0x27, 0x2D, 0x2E y 0x3E la conversacion depende de donde este Mitchel
 	ld a,c			;7e92
 	and a			;7e93
 	ret z			;7e94
 	ld a,001h		;7e95
-	ld (0c310h),a		;7e97
+	ld (0c310h),a		;7e97   ; guarda la POSE de Mitchel
 	ld a,c			;7e9a
 L_7E9B:
-	ld (0c14ah),a		;7e9b
+	ld (0c14ah),a		;7e9b   ; guarda la CONVERSACION
 	and a			;7e9e
 	ret z			;7e9f
 	call ya_se_dio		;7ea0
 	ret c			;7ea3
 	xor a			;7ea4
 	ld (0c149h),a		;7ea5
-	call 04ff0h		;7ea8
+	call 04ff0h		;7ea8   ; p00:sube_la_pose_de_mitchel
 L_7EAB:
 	xor a			;7eab
-	ld (0c14bh),a		;7eac
+	ld (0c14bh),a		;7eac   ; guarda el paso de la conversacion
 	ld a,003h		;7eaf
-	ld (0c201h),a		;7eb1
+	ld (0c201h),a		;7eb1   ; guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
 	ld hl,04201h		;7eb4
-	ld (0c309h),hl		;7eb7
+	ld (0c309h),hl		;7eb7   ; guarda el color del primer sprite de Mitchel
 	ret			;7eba
 conversacion_de_la_mesa:
 	ld hl,0c15eh		;7ebb
 	ld a,(hl)			;7ebe
 	and a			;7ebf
 	ret nz			;7ec0
-	ld a,(0c303h)		;7ec1
+	ld a,(0c303h)		;7ec1   ; lee la Y de Mitchel
 	cp 090h		;7ec4
 	ret nc			;7ec6
-	ld a,(0c600h)		;7ec7
+	ld a,(0c600h)		;7ec7   ; lee la figura que sigue a Mitchel
 	and a			;7eca
 	ret nz			;7ecb
 	inc (hl)			;7ecc
 	ld a,02ch		;7ecd   ; la 0x2C, en la pantalla 0x60
-	ld (0c14ah),a		;7ecf
+	ld (0c14ah),a		;7ecf   ; guarda la CONVERSACION
 	ld a,001h		;7ed2
 	ld (0c149h),a		;7ed4
 	jr L_7EAB		;7ed7
 conversacion_de_la_pantalla:
-	ld a,(0c125h)		;7ed9
+	ld a,(0c125h)		;7ed9   ; lee la PANTALLA
 	ld b,a			;7edc
 	ld hl,07ef5h		;7edd   ; parejas [pantalla][conversacion] de p01:7EF5 (0 acaba)
 L_7EE0:
@@ -4810,7 +4810,7 @@ L_7EE0:
 	jr L_7EE0		;7ee8
 L_7EEA:
 	ld a,(hl)			;7eea
-	ld (0c14ah),a		;7eeb
+	ld (0c14ah),a		;7eeb   ; guarda la CONVERSACION
 	ld a,001h		;7eee
 	ld (0c149h),a		;7ef0
 	jr L_7EAB		;7ef3
@@ -4838,9 +4838,9 @@ DATA_conversaciones_de_los_que_aparecen:
 
 
 ya_se_dio:
-	ld a,(0c14ah)		;7f08
+	ld a,(0c14ah)		;7f08   ; lee la CONVERSACION
 	ld c,a			;7f0b
-	ld hl,07f23h		;7f0c
+	ld hl,07f23h		;7f0c   ; ya_se_dio: [conversacion][direccion de RAM] ... 0: si el byte de RAM no es 0 (ya se tiene el objeto), p01:7F08 no deja empezar esa conversacion
 L_7F0F:
 	ld a,(hl)			;7f0f
 	inc hl			;7f10
@@ -4890,41 +4890,41 @@ DATA_ya_se_dio:
 conversacion_por_el_sitio:
 	ld a,(0c303h)		;7f4e   ; en las pantallas 0x0D, 0x14, 0x23, 0x27, 0x2D, 0x2E y 0x3E la conversacion depende de donde este Mitchel
 	ld e,a			;7f51
-	ld a,(0c305h)		;7f52
+	ld a,(0c305h)		;7f52   ; lee la X de Mitchel
 	ld d,a			;7f55
-	ld a,(0c125h)		;7f56
-	cp 023h		;7f59
+	ld a,(0c125h)		;7f56   ; lee la PANTALLA
+	cp 023h		;7f59   ; la pantalla 0x23?
 	jr z,L_7FB5		;7f5b
-	cp 014h		;7f5d
+	cp 014h		;7f5d   ; la pantalla 0x14?
 	jr z,L_7FA8		;7f5f
-	cp 00dh		;7f61
+	cp 00dh		;7f61   ; la pantalla 0x0D?
 	jr z,L_7F7A		;7f63
-	cp 027h		;7f65
+	cp 027h		;7f65   ; la pantalla 0x27?
 	jr z,L_7FC3		;7f67
-	cp 02eh		;7f69
+	cp 02eh		;7f69   ; la pantalla 0x2E?
 	jr z,L_7FD9		;7f6b
-	cp 03eh		;7f6d
+	cp 03eh		;7f6d   ; la pantalla 0x3E?
 	jr z,L_7FE1		;7f6f
-	cp 02dh		;7f71
+	cp 02dh		;7f71   ; la pantalla 0x2D?
 	jr z,L_7FD1		;7f73
-	ld a,(0c14ah)		;7f75
+	ld a,(0c14ah)		;7f75   ; lee la CONVERSACION
 	ld c,a			;7f78
 	ret			;7f79
 L_7F7A:
-	ld a,(0c131h)		;7f7a
+	ld a,(0c131h)		;7f7a   ; lee el plano de la pantalla (0, el exterior)
 	and a			;7f7d
 	jr nz,L_7F9B		;7f7e
-	ld a,(0c362h)		;7f80
+	ld a,(0c362h)		;7f80   ; lee cuantos objetos 0x23 se llevan (BCD; 0xFF sin cuenta)
 	ld c,000h		;7f83
 	and a			;7f85
 	ret z			;7f86
 	ld a,006h		;7f87
-	call 05d9ch		;7f89
+	call 05d9ch		;7f89   ; p00:banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
 	ld a,070h		;7f8c
 	ld de,05818h		;7f8e
 	ld c,001h		;7f91
 	call 0bde7h		;7f93
-	call 042bch		;7f96
+	call 042bch		;7f96   ; p00:bancos_1_2_3
 	jr L_7FA5		;7f99
 L_7F9B:
 	ld hl,0c32ah		;7f9b
@@ -4990,16 +4990,16 @@ L_7FE1:
 	dec c			;7fe7
 	ret			;7fe8
 L_7FE9:
-	ld a,(0c14bh)		;7fe9
+	ld a,(0c14bh)		;7fe9   ; lee el paso de la conversacion
 	ld c,a			;7fec
 	cp 002h		;7fed
 	jr c,L_7FF8		;7fef
-	ld a,(0c106h)		;7ff1
+	ld a,(0c106h)		;7ff1   ; lee las teclas nuevas del cuadro (bit 4 SHOT1, bit 5 SHOT2)
 	bit 1,a		;7ff4
 	jr nz,$+79		;7ff6
 L_7FF8:
 	ld a,c			;7ff8
-	call 0425fh		;7ff9
+	call 0425fh		;7ff9   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_7FFC: 6 destinos del despachador de 0x425F (call en p01:7FF9):

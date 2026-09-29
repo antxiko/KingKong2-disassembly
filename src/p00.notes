@@ -351,3 +351,408 @@ F 0x5C39 2
 D 0x5FA7 0x5FB7 paleta_de_konami  [color][RB][G] ... 0xFF; lo leen p00:46CF (16 bytes)
 F 0x5FA7 3
 # --- fin de los bloques de bloques.py ---
+
+# --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
+C 0x4050 p01:borra_la_ventana_de_texto: 160x24 puntos en (8, 0xB0): debajo del decorado
+C 0x4056 rotulo: [x][y] letras, 0xFE [x][y] otro sitio, 0xFF acaba
+C 0x406E apaga_la_pantalla: bit 6 del registro 1 del VDP a cero
+C 0x4074 oculta_los_sprites: los 128 bytes de atributos de sprite (0xF600) a 0xE0
+C 0x407A hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
+C 0x4080 rellena_la_vram: BC bytes con A desde la VRAM de HL
+C 0x4086 enciende_la_pantalla: bit 6 del registro 1 del VDP a uno
+C 0x4092 p01:escribe_numero_bcd
+C 0x40C8 p01:pinta_icono: el 0x26 (oro) se pinta con el dibujo del 6 (la bolsa)
+C 0x40D4 vram_para_escribir: prepara el V9938 para escribir en la direccion de VRAM HL (R#14 y el puerto 1)
+C 0x40E0 posicion_de_mitchel: E = la y de Mitchel, D = su x
+C 0x40E6 sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
+C 0x40EC p01:pantalla_vecina: p09:B1C5 + 4*pantalla + C: arriba, abajo, izquierda, derecha
+C 0x40F2 pon_paleta: lista [color][RB][G] ... 0xFF
+C 0x40F8 pon_un_color: color A de la paleta = D (RB) y E (G)
+C 0x4104 p01:guarda_las_teclas
+C 0x4116 espera_al_vdp: espera a que el V9938 acabe la orden (bit 0 de S#2)
+C 0x411C sube_dibujos: B dibujos de 8x8 a 4 bits de HL a la VRAM de DE
+C 0x4146 p01:escribe_level
+C 0x414C p01:escribe_exp
+C 0x4152 mata_la_ficha: el enemigo muere: guarda su tipo en ix+0x1F y se convierte en la explosion de p15:A3CA
+C 0x415E p01:escribe_life
+C 0x416A p01:escribe_gold
+C 0x4170 p01:conversacion_de_la_pantalla
+C 0x417C marco: cuatro rayas: un marco de E por D en HL
+C 0x4182 lmmm: orden LMMM del V9938: lo mismo con operacion logica (A: paginas y operacion; 8 = TIMP)
+C 0x4188 paleta_inicial: los 16 colores de p00:46AF
+C 0x418E rle_con_destino: la palabra de DE es la direccion de VRAM; detras, el RLE
+C 0x41B2 sube_letras: B letras de 1 bit de HL, en color C, a la hoja de la pagina 1 desde (D, E)
+C 0x41CA casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
+C 0x41E2 guarda_el_fondo_del_jefe: con un jefe (tipos 0x1A, 0x2A, 0x2B, 0x38, 0x39, 0x42) en pantalla, copia los 64x64 puntos de detras
+C 0x41F4 hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
+C 0x41FA escribe_has_cogido: el nombre del objeto A en (0x10, 0xB8) y "を とりました。" detras
+C 0x4200 pon_la_paleta_de_la_pantalla: la comun (0x6128), la del juego de dibujos (0x6059) y la de la pantalla (0x61CF)
+C 0x4219 lee el banco de reserva de 0xA000 (el que devuelve p00:4215)
+C 0x4220 el mapper: el banco de A en 0xA000
+C 0x4223 guarda la copia del banco de 0xA000
+C 0x422C el mapper: el banco de A en 0x6000
+C 0x4230 el mapper: el banco de A en 0x8000
+C 0x4236 lee la copia del banco de 0x6000
+C 0x4239 el mapper: el banco de A en 0x6000
+C 0x423C lee la copia del banco de 0x8000
+C 0x423F el mapper: el banco de A en 0x8000
+C 0x42C7 apunta a la copia del banco de 0x6000
+C 0x42CA el mapper: el banco de A en 0x6000
+C 0x42D0 el mapper: el banco de A en 0x8000
+C 0x42D5 el mapper: el banco de A en 0xA000
+C 0x42F3 escribe_nombre_de_objeto: el nombre del objeto A (p15:A069 + 2*A) en HL
+C 0x430C lee la X de Mitchel
+C 0x4336 casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
+C 0x433A bufferes_4365: 13 palabras, de 0x42 en 0x42 desde 0xD680: la zona de RAM de cada ficha segun ix+0x0F (p00:433A y p00:437F)
+C 0x4340 palabra_de_la_tabla: DE = la palabra A de la tabla de DE
+C 0x437F bufferes_4365: 13 palabras, de 0x42 en 0x42 desde 0xD680: la zona de RAM de cada ficha segun ix+0x0F (p00:433A y p00:437F)
+C 0x4385 palabra_de_la_tabla: DE = la palabra A de la tabla de DE
+C 0x4396 pinta_figura: B columnas x C filas de numeros de dibujo de HL, con transparencia, en DE
+C 0x439B desplazamientos_435D: 8 bytes (0, -8, -12 ... -32): lo que p00:4399 resta segun C - 1 y B - 1
+C 0x43A4 desplazamientos_435D: 8 bytes (0, -8, -12 ... -32): lo que p00:4399 resta segun C - 1 y B - 1
+C 0x43BE casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
+C 0x4419 escribe_nombre_de_objeto: el nombre del objeto A (p15:A069 + 2*A) en HL
+C 0x4426 palabra_de_la_tabla: DE = la palabra A de la tabla de DE
+C 0x4450 figura_445C: 9 columnas x 2 filas de numeros de dibujo (0xD0-0xE1) que p00:4450 pinta en (8, 0xB0)
+C 0x4459 pinta_figura: B columnas x C filas de numeros de dibujo de HL, con transparencia, en DE
+C 0x4472 apunta a las fichas de los enemigos (13 de 0x80)
+C 0x4478 lee el tipo del enemigo
+C 0x447B TWINMIRES (tipo 0x1A)?
+C 0x447F THE NASTY (tipo 0x2A)?
+C 0x4483 BADPRIEST (tipo 0x2B)?
+C 0x4487 REVOLVER (tipo 0x38)?
+C 0x448B REVOLVER (tipo 0x39)?
+C 0x448F BIGFLOWER (tipo 0x42)?
+C 0x4493 lee la y del enemigo
+C 0x4499 lee la x del enemigo
+C 0x44AA lmmm: orden LMMM del V9938: lo mismo con operacion logica (A: paginas y operacion; 8 = TIMP)
+C 0x44CD lmmm: orden LMMM del V9938: lo mismo con operacion logica (A: paginas y operacion; 8 = TIMP)
+C 0x44D0 lee la PANTALLA
+C 0x44D3 la pantalla 0x57?
+C 0x44D6 lee las fichas de los enemigos (13 de 0x80)
+C 0x44DC apunta a las fichas de los enemigos (13 de 0x80)
+C 0x451B lee la PANTALLA
+C 0x451E la pantalla 0x1A?
+C 0x452C lee la PANTALLA
+C 0x452F la pantalla 0x77?
+C 0x453D lee la PANTALLA
+C 0x4540 la pantalla 0x31?
+C 0x454F p12:ya_no_basta: [x][y] "これだけでは まんぞくできぬ。" 0xFE [x][y] "あいてむの こうりょくも いただく。" 0xFF: lo que escribe p00:454C
+C 0x4552 rotulo: [x][y] letras, 0xFE [x][y] otro sitio, 0xFF acaba
+C 0x4574 vram_para_escribir: prepara el V9938 para escribir en la direccion de VRAM HL (R#14 y el puerto 1)
+C 0x4588 vram_para_escribir: prepara el V9938 para escribir en la direccion de VRAM HL (R#14 y el puerto 1)
+C 0x4612 oculta_los_sprites: los 128 bytes de atributos de sprite (0xF600) a 0xE0
+C 0x4619 apaga_la_pantalla: bit 6 del registro 1 del VDP a cero
+C 0x4647 hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
+C 0x4659 rellena_la_vram: BC bytes con A desde la VRAM de HL
+C 0x4690 vram_para_escribir: prepara el V9938 para escribir en la direccion de VRAM HL (R#14 y el puerto 1)
+C 0x46A7 pon_un_color: color A de la paleta = D (RB) y E (G)
+C 0x46D8 pon_un_color: color A de la paleta = D (RB) y E (G)
+C 0x46DF lee_estado_del_vdp: lee el registro de estado A del V9938
+C 0x478A raya_vertical: orden LINE con MAJ = 1: la raya va hacia abajo
+C 0x4794 raya_horizontal: orden LINE del V9938 (MAJ = 0): de (H, L), B-1 puntos
+C 0x479C espera_al_vdp: espera a que el V9938 acabe la orden (bit 0 de S#2)
+C 0x47D8 espera_al_vdp: espera a que el V9938 acabe la orden (bit 0 de S#2)
+C 0x481C espera_al_vdp: espera a que el V9938 acabe la orden (bit 0 de S#2)
+C 0x486A siguiente_sitio: D + 8; al dar la vuelta, E + 8
+C 0x4874 expande_letra: una letra de 1 bit a 4 bits, en 0xE800, con el color C
+C 0x4886 sube_un_dibujo: un dibujo de 8x8 a 4 bits (32 bytes) de HL a la VRAM de DE
+C 0x4898 copia_a_la_vram: BC bytes de HL a la VRAM de DE
+C 0x48A7 sube_un_dibujo: un dibujo de 8x8 a 4 bits (32 bytes) de HL a la VRAM de DE
+C 0x48C2 copia_a_la_vram: BC bytes de HL a la VRAM de DE
+C 0x494A siguiente_sitio: D + 8; al dar la vuelta, E + 8
+C 0x4961 sitio_del_dibujo: H = (A & 31)*8, L = (A >> 5)*8: donde esta el dibujo A en la hoja
+C 0x4974 hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
+C 0x497E sitio_del_dibujo: H = (A & 31)*8, L = (A >> 5)*8: donde esta el dibujo A en la hoja
+C 0x4986 hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
+C 0x4990 sitio_del_dibujo: H = (A & 31)*8, L = (A >> 5)*8: donde esta el dibujo A en la hoja
+C 0x4998 lmmm: orden LMMM del V9938: lo mismo con operacion logica (A: paginas y operacion; 8 = TIMP)
+C 0x49A2 sitio_del_dibujo: H = (A & 31)*8, L = (A >> 5)*8: donde esta el dibujo A en la hoja
+C 0x49AA hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
+C 0x49B9 hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
+C 0x49D8 sube_la_hoja: el juego de dibujos de la pantalla (0xC148) y su lista de subida
+C 0x49DB lee la PANTALLA
+C 0x49DE la pantalla 0x73?
+C 0x49E2 la pantalla 0x74?
+C 0x49E6 la pantalla 0x75?
+C 0x49EA la pantalla 0x76?
+C 0x49EE la pantalla 0x89?
+C 0x49F2 la pantalla 0x15?
+C 0x49F6 la pantalla 0x28?
+C 0x49FA la pantalla 0x60?
+C 0x4A02 p12:volteados_A17E: 16 dibujos de 8x8 que p00:4A1B sube del reves (desde el 17): la mitad derecha de la estatua; se solapan 4 bloques (0xA17E-0xA37E, 0xA17E-0xA51E, 0xA35E-0xA4BE, 0xA4FE-0xA5FE)
+C 0x4A3B sube_un_dibujo: un dibujo de 8x8 a 4 bits (32 bytes) de HL a la VRAM de DE
+C 0x4A54 p14:sobra_9EC7: 313 bytes detras de la figura a pelo de 0x9BA2 que no lee nadie: p00:4BD0 solo copia una estructura para las pantallas 0x31 y 0x34 (0xE804 = 1)
+C 0x4A57 apunta a las fichas de los enemigos (13 de 0x80)
+C 0x4A5C sube_dibujos: B dibujos de 8x8 a 4 bits de HL a la VRAM de DE
+C 0x4A64 sube_dibujos: B dibujos de 8x8 a 4 bits de HL a la VRAM de DE
+C 0x4A6C sube_dibujos: B dibujos de 8x8 a 4 bits de HL a la VRAM de DE
+C 0x4A6F p15:rotulo_del_panel: numeros de dibujo, 0xFE otra fila, 0xFF acaba: el rotulo del panel que p00:4A6F pinta con p00:492B en (0xA8, 0)
+C 0x4A75 pinta_lista_de_dibujos: numeros de dibujo; 0xFE, otra fila; 0xFF acaba
+C 0x4A7E lee el plano de la pantalla (0, el exterior)
+C 0x4A85 p07:juego_de_cada_plano: 18 nibbles, uno por plano alterno (0xC131 - 1; par = nibble alto): el juego de dibujos
+C 0x4A8A lee la PANTALLA
+C 0x4A8D p07:juego_de_cada_pantalla: un nibble por pantalla (pantalla/2; par = nibble alto): el juego de dibujos (0xC148)
+C 0x4AA2 lee el juego de dibujos de la pantalla
+C 0x4AAA guarda el juego de dibujos de la pantalla
+C 0x4AB2 lista_de_cada_juego: 13 punteros, uno por juego de dibujos, a su lista de subida
+C 0x4AB5 palabra_de_la_tabla: DE = la palabra A de la tabla de DE
+C 0x4ADE sube_dibujos: B dibujos de 8x8 a 4 bits de HL a la VRAM de DE
+C 0x4AE5 sube_los_38_iconos: Los 38 dibujos de los objetos, 16x16 a 4 bits (128 bytes cada uno), de
+C 0x4AE8 p07:lista_hoja_6050: lista comun: [destino][cuantos][fuente], 0xFE pasa a los bancos 10-11-12, 0xFF acaba (p00:4AB9)
+C 0x4AF0 p07:iconos_de_objetos: 38 dibujos de 16x16 a 4 bits, 128 bytes cada uno: el objeto n es el dibujo n-1; p00:4AED los sube a la VRAM 0xB800; se solapan 3 bloques (0x630A-0x760A, 0x758A-0x75CA, 0x75CA-0x764A)
+C 0x4AF8 despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0x4B18 lee la PANTALLA
+C 0x4B1B p13:jefe_de_cada_pantalla: un byte por pantalla: los graficos de jefe que sube p00:4B15 (0 = ninguno); los cuatro ultimos son los primeros de p13:66AA; se solapan 2 bloques (0x6620-0x66AE, 0x66AA-0x66D2)
+C 0x4B26 p13:juegos_de_jefe_1: cuatro punteros a RLE: los cuatro juegos de patrones del jefe 1
+C 0x4B62 rle_a_la_ram: el RLE de HL a la RAM de DE
+C 0x4BD3 lee la PANTALLA
+C 0x4BD6 la pantalla 0x29?
+C 0x4BDC la pantalla 0x31?
+C 0x4BE2 la pantalla 0x34?
+C 0x4BE6 la pantalla 0x53?
+C 0x4BEC la pantalla 0x5D?
+C 0x4BF0 la pantalla 0x57?
+C 0x4BF6 la pantalla 0x5C?
+C 0x4C0F p14:figura_9BA2: figura a pelo de la pantalla 0x31 y 0x34: [bandera de espejo][40 filas][20 bytes][VRAM 0xD46C] y 800 bytes
+C 0x4C15 p14:figura_90E4: figura a pelo de la pantalla 0x5C: [bandera de espejo][64 filas][16 bytes][VRAM 0xD460] y 1024 bytes
+C 0x4C1B p14:figura_8D1F: figura a pelo de la pantalla 0x57: [bandera de espejo][40 filas][24 bytes][VRAM 0xD468] y 960 bytes
+C 0x4C21 p14:figura_9998: figura a pelo de la pantalla 0x29: [bandera de espejo][32 filas][8 bytes][VRAM 0xD470] y 256 bytes
+C 0x4C26 p14:figura_95AE: figura a pelo de la pantalla 0x53 y 0x5D: [bandera de espejo][40 filas][20 bytes][VRAM 0xD46C] y 800 bytes
+C 0x4C3C vram_para_escribir: prepara el V9938 para escribir en la direccion de VRAM HL (R#14 y el puerto 1)
+C 0x4C6D vram_para_escribir: prepara el V9938 para escribir en la direccion de VRAM HL (R#14 y el puerto 1)
+C 0x4C95 p15:la_que_sigue_B069: el cuadro 4 de la figura que sigue a Mitchel: RLE como el de las poses
+C 0x4C9B rle_a_la_vram: el RLE de DE a la VRAM de HL (n con el bit 7: n bytes tal cual; sin el, repetir; 0 acaba)
+C 0x4C9E p15:la_que_sigue_B144: el cuadro 5 de la figura que sigue a Mitchel: RLE como el de las poses
+C 0x4CA4 rle_a_la_vram: el RLE de DE a la VRAM de HL (n con el bit 7: n bytes tal cual; sin el, repetir; 0 acaba)
+C 0x4CA7 p15:sprites_B3E5: RLE (p00:45EF) que p00:4C92 sube a la VRAM 0xFA00
+C 0x4CAD rle_a_la_vram: el RLE de DE a la VRAM de HL (n con el bit 7: n bytes tal cual; sin el, repetir; 0 acaba)
+C 0x4CB6 p09:sprites_comunes: RLE de los 192 bytes de patrones de sprite que p00:4CB6 sube a la VRAM 0xF940 (patrones 0x28-0x3F) al entrar en cada pantalla
+C 0x4CBC rle_a_la_vram: el RLE de DE a la VRAM de HL (n con el bit 7: n bytes tal cual; sin el, repetir; 0 acaba)
+C 0x4CBF lee la PANTALLA
+C 0x4CC2 p09:lista_de_sprites_de_cada_pantalla: un byte por pantalla: el numero de lista de sprites (p00:5630); p00:4CB3 con 0xB0B7 + pantalla
+C 0x4CC9 listas_de_sprites: 28 palabras: la lista de patrones de sprite de cada numero (p09:B0B7)
+C 0x4CCC palabra_de_la_tabla: DE = la palabra A de la tabla de DE
+C 0x4CD5 bancos_del_nibble: el nibble alto de A elige el trio de bancos (0 1-2-3, 1 4-5-6, 2 7-8-9, 3 10-11-12, si no 13-14-15)
+C 0x4CE1 despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0x4D15 rle_a_la_vram: el RLE de DE a la VRAM de HL (n con el bit 7: n bytes tal cual; sin el, repetir; 0 acaba)
+C 0x4D43 bytes_de_los_patrones: BC = ix+3 * 32
+C 0x4D49 direccion_del_patron: HL = 0xF800 + 8*L
+C 0x4D52 bytes_de_los_patrones: BC = ix+3 * 32
+C 0x4D58 direccion_del_patron: HL = 0xF800 + 8*L
+C 0x4D5F copia_a_la_vram: BC bytes de HL a la VRAM de DE
+C 0x4DD5 p07:paleta_comun: [color][RB][G] ... 0xFF: la paleta de todas las pantallas
+C 0x4DD8 pon_paleta: lista [color][RB][G] ... 0xFF
+C 0x4DDB lee el juego de dibujos de la pantalla
+C 0x4DDE p07:paleta_de_cada_juego: 13 punteros a la lista de colores de cada juego de dibujos
+C 0x4DE1 palabra_de_la_tabla: DE = la palabra A de la tabla de DE
+C 0x4DE5 pon_paleta: lista [color][RB][G] ... 0xFF
+C 0x4DE8 lee la PANTALLA
+C 0x4DEB p07:paleta_de_cada_pantalla: un byte por pantalla: que lista de 0x61CF le toca
+C 0x4DF2 p07:listas_de_pantalla: 23 punteros a listas de colores por pantalla
+C 0x4DF5 palabra_de_la_tabla: DE = la palabra A de la tabla de DE
+C 0x4DF9 pon_paleta: lista [color][RB][G] ... 0xFF
+C 0x4E02 lee el banco de reserva de 0xA000 (el que devuelve p00:4215)
+C 0x4E08 banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
+C 0x4E0F guarda el banco de reserva de 0xA000 (el que devuelve p00:4215)
+C 0x4E2D apunta_dibujo_en_el_mapa: el dibujo de 0xE803 en la casilla del bloque (0xE800, 0xE801) y su parte (0xE802) del mapa de 0xE021
+C 0x4E4A pinta_las_casillas: los 20x20 dibujos del mapa de 0xE021 en la pantalla desde (8, 8)
+C 0x4E4D lee la PANTALLA
+C 0x4E50 la pantalla 0x15?
+C 0x4E54 la pantalla 0x28?
+C 0x4E58 la pantalla 0x89?
+C 0x4E5C la pantalla 0x60?
+C 0x4EB8 casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
+C 0x4ECA pon_dibujo_transparente: lo mismo con LMMM + TIMP: el color 0 no pinta
+C 0x4EF3 pon_dibujo: el dibujo A de la hoja (pagina 1) en (D, E) de la pagina 0
+C 0x4F0E lee el plano de la pantalla (0, el exterior)
+C 0x4F18 lee la PANTALLA
+C 0x4F28 lee el plano de la pantalla (0, el exterior)
+C 0x4F47 lee el juego de dibujos de la pantalla
+C 0x4F4A bloques_de_cada_juego: 13 punteros, uno por juego de dibujos, a sus bloques de 4x4 dibujos
+C 0x4F4D palabra_de_la_tabla: DE = la palabra A de la tabla de DE
+C 0x4FAB lee la PANTALLA
+C 0x4FAE la pantalla 0x5E?
+C 0x4FBB figura_4FC4: 4 columnas x 3 filas de numeros de dibujo (0xE2-0xEA) que p00:4FBB pinta donde dice su ficha
+C 0x4FC1 pinta_figura: B columnas x C filas de numeros de dibujo de HL, con transparencia, en DE
+C 0x4FD0 mitchel_en_su_sitio: los dos sprites de Mitchel (0xE600) en su y-8 y x-8
+C 0x4FD3 colores_de_mitchel: 16 bytes del color de cada uno de sus dos sprites (0xC309 y 0xC30A) en 0xE400
+C 0x4FD6 lee la figura que sigue a Mitchel
+C 0x4FE1 apunta a el color del primer sprite de Mitchel
+C 0x4FF6 vram_para_escribir: prepara el V9938 para escribir en la direccion de VRAM HL (R#14 y el puerto 1)
+C 0x4FF9 lee Mitchel metido en el agua
+C 0x4FFC p13:poses_7D9B: 17 punteros, uno por pose de Mitchel (0xC310), cuando 0xC160 = 0
+C 0x5002 p13:poses_7DBD: 17 punteros, uno por pose de Mitchel (0xC310), cuando 0xC160 distinto de 0
+C 0x5005 lee la POSE de Mitchel
+C 0x5008 palabra_de_la_tabla: DE = la palabra A de la tabla de DE
+C 0x502C lee la Y de Mitchel
+C 0x5032 lee la X de Mitchel
+C 0x5049 lee SHOT1, el arma que se lleva (0 el puno)
+C 0x505A vram_para_escribir: prepara el V9938 para escribir en la direccion de VRAM HL (R#14 y el puerto 1)
+C 0x505E sprites_de_armas: 11 punteros: el sprite del arma de SHOT1 (0xC140 - 1; de 11 en adelante, el 7); p00:5046 lo sube a 0xF840
+C 0x507A lee la figura que sigue a Mitchel
+C 0x507F figura_que_sigue: 8 parejas [dy][dx]: donde va cada uno de los 8 sprites de la figura que sigue a Mitchel (0xC600); p00:507A
+C 0x50BB vram_para_escribir: prepara el V9938 para escribir en la direccion de VRAM HL (R#14 y el puerto 1)
+C 0x50C1 lee el cuadro de la figura que sigue (direccion*2 + paso)
+C 0x50C4 cuadros_de_la_que_sigue: 8 punteros: los patrones de la figura que sigue a Mitchel segun 0xC606 (direccion*2 + paso, p02:82E6); p00:50B8
+C 0x50ED vram_para_escribir: prepara el V9938 para escribir en la direccion de VRAM HL (R#14 y el puerto 1)
+C 0x50F3 p14:sprite_8804: RLE como el de las poses que p00:50EA sube a 0xF840
+C 0x510E palabra_de_la_tabla: DE = la palabra A de la tabla de DE
+C 0x5155 plantilla_0: plantilla 0x80: 2 parejas [dy][dx], una por sprite
+C 0x515B plantilla_1: plantilla 0x81: 4 parejas [dy][dx], una por sprite
+C 0x5161 plantilla_2: plantilla 0x82: 4 parejas [dy][dx], una por sprite
+C 0x5167 plantilla_3: plantilla 0x83: 8 parejas [dy][dx], una por sprite
+C 0x516D plantilla_4: plantilla 0x84: 2 parejas [dy][dx], una por sprite
+C 0x5173 plantilla_5: plantilla 0x85: 12 parejas [dy][dx], una por sprite
+C 0x5179 plantilla_6: plantilla 0x86: 8 parejas [dy][dx], una por sprite
+C 0x51EA apunta a las fichas de los enemigos (13 de 0x80)
+C 0x5253 lee el grafico de jefe que hay subido
+C 0x525E lee el grafico de jefe que hay subido
+C 0x5266 lee el grafico de jefe que hay subido
+C 0x526E p13:graficos_de_jefe: 40 palabras: de donde sale cada grafico de jefe (0xDF94 = 1..40)
+C 0x527C vram_para_escribir: prepara el V9938 para escribir en la direccion de VRAM HL (R#14 y el puerto 1)
+C 0x528B rle_a_la_vram: el RLE de DE a la VRAM de HL (n con el bit 7: n bytes tal cual; sin el, repetir; 0 acaba)
+C 0x529B hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
+C 0x52A8 hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
+C 0x52C0 vram_para_escribir: prepara el V9938 para escribir en la direccion de VRAM HL (R#14 y el puerto 1)
+C 0x52C3 lee el giro del orden de los sprites
+C 0x52E1 vram_para_escribir: prepara el V9938 para escribir en la direccion de VRAM HL (R#14 y el puerto 1)
+C 0x52E4 lee el giro del orden de los sprites
+C 0x52FF apunta a el giro del orden de los sprites
+C 0x5308 apunta a los atributos de los sprites, para la VRAM
+C 0x5311 copia_a_la_vram: BC bytes de HL a la VRAM de DE
+C 0x531D apunta a los colores de los sprites, para la VRAM
+C 0x5326 copia_a_la_vram: BC bytes de HL a la VRAM de DE
+C 0x5331 apunta a los colores de los sprites, para la VRAM
+C 0x533A copia_a_la_vram: BC bytes de HL a la VRAM de DE
+C 0x534F guarda el punto de entrada (y, x)
+C 0x5364 guarda GOLD, los dos bytes bajos (BCD)
+C 0x536A guarda LIFE, los dos bytes (BCD)
+C 0x5378 apunta a las banderas del decorado ya quitado
+C 0x5388 guarda LEVEL, el nivel de Mitchel (BCD)
+C 0x53A7 oculta_los_sprites: los 128 bytes de atributos de sprite (0xF600) a 0xE0
+C 0x53AE guarda el estado de Mitchel
+C 0x53B4 guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
+C 0x53BD guarda el decorado que se quita (3 fichas de 32 bytes)
+C 0x53D2 apunta a los atributos de los sprites, para la VRAM
+C 0x53DF apunta a los objetos del suelo (4 fichas de 16 bytes)
+C 0x53E5 rellena_con_ceros: BC+1 ceros desde HL
+C 0x53E8 apunta a las fichas de los enemigos (13 de 0x80)
+C 0x53EE rellena_con_ceros: BC+1 ceros desde HL
+C 0x53F1 p01:mitchel_en_la_entrada
+C 0x53F6 banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
+C 0x540B pon_la_paleta_de_la_pantalla: la comun (0x6128), la del juego de dibujos (0x6059) y la de la pantalla (0x61CF)
+C 0x541A apaga_la_pantalla: bit 6 del registro 1 del VDP a cero
+C 0x542C enciende_la_pantalla: bit 6 del registro 1 del VDP a uno
+C 0x543A rellena_la_vram: BC bytes con A desde la VRAM de HL
+C 0x5442 guarda el juego de dibujos de la pantalla
+C 0x5445 apaga_la_pantalla: bit 6 del registro 1 del VDP a cero
+C 0x545F apunta a el decorado que hay que dar por quitado
+C 0x5468 apunta a el decorado que se quita (3 fichas de 32 bytes)
+C 0x547F apunta a las banderas del decorado ya quitado
+C 0x5489 apunta a las banderas de la partida (bit 6: de verdad, no la demostracion)
+C 0x5494 lee la copia del banco de 0x6000
+C 0x549B el mapper: el banco de A en 0x6000
+C 0x549E guarda la copia del banco de 0x6000
+C 0x54A2 guarda la copia del banco de 0x8000
+C 0x54A5 el mapper: el banco de A en 0x8000
+C 0x54AD guarda la copia del banco de 0x6000
+C 0x54B1 el mapper: el banco de A en 0x6000
+C 0x54B5 el mapper: el banco de A en 0x8000
+C 0x54D1 lee el fundido de la musica (se suma al volumen)
+C 0x54DA lee el fundido de la musica (se suma al volumen)
+C 0x5889 guarda el grafico de jefe que hay subido
+C 0x58A4 posicion_de_mitchel: E = la y de Mitchel, D = su x
+C 0x58CD lee la PANTALLA
+C 0x58D4 la pantalla 0x62?
+C 0x58D8 la pantalla 0x89?
+C 0x590B lee el lado por el que se entra en una salida especial
+C 0x5996 lee la PANTALLA
+C 0x5999 la pantalla 0x8A?
+C 0x599F p13:enemigos_de_cada_pantalla: 0x8A punteros, uno por pantalla (0x00-0x89), a su lista de enemigos
+C 0x59A2 lee la PANTALLA
+C 0x59A5 palabra_de_la_tabla: DE = la palabra A de la tabla de DE
+C 0x59B8 lee la PANTALLA
+C 0x59BB la pantalla 0x62?
+C 0x59BF la pantalla 0x89?
+C 0x59D4 lee el plano de la pantalla (0, el exterior)
+C 0x59FA lee el lado por el que se entra en una salida especial
+C 0x5A1C crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
+C 0x5A2A lee la PANTALLA
+C 0x5A2D la pantalla 0x03?
+C 0x5A32 la pantalla 0x06?
+C 0x5A71 apunta a las fichas de los enemigos (13 de 0x80)
+C 0x5B0A p15:byte_0d_de_cada_enemigo: 69 bytes (el 0 no se usa): lo que p00:5B10 pone en ix+0x0D al crear un enemigo de ese tipo
+C 0x5B1B despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0x5BAF palabra_de_la_tabla: DE = la palabra A de la tabla de DE
+C 0x5BED p09:circulo_B145: 64 parejas [dy][dx]: un circulo de radio 0x40; p00:5BED da una vuelta con ix+0x14 (de 0x3F a 0)
+C 0x5C0D lee el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
+C 0x5C19 p01:teclas_del_cuadro: sin el bit 6 de 0xC102 (la demostracion), las teclas salen del guion (p01:69D7)
+C 0x5C1C lee las banderas de la partida (bit 6: de verdad, no la demostracion)
+C 0x5C26 banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
+C 0x5C29 lee el paso del suceso de p06:A649
+C 0x5C33 lee el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
+C 0x5C36 despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0x5C55 lee las teclas del teclado (bits 3-5: 1, 2 y 3; bit 2: F5)
+C 0x5C61 sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
+C 0x5C6E guarda el color del primer sprite de Mitchel
+C 0x5C73 p01:borra_la_ventana_de_texto: 160x24 puntos en (8, 0xB0): debajo del decorado
+C 0x5C79 sube_los_sprites_girando: 0xC10F avanza 0x68: el orden de los sprites da la vuelta cada cuadro, para que los que sobran en una linea parpadeen
+C 0x5C84 p01:borra_la_ventana_de_texto: 160x24 puntos en (8, 0xB0): debajo del decorado
+C 0x5C8A lee el SUCESO: el tipo de decorado que hay que quitar
+C 0x5CA8 lee el estado de Mitchel
+C 0x5CC4 banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
+C 0x5CD2 banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
+C 0x5CEA lee el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
+C 0x5CEE p01:busca_quien_habla
+C 0x5CF6 banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
+C 0x5CF9 lee el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
+C 0x5D03 lee el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
+C 0x5D0D lee el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
+C 0x5D2F lee la PANTALLA
+C 0x5D32 la pantalla 0x7E?
+C 0x5D36 la pantalla 0x7F?
+C 0x5D3A la pantalla 0x82?
+C 0x5D3E la pantalla 0x83?
+C 0x5D42 la pantalla 0x84?
+C 0x5D4B sube_los_sprites_girando: 0xC10F avanza 0x68: el orden de los sprites da la vuelta cada cuadro, para que los que sobran en una linea parpadeen
+C 0x5D60 sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
+C 0x5D74 banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
+C 0x5D77 p15:suceso_BE98
+C 0x5D7F banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
+C 0x5D82 p15:quita_el_decorado_del_suceso: El suceso de 0xC560 (lo dejan los objetos y los conjuros al usarse: el
+C 0x5D9D guarda la copia del banco de 0xA000
+C 0x5DA0 el mapper: el banco de A en 0xA000
+C 0x5DA3 guarda el banco de reserva de 0xA000 (el que devuelve p00:4215)
+C 0x5DAB suceso_al_morir_el_jefe: los tipos 4, 5, 0x0B, 0x2A, 0x2B y 0x39 (y 0x1A y 0x1E en su pantalla) dejan el suceso 0x28 (o 0x2B) con p01:784A
+C 0x5DC3 p15:explosion_de_cada_enemigo: 68 bytes, uno por tipo: la explosion (0xF0, 0xF3, 0xF6 o 0xF9) en que se convierte al morir; p00:5DA8 guarda antes el tipo en ix+0x1F (el que mira p03:B9E6 para lo que suelta)
+C 0x5DD4 lee la PANTALLA
+C 0x5DD7 la pantalla 0x62?
+C 0x5DDB la pantalla 0x89?
+C 0x5E1C sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
+C 0x5E47 p03:lo_que_suelta: Al morir un enemigo: p03:BA66 + tipo - 1 da el numero de rutina (0xFF =
+C 0x5E84 p15:cuadros_de_explosion: 12 punteros por ix+0 - 0xF0 (las explosiones: p00:5E7F sube ix+0 cada vez): grupos de sprites [dy][dx][patron][color] que p00:5E93 suma a la posicion
+C 0x5E87 palabra_de_la_tabla: DE = la palabra A de la tabla de DE
+C 0x5ED8 apunta a las fichas de los enemigos (13 de 0x80)
+C 0x5F28 lee la PANTALLA
+C 0x5F2B la pantalla 0x31?
+C 0x5F36 lee la PANTALLA
+C 0x5F39 la pantalla 0x1A?
+C 0x5F3F apaga_la_pantalla: bit 6 del registro 1 del VDP a cero
+C 0x5F42 paleta_inicial: los 16 colores de p00:46AF
+C 0x5F45 paleta_de_konami: [color][RB][G] ... 0xFF
+C 0x5F48 pon_paleta: lista [color][RB][G] ... 0xFF
+C 0x5F5B hmmv: orden HMMV del V9938: rellena BxC puntos en (H, L) de la pagina D con A
+C 0x5F61 el mapper: el banco de A en 0x8000
+C 0x5F64 guarda la copia del banco de 0x8000
+C 0x5F68 p08:konami_9C3B: 13 letras de 1 bit del logotipo de Konami (color 1); p00:4867
+C 0x5F71 sube_letras: B letras de 1 bit de HL, en color C, a la hoja de la pagina 1 desde (D, E)
+C 0x5F74 p08:konami_9CA3: 13 letras de 1 bit del logotipo de Konami (color 2); p00:4867
+C 0x5F7D sube_letras: B letras de 1 bit de HL, en color C, a la hoja de la pagina 1 desde (D, E)
+C 0x5F80 p08:konami_9D0B: 26 letras de 1 bit del logotipo de Konami (color 3); p00:4867
+C 0x5F89 sube_letras: B letras de 1 bit de HL, en color C, a la hoja de la pagina 1 desde (D, E)
+C 0x5F8F p08:konami_composicion: como se monta el logotipo de Konami: numeros de dibujo, 0xFE [dx] baja una fila, 0xFF acaba (p00:5FDA)
+C 0x5F98 enciende_la_pantalla: bit 6 del registro 1 del VDP a uno
+C 0x5FD7 hmmm: orden HMMM del V9938: copia BxC puntos de (H, L) a (D, E); A lleva las paginas
+C 0x5FF3 siguiente_sitio: D + 8; al dar la vuelta, E + 8
+# --- fin de las anotaciones de anota.py ---

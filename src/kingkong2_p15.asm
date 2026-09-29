@@ -1950,25 +1950,25 @@ DATA_nombre_68:
 ; decorado del mismo tipo y la va quitando; si no la hay, lo borra.
 ; ----------------------------------------------------------------------
 quita_el_decorado_del_suceso:
-	ld a,(0c560h)		;bd3a
-	ld ix,0c500h		;bd3d
-	cp (ix+000h)		;bd41
+	ld a,(0c560h)		;bd3a   ; lee el SUCESO: el tipo de decorado que hay que quitar
+	ld ix,0c500h		;bd3d   ; apunta a el decorado que se quita (3 fichas de 32 bytes)
+	cp (ix+000h)		;bd41   ; compara con el tipo de decorado (el suceso que lo quita)
 	jr z,L_BD88		;bd44
 	ld ix,0c520h		;bd46
-	cp (ix+000h)		;bd4a
+	cp (ix+000h)		;bd4a   ; compara con el tipo de decorado (el suceso que lo quita)
 	jr z,L_BD88		;bd4d
 	ld ix,0c540h		;bd4f
-	cp (ix+000h)		;bd53
+	cp (ix+000h)		;bd53   ; compara con el tipo de decorado (el suceso que lo quita)
 	jr z,L_BD88		;bd56
 	xor a			;bd58
-	ld (0c560h),a		;bd59
+	ld (0c560h),a		;bd59   ; guarda el SUCESO: el tipo de decorado que hay que quitar
 	ret			;bd5c
 decorado_quitado:
 	xor a			;bd5d
 	ld (ix+000h),a		;bd5e
-	ld (0c561h),a		;bd61
-	ld a,(0c560h)		;bd64
-	ld hl,0c500h		;bd67
+	ld (0c561h),a		;bd61   ; guarda el paso del suceso
+	ld a,(0c560h)		;bd64   ; lee el SUCESO: el tipo de decorado que hay que quitar
+	ld hl,0c500h		;bd67   ; apunta a el decorado que se quita (3 fichas de 32 bytes)
 	cp (hl)			;bd6a
 	ret z			;bd6b
 	ld hl,0c520h		;bd6c
@@ -1978,21 +1978,21 @@ decorado_quitado:
 	cp (hl)			;bd74
 	ret z			;bd75
 	xor a			;bd76
-	ld (0c560h),a		;bd77
-	ld a,(0c125h)		;bd7a
-	cp 00bh		;bd7d
+	ld (0c560h),a		;bd77   ; guarda el SUCESO: el tipo de decorado que hay que quitar
+	ld a,(0c125h)		;bd7a   ; lee la PANTALLA
+	cp 00bh		;bd7d   ; la pantalla 0x0B?
 	ret nz			;bd7f
-	ld c,004h		;bd80
+	ld c,004h		;bd80   ; el objeto 0x04, ひかりのけん
 	ld de,05858h		;bd82
-	jp 0419ah		;bd85
+	jp 0419ah		;bd85   ; p00:puente_pon_objeto: p01:7852: pone el objeto C (B unidades) en (E, D) de la pantalla
 L_BD88:
-	ld a,(0c561h)		;bd88
+	ld a,(0c561h)		;bd88   ; lee el paso del suceso
 	dec a			;bd8b
 	jr z,L_BDA7		;bd8c
 	ld a,01dh		;bd8e
 	call 040e6h		;bd90
 	call borra_el_decorado		;bd93
-	ld hl,0c561h		;bd96
+	ld hl,0c561h		;bd96   ; apunta a el paso del suceso
 	inc (hl)			;bd99
 	xor a			;bd9a
 	ld (0c563h),a		;bd9b
@@ -2050,7 +2050,7 @@ L_BDCC:
 	ld hl,0c562h		;bdfc
 	dec (hl)			;bdff
 	ret nz			;be00
-	ld hl,0c580h		;be01
+	ld hl,0c580h		;be01   ; apunta a las banderas del decorado ya quitado
 	ld a,(ix+008h)		;be04
 	call 0408ch		;be07
 	ld (hl),000h		;be0a
@@ -2151,19 +2151,19 @@ DATA_codigo_BE8E:
 
 
 suceso_BE98:
-	ld ix,0c500h		;be98
-	ld a,(ix+000h)		;be9c
+	ld ix,0c500h		;be98   ; apunta a el decorado que se quita (3 fichas de 32 bytes)
+	ld a,(ix+000h)		;be9c   ; lee el tipo de decorado (el suceso que lo quita)
 	cp 006h		;be9f
 	jr nc,L_BEBA		;bea1
 	ld ix,0c520h		;bea3
-	ld a,(ix+000h)		;bea7
+	ld a,(ix+000h)		;bea7   ; lee el tipo de decorado (el suceso que lo quita)
 	cp 006h		;beaa
 	jr nc,L_BEBA		;beac
-	ld a,(ix+000h)		;beae
+	ld a,(ix+000h)		;beae   ; lee el tipo de decorado (el suceso que lo quita)
 	cp 006h		;beb1
 	jr nc,L_BEBA		;beb3
 	xor a			;beb5
-	ld (0c201h),a		;beb6
+	ld (0c201h),a		;beb6   ; guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
 	ret			;beb9
 L_BEBA:
 	ld a,(0c567h)		;beba
@@ -2185,8 +2185,8 @@ L_BEDE:
 	add a,a			;bedf
 	add a,a			;bee0
 	ld (0c562h),a		;bee1
-	ld a,(0c125h)		;bee4
-	cp 02dh		;bee7
+	ld a,(0c125h)		;bee4   ; lee la PANTALLA
+	cp 02dh		;bee7   ; la pantalla 0x2D?
 	ld a,022h		;bee9
 	jr z,L_BEEF		;beeb
 	ld a,023h		;beed
@@ -2234,12 +2234,12 @@ L_BF38:
 	dec (hl)			;bf3b
 	ret nz			;bf3c
 L_BF3D:
-	ld hl,0c580h		;bf3d
+	ld hl,0c580h		;bf3d   ; apunta a las banderas del decorado ya quitado
 	ld a,(ix+008h)		;bf40
 	call 0408ch		;bf43
 	xor a			;bf46
 	ld (hl),a			;bf47
-	ld (0c201h),a		;bf48
+	ld (0c201h),a		;bf48   ; guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
 	ld (ix+000h),a		;bf4b
 	ret			;bf4e
 L_BF4F:

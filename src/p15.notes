@@ -324,3 +324,32 @@ F 0xBD28 16
 D 0xBD32 0xBD3A nombre_68  el nombre del enemigo 68 (0x00 es espacio, 0x8D el punto; 0xFF acaba); se solapan 2 bloques (0xBD32-0xBD3A, 0xBD39-0xBD3A); lo leen p00:4919 (8 bytes)
 F 0xBD32 16
 # --- fin de los bloques de bloques.py ---
+
+# --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
+C 0xBD3A lee el SUCESO: el tipo de decorado que hay que quitar
+C 0xBD3D apunta a el decorado que se quita (3 fichas de 32 bytes)
+C 0xBD41 compara con el tipo de decorado (el suceso que lo quita)
+C 0xBD4A compara con el tipo de decorado (el suceso que lo quita)
+C 0xBD53 compara con el tipo de decorado (el suceso que lo quita)
+C 0xBD59 guarda el SUCESO: el tipo de decorado que hay que quitar
+C 0xBD61 guarda el paso del suceso
+C 0xBD64 lee el SUCESO: el tipo de decorado que hay que quitar
+C 0xBD67 apunta a el decorado que se quita (3 fichas de 32 bytes)
+C 0xBD77 guarda el SUCESO: el tipo de decorado que hay que quitar
+C 0xBD7A lee la PANTALLA
+C 0xBD7D la pantalla 0x0B?
+C 0xBD80 el objeto 0x04, ひかりのけん
+C 0xBD85 p00:puente_pon_objeto: p01:7852: pone el objeto C (B unidades) en (E, D) de la pantalla
+C 0xBD88 lee el paso del suceso
+C 0xBD96 apunta a el paso del suceso
+C 0xBE01 apunta a las banderas del decorado ya quitado
+C 0xBE98 apunta a el decorado que se quita (3 fichas de 32 bytes)
+C 0xBE9C lee el tipo de decorado (el suceso que lo quita)
+C 0xBEA7 lee el tipo de decorado (el suceso que lo quita)
+C 0xBEAE lee el tipo de decorado (el suceso que lo quita)
+C 0xBEB6 guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
+C 0xBEE4 lee la PANTALLA
+C 0xBEE7 la pantalla 0x2D?
+C 0xBF3D apunta a las banderas del decorado ya quitado
+C 0xBF48 guarda el estado de la partida (0 jugando, 1 cambio de pantalla, 3 conversacion, 5 y 6 sucesos, 7 GAME OVER)
+# --- fin de las anotaciones de anota.py ---

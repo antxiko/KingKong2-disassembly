@@ -116,3 +116,653 @@ F 0xBDC7 2
 D 0xBE34 0xBE38 tabla_BE34  2 destinos del despachador de 0x425F (call en p03:BE31): 0xBE38, 0xBE7B; lo leen p03:BE31 (4 bytes)
 F 0xBE34 2
 # --- fin de los bloques de bloques.py ---
+
+# --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
+C 0xA002 velocidades: 16 entradas de 4 bytes que p03:BF19 pone en ix+8, ix+7, ix+0x0A e ix+9 (dos velocidades de 16 bits) segun A; se entra por 0xBF32, 0xBF42, 0xBF52 y 0xBF62
+C 0xA018 baja el paso en que va
+C 0xA022 lee la y del enemigo
+C 0xA028 lee la x del enemigo
+C 0xA02E el paso en que va = 0x02
+C 0xA036 si se mueve = 0x00
+C 0xA03A lee el tipo del enemigo
+C 0xA03D REDSPIDER (tipo 0x0B)?
+C 0xA043 lee la Y de Mitchel
+C 0xA05D lee el tipo del enemigo
+C 0xA060 REDSPIDER (tipo 0x0B)?
+C 0xA066 lee la y del enemigo
+C 0xA06E lee la x del enemigo
+C 0xA077 lee la Y de Mitchel
+C 0xA07C compara con la y del enemigo
+C 0xA082 compara con la y del enemigo
+C 0xA086 lee la X de Mitchel
+C 0xA08B compara con la x del enemigo
+C 0xA091 compara con la x del enemigo
+C 0xA095 sube el paso en que va
+C 0xA09C si se mueve = 0x00
+C 0xA0A0 lee la velocidad vertical
+C 0xA0A5 lee la velocidad vertical (baja)
+C 0xA0AB guarda la velocidad vertical
+C 0xA0AE guarda la velocidad vertical (baja)
+C 0xA0B1 lee la velocidad horizontal
+C 0xA0B6 lee la velocidad horizontal (baja)
+C 0xA0BC guarda la velocidad horizontal
+C 0xA0BF guarda la velocidad horizontal (baja)
+C 0xA0CA si se mueve = 0x01
+C 0xA0CE sube el paso en que va
+C 0xA0D5 lee el tipo del enemigo
+C 0xA0D8 REDSPIDER (tipo 0x0B)?
+C 0xA0DF compara con la x del enemigo
+C 0xA0E7 compara con la y del enemigo
+C 0xA0EC guarda el paso en que va
+C 0xA0F8 guarda la y del enemigo
+C 0xA0FE guarda la x del enemigo
+C 0xA131 apunta a las fichas de los enemigos (13 de 0x80)
+C 0xA13C compara con el tipo del enemigo
+C 0xA146 lee el paso en que va
+C 0xA156 el cuadro del enemigo = 0x08
+C 0xA15A si se mueve = 0x01
+C 0xA160 p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
+C 0xA165 p01:rumbo_hacia_mitchel
+C 0xA16F lee el paso en que va
+C 0xA17F sube el paso en que va
+C 0xA189 lee la x del enemigo
+C 0xA197 sube el paso en que va
+C 0xA1A8 lee la X de Mitchel
+C 0xA1AF la y del enemigo = 0x50
+C 0xA1B3 la x del enemigo = 0xA0
+C 0xA1BE p01:apunta_a_mitchel
+C 0xA1C7 lee la y del enemigo
+C 0xA1CD lee la x del enemigo
+C 0xA1D3 si se mueve = 0x01
+C 0xA1DB el cuadro del enemigo = 0x0E
+C 0xA1FB si se mueve = 0x01
+C 0xA1FF el cuadro del enemigo = 0x0E
+C 0xA22D lee la y del enemigo
+C 0xA236 lee la x del enemigo
+C 0xA274 p01:apunta_a_mitchel
+C 0xA2A9 lee la x del enemigo
+C 0xA2C6 p01:apunta_a_mitchel
+C 0xA2DD p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
+C 0xA30C p00:hl_mas_a
+C 0xA310 guarda el cuadro del enemigo
+C 0xA31E apunta a las fichas de los enemigos (13 de 0x80)
+C 0xA322 lee el tipo del enemigo
+C 0xA325 GROUNDER (tipo 0x2C)?
+C 0xA34F cuadros_A362: 8 bytes: el cuadro (ix+0x0B) segun ix+0x13 (p03:A34F) o ix+0x1A (desde 0xA366, p03:A309)
+C 0xA352 p00:hl_mas_a
+C 0xA36A el paso en que va = 0x03
+C 0xA36F guarda la velocidad vertical (baja)
+C 0xA372 guarda la velocidad horizontal (baja)
+C 0xA389 lee el paso en que va
+C 0xA390 p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
+C 0xA398 le resta la y del enemigo
+C 0xA3A5 le resta la x del enemigo
+C 0xA3AF lee el tipo del enemigo
+C 0xA3B2 BLOWMIRE (tipo 0x19)?
+C 0xA3BB lee la y del enemigo
+C 0xA3BE lee la x del enemigo
+C 0xA3C3 p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
+C 0xA3EB p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0xA3FD p02:sigue_si_esta_en_casilla: si la ficha no esta alineada a 8 en x e y, vuelve al que llamo al que llamo
+C 0xA430 p01:apunta_a_mitchel
+C 0xA445 p02:sigue_si_esta_en_casilla: si la ficha no esta alineada a 8 en x e y, vuelve al que llamo al que llamo
+C 0xA455 p01:apunta_a_mitchel
+C 0xA45B lee el tipo del enemigo
+C 0xA45E FALCONER (tipo 0x24)?
+C 0xA475 el paso en que va = 0x00
+C 0xA479 lee la Y de Mitchel
+C 0xA47C compara con la y del enemigo
+C 0xA48F lee la y del enemigo
+C 0xA495 el paso en que va = 0x01
+C 0xA49C el paso en que va = 0x02
+C 0xA4A3 lee el tipo del enemigo
+C 0xA4A6 CLINGMAN (tipo 0x37)?
+C 0xA4A8 lee la x del enemigo
+C 0xA4BB guarda la x del enemigo
+C 0xA4BE la velocidad horizontal = 0x00
+C 0xA4C2 lee el tipo del enemigo
+C 0xA4C5 tablas_A6A0: tres tablas de 16 bytes: 0xA6A0 (tipo 0x37) y 0xA6B8 (los demas) segun ix+0x18 (p03:A4C2), y parejas desde 0xA6C8 segun ix+0x19 (p03:A553)
+C 0xA4CB CLINGMAN (tipo 0x37)?
+C 0xA4DE p00:hl_mas_a
+C 0xA4E4 guarda la velocidad vertical
+C 0xA4E9 p00:hl_mas_a
+C 0xA4ED guarda la velocidad vertical
+C 0xA4FB el paso en que va = 0x00
+C 0xA4FF si se mueve = 0x01
+C 0xA505 p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
+C 0xA508 guarda la y del enemigo
+C 0xA50B guarda la x del enemigo
+C 0xA515 el paso en que va = 0x00
+C 0xA519 si se mueve = 0x01
+C 0xA522 XOR con la cuenta de cuadros
+C 0xA52A p00:hl_mas_a
+C 0xA532 p01:apunta_a_mitchel
+C 0xA53B p02:velocidad_de_la_tabla: la pareja A de la tabla de HL en ix+8 e ix+0x0A
+C 0xA53E lee el tipo del enemigo
+C 0xA556 p00:hl_mas_a
+C 0xA559 lee la cuenta de cuadros
+C 0xA562 guarda el cuadro del enemigo
+C 0xA56A guarda el cuadro del enemigo
+C 0xA56D lee la cuenta de cuadros
+C 0xA573 sube el cuadro del enemigo
+C 0xA577 lee la cuenta de cuadros
+C 0xA587 guarda el cuadro del enemigo
+C 0xA58B p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
+C 0xA593 compara con la x del enemigo
+C 0xA598 le resta la y del enemigo
+C 0xA5A4 XOR con la cuenta de cuadros
+C 0xA5A9 lee el tipo del enemigo
+C 0xA5AC BLOWMIRE (tipo 0x19)?
+C 0xA5B5 p01:apunta_a_mitchel
+C 0xA5BE el paso en que va = 0x05
+C 0xA5C2 guarda el cuadro del enemigo
+C 0xA5C7 lee el tipo del enemigo
+C 0xA5CA BOOMERANG (tipo 0x18)?
+C 0xA5D1 guarda el cuadro del enemigo
+C 0xA5E1 si se mueve = 0x00
+C 0xA5E5 lee la y del enemigo
+C 0xA5E8 lee la x del enemigo
+C 0xA5EB lee el tipo del enemigo
+C 0xA5F4 p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
+C 0xA5FC compara con la y del enemigo
+C 0xA601 le resta la x del enemigo
+C 0xA60C lee el tipo del enemigo
+C 0xA622 lee el tipo del enemigo
+C 0xA625 FALCONER (tipo 0x24)?
+C 0xA628 el paso en que va = 0x02
+C 0xA62C JUMPMAN (tipo 0x36)?
+C 0xA632 lee la y del enemigo
+C 0xA635 lee la x del enemigo
+C 0xA63D p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
+C 0xA640 lee la y del enemigo
+C 0xA64A lee el tipo del enemigo
+C 0xA64D tablas_A6A0: tres tablas de 16 bytes: 0xA6A0 (tipo 0x37) y 0xA6B8 (los demas) segun ix+0x18 (p03:A4C2), y parejas desde 0xA6C8 segun ix+0x19 (p03:A553)
+C 0xA652 CLINGMAN (tipo 0x37)?
+C 0xA65A lee la X de Mitchel
+C 0xA65D compara con la x del enemigo
+C 0xA661 guarda la velocidad vertical
+C 0xA665 guarda la velocidad horizontal
+C 0xA66C el cuadro del enemigo = 0x05
+C 0xA673 guarda la velocidad horizontal
+C 0xA67A el cuadro del enemigo = 0x0A
+C 0xA683 lee el paso en que va
+C 0xA688 guarda el paso en que va
+C 0xA68E p01:apunta_a_mitchel
+C 0xA6D8 el cuadro del enemigo = 0x00
+C 0xA6E8 lee la y del enemigo
+C 0xA6ED lee la x del enemigo
+C 0xA6F6 p00:lmmm: orden LMMM del V9938: lo mismo con operacion logica (A: paginas y operacion; 8 = TIMP)
+C 0xA710 lee la cuenta de cuadros
+C 0xA721 lee el cuadro del enemigo
+C 0xA72E guarda el cuadro del enemigo
+C 0xA734 mira el bit 0 de el cuadro del enemigo
+C 0xA751 lee la y del enemigo
+C 0xA756 lee la x del enemigo
+C 0xA75B p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
+C 0xA789 p00:lmmm: orden LMMM del V9938: lo mismo con operacion logica (A: paginas y operacion; 8 = TIMP)
+C 0xA7A9 tablas_A7FA: 32 bytes desde 0xA7FA (DE) y 0xA81A (HL) que p03:A7A9 recorre con 0xDFA1; 0xA822, 8 bytes que p03:A7EE pone en ix+0x1A; p01:63EE entra por 0xA808
+C 0xA7B5 el cuadro del enemigo = 0x10
+C 0xA7BD lee el contador de cuadros
+C 0xA7CA p00:hl_mas_a
+C 0xA7DE p00:hl_mas_a
+C 0xA7F1 p00:hl_mas_a
+C 0xA82A lee el paso en que va
+C 0xA82D p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0xA848 sube el paso en que va
+C 0xA84B si se mueve = 0x01
+C 0xA85D p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
+C 0xA864 sube el paso en que va
+C 0xA867 el cuadro del enemigo = 0x10
+C 0xA86B si se mueve = 0x00
+C 0xA879 lee la y del enemigo
+C 0xA885 lee la x del enemigo
+C 0xA88C el cuadro del enemigo = 0x10
+C 0xA8A1 el paso en que va = 0x06
+C 0xA8C0 el cuadro del enemigo = 0x14
+C 0xA8D5 el paso en que va = 0x07
+C 0xA8F4 el cuadro del enemigo = 0x16
+C 0xA909 el paso en que va = 0x08
+C 0xA928 el cuadro del enemigo = 0x12
+C 0xA93C el paso en que va = 0x09
+C 0xA95B el cuadro del enemigo = 0x11
+C 0xA98D el paso en que va = 0x02
+C 0xA99D el cuadro del enemigo = 0x15
+C 0xA9CF el paso en que va = 0x03
+C 0xA9DF el cuadro del enemigo = 0x17
+C 0xAA11 el paso en que va = 0x04
+C 0xAA21 el cuadro del enemigo = 0x13
+C 0xAA52 el paso en que va = 0x05
+C 0xAA62 lee el tipo del enemigo
+C 0xAA65 GARGOYLE (tipo 0x06)?
+C 0xAA6B POISNFROG (tipo 0x07)?
+C 0xAA71 MIREFROG (tipo 0x3E)?
+C 0xAA75 GARGOYLE (tipo 0x08)?
+C 0xAA88 p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
+C 0xAA9A p00:hl_mas_a
+C 0xAAB3 p01:apunta_a_mitchel
+C 0xAAB9 p01:apunta_a_mitchel
+C 0xAABC lee el paso en que va
+C 0xAAC1 tablas_AAD4: 4 bytes segun ix+1 - 2 (p03:AAC1) y 32 codigos segun ix+0x1A & 31 (1, 2 u otro; p03:AA97) desde 0xAAD8
+C 0xAAC4 p00:hl_mas_a
+C 0xAB09 guarda el paso en que va
+C 0xAB1B lee la velocidad vertical (baja)
+C 0xAB1E lee la velocidad vertical
+C 0xAB2E lee la velocidad horizontal (baja)
+C 0xAB31 lee la velocidad horizontal
+C 0xAB3C lee el tipo del enemigo
+C 0xAB3F GARGOYLE (tipo 0x06)?
+C 0xAB41 recorridos_AB88: pasos que elige p03:AB41 segun el tipo: 0xAB88 (tipos 6 y otros), 0xABA4 (7 y 0x3E), 0xAB94 (8) y 0xABAC
+C 0xAB46 POISNFROG (tipo 0x07)?
+C 0xAB4D MIREFROG (tipo 0x3E)?
+C 0xAB51 GARGOYLE (tipo 0x08)?
+C 0xAB5D recorridos_AB88: pasos que elige p03:AB41 segun el tipo: 0xAB88 (tipos 6 y otros), 0xABA4 (7 y 0x3E), 0xAB94 (8) y 0xABAC
+C 0xAB68 p00:hl_mas_a
+C 0xAB78 guarda la y del enemigo
+C 0xAB84 guarda la x del enemigo
+C 0xABC4 tablas_ABD0: 32 bytes desde 0xABD0 (DE) y 8 desde 0xABF0 (HL) que p03:ABC4 pasa a p03:A7B2 con 0xDFA2
+C 0xAC17 p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
+C 0xAC1A el cuadro del enemigo = 0x00
+C 0xAC27 lee el paso en que va
+C 0xAC2A p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0xAC4B guarda el cuadro del enemigo
+C 0xAC52 sube el paso en que va
+C 0xAC55 el cuadro del enemigo = 0x04
+C 0xAC67 lee la y del enemigo
+C 0xAC73 lee la x del enemigo
+C 0xAC7A sube el paso en que va
+C 0xAC7E el cuadro del enemigo = 0x04
+C 0xAC85 el cuadro del enemigo = 0x07
+C 0xAC8C el cuadro del enemigo = 0x09
+C 0xAC93 el cuadro del enemigo = 0x06
+C 0xAC9A el cuadro del enemigo = 0x03
+C 0xACA1 el cuadro del enemigo = 0x08
+C 0xACA8 el cuadro del enemigo = 0x0A
+C 0xACAF el cuadro del enemigo = 0x05
+C 0xACB6 lee la PANTALLA
+C 0xACB9 la pantalla 0x06?
+C 0xACBD lee el plano de la pantalla (0, el exterior)
+C 0xACD1 lee la PANTALLA
+C 0xACD4 la pantalla 0x06?
+C 0xACDE dibujos_ACEA: 4 palabras segun A & C que p03:ACDE pasa a p00:5A69
+C 0xACE1 p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
+C 0xACE7 p00:crea_una_ficha: una ficha nueva en 0xD000-0xD67F (13 de 0x80): C el tipo, DE la posicion, B
+C 0xACF2 el cuadro del enemigo = 0x03
+C 0xACFF lee el paso en que va
+C 0xAD02 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0xAD23 guarda el cuadro del enemigo
+C 0xAD2A sube el paso en que va
+C 0xAD2D el cuadro del enemigo = 0x07
+C 0xAD3F lee la y del enemigo
+C 0xAD4B lee la x del enemigo
+C 0xAD52 sube el paso en que va
+C 0xAD56 el cuadro del enemigo = 0x07
+C 0xAD5D el cuadro del enemigo = 0x0A
+C 0xAD64 el cuadro del enemigo = 0x0C
+C 0xAD6B el cuadro del enemigo = 0x09
+C 0xAD72 el cuadro del enemigo = 0x06
+C 0xAD79 el cuadro del enemigo = 0x0B
+C 0xAD80 el cuadro del enemigo = 0x0D
+C 0xAD87 el cuadro del enemigo = 0x08
+C 0xAD8E lee la Y de Mitchel
+C 0xAD95 el cuadro del enemigo = 0x11
+C 0xAD9B el cuadro del enemigo = 0x10
+C 0xADA3 si se mueve = 0x01
+C 0xADAE byte_12_ADC1: 8 bytes: lo que p03:ADAE pone en ix+0x12 segun (HL) & 7
+C 0xADB1 p00:hl_mas_a
+C 0xADBE p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
+C 0xADCF lee el paso en que va
+C 0xADD2 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0xADDE lee la x del enemigo
+C 0xADEB sube el paso en que va
+C 0xADF7 lee la x del enemigo
+C 0xAE04 baja el paso en que va
+C 0xAE23 el cuadro del enemigo = 0x10
+C 0xAE28 el cuadro del enemigo = 0x11
+C 0xAE30 guarda el paso en que va
+C 0xAE47 el cuadro del enemigo = 0x10
+C 0xAE4D el cuadro del enemigo = 0x11
+C 0xAE59 lee el cuadro del enemigo
+C 0xAE61 lee la x del enemigo
+C 0xAE6E lee la y del enemigo
+C 0xAE76 lee la cuenta de cuadros
+C 0xAE82 cuadros_AE92: dos parejas de cuadros (ix+0x0B) segun el bit 0 de ix+0x15 (p03:AE82)
+C 0xAE8A p00:hl_mas_a
+C 0xAE8E guarda el cuadro del enemigo
+C 0xAE9E lee el paso en que va
+C 0xAEA4 el paso en que va = 0x02
+C 0xAEAE lee la y del enemigo
+C 0xAEC5 lee la x del enemigo
+C 0xAED4 guarda el paso en que va
+C 0xAEDA lee la PANTALLA
+C 0xAEDD la pantalla 0x20?
+C 0xAEE7 parejas_AF0F: 12 parejas que p03:AEE7 pone en ix+0x12 e ix+0x19 segun C
+C 0xAEEA p00:hl_mas_a
+C 0xAEF6 el cuadro del enemigo = 0x10
+C 0xAF08 lee la y del enemigo
+C 0xAF27 lee el paso en que va
+C 0xAF2A p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0xAF4F guarda el cuadro del enemigo
+C 0xAF84 guarda el paso en que va
+C 0xAF9C guarda el paso en que va
+C 0xAFBC guarda el paso en que va
+C 0xAFE2 alturas_AFFC: 15 bytes: lo que p03:AFE2 suma a la palabra ix+0x16 segun ix+0x14
+C 0xAFE8 p00:hl_mas_a
+C 0xAFF8 guarda la y del enemigo
+C 0xB011 lee la velocidad vertical (baja)
+C 0xB014 lee la velocidad vertical
+C 0xB021 lee la x del enemigo
+C 0xB024 lee la velocidad horizontal (baja)
+C 0xB027 lee la velocidad horizontal
+C 0xB02E guarda la x del enemigo
+C 0xB032 cuadros_B040: 15 bytes: el cuadro (ix+0x0B) segun ix+0x14 (p03:B032)
+C 0xB038 p00:hl_mas_a
+C 0xB03C guarda el cuadro del enemigo
+C 0xB05F lee la y del enemigo
+C 0xB062 lee la x del enemigo
+C 0xB068 el cuadro del enemigo = 0x09
+C 0xB07A lee la y del enemigo
+C 0xB086 lee la x del enemigo
+C 0xB0A7 lee el paso en que va
+C 0xB0AA p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0xB0C1 sube el paso en que va
+C 0xB0C5 el cuadro del enemigo = 0x09
+C 0xB0CC el cuadro del enemigo = 0x0D
+C 0xB0D3 el cuadro del enemigo = 0x0F
+C 0xB0DA el cuadro del enemigo = 0x0B
+C 0xB0E1 el cuadro del enemigo = 0x0A
+C 0xB0E8 el cuadro del enemigo = 0x0E
+C 0xB0EF el cuadro del enemigo = 0x10
+C 0xB0F6 el cuadro del enemigo = 0x0C
+C 0xB100 el cuadro del enemigo = 0x00
+C 0xB10C byte_15_B11D: 8 bytes: lo que p03:B10C pone en ix+0x15 segun (HL) & 7
+C 0xB10F p00:hl_mas_a
+C 0xB125 lee el paso en que va
+C 0xB128 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0xB17B p00:hl_mas_a
+C 0xB188 lee el paso en que va
+C 0xB190 lee las teclas que se tienen pulsadas (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0xB197 lee hacia donde mira Mitchel (0 arriba, 1 abajo, 2 izquierda, 3 derecha)
+C 0xB19A tablas_B1FB: 0xB1FB, 0xB1FF y 0xB203 segun la direccion de Mitchel (p03:B19A, B1CA, B1DB) y 32 codigos desde 0xB20F segun ix+0x15 & 31 (p03:B178)
+C 0xB19D p00:hl_mas_a
+C 0xB1B9 p01:apunta_a_mitchel
+C 0xB1C1 p01:apunta_a_mitchel
+C 0xB1CD p00:hl_mas_a
+C 0xB1E1 p00:hl_mas_a
+C 0xB1F3 guarda el paso en que va
+C 0xB233 cuadros_B23E: 9 bytes: el cuadro (ix+0x0B) segun ix+0x12 - 1 (p03:B233)
+C 0xB236 p00:hl_mas_a
+C 0xB23A guarda el cuadro del enemigo
+C 0xB247 el cuadro del enemigo = 0x26
+C 0xB251 lee el paso en que va
+C 0xB254 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0xB26D el cuadro del enemigo = 0x26
+C 0xB277 guarda el paso en que va
+C 0xB283 el cuadro del enemigo = 0x2C
+C 0xB28F el cuadro del enemigo = 0x28
+C 0xB29B el cuadro del enemigo = 0x27
+C 0xB2E3 cuadros_B2E9: 8 cuadros que p03:B34B elige segun el bit 3 de ix+0x0C y C (entrada p03:B2E3)
+C 0xB2F1 el cuadro del enemigo = 0x00
+C 0xB2FB lee el paso en que va
+C 0xB2FE p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0xB348 cuadros_B35F: lo mismo para p03:B348
+C 0xB34B mira el bit 3 de la cuenta de cuadros
+C 0xB357 p00:hl_mas_a
+C 0xB35B guarda el cuadro del enemigo
+C 0xB374 el paso en que va = 0x05
+C 0xB378 lee el paso en que va
+C 0xB37B p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0xB390 guarda la y del enemigo
+C 0xB399 guarda la x del enemigo
+C 0xB3D4 guarda el cuadro del enemigo
+C 0xB3DF lee la x del enemigo
+C 0xB3E5 lee la y del enemigo
+C 0xB3F6 lee la y del enemigo
+C 0xB3F9 lee la x del enemigo
+C 0xB421 guarda el tipo del enemigo
+C 0xB424 el paso en que va = 0x02
+C 0xB431 guarda la y del enemigo
+C 0xB43D guarda la x del enemigo
+C 0xB441 guarda si se mueve
+C 0xB444 guarda la cuenta de cuadros
+C 0xB45E guarda el cuadro del enemigo
+C 0xB464 guarda la vida del enemigo (BCD)
+C 0xB480 cuantos sprites lleva = 0x02
+C 0xB4B4 p00:hl_mas_a
+C 0xB4C5 lee el paso en que va
+C 0xB4C8 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0xB4E3 lee la cuenta de cuadros
+C 0xB4E9 lee la Y de Mitchel
+C 0xB519 lee la X de Mitchel
+C 0xB55F p00:hl_mas_a
+C 0xB562 lee la y del enemigo
+C 0xB567 lee la x del enemigo
+C 0xB571 sube el paso en que va
+C 0xB587 lee la cuenta de cuadros
+C 0xB58D lee la Y de Mitchel
+C 0xB5BD lee la X de Mitchel
+C 0xB604 p00:hl_mas_a
+C 0xB607 lee la y del enemigo
+C 0xB60C lee la x del enemigo
+C 0xB616 baja el paso en que va
+C 0xB61A lee la cuenta de cuadros
+C 0xB625 guarda el cuadro del enemigo
+C 0xB631 p00:hl_mas_a
+C 0xB639 sumas_B659: 5 bytes que p03:B639 suma a C segun ix+0x16 - 1
+C 0xB63C p00:hl_mas_a
+C 0xB64C p00:hl_mas_a
+C 0xB650 guarda la y del enemigo
+C 0xB655 guarda la x del enemigo
+C 0xB664 pasos_B737: 65 bytes que recorren p03:B664, p03:B6A7 y p03:B6F9 segun ix+0x12
+C 0xB69A guarda la x del enemigo
+C 0xB6A7 pasos_B737: 65 bytes que recorren p03:B664, p03:B6A7 y p03:B6F9 segun ix+0x12
+C 0xB6DF guarda la y del enemigo
+C 0xB6EA p00:hl_mas_a
+C 0xB6F9 pasos_B737: 65 bytes que recorren p03:B664, p03:B6A7 y p03:B6F9 segun ix+0x12
+C 0xB731 guarda la y del enemigo
+C 0xB7CD lee el paso en que va
+C 0xB7D0 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0xB7E5 lee la cuenta de cuadros
+C 0xB7F0 guarda el cuadro del enemigo
+C 0xB7F6 lee la cuenta de cuadros
+C 0xB801 guarda el cuadro del enemigo
+C 0xB823 lee el paso en que va
+C 0xB826 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0xB83A p01:rumbo_hacia_mitchel
+C 0xB83D p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
+C 0xB840 el cuadro del enemigo = 0x12
+C 0xB846 p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
+C 0xB849 mira el bit 2 de la cuenta de cuadros
+C 0xB853 guarda el cuadro del enemigo
+C 0xB856 lee el plano de la pantalla (0, el exterior)
+C 0xB85C lee la y del enemigo
+C 0xB864 lee la y del enemigo
+C 0xB86D si se mueve = 0x01
+C 0xB871 el cuadro del enemigo = 0x0C
+C 0xB889 lee la cuenta de cuadros
+C 0xB890 cuadros_B8B2: 4 bytes: el cuadro (ix+0x0B) segun el paso (p03:B890)
+C 0xB893 p00:hl_mas_a
+C 0xB897 guarda el cuadro del enemigo
+C 0xB89A lee la y del enemigo
+C 0xB8A2 lee la velocidad vertical
+C 0xB8B8 p01:rumbo_hacia_mitchel
+C 0xB8BE lee la x del enemigo
+C 0xB8C1 lee la y del enemigo
+C 0xB8D9 p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
+C 0xB8DC el cuadro del enemigo = 0x08
+C 0xB8E1 lee la PANTALLA
+C 0xB8E4 la pantalla 0x21?
+C 0xB8E8 lee la y del enemigo
+C 0xB909 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0xB914 la y del enemigo = 0xE1
+C 0xB919 lee la cuenta de cuadros
+C 0xB91F sube el cuadro del enemigo
+C 0xB922 lee el cuadro del enemigo
+C 0xB928 el cuadro del enemigo = 0x0C
+C 0xB92D sube si se mueve
+C 0xB930 el cuadro del enemigo = 0x0C
+C 0xB93C apunta a la Y de Mitchel
+C 0xB944 compara con la y del enemigo
+C 0xB95C compara con la x del enemigo
+C 0xB99F la y del enemigo = 0xE1
+C 0xB9A3 lee la cuenta de cuadros
+C 0xB9A9 sube el cuadro del enemigo
+C 0xB9AC lee el cuadro del enemigo
+C 0xB9B2 el cuadro del enemigo = 0x08
+C 0xB9BC guarda el cuadro del enemigo
+C 0xB9BF si se mueve = 0x01
+C 0xB9C3 apunta a la X de Mitchel
+C 0xB9C6 lee la x del enemigo
+C 0xB9D7 lee la y del enemigo
+C 0xB9E6 lee el tipo que tenia antes de morir
+C 0xB9ED p00:hl_mas_a
+C 0xB9FB p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
+C 0xB9FF lee la y del enemigo
+C 0xBA02 lee la x del enemigo
+C 0xBAAF suelta_piedras: el objeto 8 (piedras), B unidades
+C 0xBAB8 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0xBABB lee el contador de cuadros
+C 0xBAC5 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0xBAC8 lee el contador de cuadros
+C 0xBAD3 lee el contador de cuadros
+C 0xBAE0 el objeto 0x1D, ぱぴるす
+C 0xBAE4 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0xBAEC lee cuantos objetos 0x23 se llevan (BCD; 0xFF sin cuenta)
+C 0xBAF1 el objeto 0x23, きのかぎ
+C 0xBAF5 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0xBB03 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0xBB13 el objeto 0x10, やくそう
+C 0xBB15 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0xBB1C p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0xBB2D suelta_alguien_que_habla: el objeto 0x25: al tocarlo sale la conversacion de la pantalla (p01:7EF5)
+C 0xBB34 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0xBB45 suelta_alguien_que_habla: el objeto 0x25: al tocarlo sale la conversacion de la pantalla (p01:7EF5)
+C 0xBB4A suelta_piedras: el objeto 8 (piedras), B unidades
+C 0xBB56 suelta_piedras: el objeto 8 (piedras), B unidades
+C 0xBB59 lee el contador de cuadros
+C 0xBB70 el objeto 0x0A, ぶーめらん
+C 0xBB74 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0xBB77 lee el contador de cuadros
+C 0xBB8B p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0xBBA6 suelta_alguien_que_habla: el objeto 0x25: al tocarlo sale la conversacion de la pantalla (p01:7EF5)
+C 0xBBB1 lee cuantos objetos 0x05 se llevan (BCD; 0xFF sin cuenta)
+C 0xBBB7 el objeto 0x05, おの
+C 0xBBBB p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0xBBC2 lee el contador de cuadros
+C 0xBBD3 lee el contador de cuadros
+C 0xBBE0 lee cuantos objetos 0x22 se llevan (BCD; 0xFF sin cuenta)
+C 0xBBE6 el objeto 0x22, かいてん
+C 0xBBEA p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0xBBF7 suelta_carne: el objeto 0x15 (carne), B unidades
+C 0xBBFC suelta_alguien_que_habla: el objeto 0x25: al tocarlo sale la conversacion de la pantalla (p01:7EF5)
+C 0xBC08 suelta_alguien_que_habla: el objeto 0x25: al tocarlo sale la conversacion de la pantalla (p01:7EF5)
+C 0xBC12 el objeto 0x09, ほのおのたま
+C 0xBC16 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0xBC1E lee el contador de cuadros
+C 0xBC29 lee cuantos objetos 0x1F se llevan (BCD; 0xFF sin cuenta)
+C 0xBC2E el objeto 0x1F, きいろいいし
+C 0xBC32 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0xBC45 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0xBC48 el objeto 0x24, てつのかぎ
+C 0xBC4C p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0xBC4F lee el contador de cuadros
+C 0xBC57 suelta_carne: el objeto 0x15 (carne), B unidades
+C 0xBC61 lee cuantos objetos 0x03 se llevan (BCD; 0xFF sin cuenta)
+C 0xBC66 el objeto 0x03, こんぼう
+C 0xBC6A p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0xBC6F el objeto 0x0B, もり
+C 0xBC73 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0xBC7F suelta_carne: el objeto 0x15 (carne), B unidades
+C 0xBC8B p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0xBC8E lee el contador de cuadros
+C 0xBCA3 suelta_alguien_que_habla: el objeto 0x25: al tocarlo sale la conversacion de la pantalla (p01:7EF5)
+C 0xBCA6 lee cuantos objetos 0x07 se llevan (BCD; 0xFF sin cuenta)
+C 0xBCAB el objeto 0x07, つめ
+C 0xBCAF p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0xBCB2 lee el contador de cuadros
+C 0xBCBD lee el contador de cuadros
+C 0xBCD3 suelta_alguien_que_habla: el objeto 0x25: al tocarlo sale la conversacion de la pantalla (p01:7EF5)
+C 0xBCD6 lee cuantos objetos 0x14 se llevan (BCD; 0xFF sin cuenta)
+C 0xBCDB el objeto 0x14, あぐのす
+C 0xBCDF p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0xBCF2 el objeto 0x0F, らめらのえき
+C 0xBCF6 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0xBCFD p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0xBD08 lee cuantos objetos 0x02 se llevan (BCD; 0xFF sin cuenta)
+C 0xBD0D el objeto 0x02, ROD
+C 0xBD11 p01:pon_objeto: Pone el objeto C en la pantalla, en (E, D) redondeado a 8, con B
+C 0xBD14 lee el contador de cuadros
+C 0xBD1F lee el contador de cuadros
+C 0xBD2A el cuadro del enemigo = 0x65
+C 0xBD32 si se mueve = 0x01
+C 0xBD36 lee la PANTALLA
+C 0xBD39 la pantalla 0x7E?
+C 0xBD40 la pantalla 0x7F?
+C 0xBD45 la pantalla 0x82?
+C 0xBD4A la pantalla 0x83?
+C 0xBD50 fichas_BD82: 5 punteros segun C a fichas de 9 bytes (p03:BD50)
+C 0xBD53 p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
+C 0xBD5E p00:de_mas_a
+C 0xBD72 velocidades_BDB9: 4 palabras segun ix+0x12 que p03:BD72 pone en ix+7 o ix+9
+C 0xBD75 p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
+C 0xBDC1 lee el paso en que va
+C 0xBDC4 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0xBDDF lee la y del enemigo
+C 0xBDE4 lee la x del enemigo
+C 0xBDE9 sube el paso en que va
+C 0xBDF0 si se mueve = 0x00
+C 0xBDF9 baja el paso en que va
+C 0xBDFC si se mueve = 0x01
+C 0xBE0A lee la velocidad vertical (baja)
+C 0xBE0D lee la velocidad vertical
+C 0xBE12 lee la velocidad horizontal (baja)
+C 0xBE15 lee la velocidad horizontal
+C 0xBE18 p01:niega_de
+C 0xBE25 el cuadro del enemigo = 0x07
+C 0xBE2E lee el paso en que va
+C 0xBE31 p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
+C 0xBE3D sube el paso en que va
+C 0xBE40 lee la Y de Mitchel
+C 0xBE44 lee la X de Mitchel
+C 0xBE5D lee la y del enemigo
+C 0xBE60 lee la x del enemigo
+C 0xBE6E guarda la velocidad vertical (baja)
+C 0xBE71 guarda la velocidad vertical
+C 0xBE74 guarda la velocidad horizontal (baja)
+C 0xBE77 guarda la velocidad horizontal
+C 0xBE81 lee la y del enemigo
+C 0xBE84 lee la x del enemigo
+C 0xBE96 guarda la y del enemigo
+C 0xBEA8 guarda la x del enemigo
+C 0xBEB4 baja el paso en que va
+C 0xBEB8 lee la cuenta de cuadros
+C 0xBECF cuadros_BEDA: 6 bytes: el cuadro (ix+0x0B) segun ix+0x14 (p03:BECF)
+C 0xBED2 p00:hl_mas_a
+C 0xBED6 guarda el cuadro del enemigo
+C 0xBEE0 lee la cuenta de cuadros
+C 0xBEE6 sube el cuadro del enemigo
+C 0xBEE9 lee el cuadro del enemigo
+C 0xBEEF el cuadro del enemigo = 0x0C
+C 0xBEF4 el cuadro del enemigo = 0x08
+C 0xBEFA p01:rumbo_hacia_mitchel
+C 0xBEFD p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
+C 0xBF01 guarda la velocidad vertical
+C 0xBF04 guarda la velocidad vertical (baja)
+C 0xBF07 guarda la velocidad horizontal
+C 0xBF0A guarda la velocidad horizontal (baja)
+C 0xBF14 apunta a el contador de cuadros
+C 0xBF1B p00:hl_mas_a
+C 0xBF1F guarda la velocidad vertical
+C 0xBF24 guarda la velocidad vertical (baja)
+C 0xBF29 guarda la velocidad horizontal
+C 0xBF2E guarda la velocidad horizontal (baja)
+C 0xBF83 p00:hl_mas_a
+C 0xBF92 guarda el cuadro del enemigo
+C 0xBFB2 si se mueve = 0x01
+C 0xBFB7 guarda la velocidad vertical (baja)
+C 0xBFBA guarda la velocidad vertical
+C 0xBFBD guarda la velocidad horizontal (baja)
+C 0xBFC0 lee la X de Mitchel
+C 0xBFC3 compara con la x del enemigo
+C 0xBFCC guarda la velocidad horizontal
+C 0xBFCF el cuadro del enemigo = 0x0C
+# --- fin de las anotaciones de anota.py ---

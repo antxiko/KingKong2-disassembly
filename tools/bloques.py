@@ -500,13 +500,13 @@ def decorado_que_cambia(t, bl):
         r = P.palabra(0xB423 + 2 * i, B129)
         figuras[P.lee(r + 7, B129)] = (P.lee(r + 3, B129), P.lee(r + 4, B129))
         bl.anota(B129, r, r + 9, "ficha_%04X" % r,
-                 "[tipo][x][y][columnas][filas][banderas][0xC7][figura][bandera en "
+                 "[tipo][y][x][filas][columnas][banderas][0xC7][figura][bandera en "
                  "0xC580]: p02:81A5 la copia; si 0xC580 + bandera ya esta puesta, se "
                  "queda sin tipo (ya se quito)", "p02:81A5", ancho=9)
     n = max(figuras) + 1
     bl.anota(B129, 0xB5BA, 0xB5BA + 2 * n, "figuras_de_decorado",
              "%d punteros: la figura de cada ficha (su byte 7); p02:81ED" % n, "p02:81F4", ancho=2)
-    for f, (c, fl) in sorted(figuras.items()):
+    for f, (fl, c) in sorted(figuras.items()):     # ix+3 filas (C), ix+4 columnas (B)
         a = P.palabra(0xB5BA + 2 * f, B129)
         bl.anota(B129, a, a + c * fl, "figura_de_decorado_%02X" % f,
                  "%d columnas x %d filas de numeros de dibujo que p00:4EB5 pinta con "
