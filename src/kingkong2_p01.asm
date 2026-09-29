@@ -1419,14 +1419,14 @@ fuera_de_la_pantalla:
 	ld a,(ix+003h)		;693a   ; por abajo (0xB0)...
 	ld c,0b0h		;693d
 	cp c			;693f
-	jr nc,L_694B		;6940
+	jr nc,quita_la_ficha		;6940
 	ld a,(ix+005h)		;6942   ; ...por la derecha (0xB0)...
 	cp c			;6945
-	jr nc,L_694B		;6946
+	jr nc,quita_la_ficha		;6946
 	cp 007h		;6948   ; ...o por la izquierda (7)
 	ret nc			;694a
-L_694B:
-	xor a			;694b   ; se borra la ficha...
+quita_la_ficha:
+	xor a			;694b   ; se borra la ficha y sus sprites se dejan libres (y = 0xE0)
 	ld (ix+000h),a		;694c
 L_694F:
 	push ix		;694f   ; ...y sus sprites se dejan libres (y = 0xE0)
@@ -1460,7 +1460,7 @@ L_6966:
 	dec c			;6975
 	jr nz,L_695A		;6976
 	ret			;6978
-L_6979:
+hay_jefe:
 	ld a,001h		;6979   ; 0xC151 = 1: hay jefe
 	ld (0c151h),a		;697b
 	ret			;697e
@@ -1631,7 +1631,7 @@ L_6A7D:
 	ld ix,0d000h		;6a85   ; apunta a las fichas de los enemigos (13 de 0x80)
 	ld (ix+014h),000h		;6a89   ; que baja
 	ld de,0ff60h		;6a8d
-	jp 04311h		;6a90
+	jp 04311h		;6a90   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 L_6A93:
 	call mitchel_en_la_mitad_de_abajo		;6a93   ; la 0x74: pasado 0x58, una vez cada vez (0xDFF5)...
 	or a			;6a96
@@ -2629,7 +2629,7 @@ DATA_tabla_7077:
 
 L_7099:
 	ret			;7099
-L_709A:
+crea_una_figura:
 	ld a,c			;709a   ; CREA UNA FIGURA: el tipo C en DE
 	ld (0e800h),a		;709b
 	ld (0e801h),de		;709e
@@ -2966,11 +2966,11 @@ L_72DC:
 L_7301:
 	scf			;7301   ; acarreo: la direccion en A
 	ret			;7302
-L_7303:
-	ld l,(ix+003h)		;7303   ; desde la ficha
+choca_la_ficha:
+	ld l,(ix+003h)		;7303   ; desde la ficha: acarreo si hacia la direccion A no se puede pasar
 	ld h,(ix+005h)		;7306
-L_7309:
-	ld (0e806h),hl		;7309
+choca_desde_hl:
+	ld (0e806h),hl		;7309   ; desde (L, H) = (y, x): acarreo si hacia la direccion A no se puede pasar
 choca_con_el_mapa:
 	ld (0e805h),a		;730c   ; la direccion (0xE805): los lados necesitan la y alineada...
 	rra			;730f
@@ -3176,7 +3176,7 @@ DATA_tabla_742F:
 
 L_7437:
 	ld de,00200h		;7437   ; hacia abajo: 2 por cuadro
-	call 04311h		;743a
+	call 04311h		;743a   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	ld a,002h		;743d
 L_743F:
 	add a,(ix+003h)		;743f
@@ -3184,7 +3184,7 @@ L_743F:
 	ret			;7445
 L_7446:
 	ld de,0fe00h		;7446   ; hacia la izquierda: -2
-	call 04318h		;7449
+	call 04318h		;7449   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 	ld a,0feh		;744c
 L_744E:
 	add a,(ix+005h)		;744e
@@ -3192,12 +3192,12 @@ L_744E:
 	ret			;7454
 L_7455:
 	ld de,0fe00h		;7455   ; hacia arriba: -2
-	call 04311h		;7458
+	call 04311h		;7458   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	ld a,0feh		;745b
 	jr L_743F		;745d
 L_745F:
 	ld de,00200h		;745f   ; hacia la derecha: 2
-	call 04318h		;7462
+	call 04318h		;7462   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 	ld a,002h		;7465
 	jr L_744E		;7467
 
@@ -3617,13 +3617,13 @@ va_hacia_su_destino:
 	ld d,(ix+008h)		;7715
 	sub (ix+003h)		;7718
 	call signo_a_h		;771b   ; signo_a_h: HL = A con signo
-	call 04311h		;771e
+	call 04311h		;771e   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	ld a,(ix+011h)		;7721   ; ...y la horizontal + (destino - x)
 	ld e,(ix+009h)		;7724
 	ld d,(ix+00ah)		;7727
 	sub (ix+005h)		;772a
 	call signo_a_h		;772d   ; signo_a_h: HL = A con signo
-	jp 04318h		;7730
+	jp 04318h		;7730   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 signo_a_h:
 	ld h,000h		;7733   ; HL = A con signo
 	jp p,L_7739		;7735
@@ -4255,7 +4255,7 @@ L_7AD0:
 	call apunta_a_mitchel		;7adb   ; apunta_a_mitchel: APUNTA: la velocidad C...
 	ld (ix+015h),a		;7ade
 	ld hl,0bf62h		;7ae1   ; ...con la velocidad de p03:BF62
-	jp 0bf19h		;7ae4
+	jp 0bf19h		;7ae4   ; p03:velocidad_de_la_tabla_4: las dos velocidades de las 4 bytes HL + 4*A: [vy alta][vy baja][vx alta][vx baja]
 L_7AE7:
 	ld a,(ix+001h)		;7ae7   ; la figura 0x82
 	dec a			;7aea
@@ -4289,11 +4289,11 @@ L_7B1B:
 	ret			;7b2b
 L_7B2C:
 	ld (ix+00eh),000h		;7b2c   ; al acabar, a los 16 cuadros se borra
-	call 0bf00h		;7b30
+	call 0bf00h		;7b30   ; p03:para_la_ficha: las dos velocidades a 0
 	ld a,(ix+00ch)		;7b33
 	cp 010h		;7b36
 	ret nz			;7b38
-	jp L_694B		;7b39
+	jp quita_la_ficha		;7b39   ; quita_la_ficha: se borra la ficha y sus sprites se dejan libres (y = 0xE0)
 L_7B3C:
 	ld (ix+00bh),00ch		;7b3c   ; la figura 0x84: va hacia Mitchel a 0x30...
 	ld a,030h		;7b40
@@ -4306,7 +4306,7 @@ L_7B48:
 	ld a,(hl)			;7b51
 	cp 05fh		;7b52
 	ret nc			;7b54
-	jp L_694B		;7b55
+	jp quita_la_ficha		;7b55   ; quita_la_ficha: se borra la ficha y sus sprites se dejan libres (y = 0xE0)
 L_7B58:
 	xor a			;7b58   ; la figura 0x85: quieta, cuadro 9
 	ld (ix+01ch),a		;7b59

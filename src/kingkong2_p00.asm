@@ -134,7 +134,7 @@ puente_vram_para_escribir:
 	call vram_para_escribir		;40d4   ; vram_para_escribir: prepara el V9938 para escribir en la direccion de VRAM HL (R#14 y el puerto 1)
 	jp L_4215		;40d7
 puente_decorado_de_la_pantalla:
-	call 0813eh		;40da   ; p02:decorado_de_la_pantalla
+	call 0813eh		;40da   ; p02:decorado_de_la_pantalla: EL DECORADO QUE SE QUITA, al entrar: en las pantallas partidas depende del plano...
 	jp L_4215		;40dd
 puente_posicion_de_mitchel:
 	call posicion_de_mitchel		;40e0   ; posicion_de_mitchel: E = la y de Mitchel, D = su x
@@ -242,7 +242,7 @@ puente_pon_objeto:
 	call 07852h		;419a   ; p01:7852: pone el objeto C (B unidades) en (E, D) de la pantalla
 	jp L_4215		;419d
 puente_persigue_a_mitchel_83A7:
-	call 083a7h		;41a0   ; p02:persigue_a_mitchel_83A7
+	call 083a7h		;41a0   ; p02:persigue_a_mitchel_83A7: EL ENEMIGO ARRASTRA A MITCHEL: por el eje en que esten mas lejos...
 	jp L_4215		;41a3
 puente_mitchel_muere:
 	call 06c7bh		;41a6   ; p01:mitchel_muere: los colores de Mitchel otra vez los de siempre
@@ -489,11 +489,11 @@ posicion_de_mitchel:
 	ld a,(0c305h)		;430c   ; lee la X de Mitchel
 	ld d,a			;430f
 	ret			;4310
-L_4311:
+pon_velocidad_vertical:
 	ld (ix+007h),e		;4311   ; DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	ld (ix+008h),d		;4314
 	ret			;4317
-L_4318:
+pon_velocidad_horizontal:
 	ld (ix+009h),e		;4318   ; DE: la velocidad horizontal (ix+9, ix+0x0A)
 	ld (ix+00ah),d		;431b
 	ret			;431e
@@ -513,7 +513,7 @@ casilla_en_ram:
 	add a,0e0h		;432f   ; ...a partir de 0xE000
 	ld h,a			;4331
 	ret			;4332
-L_4333:
+guarda_el_fondo:
 	call esquina_de_la_ficha		;4333   ; GUARDA EL FONDO: lo que hay debajo de la ficha, desde su esquina
 	call casilla_en_ram		;4336   ; casilla_en_ram: HL = la casilla de 8x8 del punto (L, H) en el mapa de la RAM (0xE000, 32 por fila)
 	push hl			;4339   ; la casilla de la esquina
@@ -599,8 +599,8 @@ esquina_de_la_ficha:
 	add a,d			;43b3
 	ld h,a			;43b4
 	ret			;43b5
-L_43B6:
-	ld a,0f0h		;43b6   ; 0xF0: la casilla que no se pisa
+casilla_que_no_se_pisa:
+	ld a,0f0h		;43b6   ; 0xF0 en las BxC casillas de debajo de la ficha: la casilla que no se pisa
 casilla_de_la_ficha:
 	ld (0e800h),a		;43b8   ; PON UNA CASILLA: A en las BxC casillas de debajo de la ficha
 	call esquina_de_la_ficha		;43bb   ; esquina_de_la_ficha: medio ancho hacia la izquierda (C columnas)...
@@ -788,7 +788,7 @@ repone_el_fondo_del_jefe:
 	ret nz			;44db
 	ld ix,0d000h		;44dc   ; ...pone 0xF0 en sus 4x3 casillas: no se pisa
 	ld bc,00403h		;44e0
-	jp L_43B6		;44e3
+	jp casilla_que_no_se_pisa		;44e3   ; casilla_que_no_se_pisa: 0xF0 en las BxC casillas de debajo de la ficha: la casilla que no se pisa
 indice_del_jefe:
 	ld a,c			;44e6   ; C = el tipo; L = su numero de jefe (de dos en dos) y acarreo; sin acarreo, no es jefe
 	cp 004h		;44e7
@@ -4549,7 +4549,7 @@ L_5C87:
 	dec (hl)			;5c98
 L_5C99:
 	call 06b87h		;5c99   ; lo de cada cuadro: p01:6B87, p02:829A...
-	call 0829ah		;5c9c
+	call 0829ah		;5c9c   ; p02:la_que_sigue: LA FIGURA QUE SIGUE A MITCHEL, cada cuadro: 1 le sigue, 2 espera a que Mitchel llegue
 	call banco_12_en_a000		;5c9f
 	call 0be68h		;5ca2   ; ...p12:BE68...
 	call bancos_1_2_3		;5ca5   ; bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias

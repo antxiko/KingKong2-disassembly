@@ -162,6 +162,8 @@ CAMPOS = {
         0x02: "la x del decorado",
         0x03: "cuantas filas",
         0x04: "cuantas columnas",
+        0x05: "donde se guarda lo de debajo (bajo)",  # p02:8217
+        0x06: "donde se guarda lo de debajo (alto)",
         0x07: "la figura del decorado",
         0x08: "su bandera en 0xC580",
     },
@@ -188,6 +190,8 @@ CAMPOS = {
 # p02 y p03 son los enemigos (p01:6885 los despacha con la ficha en IX) y p04
 # el sonido (p04:6321-632F).
 POR_DEFECTO = {2: "ficha", 3: "ficha", 4: "canal"}
+# Tramos que reciben IX de otra clase de quien los llama (y no lo cargan ellos).
+TRAMOS = {2: [(0x8207, 0x8234, "decorado")]}
 
 
 def clase_de(v):
@@ -326,6 +330,9 @@ def clases_de_ix(b, filas):
             actual = clase_de(int(m.group(1), 16))
         elif t.startswith("pop ix") or t.startswith("ld ix,"):
             actual = None
+        for a0, a1, cl in TRAMOS.get(b, []):
+            if a0 <= a < a1:
+                actual = cl
         fuera[k] = actual
         if (t.startswith(("ret", "jp ")) and not re.match(r"(ret|jp) (nz|z|nc|c|po|pe|p|m)\b", t)) \
                 or t.startswith("jp (hl)"):
@@ -511,10 +518,133 @@ def comentario(b, filas, k, clases, rut, cruces, fuentes=None, datos=None, repar
     return None
 
 
+TABLA_DE_TIPOS = 0x6885              # p01:6885: la entrada de cada tipo (1-68)
+
+
+def etiquetas_con_nombre(b):
+    """{nombre: direccion} de las etiquetas del listado del banco b."""
+    fuera, pend = {}, None
+    for ln in open(os.path.join(RAIZ, "src", "kingkong2_p%02d.asm" % b), encoding="utf-8"):
+        m = re.match(r"^([A-Za-z_][A-Za-z_0-9]*):", ln)
+        if m:
+            pend = m.group(1)
+            continue
+        m = re.match(r"	[a-z][^;]*;([0-9a-f]{4})", ln)
+        if m and pend:
+            fuera[pend] = int(m.group(1), 16)
+            pend = None
+    return fuera
+
+
+def tablas_de_despacho():
+    """{(banco, direccion del call 0x425F): numero de destinos}, de las D."""
+    fuera = {}
+    for b in (2, 3):
+        for ln in open(os.path.join(RAIZ, "src", "p%02d.notes" % b), encoding="utf-8"):
+            m = re.match(r"D (0x[0-9A-F]+) (0x[0-9A-F]+) \S+\s+(\d+) destinos del despachador "
+                         r"de 0x425F \(call en p%02d:([0-9A-F]{4})\)" % b, ln)
+            if m:
+                fuera[(b, int(m.group(4), 16))] = int(m.group(3))
+    return fuera
+
+
+def pasos_de_los_enemigos():
+    """{(banco, dir): comentario}: la entrada de cada tipo de enemigo y los
+    pasos de sus despachadores, siguiendo el codigo desde la entrada (p01:6885)
+    por p02 y p03. Un paso solo se nombra si lo alcanza una sola entrada."""
+    rom = open(os.path.join(RAIZ, "kingkong2.rom"), "rb").read()
+    ins = {b: dict(listado(b)) for b in (2, 3)}
+    nom = {}
+    for b in (2, 3):
+        nom.update(etiquetas_con_nombre(b))
+    tablas = tablas_de_despacho()
+
+    def banco(x):
+        return 2 if 0x8000 <= x < 0xA000 else 3 if 0xA000 <= x < 0xC000 else None
+
+    def destino(a, x):
+        if re.match(r"^L_[0-9A-F]{4}$", x):
+            return int(x[2:], 16)
+        if re.match(r"^0[0-9a-f]{4}h$", x):
+            return int(x[1:5], 16)
+        m = re.match(r"^\$([+-]\d+)$", x)
+        if m:
+            return a + int(m.group(1))
+        return nom.get(x)
+
+    def sucesores(b, a, t):
+        op = t.split()[0]
+        sig = [a + 1] if False else []
+        m = re.match(r"(jp|jr|call|djnz)\s+(?:(nz|z|nc|c|po|pe|p|m),)?(\S+)$", t)
+        if t == "ret" or t.startswith("jp (") or t.startswith("reti") or t.startswith("retn"):
+            return [], True
+        if m:
+            op, cond, x = m.group(1), m.group(2), m.group(3)
+            d = destino(a, x)
+            if op == "call" and d == 0x425F:
+                n = tablas.get((b, a), 0)
+                return [rom[b * 0x2000 + a + 3 + 2 * k - ORG[b]] |
+                        rom[b * 0x2000 + a + 4 + 2 * k - ORG[b]] << 8 for k in range(n)], True
+            if op == "call" and d == 0x4260:
+                return [], True
+            fin = op in ("jp", "jr") and cond is None
+            return ([d] if d is not None else []), fin
+        return [], False
+
+    orden = {b: sorted(ins[b]) for b in (2, 3)}
+    siguiente = {b: {orden[b][i]: orden[b][i + 1] for i in range(len(orden[b]) - 1)} for b in (2, 3)}
+    entradas = {}
+    for t in range(1, 69):
+        o = 0x2000 + TABLA_DE_TIPOS - 0x6000 + 2 * (t - 1)
+        e = rom[o] | rom[o + 1] << 8
+        if banco(e):
+            entradas.setdefault(e, []).append(t)
+    duenos = {}
+    for e in entradas:
+        pila, visto = [e], set()
+        while pila:
+            a = pila.pop()
+            b = banco(a)
+            if b is None or a in visto or a not in ins[b]:
+                continue
+            visto.add(a)
+            duenos.setdefault(a, set()).add(e)
+            ds, fin = sucesores(b, a, ins[b][a])
+            pila += ds
+            if not fin and a in siguiente[b]:
+                pila.append(siguiente[b][a])
+
+    def quien(e):
+        ns = [nombre_enemigo(t) or "tipo 0x%02X" % t for t in entradas[e]]
+        ns = list(dict.fromkeys(ns))
+        return ns[0] if len(ns) == 1 else "%s y %s" % (", ".join(ns[:-1]), ns[-1]) if len(ns) <= 3             else "%s y %d mas" % (", ".join(ns[:2]), len(ns) - 2)
+
+    fuera = {}
+    for e, ts in entradas.items():
+        fuera[(banco(e), e)] = "ENTRADA de %s (tipo%s %s), con su ficha en IX" % (
+            quien(e), "s" if len(ts) > 1 else "", ", ".join("0x%02X" % t for t in ts))
+    for (b, c), n in tablas.items():
+        es = duenos.get(c, set())
+        if len(es) != 1:
+            continue
+        e = next(iter(es))
+        antes = [a for a in orden[b] if a < c][-1:]
+        campo = ins[b][antes[0]] if antes else ""
+        m = re.match(r"ld a,\(ix\+0([0-9a-f]+)h\)$", campo)
+        que = "paso" if m and int(m.group(1), 16) == 1 else             ("ix+0x%02X =" % int(m.group(1), 16)) if m else "A ="
+        for k in range(n):
+            d = rom[b * 0x2000 + c + 3 + 2 * k - ORG[b]] | rom[b * 0x2000 + c + 4 + 2 * k - ORG[b]] << 8
+            bd = banco(d)
+            if bd and (bd, d) not in fuera:
+                fuera[(bd, d)] = "%s, %s %d" % (quien(e), que, k)
+    return fuera
+
+
 def main(argv):
     rut = rutinas()
     cruces, repartos = destinos_entre_bancos()
     datos = datos_declarados()
+    enemigos = pasos_de_los_enemigos()
     total = 0
     for b in BANCOS:
         filas = listado(b)
@@ -526,7 +656,7 @@ def main(argv):
         for k, (a, t) in enumerate(filas):
             if a in cs:
                 continue
-            c = comentario(b, filas, k, clases, rut, cruces, fuentes, datos, repartos)
+            c = enemigos.get((b, a)) or                 comentario(b, filas, k, clases, rut, cruces, fuentes, datos, repartos)
             if c:
                 lineas.append("C 0x%04X %s" % (a, c))
                 n += 1

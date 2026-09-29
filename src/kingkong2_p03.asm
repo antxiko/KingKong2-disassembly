@@ -25,9 +25,9 @@ L_A002:
 	ld hl,0bf32h		;a002   ; velocidades: 16 entradas de 4 bytes que p03:BF19 pone en ix+8, ix+7, ix+0x0A e ix+9 (dos velocidades de 16 bits) segun A; se entra por 0xBF32, 0xBF42, 0xBF52 y 0xBF62
 L_A005:
 	ld (ix+015h),a		;a005
-	jp L_BF19		;a008
+	jp velocidad_de_la_tabla_4		;a008   ; velocidad_de_la_tabla_4: las dos velocidades de las 4 bytes HL + 4*A: [vy alta][vy baja][vx alta][vx baja]
 L_A00B:
-	call spider_cuadros		;a00b
+	call spider_cuadros		;a00b   ; REDSPIDER y BIGSPIDER, paso 1
 	ld a,(0dfb0h)		;a00e
 	dec a			;a011
 	jr z,L_A01E		;a012
@@ -61,7 +61,7 @@ L_A053:
 	ld a,090h		;a053
 	jp L_A165		;a055
 L_A058:
-	call spider_cuadros		;a058
+	call spider_cuadros		;a058   ; REDSPIDER y BIGSPIDER, paso 3
 	ld b,09fh		;a05b
 	ld a,(ix+000h)		;a05d   ; lee el tipo del enemigo
 	cp 00bh		;a060   ; REDSPIDER (tipo 0x0B)?
@@ -114,15 +114,15 @@ L_A095:
 	ld (ix+009h),l		;a0bf   ; guarda la velocidad horizontal (baja)
 	ret			;a0c2
 L_A0C3:
-	call spider_cuadros		;a0c3
+	call spider_cuadros		;a0c3   ; REDSPIDER y BIGSPIDER, paso 4
 L_A0C6:
-	dec (ix+014h)		;a0c6
+	dec (ix+014h)		;a0c6   ; REDSPIDER y BIGSPIDER, paso 2
 	ret nz			;a0c9
 	ld (ix+006h),001h		;a0ca   ; si se mueve = 0x01
 	inc (ix+001h)		;a0ce   ; sube el paso en que va
 	ret			;a0d1
 L_A0D2:
-	call spider_cuadros		;a0d2
+	call spider_cuadros		;a0d2   ; REDSPIDER y BIGSPIDER, paso 5
 	ld a,(ix+000h)		;a0d5   ; lee el tipo del enemigo
 	cp 00bh		;a0d8   ; REDSPIDER (tipo 0x0B)?
 	jr z,L_A0E4		;a0da
@@ -147,7 +147,7 @@ L_A0EB:
 	pop ix		;a106
 	ld a,(0dfb0h)		;a108
 	and a			;a10b
-	jp nz,L_BF00		;a10c
+	jp nz,para_la_ficha		;a10c   ; para_la_ficha: las dos velocidades a 0
 	ld a,(ix+000h)		;a10f
 	cp 00bh		;a112
 	jp nz,09ffch		;a114
@@ -162,7 +162,7 @@ L_A123:
 spider_cuadros:
 	ld hl,0bfb0h		;a127
 	ld (ix+019h),000h		;a12a
-	jp L_BF72		;a12e
+	jp cuadro_cada_ix16		;a12e   ; cuadro_cada_ix16: salvo con ix+0x19 = 4, cada ix+0x16 cuadros el cuadro alterna entre los dos de HL + 2*ix+0x19
 spider_recorre_las_fichas:
 	ld ix,0d000h		;a131   ; apunta a las fichas de los enemigos (13 de 0x80)
 	ld de,00080h		;a135
@@ -191,11 +191,11 @@ L_A152:
 L_A165:
 	call 0716fh		;a165   ; p01:rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
 L_A168:
-	call 04318h		;a168
+	call 04318h		;a168   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 	ex de,hl			;a16b
-	jp 04311h		;a16c
+	jp 04311h		;a16c   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 L_A16F:
-	ld a,(ix+001h)		;a16f   ; lee el paso en que va
+	ld a,(ix+001h)		;a16f   ; ENTRADA de tipo 0x0D (tipo 0x0D), con su ficha en IX
 	dec a			;a172
 	jr z,L_A192		;a173
 	dec a			;a175
@@ -212,7 +212,7 @@ L_A183:
 	ld a,(ix+005h)		;a189   ; lee la x del enemigo
 	cp 058h		;a18c
 	ret nc			;a18e
-	jp 0694bh		;a18f
+	jp 0694bh		;a18f   ; p01:quita_la_ficha: se borra la ficha y sus sprites se dejan libres (y = 0xE0)
 L_A192:
 	ld a,001h		;a192
 	ld (0dfb0h),a		;a194
@@ -263,7 +263,7 @@ L_A1F6:
 	ld (ix+00fh),0ffh		;a20b
 	jp L_A318		;a20f
 L_A212:
-	ld a,(ix+015h)		;a212
+	ld a,(ix+015h)		;a212   ; ENTRADA de GROUNDER (tipo 0x2C), con su ficha en IX
 	and 0ffh		;a215
 	jp nz,L_A2E0		;a217
 	ld a,(ix+01ch)		;a21a
@@ -303,7 +303,7 @@ grounder_prueba_rumbo:
 	ld (ix+012h),a		;a264
 	ld e,000h		;a267
 	ld a,(ix+013h)		;a269
-	call 07303h		;a26c
+	call 07303h		;a26c   ; p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 	jr c,L_A2A9		;a26f
 L_A271:
 	ld bc,00000h		;a271
@@ -323,7 +323,7 @@ L_A28B:
 	cp (ix+016h)		;a28b
 	jr z,L_A298		;a28e
 	ld e,000h		;a290
-	call 07303h		;a292
+	call 07303h		;a292   ; p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 	jp nc,grounder_cuadro		;a295
 L_A298:
 	ld a,(0dfb3h)		;a298
@@ -421,7 +421,7 @@ grounder_cuadro:
 	ld a,(ix+013h)		;a359
 L_A35C:
 	ld hl,0bf42h		;a35c
-	jp L_BF19		;a35f
+	jp velocidad_de_la_tabla_4		;a35f   ; velocidad_de_la_tabla_4: las dos velocidades de las 4 bytes HL + 4*A: [vy alta][vy baja][vx alta][vx baja]
 
 ; ----------------------------------------------------------------------
 ; DATOS cuadros_A362: 8 bytes: el cuadro (ix+0x0B) segun ix+0x13 (p03:A34F) o
@@ -447,7 +447,7 @@ L_A36A:
 	ld (ix+01bh),008h		;a384
 	ret			;a388
 L_A389:
-	ld a,(ix+001h)		;a389   ; lee el paso en que va
+	ld a,(ix+001h)		;a389   ; ENTRADA de BLOWMIRE y FALCONER (tipos 0x19, 0x24), con su ficha en IX
 	cp 005h		;a38c
 	jr z,L_A3E8		;a38e
 	call 04308h		;a390   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
@@ -483,7 +483,7 @@ L_A3AC:
 	ld (ix+017h),03ch		;a3d0
 	jr L_A3E8		;a3d4
 L_A3D6:
-	ld a,(ix+01eh)		;a3d6
+	ld a,(ix+01eh)		;a3d6   ; ENTRADA de CLINGMAN (tipo 0x37), con su ficha en IX
 	and 001h		;a3d9
 	jr z,L_A3E8		;a3db
 	ld (ix+001h),004h		;a3dd
@@ -491,7 +491,7 @@ L_A3D6:
 	ld (ix+006h),a		;a3e2
 	ld (ix+019h),a		;a3e5
 L_A3E8:
-	ld a,(ix+001h)		;a3e8
+	ld a,(ix+001h)		;a3e8   ; ENTRADA de POLEMAN, BOOMERANG y JUMPMAN (tipos 0x17, 0x18, 0x36), con su ficha en IX
 	call 0425fh		;a3eb   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
@@ -517,7 +517,7 @@ L_A3FA:
 	call 09a9fh		;a3fd   ; p02:sigue_si_esta_en_casilla: si la ficha no esta alineada a 8 en x e y, vuelve al que llamo al que llamo
 	ld a,(ix+019h)		;a400
 	ld e,000h		;a403
-	call 07303h		;a405
+	call 07303h		;a405   ; p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 	jp c,L_A67F		;a408
 	ld a,(ix+000h)		;a40b
 	cp 024h		;a40e
@@ -538,7 +538,7 @@ L_A41A:
 	add a,002h		;a433
 	and 003h		;a435
 	ld e,000h		;a437
-	call 07303h		;a439
+	call 07303h		;a439   ; p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 	jp nc,L_A535		;a43c
 	jp L_A51D		;a43f
 L_A442:
@@ -546,7 +546,7 @@ L_A442:
 	call 09a9fh		;a445   ; p02:sigue_si_esta_en_casilla: si la ficha no esta alineada a 8 en x e y, vuelve al que llamo al que llamo
 	ld a,(ix+019h)		;a448
 	ld e,000h		;a44b
-	call 07303h		;a44d
+	call 07303h		;a44d   ; p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 	jr nc,L_A45B		;a450
 	ld bc,00000h		;a452
 	call 0729eh		;a455   ; p01:apunta_a_mitchel: APUNTA: la velocidad C...
@@ -572,7 +572,7 @@ L_A46A:
 	xor a			;a483
 L_A484:
 	ld e,000h		;a484
-	call 07303h		;a486
+	call 07303h		;a486   ; p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 	jp c,L_A51D		;a489
 	jp L_A535		;a48c
 L_A48F:
@@ -592,7 +592,7 @@ L_A4AF:
 	ld c,a			;a4b0
 	ld a,(ix+019h)		;a4b1
 	ld e,000h		;a4b4
-	call 07309h		;a4b6
+	call 07309h		;a4b6   ; p01:choca_desde_hl: desde (L, H) = (y, x): acarreo si hacia la direccion A no se puede pasar
 	jr nc,L_A4C2		;a4b9
 	ld (ix+005h),c		;a4bb   ; guarda la x del enemigo
 	ld (ix+00ah),000h		;a4be   ; la velocidad horizontal = 0x00
@@ -750,7 +750,7 @@ L_A5D6:
 	ld a,(ix+000h)		;a5eb   ; lee el tipo del enemigo
 	add a,070h		;a5ee
 	ld c,a			;a5f0
-	jp 0709ah		;a5f1
+	jp 0709ah		;a5f1   ; p01:crea_una_figura: CREA UNA FIGURA: el tipo C en DE
 saltarines_alineado_en_y:
 	call 04308h		;a5f4   ; p00:posicion_de_mitchel: E = la y de Mitchel, D = su x
 	ld a,004h		;a5f7
@@ -784,7 +784,7 @@ L_A608:
 	ld c,08dh		;a630
 	ld e,(ix+003h)		;a632   ; lee la y del enemigo
 	ld d,(ix+005h)		;a635   ; lee la x del enemigo
-	call 0709ah		;a638
+	call 0709ah		;a638   ; p01:crea_una_figura: CREA UNA FIGURA: el tipo C en DE
 L_A63B:
 	ld a,00bh		;a63b
 	call 05488h		;a63d   ; p00:sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
@@ -823,7 +823,7 @@ L_A67F:
 	add a,002h		;a691
 	and 003h		;a693
 	ld e,000h		;a695
-	call 07303h		;a697
+	call 07303h		;a697   ; p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 	jp nc,L_A535		;a69a
 	jp L_A51D		;a69d
 
@@ -863,10 +863,10 @@ L_A6D8:
 	call 0481bh		;a6f6   ; p00:lmmm: orden LMMM del V9938: lo mismo con operacion logica (A: paginas y operacion; 8 = TIMP)
 	pop bc			;a6f9
 	ld b,c			;a6fa
-	call 04333h		;a6fb
-	jp 06979h		;a6fe
+	call 04333h		;a6fb   ; p00:guarda_el_fondo: GUARDA EL FONDO: lo que hay debajo de la ficha, desde su esquina
+	jp 06979h		;a6fe   ; p01:hay_jefe: 0xC151 = 1: hay jefe
 L_A701:
-	ld hl,00806h		;a701
+	ld hl,00806h		;a701   ; ENTRADA de THE NASTY (tipo 0x2A), con su ficha en IX
 	ld (0e800h),hl		;a704
 	ld hl,0e0a8h		;a707
 	ld de,0e0c8h		;a70a
@@ -942,7 +942,7 @@ L_A78C:
 	ld bc,04008h		;a791
 	jp L_A6D8		;a794
 L_A797:
-	ld hl,01008h		;a797
+	ld hl,01008h		;a797   ; ENTRADA de BADPRIEST (tipo 0x2B), con su ficha en IX
 	ld (0e800h),hl		;a79a
 	ld hl,0d0d0h		;a79d
 	ld de,0a0a8h		;a7a0
@@ -976,10 +976,10 @@ L_A7B2:
 	ld c,(hl)			;a7d1
 	inc hl			;a7d2
 	ld b,(hl)			;a7d3
-	call 04311h		;a7d4
+	call 04311h		;a7d4   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	ld e,c			;a7d7
 	ld d,b			;a7d8
-	call 04318h		;a7d9
+	call 04318h		;a7d9   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 	pop af			;a7dc
 	pop hl			;a7dd
 	call 04255h		;a7de   ; p00:hl_mas_a
@@ -1013,7 +1013,7 @@ DATA_tablas_A7FA:
 
 
 L_A82A:
-	ld a,(ix+001h)		;a82a   ; lee el paso en que va
+	ld a,(ix+001h)		;a82a   ; ENTRADA de GARGOYLE (tipo 0x06), con su ficha en IX
 	call 0425fh		;a82d   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
@@ -1079,9 +1079,9 @@ L_A8A1:
 	call ranas_espera_segun_el_tipo		;a8a5
 	ld (ix+019h),000h		;a8a8
 	ld de,00200h		;a8ac
-	call 04311h		;a8af
+	call 04311h		;a8af   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	ld de,00000h		;a8b2
-	jp 04318h		;a8b5
+	jp 04318h		;a8b5   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_A8B8:
 	call ranas_velocidad		;a8b8
 	ld (ix+013h),00ch		;a8bb
@@ -1101,9 +1101,9 @@ L_A8D5:
 	call ranas_espera_segun_el_tipo		;a8d9
 	ld (ix+019h),000h		;a8dc
 	ld de,00000h		;a8e0
-	call 04311h		;a8e3
+	call 04311h		;a8e3   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	ld de,0fe00h		;a8e6
-	jp 04318h		;a8e9
+	jp 04318h		;a8e9   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_A8EC:
 	call ranas_velocidad		;a8ec
 	ld (ix+013h),00ch		;a8ef
@@ -1123,9 +1123,9 @@ L_A909:
 	call ranas_espera_segun_el_tipo		;a90d
 	ld (ix+019h),000h		;a910
 	ld de,00000h		;a914
-	call 04311h		;a917
+	call 04311h		;a917   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	ld de,00200h		;a91a
-	jp 04318h		;a91d
+	jp 04318h		;a91d   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_A920:
 	call ranas_velocidad		;a920
 	ld (ix+013h),00ch		;a923
@@ -1145,9 +1145,9 @@ L_A93C:
 	call ranas_espera_segun_el_tipo		;a940
 	ld (ix+019h),000h		;a943
 	ld de,0fe00h		;a947
-	call 04311h		;a94a
+	call 04311h		;a94a   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	ld de,00000h		;a94d
-	jp 04318h		;a950
+	jp 04318h		;a950   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_A953:
 	call ranas_velocidad		;a953
 	ld (ix+013h),00ch		;a956
@@ -1168,7 +1168,7 @@ L_A96B:
 	ld h,(ix+017h)		;a978
 	ld e,000h		;a97b
 	ld a,002h		;a97d
-	call 07309h		;a97f
+	call 07309h		;a97f   ; p01:choca_desde_hl: desde (L, H) = (y, x): acarreo si hacia la direccion A no se puede pasar
 	jr nc,L_A988		;a982
 	ld (ix+018h),001h		;a984
 L_A988:
@@ -1196,7 +1196,7 @@ L_A9AD:
 	ld h,(ix+017h)		;a9ba
 	ld e,000h		;a9bd
 	ld a,003h		;a9bf
-	call 07309h		;a9c1
+	call 07309h		;a9c1   ; p01:choca_desde_hl: desde (L, H) = (y, x): acarreo si hacia la direccion A no se puede pasar
 	jr nc,L_A9CA		;a9c4
 	ld (ix+018h),001h		;a9c6
 L_A9CA:
@@ -1224,7 +1224,7 @@ L_A9EF:
 	ld h,(ix+017h)		;a9fc
 	ld e,000h		;a9ff
 	ld a,001h		;aa01
-	call 07309h		;aa03
+	call 07309h		;aa03   ; p01:choca_desde_hl: desde (L, H) = (y, x): acarreo si hacia la direccion A no se puede pasar
 	jr nc,L_AA0C		;aa06
 	ld (ix+018h),001h		;aa08
 L_AA0C:
@@ -1252,7 +1252,7 @@ L_AA31:
 	ld h,(ix+017h)		;aa3e
 	ld e,000h		;aa41
 	xor a			;aa43
-	call 07309h		;aa44
+	call 07309h		;aa44   ; p01:choca_desde_hl: desde (L, H) = (y, x): acarreo si hacia la direccion A no se puede pasar
 	jr nc,L_AA4D		;aa47
 	ld (ix+018h),001h		;aa49
 L_AA4D:
@@ -1322,7 +1322,7 @@ L_AABC:
 	ld c,a			;aac8
 	push bc			;aac9
 	ld e,000h		;aaca
-	call 07303h		;aacc
+	call 07303h		;aacc   ; p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 	pop bc			;aacf
 	jr c,L_AAA6		;aad0
 	ld a,c			;aad2
@@ -1444,7 +1444,7 @@ DATA_tablas_ABD0:
 
 
 L_ABF8:
-	jp L_A82A		;abf8
+	jp L_A82A		;abf8   ; ENTRADA de GARGOYLE (tipo 0x08), con su ficha en IX
 L_ABFB:
 	ld hl,0df92h		;abfb
 	dec (hl)			;abfe
@@ -1469,7 +1469,7 @@ L_AC1A:
 	ld (ix+012h),020h		;ac22
 	ret			;ac26
 L_AC27:
-	ld a,(ix+001h)		;ac27   ; lee el paso en que va
+	ld a,(ix+001h)		;ac27   ; ENTRADA de POISNFROG (tipo 0x07), con su ficha en IX
 	call 0425fh		;ac2a   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
@@ -1495,7 +1495,7 @@ DATA_tabla_AC2D:
 
 
 L_AC41:
-	bit 3,(ix+012h)		;ac41
+	bit 3,(ix+012h)		;ac41   ; POISNFROG, paso 0
 	ld a,000h		;ac45
 	jr z,L_AC4B		;ac47
 	ld a,001h		;ac49
@@ -1517,31 +1517,31 @@ L_AC4B:
 	ld (ix+017h),a		;ac76
 	ret			;ac79
 L_AC7A:
-	inc (ix+001h)		;ac7a   ; sube el paso en que va
+	inc (ix+001h)		;ac7a   ; POISNFROG, paso 1
 	ret			;ac7d
 L_AC7E:
-	ld (ix+00bh),004h		;ac7e   ; el cuadro del enemigo = 0x04
+	ld (ix+00bh),004h		;ac7e   ; POISNFROG, paso 2
 	jp L_A890		;ac82
 L_AC85:
-	ld (ix+00bh),007h		;ac85   ; el cuadro del enemigo = 0x07
+	ld (ix+00bh),007h		;ac85   ; POISNFROG, paso 3
 	jp L_A8C4		;ac89
 L_AC8C:
-	ld (ix+00bh),009h		;ac8c   ; el cuadro del enemigo = 0x09
+	ld (ix+00bh),009h		;ac8c   ; POISNFROG, paso 4
 	jp L_A8F8		;ac90
 L_AC93:
-	ld (ix+00bh),006h		;ac93   ; el cuadro del enemigo = 0x06
+	ld (ix+00bh),006h		;ac93   ; POISNFROG, paso 5
 	jp L_A92C		;ac97
 L_AC9A:
-	ld (ix+00bh),003h		;ac9a   ; el cuadro del enemigo = 0x03
+	ld (ix+00bh),003h		;ac9a   ; POISNFROG, paso 6
 	jp L_A95F		;ac9e
 L_ACA1:
-	ld (ix+00bh),008h		;aca1   ; el cuadro del enemigo = 0x08
+	ld (ix+00bh),008h		;aca1   ; POISNFROG, paso 7
 	jp L_A9A1		;aca5
 L_ACA8:
-	ld (ix+00bh),00ah		;aca8   ; el cuadro del enemigo = 0x0A
+	ld (ix+00bh),00ah		;aca8   ; POISNFROG, paso 8
 	jp L_A9E3		;acac
 L_ACAF:
-	ld (ix+00bh),005h		;acaf   ; el cuadro del enemigo = 0x05
+	ld (ix+00bh),005h		;acaf   ; POISNFROG, paso 9
 	jp L_AA25		;acb3
 L_ACB6:
 	ld a,(0c125h)		;acb6   ; lee la PANTALLA
@@ -1591,7 +1591,7 @@ L_ACF2:
 	ld (ix+012h),020h		;acfa
 	ret			;acfe
 L_ACFF:
-	ld a,(ix+001h)		;acff   ; lee el paso en que va
+	ld a,(ix+001h)		;acff   ; ENTRADA de MIREFROG (tipo 0x3E), con su ficha en IX
 	call 0425fh		;ad02   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
@@ -1617,7 +1617,7 @@ DATA_tabla_AD05:
 
 
 L_AD19:
-	bit 3,(ix+012h)		;ad19
+	bit 3,(ix+012h)		;ad19   ; MIREFROG, paso 0
 	ld a,003h		;ad1d
 	jr z,L_AD23		;ad1f
 	ld a,004h		;ad21
@@ -1639,31 +1639,31 @@ L_AD23:
 	ld (ix+017h),a		;ad4e
 	ret			;ad51
 L_AD52:
-	inc (ix+001h)		;ad52   ; sube el paso en que va
+	inc (ix+001h)		;ad52   ; MIREFROG, paso 1
 	ret			;ad55
 L_AD56:
-	ld (ix+00bh),007h		;ad56   ; el cuadro del enemigo = 0x07
+	ld (ix+00bh),007h		;ad56   ; MIREFROG, paso 2
 	jp L_A890		;ad5a
 L_AD5D:
-	ld (ix+00bh),00ah		;ad5d   ; el cuadro del enemigo = 0x0A
+	ld (ix+00bh),00ah		;ad5d   ; MIREFROG, paso 3
 	jp L_A8C4		;ad61
 L_AD64:
-	ld (ix+00bh),00ch		;ad64   ; el cuadro del enemigo = 0x0C
+	ld (ix+00bh),00ch		;ad64   ; MIREFROG, paso 4
 	jp L_A8F8		;ad68
 L_AD6B:
-	ld (ix+00bh),009h		;ad6b   ; el cuadro del enemigo = 0x09
+	ld (ix+00bh),009h		;ad6b   ; MIREFROG, paso 5
 	jp L_A92C		;ad6f
 L_AD72:
-	ld (ix+00bh),006h		;ad72   ; el cuadro del enemigo = 0x06
+	ld (ix+00bh),006h		;ad72   ; MIREFROG, paso 6
 	jp L_A95F		;ad76
 L_AD79:
-	ld (ix+00bh),00bh		;ad79   ; el cuadro del enemigo = 0x0B
+	ld (ix+00bh),00bh		;ad79   ; MIREFROG, paso 7
 	jp L_A9A1		;ad7d
 L_AD80:
-	ld (ix+00bh),00dh		;ad80   ; el cuadro del enemigo = 0x0D
+	ld (ix+00bh),00dh		;ad80   ; MIREFROG, paso 8
 	jp L_A9E3		;ad84
 L_AD87:
-	ld (ix+00bh),008h		;ad87   ; el cuadro del enemigo = 0x08
+	ld (ix+00bh),008h		;ad87   ; MIREFROG, paso 9
 	jp L_AA25		;ad8b
 L_AD8E:
 	ld a,(0c303h)		;ad8e   ; lee la Y de Mitchel
@@ -1700,7 +1700,7 @@ DATA_byte_12_ADC1:
 
 
 L_ADC9:
-	dec (ix+012h)		;adc9
+	dec (ix+012h)		;adc9   ; ENTRADA de DUNGROLL (tipo 0x15), con su ficha en IX
 	call z,dungroll_empieza_a_rodar		;adcc
 	ld a,(ix+001h)		;adcf   ; lee el paso en que va
 	call 0425fh		;add2   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
@@ -1720,29 +1720,29 @@ DATA_tabla_ADD5:
 
 
 L_ADDB:
-	call dungroll_cuadro		;addb
+	call dungroll_cuadro		;addb   ; DUNGROLL, paso 0
 	ld a,(ix+005h)		;adde   ; lee la x del enemigo
 	and 007h		;ade1
 	ld a,003h		;ade3
 	ld e,000h		;ade5
-	call z,07303h		;ade7
+	call z,07303h		;ade7   ; p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 	ret nc			;adea
 	inc (ix+001h)		;adeb   ; sube el paso en que va
 	ld de,00100h		;adee
-	jp 04318h		;adf1
+	jp 04318h		;adf1   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_ADF4:
-	call dungroll_cuadro		;adf4
+	call dungroll_cuadro		;adf4   ; DUNGROLL, paso 1
 	ld a,(ix+005h)		;adf7   ; lee la x del enemigo
 	and 007h		;adfa
 	ld a,001h		;adfc
 	ld e,000h		;adfe
-	call z,07303h		;ae00
+	call z,07303h		;ae00   ; p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 	ret nc			;ae03
 	dec (ix+001h)		;ae04   ; baja el paso en que va
 	ld de,0ff00h		;ae07
-	jp 04318h		;ae0a
+	jp 04318h		;ae0a   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_AE0D:
-	dec (ix+014h)		;ae0d
+	dec (ix+014h)		;ae0d   ; DUNGROLL, paso 2
 	ld a,(ix+014h)		;ae10
 	cp 010h		;ae13
 	jr z,L_AE43		;ae15
@@ -1765,7 +1765,7 @@ L_AE2D:
 	jr z,L_AE3B		;ae37
 	ld d,001h		;ae39
 L_AE3B:
-	call 04318h		;ae3b
+	call 04318h		;ae3b   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 	ld (ix+012h),050h		;ae3e
 	ret			;ae42
 L_AE43:
@@ -1776,7 +1776,7 @@ L_AE43:
 L_AE51:
 	ld a,002h		;ae51
 	ld e,000h		;ae53
-	call 07303h		;ae55
+	call 07303h		;ae55   ; p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 	ret c			;ae58
 	ld a,(ix+00bh)		;ae59   ; lee el cuadro del enemigo
 	ld (0e806h),a		;ae5c
@@ -1790,7 +1790,7 @@ L_AE6E:
 	ld e,(ix+003h)		;ae6e   ; lee la y del enemigo
 	add a,e			;ae71
 	ld e,a			;ae72
-	jp 0709ah		;ae73
+	jp 0709ah		;ae73   ; p01:crea_una_figura: CREA UNA FIGURA: el tipo C en DE
 dungroll_cuadro:
 	ld a,(ix+00ch)		;ae76   ; lee la cuenta de cuadros
 	and 008h		;ae79
@@ -1826,7 +1826,7 @@ dungroll_empieza_a_rodar:
 	ld (ix+013h),a		;aea1
 	ld (ix+001h),002h		;aea4   ; el paso en que va = 0x02
 	ld de,00000h		;aea8
-	jp 04318h		;aeab
+	jp 04318h		;aeab   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_AEAE:
 	ld a,(ix+003h)		;aeae   ; lee la y del enemigo
 	cp 030h		;aeb1
@@ -1890,7 +1890,7 @@ DATA_parejas_AF0F:
 
 
 L_AF27:
-	ld a,(ix+001h)		;af27   ; lee el paso en que va
+	ld a,(ix+001h)		;af27   ; ENTRADA de FIRETOTEM (tipo 0x29), con su ficha en IX
 	call 0425fh		;af2a   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
@@ -1912,7 +1912,7 @@ DATA_tabla_AF2D:
 
 
 L_AF39:
-	ld hl,00001h		;af39
+	ld hl,00001h		;af39   ; FIRETOTEM, paso 0
 	ld (0e800h),hl		;af3c
 	ld hl,003ffh		;af3f
 	ld (0e802h),hl		;af42
@@ -1948,9 +1948,9 @@ L_AF65:
 L_AF84:
 	ld (ix+001h),a		;af84   ; guarda el paso en que va
 	ld (ix+014h),00eh		;af87
-	call 04311h		;af8b
+	call 04311h		;af8b   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	ld de,(0e801h)		;af8e
-	jp 04318h		;af92
+	jp 04318h		;af92   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_AF95:
 	ld (ix+013h),000h		;af95
 	ld a,(0e803h)		;af99
@@ -1961,7 +1961,7 @@ L_AF95:
 	ld (ix+019h),a		;afa8
 	ret			;afab
 L_AFAC:
-	xor a			;afac
+	xor a			;afac   ; FIRETOTEM, paso 1
 L_AFAD:
 	push af			;afad
 	call firetotem_cuadro		;afae
@@ -1978,13 +1978,13 @@ L_AFAD:
 	ld (ix+019h),a		;afcb
 	ret			;afce
 L_AFCF:
-	ld hl,00004h		;afcf
+	ld hl,00004h		;afcf   ; FIRETOTEM, paso 3
 	ld (0e800h),hl		;afd2
 	ld hl,00001h		;afd5
 	ld (0e802h),hl		;afd8
 	jp L_AF45		;afdb
 L_AFDE:
-	ld a,003h		;afde
+	ld a,003h		;afde   ; FIRETOTEM, paso 4
 	jr L_AFAD		;afe0
 firetotem_altura:
 	ld hl,0affch		;afe2   ; alturas_AFFC: 15 bytes: lo que p03:AFE2 suma a la palabra ix+0x16 segun ix+0x14
@@ -2057,7 +2057,7 @@ firetotem_lanza:
 	ld c,08ch		;b05d
 	ld e,(ix+003h)		;b05f   ; lee la y del enemigo
 	ld d,(ix+005h)		;b062   ; lee la x del enemigo
-	jp 0709ah		;b065
+	jp 0709ah		;b065   ; p01:crea_una_figura: CREA UNA FIGURA: el tipo C en DE
 L_B068:
 	ld (ix+00bh),009h		;b068   ; el cuadro del enemigo = 0x09
 	ld (ix+012h),000h		;b06c
@@ -2086,7 +2086,7 @@ DATA_codigo_B08D:
 
 
 L_B0A7:
-	ld a,(ix+001h)		;b0a7   ; lee el paso en que va
+	ld a,(ix+001h)		;b0a7   ; ENTRADA de HUMPEDMAN (tipo 0x30), con su ficha en IX
 	call 0425fh		;b0aa   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
@@ -2112,31 +2112,31 @@ DATA_tabla_B0AD:
 
 
 L_B0C1:
-	inc (ix+001h)		;b0c1   ; sube el paso en que va
+	inc (ix+001h)		;b0c1   ; HUMPEDMAN, paso 0
 	ret			;b0c4
 L_B0C5:
-	ld (ix+00bh),009h		;b0c5   ; el cuadro del enemigo = 0x09
+	ld (ix+00bh),009h		;b0c5   ; HUMPEDMAN, paso 2
 	jp L_A890		;b0c9
 L_B0CC:
-	ld (ix+00bh),00dh		;b0cc   ; el cuadro del enemigo = 0x0D
+	ld (ix+00bh),00dh		;b0cc   ; HUMPEDMAN, paso 3
 	jp L_A8C4		;b0d0
 L_B0D3:
-	ld (ix+00bh),00fh		;b0d3   ; el cuadro del enemigo = 0x0F
+	ld (ix+00bh),00fh		;b0d3   ; HUMPEDMAN, paso 4
 	jp L_A8F8		;b0d7
 L_B0DA:
-	ld (ix+00bh),00bh		;b0da   ; el cuadro del enemigo = 0x0B
+	ld (ix+00bh),00bh		;b0da   ; HUMPEDMAN, paso 5
 	jp L_A92C		;b0de
 L_B0E1:
-	ld (ix+00bh),00ah		;b0e1   ; el cuadro del enemigo = 0x0A
+	ld (ix+00bh),00ah		;b0e1   ; HUMPEDMAN, paso 6
 	jp L_A95F		;b0e5
 L_B0E8:
-	ld (ix+00bh),00eh		;b0e8   ; el cuadro del enemigo = 0x0E
+	ld (ix+00bh),00eh		;b0e8   ; HUMPEDMAN, paso 7
 	jp L_A9A1		;b0ec
 L_B0EF:
-	ld (ix+00bh),010h		;b0ef   ; el cuadro del enemigo = 0x10
+	ld (ix+00bh),010h		;b0ef   ; HUMPEDMAN, paso 8
 	jp L_A9E3		;b0f3
 L_B0F6:
-	ld (ix+00bh),00ch		;b0f6   ; el cuadro del enemigo = 0x0C
+	ld (ix+00bh),00ch		;b0f6   ; HUMPEDMAN, paso 9
 	jp L_AA25		;b0fa
 L_B0FD:
 	ld hl,0df95h		;b0fd
@@ -2169,7 +2169,7 @@ DATA_byte_15_B11D:
 
 
 L_B125:
-	ld a,(ix+001h)		;b125   ; lee el paso en que va
+	ld a,(ix+001h)		;b125   ; ENTRADA de PIGWORM (tipo 0x01), con su ficha en IX
 	call 0425fh		;b128   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
@@ -2189,13 +2189,13 @@ DATA_tabla_B12B:
 
 
 L_B135:
-	dec (ix+013h)		;b135
+	dec (ix+013h)		;b135   ; PIGWORM, paso 0
 	ret nz			;b138
 	ld (ix+012h),008h		;b139
 	ld (ix+013h),001h		;b13d
 	jr L_B16B		;b141
 L_B143:
-	ld c,002h		;b143
+	ld c,002h		;b143   ; PIGWORM, paso 1
 L_B145:
 	ld a,(ix+013h)		;b145
 	and a			;b148
@@ -2210,13 +2210,13 @@ L_B14F:
 	ld (ix+013h),008h		;b159
 	jr L_B16B		;b15d
 L_B15F:
-	ld c,003h		;b15f
+	ld c,003h		;b15f   ; PIGWORM, paso 2
 	jr L_B145		;b161
 L_B163:
-	ld c,001h		;b163
+	ld c,001h		;b163   ; PIGWORM, paso 3
 	jr L_B145		;b165
 L_B167:
-	ld c,000h		;b167
+	ld c,000h		;b167   ; PIGWORM, paso 4
 	jr L_B145		;b169
 L_B16B:
 	ld a,0ffh		;b16b
@@ -2249,7 +2249,7 @@ L_B190:
 	ld b,a			;b1a1
 	push bc			;b1a2
 	ld e,000h		;b1a3
-	call 07303h		;b1a5
+	call 07303h		;b1a5   ; p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 	pop bc			;b1a8
 	ld a,b			;b1a9
 	jr nc,L_B1DB		;b1aa
@@ -2277,7 +2277,7 @@ L_B1C6:
 	ld a,(hl)			;b1d0
 	push af			;b1d1
 	ld e,000h		;b1d2
-	call 07303h		;b1d4
+	call 07303h		;b1d4   ; p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 	pop bc			;b1d7
 	jr c,L_B1AC		;b1d8
 	ld a,b			;b1da
@@ -2289,11 +2289,11 @@ L_B1DB:
 	call 04255h		;b1e1   ; p00:hl_mas_a
 	ld e,000h		;b1e4
 	ld d,(hl)			;b1e6
-	call 04311h		;b1e7
+	call 04311h		;b1e7   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	inc hl			;b1ea
 	ld e,000h		;b1eb
 	ld d,(hl)			;b1ed
-	call 04318h		;b1ee
+	call 04318h		;b1ee   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 	inc hl			;b1f1
 	ld a,(hl)			;b1f2
 	ld (ix+001h),a		;b1f3   ; guarda el paso en que va
@@ -2342,7 +2342,7 @@ L_B247:
 	ld hl,0df96h		;b24b
 	jp L_B104		;b24e
 L_B251:
-	ld a,(ix+001h)		;b251   ; lee el paso en que va
+	ld a,(ix+001h)		;b251   ; ENTRADA de BUCKLER (tipo 0x44), con su ficha en IX
 	call 0425fh		;b254   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
@@ -2367,7 +2367,7 @@ DATA_tabla_B257:
 
 
 L_B269:
-	ld (ix+07fh),002h		;b269
+	ld (ix+07fh),002h		;b269   ; BUCKLER, paso 1
 	ld (ix+00bh),026h		;b26d   ; el cuadro del enemigo = 0x26
 	ld a,005h		;b271
 L_B273:
@@ -2377,22 +2377,22 @@ L_B273:
 	ld (ix+012h),030h		;b27a
 	ret			;b27e
 L_B27F:
-	ld (ix+07fh),003h		;b27f
+	ld (ix+07fh),003h		;b27f   ; BUCKLER, paso 2
 	ld (ix+00bh),02ch		;b283   ; el cuadro del enemigo = 0x2C
 	ld a,006h		;b287
 	jr L_B273		;b289
 L_B28B:
-	ld (ix+07fh),001h		;b28b
+	ld (ix+07fh),001h		;b28b   ; BUCKLER, paso 3
 	ld (ix+00bh),028h		;b28f   ; el cuadro del enemigo = 0x28
 	ld a,007h		;b293
 	jr L_B273		;b295
 L_B297:
-	ld (ix+07fh),000h		;b297
+	ld (ix+07fh),000h		;b297   ; BUCKLER, paso 4
 	ld (ix+00bh),027h		;b29b   ; el cuadro del enemigo = 0x27
 	ld a,008h		;b29f
 	jr L_B273		;b2a1
 L_B2A3:
-	ld c,000h		;b2a3
+	ld c,000h		;b2a3   ; BUCKLER, paso 5
 	call buckler_cuadros		;b2a5
 	ld c,002h		;b2a8
 L_B2AA:
@@ -2404,21 +2404,21 @@ L_B2AA:
 	ret nz			;b2b8
 	ld e,000h		;b2b9
 	ld a,c			;b2bb
-	call 07303h		;b2bc
+	call 07303h		;b2bc   ; p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 	ret nc			;b2bf
 	jp L_B2DE		;b2c0
 L_B2C3:
-	ld c,001h		;b2c3
+	ld c,001h		;b2c3   ; BUCKLER, paso 6
 	call buckler_cuadros		;b2c5
 	ld c,003h		;b2c8
 	jr L_B2AA		;b2ca
 L_B2CC:
-	ld c,002h		;b2cc
+	ld c,002h		;b2cc   ; BUCKLER, paso 7
 	call buckler_cuadros		;b2ce
 	ld c,001h		;b2d1
 	jr L_B2AA		;b2d3
 L_B2D5:
-	ld c,003h		;b2d5
+	ld c,003h		;b2d5   ; BUCKLER, paso 8
 	call buckler_cuadros		;b2d7
 	ld c,000h		;b2da
 	jr L_B2AA		;b2dc
@@ -2446,7 +2446,7 @@ L_B2F1:
 	ld hl,0df97h		;b2f5
 	jp L_B104		;b2f8
 L_B2FB:
-	ld a,(ix+001h)		;b2fb   ; lee el paso en que va
+	ld a,(ix+001h)		;b2fb   ; ENTRADA de GRASSOGRE (tipo 0x43), con su ficha en IX
 	call 0425fh		;b2fe   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
@@ -2466,7 +2466,7 @@ DATA_tabla_B301:
 
 
 L_B30B:
-	ld c,000h		;b30b
+	ld c,000h		;b30b   ; GRASSOGRE, paso 1
 	call grassogre_cuadros		;b30d
 	ld c,002h		;b310
 L_B312:
@@ -2478,21 +2478,21 @@ L_B312:
 	ret nz			;b320
 	ld e,000h		;b321
 	ld a,c			;b323
-	call 07303h		;b324
+	call 07303h		;b324   ; p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 	ret nc			;b327
 	jp L_B16B		;b328
 L_B32B:
-	ld c,001h		;b32b
+	ld c,001h		;b32b   ; GRASSOGRE, paso 2
 	call grassogre_cuadros		;b32d
 	ld c,003h		;b330
 	jr L_B312		;b332
 L_B334:
-	ld c,002h		;b334
+	ld c,002h		;b334   ; GRASSOGRE, paso 3
 	call grassogre_cuadros		;b336
 	ld c,001h		;b339
 	jp L_B312		;b33b
 L_B33E:
-	ld c,003h		;b33e
+	ld c,003h		;b33e   ; GRASSOGRE, paso 4
 	call grassogre_cuadros		;b340
 	ld c,000h		;b343
 	jp L_B312		;b345
@@ -2527,7 +2527,7 @@ L_B367:
 	ld hl,0df98h		;b367
 	jp L_B100		;b36a
 L_B36D:
-	ld a,(ix+01eh)		;b36d
+	ld a,(ix+01eh)		;b36d   ; ENTRADA de SLIPSLIME (tipo 0x02), con su ficha en IX
 	and 001h		;b370
 	jr z,L_B378		;b372
 	ld (ix+001h),005h		;b374   ; el paso en que va = 0x05
@@ -2565,7 +2565,7 @@ L_B39D:
 	ld hl,0df99h		;b39d
 	jp L_B100		;b3a0
 L_B3A3:
-	jp L_B36D		;b3a3
+	jp L_B36D		;b3a3   ; ENTRADA de WOODWORM (tipo 0x03), con su ficha en IX
 L_B3A6:
 	ld (ix+017h),040h		;b3a6
 	ld (ix+018h),081h		;b3aa
@@ -2687,7 +2687,7 @@ L_B4B1:
 	jp nz,L_B418		;b4c1
 	ret			;b4c4
 L_B4C5:
-	ld a,(ix+001h)		;b4c5   ; lee el paso en que va
+	ld a,(ix+001h)		;b4c5   ; ENTRADA de GRASSWORM (tipo 0x12), con su ficha en IX
 	call 0425fh		;b4c8   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
@@ -3062,7 +3062,7 @@ L_B778:
 	ld a,005h		;b797
 	jp L_B3C7		;b799
 L_B79C:
-	jp L_B4C5		;b79c
+	jp L_B4C5		;b79c   ; ENTRADA de MIREWORM (tipo 0x2E), con su ficha en IX
 L_B79F:
 	ld (ix+017h),030h		;b79f
 	ld (ix+018h),071h		;b7a3
@@ -3081,7 +3081,7 @@ L_B7BA:
 	ld (0e805h),hl		;b7c7
 	jp L_B3D1		;b7ca
 L_B7CD:
-	ld a,(ix+001h)		;b7cd   ; lee el paso en que va
+	ld a,(ix+001h)		;b7cd   ; ENTRADA de CENTIPEDE (tipo 0x13), con su ficha en IX
 	call 0425fh		;b7d0   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
@@ -3099,13 +3099,13 @@ DATA_tabla_B7D3:
 
 
 L_B7D9:
-	call centipede_color		;b7d9
+	call centipede_color		;b7d9   ; CENTIPEDE, paso 0
 	jp L_B4D4		;b7dc
 L_B7DF:
-	call centipede_color		;b7df
+	call centipede_color		;b7df   ; CENTIPEDE, paso 1
 	jp L_B578		;b7e2
 L_B7E5:
-	ld a,(ix+00ch)		;b7e5   ; lee la cuenta de cuadros
+	ld a,(ix+00ch)		;b7e5   ; CENTIPEDE, paso 2
 	and 010h		;b7e8
 	ld a,012h		;b7ea
 	jr nz,L_B7F0		;b7ec
@@ -3133,7 +3133,7 @@ L_B805:
 	ld a,005h		;b81e
 	jp L_B7BA		;b820
 L_B823:
-	ld a,(ix+001h)		;b823   ; lee el paso en que va
+	ld a,(ix+001h)		;b823   ; ENTRADA de CENTIPEDE (tipo 0x14), con su ficha en IX
 	call 0425fh		;b826   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
@@ -3151,11 +3151,11 @@ DATA_tabla_B829:
 
 
 L_B82F:
-	jp L_B7D9		;b82f
+	jp L_B7D9		;b82f   ; CENTIPEDE, paso 0
 L_B832:
-	jp L_B7DF		;b832
+	jp L_B7DF		;b832   ; CENTIPEDE, paso 1
 L_B835:
-	jp L_B7E5		;b835
+	jp L_B7E5		;b835   ; CENTIPEDE, paso 2
 L_B838:
 	ld a,020h		;b838
 	call 0716fh		;b83a   ; p01:rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
@@ -3182,7 +3182,7 @@ L_B864:
 	cp 058h		;b867
 	ret nc			;b869
 L_B86A:
-	jp 0694bh		;b86a
+	jp 0694bh		;b86a   ; p01:quita_la_ficha: se borra la ficha y sus sprites se dejan libres (y = 0xE0)
 L_B86D:
 	ld (ix+006h),001h		;b86d   ; si se mueve = 0x01
 	ld (ix+00bh),00ch		;b871   ; el cuadro del enemigo = 0x0C
@@ -3192,9 +3192,9 @@ L_B86D:
 	jr z,L_B881		;b87d
 	ld d,0ffh		;b87f
 L_B881:
-	call 04311h		;b881
+	call 04311h		;b881   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	ld d,000h		;b884
-	jp 04318h		;b886
+	jp 04318h		;b886   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_B889:
 	ld a,(ix+00ch)		;b889   ; lee la cuenta de cuadros
 	and 00ch		;b88c
@@ -3214,9 +3214,9 @@ L_B889:
 	jr c,L_B8AB		;b8a7
 	ld a,002h		;b8a9
 L_B8AB:
-	call 07303h		;b8ab
+	call 07303h		;b8ab   ; p01:choca_la_ficha: desde la ficha: acarreo si hacia la direccion A no se puede pasar
 	ret nc			;b8ae
-	jp 0694bh		;b8af
+	jp 0694bh		;b8af   ; p01:quita_la_ficha: se borra la ficha y sus sprites se dejan libres (y = 0xE0)
 
 ; ----------------------------------------------------------------------
 ; DATOS cuadros_B8B2: 4 bytes: el cuadro (ix+0x0B) segun el paso (p03:B890)
@@ -3237,10 +3237,10 @@ L_B8B6:
 	ld e,(ix+003h)		;b8c1   ; lee la y del enemigo
 	push de			;b8c4
 	ld c,090h		;b8c5
-	call 0709ah		;b8c7
+	call 0709ah		;b8c7   ; p01:crea_una_figura: CREA UNA FIGURA: el tipo C en DE
 	pop de			;b8ca
 	ld c,091h		;b8cb
-	jp 0709ah		;b8cd
+	jp 0709ah		;b8cd   ; p01:crea_una_figura: CREA UNA FIGURA: el tipo C en DE
 L_B8D0:
 	sub 005h		;b8d0
 	jr L_B8D6		;b8d2
@@ -3258,7 +3258,7 @@ L_B8E1:
 	jr nz,L_B8F0		;b8e6
 	ld a,(ix+003h)		;b8e8   ; lee la y del enemigo
 	cp 058h		;b8eb
-	jp c,0694bh		;b8ed
+	jp c,0694bh		;b8ed   ; p01:quita_la_ficha: se borra la ficha y sus sprites se dejan libres (y = 0xE0)
 L_B8F0:
 	dec (ix+017h)		;b8f0
 	jr nz,$+38		;b8f3
@@ -3315,7 +3315,7 @@ L_B92D:
 L_B94B:
 	ld a,002h		;b94b
 	ld de,001a0h		;b94d
-	call 04311h		;b950
+	call 04311h		;b950   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 	jr L_B972		;b953
 L_B955:
 	inc hl			;b955
@@ -3328,26 +3328,26 @@ L_B955:
 L_B961:
 	ld a,001h		;b961
 	ld de,001a0h		;b963
-	call 04318h		;b966
+	call 04318h		;b966   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 	jr L_B987		;b969
 L_B96B:
 	xor a			;b96b
 	ld de,0fe60h		;b96c
-	call 04311h		;b96f
+	call 04311h		;b96f   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 L_B972:
 	ld (ix+014h),000h		;b972
 	ld (ix+015h),a		;b976
 	ld de,00000h		;b979
-	jp 04318h		;b97c
+	jp 04318h		;b97c   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_B97F:
 	ld a,003h		;b97f
 	ld de,0fe60h		;b981
-	call 04318h		;b984
+	call 04318h		;b984   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_B987:
 	ld (ix+014h),001h		;b987
 	ld (ix+015h),a		;b98b
 	ld de,00000h		;b98e
-	jp 04311h		;b991
+	jp 04311h		;b991   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 L_B994:
 	ld d,008h		;b994
 	call 073ddh		;b996
@@ -3377,7 +3377,7 @@ L_B9B7:
 	jr c,L_B9D2		;b9cd
 	ld de,0fe00h		;b9cf
 L_B9D2:
-	call 04318h		;b9d2
+	call 04318h		;b9d2   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 	dec hl			;b9d5
 	dec hl			;b9d6
 	ld a,(ix+003h)		;b9d7   ; lee la y del enemigo
@@ -3386,7 +3386,7 @@ L_B9D2:
 	jr c,L_B9E3		;b9de
 	ld de,0fe00h		;b9e0
 L_B9E3:
-	jp 04311h		;b9e3
+	jp 04311h		;b9e3   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
 
 ; ----------------------------------------------------------------------
 ; Al morir un enemigo: p03:BA66 + tipo - 1 da el numero de rutina (0xFF =
@@ -3901,8 +3901,8 @@ L_BD4F:
 	ld de,0bdb9h		;bd72   ; velocidades_BDB9: 4 palabras segun ix+0x12 que p03:BD72 pone en ix+7 o ix+9
 	call 042ffh		;bd75   ; p00:palabra_de_la_tabla: DE = la palabra A de la tabla de DE
 	bit 1,(ix+012h)		;bd78
-	jp z,04311h		;bd7c
-	jp 04318h		;bd7f
+	jp z,04311h		;bd7c   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
+	jp 04318h		;bd7f   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 
 ; ----------------------------------------------------------------------
 ; DATOS fichas_BD82: 5 punteros segun C a fichas de 9 bytes (p03:BD50)
@@ -3931,7 +3931,7 @@ DATA_velocidades_BDB9:
 
 
 L_BDC1:
-	ld a,(ix+001h)		;bdc1   ; lee el paso en que va
+	ld a,(ix+001h)		;bdc1   ; ENTRADA de tipo 0x3D (tipo 0x3D), con su ficha en IX
 	call 0425fh		;bdc4   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
@@ -3948,7 +3948,7 @@ DATA_tabla_BDC7:
 
 
 L_BDCB:
-	bit 0,(ix+012h)		;bdcb
+	bit 0,(ix+012h)		;bdcb   ; tipo 0x3D, paso 0
 	jr nz,L_BDD6		;bdcf
 	ld c,(ix+013h)		;bdd1
 	jr L_BDD9		;bdd4
@@ -3969,7 +3969,7 @@ L_BDE7:
 	ld (ix+006h),000h		;bdf0   ; si se mueve = 0x00
 	ret			;bdf4
 L_BDF5:
-	dec (ix+015h)		;bdf5
+	dec (ix+015h)		;bdf5   ; tipo 0x3D, paso 1
 	ret nz			;bdf8
 	dec (ix+001h)		;bdf9   ; baja el paso en que va
 	ld (ix+006h),001h		;bdfc   ; si se mueve = 0x01
@@ -3985,14 +3985,14 @@ L_BDF5:
 L_BE18:
 	call 071f8h		;be18   ; p01:niega_de: DE = -DE
 	bit 1,(ix+012h)		;be1b
-	jp z,04311h		;be1f
-	jp 04318h		;be22
+	jp z,04311h		;be1f   ; p00:pon_velocidad_vertical: DE: la velocidad vertical de la ficha (ix+7, ix+8)
+	jp 04318h		;be22   ; p00:pon_velocidad_horizontal: DE: la velocidad horizontal (ix+9, ix+0x0A)
 L_BE25:
 	ld (ix+00bh),007h		;be25   ; el cuadro del enemigo = 0x07
 	ld (ix+012h),010h		;be29
 	ret			;be2d
 L_BE2E:
-	ld a,(ix+001h)		;be2e   ; lee el paso en que va
+	ld a,(ix+001h)		;be2e   ; ENTRADA de RUINSBAT (tipo 0x3F), con su ficha en IX
 	call 0425fh		;be31   ; p00:despacha: Salta a la entrada A de la tabla de palabras que va pegada detras del `call`.
 
 ; ----------------------------------------------------------------------
@@ -4009,7 +4009,7 @@ DATA_tabla_BE34:
 
 
 L_BE38:
-	dec (ix+012h)		;be38
+	dec (ix+012h)		;be38   ; RUINSBAT, paso 0
 	jr nz,ruinsbat_anima		;be3b
 	inc (ix+001h)		;be3d   ; sube el paso en que va
 	ld a,(0c303h)		;be40   ; lee la Y de Mitchel
@@ -4039,7 +4039,7 @@ L_BE59:
 	ld (ix+00ah),d		;be77   ; guarda la velocidad horizontal
 	ret			;be7a
 L_BE7B:
-	call ruinsbat_anima		;be7b
+	call ruinsbat_anima		;be7b   ; RUINSBAT, paso 1
 	call 06913h		;be7e
 	ld e,(ix+003h)		;be81   ; lee la y del enemigo
 	ld d,(ix+005h)		;be84   ; lee la x del enemigo
@@ -4114,15 +4114,15 @@ L_BEF4:
 	ld a,040h		;bef8
 	call 0716fh		;befa   ; p01:rumbo_hacia_mitchel: RUMBO HACIA MITCHEL a velocidad A: el angulo...
 	jp 08bdch		;befd   ; p02:pon_velocidades: la ficha se mueve (ix+6), con DE de velocidad vertical y HL de horizontal
-L_BF00:
-	xor a			;bf00
+para_la_ficha:
+	xor a			;bf00   ; las dos velocidades a 0
 	ld (ix+008h),a		;bf01   ; guarda la velocidad vertical
 	ld (ix+007h),a		;bf04   ; guarda la velocidad vertical (baja)
 	ld (ix+00ah),a		;bf07   ; guarda la velocidad horizontal
 	ld (ix+009h),a		;bf0a   ; guarda la velocidad horizontal (baja)
 	ret			;bf0d
-L_BF0E:
-	ld a,r		;bf0e
+al_azar:
+	ld a,r		;bf0e   ; A al azar: el registro R, con los nibbles cambiados, XOR el contador de cuadros
 	rrca			;bf10
 	rrca			;bf11
 	rrca			;bf12
@@ -4130,8 +4130,8 @@ L_BF0E:
 	ld hl,0c103h		;bf14   ; apunta a el contador de cuadros
 	xor (hl)			;bf17
 	ret			;bf18
-L_BF19:
-	add a,a			;bf19
+velocidad_de_la_tabla_4:
+	add a,a			;bf19   ; las dos velocidades de las 4 bytes HL + 4*A: [vy alta][vy baja][vx alta][vx baja]
 	add a,a			;bf1a
 	call 04255h		;bf1b   ; p00:hl_mas_a
 	ld a,(hl)			;bf1e
@@ -4163,8 +4163,8 @@ DATA_velocidades:
 ; ======================================================================
 
 
-L_BF72:
-	ld a,(ix+019h)		;bf72
+cuadro_cada_ix16:
+	ld a,(ix+019h)		;bf72   ; salvo con ix+0x19 = 4, cada ix+0x16 cuadros el cuadro alterna entre los dos de HL + 2*ix+0x19
 	cp 004h		;bf75
 	ret z			;bf77
 	dec (ix+017h)		;bf78
@@ -4196,8 +4196,8 @@ DATA_parejas_de_cuadros:
 ; ======================================================================
 
 
-L_BFB2:
-	ld (ix+006h),001h		;bfb2   ; si se mueve = 0x01
+hacia_mitchel_en_x:
+	ld (ix+006h),001h		;bfb2   ; en marcha hacia la x de Mitchel, a 2, con el cuadro 0x0C y 0x20 cuadros en ix+0x1A
 	xor a			;bfb6
 	ld (ix+007h),a		;bfb7   ; guarda la velocidad vertical (baja)
 	ld (ix+008h),a		;bfba   ; guarda la velocidad vertical
@@ -4212,10 +4212,10 @@ L_BFCC:
 	ld (ix+00bh),00ch		;bfcf   ; el cuadro del enemigo = 0x0C
 	ld (ix+01ah),020h		;bfd3
 	ret			;bfd7
-L_BFD8:
-	dec (ix+01ah)		;bfd8
+muere_al_acabar_ix1a:
+	dec (ix+01ah)		;bfd8   ; cuenta ix+0x1A y a 0 se borra la ficha
 	ret nz			;bfdb
-	jp 0694bh		;bfdc
+	jp 0694bh		;bfdc   ; p01:quita_la_ficha: se borra la ficha y sus sprites se dejan libres (y = 0xE0)
 
 ; ----------------------------------------------------------------------
 ; DATOS game_over: [x][y] "GAME  OVER" y 0xFE, que sigue con p03:BFEC:

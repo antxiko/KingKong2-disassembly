@@ -349,7 +349,6 @@ C 0x4399 medio ancho hacia la izquierda (C columnas)...
 C 0x43A2 ...y medio alto hacia arriba (B filas)
 C 0x43AB L = la y de la ficha menos el medio alto
 C 0x43B0 H = la x menos el medio ancho
-C 0x43B6 0xF0: la casilla que no se pisa
 C 0x43B8 PON UNA CASILLA: A en las BxC casillas de debajo de la ficha
 C 0x43C6 una fila de B
 C 0x43CC la siguiente
@@ -994,6 +993,11 @@ C 0x590F arriba...
 C 0x5912 ...derecha...
 C 0x5915 ...abajo; y si no, izquierda:
 C 0x594A derecha: cada fila, una tira a la izquierda...
+L 0x4311 pon_velocidad_vertical
+L 0x4318 pon_velocidad_horizontal
+L 0x4333 guarda_el_fondo
+L 0x43B6 casilla_que_no_se_pisa
+C 0x43B6 0xF0 en las BxC casillas de debajo de la ficha: la casilla que no se pisa
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x4000 0x4010 cabecera_ab  la cabecera del cartucho: 'AB', INIT (0x4269) y STATEMENT, DEVICE y TEXT a cero; lo leen la BIOS (16 bytes)
@@ -1131,7 +1135,7 @@ C 0x40C2 sitio_de_la_casilla: L es la columna: 16 puntos cada una, desde 0x10
 C 0x40C8 p01:pinta_icono: el 0x26 (oro) se pinta con el dibujo del 6 (la bolsa)
 C 0x40CE escribe_nombre_de_la_casilla: la casilla del objeto (0xE80A)...
 C 0x40D4 vram_para_escribir: prepara el V9938 para escribir en la direccion de VRAM HL (R#14 y el puerto 1)
-C 0x40DA p02:decorado_de_la_pantalla
+C 0x40DA p02:decorado_de_la_pantalla: EL DECORADO QUE SE QUITA, al entrar: en las pantallas partidas depende del plano...
 C 0x40E0 posicion_de_mitchel: E = la y de Mitchel, D = su x
 C 0x40E6 sonido_si_juega: solo con el bit 6 de 0xC102 (la partida de verdad, no la demostracion)
 C 0x40EC p01:pantalla_vecina: p09:B1C5 + 4*pantalla + C: arriba, abajo, izquierda, derecha
@@ -1155,7 +1159,7 @@ C 0x417C marco: cuatro rayas: un marco de E por D en HL
 C 0x4182 lmmm: orden LMMM del V9938: lo mismo con operacion logica (A: paginas y operacion; 8 = TIMP)
 C 0x4188 paleta_inicial: los 16 colores de p00:46AF
 C 0x418E rle_con_destino: la palabra de DE es la direccion de VRAM; detras, el RLE
-C 0x41A0 p02:persigue_a_mitchel_83A7
+C 0x41A0 p02:persigue_a_mitchel_83A7: EL ENEMIGO ARRASTRA A MITCHEL: por el eje en que esten mas lejos...
 C 0x41A6 p01:mitchel_muere: los colores de Mitchel otra vez los de siempre
 C 0x41AC modo_de_pantalla: 0xFAF6 = 1...
 C 0x41B2 sube_letras: B letras de 1 bit de HL, en color C, a la hoja de la pagina 1 desde (D, E)
@@ -1214,6 +1218,7 @@ C 0x44CD lmmm: orden LMMM del V9938: lo mismo con operacion logica (A: paginas y
 C 0x44D0 lee la PANTALLA
 C 0x44D3 la pantalla 0x57?
 C 0x44D6 lee las fichas de los enemigos (13 de 0x80)
+C 0x44E3 casilla_que_no_se_pisa: 0xF0 en las BxC casillas de debajo de la ficha: la casilla que no se pisa
 C 0x451B lee la PANTALLA
 C 0x451E la pantalla 0x1A?
 C 0x452C lee la PANTALLA
@@ -1520,6 +1525,7 @@ C 0x5C73 p01:borra_la_ventana_de_texto: 160x24 puntos en (8, 0xB0): debajo del d
 C 0x5C79 sube_los_sprites_girando: 0xC10F avanza 0x68: el orden de los sprites da la vuelta cada cuadro, para que los que sobran en una linea parpadeen
 C 0x5C84 p01:borra_la_ventana_de_texto: 160x24 puntos en (8, 0xB0): debajo del decorado
 C 0x5C8A lee el SUCESO: el tipo de decorado que hay que quitar
+C 0x5C9C p02:la_que_sigue: LA FIGURA QUE SIGUE A MITCHEL, cada cuadro: 1 le sigue, 2 espera a que Mitchel llegue
 C 0x5CA5 bancos_1_2_3: LAS PUERTAS: A, A+1 y A+2 en los tres registros del mapper y en sus copias
 C 0x5CA8 lee el estado de Mitchel
 C 0x5CC4 banco_en_a000: el banco A en 0xA000, y en su copia (0xF0F3) y en la reserva (0xF0F6)
