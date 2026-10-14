@@ -167,6 +167,21 @@ web:
 	python3 tools/make_web.py docs/imagenes docs/es/index.html es
 	python3 tools/check_enlaces.py docs
 
+# Los textos: LOS-TEXTOS / THE-TEXTS con lo de tools/datos/textos_imanok.json;
+# luego make web.
+textos: $(ROM)
+	python3 tools/textos.py pagina
+
+# Con los parches de Imanok en work/imanok (KK2DSKEN.ips y KK2DSKES.ips, que no
+# van en el repo): sus textos al json, el arreglo del final (docs/parches) y sus
+# imagenes, y los cotejos (con los volcados de tools/lanza_final.sh).
+imanok: $(ROM)
+	python3 tools/textos.py imanok
+	python3 tools/textos.py coteja
+	python3 tools/arreglo_final.py
+	python3 tools/arreglo_final.py imagen
+	python3 tools/arreglo_final.py coteja
+
 clean:
 	rm -f $(WORK)/p*.trace.json $(WORK)/p*.blocks $(WORK)/p*.out.bin \
 	      $(WORK)/kingkong2_reensamblada.rom $(WORK)/pasmo.err
@@ -178,5 +193,5 @@ musica: $(ROM)
 	$(PYMUS) tools/musica.py todas docs/audio
 	$(PYMUS) tools/pagina_musica.py
 
-.PHONY: musica all comprueba reconoce paginas semillas trace listado verify \
+.PHONY: textos imanok musica all comprueba reconoce paginas semillas trace listado verify \
         sanity densidad test web clean

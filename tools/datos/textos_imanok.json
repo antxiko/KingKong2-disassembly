@@ -1,0 +1,1905 @@
+{
+ "EN": {
+  "conversaciones": [
+   [
+    {
+     "sitio": "A1CE",
+     "accion": 0,
+     "texto": "WHY DID YOU COME TO GOLNEBO ISLAND?"
+    },
+    {
+     "sitio": "A1F3",
+     "accion": 0,
+     "texto": "HMMM,I SEE.SO YOU CAME TO FIND LADY KONG?"
+    },
+    {
+     "sitio": "A21E",
+     "accion": 0,
+     "texto": "ACCORDING TO THE LEGEND,SHE IS HIDDEN IN THE ISLAND."
+    },
+    {
+     "sitio": "A253",
+     "accion": 0,
+     "texto": "YOU'LL HAVE TO UNRAVEL THE LEGEND TO FIND HER."
+    },
+    {
+     "sitio": "A283",
+     "accion": 0,
+     "texto": "ASK THE JUNGLE ELDERS AND THEY WILL GIVE YOU SOME CLUES."
+    },
+    {
+     "sitio": "A2BC",
+     "accion": 0,
+     "texto": "TAKE CARE!"
+    }
+   ],
+   [
+    {
+     "sitio": "A2D8",
+     "accion": 0,
+     "texto": "WE'RE SMUGGLERS.WE CAN SELL YOU SOME WEAPONS."
+    },
+    {
+     "sitio": "A307",
+     "accion": 1,
+     "texto": "KNIFE TO KILL BIGSPIDER 200G ▶ 1 OK 2 NO"
+    },
+    {
+     "sitio": "A332",
+     "accion": 0,
+     "texto": "THANKS"
+    },
+    {
+     "sitio": "A33A",
+     "accion": 0,
+     "texto": "NOT ENOUGH GOLD."
+    },
+    {
+     "sitio": "A34C",
+     "accion": 2,
+     "texto": "AXE TO KILL GRIZZLY 300G ▶ 1 OK 2 NO"
+    },
+    {
+     "sitio": "A375",
+     "accion": 0,
+     "texto": "I'M SORRY,IT'S SOLD OUT."
+    },
+    {
+     "sitio": "A38F",
+     "accion": 0,
+     "texto": "YOU NEED TO BE STRONGER."
+    }
+   ],
+   [
+    {
+     "sitio": "A3AF",
+     "accion": 0,
+     "texto": "BIGSPIDER ATE THE KEY FOR THE CELLAR WHERE THE SORCERER"
+    },
+    {
+     "sitio": "A3E8",
+     "accion": 0,
+     "texto": "HIDES."
+    }
+   ],
+   [
+    {
+     "sitio": "A3F4",
+     "accion": 0,
+     "texto": "KONG LOVES DORIAN FRUIT"
+    }
+   ],
+   [
+    {
+     "sitio": "A411",
+     "accion": 0,
+     "texto": "GRASSOGRES ARE VULNERABLE TO ROCKS."
+    }
+   ],
+   [
+    {
+     "sitio": "A444",
+     "accion": 0,
+     "texto": "A GROUP OF SOLDIERS WENT TO THE BEACH AND THEY HAVEN'T"
+    },
+    {
+     "sitio": "A47C",
+     "accion": 0,
+     "texto": "RETURNED YET."
+    },
+    {
+     "sitio": "A48B",
+     "accion": 0,
+     "texto": "MAYBE THEY WERE DEVOURED BY RED F. MAN.BE CAREFUL!"
+    },
+    {
+     "sitio": "A4BF",
+     "accion": 0,
+     "texto": "THEY HAD A STRANGE DEVICE."
+    },
+    {
+     "sitio": "A4DB",
+     "accion": 3,
+     "texto": "IT WAS A TALKING MACHINE!"
+    },
+    {
+     "sitio": "A4F6",
+     "accion": 0,
+     "texto": "GOODBYE."
+    }
+   ],
+   [
+    {
+     "sitio": "A506",
+     "accion": 0,
+     "texto": "CAN YOU TAKE THIS LETTER TO KEMURA'S ELDER?"
+    },
+    {
+     "sitio": "A533",
+     "accion": 4,
+     "texto": "▶ 1 OK 2 NO"
+    }
+   ],
+   [
+    {
+     "sitio": "A54A",
+     "accion": 0,
+     "texto": "WHAT DO YOU WANT TO EAT?"
+    },
+    {
+     "sitio": "A564",
+     "accion": 5,
+     "texto": "▶1 BOILED BUG 50G 2 WARTHOG MEAT 100G 3 DON'T EAT"
+    },
+    {
+     "sitio": "A598",
+     "accion": 0,
+     "texto": "NOT ENOUGH GOLD."
+    }
+   ],
+   [
+    {
+     "sitio": "A5B0",
+     "accion": 6,
+     "texto": "DO YOU WANT TO HAVE A REST? IT'S 150G ▶ 1 OK 2 NO"
+    },
+    {
+     "sitio": "A598",
+     "accion": 0,
+     "texto": "NOT ENOUGH GOLD."
+    }
+   ],
+   [
+    {
+     "sitio": "A5EC",
+     "accion": 0,
+     "texto": "ACCORDING TO THE LEGEND,RED F.MAN ATE KONG'S CLAW."
+    },
+    {
+     "sitio": "A61F",
+     "accion": 0,
+     "texto": "YOU'LL GET MORE INFORMATION ABOUT KONG'S CLAW AT THE"
+    },
+    {
+     "sitio": "A655",
+     "accion": 0,
+     "texto": "UNDERGROUND AREA."
+    }
+   ],
+   [
+    {
+     "sitio": "A66C",
+     "accion": 7,
+     "texto": "I'M THE SORCERER. I'LL GIVE YOU THE TEMUSA SPELL."
+    }
+   ],
+   [
+    {
+     "sitio": "A6A3",
+     "accion": 0,
+     "texto": "YOU'LL NEED WATER SANDALS TO ACCESS TO THE CITY."
+    }
+   ],
+   [
+    {
+     "sitio": "A6A3",
+     "accion": 0,
+     "texto": "YOU'LL NEED WATER SANDALS TO ACCESS TO THE CITY."
+    }
+   ],
+   [
+    {
+     "sitio": "A6D9",
+     "accion": 0,
+     "texto": "THE ONE WHO MAKES THE WATER SANDALS LIVES IN THE FOREST."
+    }
+   ],
+   [
+    {
+     "sitio": "A717",
+     "accion": 0,
+     "texto": "USE THE TEMUSA SPELL TO DESTROY THE ROCKS."
+    }
+   ],
+   [
+    {
+     "sitio": "A746",
+     "accion": 0,
+     "texto": "KILL FIRETOTEM WITH THE BOOMERANG."
+    }
+   ],
+   [
+    {
+     "sitio": "A76E",
+     "accion": 0,
+     "texto": "KILL CLUBMAN WITH THE ROD."
+    }
+   ],
+   [
+    {
+     "sitio": "A792",
+     "accion": 8,
+     "texto": ""
+    },
+    {
+     "sitio": "A794",
+     "accion": 0,
+     "texto": "KI KI KU KI"
+    },
+    {
+     "sitio": "A7A1",
+     "accion": 0,
+     "texto": "OUR CHIEF'S GOT THE DORIAN FRUIT."
+    }
+   ],
+   [
+    {
+     "sitio": "A7CE",
+     "accion": 28,
+     "texto": ""
+    },
+    {
+     "sitio": "A794",
+     "accion": 0,
+     "texto": "KI KI KU KI"
+    },
+    {
+     "sitio": "A7D0",
+     "accion": 0,
+     "texto": "THANKS FOR CURING ME.IN APPRECIATION OF THAT..."
+    },
+    {
+     "sitio": "A801",
+     "accion": 9,
+     "texto": "TAKE THE DORIAN FRUIT."
+    }
+   ],
+   [
+    {
+     "sitio": "A82D",
+     "accion": 10,
+     "texto": ""
+    },
+    {
+     "sitio": "A794",
+     "accion": 0,
+     "texto": "KI KI KU KI"
+    },
+    {
+     "sitio": "A82F",
+     "accion": 0,
+     "texto": "OUR CHIEF IS SICK."
+    },
+    {
+     "sitio": "A843",
+     "accion": 0,
+     "texto": "IF YOU BRING ME 5 MEDICINAL HERBS, MY CHIEF MAY HEAL."
+    },
+    {
+     "sitio": "A87A",
+     "accion": 29,
+     "texto": "▶ 1 GIVE 5 HERBS 2 EXIT"
+    },
+    {
+     "sitio": "A895",
+     "accion": 0,
+     "texto": "IT'S A PITY."
+    },
+    {
+     "sitio": "A8A3",
+     "accion": 0,
+     "texto": "YOU DON'T HAVE ENOUGH MEDICINAL HERBS."
+    },
+    {
+     "sitio": "A8CB",
+     "accion": 0,
+     "texto": "THANK YOU VERY MUCH!"
+    },
+    {
+     "sitio": "A8E1",
+     "accion": 0,
+     "texto": "I THINK YOU ARE SICK TOO."
+    }
+   ],
+   [
+    {
+     "sitio": "A901",
+     "accion": 11,
+     "texto": "DO YOU WANT TO BUY A BOOK? IT'S 200G ▶ 1 OK 2 NO"
+    },
+    {
+     "sitio": "A598",
+     "accion": 0,
+     "texto": "NOT ENOUGH GOLD."
+    }
+   ],
+   [
+    {
+     "sitio": "A93D",
+     "accion": 0,
+     "texto": "DO YOU WANT TO BUY A PAIR OF WATER SANDALS? IT'S 150G"
+    },
+    {
+     "sitio": "A973",
+     "accion": 12,
+     "texto": "▶1 BUY 2 EXIT"
+    },
+    {
+     "sitio": "A598",
+     "accion": 0,
+     "texto": "NOT ENOUGH GOLD."
+    },
+    {
+     "sitio": "A984",
+     "accion": 0,
+     "texto": "I NEED PAPYRUS TO MAKE THEM."
+    }
+   ],
+   [
+    {
+     "sitio": "A9AE",
+     "accion": 13,
+     "texto": ""
+    },
+    {
+     "sitio": "A794",
+     "accion": 0,
+     "texto": "KI KI KU KI"
+    },
+    {
+     "sitio": "A9B0",
+     "accion": 0,
+     "texto": "IF YOU GIVE ME MEAT, I'LL LET YOU PASS."
+    },
+    {
+     "sitio": "A9D8",
+     "accion": 30,
+     "texto": "▶1 GIVE MEAT 2 EXIT"
+    },
+    {
+     "sitio": "A9EE",
+     "accion": 0,
+     "texto": "YOU DON'T HAVE MEAT."
+    }
+   ],
+   [
+    {
+     "sitio": "AA08",
+     "accion": 0,
+     "texto": "I'M SICK.I NEED A LOT OF MEDICINAL HERBS TO CURE MYSELF"
+    }
+   ],
+   [
+    {
+     "sitio": "AA45",
+     "accion": 14,
+     "texto": "YOU'VE BEEN BITTEN BY THE BUGS"
+    }
+   ],
+   [
+    {
+     "sitio": "AA71",
+     "accion": 15,
+     "texto": ""
+    },
+    {
+     "sitio": "A794",
+     "accion": 0,
+     "texto": "KI KI KU KI"
+    },
+    {
+     "sitio": "AA73",
+     "accion": 0,
+     "texto": "IF YOU GIVE ME MEAT, I'LL LET YOU STAY."
+    },
+    {
+     "sitio": "AA9B",
+     "accion": 31,
+     "texto": "▶1 GIVE MEAT 2 EXIT"
+    },
+    {
+     "sitio": "A9EE",
+     "accion": 0,
+     "texto": "YOU DON'T HAVE MEAT."
+    }
+   ],
+   [
+    {
+     "sitio": "AABD",
+     "accion": 16,
+     "texto": ""
+    },
+    {
+     "sitio": "A794",
+     "accion": 0,
+     "texto": "KI KI KU KI"
+    },
+    {
+     "sitio": "AABF",
+     "accion": 0,
+     "texto": "IF YOU GIVE ME MEAT, I'LL GIVE YOU AN IRON KEY."
+    },
+    {
+     "sitio": "AAEF",
+     "accion": 32,
+     "texto": "▶1 GIVE MEAT 2 EXIT"
+    },
+    {
+     "sitio": "A9EE",
+     "accion": 0,
+     "texto": "YOU DON'T HAVE MEAT."
+    }
+   ],
+   [
+    {
+     "sitio": "AB0D",
+     "accion": 0,
+     "texto": "WHAT DO YOU WANT TO EAT?"
+    },
+    {
+     "sitio": "AB27",
+     "accion": 17,
+     "texto": "▶1 LEECH SASHIMI 50G 2 BOILED MOUNTAIN WORM 100G"
+    },
+    {
+     "sitio": "A598",
+     "accion": 0,
+     "texto": "NOT ENOUGH GOLD."
+    }
+   ],
+   [
+    {
+     "sitio": "AB5F",
+     "accion": 0,
+     "texto": "PLEASE,RESCUE OUR LEADER!"
+    },
+    {
+     "sitio": "AB7A",
+     "accion": 0,
+     "texto": "THE KONG'S ROAR HAS BEEN STOLEN."
+    }
+   ],
+   [
+    {
+     "sitio": "ABA0",
+     "accion": 0,
+     "texto": "YOU NEED THE MAKAPORA SPELL TO KILL THE NASTY."
+    }
+   ],
+   [
+    {
+     "sitio": "ABD8",
+     "accion": 0,
+     "texto": "IF YOU GIVE ME A PAIR OF W.SANDALS, I'LL LET YOU STAY."
+    },
+    {
+     "sitio": "AC10",
+     "accion": 18,
+     "texto": "▶1 GIVE SANDALS 2 EXIT"
+    },
+    {
+     "sitio": "AC29",
+     "accion": 0,
+     "texto": "YOU DON'T HAVE WATER SANDALS."
+    }
+   ],
+   [
+    {
+     "sitio": "AC4B",
+     "accion": 19,
+     "texto": "I'LL GIVE YOU KONG'S FANG AS A TALISMAN."
+    }
+   ],
+   [],
+   [
+    {
+     "sitio": "AC7A",
+     "accion": 0,
+     "texto": "YOU NEED LAMELLA LIQUID TO KILL MUDARMOR."
+    }
+   ],
+   [
+    {
+     "sitio": "ACA9",
+     "accion": 0,
+     "texto": "THE TWINMIRES ARE THE GUARDIANS OF THE RED ROCK."
+    }
+   ],
+   [
+    {
+     "sitio": "ACE0",
+     "accion": 0,
+     "texto": "THERE'S AN ISLAND AHEAD. IT'S CALLED KEMURA."
+    },
+    {
+     "sitio": "AD0E",
+     "accion": 0,
+     "texto": "PEOPLE LIVING THERE KNOW ABOUT KONG'S LEGEND."
+    }
+   ],
+   [
+    {
+     "sitio": "AD45",
+     "accion": 0,
+     "texto": "WELCOME TO THE SEA HOUSE,WANT TO EAT?"
+    },
+    {
+     "sitio": "AD6C",
+     "accion": 21,
+     "texto": "▶1 SALTY SLUG 10G 2 SEA LOUSE MISO 50G 3 EXIT"
+    },
+    {
+     "sitio": "A598",
+     "accion": 0,
+     "texto": "NOT ENOUGH GOLD."
+    }
+   ],
+   [
+    {
+     "sitio": "ADA4",
+     "accion": 22,
+     "texto": ""
+    },
+    {
+     "sitio": "ADA6",
+     "accion": 0,
+     "texto": "I'M WAITING FOR A LETTER FROM MY SON."
+    },
+    {
+     "sitio": "ADCD",
+     "accion": 0,
+     "texto": "THANKS FOR BRINGING ME THIS LETTER."
+    },
+    {
+     "sitio": "ADF2",
+     "accion": 0,
+     "texto": "ACCEPT KONG'S EYE AS A GIFT."
+    }
+   ],
+   [
+    {
+     "sitio": "AE14",
+     "accion": 0,
+     "texto": "ONE OF THE SOLDIERS LEFT AN UNKNOWN MACHINE."
+    }
+   ],
+   [
+    {
+     "sitio": "AE4A",
+     "accion": 23,
+     "texto": ""
+    },
+    {
+     "sitio": "AE4C",
+     "accion": 0,
+     "texto": "THERE'S A RADIO!"
+    },
+    {
+     "sitio": "AE5E",
+     "accion": 0,
+     "texto": "I THINK IT'S BROKEN."
+    }
+   ],
+   [
+    {
+     "sitio": "AE78",
+     "accion": 0,
+     "texto": "YOU NEED LAKUNA'S ORB TO GET KONG'S ROAR."
+    }
+   ],
+   [
+    {
+     "sitio": "AEA7",
+     "accion": 0,
+     "texto": "ONLY KONG'S STRENGTH CAN MOVE THE YELLOW ROCK."
+    }
+   ],
+   [
+    {
+     "sitio": "AEE2",
+     "accion": 0,
+     "texto": "I REPAIR ANY BROKEN ITEM FOR 350G"
+    },
+    {
+     "sitio": "AF05",
+     "accion": 24,
+     "texto": "▶1 WEAPON 2 ITEM 3 NOTHING"
+    },
+    {
+     "sitio": "AF23",
+     "accion": 0,
+     "texto": "ANYTHING ELSE?"
+    },
+    {
+     "sitio": "AF33",
+     "accion": 0,
+     "texto": "YOUR RADIO IS NOW REPAIRED."
+    },
+    {
+     "sitio": "A33A",
+     "accion": 0,
+     "texto": "NOT ENOUGH GOLD."
+    }
+   ],
+   [
+    {
+     "sitio": "AF54",
+     "accion": 25,
+     "texto": "PUT YOUR OFFER TO KONG ON THE ALTAR."
+    }
+   ],
+   [
+    {
+     "sitio": "AF82",
+     "accion": 0,
+     "texto": "ACCORDING TO KONG'S LEGEND, YOU NEED THE YELLOW STONES"
+    },
+    {
+     "sitio": "AFB9",
+     "accion": 0,
+     "texto": "TO KILL THE BIG FLOWER GROWING AT THE CAVE."
+    },
+    {
+     "sitio": "AFE6",
+     "accion": 0,
+     "texto": "DON'T FORGET IT!"
+    }
+   ],
+   [
+    {
+     "sitio": "AFFC",
+     "accion": 0,
+     "texto": "YOU NEED KONG'S TEAR TO FILL UP THE GAP AT THE CAVE."
+    }
+   ],
+   [
+    {
+     "sitio": "B037",
+     "accion": 0,
+     "texto": "THIS IS THE HOLY DOOR OF PRAY."
+    },
+    {
+     "sitio": "B057",
+     "accion": 0,
+     "texto": "YOU NEED KONG'S FANG TO OPEN THE DOOR."
+    }
+   ],
+   [
+    {
+     "sitio": "B082",
+     "accion": 26,
+     "texto": "DO YOU WANT TO EXIT THE CAVE? ▶ 1 OK 2 NO"
+    }
+   ],
+   [
+    {
+     "sitio": "B0B4",
+     "accion": 0,
+     "texto": "I'M THE LEADER. THANKS FOR SAVING ME."
+    },
+    {
+     "sitio": "B0DB",
+     "accion": 27,
+     "texto": "I'LL GIVE YOU THE MAKAPORA SPELL."
+    }
+   ],
+   [
+    {
+     "sitio": "B102",
+     "accion": 0,
+     "texto": "KILL THE WHITE MONSTERS WITH THE LIGHT SWORD"
+    }
+   ],
+   [
+    {
+     "sitio": "B136",
+     "accion": 0,
+     "texto": "KONG'S CLAW IS THE ONLY WEAPON WHICH NEUTRALIZES ANY"
+    },
+    {
+     "sitio": "B16C",
+     "accion": 0,
+     "texto": "CURSE."
+    }
+   ],
+   [
+    {
+     "sitio": "B178",
+     "accion": 0,
+     "texto": "YOU NEED THE AGNOS KEY TO OPEN THIS CHEST."
+    }
+   ],
+   [
+    {
+     "sitio": "B1A8",
+     "accion": 0,
+     "texto": "KILL THE CROWS WITHOUT FAILING."
+    }
+   ],
+   [
+    {
+     "sitio": "B1CD",
+     "accion": 0,
+     "texto": "KONG'S ROAR IS HIDDEN IN THE TEMPLE."
+    }
+   ],
+   [
+    {
+     "sitio": "B1FD",
+     "accion": 0,
+     "texto": "LET'S CALL THE HELICOPTER,NOW."
+    },
+    {
+     "sitio": "B21D",
+     "accion": 0,
+     "texto": "THIS IS THE ARMY! THIS IS THE ARMY!"
+    },
+    {
+     "sitio": "B242",
+     "accion": 0,
+     "texto": "HAVEN'T YOU FOUND LADY KONG YET?"
+    },
+    {
+     "sitio": "B264",
+     "accion": 0,
+     "texto": "KING KONG IS GOING TO DIE."
+    }
+   ],
+   [
+    {
+     "sitio": "B1FD",
+     "accion": 0,
+     "texto": "LET'S CALL THE HELICOPTER,NOW."
+    },
+    {
+     "sitio": "B28C",
+     "accion": 0,
+     "texto": "YOU'VE DONE A GOOD JOB,MITCHEL"
+    },
+    {
+     "sitio": "B2AC",
+     "accion": 0,
+     "texto": "WE'RE COMING RIGHT NOW."
+    },
+    {
+     "sitio": "B2C5",
+     "accion": 33,
+     "texto": "KING KONG WILL BE SAVED."
+    },
+    {
+     "sitio": "B2DF",
+     "accion": 34,
+     "texto": "THE HELICOPTER IS LANDING."
+    }
+   ]
+  ],
+  "objetos": [
+   "KNIFE",
+   "ROD",
+   "CLUB",
+   "L.SWORD",
+   "AXE",
+   "SWORD",
+   "K.CLAW",
+   "STONES",
+   "F.BALL",
+   "BOOMERANG",
+   "HARPOON",
+   "TEMUSA",
+   "NEMURI",
+   "MAKAPORA",
+   "LAMELLA",
+   "HERB",
+   "P.ORB",
+   "K.FANG",
+   "BOW HARP",
+   "AGNOS K.",
+   "MEAT",
+   "K.TEAR",
+   "D.FRUIT",
+   "AMULET",
+   "RADIO",
+   "K.EYE",
+   "K.ROAR",
+   "LAKUNA",
+   "PAPYRUS",
+   "W.SANDALS",
+   "Y.STONES",
+   "LETTER",
+   "BOOK",
+   "WHIRL",
+   "WOOD KEY",
+   "IRON KEY"
+  ],
+  "cogido": "TAKEN",
+  "final": [
+   {
+    "sitio": "AD4A",
+    "renglones": [
+     "MITCHEL,YOU'VE FOUGHT BRA-",
+     "VELY.YOU FOUND LADY KONG.",
+     "BUT,TOO LATE."
+    ]
+   },
+   {
+    "sitio": "AD8F",
+    "renglones": [
+     "DESPITE AMY'S EFFORT,",
+     "KING KONG HAS PERISHED"
+    ]
+   },
+   {
+    "sitio": "ADBE",
+    "renglones": [
+     "LOOK MITCHEL,LADY IS",
+     "RUNNING HAPPILY."
+    ]
+   },
+   {
+    "sitio": "ADE5",
+    "renglones": [
+     "WE COULDN'T SAVE KING KONG"
+    ]
+   },
+   {
+    "sitio": "AE34",
+    "renglones": [
+     "MITCHEL HAS FOUGHT HARD TO",
+     "FIND LADY KONG.AMY HAS",
+     "OPERATED ON KING KONG."
+    ]
+   },
+   {
+    "sitio": "AE7F",
+    "renglones": [
+     "WE FINALLY DID IT!",
+     "KING KONG IS ALIVE!"
+    ]
+   },
+   {
+    "sitio": "AEA7",
+    "renglones": [
+     "THANKS TO YOU HE LIVES."
+    ]
+   },
+   {
+    "sitio": "AEBF",
+    "renglones": [
+     "GOLNEBO WILL REGAIN PEACE.",
+     "THEY WILL BE HAPPY.",
+     "THANK YOU MITCHEL!"
+    ]
+   },
+   {
+    "sitio": "AF03",
+    "renglones": [
+     "OH!WHAT A SURPRISE!IT'S",
+     "BABY KONG!YOU MADE IT!",
+     "CONGRATULATIONS!"
+    ]
+   },
+   {
+    "sitio": "AF45",
+    "renglones": [
+     "THE END"
+    ]
+   }
+  ],
+  "final_sin_lector": [
+   {
+    "sitio": "AE00",
+    "tras": "ADE5",
+    "renglones": [
+     "BUT THE ADVENTURE HAS BEEN",
+     "WORTHY.THANKS MITCHEL."
+    ]
+   }
+  ],
+  "rotulos": {
+   "panel1": [
+    "MITCHEL",
+    "WEAPON",
+    "ITEM"
+   ],
+   "panel2": [
+    "DAYS",
+    "MAGIC",
+    "GOLD",
+    "LIFE",
+    "EXP",
+    "LEVEL"
+   ],
+   "ventana": [
+    "ITEMS",
+    "MITCHEL",
+    "SPEED"
+   ],
+   "shot1": [
+    "WEAPONS"
+   ],
+   "mizugeta": [
+    "W.SANDALS"
+   ]
+  },
+  "sitios": {
+   "conv": "A14E",
+   "objetos": "B525",
+   "cogido": "B66A",
+   "panel1": "6313",
+   "panel2": "632D",
+   "ventana": "B8B5",
+   "shot1": "B8CF",
+   "mizugeta": "BBAC",
+   "the_end": "AF45"
+  }
+ },
+ "ES": {
+  "conversaciones": [
+   [
+    {
+     "sitio": "A1CE",
+     "accion": 0,
+     "texto": "¿PARA QUE HAS VENIDO A LA ISLA DE GOLNEBO?"
+    },
+    {
+     "sitio": "A1F9",
+     "accion": 0,
+     "texto": "HMMM...YA VEO.ASI QUE HAS VENIDO A BUSCAR A LADY KONG."
+    },
+    {
+     "sitio": "A231",
+     "accion": 0,
+     "texto": "SEGUN LA LEYENDA, ESTA ESCONDIDA EN ESTA ISLA."
+    },
+    {
+     "sitio": "A261",
+     "accion": 0,
+     "texto": "PARA ENCONTRARLA HAY QUE DESCIFRAR DICHA LEYENDA."
+    },
+    {
+     "sitio": "A293",
+     "accion": 0,
+     "texto": "PREGUNTA A LOS ANCIANOS DE LA ISLA Y TE DARAN PISTAS."
+    },
+    {
+     "sitio": "A2CA",
+     "accion": 0,
+     "texto": "¡TEN CUIDADO!"
+    }
+   ],
+   [
+    {
+     "sitio": "A2E9",
+     "accion": 0,
+     "texto": "SOMOS CONTRABANDIS-TAS.PODEMOS VENDERTE ARMAS."
+    },
+    {
+     "sitio": "A319",
+     "accion": 1,
+     "texto": "CUCHILLO PARA MATAR A BIGSPIDER POR 200 ▶ 1 SI 2 NO"
+    },
+    {
+     "sitio": "A34F",
+     "accion": 0,
+     "texto": "GRACIAS"
+    },
+    {
+     "sitio": "A358",
+     "accion": 0,
+     "texto": "NO TIENES SUFICIENTE"
+    },
+    {
+     "sitio": "A36E",
+     "accion": 2,
+     "texto": "HACHA PARA MATAR A GRIZZLY POR 300 ▶ 1 SI 2 NO"
+    },
+    {
+     "sitio": "A3A1",
+     "accion": 0,
+     "texto": "LO SIENTO,NO NOS QUEDAN."
+    },
+    {
+     "sitio": "A3BB",
+     "accion": 0,
+     "texto": "NECESITAS SER MAS FUERTE."
+    }
+   ],
+   [
+    {
+     "sitio": "A3DC",
+     "accion": 0,
+     "texto": "LA LLAVE DEL SOTANO DONDE SE ESCONDE EL BRUJO·SE LA HA"
+    },
+    {
+     "sitio": "A414",
+     "accion": 0,
+     "texto": "COMIDO BIGSPIDER."
+    }
+   ],
+   [
+    {
+     "sitio": "A42B",
+     "accion": 0,
+     "texto": "A KONG LE GUSTA MUCHO LA FRUTA DORIAN."
+    }
+   ],
+   [
+    {
+     "sitio": "A457",
+     "accion": 0,
+     "texto": "LOS GRASSOGRE SON VULNERABLES A LAS ROCAS."
+    }
+   ],
+   [
+    {
+     "sitio": "A48F",
+     "accion": 0,
+     "texto": "TODAVIA NO HA VUELTO EL GRUPO DE SOLDADOS QUE FUE A LA PLAYA."
+    },
+    {
+     "sitio": "A4CC",
+     "accion": 0,
+     "texto": "QUIZA FUERON DEVORA-DOS POR LOS RED F.MAN.¡TEN CUIDADO!"
+    },
+    {
+     "sitio": "A505",
+     "accion": 0,
+     "texto": "ELLOS TENIAN UNA EXTRAÑA MAQUINA."
+    },
+    {
+     "sitio": "A528",
+     "accion": 3,
+     "texto": "ERA UNA MAQUINA QUE HABLABA."
+    },
+    {
+     "sitio": "A546",
+     "accion": 0,
+     "texto": "ADIOS."
+    }
+   ],
+   [
+    {
+     "sitio": "A552",
+     "accion": 4,
+     "texto": "¿PUEDES LLEVAR ESTA CARTA AL ANCIANO DE KEMURA?▶ 1 SI 2 NO"
+    }
+   ],
+   [
+    {
+     "sitio": "A597",
+     "accion": 0,
+     "texto": "¿QUE QUIERES COMER?"
+    },
+    {
+     "sitio": "A5AC",
+     "accion": 5,
+     "texto": "▶1 GUSANO HERVIDO 50 2 JABALI ASADO 100 3 NO COMER"
+    },
+    {
+     "sitio": "A5E1",
+     "accion": 0,
+     "texto": "TE FALTA DINERO."
+    }
+   ],
+   [
+    {
+     "sitio": "A5F9",
+     "accion": 6,
+     "texto": "¿QUIERES ALOJARTE? CUESTA 150 ▶ 1 SI 2 NO"
+    },
+    {
+     "sitio": "A5E1",
+     "accion": 0,
+     "texto": "TE FALTA DINERO."
+    }
+   ],
+   [
+    {
+     "sitio": "A62D",
+     "accion": 0,
+     "texto": "SEGUN LA LEYENDA,RED F.MAN SE COMIO LA GARRA DE KONG."
+    },
+    {
+     "sitio": "A663",
+     "accion": 0,
+     "texto": "CONSEGUIRAS MAS INFORMACION SOBRE LA GARRA DE KONG EN"
+    },
+    {
+     "sitio": "A69A",
+     "accion": 0,
+     "texto": "LA ZONA SUBTERRANEA DE LA ISLA."
+    }
+   ],
+   [
+    {
+     "sitio": "A6BF",
+     "accion": 7,
+     "texto": "SOY EL BRUJO.TE ENSEÑARE EL HECHIZO TEMUSA."
+    }
+   ],
+   [
+    {
+     "sitio": "A6F0",
+     "accion": 0,
+     "texto": "PARA ACCEDER A LA CIUDAD,HACEN FALTA SANDALIAS DE AGUA."
+    }
+   ],
+   [
+    {
+     "sitio": "A6F0",
+     "accion": 0,
+     "texto": "PARA ACCEDER A LA CIUDAD,HACEN FALTA SANDALIAS DE AGUA."
+    }
+   ],
+   [
+    {
+     "sitio": "A72D",
+     "accion": 0,
+     "texto": "EL QUE FABRICA LAS SANDALIAS DE AGUA VIVE EN EL BOSQUE."
+    }
+   ],
+   [
+    {
+     "sitio": "A76A",
+     "accion": 0,
+     "texto": "DESTRUYE ROCAS CON EL HECHIZO TEMUSA."
+    }
+   ],
+   [
+    {
+     "sitio": "A795",
+     "accion": 0,
+     "texto": "CON EL BUMERAN PODRAS MATAR A LOS FIRETOTEM."
+    }
+   ],
+   [
+    {
+     "sitio": "A7C7",
+     "accion": 0,
+     "texto": "CON EL PALO PODRAS MATAR A CLUBMAN."
+    }
+   ],
+   [
+    {
+     "sitio": "A7F4",
+     "accion": 8,
+     "texto": ""
+    },
+    {
+     "sitio": "A7F6",
+     "accion": 0,
+     "texto": "KI KI KU KI"
+    },
+    {
+     "sitio": "A803",
+     "accion": 0,
+     "texto": "MI JEFE TIENE LA FRUTA DORIAN."
+    }
+   ],
+   [
+    {
+     "sitio": "A82B",
+     "accion": 28,
+     "texto": ""
+    },
+    {
+     "sitio": "A7F6",
+     "accion": 0,
+     "texto": "KI KI KU KI"
+    },
+    {
+     "sitio": "A82D",
+     "accion": 9,
+     "texto": "GRACIAS POR CURARME. COMO AGRADECIMIENTO, TOMA LA FRUTA DORIAN"
+    }
+   ],
+   [
+    {
+     "sitio": "A87F",
+     "accion": 10,
+     "texto": ""
+    },
+    {
+     "sitio": "A7F6",
+     "accion": 0,
+     "texto": "KI KI KU KI"
+    },
+    {
+     "sitio": "A881",
+     "accion": 0,
+     "texto": "MI JEFE ESTA ENFERMO"
+    },
+    {
+     "sitio": "A897",
+     "accion": 0,
+     "texto": "SI CONSIGUES 5 HIER-BAS MEDICINALES,MI JEFE PODRA CURARSE."
+    },
+    {
+     "sitio": "A8D3",
+     "accion": 29,
+     "texto": "▶1 DAR 5 HIERBAS 2 SALIR"
+    },
+    {
+     "sitio": "A8EE",
+     "accion": 0,
+     "texto": "ES UNA LASTIMA."
+    },
+    {
+     "sitio": "A8FF",
+     "accion": 0,
+     "texto": "TE FALTAN HIERBAS MEDICINALES"
+    },
+    {
+     "sitio": "A91E",
+     "accion": 0,
+     "texto": "¡MUCHAS GRACIAS!"
+    },
+    {
+     "sitio": "A930",
+     "accion": 0,
+     "texto": "CREO QUE TU TAMBIEN ESTAS ENFERMO."
+    }
+   ],
+   [
+    {
+     "sitio": "A95A",
+     "accion": 11,
+     "texto": "¿QUIERES COMPRAR UN LIBRO? CUESTA 200 ▶ 1 SI 2 NO"
+    },
+    {
+     "sitio": "A5E1",
+     "accion": 0,
+     "texto": "TE FALTA DINERO."
+    }
+   ],
+   [
+    {
+     "sitio": "A998",
+     "accion": 0,
+     "texto": "¿QUIERES COMPRAR UNAS SANDALIAS DE AGUA? CUESTAN 150"
+    },
+    {
+     "sitio": "A9CE",
+     "accion": 12,
+     "texto": "▶1 COMPRAR 2 SALIR"
+    },
+    {
+     "sitio": "A5E1",
+     "accion": 0,
+     "texto": "TE FALTA DINERO."
+    },
+    {
+     "sitio": "A9E4",
+     "accion": 0,
+     "texto": "NECESITO PAPIRO PARA PODER HACERLAS."
+    }
+   ],
+   [
+    {
+     "sitio": "AA15",
+     "accion": 13,
+     "texto": ""
+    },
+    {
+     "sitio": "A7F6",
+     "accion": 0,
+     "texto": "KI KI KU KI"
+    },
+    {
+     "sitio": "AA17",
+     "accion": 0,
+     "texto": "SI ME DAS CARNE,TE DEJARE PASAR."
+    },
+    {
+     "sitio": "AA39",
+     "accion": 30,
+     "texto": "▶1 DAR CARNE 2 SALIR"
+    },
+    {
+     "sitio": "AA50",
+     "accion": 0,
+     "texto": "NO TIENES CARNE."
+    }
+   ],
+   [
+    {
+     "sitio": "AA66",
+     "accion": 0,
+     "texto": "ESTOY ENFERMO.NECE-SITO MUCHAS HIERBAS PARA CURARME."
+    }
+   ],
+   [
+    {
+     "sitio": "AAA1",
+     "accion": 14,
+     "texto": "¡TE HAN PICADO UNOS BICHOS!"
+    }
+   ],
+   [
+    {
+     "sitio": "AACA",
+     "accion": 15,
+     "texto": ""
+    },
+    {
+     "sitio": "A7F6",
+     "accion": 0,
+     "texto": "KI KI KU KI"
+    },
+    {
+     "sitio": "AACC",
+     "accion": 0,
+     "texto": "SI ME DAS CARNE,TE DEJARE ALOJARTE."
+    },
+    {
+     "sitio": "AAF1",
+     "accion": 31,
+     "texto": "▶1 DAR CARNE 2 SALIR"
+    },
+    {
+     "sitio": "AA50",
+     "accion": 0,
+     "texto": "NO TIENES CARNE."
+    }
+   ],
+   [
+    {
+     "sitio": "AB14",
+     "accion": 16,
+     "texto": ""
+    },
+    {
+     "sitio": "A7F6",
+     "accion": 0,
+     "texto": "KI KI KU KI"
+    },
+    {
+     "sitio": "AB16",
+     "accion": 0,
+     "texto": "SI ME DAS CARNE,TE DARE UNA LLAVE DE HIERRO."
+    },
+    {
+     "sitio": "AB44",
+     "accion": 32,
+     "texto": "▶1 DAR CARNE 2 SALIR"
+    },
+    {
+     "sitio": "AA50",
+     "accion": 0,
+     "texto": "NO TIENES CARNE."
+    }
+   ],
+   [
+    {
+     "sitio": "AB63",
+     "accion": 0,
+     "texto": "¿QUE QUIERES COMER?"
+    },
+    {
+     "sitio": "AB78",
+     "accion": 17,
+     "texto": "▶1 SANGUIJUELAS 50 2 LOMBRIZ DE MONTA-ÑA HERVIDA 100"
+    },
+    {
+     "sitio": "A5E1",
+     "accion": 0,
+     "texto": "TE FALTA DINERO."
+    }
+   ],
+   [
+    {
+     "sitio": "ABB5",
+     "accion": 0,
+     "texto": "¡POR FAVOR,RESCATA A NUESTRO LIDER!"
+    },
+    {
+     "sitio": "ABD9",
+     "accion": 0,
+     "texto": "NOS HAN ROBADO EL RUGIDO DE KONG."
+    }
+   ],
+   [
+    {
+     "sitio": "AC00",
+     "accion": 0,
+     "texto": "PARA MATAR A THE NASTY NECESITAS EL HECHIZO MAKAPORA."
+    }
+   ],
+   [
+    {
+     "sitio": "AC3F",
+     "accion": 0,
+     "texto": "SI ME DAS UNAS SAN-DALIAS DE AGUA,TE DEJO ALOJARTE."
+    },
+    {
+     "sitio": "AC75",
+     "accion": 18,
+     "texto": "▶1 DAR SANDALIAS 2 SALIR"
+    },
+    {
+     "sitio": "AC91",
+     "accion": 0,
+     "texto": "NO TIENES SANDALIAS DE AGUA"
+    }
+   ],
+   [
+    {
+     "sitio": "ACB2",
+     "accion": 19,
+     "texto": "TE DOY EL COLMILLO DE KONG COMO TALIS-MAN."
+    }
+   ],
+   [],
+   [
+    {
+     "sitio": "ACE5",
+     "accion": 0,
+     "texto": "PARA MATAR A MUDAR-MOR NECESITAS EL LIQUIDO DE LAMELA."
+    }
+   ],
+   [
+    {
+     "sitio": "AD22",
+     "accion": 0,
+     "texto": "LOS TWINMIRES SON LOS GUARDIANES DE LA ROCA ROJA."
+    }
+   ],
+   [
+    {
+     "sitio": "AD5A",
+     "accion": 0,
+     "texto": "MAS ADELANTE HAY UNA ISLA LLAMADA KEMURA."
+    },
+    {
+     "sitio": "AD84",
+     "accion": 0,
+     "texto": "EN ESA ISLA CONOCEN LA LEYENDA DE KONG."
+    }
+   ],
+   [
+    {
+     "sitio": "ADB5",
+     "accion": 0,
+     "texto": "BIENVENIDO A LA CASA DEL MAR.¿QUE DESEAS?"
+    },
+    {
+     "sitio": "ADDF",
+     "accion": 21,
+     "texto": "▶1 BABOSA SALADA 10 2 PIOJOS AL MISO 50 3 NO COMER"
+    },
+    {
+     "sitio": "A5E1",
+     "accion": 0,
+     "texto": "TE FALTA DINERO."
+    }
+   ],
+   [
+    {
+     "sitio": "AE1E",
+     "accion": 22,
+     "texto": ""
+    },
+    {
+     "sitio": "AE20",
+     "accion": 0,
+     "texto": "ESTOY ESPERANDO UNA CARTA DE MI HIJO."
+    },
+    {
+     "sitio": "AE47",
+     "accion": 0,
+     "texto": "GRACIAS POR TRAERME LA CARTA."
+    },
+    {
+     "sitio": "AE66",
+     "accion": 0,
+     "texto": "EN AGRADECIMIENTO TE DARE EL OJO DE KONG."
+    }
+   ],
+   [
+    {
+     "sitio": "AE94",
+     "accion": 0,
+     "texto": "UNO DE LOS SOLDADOS DEJO UNA EXTRAÑA MA-QUINA QUE NO CONOZCO"
+    }
+   ],
+   [
+    {
+     "sitio": "AEDA",
+     "accion": 23,
+     "texto": ""
+    },
+    {
+     "sitio": "AEDC",
+     "accion": 0,
+     "texto": "¡HAY UNA RADIO!"
+    },
+    {
+     "sitio": "AEED",
+     "accion": 0,
+     "texto": "CREO QUE ESTA ROTA."
+    }
+   ],
+   [
+    {
+     "sitio": "AF08",
+     "accion": 0,
+     "texto": "PARA CONSEGUIR EL RUGIDO DE KONG, NECESITAS LA BOLA"
+    },
+    {
+     "sitio": "AF3D",
+     "accion": 0,
+     "texto": "DE LAKUNA."
+    }
+   ],
+   [
+    {
+     "sitio": "AF4D",
+     "accion": 0,
+     "texto": "SOLO LA FUERZA DE KONG PUEDE MOVER LA ROCA AMARILLA."
+    }
+   ],
+   [
+    {
+     "sitio": "AF8F",
+     "accion": 0,
+     "texto": "ARREGLO CUALQUIER COSA ROTA POR 350."
+    },
+    {
+     "sitio": "AFB5",
+     "accion": 24,
+     "texto": "▶1 ARMA 2 OBJETO 3 SALIR"
+    },
+    {
+     "sitio": "AFD1",
+     "accion": 0,
+     "texto": "¿ALGO MAS?"
+    },
+    {
+     "sitio": "AFDD",
+     "accion": 0,
+     "texto": "TU RADIO YA ESTA ARREGLADA."
+    },
+    {
+     "sitio": "A358",
+     "accion": 0,
+     "texto": "NO TIENES SUFICIENTE"
+    }
+   ],
+   [
+    {
+     "sitio": "AFFE",
+     "accion": 25,
+     "texto": "PON LAS OFRENDAS A KONG SOBRE EL ALTAR."
+    }
+   ],
+   [
+    {
+     "sitio": "B02F",
+     "accion": 0,
+     "texto": "SEGUN LA LEYENDA DE KONG,PARA ELIMINAR LA FLOR GIGANTE QUE"
+    },
+    {
+     "sitio": "B06B",
+     "accion": 0,
+     "texto": "CRECE EN LA CUEVA, NECESITAS LAS PIEDRAS DORADAS."
+    },
+    {
+     "sitio": "B09E",
+     "accion": 0,
+     "texto": "¡RECUERDALO BIEN!"
+    }
+   ],
+   [
+    {
+     "sitio": "B0B7",
+     "accion": 0,
+     "texto": "PARA TAPAR LA GRIETA EN LA CUEVA,HACE FALTA LA LAGRIMA DE"
+    },
+    {
+     "sitio": "B0F1",
+     "accion": 0,
+     "texto": "KONG."
+    }
+   ],
+   [
+    {
+     "sitio": "B0FE",
+     "accion": 0,
+     "texto": "ESTA ES LA SAGRADA PUERTA DE LA ORACION"
+    },
+    {
+     "sitio": "B127",
+     "accion": 0,
+     "texto": "PARA ABRIR LA PUERTA NECESITAS EL COLMI-LLO DE KONG."
+    }
+   ],
+   [
+    {
+     "sitio": "B161",
+     "accion": 26,
+     "texto": "¿QUIERES SALIR DE LA CUEVA? ▶ 1 SI 2 NO"
+    }
+   ],
+   [
+    {
+     "sitio": "B190",
+     "accion": 0,
+     "texto": "YO SOY EL LIDER. GRACIAS POR SALVARME"
+    },
+    {
+     "sitio": "B1B7",
+     "accion": 27,
+     "texto": "EN AGRADECIMIENTO TE DARE EL HECHIZO DE MAKAPORA."
+    }
+   ],
+   [
+    {
+     "sitio": "B1EE",
+     "accion": 0,
+     "texto": "MATA A LOS MONSTRUOS BLANCOS CON LA ESPADA DE LUZ."
+    }
+   ],
+   [
+    {
+     "sitio": "B227",
+     "accion": 0,
+     "texto": "LA GARRA DE KONG ES LA UNICA ARMA QUE NEUTRALIZA"
+    },
+    {
+     "sitio": "B259",
+     "accion": 0,
+     "texto": "CUALQUIER MALDICION."
+    }
+   ],
+   [
+    {
+     "sitio": "B273",
+     "accion": 0,
+     "texto": "PARA ABRIR ESTE COFRE NECESITAS LA LLAVE DE AGNOS."
+    }
+   ],
+   [
+    {
+     "sitio": "B2AB",
+     "accion": 0,
+     "texto": "MATA A LOS CUERVOS SIN FALTA."
+    }
+   ],
+   [
+    {
+     "sitio": "B2CE",
+     "accion": 0,
+     "texto": "EN EL TEMPLO SE HAYA ESCONDIDO EL RUGIDO DE KONG."
+    }
+   ],
+   [
+    {
+     "sitio": "B30A",
+     "accion": 0,
+     "texto": "AHORA VAMOS A COMU-NICARNOS CON EL HELICOPTERO."
+    },
+    {
+     "sitio": "B33C",
+     "accion": 0,
+     "texto": "¡AQUI EL EJERCITO, AQUI EL EJERCITO!"
+    },
+    {
+     "sitio": "B362",
+     "accion": 0,
+     "texto": "¿TODAVIA NO HAS ENCONTRADO A LADY KONG?"
+    },
+    {
+     "sitio": "B38B",
+     "accion": 0,
+     "texto": "KING KONG ESTA A PUNTO DE MORIR."
+    }
+   ],
+   [
+    {
+     "sitio": "B30A",
+     "accion": 0,
+     "texto": "AHORA VAMOS A COMU-NICARNOS CON EL HELICOPTERO."
+    },
+    {
+     "sitio": "B3B9",
+     "accion": 0,
+     "texto": "HAS HECHO UN BUEN TRABAJO,MITCHEL."
+    },
+    {
+     "sitio": "B3DD",
+     "accion": 0,
+     "texto": "VAMOS HACIA ALLA ENSEGUIDA."
+    },
+    {
+     "sitio": "B3FA",
+     "accion": 33,
+     "texto": "KING KONG SE SALVARA."
+    },
+    {
+     "sitio": "B411",
+     "accion": 34,
+     "texto": "HA LLEGADO EL HELICOPTERO."
+    }
+   ]
+  ],
+  "objetos": [
+   "CUCHILLO",
+   "PALO",
+   "GARROTE",
+   "E.DE LUZ",
+   "HACHA",
+   "ESPADA",
+   "GARRA",
+   "PIEDRAS",
+   "B.FUEGO",
+   "BUMERAN",
+   "HARPON",
+   "TEMUSA",
+   "NEMURI",
+   "MAKAPORA",
+   "LAMELA",
+   "HIERBAS",
+   "B.MAGICA",
+   "COLMILLO",
+   "ARCO ARPA",
+   "LL.AGNOS",
+   "CARNE",
+   "LAGRIMA",
+   "FRUTA D.",
+   "AMULETO",
+   "RADIO",
+   "OJO",
+   "RUGIDO",
+   "LAKUNA",
+   "PAPIRO",
+   "SANDALIA",
+   "P.DORADAS",
+   "CARTA",
+   "LIBRO",
+   "REMOLINO",
+   "LL.MADERA",
+   "LL.HIERRO"
+  ],
+  "cogido": "OBTIENES",
+  "final": [
+   {
+    "sitio": "AD4A",
+    "renglones": [
+     "MITCHEL HAS LUCHADO CON",
+     "VALOR Y ENCONTRADO A LADY",
+     "KONG.PERO DEMASIADO TARDE."
+    ]
+   },
+   {
+    "sitio": "AD99",
+    "renglones": [
+     "A PESAR.DE LOS ESFUERZOS DE",
+     "AMI,KING KONG HA MUERTO."
+    ]
+   },
+   {
+    "sitio": "ADCF",
+    "renglones": [
+     "MIRA MITCHEL,LADY KONG",
+     "CORRE FELIZMENTE."
+    ]
+   },
+   {
+    "sitio": "ADF9",
+    "renglones": [
+     "NO HEMOS PODIDO SALVAR A"
+    ]
+   },
+   {
+    "sitio": "AE3F",
+    "renglones": [
+     "MITCHEL HA CONSEGUIDO",
+     "ENCONTRAR A LADY KONG.",
+     "AMY HA OPERADO A KONG."
+    ]
+   },
+   {
+    "sitio": "AE85",
+    "renglones": [
+     "¡LO HEMOS CONSEGUIDO!",
+     "¡KING KONG ESTA VIVO!"
+    ]
+   },
+   {
+    "sitio": "AEB2",
+    "renglones": [
+     "EL VIVE GRACIAS A TI."
+    ]
+   },
+   {
+    "sitio": "AEC8",
+    "renglones": [
+     "GOLNEBO HA RECUPERADO LA",
+     "PAZ.AQUI SERAN FELICES.",
+     "¡GRACIAS MITCHEL!"
+    ]
+   },
+   {
+    "sitio": "AF0D",
+    "renglones": [
+     "¡OH!¡HAN TENIDO UN HIJO!",
+     "¡LO HAN CONSEGUIDO!",
+     "¡ENHORABUENA!"
+    ]
+   },
+   {
+    "sitio": "AF4A",
+    "renglones": [
+     "FIN"
+    ]
+   }
+  ],
+  "final_sin_lector": [
+   {
+    "sitio": "AE12",
+    "tras": "ADF9",
+    "renglones": [
+     "KONG,PERO LA AVENTURA",
+     "HA MERECIDO LA PENA."
+    ]
+   }
+  ],
+  "rotulos": {
+   "panel1": [
+    "MITCHEL",
+    "ARMA",
+    "OBJETO"
+   ],
+   "panel2": [
+    "DIAS",
+    "MAGIA",
+    "ORO",
+    "VIDA",
+    "EXP",
+    "NIVEL"
+   ],
+   "ventana": [
+    "OBJETOS",
+    "MITCHEL",
+    "VELOCIDAD"
+   ],
+   "shot1": [
+    "ARMAS"
+   ],
+   "mizugeta": [
+    "SANDALIAS"
+   ]
+  },
+  "sitios": {
+   "conv": "A14E",
+   "objetos": "B526",
+   "cogido": "B67F",
+   "panel1": "631B",
+   "panel2": "6335",
+   "ventana": "B9E7",
+   "shot1": "BA07",
+   "mizugeta": "BCE2",
+   "the_end": "AF4A"
+  }
+ }
+}

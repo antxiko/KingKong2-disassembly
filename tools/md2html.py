@@ -25,14 +25,14 @@ NAV_EN = [("index.html", "Home"), ("GETTING-STARTED.html", "Start"),
           ("THE-GAME.html", "The game"),
           ("THE-CARTRIDGE.html", "The cartridge"),
           ("THE-CODE.html", "The code"),
-          ("THE-MUSIC.html", "The music"), ("FINDINGS.html", "Findings"),
+          ("THE-MUSIC.html", "The music"), ("THE-TEXTS.html", "The texts"), ("THE-PATCH.html", "The patch"), ("FINDINGS.html", "Findings"),
           ("IN-THE-EMULATOR.html", "In the emulator"),
           ("OPEN-QUESTIONS.html", "Open questions")]
 NAV_ES = [("index.html", "Portada"), ("EMPEZAR.html", "Empezar"),
           ("EL-JUEGO.html", "El juego"),
           ("EL-CARTUCHO.html", "El cartucho"),
           ("EL-CODIGO.html", "El código"),
-          ("LA-MUSICA.html", "La música"), ("HALLAZGOS.html", "Hallazgos"),
+          ("LA-MUSICA.html", "La música"), ("LOS-TEXTOS.html", "Los textos"), ("EL-PARCHE.html", "El parche"), ("HALLAZGOS.html", "Hallazgos"),
           ("EN-EL-EMULADOR.html", "En el emulador"),
           ("PREGUNTAS-ABIERTAS.html", "Preguntas abiertas")]
 
@@ -42,7 +42,7 @@ _PAREJAS = [("GETTING-STARTED.html", "EMPEZAR.html"),
             ("THE-GAME.html", "EL-JUEGO.html"),
             ("THE-CARTRIDGE.html", "EL-CARTUCHO.html"),
             ("THE-CODE.html", "EL-CODIGO.html"),
-            ("THE-MUSIC.html", "LA-MUSICA.html"), ("FINDINGS.html", "HALLAZGOS.html"),
+            ("THE-MUSIC.html", "LA-MUSICA.html"), ("THE-TEXTS.html", "LOS-TEXTOS.html"), ("THE-PATCH.html", "EL-PARCHE.html"), ("FINDINGS.html", "HALLAZGOS.html"),
             ("IN-THE-EMULATOR.html", "EN-EL-EMULADOR.html"),
             ("OPEN-QUESTIONS.html", "PREGUNTAS-ABIERTAS.html")]
 PAREJA = {}
@@ -107,7 +107,7 @@ def ruta(href):
             "LEGAL-NOTICE.md", "Makefile"):
         return f"{REPO}/blob/main/{plano}"
     if h.startswith("../"):
-        return h if h.endswith((".html", ".png", ".txt")) else plano
+        return h if h.endswith((".html", ".png", ".txt", ".ips")) else plano
     # el ancla (THE-GAME.md#the-vendors) se aparta para cambiar la extension
     h, almohadilla, ancla_ = plano.partition("#")
     if h.endswith(".md"):
