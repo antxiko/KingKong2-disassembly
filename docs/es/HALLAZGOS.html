@@ -110,6 +110,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <p>Todo marcado en el mapa, desde las tablas.</p>
 <h2 id="el-durian-y-la-que-sigue-a-mitchel">El durián y la que sigue a Mitchel</h2>
 <p>Usar el durián en la pantalla y el sitio justos (p01:7D33) pone el estado 6 de la partida: el durián en el suelo, fuera las armas, 30 cuadros, una música, y a la pantalla 0x5F. Desde ahí, una figura de ocho sprites (0xC600) sigue a Mitchel por donde ha pasado, con 22 pasos de retraso (p02:829A). Si cambias de pantalla se queda esperando hasta que vuelves. Mientras la llevas, la radio da otra conversación (la 0x38 en vez de la 0x37): «Buen trabajo, MITCHEL. Vamos para allá». <em>Sale del código.</em></p>
+<h2 id="rockman-y-stoneman-nunca-van-a-por-mitchel-al-azar">ROCKMAN y STONEMAN nunca van a por Mitchel al azar</h2>
+<p>Fuera de su fila y su columna, ROCKMAN y STONEMAN cada tres pasos eligen una dirección. El código (<code>p02:9440</code>) saca un número al azar, le deja solo el bit 2 (<code>and 4</code>, que da 0 o 4) y salta a «apuntar a Mitchel» (<code>p02:945D</code>) si vale 1: no puede valer 1, así que la rama no se toma nunca desde ahí y la dirección es siempre al azar entre las que se pueden. Con <code>and 3</code> saldría una de cada cuatro veces. <em>Sale del código: la comparación es imposible.</em></p>
 <h2 id="lo-que-se-empuja">Lo que se empuja</h2>
 <p>Hay una cosa que se empuja (0xC800) y que viaja de pantalla en pantalla: empieza en la 8, en (0x50, 0x50), y al empujarla fuera del borde pasa a la pantalla de al lado (p12:BE68). Solo por el exterior; en las pantallas 0-2 y en la 4 vuelve a su sitio. <em>Sale del código.</em></p>
 <h2 id="tres-enemigos-que-no-hacen-nada">Tres enemigos que no hacen nada</h2>

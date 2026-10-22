@@ -115,6 +115,15 @@ cambias de pantalla se queda esperando hasta que vuelves. Mientras la llevas,
 la radio da otra conversación (la 0x38 en vez de la 0x37): «Buen trabajo,
 MITCHEL. Vamos para allá». *Sale del código.*
 
+## ROCKMAN y STONEMAN nunca van a por Mitchel al azar
+
+Fuera de su fila y su columna, ROCKMAN y STONEMAN cada tres pasos eligen una
+dirección. El código (`p02:9440`) saca un número al azar, le deja solo el bit 2
+(`and 4`, que da 0 o 4) y salta a «apuntar a Mitchel» (`p02:945D`) si vale 1:
+no puede valer 1, así que la rama no se toma nunca desde ahí y la dirección es
+siempre al azar entre las que se pueden. Con `and 3` saldría una de cada
+cuatro veces. *Sale del código: la comparación es imposible.*
+
 ## Lo que se empuja
 
 Hay una cosa que se empuja (0xC800) y que viaja de pantalla en pantalla:

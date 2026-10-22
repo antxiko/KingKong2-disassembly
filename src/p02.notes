@@ -325,7 +325,8 @@ C 0x93B7 EN LA PANTALLA 3: acarreo (no pasa) si va a entrar en el rectangulo de 
 C 0x9416 paso 1 (p02:9519) y paso 2 (p02:9529); el 0 sigue aqui
 C 0x9424 PASO 0, alineado a 8 en el eje por el que va...
 C 0x9428 ...si Mitchel esta en su misma fila o columna, exacta, TIRA...
-C 0x9438 ...si no, cada 3 pasos (ix+0x13) sigue como iba; los demas, al azar o, a veces, hacia Mitchel
+C 0x9438 ...si no, cada 3 pasos (ix+0x13) sigue como iba; los demas, al azar (el "a veces, hacia Mitchel" no llega: ver 0x9442)
+C 0x9442 FALLO DEL JUEGO: A es 0 o 4 tras el and 4, nunca 1: el jz no se toma y L_945D (apuntar a Mitchel) no se alcanza desde aqui; con and 3 saldria en 1 de cada 4
 C 0x9446 una direccion al azar por la que se pueda
 C 0x9463 la direccion en ix+0x19, sus velocidades de p03:BF42 y, si cambia, su cuadro
 C 0x9480 misma columna: el punto a donde ira, 0x30 hacia Mitchel en y (ix+0x1A x, ix+0x1B y)...

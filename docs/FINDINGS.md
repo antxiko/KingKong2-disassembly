@@ -115,6 +115,15 @@ waiting until you come back. While it is with you, the radio gives another
 conversation (0x38 instead of 0x37): «Good work, MITCHEL. We are on our way».
 *From the code.*
 
+## ROCKMAN and STONEMAN never head for Mitchel at random
+
+Away from his row and column, ROCKMAN and STONEMAN pick a direction every three
+steps. The code (`p02:9440`) takes a random number, keeps only bit 2 (`and 4`,
+which gives 0 or 4) and jumps to "aim at Mitchel" (`p02:945D`) if it is 1: it
+can never be 1, so the branch is never taken from there and the direction is
+always random among the ones that are open. With `and 3` it would come up one
+time in four. *It comes from the code: the comparison is impossible.*
+
 ## The thing that can be pushed
 
 There is a thing that can be pushed (0xC800) and that travels from screen to

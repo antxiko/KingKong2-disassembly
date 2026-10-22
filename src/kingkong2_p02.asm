@@ -2961,11 +2961,11 @@ L_9413:
 	cp (ix+005h)		;9433   ; compara con la x del enemigo
 	jr z,L_9480		;9436
 L_9438:
-	dec (ix+013h)		;9438   ; ...si no, cada 3 pasos (ix+0x13) sigue como iba; los demas, al azar o, a veces, hacia Mitchel
+	dec (ix+013h)		;9438   ; ...si no, cada 3 pasos (ix+0x13) sigue como iba; los demas, al azar (el "a veces, hacia Mitchel" no llega: ver 0x9442)
 	jr z,L_9454		;943b
 	call 0bf0eh		;943d   ; p03:al_azar: A al azar: el registro R, con los nibbles cambiados, XOR el contador de cuadros
 	and 004h		;9440
-	cp 001h		;9442
+	cp 001h		;9442   ; FALLO DEL JUEGO: A es 0 o 4 tras el and 4, nunca 1: el jz no se toma y L_945D (apuntar a Mitchel) no se alcanza desde aqui; con and 3 saldria en 1 de cada 4
 	jr z,L_945D		;9444
 L_9446:
 	call 0bf0eh		;9446   ; una direccion al azar por la que se pueda
