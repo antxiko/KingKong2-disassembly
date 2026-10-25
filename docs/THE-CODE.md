@@ -71,3 +71,30 @@ dispatcher and the bridges. `tools/mkasm.py` writes each bank with its
 `org`, its labels and its comments, taken from `src/pNN.notes`. 100% of the
 131,072 bytes is assigned to code (37,983) or data (93,089), and 40.1% of the
 18,093 instructions carry a comment, with no routine below 10%.
+
+## Code shared with other Konami cartridges
+
+This disassembly has been compared, instruction by instruction, with
+every other Konami one in the series. A block counts when the same
+instructions, at least six of them from a label to its `ret` or its
+unconditional jump, are in both cartridges; the addresses are left
+aside, because they change from one cartridge to the next. Of the
+other 57, **40** have at least one block in common with this one;
+these are the ones that share the most:
+
+| Cartridge | Blocks | Instructions | For example (here = there) |
+|---|---:|---:|---|
+| [Vampire Killer](https://antxiko.github.io/VampireKiller-disassembly/) | 68 | 1,003 | `lmmm` (p00:481B) = `copia_con_operacion` |
+| [Ganbare Goemon! Karakuri Dōchū](https://antxiko.github.io/GanbareGoemon-disassembly/) | 65 | 970 | `lmmm` (p00:481B) |
+| [Metal Gear](https://antxiko.github.io/MetalGear-disassembly/) | 54 | 853 | `lmmm` (p00:481B) = `copia_logica` |
+| [The Treasure of Usas](https://antxiko.github.io/TreasureOfUsas-disassembly/) | 52 | 752 | `lmmm` (p00:481B) = `copia_con_operacion` |
+| [Hinotori](https://antxiko.github.io/Hinotori-disassembly/) | 43 | 678 | `lmmm` (p00:481B) |
+| [The Pro Yakyuu Gekitotsu Pennant Race](https://antxiko.github.io/PennantRace-disassembly/) | 30 | 460 | `lmmm` (p00:481B) = `copia_logica` |
+| [Konami’s Game Master 2](https://antxiko.github.io/GameMaster2-disassembly/) | 26 | 429 | `lmmm` (p00:481B) = `vdp_lmmm` |
+| [Gekitotsu Pennant Race 2](https://antxiko.github.io/PennantRace2-disassembly/) | 21 | 282 | `hmmv` (p00:479B) = `borra_bloque_vram` |
+| [Hai no Majutsushi - Mahjong 2](https://antxiko.github.io/Majutsushi-disassembly/) | 18 | 202 | `rle_con_destino` (p00:45E9) = `vuelca_lista_vram` |
+| [The Maze of Galious](https://antxiko.github.io/MazeOfGalious-disassembly/) | 17 | 197 | `el_sonido_desde_cero` (p04:6000) = `sonido_a_cero` |
+
+The whole matrix, the 58 cartridges against each other, is on
+[The routines](https://antxiko.github.io/MSX-disassembly-database/THE-ROUTINES.html) in the series database, along
+with the method and the program that measures it.
